@@ -237,7 +237,7 @@ class block_sort extends commonblock_html {
 				if($threadtypes[$fid]['prefix'] == 1) {
 					$thread['typehtml'] = '<em>[<a href="forum.php?mod=forumdisplay&fid='.$fid.'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.$threadtypes[$fid]['types'][$thread['typeid']].'</a>]</em>';
 				} elseif($threadtypes[$fid]['icons'][$thread['typeid']] && $threadtypes[$fid]['prefix'] == 2) {
-					$thread['typehtml'] = '<em><a title="'.$threadtypes[$fid]['types'][$thread['typeid']].'" href="forum.php?mod=forumdisplay&fid='.$fid.'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.'<img style="vertical-align: middle;padding-right:4px;" src="'.$threadtypes[$fid]['icons'][$thread['typeid']].'" alt="'.$threadtypes[$fid]['types'][$thread['typeid']].'" /></a></em>';
+					$thread['typehtml'] = '<em><a title="'.$threadtypes[$fid]['types'][$thread['typeid']].'" href="forum.php?mod=forumdisplay&fid='.$fid.'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.'<img style="vertical-align: middle;padding-right:4px;" src="'.$threadtypes[$fid]['icons'][$thread['typeid']].'" alt="'.$threadtypes[$fid]['types'][$thread['typeid']].'"></a></em>';
 				}
 				$thread['typename'] = $threadtypes[$fid]['types'][$thread['typeid']];
 			} else {
@@ -258,7 +258,7 @@ class block_sort extends commonblock_html {
 							if(!empty($vsetting['icon'])) {
 								$srcurl = $vsetting['icon'];
 							}
-							$verify[$value['uid']] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'" />' : $vsetting['title']).'</a>';
+							$verify[$value['uid']] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'">' : $vsetting['title']).'</a>';
 						}
 					}
 

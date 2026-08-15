@@ -6,7 +6,7 @@
 <!--{elseif $post['first'] && $_G['forum_threadpay']}-->
 	<!--{template forum/viewthread_pay}-->
 <!--{elseif !empty($_G['forum_discuzcode']['passwordlock'][$post[pid]])}-->
-	<div class="locked">{lang message_password_exists} {lang pleaseinputpw}<input type="text" id="postpw_$post[pid]" class="vm" />&nbsp;<button class="pn vm" type="button" onclick="submitpostpw($post[pid]{if $_GET['from'] == 'preview'},{$post[tid]}{else}{/if})"><strong>{lang submit}</strong></button></div>
+	<div class="locked">{lang message_password_exists} {lang pleaseinputpw}<input type="text" id="postpw_$post[pid]" class="vm">&nbsp;<button class="pn vm" type="button" onclick="submitpostpw($post[pid]{if $_GET['from'] == 'preview'},{$post[tid]}{else}{/if})"><strong>{lang submit}</strong></button></div>
 <!--{else}-->
 	<!--{if !$post['first'] && !empty($post[subject])}-->
 		<h2>$post[subject]</h2>
@@ -152,11 +152,11 @@
 		<!--{eval $_GET['extra']=daddslashes($_GET['extra']);$_GET['from']=daddslashes($_GET['from']);}-->
 			<form method="post" autocomplete="off" id="vfastpostform" action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&fromvf=1&extra=$_GET['extra']&replysubmit=yes&infloat=yes&handlekey=vfastpost{if $_GET['from']}&from=$_GET['from']{/if}" onsubmit="this.message.value = parseurl(this.message.value);ajaxpost('vfastpostform', 'return_reply', 'return_reply', 'onerror');return false;">
 			<div id="vfastpost" class="fullvfastpost">				
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<table class="cp0" id="vfastposttb">
 					<tr>
 						<td id="vf_l"></td>
-						<td id="vf_m"><input type="text" name="message" id="vmessage" onKeyDown="if((event.ctrlKey && event.keyCode == 13) || (event.altKey && event.keyCode == 83)){event.preventDefault();$('vfastpostform').submit();}"/></td>
+						<td id="vf_m"><input type="text" name="message" id="vmessage" onKeyDown="if((event.ctrlKey && event.keyCode == 13) || (event.altKey && event.keyCode == 83)){event.preventDefault();$('vfastpostform').submit();}"></td>
 						<td id="vf_r"></td>						
 						<td id="vf_b">
 							<button type="submit" class="pn pnc" name="replysubmit" id="vreplysubmit" value="true" style="">{lang fastreply}</button>								

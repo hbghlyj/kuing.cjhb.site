@@ -138,7 +138,7 @@ function showrulerow($rule, $sub = 0) {
 	$tdarr = [$sub ? '<div class="board">&nbsp;</div>' : $rule['rulename'], $rule['rid'] ? $lang['setting_credits_policy_cycletype_'.$rule['cycletype']] : 'N/A', $rule['rid'] && $rule['cycletype'] ? $rule['rewardnum'] : 'N/A'];
 	for($i = 1; $i <= 8; $i++) {
 		if($_G['setting']['extcredits'][$i]) {
-			array_push($tdarr, $sub ? '' : '<input name="credit['.$rule['rid'].']['.$i.']" class="txt" value="'.$rule['extcredits'.$i].'" />');
+			array_push($tdarr, $sub ? '' : '<input name="credit['.$rule['rid'].']['.$i.']" class="txt" value="'.$rule['extcredits'.$i].'">');
 		}
 	}
 	if(!$groupid) {

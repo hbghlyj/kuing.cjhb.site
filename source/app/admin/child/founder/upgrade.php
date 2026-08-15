@@ -50,7 +50,7 @@ if($step == 1) {
 	if(!$new) {
 		cpmsg('<h4 class="infotitle2">'.cplang('upgrade_latest').'</h4>', '', 'succeed');
 	} else {
-		cpmsg('<h4 class="infotitle2">'.cplang('upgrade_info').'</h4><br />'.$current.' &raquo; '.$remote, 'action=founder&operation=upgrade&step=2', 'form');
+		cpmsg('<h4 class="infotitle2">'.cplang('upgrade_info').'</h4><br>'.$current.' &raquo; '.$remote, 'action=founder&operation=upgrade&step=2', 'form');
 	}
 } elseif($step == 2) {
 	cpmsg('upgrade_waiting', 'action=founder&operation=upgrade&step=3', 'loading');
@@ -60,7 +60,7 @@ if($step == 1) {
 	$u->createPatch();
 	$diff = $u->getCurrentDiff();
 	if($diff) {
-		$s = '<h4 class="infotitle3">'.cplang('upgrade_diff_notice').'</h4><br /><div style="text-align:left;max-height:400px;overflow-y:auto;">';
+		$s = '<h4 class="infotitle3">'.cplang('upgrade_diff_notice').'</h4><br><div style="text-align:left;max-height:400px;overflow-y:auto;">';
 		$s .= implode('<br>', $diff);
 		$s .= '</div>';
 	}

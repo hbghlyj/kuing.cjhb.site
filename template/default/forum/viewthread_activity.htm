@@ -101,8 +101,8 @@
 		</div>
 	<!--{else}-->
 		<form name="activity" id="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if $_GET['from']}&from=$_GET['from']{/if}" onsubmit="ajaxpost('activity', 'return_activityapplies', 'return_activityapplies', 'onerror');return false;">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="handlekey" value="activityapplies" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="handlekey" value="activityapplies">
 			<div class="c">
 				<!--{if $_G['setting']['activitycredit'] && $activity['credit'] && !$applied}--><p class="xi1">{lang activity_need_credit} $activity[credit] {$_G['setting']['extcredits'][$_G['setting']['activitycredit']][title]}</p><!--{/if}-->
 				<div class="actfm">
@@ -111,8 +111,8 @@
 						<tr>
 							<th>{lang activity_paytype}</th>
 							<td>
-								<p class="mbn"><label for="payment_0"><input class="pr" type="radio" value="0" name="payment" id="payment_0" checked="checked" />{lang activity_pay_myself}</label></p>
-								<p><label for="payment_1"><input type="radio" name="payment" id="payment_1" class="pr" value="1" />{lang activity_would_payment}</label> <input name="payvalue"class="px pxs vm" size="3" onfocus="$('payment_1').checked = true;" /> {lang payment_unit}</p>
+								<p class="mbn"><label for="payment_0"><input class="pr" type="radio" value="0" name="payment" id="payment_0" checked="checked">{lang activity_pay_myself}</label></p>
+								<p><label for="payment_1"><input type="radio" name="payment" id="payment_1" class="pr" value="1">{lang activity_would_payment}</label> <input name="payvalue"class="px pxs vm" size="3" onfocus="$('payment_1').checked = true;"> {lang payment_unit}</p>
 							</td>
 						</tr>
 					<!--{/if}-->
@@ -136,7 +136,7 @@
 						<!--{loop $activity['ufield']['extfield'] $extname}-->
 							<tr>
 								<th>$extname</th>
-								<td><input type="text" name="$extname" maxlength="200" class="px" value="{if !empty($ufielddata)}$ufielddata[extfield][$extname]{/if}" /></td>
+								<td><input type="text" name="$extname" maxlength="200" class="px" value="{if !empty($ufielddata)}$ufielddata[extfield][$extname]{/if}"></td>
 							</tr>
 						<!--{/loop}-->
 					<!--{/if}-->
@@ -168,12 +168,12 @@
 <!--{elseif $_G['uid'] && !$activityclose && $applied}-->
 	<div id="activityjoincancel" style="display:none">
 		<form name="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if $_GET['from']}&from=$_GET['from']{/if}">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<div class="c">
 				<table summary="{lang activity_join}" class="actl cp0">
 					<tr>
 						<th>{lang leaveword}</th>
-						<td><input type="text" name="message" maxlength="200" class="px" value="" /></td>
+						<td><input type="text" name="message" maxlength="200" class="px" value=""></td>
 					</tr>
 				</table>
 			</div>

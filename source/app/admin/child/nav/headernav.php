@@ -57,14 +57,14 @@ if(!$do) {
 			$navsubtype[$nav['subtype']] = 'selected="selected"';
 			$readonly = $nav['type'] == '4' ? ' readonly="readonly"' : '';
 			showtablerow('', ['class="td25"', 'class="td25"', '', '', '', ''], [
-				($subnavlist[$nav['id']] || $nav['identifier'] == 6 && $nav['type'] == 0 && count($pluginsubnav) ? '<a href="javascript:;" class="right" onclick="toggle_group(\'subnav_'.$nav['id'].'\', this)">[+]</a>' : '').(in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled" />'),
+				($subnavlist[$nav['id']] || $nav['identifier'] == 6 && $nav['type'] == 0 && count($pluginsubnav) ? '<a href="javascript:;" class="right" onclick="toggle_group(\'subnav_'.$nav['id'].'\', this)">[+]</a>' : '').(in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled">'),
 				"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayordernew[{$nav['id']}]\" value=\"{$nav['displayorder']}\">",
 				"<div><input type=\"text\" class=\"txt\" size=\"15\" name=\"namenew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['name'])."\"$readonly>".
 				($nav['identifier'] == 6 && $nav['type'] == 0 ? '' : "<a href=\"###\" onclick=\"addrowdirect=1;addrow(this, 1, {$nav['id']})\" class=\"addchildboard\">{$lang['misc_customnav_add_submenu']}</a></div>"),
 				$nav['identifier'] == 6 && $nav['nav'] == 0 ? $lang['misc_customnav_subtype_menu'] : "<select name=\"subtypenew[{$nav['id']}]\"><option value=\"0\" {$navsubtype[0]}>{$lang['misc_customnav_subtype_menu']}</option><option value=\"1\" {$navsubtype[1]}>{$lang['misc_customnav_subtype_sub']}</option></select>",
 				$nav['type'] == '0' || $nav['type'] == '4' || $nav['type'] == '5' ? "<span title='{$nav['url']}'>".$nav['url'].'<span>' : "<input type=\"text\" class=\"txt\" size=\"15\" name=\"urlnew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['url'])."\">",
 				cplang($nav['type'] == '0' ? 'inbuilt' : ($nav['type'] == '3' ? 'nav_plugin' : ($nav['type'] == '4' ? 'channel' : ($nav['type'] == '5' ? 'forum' : 'custom')))),
-				$nav['url'] != '#' ? "<input name=\"defaultindex\" class=\"radio\" type=\"radio\" value=\"{$nav['url']}\"".($_G['setting']['defaultindex'] == $nav['url'] ? ' checked="checked"' : '').' />' : '',
+				$nav['url'] != '#' ? "<input name=\"defaultindex\" class=\"radio\" type=\"radio\" value=\"{$nav['url']}\"".($_G['setting']['defaultindex'] == $nav['url'] ? ' checked="checked"' : '').'>' : '',
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$nav['id']}]\" value=\"1\" ".($nav['available'] > 0 ? 'checked' : '').'>',
 				"<a href=\"".ADMINSCRIPT."?action=nav&operation=headernav&do=edit&id={$nav['id']}\" class=\"act\">{$lang['edit']}</a>"
 			]);
@@ -75,13 +75,13 @@ if(!$do) {
 					$subnavnum--;
 					showtablerow('', ['class="td25"', 'class="td25"', '', ''], [
 						'',
-						'<input type="text" class="txt" size="2" name="plugindisplayordernew['.$row['id'].']['.$row['key'].']" value="'.intval($row['displayorder']).'" />',
-						'<div class="'.($subnavnum ? 'board' : 'lastboard').'"><input type="text" class="txt" size="15" name="pluginnamenew['.$row['id'].']['.$row['key'].']" value="'.dhtmlspecialchars($row['menu']).'" /></div>',
-						'<input type="hidden" size="15" name="plugintitlenew['.$row['id'].']['.$row['key'].']" value="'.dhtmlspecialchars($row['title']).'" />',
+						'<input type="text" class="txt" size="2" name="plugindisplayordernew['.$row['id'].']['.$row['key'].']" value="'.intval($row['displayorder']).'">',
+						'<div class="'.($subnavnum ? 'board' : 'lastboard').'"><input type="text" class="txt" size="15" name="pluginnamenew['.$row['id'].']['.$row['key'].']" value="'.dhtmlspecialchars($row['menu']).'"></div>',
+						'<input type="hidden" size="15" name="plugintitlenew['.$row['id'].']['.$row['key'].']" value="'.dhtmlspecialchars($row['title']).'">',
 						$row['url'],
 						cplang('nav_plugin'),
 						'',
-						'<input class="checkbox" type="checkbox" checked disabled />',
+						'<input class="checkbox" type="checkbox" checked disabled>',
 						'<a href="'.ADMINSCRIPT.'?action=plugins&operation=edit&pluginid='.$row['id'].'&anchor=modules" class="act" target="_blank">'.$lang['edit'].'</a>',
 					]);
 				}
@@ -100,7 +100,7 @@ if(!$do) {
 						'',
 						$sub['type'] == '0' || $sub['type'] == '4' ? "<span title='{$sub['url']}'>".$sub['url'].'</span>' : "<input type=\"text\" class=\"txt\" size=\"15\" name=\"urlnew[{$sub['id']}]\" value=\"".dhtmlspecialchars($sub['url'])."\">",
 						cplang($sub['type'] == '0' ? 'inbuilt' : ($sub['type'] == '3' ? 'nav_plugin' : ($sub['type'] == '4' ? 'channel' : 'custom'))),
-						$sub['url'] != '#' ? "<input name=\"defaultindex\" class=\"radio\" type=\"radio\" value=\"{$sub['url']}\"".($_G['setting']['defaultindex'] == $sub['url'] ? ' checked="checked"' : '').' />' : '',
+						$sub['url'] != '#' ? "<input name=\"defaultindex\" class=\"radio\" type=\"radio\" value=\"{$sub['url']}\"".($_G['setting']['defaultindex'] == $sub['url'] ? ' checked="checked"' : '').'>' : '',
 						"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$sub['id']}]\" value=\"1\" ".($sub['available'] ? 'checked' : '').'>',
 						"<a href=\"".ADMINSCRIPT."?action=nav&operation=headernav&do=edit&id={$sub['id']}\" class=\"act\">{$lang['edit']}</a>"
 					]);
@@ -119,8 +119,8 @@ if(!$do) {
 		echo <<<EOT
 <script type="text/JavaScript">
 	var rowtypedata = [
-		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<input name="newname[]" value="" size="15" type="text" class="txt">'],[1,'<select name="newsubtype[]"><option value="0">{$lang['misc_customnav_subtype_menu']}</option><option value="1">{$lang['misc_customnav_subtype_sub']}</option></select>'],[5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="0" />']],
-		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<div class=\"board\"><input name="newname[]" value="" size="15" type="text" class="txt"></div>'], [1,'',''], [5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="{1}" />']]
+		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<input name="newname[]" value="" size="15" type="text" class="txt">'],[1,'<select name="newsubtype[]"><option value="0">{$lang['misc_customnav_subtype_menu']}</option><option value="1">{$lang['misc_customnav_subtype_sub']}</option></select>'],[5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="0">']],
+		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<div class=\"board\"><input name="newname[]" value="" size="15" type="text" class="txt"></div>'], [1,'',''], [5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="{1}">']]
 	];
 </script>
 EOT;
@@ -233,12 +233,12 @@ EOT;
 
 		if($nav['logo']) {
 			$navlogo = admin\class_attach::getUrl($nav['logo']);
-			$logohtml = '<br /><label><input type="checkbox" class="checkbox" name="deletelogo" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$navlogo.'" />';
+			$logohtml = '<br><label><input type="checkbox" class="checkbox" name="deletelogo" value="yes"> '.$lang['delete'].'</label><br><img src="'.$navlogo.'">';
 		}
 
 		if($nav['icon']) {
 			$navicon = admin\class_attach::getUrl($nav['icon']);
-			$naviconhtml = '<br /><label><input type="checkbox" class="checkbox" name="deleteicon" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$navicon.'" width="40" height="40" />';
+			$naviconhtml = '<br><label><input type="checkbox" class="checkbox" name="deleteicon" value="yes"> '.$lang['delete'].'</label><br><img src="'.$navicon.'" width="40" height="40">';
 		}
 
 		showchildmenu([['nav_setting_customnav', 'nav'], ['nav_nav_headernav', 'nav&operation=headernav']], $parentname.$nav['name']);

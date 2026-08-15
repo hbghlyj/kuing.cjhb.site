@@ -38,11 +38,11 @@
 					</select>&nbsp;
 					<!--{/if}-->
 					{lang block_id}:
-					<input type="text" class="px vm" name="searchkey" id="rsearchkey" value="$_GET[searchkey]" />&nbsp;
+					<input type="text" class="px vm" name="searchkey" id="rsearchkey" value="$_GET[searchkey]">&nbsp;
 					<button type="button" class="pn vm" onclick="listblock_bypage('$_GET[id]', '$_GET[idtype]')"><em>{lang find}</em></button>
 				</p>
-				<input type="hidden" name="recommend_bid" id="recommend_bid" value="" />
-				<input type="hidden" name="recommend_thread_pid" id="recommend_thread_pid" value="$_GET[pid]" />
+				<input type="hidden" name="recommend_bid" id="recommend_bid" value="">
+				<input type="hidden" name="recommend_thread_pid" id="recommend_thread_pid" value="$_GET[pid]">
 				<table class="tfm">
 					<tbody id="itemeditarea">
 						<!--{subtemplate portal/portalcp_pageblock}-->
@@ -51,14 +51,14 @@
 				</table>
 			</div>
 			<p class="o pns">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="recommendsubmit" value="1" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="recommendsubmit" value="1">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 				<input type="hidden" name="referer" value="{echo dreferer()}">
 				<!--{if ($_GET['idtype'] == 'tid' || $_GET['idtype'] == 'gtid')}-->
-				<input type="hidden" class="px vm" name="recommendto" id="recommendto" value="" />&nbsp;
+				<input type="hidden" class="px vm" name="recommendto" id="recommendto" value="">&nbsp;
 				<label for="showrecommendtip"><input type="checkbox" name="showrecommendtip" id="showrecommendtip" class="pc" fwin="mods" value="1">{lang show_push}</label>&nbsp;
-				<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} value="1"/>{lang admin_pm}</label>&nbsp;
+				<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} value="1">{lang admin_pm}</label>&nbsp;
 				<!--{/if}-->
 				<button type="submit" class="pn pnc" value="true"><strong>{lang submit}</strong></button>
 			</p>
@@ -74,9 +74,9 @@
 
 <!--{else}-->
 	<form action="portal.php?mod=portalcp&ac=portalblock&op=$op" method="get" class="mbm">
-		<input type="hidden" name="mod" value="portalcp" />
-		<input type="hidden" name="ac" value="portalblock" />
-		<input type="hidden" name="op" value="$op" />
+		<input type="hidden" name="mod" value="portalcp">
+		<input type="hidden" name="ac" value="portalblock">
+		<input type="hidden" name="op" value="$op">
 		<!--{if $tpls}-->
 		{lang block_page}:
 		<select name="targettplname" class="vm" onchange="this.form.submit();">
@@ -87,7 +87,7 @@
 		</select>&nbsp;
 		<!--{/if}-->
 		{lang block_id}:
-		<input type="text" class="px vm" name="searchkey" id="searchkey" value="$_GET[searchkey]" />&nbsp;
+		<input type="text" class="px vm" name="searchkey" id="searchkey" value="$_GET[searchkey]">&nbsp;
 		<button type="submit" class="pn vm"><em>{lang find}</em></button>
 	</form>
 
@@ -133,11 +133,11 @@
 						</tr>
 						<!--{loop $blockdata $value}-->
 						<tr>
-							<td><input type="checkbox" class="pc" name="ids[]" value="$value[dataid]" /></td>
-							<td><input type="hidden" name="olddisplayorder[{$value[dataid]}]" value="$value[displayorder]" />
-								<input type="input" class="px" name="displayorder[{$value[dataid]}]" value="$value[displayorder]" size="2" maxlength="4" /></td>
+							<td><input type="checkbox" class="pc" name="ids[]" value="$value[dataid]"></td>
+							<td><input type="hidden" name="olddisplayorder[{$value[dataid]}]" value="$value[displayorder]">
+								<input type="input" class="px" name="displayorder[{$value[dataid]}]" value="$value[displayorder]" size="2" maxlength="4"></td>
 							<td><a href="$value[url]" target="_blank">$value['title']</a></td>
-							<!--{eval $page = empty($blocks[$value['bid']]['page']) ? '{lang unused}' : implode('<br/>' ,$blocks[$value['bid']]['page']);}-->
+							<!--{eval $page = empty($blocks[$value['bid']]['page']) ? '{lang unused}' : implode('<br>' ,$blocks[$value['bid']]['page']);}-->
 							<td>$page</td>
 							<td><a href="portal.php?mod=portalcp&ac=block&bid=$value[bid]" target="_blank">$blocks[$value[bid]][name]</a></td>
 							<td>$value['verifiedtime']</td>
@@ -149,10 +149,10 @@
 						<!--{/loop}-->
 						<tr>
 							<td colspan="8">
-								<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc" />{lang select_all}</label>
-								<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-								<input type="hidden" name="verifieddatasubmit" value="true" />
-								<input type="hidden" name="formhash" value="{FORMHASH}" />
+								<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc">{lang select_all}</label>
+								<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+								<input type="hidden" name="verifieddatasubmit" value="true">
+								<input type="hidden" name="formhash" value="{FORMHASH}">
 								<button type="submit" class="pn pnc"><strong>{lang confirms}</strong></button>
 							</td>
 						</tr>
@@ -168,9 +168,9 @@
 						</tr>
 						<!--{loop $blockdata $value}-->
 						<tr>
-							<td><input type="checkbox" name="ids[]" class="pc" value="$value[dataid]" /></td>
+							<td><input type="checkbox" name="ids[]" class="pc" value="$value[dataid]"></td>
 							<td><a href="$value[url]" target="_blank">$value[title]</a></td>
-							<!--{eval $page = empty($blocks[$value['bid']]['page']) ? '{lang unused}' : implode('<br/>' ,$blocks[$value['bid']]['page']);}-->
+							<!--{eval $page = empty($blocks[$value['bid']]['page']) ? '{lang unused}' : implode('<br>' ,$blocks[$value['bid']]['page']);}-->
 							<td>$page</td>
 							<td><a href="portal.php?mod=portalcp&ac=block&bid=$value[bid]" target="_blank">$blocks[$value[bid]][name]</a></td>
 							<td><a href="home.php?uid=$value[uid]" target="_blank">$value[username]</a></td>
@@ -182,11 +182,11 @@
 						<!--{/loop}-->
 						<tr>
 							<td colspan="7">
-								<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc" />{lang select_all}</label>
+								<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc">{lang select_all}</label>
 								<label for="op_delete"><input id="op_delete" class="pr" value="delete" name="optype" type="radio">{lang delete}</label>
 								<label for="op_pass"><input id="op_pass" class="pr" value="pass" name="optype" type="radio">{lang passed}</label>
-								<input type="hidden" name="verifydatasubmit" value="1" />
-								<input type="hidden" name="formhash" value="{FORMHASH}" />
+								<input type="hidden" name="verifydatasubmit" value="1">
+								<input type="hidden" name="formhash" value="{FORMHASH}">
 								<button type="submit" value="true" name="trashsubmit" class="pn vm"><em>{lang submit}</em></button>
 								[{lang update_block_tips}]
 							</td>
@@ -208,15 +208,15 @@
 					<!--{loop $blocks $block}-->
 					<tr>
 						<!--{if $op == 'getblocklist'}-->
-						<td><!--{if $block['cachetime']}--><input type="checkbox" name="bids[]" class="pc" value="$block[bid]" /><!--{/if}--></td>
+						<td><!--{if $block['cachetime']}--><input type="checkbox" name="bids[]" class="pc" value="$block[bid]"><!--{/if}--></td>
 						<!--{eval $updatetime = $block['cachetime'] ? $block['cachetime'] - (TIMESTAMP - $block['dateline']) : false;}-->
-						<td title="{if $updatetime > 0 }$updatetime{lang block_not_in_updateline}{elseif $updatetime !== false }{lang block_in_updateline}{else}{/if}"{if !$block[favorite]} onmouseover="display('bfav_$block[bid]');" onmouseout="display('bfav_$block[bid]');"{/if}>$block[name] <a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark" /><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark" /><!--{/if}--></a></td>
+						<td title="{if $updatetime > 0 }$updatetime{lang block_not_in_updateline}{elseif $updatetime !== false }{lang block_in_updateline}{else}{/if}"{if !$block[favorite]} onmouseover="display('bfav_$block[bid]');" onmouseout="display('bfav_$block[bid]');"{/if}>$block[name] <a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark"><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark"><!--{/if}--></a></td>
 						<!--{else}-->
-						<td{if !$block[favorite]} onmouseover="display('bfav_$block[bid]');" onmouseout="display('bfav_$block[bid]');"{/if}>$block[name] <a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark" /><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark" /><!--{/if}--></a></td>
+						<td{if !$block[favorite]} onmouseover="display('bfav_$block[bid]');" onmouseout="display('bfav_$block[bid]');"{/if}>$block[name] <a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark"><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark"><!--{/if}--></a></td>
 						<!--{/if}-->
 						<td>$block[blockclassname]</td>
 						<td>$block[datasrc]</td>
-						<!--{eval $page = empty($block['page']) ? '{lang unused}' : implode('<br/>' ,$block['page']);}-->
+						<!--{eval $page = empty($block['page']) ? '{lang unused}' : implode('<br>' ,$block['page']);}-->
 						<td>$page</td>
 						<td>
 							<!--{if $block['perm']['allowproperty']}-->
@@ -242,13 +242,13 @@
 					<!--{if $op == 'getblocklist'}-->
 					<tr>
 						<td>
-							<label for="chkall"><input type="checkbox" name="chkall" id="chkall" class="pc" onclick="checkall(this.form, 'bids')" />{lang select_all}</label>
+							<label for="chkall"><input type="checkbox" name="chkall" id="chkall" class="pc" onclick="checkall(this.form, 'bids')">{lang select_all}</label>
 						</td>
 						<td colspan="5">
-							<input type="hidden" name="{$op}submit" value="1" />
-							<input type="hidden" name="formhash" value="{FORMHASH}" />
+							<input type="hidden" name="{$op}submit" value="1">
+							<input type="hidden" name="formhash" value="{FORMHASH}">
 							<button type="submit" value="true" name="submit" class="pn"><em>{lang push_updateblock}</em></button>
-							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang push_updateblock_tips}" />
+							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang push_updateblock_tips}">
 						</td>
 					</tr>
 					<!--{/if}-->

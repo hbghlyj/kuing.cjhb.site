@@ -10,15 +10,15 @@
 </div>
 <div class="loginbox">
 	<form method="post" autocomplete="off" id="invalueform" name="invalueform" action="home.php?mod=misc&ac=inputpwd">
-		<input type="hidden" name="refer" value="{$_SERVER['REQUEST_URI']}" />
+		<input type="hidden" name="refer" value="{$_SERVER['REQUEST_URI']}">
 		<!--{if isset($invalue['blogid'])}-->
-		<input type="hidden" name="blogid" value="{$invalue['blogid']}" />
+		<input type="hidden" name="blogid" value="{$invalue['blogid']}">
 		<!--{/if}-->
 		<!--{if isset($invalue['albumid'])}-->
-		<input type="hidden" name="albumid" value="{$invalue['albumid']}" />
+		<input type="hidden" name="albumid" value="{$invalue['albumid']}">
 		<!--{/if}-->
-		<input type="hidden" name="pwdsubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="pwdsubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="login_from">
 			<ul>
 				<li>{lang enter_password}</li>

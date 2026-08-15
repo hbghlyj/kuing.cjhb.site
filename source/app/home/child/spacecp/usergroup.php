@@ -209,7 +209,7 @@ if(in_array($do, ['buy', 'exit'])) {
 	if($_G['setting']['verify']['enabled']) {
 		for($i = 1; $i <= 6; $i++) {
 			if($_G['setting']['verify'][$i]['available']) {
-				$verifyicon[$i] = !empty($_G['setting']['verify'][$i]['icon']) ? '<img src="'.$_G['setting']['verify'][$i]['icon'].'" alt="'.$_G['setting']['verify'][$i]['title'].'" class="vm" title="'.$_G['setting']['verify'][$i]['title'].'" />' : $_G['setting']['verify'][$i]['title'];
+				$verifyicon[$i] = !empty($_G['setting']['verify'][$i]['icon']) ? '<img src="'.$_G['setting']['verify'][$i]['icon'].'" alt="'.$_G['setting']['verify'][$i]['title'].'" class="vm" title="'.$_G['setting']['verify'][$i]['title'].'">' : $_G['setting']['verify'][$i]['title'];
 			}
 		}
 	}

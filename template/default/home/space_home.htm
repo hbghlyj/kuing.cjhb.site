@@ -9,7 +9,7 @@
 	</div>
 
 	<!--{if $_G[setting][homestyle]}--><!--{ad/text/wp a_t}--><!--{/if}-->
-	<style id="diy_style" type="text/css"></style>
+	<style id="diy_style"></style>
 	<div class="wp">
 		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 	</div>
@@ -57,9 +57,9 @@
 					</div>
 					<div class="bm_c">
 						<p class="pbm">{lang space_home_message}</p>
-						<hr class="da m0" />
+						<hr class="da m0">
 						<dl class="xld cl">
-							<dd class="m mbw"><img src="$task[icon]" width="64" height="64" alt="Icon" /></dd>
+							<dd class="m mbw"><img src="$task[icon]" width="64" height="64" alt="Icon"></dd>
 							<dt><a href="home.php?mod=task&do=view&id=$task[taskid]">$task[name]</a></dt>
 							<dd>
 								<p>$task[description]</p>
@@ -96,7 +96,7 @@
 					</div>
 					<div class="bm_c">
 						<dl class="xld cl">
-							<dd class="m mbw"><img src="{STATICURL}image/magic/$magic[pic]" alt="$magic[name]" title="$magic[description]" /></dd>
+							<dd class="m mbw"><img src="{STATICURL}image/magic/$magic[pic]" alt="$magic[name]" title="$magic[description]"></dd>
 							<dt>$magic[name]</dt>
 							<dd>
 								<p>$magic[description]</p>
@@ -219,7 +219,7 @@
 							<!--{loop $visitorlist $key $value}-->
 							<li>
 								<!--{if $value[vusername] == ''}-->
-								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}" /></div>
+								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}"></div>
 								<p>{lang anonymity}</p>
 								<span><!--{date($value['dateline'], 'u', 9999, $_G['setting']['dateformat'])}--></span>
 								<!--{else}-->
@@ -397,7 +397,7 @@
 				{lang memcp_profile}
 			</div>
 		</div>
-		<style id="diy_style" type="text/css"></style>
+		<style id="diy_style"></style>
 		<div class="wp">
 			<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 		</div>
@@ -449,7 +449,7 @@
 						<!--{if $user[uid]}-->
 						<a href="home.php?mod=space&uid=$user[uid]" target="_blank" c="1"><!--{avatar($user['uid'], 'small')}--></a>
 						<!--{else}-->
-						<img src="{IMGDIR}/systempm.png" alt="" />
+						<img src="{IMGDIR}/systempm.png" alt="">
 						<!--{/if}-->
 					</dd>
 					<dd class="cl">

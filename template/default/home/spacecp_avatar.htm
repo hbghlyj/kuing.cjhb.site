@@ -37,7 +37,7 @@
 						</td>
 					</tr>
 				</table>
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 			</form>
 			<!--{hook/spacecp_avatar_bottom}-->
 		</div>
@@ -219,7 +219,6 @@ const fragment = document.createDocumentFragment();
 const ctlDiv = fragment.appendChild(document.createElement('div'));
 ctlDiv.className = 'discuz-avatar';
 const style = ctlDiv.appendChild(document.createElement('style'));
-style.type = 'text/css';
 style.innerHTML = styleCss;
 const caption = ctlDiv.appendChild(document.createElement('p'));
 caption.appendChild(document.createTextNode('若上传动画(APNG)，以上工具无法裁剪动画，需自行裁剪，上传三种尺寸的头像到下面：'));

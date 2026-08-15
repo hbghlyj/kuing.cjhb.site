@@ -26,9 +26,9 @@
 			</div>
 			<div id="share_article" class="ec d cl">
 				<!--{if $share['image']}-->
-				<a href="$share[image_link]"><img src="$share[image]" class="tn" style="margin-top: 0;" alt="" /></a>
+				<a href="$share[image_link]"><img src="$share[image]" class="tn" style="margin-top: 0;" alt=""></a>
 				<!--{/if}-->
-				{$share[body_template]}<br />
+				{$share[body_template]}<br>
 				<!--{if 'video' == $share['type']}-->
 				{$share['body_data']['player']}
 				<!--{elseif 'music' == $share['type']}-->
@@ -66,7 +66,7 @@
 		<form id="quickcommentform_{$id}" name="quickcommentform_{$id}" action="home.php?mod=spacecp&ac=comment&handlekey=qcshare_{$id}" method="post" autocomplete="off" onsubmit="ajaxpost('quickcommentform_{$id}', 'return_qcshare_$id');doane(event);">
 			<!--{if $_G['uid']}-->
 				<p>
-					<span id="comment_face" onclick="showFace(this.id, 'comment_message');return false;" class="cur1"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
+					<span id="comment_face" onclick="showFace(this.id, 'comment_message');return false;" class="cur1"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm"></span>
 				</p>
 			<!--{/if}-->
 			<div class="tedt mtn mbn">
@@ -83,14 +83,14 @@
 				<div class="mtm mbm"><!--{subtemplate common/seccheck}--></div>
 			<!--{/if}-->
 			<p>
-				<input type="hidden" name="refer" value="home.php?mod=space&uid=$share[uid]&do=$do&id=$id" />
-				<input type="hidden" name="id" value="$id" />
-				<input type="hidden" name="idtype" value="sid" />
-				<input type="hidden" name="commentsubmit" value="true" />
+				<input type="hidden" name="refer" value="home.php?mod=space&uid=$share[uid]&do=$do&id=$id">
+				<input type="hidden" name="id" value="$id">
+				<input type="hidden" name="idtype" value="sid">
+				<input type="hidden" name="commentsubmit" value="true">
 				<button type="submit" name="commentsubmit_btn" id="commentsubmit_btn" class="pn" value="true"{if !$_G[uid]&&!$_G['group']['allowcomment']} onclick="showWindow(this.id, this.form.action);return false;"{/if}><strong>{lang comment}</strong></button>
 				<span id="return_qcshare_{$id}"></span>
 			</p>
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 		</form>
 		<script>
 			function succeedhandle_qcshare_$id(url, msg, values) {

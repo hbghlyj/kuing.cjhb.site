@@ -29,28 +29,28 @@
 	<div class="quote">
 		<p class="mb5">{lang hava_attach_size} <strong>$haveattachsize</strong> (<a href="home.php?mod=spacecp&ac=upload&op=recount">{lang recount}</a>)</p>
 		<!--{if $_G['setting']['magicstatus'] && $_G['setting']['magics']['attachsize']}-->
-		<img src="{STATICURL}image/magic/attachsize.small.gif" alt="attachsize" class="vm" />
+		<img src="{STATICURL}image/magic/attachsize.small.gif" alt="attachsize" class="vm">
 		<a id="a_magic_attachsize" href="home.php?mod=magic&mid=attachsize" class="dialog">{lang i_want_more_space}</a>
 		({lang you_can_buy_magictools})
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
 	<form method="post" autocomplete="off" id="albumform" action="home.php?mod=spacecp&ac=upload" onsubmit="return validate(this);">
-	<input type="hidden" name="albumsubmit" id="albumsubmit" value="true" />
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="albumsubmit" id="albumsubmit" value="true">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="post_box mt10 mb10 cl">
 		<li class="mtxt cl">
-			<a href="javascript:;" class="post_imgbtn p10"><i class="dm-image"></i>{lang upload_pic}<input type="file" name="Filedata" id="filedata" multiple="multiple" accept=".jpg,.jpeg,.gif,.png,.bmp,image/jpeg,image/gif,image/png,image/bmp" /></a>
+			<a href="javascript:;" class="post_imgbtn p10"><i class="dm-image"></i>{lang upload_pic}<input type="file" name="Filedata" id="filedata" multiple="multiple" accept=".jpg,.jpeg,.gif,.png,.bmp,image/jpeg,image/gif,image/png,image/bmp"></a>
 		</li>
 		<li class="mtxt cl"><ul id="imglist" class="post_imglist cl"></ul></li>
 		<li class="mt15 mtit xs2 cl">{lang select_album}</li>
 		<!--{if $albums}-->
 		<li class="mli flex-box cl">
-			<label for="albumop_selectalbum" class="lb flex"><input type="radio" name="albumop" id="albumop_selectalbum" class="pr" value="selectalbum" checked="checked" onclick="album_op(this.value);" />{lang add_to_existing_album}</label>
-			<label for="albumop_creatalbum" class="lb flex"><input type="radio" name="albumop" id="albumop_creatalbum" class="pr" value="creatalbum" onclick="album_op(this.value);" />{lang create_new_album}</label>
+			<label for="albumop_selectalbum" class="lb flex"><input type="radio" name="albumop" id="albumop_selectalbum" class="pr" value="selectalbum" checked="checked" onclick="album_op(this.value);">{lang add_to_existing_album}</label>
+			<label for="albumop_creatalbum" class="lb flex"><input type="radio" name="albumop" id="albumop_creatalbum" class="pr" value="creatalbum" onclick="album_op(this.value);">{lang create_new_album}</label>
 		</li>
 		<!--{else}-->
-		<input type="hidden" name="albumop" value="creatalbum" />
+		<input type="hidden" name="albumop" value="creatalbum">
 		<!--{/if}-->
 		<div class="setbox cl">
 		<li class="mli flex-box cl" id="selectalbum" <!--{if $albums}--><!--{else}--> style="display:none;"<!--{/if}-->>
@@ -71,7 +71,7 @@
 		<div id="creatalbum" class="setbox cl" <!--{if $albums}--> style="display:none;"<!--{else}--><!--{/if}-->>
 		<li class="mli flex-box cl">
 			<div class="tit">{lang album_name}</div>
-			<div class="flex-3 input"><input type="text" name="albumname" id="albumname" class="px" size="20" value="{lang my_album}" /></div>
+			<div class="flex-3 input"><input type="text" name="albumname" id="albumname" class="px" size="20" value="{lang my_album}"></div>
 		</li>
 		<li class="mli flex-box cl">
 			<div class="tit">{lang album_depict}</div>
@@ -100,7 +100,7 @@
 		</li>
 		<li class="mli flex-box cl" id="span_password" style="display:none;">
 			<div class="tit">{lang password}</div>
-			<div class="flex-3 input"><input type="text" name="password" id="uploadpassword" class="px" value="" size="10" /></div>
+			<div class="flex-3 input"><input type="text" name="password" id="uploadpassword" class="px" value="" size="10"></div>
 		</li>
 		<div class="cl" id="tb_selectgroup" style="display:none;">
 			<li class="mli flex-box cl">
@@ -180,7 +180,7 @@
 
 					if(dataobj.picid > 0 && dataobj.url) {
 						// 添加图片到列表
-						document.getElementById('imglist').insertAdjacentHTML('beforeend', '<li><div><span class="p_img"><a href="javascript:;"><img style="max-height:54px;max-width:54px;" id="aimg_'+dataobj.picid+'" src="'+dataobj.url+'" /></a></span><input type="hidden" name="title[' + dataobj.picid + ']" value="'+dataobj.title+'" /><div></li>');
+						document.getElementById('imglist').insertAdjacentHTML('beforeend', '<li><div><span class="p_img"><a href="javascript:;"><img style="max-height:54px;max-width:54px;" id="aimg_'+dataobj.picid+'" src="'+dataobj.url+'"></a></span><input type="hidden" name="title[' + dataobj.picid + ']" value="'+dataobj.title+'"><div></li>');
 					} else {
 						var sizelimit = '';
 						if(dataarr[7] == 'ban') {

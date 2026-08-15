@@ -15,12 +15,12 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 
 	if(in_array($option['type'], ['number', 'text', 'email', 'calendar', 'image', 'url', 'range', 'upload', 'range'])) {
 		if($option['type'] == 'calendar') {
-			$showoption[$option['identifier']]['value'] = '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" style="width:'.$option['inputsize'].'px;" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" onclick="showcalendar(event, this, false)" '.$optionvalue['unchangeable'].' class="px"/>';
+			$showoption[$option['identifier']]['value'] = '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" style="width:'.$option['inputsize'].'px;" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" onclick="showcalendar(event, this, false)" '.$optionvalue['unchangeable'].' class="px">';
 		} elseif($option['type'] == 'image') {
 			$showoption[$option['identifier']]['value'] = '<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatesortattach(aid, url, \'data/attachment/forum\', \''.$option['identifier'].'\')})"><span>'.($optionvalue['value'] ? lang('forum/misc', 'sort_update') : lang('forum/misc', 'sort_upload')).'</span></button>
-				<input type="hidden" name="typeoption['.$option['identifier'].'][aid]" id="sortaid_'.$option['identifier'].'" value="'.$optionvalue['value']['aid'].'" />'.
-				($optionvalue['value']['aid'] ? '<input type="hidden" name="oldsortaid['.$option['identifier'].']" value="'.$optionvalue['value']['aid'].'" />' : '').
-				'<input type="hidden" name="typeoption['.$option['identifier'].'][url]" id="sortattachurl_'.$option['identifier'].'" '.($optionvalue['value']['url'] ? 'value="'.$optionvalue['value']['url'].'"' : '').' />
+				<input type="hidden" name="typeoption['.$option['identifier'].'][aid]" id="sortaid_'.$option['identifier'].'" value="'.$optionvalue['value']['aid'].'">'.
+				($optionvalue['value']['aid'] ? '<input type="hidden" name="oldsortaid['.$option['identifier'].']" value="'.$optionvalue['value']['aid'].'">' : '').
+				'<input type="hidden" name="typeoption['.$option['identifier'].'][url]" id="sortattachurl_'.$option['identifier'].'" '.($optionvalue['value']['url'] ? 'value="'.$optionvalue['value']['url'].'"' : '').'>
 				<div id="sortattach_image_'.$option['identifier'].'" class="ptn">';
 
 			if($optionvalue['value']['url']) {
@@ -30,13 +30,13 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 						$optionvalue['value']['url'] = $_G['setting']['attachurl'].$optionvalue['value']['url'];
 					}
 				}
-				$showoption[$option['identifier']]['value'] .= '<a href="'.$optionvalue['value']['url'].'" target="_blank"><img class="spimg" src="'.$optionvalue['value']['url'].'" alt="" /></a>';
+				$showoption[$option['identifier']]['value'] .= '<a href="'.$optionvalue['value']['url'].'" target="_blank"><img class="spimg" src="'.$optionvalue['value']['url'].'" alt=""></a>';
 			}
 
 			$showoption[$option['identifier']]['value'] .= '</div>';
 
 		} else {
-			$showoption[$option['identifier']]['value'] = '<input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" class="px" style="width:'.$option['inputsize'].'px;" onBlur="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\', \''.intval($option['maxnum']).'\', \''.intval($option['minnum']).'\', \''.intval($option['maxlength']).'\')" value="'.($optionvalue['value'] ? $optionvalue['value'] : $option['defaultvalue']).'" '.$optionvalue['unchangeable'].' />';
+			$showoption[$option['identifier']]['value'] = '<input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" class="px" style="width:'.$option['inputsize'].'px;" onBlur="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\', \''.intval($option['maxnum']).'\', \''.intval($option['minnum']).'\', \''.intval($option['maxlength']).'\')" value="'.($optionvalue['value'] ? $optionvalue['value'] : $option['defaultvalue']).'" '.$optionvalue['unchangeable'].'>';
 		}
 	} elseif(in_array($option['type'], ['radio', 'checkbox', 'select'])) {
 		if($option['type'] == 'select') {
@@ -56,11 +56,11 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 			}
 		} elseif($option['type'] == 'radio') {
 			foreach($option['choices'] as $id => $value) {
-				$showoption[$option['identifier']]['value'] .= '<span class="fb"><input type="radio" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" class="pr" value="'.$id.'" onclick="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" '.$optionvalue['value'][$id].' '.$optionvalue['unchangeable'].' />'.$value.'</span>';
+				$showoption[$option['identifier']]['value'] .= '<span class="fb"><input type="radio" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" class="pr" value="'.$id.'" onclick="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" '.$optionvalue['value'][$id].' '.$optionvalue['unchangeable'].'>'.$value.'</span>';
 			}
 		} elseif($option['type'] == 'checkbox') {
 			foreach($option['choices'] as $id => $value) {
-				$showoption[$option['identifier']]['value'] .= '<span class="fb"><input type="checkbox" name="typeoption['.$option['identifier'].'][]" id="typeoption_'.$option['identifier'].'" class="pc" value="'.$id.'" onclick="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" '.$optionvalue['value'][$id][$id].' '.$optionvalue['unchangeable'].' />'.$value.'</span>';
+				$showoption[$option['identifier']]['value'] .= '<span class="fb"><input type="checkbox" name="typeoption['.$option['identifier'].'][]" id="typeoption_'.$option['identifier'].'" class="pc" value="'.$id.'" onclick="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" '.$optionvalue['value'][$id][$id].' '.$optionvalue['unchangeable'].'>'.$value.'</span>';
 			}
 		}
 	} elseif($option['type'] == 'textarea') {
@@ -269,7 +269,7 @@ function showsorttemplate($sortid, $fid, $sortoptionarray, $templatearray, $thre
 
 	if($templatearray && $sortthreadlist) {
 		foreach($threadlist as $thread) {
-			$thread['digest'] = $thread['digest'] ? '&nbsp;<img src="'.$_G['style']['imgdir'].'/digest_'.$thread['digest'].'.gif" class="vm" alt="" title="" />' : '';
+			$thread['digest'] = $thread['digest'] ? '&nbsp;<img src="'.$_G['style']['imgdir'].'/digest_'.$thread['digest'].'.gif" class="vm" alt="" title="">' : '';
 			if($thread['highlight']) {
 				$thread['subject'] = '<span '.$thread['highlight'].'>'.$thread['subject'].'</span>';
 			}
@@ -357,14 +357,14 @@ function showsortmodetemplate($sortid, $fid, $sortoptionarray, $templatearray, $
 		$replaces['{lastpost_url}'] = 'forum.php?mod=redirect&tid='.$thread['tid'].'&goto=lastpost#lastpost';
 		$replaces['{avatar_small}'] = avatar($thread['authorid'], 'small', true);
 		$replaces['{typename_url}'] = 'forum.php?mod=forumdisplay&fid='.$fid.'&filter=typeid&typeid='.$thread['tid'];
-		$replaces['{attachment}'] = ($thread['attachment'] == 2 ? '<img src="'.STATICURL.'image/filetype/image_s.gif" align="absmiddle" />' :
-			($thread['attachment'] == 1 ? '<img src="'.STATICURL.'image/filetype/common.gif" align="absmiddle" />' : ''));
+		$replaces['{attachment}'] = ($thread['attachment'] == 2 ? '<img src="'.STATICURL.'image/filetype/image_s.gif" align="absmiddle">' :
+			($thread['attachment'] == 1 ? '<img src="'.STATICURL.'image/filetype/common.gif" align="absmiddle">' : ''));
 		$replaces['{author_verify}'] = $verify[$thread['authorid']] ? $verify[$thread['authorid']] : '';
 		if($_G['forum']['ismoderator']) {
 			if($thread['fid'] == $fid && $thread['displayorder'] <= 3 || $_G['adminid'] == 1) {
-				$replaces['{modcheck}'] = '<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="'.$thread['tid'].'" />';
+				$replaces['{modcheck}'] = '<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="'.$thread['tid'].'">';
 			} else {
-				$replaces['{modcheck}'] = '<input type="checkbox" disabled="disabled" />';
+				$replaces['{modcheck}'] = '<input type="checkbox" disabled="disabled">';
 			}
 		} else {
 			$replaces['{modcheck}'] = '';

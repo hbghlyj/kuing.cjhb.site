@@ -79,7 +79,7 @@ if(!$error) {
 			};
 			$blog['friend'] = $blog['friend'] ? " <a href=\"".ADMINSCRIPT."?action=blog&friend={$blog['friend']}\">$privacy_name</a>" : $privacy_name;
 			$blogs .= showtablerow('', '', [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"ids[]\" value=\"{$blog['blogid']}\" />",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"ids[]\" value=\"{$blog['blogid']}\">",
 				$blog['blogid'],
 				"<a href=\"home.php?mod=space&uid={$blog['uid']}\" target=\"_blank\">{$blog['username']}</a>",
 				"<a href=\"home.php?mod=space&uid={$blog['uid']}&do=blog&id={$blog['blogid']}\" target=\"_blank\">{$blog['subject']}</a>",
@@ -122,11 +122,11 @@ if($error) {
 		showsubtitle(['', 'blogid', 'author', 'subject', 'view', 'reply', 'hot', 'time', 'privacy']);
 		echo $blogs;
 		$optypehtml = ''
-			.'<input type="radio" name="optype" id="optype_delete" value="delete" class="radio" /><label for="optype_delete">'.cplang('delete').'</label>&nbsp;&nbsp;';
-		$optypehtml .= '<input type="radio" name="optype" id="optype_move" value="move" class="radio" /><label for="optype_move">'.cplang('article_opmove').'</label> '
+			.'<input type="radio" name="optype" id="optype_delete" value="delete" class="radio"><label for="optype_delete">'.cplang('delete').'</label>&nbsp;&nbsp;';
+		$optypehtml .= '<input type="radio" name="optype" id="optype_move" value="move" class="radio"><label for="optype_move">'.cplang('article_opmove').'</label> '
 			.category_showselect('blog', 'tocatid', false)
 			.'&nbsp;&nbsp;';
-		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="blogsubmit" value="'.cplang('submit').'" />', $multi);
+		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="blogsubmit" value="'.cplang('submit').'">', $multi);
 	} else {
 		showhiddenfields(['blogids' => authcode($blogids, 'ENCODE')]);
 		showsubmit('blogsubmit', 'delete', $detail ? 'del' : '', '', $multi);

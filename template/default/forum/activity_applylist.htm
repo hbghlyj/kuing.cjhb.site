@@ -16,9 +16,9 @@
 				<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
 			</span>
 		</h3>
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="operation" value="" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="operation" value="">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 		<div class="c floatwrap">
 			<table class="list cp0" style="table-layout: fixed;">
 				<thead>
@@ -39,9 +39,9 @@
 						<!--{if $isactivitymaster}-->
 							<td>
 							<!--{if $apply[uid] != $_G[uid]}-->
-								<input type="checkbox" name="applyidarray[]" class="pc" value="$apply[applyid]" />
+								<input type="checkbox" name="applyidarray[]" class="pc" value="$apply[applyid]">
 							<!--{else}-->
-								<input type="checkbox" class="pc" disabled="disabled" />
+								<input type="checkbox" class="pc" disabled="disabled">
 							<!--{/if}-->
 							</td>
 						<!--{/if}-->
@@ -81,8 +81,8 @@
 	</div>
 	<!--{if $isactivitymaster}-->
 		<div class="o pns">
-			<label{if !empty($_GET['infloat'])} class="z"{/if}><input class="pc" type="checkbox" name="chkall" onclick="checkall(this.form, 'applyid')" />{lang checkall} </label>
-			<label>{lang activity_ps}: <input name="reason" class="px vm" size="25" /> </label>
+			<label{if !empty($_GET['infloat'])} class="z"{/if}><input class="pc" type="checkbox" name="chkall" onclick="checkall(this.form, 'applyid')">{lang checkall} </label>
+			<label>{lang activity_ps}: <input name="reason" class="px vm" size="25"> </label>
 			<button class="pn pnc vm" type="submit" value="true" name="applylistsubmit"><span>{lang confirm}</span></button>
 			<button class="pn vm" type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='replenish';"><span>{lang to_improve}</span></button>
 			<button class="pn vm" type="submit" value="true" name="applylistsubmit" onclick="$('applylistform').operation.value='notification';"><span>{lang send_notification}</span></button>

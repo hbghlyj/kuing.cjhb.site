@@ -3,12 +3,12 @@
 <div id="pt" class="bm cl">
 	<div style="float:right;margin-bottom:10px;">
 		<form id="darkroomSearchForm" method="get" action="forum.php">
-			<input type="hidden" name="mod" value="misc" />
-			<input type="hidden" name="action" value="showdarkroom" />
+			<input type="hidden" name="mod" value="misc">
+			<input type="hidden" name="action" value="showdarkroom">
 			<!--{if $username}-->
-			<input type="text" id="searchUsername" name="username" value="$username" class="px vm"/>
+			<input type="text" id="searchUsername" name="username" value="$username" class="px vm">
 			<!--{else}-->
-			<input type="text" id="searchUsername" name="username" placeholder="{lang darkroom_search_placeholder}" class="px vm"/>
+			<input type="text" id="searchUsername" name="username" placeholder="{lang darkroom_search_placeholder}" class="px vm">
 			<!--{/if}-->
 			<button type="submit" class="pn pnc" style="margin-right: 0px;">{lang darkroom_search}</button>
 		</form>

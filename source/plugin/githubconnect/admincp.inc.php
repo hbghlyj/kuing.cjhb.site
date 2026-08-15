@@ -48,7 +48,7 @@ if(!submitcheck('githubconnectsubmit')) {
 		$scriptlang['githubconnect']['githubconnect_callback_url'],
 		'',
 		'',
-		'<input type="text" class="txt" readonly value="'.$_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=callback" style="width: 420px;" />',
+		'<input type="text" class="txt" readonly value="'.$_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=callback" style="width: 420px;">',
 		'',
 		0,
 		$scriptlang['githubconnect']['githubconnect_callback_desc']

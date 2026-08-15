@@ -151,7 +151,7 @@ if(submitcheck('searchsubmit', 1)) {
 				$feed = mkfeed($feed);
 
 				$feeds .= showtablerow('', ['style="width:20px;"', 'style="width:260px;"', '', 'style="width:120px;"', 'style="width:60px;"'], [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$feed['feedid']}\" />",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$feed['feedid']}\">",
 					$feed['title_template'],
 					$feed['body_template'],
 					$feed['dateline'],

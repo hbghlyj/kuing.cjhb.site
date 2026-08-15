@@ -19,7 +19,7 @@
 			<span onclick="insertImage('$bigimg');" class="cur1">{lang portal_attachment_big_img}</span><span class="pipe">|</span>
 			<span onclick="insertImage('$smallimg', '$bigimg');" class="cur1">{lang portal_attachment_small_img}</span>
 		</span>
-		<img src="{if $smallimg}$smallimg{else}$bigimg{/if}" onclick="insertImage('$bigimg');" class="cur1" />
+		<img src="{if $smallimg}$smallimg{else}$bigimg{/if}" onclick="insertImage('$bigimg');" class="cur1">
 	</a>
 	<label for="setconver$attach['attachid']" class="cur1 xi2">
 		<input type="radio" name="setconver" id="setconver$attach['attachid']" class="pr" value="1" onclick="setConver(this.getAttribute('coverstr'))" coverstr='$coverstr'>{lang portal_attachment_set_cover}

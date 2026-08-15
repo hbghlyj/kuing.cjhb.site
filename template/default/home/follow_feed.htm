@@ -6,7 +6,7 @@
 			<a href="home.php?mod=follow">{lang follow}</a>
 		</div>
 	</div>
-	<style id="diy_style" type="text/css"></style>
+	<style id="diy_style"></style>
 	<div class="wp">
 		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 	</div>
@@ -49,7 +49,7 @@
 				<a href="home.php?mod=follow&uid=$space[uid]&do=view&from=space">{lang follow}</a>
 			</div>
 		</div>
-		<style id="diy_style" type="text/css"></style>
+		<style id="diy_style"></style>
 		<div class="wp">
 			<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 		</div>
@@ -91,7 +91,7 @@
 						<div id="fastpostreturn" style="margin:-5px 0 5px"></div>
 						<div id="flw_post_subject" style="display:none;">
 							<span id="flw_checklen" class="y"><span id="checklen" class="xg1">{$_G['setting']['maxsubjectsize']}</span></span>
-							<input type="text" id="subject" name="subject" onkeyup="strLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" />
+							<input type="text" id="subject" name="subject" onkeyup="strLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);">
 						</div>
 
 						<div id="flw_post_extra" class="mtn cl">
@@ -181,11 +181,11 @@
 								<div class="mtm sec"><!--{subtemplate common/seccheck}--></div>
 							<!--{/if}-->
 
-							<input type="hidden" name="formhash" value="{FORMHASH}" />
-							<input type="hidden" name="adddynamic" value="1" />
-							<input type="hidden" name="addfeed" value="1" />
-							<input type="hidden" name="topicsubmit" value="true" />
-							<input type="hidden" name="referer" value="{echo dreferer()}" />
+							<input type="hidden" name="formhash" value="{FORMHASH}">
+							<input type="hidden" name="adddynamic" value="1">
+							<input type="hidden" name="addfeed" value="1">
+							<input type="hidden" name="topicsubmit" value="true">
+							<input type="hidden" name="referer" value="{echo dreferer()}">
 
 							<div class="cl">
 								<div class="z ptm" id="forumlistdev" style="display: none;">
@@ -203,7 +203,7 @@
 								</div>
 								<div class="y">
 									<p class="ptm pnpost">
-										<label><input type="checkbox" name="syncbbs" id="syncbbs" value="1" onclick="showSyncInfo(this.checked)" />{lang follow_sync_forum}</label>&nbsp;
+										<label><input type="checkbox" name="syncbbs" id="syncbbs" value="1" onclick="showSyncInfo(this.checked)">{lang follow_sync_forum}</label>&nbsp;
 										<button {if $_G['uid']}type="submit" {else}type="button" onclick="showWindow('login', 'member.php?mod=logging&action=login&guestmessage=yes')" {/if}name="topicsubmit_btn" id="fastpostsubmit" value="topicsubmitbtn" class="pgsbtn"><strong>{lang follow_new_thread}</strong></button>
 									</p>
 								</div>
@@ -468,7 +468,7 @@
 								/*
 								if(feedInfo.scrollNum) {
 									loadingfeed.className="flw_loading hm vm";
-									loadingfeed.innerHTML = "<img src=\"{IMGDIR}/loading.gif\" class=\"vm\" /> {lang follow_loading}";
+									loadingfeed.innerHTML = "<img src=\"{IMGDIR}/loading.gif\" class=\"vm\"> {lang follow_loading}";
 								}
 								*/
 								feedInfo.query = false;
@@ -602,7 +602,7 @@
 					<!--{/loop}-->
 					</ul>
 					<!--{if !empty($multi)}--><div>$multi</div><!--{/if}-->
-					<br/>
+					<br>
 				<!--{else}-->
 					<div id="nofollowmsg">
 						<div class="flw_thread">
@@ -654,13 +654,13 @@
 <!--{/if}-->
 
 <!--{if $showguide && $do == 'feed'}-->
-<style type="text/css">
+<style>
 	.widthauto #nv_menu { width: 95%; }
 	.widthauto #nv_menu div { position: absolute;left: 50%;margin-left: -472px;width:944px; }
 </style>
 <div id="nv_menu" style="display:none;">
 	<div>
-		<img src="{IMGDIR}/flw_guide.png" alt="" />
+		<img src="{IMGDIR}/flw_guide.png" alt="">
 		<button class="pn pnc" style="margin: -50px 0 20px 430px;" onclick="hideMenu()"><span>{lang follow_i_know}</span></button>
 	</div>
 </div>

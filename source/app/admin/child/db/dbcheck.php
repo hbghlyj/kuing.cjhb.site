@@ -83,7 +83,7 @@ if($step == 3) {
 			DB::query("ALTER TABLE `$tablepre$r_table` ".implode(',', $sqls), 'SILENT');
 			if($sqlerror = DB::error()) {
 				$errorcount += count($sqls);
-				$error .= $sqlerror.'<br /><br />';
+				$error .= $sqlerror.'<br><br>';
 			}
 		}
 		$alter = [];
@@ -111,7 +111,7 @@ if($step == 3) {
 			DB::query('ALTER TABLE `'.DB::table($r_table).'` '.implode(',', $sqls), 'SILENT');
 			if($sqlerror = DB::error()) {
 				$errorcount += count($sqls);
-				$error .= $sqlerror.'<br /><br />';
+				$error .= $sqlerror.'<br><br>';
 			}
 		}
 
@@ -277,7 +277,7 @@ if($step == 3) {
 	if($settingsdellist) {
 		$showlist .= "<tr class=\"partition\"><td colspan=\"3\">{$lang['dbcheck_setting']}</td></tr>";
 		$showlist .= '<tr><td colspan="3">';
-		$showlist .= "<input name=\"setting[del]\" class=\"checkbox\" type=\"checkbox\" value=\"1\"> ".implode(', ', $settingsdellist).'<br />';
+		$showlist .= "<input name=\"setting[del]\" class=\"checkbox\" type=\"checkbox\" value=\"1\"> ".implode(', ', $settingsdellist).'<br>';
 		$showlist .= '</td></tr>';
 	}
 

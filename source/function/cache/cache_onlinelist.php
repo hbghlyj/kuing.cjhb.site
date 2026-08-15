@@ -20,7 +20,7 @@ function build_cache_onlinelist() {
 			}
 			$url = STATICURL.'image/common/online_'.$list['url'].'.svg';
 			$data[$list['groupid']] = $url;
-			$data['legend_i18n'][$locale] .= "<li><img src=\"".$url."\" /> {$list['title']}</li>";
+			$data['legend_i18n'][$locale] .= "<li><img src=\"".$url."\"> {$list['title']}</li>";
 			if($list['groupid'] == 7) {
 				$data['guest_i18n'][$locale] = $list['title'];
 			}

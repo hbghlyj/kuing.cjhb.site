@@ -25,7 +25,7 @@ $widths = ['width="30"', 'width="150"', 'width="60"'];
 $i = 1;
 foreach($permnames as $perm => $permname) {
 	$titles[] = '<label for="chkall'.$i.'"><b>'.$permname.'</b></label>';
-	$chkalls[] = '<input class="checkbox" type="checkbox" name="chkall'.$i.'" onclick="checkAll(\'prefix\', this.form, \'^'.$perm.'\', \'chkall'.$i.'\')" id="chkall'.$i.'" />';
+	$chkalls[] = '<input class="checkbox" type="checkbox" name="chkall'.$i.'" onclick="checkAll(\'prefix\', this.form, \'^'.$perm.'\', \'chkall'.$i.'\')" id="chkall'.$i.'">';
 	$widths[] = 'width=60';
 	$i++;
 }
@@ -153,7 +153,7 @@ $formulareplace .= '\'<u>'.cplang('setting_credits_formula_digestposts').'</u>\'
 					&nbsp;</a>&nbsp;
 				<a href="###"
 				   onclick="foruminsertunit(' or ')">&nbsp;<?php echo cplang('forums_edit_perm_formula_or') ?>
-					&nbsp;</a>&nbsp;<br/>
+					&nbsp;</a>&nbsp;<br>
 				<?php echo $profilefields; ?>
 
 
@@ -165,7 +165,7 @@ $formulareplace .= '\'<u>'.cplang('setting_credits_formula_digestposts').'</u>\'
 			          onkeyup="formulaexp()"
 			          onkeydown="textareakey(this, event)"><?php echo dhtmlspecialchars($forum['formulaperm']) ?></textarea>
 			<script type="text/JavaScript">formulaexp()</script>
-			<br/><span
+			<br><span
 				class="smalltxt"><?php cplang('forums_edit_perm_formula_comment', null, true); ?></span>
 		</td>
 	</tr>

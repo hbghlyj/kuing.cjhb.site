@@ -24,18 +24,18 @@
 		<span><!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET[handlekey]');return false;" title="{lang close}">{lang close}</a><!--{/if}--></span>
 	</h3>
 	<div class="c">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="operation" value="$operation" />
-		<input type="hidden" name="mid" value="$_GET['mid']" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="operation" value="$operation">
+		<input type="hidden" name="mid" value="$_GET['mid']">
 		<!--{if !empty($_GET['idtype']) && !empty($_GET['id'])}-->
-			<input type="hidden" name="idtype" value="$_GET[idtype]" />
-			<input type="hidden" name="id" value="$_GET[id]" />
+			<input type="hidden" name="idtype" value="$_GET[idtype]">
+			<input type="hidden" name="id" value="$_GET[id]">
 		<!--{/if}-->
 		<!--{if $operation == 'buy'}-->
 			<dl class="xld cl">
 				<dd class="m">
-					<div class="mg_img"><img src="$magic[pic]" alt="" /></div>
+					<div class="mg_img"><img src="$magic[pic]" alt=""></div>
 				</dd>
 				<dt class="z">
 					<div class="mbm pbm bbda">
@@ -55,11 +55,11 @@
 							<p class="xi1 mtn"><!--{if $magic['useperoid'] == 1}-->{lang magics_outofperoid_1}<!--{elseif $magic['useperoid'] == 2}-->{lang magics_outofperoid_2}<!--{elseif $magic['useperoid'] == 3}-->{lang magics_outofperoid_3}<!--{elseif $magic['useperoid'] == 4}-->{lang magics_outofperoid_4}<!--{/if}--><!--{if $useperoid > 0}-->{lang magics_outofperoid_value}<!--{else}-->{lang magics_outofperoid_noperm}<!--{/if}--></p>
 						<!--{/if}-->
 						<!--{if !$useperm}--><p class="xi1 mtn">{lang magics_permission_no}</p><!--{/if}-->
-						<p class="mtn">{lang memcp_usergroups_buy} <input id="magicnum" name="magicnum" type="text" size="2" autocomplete="off" value="1" class="px pxs" onkeyup="compute();" /> {lang magics_unit}</p>
+						<p class="mtn">{lang memcp_usergroups_buy} <input id="magicnum" name="magicnum" type="text" size="2" autocomplete="off" value="1" class="px pxs" onkeyup="compute();"> {lang magics_unit}</p>
 					</div>
 				</dt>
 			</dl>
-			<input type="hidden" name="operatesubmit" value="yes" />
+			<input type="hidden" name="operatesubmit" value="yes">
 		<!--{elseif $operation == 'give'}-->
 			<table class="tfm cp0">
 				<tr>
@@ -69,7 +69,7 @@
 				<tr>
 					<th>{lang magics_target_present}</th>
 					<td class="hasd cl">
-						<input type="text" id="selectedusername" name="tousername" size="12" autocomplete="off" value="" class="px p_fre" style="margin-right: 0;" />
+						<input type="text" id="selectedusername" name="tousername" size="12" autocomplete="off" value="" class="px p_fre" style="margin-right: 0;">
 						<!--{if $buddyarray}-->
 						<a href="javascript:;" onclick="showselect(this, 'selectedusername', 'selectusername')" class="dpbtn">&nabla;</a>
 						<ul id="selectusername" style="display:none">
@@ -82,14 +82,14 @@
 				</tr>
 				<tr>
 					<th>{lang magics_num}</th>
-					<td><input name="magicnum" type="text" size="12" autocomplete="off" value="1" class="px p_fre" /></td>
+					<td><input name="magicnum" type="text" size="12" autocomplete="off" value="1" class="px p_fre"></td>
 				</tr>
 				<tr>
 					<th>{lang magics_present_message}</th>
 					<td><textarea name="givemessage" rows="3" class="pt">{lang magics_present_message_text}</textarea></td>
 				</tr>
 			</table>
-			<input type="hidden" name="operatesubmit" value="yes" />
+			<input type="hidden" name="operatesubmit" value="yes">
 		<!--{/if}-->
 	</div>
 </div>

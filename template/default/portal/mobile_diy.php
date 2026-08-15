@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html lang="{echo lang_attr();}">
 	<head>
-	<meta charset="{CHARSET}" />
-	<meta name="renderer" content="webkit" />
+	<meta charset="{CHARSET}">
+	<meta name="renderer" content="webkit">
 	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 	$_G['setting']['seohead']
 
-	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}" />
-	<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}{if empty($nobbname)},$_G['setting']['bbname']{/if}" />
-	<meta name="generator" content="Discuz! $_G['setting']['version']" />
+	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}">
+	<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}{if empty($nobbname)},$_G['setting']['bbname']{/if}">
+	<meta name="generator" content="Discuz! $_G['setting']['version']">
 
 	<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}';</script>
 	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
@@ -21,13 +21,13 @@
 	<script src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
 </head>
 
-<link rel="stylesheet" type="text/css" href="{$_G['setting']['csspath']}{STYLEID}_css_mobile_diy.css?{VERHASH}" />
-<link rel="stylesheet" type="text/css" href="{$_G['setting']['csspath']}{STYLEID}_css_mobile_diy_page.css?{VERHASH}" />
+<link rel="stylesheet" href="{$_G['setting']['csspath']}{STYLEID}_css_mobile_diy.css?{VERHASH}">
+<link rel="stylesheet" href="{$_G['setting']['csspath']}{STYLEID}_css_mobile_diy_page.css?{VERHASH}">
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE}{if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if}" onkeydown="if(event.keyCode==27) return false;">
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
-	<style id="diy_style" type="text/css"></style>
+	<style id="diy_style"></style>
 	
 	<div class="m-diy-header">
 	<div class="design-header-back">{lang mobilediy_title}</div>
@@ -82,29 +82,29 @@
 						<div id="controlcontent">
 							
 							<ul id="contentframe" class="content-frame content">
-								<li><a href="javascript:;" id="frame_1" onmousedown="drag.createObj(event,'frame','1');" onfocus="this.blur();" data="$widthstr"><img src="{STATICURL}image/diy/layout-1.png" />100%{lang header_frame}</a></li>
+								<li><a href="javascript:;" id="frame_1" onmousedown="drag.createObj(event,'frame','1');" onfocus="this.blur();" data="$widthstr"><img src="{STATICURL}image/diy/layout-1.png">100%{lang header_frame}</a></li>
 							</ul>
 							<div id="contentblockclass" class="content-block-class content"></div>
 						</div>
 					</div>
 
 					<form method="post" autocomplete="off" name="diyform" id="diyform" action="$_G[siteurl]portal.php?mod=portalcp&ac=diy">
-					<input type="hidden" name="template" value="$_G['style']['tplfile']" />
-					<input type="hidden" name="tpldirectory" value="$_G['style']['tpldirectory']" />
-					<input type="hidden" name="diysign" value="{echo dsign({$_G['style']['tpldirectory']}.{$_G['style']['tplfile']})}" />
-					<input type="hidden" name="prefile" id="prefile" value="$_G['style']['prefile']" />
-					<input type="hidden" name="savemod" value="$_G['style']['tplsavemod']" />
-					<input type="hidden" name="spacecss" value="" />
-					<input type="hidden" name="style" value="" />
-					<input type="hidden" name="rejs" value="" />
-					<input type="hidden" name="handlekey" value="" />
-					<input type="hidden" name="layoutdata" value="" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
-					<input type="hidden" name="gobackurl" id="gobackurl" value=""/>
-					<input type="hidden" name="recover" value=""/>
-					<input type="hidden" name="optype" value=""/>
+					<input type="hidden" name="template" value="$_G['style']['tplfile']">
+					<input type="hidden" name="tpldirectory" value="$_G['style']['tpldirectory']">
+					<input type="hidden" name="diysign" value="{echo dsign({$_G['style']['tpldirectory']}.{$_G['style']['tplfile']})}">
+					<input type="hidden" name="prefile" id="prefile" value="$_G['style']['prefile']">
+					<input type="hidden" name="savemod" value="$_G['style']['tplsavemod']">
+					<input type="hidden" name="spacecss" value="">
+					<input type="hidden" name="style" value="">
+					<input type="hidden" name="rejs" value="">
+					<input type="hidden" name="handlekey" value="">
+					<input type="hidden" name="layoutdata" value="">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<input type="hidden" name="gobackurl" id="gobackurl" value="">
+					<input type="hidden" name="recover" value="">
+					<input type="hidden" name="optype" value="">
 
-					<input type="hidden" name="diysubmit" value="true"/>
+					<input type="hidden" name="diysubmit" value="true">
 					</form>
 			</div>
 		</div>

@@ -32,9 +32,9 @@ if(!submitcheck('deletesubmit')) {
 	showtableheader();
 	if($category[$_GET['catid']]['children']) {
 		showsetting('blogcategory_subcategory_moveto', '', '',
-			'<input type="radio" name="subcat_op" value="trash" id="subcat_op_trash" checked="checked" />'.
+			'<input type="radio" name="subcat_op" value="trash" id="subcat_op_trash" checked="checked">'.
 			'<label for="subcat_op_trash" />'.cplang('blogcategory_subcategory_moveto_trash').'</label>'.
-			'<input type="radio" name="subcat_op" value="parent" id="subcat_op_parent" checked="checked" />'.
+			'<input type="radio" name="subcat_op" value="parent" id="subcat_op_parent" checked="checked">'.
 			'<label for="subcat_op_parent" />'.cplang('blogcategory_subcategory_moveto_parent').'</label>'
 		);
 	}

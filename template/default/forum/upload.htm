@@ -3,15 +3,15 @@
 <div class="upfile">
 	<h3 class="flb">
 		<em id="return_upload">{lang upload}</em>
-		<em id="uploadwindowing" class="mtn" style="visibility:hidden"><img src="{IMGDIR}/uploading.gif" alt="" /></em>
+		<em id="uploadwindowing" class="mtn" style="visibility:hidden"><img src="{IMGDIR}/uploading.gif" alt=""></em>
 		<span><a href="javascript:;" class="flbc" onclick="hideWindow('upload', 0)" title="{lang close}">{lang close}</a></span>
 	</h3>
 	<div class="c">
 		<form id="uploadform" class="uploadform ptm pbm" method="post" autocomplete="off" target="uploadattachframe" onsubmit="uploadWindowstart()" action="misc.php?mod=upload&operation=upload&type=$type&inajax=yes&infloat=yes&simple=2" enctype="multipart/form-data">
-			<input type="hidden" name="handlekey" value="upload" />
+			<input type="hidden" name="handlekey" value="upload">
 			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<div class="filebtn">
-				<input type="file" name="Filedata" id="filedata" class="pf cur1" size="1" onchange="$('uploadform').submit()" />
+				<input type="file" name="Filedata" id="filedata" class="pf cur1" size="1" onchange="$('uploadform').submit()">
 				<button type="button" class="pn pnc"><strong>{lang upload_selectfile}</strong></button>
 			</div>
 		</form>

@@ -47,7 +47,7 @@ function showsearchform($operation = '') {
 	/*search={"nav_members":"action=members&operation=search"}*/
 	showtagheader('div', 'searchmembers', !$_GET['submit']);
 	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
-	echo '<style type="text/css">#residedistrictbox select, #birthdistrictbox select{width: auto;}</style>';
+	echo '<style>#residedistrictbox select, #birthdistrictbox select{width: auto;}</style>';
 	$formurl = "members&operation=$operation".(($_GET['do'] == 'mobile' || $_GET['do'] == 'sms') ? '&do='.$_GET['do'] : '');
 	showformheader($formurl, "onSubmit=\"if($('updatecredittype1') && $('updatecredittype1').checked && !window.confirm('{$lang['members_reward_clean_alarm']}')){return false;} else {return true;}\"");
 	showtableheader('', 'nobottom');
@@ -182,7 +182,7 @@ function showsearchform($operation = '') {
 			}
 			showsetting($value['title'], '', '', '<select class="txt" name="'.$fieldid.'">'.$select.'</select>');
 		} else {
-			showsetting($value['title'], '', '', '<input class="txt" name="'.$fieldid.'" />');
+			showsetting($value['title'], '', '', '<input class="txt" name="'.$fieldid.'">');
 		}
 	}
 	showtagfooter('tbody');
@@ -322,7 +322,7 @@ function notifymembers($operation, $variable) {
 				}
 			}
 			if($addmsg) {
-				$addmsg = ' &nbsp; <br /><br /><b>'.cplang('members_reward_affect').':</b><br \>'.$addmsg;
+				$addmsg = ' &nbsp; <br><br><b>'.cplang('members_reward_affect').':</b><br \>'.$addmsg;
 			}
 
 			if(!empty($setarr)) {
@@ -508,7 +508,7 @@ function notifymembers($operation, $variable) {
 					'authorid' => $_G['uid'],
 					'author' => !$_GET['system'] ? $_G['member']['username'] : '',
 					'dateline' => TIMESTAMP,
-					'message' => ($subject ? '<b>'.$subject.'</b><br /> &nbsp; ' : '').$message.$addmsg,
+					'message' => ($subject ? '<b>'.$subject.'</b><br> &nbsp; ' : '').$message.$addmsg,
 					'numbers' => $membernum
 				];
 				$gpmid = table_common_grouppm::t()->insert($pmdata, true);
@@ -620,8 +620,8 @@ function selectday($varname, $dayarray) {
 }
 
 function accessimg($access) {
-	return $access == -1 ? '<img src="'.STATICURL.'image/common/access_disallow.gif" />' :
-		($access == 1 ? '<img src="'.STATICURL.'image/common/access_allow.gif" />' : '<img src="'.STATICURL.'image/common/access_normal.gif" />');
+	return $access == -1 ? '<img src="'.STATICURL.'image/common/access_disallow.gif">' :
+		($access == 1 ? '<img src="'.STATICURL.'image/common/access_allow.gif">' : '<img src="'.STATICURL.'image/common/access_normal.gif">');
 }
 
 function save_newsletter($cachename, $data) {

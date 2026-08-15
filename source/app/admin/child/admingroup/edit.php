@@ -55,17 +55,17 @@ if(!$submitcheck) {
 	foreach(table_common_admingroup::t()->fetch_all_order() as $ggroup) {
 		$checked = $_GET['id'] == $ggroup['groupid'] || (is_array($_GET['multi']) && in_array($ggroup['groupid'], $_GET['multi']));
 		if($gutype != $ggroup['radminid']) {
-			$grouplist .= '<em><span class="right"><input name="checkall_'.$ggroup['radminid'].'" onclick="checkAll(\'value\', this.form, \'g'.$ggroup['radminid'].'\', \'checkall_'.$ggroup['radminid'].'\')" type="checkbox" class="vmiddle checkbox" /></span>'.
+			$grouplist .= '<em><span class="right"><input name="checkall_'.$ggroup['radminid'].'" onclick="checkAll(\'value\', this.form, \'g'.$ggroup['radminid'].'\', \'checkall_'.$ggroup['radminid'].'\')" type="checkbox" class="vmiddle checkbox"></span>'.
 				($ggroup['radminid'] == 1 ? $lang['usergroups_system_1'] : ($ggroup['radminid'] == 2 ? $lang['usergroups_system_2'] : $lang['usergroups_system_3'])).'</em>';
 			$gutype = $ggroup['radminid'];
 		}
-		$grouplist .= '<input class="left checkbox ck" chkvalue="g'.$ggroup['radminid'].'" name="multi[]" value="'.$ggroup['groupid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'/>'.
+		$grouplist .= '<input class="left checkbox ck" chkvalue="g'.$ggroup['radminid'].'" name="multi[]" value="'.$ggroup['groupid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'>'.
 			'<a href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=admingroup&operation=edit&switch=yes&id='.$ggroup['groupid'].'&anchor=\'+currentAnchor+\'&scrolltop=\'+document.documentElement.scrollTop"'.($checked ? ' class="current"' : '').'>'.$ggroup['grouptitle'].'</a>';
 	}
 	$gselect = '<span id="ugselect" class="right popupmenu_dropmenu" onmouseover="showMenu({\'ctrlid\':this.id,\'pos\':\'34\'});$(\'ugselect_menu\').style.top=(parseInt($(\'ugselect_menu\').style.top)-scrollTopBody())+\'px\';$(\'ugselect_menu\').style.left=(parseInt($(\'ugselect_menu\').style.left)-document.documentElement.scrollLeft-20)+\'px\'">'.$lang['usergroups_switch'].'<em>&nbsp;&nbsp;</em></span>'.
 		'<div id="ugselect_menu" class="popupmenu_popup" style="display:none">'.
 		$grouplist.
-		'<br style="clear:both" /><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('admingroups_multiedit').'" /></div>'.
+		'<br style="clear:both"><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('admingroups_multiedit').'"></div>'.
 		'</div>';
 
 	$_GET['anchor'] = in_array($_GET['anchor'], ['threadperm', 'postperm', 'modcpperm', 'portalperm', 'otherperm', 'spaceperm']) ? $_GET['anchor'] : 'threadperm';

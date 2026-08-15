@@ -21,7 +21,7 @@
 		<a href="{if $value['touid']}home.php?mod=space&do=pm&subop=view&touid=$value['touid']{else}home.php?mod=space&do=pm&subop=view&plid={$value['plid']}&type=1{/if}" class="pm-list-item">
 			<div class="pm-list-avatar">
 				<!--{if $value['pmtype'] == 2}-->
-				<img src="{STATICURL}image/common/grouppm.png" alt="" />
+				<img src="{STATICURL}image/common/grouppm.png" alt="">
 				<!--{else}-->
 				<!--{avatar($value['touid'] ? $value['touid'] : ($value['lastauthorid'] ? $value['lastauthorid'] : $value['authorid']), 'small')}-->
 				<!--{/if}-->
@@ -69,16 +69,16 @@
 			<!--{/if}-->
 		</div>
 		<form id="pmform" class="pmform" name="pmform" method="post" action="home.php?mod=spacecp&ac=pm&op=send&pmid=$pmid&daterange=$daterange&pmsubmit=yes" >
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<!--{if !$touid}-->
-			<input type="hidden" name="plid" value="$plid" />
+			<input type="hidden" name="plid" value="$plid">
 			<!--{else}-->
-			<input type="hidden" name="touid" value="$touid" />
+			<input type="hidden" name="touid" value="$touid">
 			<!--{/if}-->
 			<div class="foot_height"></div>
 			<div class="foot msg_post flex-box">
-				<input type="text" value="" class="flex px" autocomplete="off" id="replymessage" name="message" placeholder="{lang mobsendpm}" />
-				<input type="button" name="pmsubmit" id="pmsubmit" class="formdialog pns" value="{lang sendpm}" />
+				<input type="text" value="" class="flex px" autocomplete="off" id="replymessage" name="message" placeholder="{lang mobsendpm}">
+				<input type="button" name="pmsubmit" id="pmsubmit" class="formdialog pns" value="{lang sendpm}">
 			</div>
 		</form>
 		<!--{eval $nofooter = true;}-->

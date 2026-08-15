@@ -140,12 +140,12 @@ function profile_setting($fieldid, $space = [], $showstatus = false, $ignoreunch
 			$html = '<p id="residedistrictbox">'.showdistrict($values, $elems, 'residedistrictbox', 1, 'reside').'</p>';
 		}
 	} elseif($fieldid == 'qq') {
-		$html = "<input type=\"text\" name=\"$fieldid\" id=\"$fieldid\" class=\"px\" value=\"$space[$fieldid]\" placeholder=\"\" /><p><a href=\"\" class=\"xi2\" onclick=\"this.href='//wp.qq.com/set.html?from=discuz&uin='+$('$fieldid').value\" target=\"_blank\">".lang('spacecp', 'qq_set_status').'</a></p>';
+		$html = "<input type=\"text\" name=\"$fieldid\" id=\"$fieldid\" class=\"px\" value=\"$space[$fieldid]\" placeholder=\"\"><p><a href=\"\" class=\"xi2\" onclick=\"this.href='//wp.qq.com/set.html?from=discuz&uin='+$('$fieldid').value\" target=\"_blank\">".lang('spacecp', 'qq_set_status').'</a></p>';
 	} else {
 		if($field['unchangeable'] && $space[$fieldid] != '') {
 			if($field['formtype'] == 'file') {
 				$imgurl = getglobal('setting/attachurl').'./profile/'.$space[$fieldid];
-				return '<span><a href="'.$imgurl.'" target="_blank"><img src="'.$imgurl.'"  style="max-width: 500px;" /></a></span>';
+				return '<span><a href="'.$imgurl.'" target="_blank"><img src="'.$imgurl.'"  style="max-width: 500px;"></a></span>';
 			} else {
 				return '<span>'.nl2br($space[$fieldid]).'</span>';
 			}
@@ -172,24 +172,24 @@ function profile_setting($fieldid, $space = [], $showstatus = false, $ignoreunch
 			$space[$fieldid] = explode("\n", $space[$fieldid]);
 			foreach($field['choices'] as $op) {
 				$html .= ''
-					."<label class=\"lb\"><input type=\"checkbox\" name=\"{$fieldid}[]\" id=\"$fieldid\" class=\"pc\" value=\"$op\"".(in_array($op, $space[$fieldid]) ? ' checked="checked"' : '').' />'
+					."<label class=\"lb\"><input type=\"checkbox\" name=\"{$fieldid}[]\" id=\"$fieldid\" class=\"pc\" value=\"$op\"".(in_array($op, $space[$fieldid]) ? ' checked="checked"' : '').'>'
 					."$op</label>";
 			}
 		} elseif($field['formtype'] == 'radio') {
 			$field['choices'] = explode("\n", $field['choices']);
 			foreach($field['choices'] as $op) {
 				$html .= ''
-					."<label class=\"lb\"><input type=\"radio\" name=\"{$fieldid}\" class=\"pr\" value=\"$op\"".($op == $space[$fieldid] ? ' checked="checked"' : '').' />'
+					."<label class=\"lb\"><input type=\"radio\" name=\"{$fieldid}\" class=\"pr\" value=\"$op\"".($op == $space[$fieldid] ? ' checked="checked"' : '').'>'
 					."$op</label>";
 			}
 		} elseif($field['formtype'] == 'file') {
-			$html = "<input type=\"file\" value=\"\" name=\"$fieldid\" id=\"$fieldid\" class=\"pf\" style=\"height:26px;\" /><input type=\"hidden\" name=\"$fieldid\" value=\"$space[$fieldid]\" />";
+			$html = "<input type=\"file\" value=\"\" name=\"$fieldid\" id=\"$fieldid\" class=\"pf\" style=\"height:26px;\"><input type=\"hidden\" name=\"$fieldid\" value=\"$space[$fieldid]\">";
 			if(!empty($space[$fieldid])) {
 				$url = getglobal('setting/attachurl').'./profile/'.$space[$fieldid];
-				$html .= "&nbsp;<label><input type=\"checkbox\" class=\"checkbox\" name=\"deletefile[$fieldid]\" id=\"$fieldid\" value=\"yes\" />".lang('spacecp', 'delete')."</label><br /><a href=\"$url\" target=\"_blank\"><img src=\"$url\" width=\"200\" class=\"mtm\" /></a>";
+				$html .= "&nbsp;<label><input type=\"checkbox\" class=\"checkbox\" name=\"deletefile[$fieldid]\" id=\"$fieldid\" value=\"yes\">".lang('spacecp', 'delete')."</label><br><a href=\"$url\" target=\"_blank\"><img src=\"$url\" width=\"200\" class=\"mtm\"></a>";
 			}
 		} else {
-			$html = "<input type=\"text\" name=\"$fieldid\" id=\"$fieldid\" class=\"px\" value=\"$space[$fieldid]\" placeholder=\"".$field['title']."\" />";
+			$html = "<input type=\"text\" name=\"$fieldid\" id=\"$fieldid\" class=\"px\" value=\"$space[$fieldid]\" placeholder=\"".$field['title']."\">";
 		}
 	}
 	$html .= !$ignoreshowerror ? "<div class=\"rq mtn\" id=\"showerror_$fieldid\"></div>" : '';
@@ -201,7 +201,7 @@ function profile_setting($fieldid, $space = [], $showstatus = false, $ignoreunch
 		if($verifyvalue !== null) {
 			if($field['formtype'] == 'file') {
 				$imgurl = getglobal('setting/attachurl').'./profile/'.$verifyvalue;
-				$verifyvalue = "<img src='$imgurl' alt='$imgurl' style='max-width: 500px;'/>";
+				$verifyvalue = "<img src='$imgurl' alt='$imgurl' style='max-width: 500px;'>";
 			}
 			$tips .= (empty($tips) ? '' : ' ').'<strong>'.lang('spacecp', 'profile_is_verifying')." (<a href=\"#\" onclick=\"display('newvalue_$fieldid');return false;\">".lang('spacecp', 'profile_mypost').'</a>)</strong>'
 				."<p id=\"newvalue_$fieldid\" style=\"display:none\">".$verifyvalue.'</p>';
@@ -332,9 +332,9 @@ function profile_show($fieldid, $space = [], $getalone = false) {
 	} elseif($fieldid == 'position') {
 		return nl2br($space['office'] ?: ($space['field_position'] ?: $space['position']));
 	} elseif($fieldid == 'qq') {
-		return $space[$fieldid].'<img src="'.STATICURL.'image/common/qq.gif" alt="QQ" style="margin:0px;"/></a>';
+		return $space[$fieldid].'<img src="'.STATICURL.'image/common/qq.gif" alt="QQ" style="margin:0px;"></a>';
 	} elseif($fieldid == 'wechat') {
-		return $space[$fieldid].'<img width="16" src="https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" alt="WeChat" style="margin:0px;"/>';
+		return $space[$fieldid].'<img width="16" src="https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" alt="WeChat" style="margin:0px;">';
 	} else {
 		return nl2br($space[$fieldid]);
 	}

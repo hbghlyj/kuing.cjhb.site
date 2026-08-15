@@ -59,13 +59,13 @@
 							{lang doing_sync}:
 							<!--{if $_G['group']['maxsigsize']}-->
 								<a title="{lang doing_update_personal_signature}" id="syn_signature" class="syn_signature" href="javascript:void(0);" onclick="checkSynSignature()">{lang doing_update_personal_signature}</a>
-								<input type="hidden" name="to_signhtml" id="to_signhtml" value="0" />
+								<input type="hidden" name="to_signhtml" id="to_signhtml" value="0">
 							<!--{/if}-->
 							<!--{hook/space_home_doing_sync_method}-->
 						</span>
 					<!--{else}-->
 						<!--{if $_G['group']['maxsigsize']}-->
-							<label for="to_sign"><input type="checkbox" name="to_signhtml" id="to_sign" class="pc" value="1" />{lang doing_update_personal_signature}</label>
+							<label for="to_sign"><input type="checkbox" name="to_signhtml" id="to_sign" class="pc" value="1">{lang doing_update_personal_signature}</label>
 						<!--{/if}-->
 					<!--{/if}-->
 					<div id="return_doing" class="xi1 xw1"></div>
@@ -73,10 +73,10 @@
 				<td></td>
 			</tr>
 		</table>
-		<input type="hidden" name="addsubmit" value="true" />
-		<input type="hidden" name="spacenote" value="true" />
-		<input type="hidden" name="referer" value="home.php" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="addsubmit" value="true">
+		<input type="hidden" name="spacenote" value="true">
+		<input type="hidden" name="referer" value="home.php">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 	</form>
 	<script>
 		function succeedhandle_doing(url, msg, values) {

@@ -67,7 +67,7 @@ function attachtype($type, $returnval = 'html') {
 		}
 	}
 	if($returnval == 'html') {
-		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" class="vm" height="32" alt="$type" />';
+		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" class="vm" height="32" alt="$type">';
 	} elseif($returnval == 'id') {
 		return $typeid;
 	}
@@ -236,7 +236,7 @@ function getattachexif($aid, $path = '') {
 		);
 		foreach($exif as $key => $value) {
 			if(in_array($key, $keys)) {
-				$return .= "$key : $value<br />";
+				$return .= "$key : $value<br>";
 			}
 		}
 	}

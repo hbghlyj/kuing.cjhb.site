@@ -52,7 +52,7 @@ $member = [];
 $tableext = '';
 if(in_array($operation, ['ban', 'edit', 'group', 'credit', 'medal', 'access', 'chgusername'], true)) {
 	if(empty($_GET['uid']) && empty($_GET['username'])) {
-		cpmsg('members_nonexistence', 'action=members&operation='.$operation.(!empty($_GET['highlight']) ? "&highlight={$_GET['highlight']}" : ''), 'form', [], '<input type="text" name="username" value="" class="txt" />');
+		cpmsg('members_nonexistence', 'action=members&operation='.$operation.(!empty($_GET['highlight']) ? "&highlight={$_GET['highlight']}" : ''), 'form', [], '<input type="text" name="username" value="" class="txt">');
 	}
 	$member = !empty($_GET['uid']) ? table_common_member::t()->fetch($_GET['uid'], false, 1) : table_common_member::t()->fetch_by_username($_GET['username'], 1);
 	if(!$member) {

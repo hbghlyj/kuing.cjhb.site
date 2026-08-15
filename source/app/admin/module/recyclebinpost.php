@@ -60,14 +60,14 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 			foreach(table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$post['tid'], 'pid', $post['pid']) as $attach) {
 				$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 				$attach['url'] = $attach['isimage']
-					? " {$attach['filename']} (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
+					? " {$attach['filename']} (".sizecount($attach['filesize']).")<br><br><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
 					: "<a href=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).')';
-				$post['message'] .= "<br /><br />{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
+				$post['message'] .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
 			}
 		}
 
 		showtablerow("id=\"mod_{$post['pid']}_row1\"", ['rowspan="3" class="rowform threadopt" style="width:80px;"', 'class="threadtitle"'], [
-			"<ul class=\"nofloat\"><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_1\" value=\"delete\" checked=\"checked\" /><label for=\"mod_{$post['pid']}_1\">{$lang['delete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_2\" value=\"undelete\" /><label for=\"mod_{$post['pid']}_2\">{$lang['undelete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_3\" value=\"ignore\" /><label for=\"mod_{$post['pid']}_3\">{$lang['ignore']}</label></li></ul>",
+			"<ul class=\"nofloat\"><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_1\" value=\"delete\" checked=\"checked\"><label for=\"mod_{$post['pid']}_1\">{$lang['delete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_2\" value=\"undelete\"><label for=\"mod_{$post['pid']}_2\">{$lang['undelete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_3\" value=\"ignore\"><label for=\"mod_{$post['pid']}_3\">{$lang['ignore']}</label></li></ul>",
 			"<h3><a href=\"forum.php?mod=forumdisplay&fid={$post['fid']}\" target=\"_blank\">".$forumlist[$post['fid']]['forumname']."</a> &raquo; <a href=\"forum.php?mod=viewthread&tid={$post['tid']}\" target=\"_blank\">".$threadlist[$post['tid']]['tsubject'].'</a>'.($post['subject'] ? ' &raquo; '.$post['subject'] : '')."</h3><p><span class=\"bold\">{$lang['author']}:</span> <a href=\"home.php?mod=space&uid={$post['authorid']}\" target=\"_blank\">{$post['author']}</a> &nbsp;&nbsp; <span class=\"bold\">{$lang['time']}:</span> {$post['dateline']}</p>"
 		]);
 		showtablerow("id=\"mod_{$post['pid']}_row2\"", 'colspan="2" style="padding: 10px; line-height: 180%;"', '<div style="overflow: auto; overflow-x: hidden; max-height:120px; height:auto !important; height:120px; word-break: break-all;">'.$post['message'].'</div>');

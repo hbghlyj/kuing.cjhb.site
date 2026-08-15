@@ -17,9 +17,9 @@ if(!submitcheck('editsubmit')) {
 	?>
 	<script type="text/JavaScript">
 		var rowtypedata = [
-			[[1, '<input type="text" class="txt" name="newcatorder[]" value="0" />', 'td25'], [3, '<input name="newcat[]" value="<?php echo $lang['groups_type_level_1'];?>" size="20" type="text" class="txt" /> <?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[]" value="0" class="txt" style="width: 30px;" />']],
-			[[1, '<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [3, '<div class="board"><input name="newforum[{1}][]" value="<?php echo $lang['groups_type_sub_new'];?>" size="20" type="text" class="txt" /><?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[{1}][]" value="0" class="txt" style="width: 30px;" /></div>']],
-			[[1, '<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [3, '<div class="childboard"><input name="newforum[{1}][]" value="<?php echo $lang['groups_type_sub_new'];?>" size="20" type="text" class="txt" /><?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[{1}][]" value="0" class="txt" style="width: 30px;" /></div>']],
+			[[1, '<input type="text" class="txt" name="newcatorder[]" value="0">', 'td25'], [3, '<input name="newcat[]" value="<?php echo $lang['groups_type_level_1'];?>" size="20" type="text" class="txt" /> <?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[]" value="0" class="txt" style="width: 30px;">']],
+			[[1, '<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [3, '<div class="board"><input name="newforum[{1}][]" value="<?php echo $lang['groups_type_sub_new'];?>" size="20" type="text" class="txt" /><?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[{1}][]" value="0" class="txt" style="width: 30px;"></div>']],
+			[[1, '<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [3, '<div class="childboard"><input name="newforum[{1}][]" value="<?php echo $lang['groups_type_sub_new'];?>" size="20" type="text" class="txt" /><?php echo cplang('groups_type_show_rows');?><input type="text" name="newforumcolumns[{1}][]" value="0" class="txt" style="width: 30px;"></div>']],
 		];
 	</script>
 	<?php

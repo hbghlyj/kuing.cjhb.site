@@ -72,7 +72,7 @@
 				<ul class="ml mls cl">
 					<!--{loop $groupviewed_list $groupid $group}-->
 					<li>
-						<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]" /></a>
+						<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]"></a>
 						<p><a href="forum.php?mod=group&fid=$groupid" title="$group[name]">$group[name]</a></p>
 						<span>$group[membernum]</span>
 					</li>
@@ -125,7 +125,7 @@
 		</div>
 		<div class="bm_c hm pns">
 			<form method="post" action="search.php?mod=group&srchfid=$_G[fid]&searchsubmit=1">
-				<input type="text" name="srchtxt" id="groupsearch" class="px p_fre vm" size="15" value="{lang input_search_key_words}" onclick="$('groupsearch').value=''" />&nbsp;
+				<input type="text" name="srchtxt" id="groupsearch" class="px p_fre vm" size="15" value="{lang input_search_key_words}" onclick="$('groupsearch').value=''">&nbsp;
 				<button type="submit" class="pn vm"><span>{lang search}</span></button>
 			</form>
 		</div>

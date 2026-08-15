@@ -62,7 +62,7 @@ function getblockhtml($blockname, $parameters = []) {
 						}
 						if($field['formtype'] == 'file' && $val) {
 							$imgurl = getglobal('setting/attachurl').'./profile/'.$val;
-							$val = '<span><a href="'.$imgurl.'" target="_blank"><img src="'.$imgurl.'"  style="max-width: 300px;" /></a></span>';
+							$val = '<span><a href="'.$imgurl.'" target="_blank"><img src="'.$imgurl.'"  style="max-width: 300px;"></a></span>';
 						}
 						if($val == '') $val = '';
 						$html .= '<li><em>'.$field['title'].'</em>'.$val.'</li>';
@@ -90,7 +90,7 @@ function getblockhtml($blockname, $parameters = []) {
 				foreach($space['medals'] = explode("\t", $space['medals']) as $key => $medalid) {
 					list($medalid, $medalexpiration) = explode('|', $medalid);
 					if(isset($_G['cache']['medals'][$medalid]) && (!$medalexpiration || $medalexpiration > TIMESTAMP)) {
-						$usermedals .= '<img src="'.$_G['cache']['medals'][$medalid]['image'].'" id="md_'.$medalid.'" alt="'.$_G['cache']['medals'][$medalid]['name'].'\'" onmouseover="showMenu({\'ctrlid\':this.id, \'menuid\':\'md_'.$medalid.'_menu\', \'pos\':\'12!\'});" />&nbsp;';
+						$usermedals .= '<img src="'.$_G['cache']['medals'][$medalid]['image'].'" id="md_'.$medalid.'" alt="'.$_G['cache']['medals'][$medalid]['name'].'\'" onmouseover="showMenu({\'ctrlid\':this.id, \'menuid\':\'md_'.$medalid.'_menu\', \'pos\':\'12!\'});">&nbsp;';
 						$usermedalmenus .= '
 						<div id="md_'.$medalid.'_menu" class="tip tip_4" style="display: none;">
 							<div class="tip_horn"></div>
@@ -172,7 +172,7 @@ function getblockhtml($blockname, $parameters = []) {
 				}
 			}
 			if(!empty($managehtml)) {
-				$html .= '<hr class="da mtn m0" /><ul class="ptn xl xl2 cl">'.$managehtml.'</ul><ul id="usermanageli_menu" class="p_pop" style="width: 80px; display:none;">';
+				$html .= '<hr class="da mtn m0"><ul class="ptn xl xl2 cl">'.$managehtml.'</ul><ul id="usermanageli_menu" class="p_pop" style="width: 80px; display:none;">';
 				if(checkperm('allowbanuser')) {
 					$html .= '<li><a href="'.($_G['adminid'] == 1 ? "admin.php?action=members&operation=ban&username=$encodeusername&frames=yes" : "forum.php?mod=modcp&action=member&op=ban&uid=$space[uid]").'" target="_blank">'.lang('home/template', 'user_ban').'</a></li>';
 				}
@@ -210,7 +210,7 @@ function getblockhtml($blockname, $parameters = []) {
 						}
 						$html .= '<div id="magicreceivegift">';
 						$html .= '<a onclick="showWindow(\'magicgift\', this.href, \'get\', 0)" href="home.php?mod=spacecp&ac=magic&op=receivegift&uid='.$uid.'" title="'.lang('magic/gift', 'gift_receive_gift', ['percredit' => $percredit, 'credittype' => $credittype]).'">';
-						$html .= '<img src="'.STATICURL.'image/magic/gift.gif" alt="gift" />';
+						$html .= '<img src="'.STATICURL.'image/magic/gift.gif" alt="gift">';
 						$html .= '</a>';
 						$html .= '</div>';
 					}
@@ -482,13 +482,13 @@ function getblockhtml($blockname, $parameters = []) {
 
 					$html .= '<li><em><a href="home.php?mod=space&uid='.$value['uid'].'&do=share&id='.$value['sid'].'">'.$value['title_template'].'</a>('.dgmdate($value['dateline'], 'u').')</em><div class="ec cl">';
 					if($value['image']) {
-						$html .= '<a href="'.$value['image_link'].'" target="_blank"><img src="'.$value['image'].'" class="tn" alt="" /></a>';
+						$html .= '<a href="'.$value['image_link'].'" target="_blank"><img src="'.$value['image'].'" class="tn" alt=""></a>';
 					}
 					$html .= '<div class="d">'.$value['body_template'].'</div>';
 					if($value['type'] == 'video') {
 						$html .= parsemedia('x,500,373', $value['body_data']['data']);
 					} elseif($value['type'] == 'music') {
-						$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');\" class=\"tn\" />";
+						$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');\" class=\"tn\">";
 					}
 
 					if($value['body_general']) {
@@ -518,7 +518,7 @@ function getblockhtml($blockname, $parameters = []) {
 					$author_avatar = '<a href="home.php?mod=space&uid='.$value['authorid'].'" target="_blank">'.avatar($value['authorid'], 'small').'</a>';
 					$author = '<a href="home.php?mod=space&uid='.$value['authorid'].'" id="author_'.$value['cid'].'" target="_blank">'.$value['author'].'</a>';
 				} else {
-					$author_avatar = '<img src="'.STATICURL.'image/magic/hidden.gif" alt="hidden" />';
+					$author_avatar = '<img src="'.STATICURL.'image/magic/hidden.gif" alt="hidden">';
 					$author = $_G['setting']['anonymoustext'];
 				}
 				if($value['authorid'] == $_G['uid']) {
@@ -629,22 +629,22 @@ function mkfeedhtml($value) {
 	$html = '';
 	$html .= "<li class=\"cl {$value['magic_class']}\" id=\"feed_{$value['feedid']}_li\">";
 	$html .= "<div class=\"cl\" {$value['style']}>";
-	$html .= "<a class=\"t\" href=\"home.php?mod=space&uid={$_GET['uid']}&do=home&view={$_GET['view']}&icon={$value['icon']}\" title=\"".lang('space', 'feed_view_only')."\"><img src=\"{$value['icon_image']}\" /></a>{$value['title_template']}";
+	$html .= "<a class=\"t\" href=\"home.php?mod=space&uid={$_GET['uid']}&do=home&view={$_GET['view']}&icon={$value['icon']}\" title=\"".lang('space', 'feed_view_only')."\"><img src=\"{$value['icon_image']}\"></a>{$value['title_template']}";
 	$html .= "\t<span class=\"xg1\">".dgmdate($value['dateline'], 'n-j H:i').'</span>';
 
 	$html .= "<div class=\"ec\">";
 
 	if($value['image_1']) {
-		$html .= "<a href=\"{$value['image_1_link']}\"{$value['target']}><img src=\"{$value['image_1']}\" alt=\"\" class=\"tn\" /></a>";
+		$html .= "<a href=\"{$value['image_1_link']}\"{$value['target']}><img src=\"{$value['image_1']}\" alt=\"\" class=\"tn\"></a>";
 	}
 	if($value['image_2']) {
-		$html .= "<a href=\"{$value['image_2_link']}}\"{$value['target']}><img src=\"{$value['image_2']}\" alt=\"\" class=\"tn\" /></a>";
+		$html .= "<a href=\"{$value['image_2_link']}}\"{$value['target']}><img src=\"{$value['image_2']}\" alt=\"\" class=\"tn\"></a>";
 	}
 	if($value['image_3']) {
-		$html .= "<a href=\"{$value['image_3_link']}\"{$value['target']}><img src=\"{$value['image_3']}\" alt=\"\" class=\"tn\" /></a>";
+		$html .= "<a href=\"{$value['image_3_link']}\"{$value['target']}><img src=\"{$value['image_3']}\" alt=\"\" class=\"tn\"></a>";
 	}
 	if($value['image_4']) {
-		$html .= "<a href=\"{$value['image_4_link']}\"{$value['target']}><img src=\"{$value['image_4']}\" alt=\"\" class=\"tn\" /></a>";
+		$html .= "<a href=\"{$value['image_4_link']}\"{$value['target']}><img src=\"{$value['image_4']}\" alt=\"\" class=\"tn\"></a>";
 	}
 
 	if($value['body_template']) {
@@ -655,7 +655,7 @@ function mkfeedhtml($value) {
 	if(!empty($value['body_data']['flashvar']) || !empty($value['body_data']['videovar'])) {
 		$html .= parsemedia('x,500,373', $value['body_data']['data']);
 	} elseif(!empty($value['body_data']['musicvar'])) {
-		$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['feedid']}');\" class=\"tn\" />";
+		$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['feedid']}');\" class=\"tn\">";
 	}
 
 	if($value['body_general']) {

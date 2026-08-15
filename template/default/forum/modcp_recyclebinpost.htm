@@ -27,13 +27,13 @@
 							</span>
 						</td>
 						<th>{lang modcp_posts_keyword}:</th>
-						<td><input type="text" name="keywords" class="px" size="20" value="$result[keywords]" style="width: 180px"/></td>
+						<td><input type="text" name="keywords" class="px" size="20" value="$result[keywords]" style="width: 180px"></td>
 					</tr>
 					<tr>
 						<th>{lang modcp_posts_author}:</th>
-						<td><input type="text" name="users" class="px" size="20" value="$result[users]" style="width: 180px"/></td>
+						<td><input type="text" name="users" class="px" size="20" value="$result[users]" style="width: 180px"></td>
 						<th>{lang modcp_dateline_range}:</th>
-						<td><input type="text" name="starttime" class="px" size="10" value="$result[starttime]" onclick="showcalendar(event, this);" /> {lang modcp_posts_to} <input type="text" name="endtime" class="px" size="10" value="$result[endtime]" onclick="showcalendar(event, this);" /></td>
+						<td><input type="text" name="starttime" class="px" size="10" value="$result[starttime]" onclick="showcalendar(event, this);"> {lang modcp_posts_to} <input type="text" name="endtime" class="px" size="10" value="$result[endtime]" onclick="showcalendar(event, this);"></td>
 					</tr>
 					<!--{if $posttableselect}-->
 					<tr>
@@ -61,11 +61,11 @@
 		<!--{if $postlist}-->
 		<div id="threadlist" class="tl">
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="$cpscript?mod=modcp&fid=$_G[fid]&action=$_GET[action]">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="op" value="" />
-				<input type="hidden" name="oldop" value="$op" />
-				<input type="hidden" name="dosubmit" value="submit" />
-				<input type="hidden" name="posttableid" value="$posttableid" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="op" value="">
+				<input type="hidden" name="oldop" value="$op">
+				<input type="hidden" name="dosubmit" value="submit">
+				<input type="hidden" name="posttableid" value="$posttableid">
 				<table class="cp0">
 					<tr class="th">
 						<td class="o">&nbsp;</td>
@@ -77,7 +77,7 @@
 					<!--{loop $postlist $post}-->
 						<tbody id="$post[pid]">
 							<tr>
-								<td class="o"><input class="pc" type="checkbox" name="moderate[]" value="$post[pid]" /></td>
+								<td class="o"><input class="pc" type="checkbox" name="moderate[]" value="$post[pid]"></td>
 								<td><a href="forum.php?mod=redirect&goto=findpost&pid=$post[pid]&ptid=$post[tid]&modthreadkey=$post[modthreadkey]" target="_blank">$post[message]</a>
 								<!--{if $post['attachment'] == 2}-->
 										<i class="fico-image fic4 fc-p vm" title="{lang attach_img}"></i>
@@ -103,7 +103,7 @@
 					<!--{/loop}-->
 					<tbody>
 						<tr class="bw0_all">
-							<td><input class="pc" type="checkbox" onclick="checkall(this.form, 'moderate')" name="chkall" id="chkall"/></td>
+							<td><input class="pc" type="checkbox" onclick="checkall(this.form, 'moderate')" name="chkall" id="chkall"></td>
 							<td colspan="5" class="ptm">
 								<!--{if $multipage}-->$multipage<!--{/if}-->
 								<!--{if $_G['group']['allowclearrecycle']}-->

@@ -61,7 +61,7 @@ if($attackevasive & 8) {
 			}
 			$question .= ' = ?';
 			dsetcookie('visitcode', authcode(md5($answer).'|0|'.TIMESTAMP, 'ENCODE'), TIMESTAMP + 816400, 1, true);
-			securitymessage($question, '<input type="text" name="answer" size="8" maxlength="150" /><input type="submit" name="secqsubmit" class="button" value=" Submit " />', FALSE, TRUE);
+			securitymessage($question, '<input type="text" name="answer" size="8" maxlength="150"><input type="submit" name="secqsubmit" class="button" value=" Submit ">', FALSE, TRUE);
 		} else {
 			dsetcookie('visitcode', authcode($visitcode.'|1|'.TIMESTAMP, 'ENCODE'), TIMESTAMP + 816400, 1, true);
 		}
@@ -82,14 +82,14 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 	$message = $lang[$message] ?? $message;
 
 	if($_GET['inajax']) {
-		helper_output::html('<div id="attackevasive_1" class="popupmenu_option"><b style="font-size: 16px">'.$subject.'</b><br /><br />'.$message.'</div>');
+		helper_output::html('<div id="attackevasive_1" class="popupmenu_option"><b style="font-size: 16px">'.$subject.'</b><br><br>'.$message.'</div>');
 	} else {
 		$charset = getglobal('config/output/charset');
 		@header('Content-Type: text/html; charset='.$charset);
 		echo '<html>';
 		echo '<head>';
-		echo '<meta charset="'.$_G['charset'].'" />';
-		echo '<meta name="renderer" content="webkit" />';
+		echo '<meta charset="'.$_G['charset'].'">';
+		echo '<meta name="renderer" content="webkit">';
 		echo '<title>'.$subject.'</title>';
 		echo '<style>table.cp0 td, table.cp0 th { padding: 0; } table.cp0 { border-collapse: collapse; } table.cp10 td, table.cp10 th { padding: 10px; } table.cp10 { border-collapse: collapse; }</style>';
 		echo '</head>';
@@ -111,9 +111,9 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 		echo '    <table class="cp10" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 11px">';
 		echo '    <tr>';
 		echo '      <td valign="middle" align="center" bgcolor="#EBEBEB">';
-		echo '     	<br /><br /> <b style="font-size: 16px">'.$subject.'</b> <br /><br />';
+		echo '     	<br><br> <b style="font-size: 16px">'.$subject.'</b> <br><br>';
 		echo $message;
-		echo '        <br /><br />';
+		echo '        <br><br>';
 		echo '      </td>';
 		echo '    </tr>';
 		echo '    </table>';

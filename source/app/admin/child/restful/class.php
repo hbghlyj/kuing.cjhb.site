@@ -79,7 +79,7 @@ class rp {
 			]);
 		}
 		showsubmit('submit', 'submit', '',
-			'<input type="button" class="btn" value="'.cplang('add').'" onclick="location.href=\''.ADMINSCRIPT.'?action=restful&operation=appAdd\'"/>');
+			'<input type="button" class="btn" value="'.cplang('add').'" onclick="location.href=\''.ADMINSCRIPT.'?action=restful&operation=appAdd\'">');
 		showtablefooter();
 	}
 
@@ -254,9 +254,9 @@ class rp {
 				        '/deltoken' => cplang('restful_deltoken'),
 			        ] as $api => $name) {
 				showtablerow('header', ['class="c1"', 'width="30%"', ''], [
-					'<input type="checkbox" class="checkbox" checked readonly disabled />',
+					'<input type="checkbox" class="checkbox" checked readonly disabled>',
 					$name.'('.$api.')',
-					'<input type="text" class="txt" value="0" readonly isabled />',
+					'<input type="text" class="txt" value="0" readonly isabled>',
 					'<a href="'.ADMINSCRIPT.'?action=restful&operation=stat&id='.$appid.'&api='.$api.'">'.($statdata[$api] ?? 0).'</a>',
 				]);
 			}
@@ -266,7 +266,7 @@ class rp {
 					$gkey = substr(md5($copyright.'.'.$ver), 0, 16);
 					showtablerow('class="header"', ['class="c1"', 'width="30%"', ''], [
 						'<a id="a_group_v'.$gkey.'_body" class="marginleft10" href="javascript:;" onclick="toggle_group(\'group_v'.$gkey.'_body\')">[-]</a>'.
-						'<input type="checkbox" class="checkbox" name="chkall'.$gkey.'" id="chkall'.$gkey.'" onclick="checkAll(\'value\', this.form, \''.$gkey.'\', \'chkall'.$gkey.'\')" name="perm['.$key.']" />',
+						'<input type="checkbox" class="checkbox" name="chkall'.$gkey.'" id="chkall'.$gkey.'" onclick="checkAll(\'value\', this.form, \''.$gkey.'\', \'chkall'.$gkey.'\')" name="perm['.$key.']">',
 						$copyright.' - v'.$ver,
 						'',
 						'',
@@ -282,9 +282,9 @@ class rp {
 							$api = $row['uri'].'/v'.$row['ver'];
 							$freq = !empty($values[$key]['freq']) ? $values[$key]['freq'] : 0;
 							showtablerow('header', ['class="c1"', 'width="30%"', ''], [
-								'<input type="checkbox" class="checkbox" chkvalue="'.$gkey.'" name="perm['.$key.']"'.$check.'/>',
+								'<input type="checkbox" class="checkbox" chkvalue="'.$gkey.'" name="perm['.$key.']"'.$check.'>',
 								$names[$row['ver']][$row['uri']].'('.$api.')',
-								'<input type="text" class="txt" name="freq['.$key.']" value="'.$freq.'" />',
+								'<input type="text" class="txt" name="freq['.$key.']" value="'.$freq.'">',
 								'<a href="'.ADMINSCRIPT.'?action=restful&operation=stat&id='.$appid.'&api='.$api.'">'.($statdata[$api] ?? 0).'</a>',
 							]);
 
@@ -303,9 +303,9 @@ class rp {
 							$check = $selectAll || !empty($values[$key]) ? ' checked' : '';
 							$freq = !empty($values[$key]['freq']) ? $values[$key]['freq'] : 0;
 							showtablerow('header', ['class="c1"', 'width="30%"', ''], [
-								'<input type="checkbox" class="checkbox" chkvalue="'.$gkey.'" name="perm['.$key.']"'.$check.'/>',
+								'<input type="checkbox" class="checkbox" chkvalue="'.$gkey.'" name="perm['.$key.']"'.$check.'>',
 								$names[$sub['ver']][$sub['uri']].'('.$api.')',
-								'<input type="text" class="txt" name="freq['.$key.']" value="'.$freq.'" />',
+								'<input type="text" class="txt" name="freq['.$key.']" value="'.$freq.'">',
 								'<a href="'.ADMINSCRIPT.'?action=restful&operation=stat&id='.$appid.'&api='.$api.'">'.($statdata[$api] ?? 0).'</a>',
 							]);
 
@@ -318,7 +318,7 @@ class rp {
 					showtagfooter('tbody');
 				}
 			}
-			showsubmit('permsubmit', 'submit', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'perm\')" /><label for="chkall">'.cplang('select_all').'</label>');
+			showsubmit('permsubmit', 'submit', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'perm\')"><label for="chkall">'.cplang('select_all').'</label>');
 			showtablefooter();
 			showformfooter();
 
@@ -451,7 +451,7 @@ class rp {
 			showtablerow('class="header"', ['width="20"', 'class="c1"', '', 'width="30"', '', ''], [
 				'',
 				'<a id="a_group_v'.$key.'_body" class="marginleft10" href="javascript:;" onclick="toggle_group(\'group_v'.$key.'_body\')">[-]</a>'.
-				'<input type="checkbox" class="checkbox" name="chkall'.$key.'" id="chkall'.$key.'" onclick="checkAll(\'value\', this.form, \''.$key.'\', \'chkall'.$key.'\')" name="perm['.$key.']"'.$check.'/>',
+				'<input type="checkbox" class="checkbox" name="chkall'.$key.'" id="chkall'.$key.'" onclick="checkAll(\'value\', this.form, \''.$key.'\', \'chkall'.$key.'\')" name="perm['.$key.']"'.$check.'>',
 				$ud['copyright'].' - v'.$ud['ver'],
 				'',
 				'',

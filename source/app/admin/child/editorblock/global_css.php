@@ -21,7 +21,7 @@ if(!submitcheck('submit')) {
 	echo '<td valign="top" width="70%">';
 	echo '<div id="ace_editor" style="width:98%;height: 90%;border:1px solid #cdcdcd;min-height:980px"></div>';
 	echo '<textarea id="cell" style="display:none;" name="contentnew" spellcheck="false">'.dhtmlspecialchars($value).'</textarea></td>';
-	echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('editorblock_usage').'</div>'.cplang('editorblock_usage_css_content').'<br /></td>';
+	echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('editorblock_usage').'</div>'.cplang('editorblock_usage_css_content').'<br></td>';
 	echo '</tr>';
 	showsubmit('submit', 'submit', '',
 		cplang('cells_notice'));

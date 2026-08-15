@@ -10,9 +10,9 @@
 
 <!--{if $_G['setting']['ec_ratio'] && $is_enable_pay}-->
 <form id="addfundsbuyform" name="addfundsbuyform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=credit&op=buy" <!--{if !$active['rmb']}-->style="display:none"<!--{/if}-->>
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="addfundsbuyform" value="true" />
-	<input type="hidden" name="handlekey" value="buycredit" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="addfundsbuyform" value="true">
+	<input type="hidden" name="handlekey" value="buycredit">
 	<div class="post_box">
 		<ul>
 			<li class="mli">
@@ -23,9 +23,9 @@
 	</div>
 	<div class="text-muted">
 		{lang memcp_credits_addfunds_rules_ratio} =  <strong>$_G[setting][ec_ratio]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}
-		<!--{if $_G[setting][ec_mincredits]}--><br />{lang memcp_credits_addfunds_rules_min}  <strong>$_G[setting][ec_mincredits]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
-		<!--{if $_G[setting][ec_maxcredits]}--><br />{lang memcp_credits_addfunds_rules_max}  <strong>$_G[setting][ec_maxcredits]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
-		<!--{if $_G[setting][ec_maxcreditspermonth]}--><br />{lang memcp_credits_addfunds_rules_month}  <strong>$_G[setting][ec_maxcreditspermonth]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
+		<!--{if $_G[setting][ec_mincredits]}--><br>{lang memcp_credits_addfunds_rules_min}  <strong>$_G[setting][ec_mincredits]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
+		<!--{if $_G[setting][ec_maxcredits]}--><br>{lang memcp_credits_addfunds_rules_max}  <strong>$_G[setting][ec_maxcredits]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
+		<!--{if $_G[setting][ec_maxcreditspermonth]}--><br>{lang memcp_credits_addfunds_rules_month}  <strong>$_G[setting][ec_maxcreditspermonth]</strong> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}<!--{/if}-->
 	</div>
 	<div class="post_btn">
 		<button id="pmsubmit_btn" class="pn btn_pn mgrey" disable="true">
@@ -38,9 +38,9 @@
 
 <!--{if $_G['setting']['card']['open']}-->
 <form id="addfundscardform" name="addfundscardform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=credit&op=buy" <!--{if !$active['card']}-->style="display:none"<!--{/if}-->>
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="addfundscardsubmit" value="true" />
-	<input type="hidden" name="handlekey" value="buycredit" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="addfundscardsubmit" value="true">
+	<input type="hidden" name="handlekey" value="buycredit">
 	<div class="post_box">
 		<ul class="cl">
 			<li class="mli">

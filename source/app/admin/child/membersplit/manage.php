@@ -33,7 +33,7 @@ if(!submitcheck('membersplit_split_submit', 1)) {
 
 	showsubtitle(['', '', 'membersplit_count', 'membersplit_combie_count', 'membersplit_splitnum']);
 	showtablerow('', '',
-		['', '', number_format($membercount), number_format($zombiecount).'('.$percentage.'%) ', '<input name="splitnum" value="200" type="text" class="txt"/>']);
+		['', '', number_format($membercount), number_format($zombiecount).'('.$percentage.'%) ', '<input name="splitnum" value="200" type="text" class="txt">']);
 
 	if($percentage > 0) {
 		showsubmit('membersplit_split_submit', 'membersplit_archive');

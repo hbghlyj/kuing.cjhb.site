@@ -69,8 +69,8 @@ if(submitcheck('settingsubmit')) {
 		showtablerow('', ['class="td24"', 'class="td31"', 'class="longtxt"', 'class="td25"'], [
 			cplang('setting_seo_rewritestatus_'.$k),
 			implode(', ', array_keys($rewritedata['rulevars'][$k])),
-			'<input onclick="doane(event)" name="settingnew[rewriterule]['.$k.']" class="txt" value="'.dhtmlspecialchars($v).'"/>',
-			'<input type="checkbox" name="settingnew[rewritestatus][]" class="checkbox" value="'.$k.'" '.((is_array($setting['rewritestatus']) && in_array($k, $setting['rewritestatus'])) ? 'checked="checked"' : '').'/>'
+			'<input onclick="doane(event)" name="settingnew[rewriterule]['.$k.']" class="txt" value="'.dhtmlspecialchars($v).'">',
+			'<input type="checkbox" name="settingnew[rewritestatus][]" class="checkbox" value="'.$k.'" '.((is_array($setting['rewritestatus']) && in_array($k, $setting['rewritestatus'])) ? 'checked="checked"' : '').'>'
 		]);
 	}
 	showtablefooter();
@@ -197,17 +197,17 @@ EOF;
 			showtableheader();
 			showtablerow('', ['width="12%"', ''], [
 					cplang('setting_seo_seotitle'),
-					'<input type="text" id="t_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seotitle]['.$subtype.']" value="'.dhtmlspecialchars($setting['seotitle'][$subtype]).'" class="txt" style="width:280px;" />',
+					'<input type="text" id="t_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seotitle]['.$subtype.']" value="'.dhtmlspecialchars($setting['seotitle'][$subtype]).'" class="txt" style="width:280px;">',
 				]
 			);
 			showtablerow('', ['width="12%"', ''], [
 					cplang('setting_seo_seokeywords'),
-					'<input type="text" id="k_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seokeywords]['.$subtype.']" value="'.dhtmlspecialchars($setting['seokeywords'][$subtype]).'" class="txt" style="width:280px;" />'
+					'<input type="text" id="k_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seokeywords]['.$subtype.']" value="'.dhtmlspecialchars($setting['seokeywords'][$subtype]).'" class="txt" style="width:280px;">'
 				]
 			);
 			showtablerow('', ['width="12%"', ''], [
 					cplang('setting_seo_seodescription'),
-					'<input type="text" id="d_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seodescription]['.$subtype.']" value="'.dhtmlspecialchars($setting['seodescription'][$subtype]).'" class="txt" style="width:280px;" />',
+					'<input type="text" id="d_'.$type.$subtype.'" onfocus="getcodetext(this, \''.$subtype.'\');" name="settingnew[seodescription]['.$subtype.']" value="'.dhtmlspecialchars($setting['seodescription'][$subtype]).'" class="txt" style="width:280px;">',
 				]
 			);
 			if($subtype == 'threadlist') {

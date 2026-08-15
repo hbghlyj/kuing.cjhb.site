@@ -58,7 +58,7 @@ if($notifydata['validator']) {
 				'tpl' => 'invite_payment',
 				'var' => [
 					'orderid' => $order['orderid'],
-					'codetext' => implode('<br />', $codetext),
+					'codetext' => implode('<br>', $codetext),
 					'siteurl' => $_G['siteurl'],
 					'bbname' => $_G['setting']['bbname'],
 				]

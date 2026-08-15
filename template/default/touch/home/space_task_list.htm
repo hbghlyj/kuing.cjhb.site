@@ -6,7 +6,7 @@
 			<li class="list task_list">
 				<div class="medal_top task_top cl">
 					<div class="mg_img">
-						<img src="$task['icon']" alt="$task['name']" />
+						<img src="$task['icon']" alt="$task['name']">
 					</div>
 					<div class="mg_tit">
 						<h3><a href="home.php?mod=task&do=view&id=$task['taskid']">$task['name']</a></h3>
@@ -37,10 +37,10 @@
 							<a href="home.php?mod=task&do=draw&id=$task['taskid']">{lang task_reward_get}</a>
 						<!--{elseif $_GET['item'] == 'done'}-->
 							<span>{lang task_complete_on} $task['dateline']
-							<!--{if $task['period'] && $task['t']}--><br /><!--{if $task['allowapply']}--><a href="home.php?mod=task&do=apply&id=$task['taskid']">{lang task_applyagain_now}</a><!--{else}-->{$task['t']}{lang task_applyagain}<!--{/if}--><!--{/if}--></span>
+							<!--{if $task['period'] && $task['t']}--><br><!--{if $task['allowapply']}--><a href="home.php?mod=task&do=apply&id=$task['taskid']">{lang task_applyagain_now}</a><!--{else}-->{$task['t']}{lang task_applyagain}<!--{/if}--><!--{/if}--></span>
 						<!--{elseif $_GET['item'] == 'failed'}-->
 							<span>{lang task_lose_on} $task['dateline']
-							<!--{if $task['period'] && $task['t']}--><br /><!--{if $task['allowapply']}--><a href="home.php?mod=task&do=apply&id=$task['taskid']">{lang task_applyagain_now}</a><!--{else}-->{$task['t']}{lang task_reapply}<!--{/if}--><!--{/if}--></span>
+							<!--{if $task['period'] && $task['t']}--><br><!--{if $task['allowapply']}--><a href="home.php?mod=task&do=apply&id=$task['taskid']">{lang task_applyagain_now}</a><!--{else}-->{$task['t']}{lang task_reapply}<!--{/if}--><!--{/if}--></span>
 						<!--{/if}-->
 					</div>
 				</div>

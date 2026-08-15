@@ -42,8 +42,8 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 
 	showtablerow('', ['width="100"', 'width="200"', 'width="100"', $posttableselect ? 'width="160"' : '', $posttableselect ? 'width="60"' : ''],
 		[
-			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"{$_GET['username']}\" />",
-			cplang('moderate_content_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"{$_GET['title']}\" />",
+			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"{$_GET['username']}\">",
+			cplang('moderate_content_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"{$_GET['title']}\">",
 			$posttableselect ? cplang('postsplit_select') : '',
 			$posttableselect
 		]
@@ -51,12 +51,12 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 	showtablerow('', ['width="100"', 'width="200"', 'width="100"', 'colspan="3"'],
 		[
 			"{$lang['perpage']}",
-			"<select name=\"ppp\">$ppp_options</select><label><input name=\"showcensor\" type=\"checkbox\" class=\"checkbox\" value=\"yes\" ".($showcensor ? ' checked="checked"' : '')."/> {$lang['moderate_showcensor']}</label>",
+			"<select name=\"ppp\">$ppp_options</select><label><input name=\"showcensor\" type=\"checkbox\" class=\"checkbox\" value=\"yes\" ".($showcensor ? ' checked="checked"' : '')."> {$lang['moderate_showcensor']}</label>",
 			"{$lang['moderate_bound']}",
 			"<select name=\"filter\">$filteroptions</select>
                         <select name=\"modfid\">$forumoptions</select>
                         <select name=\"dateline\">$dateline_options</select>
-                        <input class=\"btn\" type=\"submit\" value=\"{$lang['search']}\" />"
+                        <input class=\"btn\" type=\"submit\" value=\"{$lang['search']}\">"
 		]
 	);
 
@@ -137,9 +137,9 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			foreach(table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$post['tid'], 'pid', $post['pid']) as $attach) {
 				$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 				$attach['url'] = $attach['isimage']
-					? " {$attach['filename']} (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 400) {this.resized=true; this.width=400;}\">"
+					? " {$attach['filename']} (".sizecount($attach['filesize']).")<br><br><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 400) {this.resized=true; this.width=400;}\">"
 					: "<a href=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).')';
-				$post['message'] .= "<br /><br />{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
+				$post['message'] .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
 			}
 		}
 
@@ -166,12 +166,12 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 				"<a href=\"###\" target=\"fasthandle\" onclick=\"mod_fast_pid(this, 'replies', 'delete', {$post['fid']}, {$post['tid']}, {$post['pid']}, $page, $posttable)\">{$lang['delete']}</a>",
 				"<a href=\"###\" target=\"fasthandle\" onclick=\"mod_fast_pid(this, 'replies', 'ignore', {$post['fid']}, {$post['tid']}, {$post['pid']}, $page, $posttable)\">{$lang['ignore']}</a>",
 			]).
-			' &nbsp;&nbsp;|&nbsp;&nbsp; '.$lang['moderate_reasonpm']."&nbsp; <input type=\"text\" class=\"txt\" name=\"pm_{$post['pid']}\" id=\"pm_{$post['pid']}\" style=\"margin: 0px;\"> &nbsp; <select style=\"margin: 0px;\" onchange=\"$('pm_{$post['pid']}').value=this.value\">$modreasonoptions</select>&nbsp;<p id=\"deloptions_{$post['pid']}\" style=\"display: none\"><label for=\"userban_{$post['pid']}\"><input type=\"checkbox\" name=\"banuser_{$post['pid']}\" id=\"userban_{$post['pid']}\" class=\"pc\" />".$lang['banuser']."</label><label for=\"userdelpost_{$post['pid']}\"><input type=\"checkbox\" name=\"userdelpost_{$post['pid']}\" id=\"userdelpost_{$post['pid']}\" class=\"pc\" />".$lang['userdelpost']."</label><label for=\"crimerecord_{$post['pid']}\"><input type=\"checkbox\" name=\"crimerecord_{$post['pid']}\" id=\"crimerecord_{$post['pid']}\" class=\"pc\" />".$lang['crimerecord'].'</label></p>');
+			' &nbsp;&nbsp;|&nbsp;&nbsp; '.$lang['moderate_reasonpm']."&nbsp; <input type=\"text\" class=\"txt\" name=\"pm_{$post['pid']}\" id=\"pm_{$post['pid']}\" style=\"margin: 0px;\"> &nbsp; <select style=\"margin: 0px;\" onchange=\"$('pm_{$post['pid']}').value=this.value\">$modreasonoptions</select>&nbsp;<p id=\"deloptions_{$post['pid']}\" style=\"display: none\"><label for=\"userban_{$post['pid']}\"><input type=\"checkbox\" name=\"banuser_{$post['pid']}\" id=\"userban_{$post['pid']}\" class=\"pc\">".$lang['banuser']."</label><label for=\"userdelpost_{$post['pid']}\"><input type=\"checkbox\" name=\"userdelpost_{$post['pid']}\" id=\"userdelpost_{$post['pid']}\" class=\"pc\">".$lang['userdelpost']."</label><label for=\"crimerecord_{$post['pid']}\"><input type=\"checkbox\" name=\"crimerecord_{$post['pid']}\" id=\"crimerecord_{$post['pid']}\" class=\"pc\">".$lang['crimerecord'].'</label></p>');
 		showtagfooter('tbody');
 
 	}
 
-	showsubmit('modsubmit', 'submit', '', '<a href="#all" onclick="mod_setbg_all(\'validate\')">'.cplang('moderate_all_validate').'</a> &nbsp;<a href="#all" onclick="mod_setbg_all(\'delete\')">'.cplang('moderate_all_delete').'</a> &nbsp;<a href="#all" onclick="mod_setbg_all(\'ignore\')">'.cplang('moderate_all_ignore').'</a> &nbsp;<a href="#all" onclick="mod_cancel_all();">'.cplang('moderate_all_cancel').'</a> &nbsp;<label><input class="checkbox" type="checkbox" name="apply_all" id="chk_apply_all"  value="1" disabled="disabled" />'.cplang('moderate_apply_all').'</label>', $multipage, false);
+	showsubmit('modsubmit', 'submit', '', '<a href="#all" onclick="mod_setbg_all(\'validate\')">'.cplang('moderate_all_validate').'</a> &nbsp;<a href="#all" onclick="mod_setbg_all(\'delete\')">'.cplang('moderate_all_delete').'</a> &nbsp;<a href="#all" onclick="mod_setbg_all(\'ignore\')">'.cplang('moderate_all_ignore').'</a> &nbsp;<a href="#all" onclick="mod_cancel_all();">'.cplang('moderate_all_cancel').'</a> &nbsp;<label><input class="checkbox" type="checkbox" name="apply_all" id="chk_apply_all"  value="1" disabled="disabled">'.cplang('moderate_apply_all').'</label>', $multipage, false);
 	showtablefooter();
 	showformfooter();
 

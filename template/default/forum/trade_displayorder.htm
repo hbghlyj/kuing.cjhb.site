@@ -42,8 +42,8 @@
 			<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
 		</span>
 	</h3>
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 		<div class="c">
 			<table class="list cp0" style="width: 700px">
 				<thead class="th">
@@ -58,7 +58,7 @@
 				</thead>
 				<!--{loop $trades $trade}-->
 				<tr>
-					<td><input size="1" name="displayorder[{$trade[pid]}]" value="$trade[displayorderview]" class="px pxs" /></td>
+					<td><input size="1" name="displayorder[{$trade[pid]}]" value="$trade[displayorderview]" class="px pxs"></td>
 					<td><input class="pc" type="checkbox" onclick="checkbox(this)" name="stick[{$trade[pid]}]" value="yes" {if $trade[displayorder] > 0}checked="checked"{elseif $_G['group']['tradestick'] <= $stickcount}disabled="disabled"{/if} /></td>
 					<th>$trade[subject]</th>
 					<td>

@@ -48,7 +48,7 @@
 						<!--{if $isverified != 2}-->
 						<!--{else}-->
 						<p>
-							<input value="{lang complete_data}" name="ijoin" id="ijoin" />
+							<input value="{lang complete_data}" name="ijoin" id="ijoin">
 						</p>
 						<!--{/if}-->
 					<!--{/if}-->
@@ -64,10 +64,10 @@
 		<dt>{lang activity_no_member}<a href="forum.php?mod=group&action=join&fid=$_G['fid']">{lang activity_join_group}</a></dt>
 	<!--{else}-->
 		<form name="activity" id="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']{if $_GET['from']}&from=$_GET['from']{/if}" >
-			<input type="hidden" name="formhash" value="{FORMHASH}" />			
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 				<!--{if $_G['setting']['activitycredit'] && $activity['credit'] && !$applied}--><dt class="mtxt">{lang activity_need_credit} $activity['credit'] {$_G['setting']['extcredits'][$_G['setting']['activitycredit']]['title']}</dt><!--{/if}-->
 				<!--{if $activity['cost']}-->
-					<p class="quote">{lang activity_paytype} <label><input class="pr" type="radio" value="0" name="payment" id="payment_0" checked="checked" />{lang activity_pay_myself}</label> <label><input class="pr" type="radio" value="1" name="payment" id="payment_1" />{lang activity_would_payment} <input name="payvalue" size="3" /> {lang payment_unit}</label></p>
+					<p class="quote">{lang activity_paytype} <label><input class="pr" type="radio" value="0" name="payment" id="payment_0" checked="checked">{lang activity_pay_myself}</label> <label><input class="pr" type="radio" value="1" name="payment" id="payment_1">{lang activity_would_payment} <input name="payvalue" size="3"> {lang payment_unit}</label></p>
 				<!--{/if}-->
 				<!--{if !empty($activity['ufield']['userfield'])}-->
 					<!--{loop $activity['ufield']['userfield'] $fieldid}-->
@@ -81,7 +81,7 @@
 				<!--{/if}-->
 				<!--{if !empty($activity['ufield']['extfield'])}-->
 					<!--{loop $activity['ufield']['extfield'] $extname}-->
-						$extname<input type="text" name="$extname" maxlength="200" class="txt" value="{if !empty($ufielddata)}$ufielddata['extfield'][$extname]{/if}" />
+						$extname<input type="text" name="$extname" maxlength="200" class="txt" value="{if !empty($ufielddata)}$ufielddata['extfield'][$extname]{/if}">
 					<!--{/loop}-->
 				<!--{/if}-->
 				<dt>
@@ -109,10 +109,10 @@
 <div id="activityjoincancel" class="activity cl">
 	<dt>{lang activity_join_cancel}</dt>
 	<form name="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']{if $_GET['from']}&from=$_GET['from']{/if}">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<dt>
 		<span class="mtxt">{lang leaveword}</span>
-		<input type="text" name="message" maxlength="200" class="px" value="" />
+		<input type="text" name="message" maxlength="200" class="px" value="">
 	</dt> 
 	<div class="join_btn cl">
 		<button type="submit" name="activitycancel" value="true" class="formdialog pn mt5">{lang submit}</button>

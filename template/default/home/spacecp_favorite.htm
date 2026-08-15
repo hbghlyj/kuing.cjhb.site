@@ -13,10 +13,10 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form id="favoriteform_{$favid}" name="favoriteform_{$favid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=favorite&op=delete&favid=$favid&type=$_GET[type]" {if $_G[inajax] && $_GET[type]!='view'} onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="deletesubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="deletesubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
 		<div class="c">{lang delete_favorite_message}</div>
 		<p class="o pns">
 			<button type="submit" name="deletesubmitbtn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -42,10 +42,10 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form method="post" autocomplete="off" id="favoriteform_{$id}" name="favoriteform_{$id}" action="home.php?mod=spacecp&ac=favorite&type=$type&id=$id&spaceuid=$spaceuid" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]'{if $type == 'thread'}, null, null, null, 'favoriteupdate()'{/if});"{/if}>
-		<input type="hidden" name="favoritesubmit" value="true" />
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
+		<input type="hidden" name="favoritesubmit" value="true">
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
 		<div class="c">
 			<p>{lang favorite_count}</p>
 			<p>{lang favorite_description}:</p>

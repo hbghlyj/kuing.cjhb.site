@@ -10,8 +10,8 @@
 
 <form method="post" autocomplete="off" id="hiderecoverform" action="forum.php?mod=misc&action=hiderecover&tid=$_GET[tid]&infloat=yes" onsubmit="ajaxpost('hiderecoverform', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;">
 	<div class="c">
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 		<!--{eval $sectpl = '<table class="tfm cp0"><tr><th><sec></th><td><sec><p class="d"><sec></p></td></tr></table>';}-->
 		<!--{subtemplate common/seccheck}-->
 	</div>

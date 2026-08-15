@@ -47,7 +47,7 @@ for($attachi = 0; $attachi < 10; $attachi++) {
 		if(!$_GET['nomatched'] || ($_GET['nomatched'] && $matched)) {
 			$attachment['url'] = trim($attachment['url'], '/');
 			$attachments .= showtablerow('', ['class="td25"', 'title="'.$attachment['description'].'" class="td21"'], [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$attachment['aid']}\" />",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$attachment['aid']}\">",
 				$attachment['remote'] ? "<span class=\"diffcolor3\">{$attachment['filename']}" : $attachment['filename'],
 				$attachusers[$attachment['uid']]['username'],
 				"<a href=\"forum.php?mod=viewthread&tid={$attachment['tid']}\" target=\"_blank\">".cutstr($attachment['subject'], 20).'</a>',
@@ -88,7 +88,7 @@ showhiddenfields([
 	'author' => $_GET['author'],
 	'pp' => $_GET['pp'] ? $_GET['pp'] : $_GET['perpage']
 ]);
-echo '<input type="submit" name="searchsubmit" value="'.cplang('submit').'" class="btn" style="display: none" />';
+echo '<input type="submit" name="searchsubmit" value="'.cplang('submit').'" class="btn" style="display: none">';
 showformfooter();
 
 showformheader('attach&frame=no'.($operation ? '&operation='.$operation : ''), 'target="attachmentframe"');

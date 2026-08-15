@@ -32,7 +32,7 @@ if(!submitcheck('postsplit_manage')) {
 
 
 	$opstr = '<a href="'.ADMINSCRIPT.'?action=postsplit&operation=split&tableid=0">'.cplang('postsplit_name').'</a>';
-	showtablerow('', ['', '', '', 'class="td25"'], [$tablename, $data_length, "<input type=\"text\" class=\"txt\" name=\"memo[0]\" value=\"{$posttable_info[0]['memo']}\" />", $opstr]);
+	showtablerow('', ['', '', '', 'class="td25"'], [$tablename, $data_length, "<input type=\"text\" class=\"txt\" name=\"memo[0]\" value=\"{$posttable_info[0]['memo']}\">", $opstr]);
 
 	foreach(table_forum_post::t()->show_table() as $table) {
 		$tablename = current($table);
@@ -43,7 +43,7 @@ if(!submitcheck('postsplit_manage')) {
 		$tablestatus = helper_dbtool::gettablestatus($tablename);
 
 		$opstr = '<a href="'.ADMINSCRIPT.'?action=postsplit&operation=split&tableid='.$tableid.'">'.cplang('postsplit_name').'</a>';
-		showtablerow('', ['', '', '', 'class="td25"'], [$tablename, $tablestatus['Data_length'], "<input type=\"text\" class=\"txt\" name=\"memo[$tableid]\" value=\"{$posttable_info[$tableid]['memo']}\" />", $opstr]);
+		showtablerow('', ['', '', '', 'class="td25"'], [$tablename, $tablestatus['Data_length'], "<input type=\"text\" class=\"txt\" name=\"memo[$tableid]\" value=\"{$posttable_info[$tableid]['memo']}\">", $opstr]);
 	}
 	showsubmit('postsplit_manage', 'postsplit_manage_update_memo_submit');
 	showtablefooter();

@@ -21,11 +21,11 @@
 	<li class="flex-box mli">
 		<div class="flex-2 xs1">
 		<!--{if $comment['score'] == 1}-->
-			<img src="{STATICURL}image/traderank/good.gif" width="14" height="16" class="vm" /> <span style="color:red">{lang eccredit_good}</span>
+			<img src="{STATICURL}image/traderank/good.gif" width="14" height="16" class="vm"> <span style="color:red">{lang eccredit_good}</span>
 		<!--{elseif $comment['score'] == 0}-->
-			<img src="{STATICURL}image/traderank/soso.gif" width="14" height="16" class="vm" /> <span style="color:green">{lang eccredit_soso}</span>
+			<img src="{STATICURL}image/traderank/soso.gif" width="14" height="16" class="vm"> <span style="color:green">{lang eccredit_soso}</span>
 		<!--{else}-->
-			<img src="{STATICURL}image/traderank/bad.gif" width="14" height="16" class="vm" /> {lang eccredit_bad}
+			<img src="{STATICURL}image/traderank/bad.gif" width="14" height="16" class="vm"> {lang eccredit_bad}
 		<!--{/if}-->
 		</div>
 		<div class="flex-3 xs1"><span class="y xg1">$comment['dateline']</span></div>
@@ -54,7 +54,7 @@
 		</div>
 	</li>
 	<li class="flex-box mli mtext">
-		<div class="flex-2 pl5">$comment['message']<!--{if $_G['uid'] && $_G['uid'] == $comment['rateeid'] && $comment['dbdateline'] >= TIMESTAMP - 30 * 86400}--><br /><a href="home.php?mod=spacecp&ac=eccredit&op=explain&id=$comment['id']&ajaxmenuid=ajax_$comment['id']_explain_menu" class="dialog xi1 xs1">[ <span class="xi1">{lang eccredit_needexplanation}</span> ]</a><span class="xg1 xs1 pl5">({lang eccredit_explanationexpiration})</span><!--{/if}--></div>
+		<div class="flex-2 pl5">$comment['message']<!--{if $_G['uid'] && $_G['uid'] == $comment['rateeid'] && $comment['dbdateline'] >= TIMESTAMP - 30 * 86400}--><br><a href="home.php?mod=spacecp&ac=eccredit&op=explain&id=$comment['id']&ajaxmenuid=ajax_$comment['id']_explain_menu" class="dialog xi1 xs1">[ <span class="xi1">{lang eccredit_needexplanation}</span> ]</a><span class="xg1 xs1 pl5">({lang eccredit_explanationexpiration})</span><!--{/if}--></div>
 	</li>
 	<!--{if $comment['explanation']}-->
 	<li class="flex-box mli mtext">

@@ -40,8 +40,8 @@ if(!submitcheck('groupsubmit')) {
 	showformheader('admingroup');
 	showtableheader('', 'fixpadding');
 	showsubtitle(['', 'usergroups_title', '', 'type', 'admingroup_level', 'usergroups_stars',
-		'<input class="checkbox" type="checkbox" name="gbcmember" onclick="checkAll(\'value\', this.form, \'gbmember\', \'gbcmember\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
-		'<input class="checkbox" type="checkbox" name="gpcmember" onclick="checkAll(\'value\', this.form, \'gpmember\', \'gpcmember\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=admingroup&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
+		'<input class="checkbox" type="checkbox" name="gbcmember" onclick="checkAll(\'value\', this.form, \'gbmember\', \'gbcmember\', 1)"> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
+		'<input class="checkbox" type="checkbox" name="gpcmember" onclick="checkAll(\'value\', this.form, \'gpmember\', \'gpcmember\', 1)"> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=admingroup&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
 	]);
 
 	foreach($grouplist as $gid => $group) {
@@ -51,14 +51,14 @@ if(!submitcheck('groupsubmit')) {
 		}
 		$adminidselect .= '</select>';
 		showtablerow('', ['', '', 'class="td23 lightfont"', 'class="td25"', '', 'class="td25"'], [
-			$group['type'] == 'system' ? '<input type="checkbox" class="checkbox" disabled="disabled" />' : "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$group['groupid']}\">",
+			$group['type'] == 'system' ? '<input type="checkbox" class="checkbox" disabled="disabled">' : "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$group['groupid']}\">",
 			$group['grouptitle'],
 			"(groupid:{$group['groupid']})",
 			$group['type'] == 'system' ? cplang('inbuilt') : cplang('custom'),
 			$group['type'] == 'system' ? $lang['usergroups_system_'.$group['radminid']] : $adminidselect,
 			"<input type=\"text\" class=\"txt\" size=\"2\" name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\">",
-			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gbmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_user']}</a>",
-			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gpmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=admingroup&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_admin']}</a>"
+			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gbmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_user']}</a>",
+			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gpmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=admingroup&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_admin']}</a>"
 		]);
 	}
 	showtablerow('', ['class="td25"', '', '', '', 'colspan="6"'], [

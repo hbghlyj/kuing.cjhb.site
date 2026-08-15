@@ -35,7 +35,7 @@ foreach($query as $result) {
 		$tagstatus = cplang('misc_tag_status_1');
 	}
 	showtablerow('', ['class="td25"', 'width=400', ''], [
-		"<input class=\"checkbox\" type=\"checkbox\" name=\"tagidarray[]\" value=\"{$result['tagid']}\" />",
+		"<input class=\"checkbox\" type=\"checkbox\" name=\"tagidarray[]\" value=\"{$result['tagid']}\">",
 		'<a href="misc.php?mod=tag&id='.intval($result['tagid']).'" target="_blank">'.dhtmlspecialchars($result['tagname']).'</a>',
 		$tagstatus,
 		$result['related_count'],
@@ -44,7 +44,7 @@ foreach($query as $result) {
 		dgmdate($result['updated_at'])
 	]);
 }
-showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'tagidarray\', \'chkall\')" /><label for="chkall">'.cplang('select_all').'</label>']);
+showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'tagidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>']);
 showtablerow('', ['class="td25"', 'colspan="2"'], [
 	cplang('operation'),
 	'<input class="radio" type="radio" name="operate_type" value="open" checked> '.cplang('misc_tag_status_0').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="close"> '.cplang('misc_tag_status_1').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="delete"> '.cplang('delete').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="rename"> '.cplang('rename').' <input name="renametag" value="" class="txt" type="text"> &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="merge"> '.cplang('mergeto').' <input name="mergetag" value="" class="txt" type="text">'

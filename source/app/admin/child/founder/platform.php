@@ -28,7 +28,7 @@ if($do == 'list') {
 
 		showtablerow('style="height:20px"', ['class="td25"', 'class="td25"', '', ''], [
 			(!empty($menu['userdef']) ? '<input type="checkbox" name="delete[]" value="'.$menuData['platform'].'" class="checkbox">' : ''),
-			'<input type="text" name="displayorder['.$menuData['platform'].']" class="txt" value="'.$menuData['displayorder'].'" />',
+			'<input type="text" name="displayorder['.$menuData['platform'].']" class="txt" value="'.$menuData['displayorder'].'">',
 			'<a href="'.ADMINSCRIPT.'?action=founder&operation=platform&do=edit&id='.$menuData['platform'].'"'.$default.'>'.$name.'('.$menuData['platform'].')</a>',
 			'<a href="'.preg_replace('/platform=\w+/', 'platform='.$menuData['platform'], $adminscript).'" target="_blank">'.cplang('platform_enter').'</a>'.($menuData['platform'] == 'system' ? '&nbsp;<a href="'.ADMINSCRIPT.'?action=founder&operation=platform&frames=yes&resetmenu=true" target="_parent" class="lightnum">['.cplang('platform_resetmenu').']</a>' : '')
 		]);
@@ -110,8 +110,8 @@ if($do == 'list') {
 		echo '<textarea id="content" style="display:none;" name="content" spellcheck="false">'.dhtmlspecialchars($value).'</textarea></td>';
 		echo '</td></tr>';
 		showsubmit('submit', 'submit', '',
-			($_GET['id'] != 'new' ? '<label><input name="del" class="checkbox" value="1" type="checkbox" />'.cplang('to_default').'</label>' : '').
-			'<label><input name="default" class="checkbox" value="1"'.($default_platform == $_GET['id'] ? ' checked' : '').' type="checkbox" />'.cplang('platform_default').'</label>'
+			($_GET['id'] != 'new' ? '<label><input name="del" class="checkbox" value="1" type="checkbox">'.cplang('to_default').'</label>' : '').
+			'<label><input name="default" class="checkbox" value="1"'.($default_platform == $_GET['id'] ? ' checked' : '').' type="checkbox">'.cplang('platform_default').'</label>'
 		);
 		showtablefooter();
 		showformfooter();

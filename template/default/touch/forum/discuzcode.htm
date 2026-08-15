@@ -10,7 +10,7 @@ global $_G;
 function tpl_hide_credits($creditsrequire, $message) {
 }
 <!--{block return}--><div class="locked">{lang post_hide_credits}</div>
-$message<br /><br />
+$message<br><br>
 <!--{/block}-->
 <!--{eval return $return;}-->
 {eval
@@ -106,12 +106,12 @@ $noimagethumb = $attach['isimage'] == 2 ? attachlist($attach) : '';
 <!--{block return}-->
 	<!--{if $attach['isimage'] == 2}-->
 		{$noimagethumb}
-		<li><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{else}{$attach['url']}{$attach['attachment']}.thumb.jpg{/if}" zoomfile="{$attach['url']}{$attach['attachment']}.thumb.jpg" alt="$attach['imgalt']" />
+		<li><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{else}{$attach['url']}{$attach['attachment']}.thumb.jpg{/if}" zoomfile="{$attach['url']}{$attach['attachment']}.thumb.jpg" alt="$attach['imgalt']">
 			$pluginhook
 		</li>
 	<!--{elseif $attach['attachimg'] && $_G['setting']['showimages'] && (((!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])) || ($guestviewthumb))}-->
 		<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->
-			<li><a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
+			<li><a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']"></a>
 			$pluginhook
 			</li>
 		<!--{/if}-->
@@ -134,7 +134,7 @@ $mobileguestviewthumburl = $guestviewthumb ? ($attach['attachimg'] && $_G['setti
 <!--{block return}-->
 	<!--{if $attach['attachimg'] && $_G['setting']['showimages'] && abs($attach['isimage']) == 1 && (((!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])) || ($guestviewthumb))}-->
 		<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->
-		<a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
+		<a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']"></a>
 		<!--{/if}-->
 	<!--{else}-->
 	<ul id="attach_$attach['aid']" class="quote post_attlist cl" >

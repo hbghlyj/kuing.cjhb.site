@@ -170,7 +170,7 @@ if($do == 'export') {
 	showtagheader('div', 'list', $anchor == 'list');
 	showformheader("misc&operation=censor&page=$page", '', 'keywordsearch');
 	showtableheader();
-	echo '<tr><td>'.$lang['keywords'].': <input type="text" name="censorkeyword" value="'.$_GET['censorkeyword'].'" /> &nbsp; <select name="censor_search_type"><option value = "">'.cplang('misc_censor_wordtype_search').'</option><option value="0">'.cplang('misc_censor_word_default_typename').'</option>'.($word_type_option_search ? $word_type_option_search : $word_type_option).'</select> &nbsp;<input type="submit" name="censor_search" value="'.$lang['search'].'" class="btn" /></td></tr>';
+	echo '<tr><td>'.$lang['keywords'].': <input type="text" name="censorkeyword" value="'.$_GET['censorkeyword'].'"> &nbsp; <select name="censor_search_type"><option value = "">'.cplang('misc_censor_wordtype_search').'</option><option value="0">'.cplang('misc_censor_word_default_typename').'</option>'.($word_type_option_search ? $word_type_option_search : $word_type_option).'</select> &nbsp;<input type="submit" name="censor_search" value="'.$lang['search'].'" class="btn"></td></tr>';
 	showtablefooter();
 	showformfooter();
 
@@ -252,7 +252,7 @@ EOT;
 	showformheader("misc&operation=censor&page=$page", 'fixpadding');
 	showtableheader('', 'fixpadding', 'importform');
 	showtablerow('', 'class="vtop rowform"', "<select name=\"wordtype_select\"><option value='0'>".cplang('misc_censor_word_default_typename')."</option>$word_type_option</select>");
-	showtablerow('', 'class="vtop rowform"', '<br /><textarea name="addcensors" class="tarea" rows="10" cols="80" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)"></textarea><br /><br />'.mradio('overwrite', [
+	showtablerow('', 'class="vtop rowform"', '<br><textarea name="addcensors" class="tarea" rows="10" cols="80" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)"></textarea><br><br>'.mradio('overwrite', [
 			0 => cplang('misc_censor_batch_add_no_overwrite'),
 			1 => cplang('misc_censor_batch_add_overwrite'),
 			2 => cplang('misc_censor_batch_add_clear')

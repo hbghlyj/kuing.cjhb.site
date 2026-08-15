@@ -11,12 +11,12 @@
 	<form method="post" autocomplete="off" id="tradepost" name="tradepost" action="forum.php?mod=trade&orderid=$orderid">
 	<div class="plc p15 cl">
 	<!--{if !empty($_GET['modthreadkey']) && daddslashes($_GET['modthreadkey'])}-->
-		<input type="hidden" name="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" />
+		<input type="hidden" name="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}">
 	<!--{/if}-->
 	<!--{if !empty($_GET['tid']) && daddslashes($_GET['tid'])}-->
-		<input type="hidden" name="tid" value="$_GET['tid']" />
+		<input type="hidden" name="tid" value="$_GET['tid']">
 	<!--{/if}-->
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<ul class="post_box cl">
 			<li class="flex-box mli">
 				<div class="flex">{lang status}</div>
@@ -29,7 +29,7 @@
 			<!--{if $tradelog['offline'] && $offlinenext}-->
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_password}</div>
-				<div class="flex-3"><input id="password" name="password" type="password" class="px" /></div>
+				<div class="flex-3"><input id="password" name="password" type="password" class="px"></div>
 			</li>
 			<li class="flex-box mli mtext">
 				<div class="flex"><textarea id="buyermsg" id="message" name="message" class="px pxbg flw_replybox" placeholder="{lang trade_message} {lang trade_seller_remark_comment}"></textarea></div>
@@ -43,8 +43,8 @@
 			<button class="button mb10" type="button" onclick="getID('tradepost').offlinestatus.value = '$nextid';getID('offlinesubmit').click();"><em>$nextbutton</em></button>
 		<!--{/loop}-->
 		</dd>
-		<input type="hidden" name="offlinestatus" value="" />
-		<input type="submit" id="offlinesubmit" name="offlinesubmit" style="display: none" />
+		<input type="hidden" name="offlinestatus" value="">
+		<input type="submit" id="offlinesubmit" name="offlinesubmit" style="display: none">
 		<!--{/if}-->
 		<!--{if trade_typestatus('successtrades', $tradelog['status']) || trade_typestatus('refundsuccess', $tradelog['status'])}-->
 		<ul class="post_box cl">
@@ -138,19 +138,19 @@
 			<!--{if $tradelog['status'] == 0 && $tradelog['sellerid'] == $_G['uid']}-->
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_baseprice}</div>
-				<div class="flex-3"><input type="text" id="newprice" name="newprice" value="$tradelog['baseprice']" class="px" /></div>
+				<div class="flex-3"><input type="text" id="newprice" name="newprice" value="$tradelog['baseprice']" class="px"></div>
 			</li>
 			<!--{if $_G['setting']['creditstransextra'][5] != -1 && $tradelog[credit]}-->
 			<li class="flex-box mli">
 				<div class="flex xs1">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['title']}</div>
-				<div class="flex-2"><input type="text" id="newcredit" name="newcredit" value="$tradelog['basecredit']" class="px" /></div>
+				<div class="flex-2"><input type="text" id="newcredit" name="newcredit" value="$tradelog['basecredit']" class="px"></div>
 				<div class="flex"><span class="y xg1">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['unit']}</span></div>
 			</li>
 			<!--{/if}-->
 			<!--{/if}-->
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_nums}</div>
-				<div class="flex-2"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newnumber" name="newnumber" value="$tradelog[number]" class="px" /><!--{else}-->$tradelog['number']<!--{/if}--></div>
+				<div class="flex-2"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newnumber" name="newnumber" value="$tradelog[number]" class="px"><!--{else}-->$tradelog['number']<!--{/if}--></div>
 				<div class="flex"><span class="y xg1">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['unit']}</span></div>
 			</li>
 			<li class="flex-box mli">
@@ -166,37 +166,37 @@
 			<!--{if $tradelog['transport']}-->
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_transportfee}</div>
-				<div class="flex-2"><!--{if $tradelog['status'] == 0 && $tradelog['sellerid'] == $_G['uid']}--><input type="text" name="newfee" value="$tradelog['transportfee']" class="px" placeholder="" /><!--{else}-->$tradelog['transportfee']<!--{/if}--></div>
+				<div class="flex-2"><!--{if $tradelog['status'] == 0 && $tradelog['sellerid'] == $_G['uid']}--><input type="text" name="newfee" value="$tradelog['transportfee']" class="px" placeholder=""><!--{else}-->$tradelog['transportfee']<!--{/if}--></div>
 				<div class="flex"><span class="y xg1">{lang payment_unit}</span></div>
 			</li>
 			<!--{/if}-->
 			<!--{if $tradelog['transport'] != 3}-->
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_buyername}</div>
-				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyername" name="newbuyername" value="$tradelog['buyername']" maxlength="50" class="px" /><!--{else}-->$tradelog['buyername']<!--{/if}--></div>
+				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyername" name="newbuyername" value="$tradelog['buyername']" maxlength="50" class="px"><!--{else}-->$tradelog['buyername']<!--{/if}--></div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_buyercontact}</div>
-				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyercontact" name="newbuyercontact" value="$tradelog['buyercontact']" maxlength="100" class="px" /><!--{else}-->$tradelog['buyercontact']<!--{/if}--></div>
+				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyercontact" name="newbuyercontact" value="$tradelog['buyercontact']" maxlength="100" class="px"><!--{else}-->$tradelog['buyercontact']<!--{/if}--></div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_buyerzip}</div>
-				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyerzip" name="newbuyerzip" value="$tradelog['buyerzip']" maxlength="10" class="px" /><!--{else}-->$tradelog['buyerzip']<!--{/if}--></div>
+				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyerzip" name="newbuyerzip" value="$tradelog['buyerzip']" maxlength="10" class="px"><!--{else}-->$tradelog['buyerzip']<!--{/if}--></div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_buyerphone}</div>
-				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyerphone" name="newbuyerphone" value="$tradelog['buyerphone']" maxlength="20" class="px" /><!--{else}-->$tradelog['buyerphone']<!--{/if}--></div>
+				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyerphone" name="newbuyerphone" value="$tradelog['buyerphone']" maxlength="20" class="px"><!--{else}-->$tradelog['buyerphone']<!--{/if}--></div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex xs1">{lang trade_buyermobile}</div>
-				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyermobile" name="newbuyermobile" value="$tradelog['buyermobile']" maxlength="20" class="px" /><!--{else}-->$tradelog['buyermobile']<!--{/if}--></div>
+				<div class="flex-3"><!--{if $tradelog['status'] == 0 && $tradelog['buyerid'] == $_G['uid']}--><input type="text" id="newbuyermobile" name="newbuyermobile" value="$tradelog['buyermobile']" maxlength="20" class="px"><!--{else}-->$tradelog['buyermobile']<!--{/if}--></div>
 			</li>
 			<!--{else}-->
-				<input type="hidden" name="newbuyername" value="" />
-				<input type="hidden" name="newbuyercontact" value="" />
-				<input type="hidden" name="newbuyerzip" value="" />
-				<input type="hidden" name="newbuyerphone" value="" />
-				<input type="hidden" name="newbuyermobile" value="" />
+				<input type="hidden" name="newbuyername" value="">
+				<input type="hidden" name="newbuyercontact" value="">
+				<input type="hidden" name="newbuyerzip" value="">
+				<input type="hidden" name="newbuyerphone" value="">
+				<input type="hidden" name="newbuyermobile" value="">
 			<!--{/if}-->
 			<li class="flex-box mli mtext">
 				<div class="flex xs1">{lang trade_seller_remark}</div>
@@ -235,7 +235,7 @@
 			<dl class="cl">
 				<dd class="m">
 					<a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}" class="tn" style="text-decoration:none !important;">
-						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60" /><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
+						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60"><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
 					</a>
 				</dd>
 				<dt><a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}">$usertrade['subject']</a></dt>

@@ -24,7 +24,7 @@
 				<a id="{$editorid}_fontsize" class="dp" title="{lang e_fontsize}" menupos="43!" menuwidth="25"><span id="{$editorid}_size">{lang e_size}</span></a>
 				<span id="{$editorid}_adv_1">
 					<a id="{$editorid}_inserthorizontalrule" title="{lang e_hr_title}">Hr</a>
-					<br />
+					<br>
 				</span>
 				<a id="{$editorid}_bold" title="{lang e_bold}">B</a>
 				<a id="{$editorid}_italic" title="{lang e_italic}">I</a>
@@ -90,7 +90,7 @@
 				<!--{/if}-->
 				<a id="{$editorid}_postbg" adv="1" title="{lang replybackground}">Background</a>
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
-					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if !$bbcode['icon'] || $bbcode['icon']=="static/image/common/none"}-->$tag<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
+					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if !$bbcode['icon'] || $bbcode['icon']=="static/image/common/none"}-->$tag<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag"><!--{/if}--></a>
 				<!--{/loop}-->
 
 				<a id="{$editorid}_cst1_tikz" class="cst" title="输入 TikZ 代码">tikz</a>

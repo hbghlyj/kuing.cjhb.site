@@ -24,9 +24,9 @@ if($do == 'add') {
 	if(!submitcheck('submit')) {
 		ajaxshowheader();
 		showformheader("adv&operation=custom&do=edit&id={$_GET['id']}");
-		echo $lang['adv_custom_edit'].'<br /><input name="customnew" class="txt" value="'.dhtmlspecialchars($name).'" />&nbsp;'.
-			'<input name="submit" class="btn" type="submit" value="'.$lang['submit'].'" />&nbsp;'.
-			'<input class="btn" type="button" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=list\'" value="'.$lang['cancel'].'" />';
+		echo $lang['adv_custom_edit'].'<br><input name="customnew" class="txt" value="'.dhtmlspecialchars($name).'">&nbsp;'.
+			'<input name="submit" class="btn" type="submit" value="'.$lang['submit'].'">&nbsp;'.
+			'<input class="btn" type="button" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=list\'" value="'.$lang['cancel'].'">';
 		showformfooter();
 		ajaxshowfooter();
 	} else {
@@ -39,8 +39,8 @@ if($do == 'add') {
 	if(!submitcheck('submit')) {
 		ajaxshowheader();
 		showformheader("adv&operation=custom&do=delete&id={$_GET['id']}");
-		echo $lang['adv_custom_delete'].'<br /><input name="submit" class="btn" type="submit" value="'.$lang['delete'].'" />&nbsp;'.
-			'<input class="btn" type="button" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=list\'" value="'.$lang['cancel'].'" />';
+		echo $lang['adv_custom_delete'].'<br><input name="submit" class="btn" type="submit" value="'.$lang['delete'].'">&nbsp;'.
+			'<input class="btn" type="button" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=list\'" value="'.$lang['cancel'].'">';
 		showformfooter();
 		ajaxshowfooter();
 	} else {

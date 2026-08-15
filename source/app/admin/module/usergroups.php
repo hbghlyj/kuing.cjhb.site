@@ -63,9 +63,9 @@ function iconimg($icon) {
 		$s = '';
 	} else {
 		if(preg_match('/^https?:\/\//is', $icon)) {
-			$s = '<img src="'.$icon.'" alt="" class="vm" style="width:auto;height:20px" />';
+			$s = '<img src="'.$icon.'" alt="" class="vm" style="width:auto;height:20px">';
 		} else {
-			$s = '<img src="'.$_G['setting']['attachurl'].'common/'.$icon.'" alt="" class="vm" style="width:auto;height:20px" />';
+			$s = '<img src="'.$_G['setting']['attachurl'].'common/'.$icon.'" alt="" class="vm" style="width:auto;height:20px">';
 		}
 	}
 	return $s;

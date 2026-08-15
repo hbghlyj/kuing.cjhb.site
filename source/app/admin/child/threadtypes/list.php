@@ -67,7 +67,7 @@ if(!submitcheck('typesubmit')) {
 	showtableheader('');
 	showsubtitle(['', 'display_order', cplang('name').' '.cplang('tiny_bbcode_support'), 'description', 'forums_relation', ''], 'header', ['', 'width="100"', 'width="200"', 'width="300"', '', 'width="100"', 'width="60"']);
 	echo $threadtypes;
-	echo '<tr><td class="td25"></td><td colspan="5"><div>'.'<span class="filebtn"><input type="hidden" name="importtype" value="file" /><input type="file" name="importfile" class="pf" size="1" onchange="uploadthreadtypexml($(\'threadtypeform\'), \''.ADMINSCRIPT.'?action=threadtypes&operation=import\');" /><a class="addtr" href="JavaScript:;">'.$lang['import'].'</a></span>'.'<a href="###" onclick="addrow(this, 0)" class="addtr">'.$lang['threadtype_infotypes_add'].'</a></div></td>';
+	echo '<tr><td class="td25"></td><td colspan="5"><div>'.'<span class="filebtn"><input type="hidden" name="importtype" value="file"><input type="file" name="importfile" class="pf" size="1" onchange="uploadthreadtypexml($(\'threadtypeform\'), \''.ADMINSCRIPT.'?action=threadtypes&operation=import\');"><a class="addtr" href="JavaScript:;">'.$lang['import'].'</a></span>'.'<a href="###" onclick="addrow(this, 0)" class="addtr">'.$lang['threadtype_infotypes_add'].'</a></div></td>';
 
 	showsubmit('typesubmit', 'submit', 'del');
 	showtablefooter();

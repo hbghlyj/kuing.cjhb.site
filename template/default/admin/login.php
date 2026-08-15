@@ -105,7 +105,7 @@
 			<a href="javascript:;" class="pwd" onclick="qrcodelogin(0)" title="{$lang['pwd_login']}"></a>
 		</div>
 		<!--{/if}-->
-		<div id="qrcodeimg"><img src="static/image/common/transparent.gif" /></div>
+		<div id="qrcodeimg"><img src="static/image/common/transparent.gif"></div>
 		{$lang['qrcode_wechat_scan']}
 	</div>
 	<!--{/if}-->

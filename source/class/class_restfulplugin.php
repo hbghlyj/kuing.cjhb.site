@@ -33,7 +33,7 @@ class restfulplugin {
 				$s = '<a href="'.$_G['siteurl'].'forum.php?mod=attachment&aid='.packaids($attach).'" target="_blank">'.($attach['filename']).'</a>';
 				break;
 			case 'img':
-				$s = '<img src="'.self::_f_getImageUrl($attach).'" '.($attach['width'] ? 'width="'.$attach['width'].'" ' : '').($attach['height'] ? 'height="'.$attach['height'].'" ' : '').' />';
+				$s = '<img src="'.self::_f_getImageUrl($attach).'" '.($attach['width'] ? 'width="'.$attach['width'].'" ' : '').($attach['height'] ? 'height="'.$attach['height'].'" ' : '').'>';
 				break;
 		}
 		return $s;

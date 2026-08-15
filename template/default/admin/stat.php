@@ -37,11 +37,11 @@
 			</div>
 			<div class="boxbody">
 				<form action="{ADMINSCRIPT}?action=stat&operation=list&key=$keyenc" method="post">
-					{lang stat_date}: <input name="primarybegin" type="text" class="txt" value="{$primarybegin}" />- <input name="primaryend" type="text" class="txt" value="{$primaryend}" />
+					{lang stat_date}: <input name="primarybegin" type="text" class="txt" value="{$primarybegin}">- <input name="primaryend" type="text" class="txt" value="{$primaryend}">
 					<!--{loop $options $v}-->
-					{$v['name']}: <input name="p[{$v['key']}]" type="text" class="txt" value="{$v['value']}" />
+					{$v['name']}: <input name="p[{$v['key']}]" type="text" class="txt" value="{$v['value']}">
 					<!--{/loop}-->
-					<input type="submit" class="btn" value="{lang stat_view}" />
+					<input type="submit" class="btn" value="{lang stat_view}">
 					<a href="{ADMINSCRIPT}?action=stat&operation=export&primarybegin=$primarybegin&primaryend=$primaryend&key=$key&type=$type$append">{lang stat_export}</a>
 				</form>
 				<div class="charts">

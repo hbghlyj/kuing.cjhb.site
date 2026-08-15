@@ -100,7 +100,7 @@ if(!submitcheck('sortdetailsubmit')) {
 	showtablefooter();
 
 	showtableheader("{$threadtype['name']} - {$lang['threadtype_infotypes_exist_option']}", 'noborder fixpadding', 'id="sortlist"');
-	showsubtitle(['<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form,\'delete\')" /><label for="chkall">'.cplang('del').'</label>', 'display_order', 'available', 'name', 'type', 'required', 'unchangeable', 'threadtype_infotypes_formsearch', 'threadtype_infotypes_fontsearch', 'threadtype_infotypes_show', '']);
+	showsubtitle(['<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form,\'delete\')"><label for="chkall">'.cplang('del').'</label>', 'display_order', 'available', 'name', 'type', 'required', 'unchangeable', 'threadtype_infotypes_formsearch', 'threadtype_infotypes_fontsearch', 'threadtype_infotypes_show', '']);
 	echo $sortoptions;
 	showsubmit('sortdetailsubmit');
 	showtablefooter();

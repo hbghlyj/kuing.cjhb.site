@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 if(!$_G['group']['allowdownremoteimg']) {
 	dexit();
 }
-$_GET['message'] = str_replace(["\r", "\n"], [$_GET['wysiwyg'] ? '<br />' : '', "\\n"], $_GET['message']);
+$_GET['message'] = str_replace(["\r", "\n"], [$_GET['wysiwyg'] ? '<br>' : '', "\\n"], $_GET['message']);
 preg_match_all("/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[img=\d{1,4}[x|\,]\d{1,4}\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", $_GET['message'], $image1, PREG_SET_ORDER);
 preg_match_all("/\<img.+\bsrc\b\s*=('|\"|)(.*)('|\"|)([\s].*)?\>/ismU", $_GET['message'], $image2, PREG_SET_ORDER);
 $temp = $aids = $existentimg = [];

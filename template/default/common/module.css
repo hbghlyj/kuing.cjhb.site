@@ -1019,7 +1019,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 
 /* 用户详细信息 */
-	.bui { position: absolute; margin: -1px 0 0 -1px; padding: 15px 0 15px 20px; width: 430px !important; border: 1px solid {COMMONBORDER}; background: {WRAPBG}; box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; -webkit-box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; -moz-box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; }
+	.bui { position: absolute; margin: -1px 0 0 -1px; padding: 15px 0 15px 20px; width: 430px !important; border: 1px solid {COMMONBORDER}; background: {WRAPBG}; box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; }
 		.bui dl { margin: 5px 0 10px; }
 			.bui dt { width: 4.5em; }
 			.bui dd { margin-right: 10px; width: 75px; }

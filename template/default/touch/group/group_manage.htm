@@ -48,8 +48,8 @@
 
 <!--{if $_GET['op'] == 'group'}-->
 <form enctype="multipart/form-data" action="forum.php?mod=group&action=manage&op=group&fid={$_G['fid']}" name="manage" method="post" autocomplete="off" accept-charset="utf-8" onsubmit="document.charset='utf-8';">
-	<input type="hidden" value="{FORMHASH}" name="formhash" id="formhash" />
-	<input type="hidden" value="group_handle" name="handlekey" />
+	<input type="hidden" value="{FORMHASH}" name="formhash" id="formhash">
+	<input type="hidden" value="group_handle" name="handlekey">
 	<div class="setbox cl">
 		<ul class="bodybox post_box cl">
 			<!--{if !empty($specialswitch['allowchangename']) && ($_G['uid'] == $_G['forum']['founderuid'] || $_G['adminid'] == 1)}-->
@@ -180,8 +180,8 @@
 	</form>
 <!--{/if}-->
 <form action="forum.php?mod=group&action=manage&op=manageuser&fid={$_G['fid']}&manageuser=true" name="manageuser" id="manageuser" method="post" autocomplete="off" >
-	<input type="hidden" value="{FORMHASH}" name="formhash" />
-	<input type="hidden" value="0" name="targetlevel" id="targetlevel" />
+	<input type="hidden" value="{FORMHASH}" name="formhash">
+	<input type="hidden" value="0" name="targetlevel" id="targetlevel">
 	<div class="imglist cl">
 		<!--{if $adminuserlist}-->
 		<div class="subtit"><h2>{lang group_admin_member}</h2></div>
@@ -189,7 +189,7 @@
 			<!--{loop $adminuserlist $user}-->
 			<li>
 				<!--{if $_G['adminid'] == 1 || ($_G['uid'] != $user['uid'] && ($_G['uid'] == $_G['forum']['founderuid'] || $user['level'] > $groupuser['level']))}-->
-				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user['uid']}]" value="$user['level']" /></label>
+				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user['uid']}]" value="$user['level']"></label>
 				<!--{/if}-->
 				<a href="home.php?mod=space&uid=$user['uid']&do=profile">
 					<!--{avatar($user['uid'], 'middle', ['username' => $user['username'], 'class' => 'mimg'])}-->
@@ -206,7 +206,7 @@
 			<!--{loop $staruserlist $user}-->
 			<li>
 				<!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}-->
-				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user[uid]}]" value="$user[level]" /></label>
+				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user[uid]}]" value="$user[level]"></label>
 				<!--{/if}-->
 				<a href="home.php?mod=space&uid=$user['uid']&do=profile">
 					<!--{avatar($user['uid'], 'middle', ['username' => $user['username'], 'class' => 'mimg'])}-->
@@ -219,7 +219,7 @@
 			<!--{loop $userlist $user}-->
 			<li>
 				<!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}-->
-				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user[uid]}]" value="$user[level]" /></label>
+				<label for="u{$user['uid']}" class="mtime y"><input type="checkbox" name="muid[{$user[uid]}]" value="$user[level]"></label>
 				<!--{/if}-->
 				<a href="home.php?mod=space&uid=$user[uid]&do=profile">
 					<!--{avatar($user['uid'], 'middle', ['username' => $user['username'], 'class' => 'mimg'])}-->
@@ -245,23 +245,23 @@
 
 <!--{elseif $_GET['op'] == 'threadtype'}-->
 <form id="threadtypeform" action="forum.php?mod=group&action=manage&op=threadtype&fid={$_G['fid']}" autocomplete="off" method="post" name="threadtypeform" accept-charset="utf-8" onsubmit="document.charset='utf-8';">
-	<input type="hidden" value="{FORMHASH}" name="formhash" />
-	<input type="hidden"  name="tab" value="groupmanage"/>
+	<input type="hidden" value="{FORMHASH}" name="formhash">
+	<input type="hidden"  name="tab" value="groupmanage">
 	<div class="setbox bodybox post_box cl">
 		<ul>
 			<li class="flex-box mli cl">
 				<div class="tit">{lang threadtype_turn_on} :</div>
-				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[status]" onclick="setstatus()" value="1" id="status" {if $_G['forum']['threadtypes']['status']=='1'}checked="checked"{/if}/></div>
+				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[status]" onclick="setstatus()" value="1" id="status" {if $_G['forum']['threadtypes']['status']=='1'}checked="checked"{/if}></div>
 			</li>
 		</ul>
 		<ul id="threadtypest"{if !$_G['forum']['threadtypes']['status']} style="display:none"{/if}>
 			<li class="flex-box mli cl">
 				<div class="tit">{lang threadtype_required} :</div>
-				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[required]" value="1" {if $_G['forum']['threadtypes']['required']=='1'}checked="checked"{/if}/></div>
+				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[required]" value="1" {if $_G['forum']['threadtypes']['required']=='1'}checked="checked"{/if}></div>
 			</li>
 			<li class="flex-box mli cl">
 				<div class="tit">{lang threadtype_prefix} :</div>
-				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[prefix]" value="1" {if $_G['forum']['threadtypes']['prefix']=='1'}checked="checked"{/if}/></div>
+				<div class="flex checkbox"><input type="checkbox" name="threadtypesnew[prefix]" value="1" {if $_G['forum']['threadtypes']['prefix']=='1'}checked="checked"{/if}></div>
 			</li>
 		</ul>
 		<div id="threadtypes" {if !$_G['forum']['threadtypes']['status']}style="display:none"{/if}>
@@ -279,10 +279,10 @@
 				<!--{if $threadtypes}-->
 				<!--{loop $threadtypes $val}-->
 				<li class="flex-box cl">
-					<div class="tit"><input type="checkbox" name="threadtypesnew[options][delete][]" value="{$val['typeid']}" /></div>
-					<div class="tit"><input type="checkbox" name="threadtypesnew[options][enable][{$val['typeid']}]" value="1" {$val['enablechecked']} /></div>
-					<div class="tit"><input type="text" name="threadtypesnew[options][displayorder][{$val['typeid']}]" value="{$val['displayorder']}" style="width:40px;" /></div>
-					<div class="flex"><input type="text" name="threadtypesnew[options][name][{$val['typeid']}]" value="{$val['name']}" /></div>
+					<div class="tit"><input type="checkbox" name="threadtypesnew[options][delete][]" value="{$val['typeid']}"></div>
+					<div class="tit"><input type="checkbox" name="threadtypesnew[options][enable][{$val['typeid']}]" value="1" {$val['enablechecked']}></div>
+					<div class="tit"><input type="text" name="threadtypesnew[options][displayorder][{$val['typeid']}]" value="{$val['displayorder']}" style="width:40px;"></div>
+					<div class="flex"><input type="text" name="threadtypesnew[options][name][{$val['typeid']}]" value="{$val['name']}"></div>
 				</li>
 				<!--{/loop}-->
 				<!--{/if}-->
@@ -297,8 +297,8 @@
 <!--{eval $addrowdirect = count($threadtypes);}-->
 <!--{elseif $_GET['op'] == 'demise'}-->
 <form action="forum.php?mod=group&action=manage&op=demise&fid={$_G['fid']}" name="groupdemise" method="post">
-	<input type="hidden" value="{FORMHASH}" name="formhash" />
-	<input type="hidden"  name="tab" value="groupmanage"/>
+	<input type="hidden" value="{FORMHASH}" name="formhash">
+	<input type="hidden"  name="tab" value="groupmanage">
 		<!--{if $groupmanagers}-->
 		<div class="bodybox setbox p15 cl">
 			{lang group_demise_comment}
@@ -310,9 +310,9 @@
 				<!--{loop $groupmanagers $user}-->
 				<li>
 					<!--{if $user['uid'] != $_G['uid']}-->
-					<label for="u{$user['uid']}" class="y"><input type="radio" name="suid" value="{$user['uid']}" /></label>
+					<label for="u{$user['uid']}" class="y"><input type="radio" name="suid" value="{$user['uid']}"></label>
 					<!--{else}-->
-					<label for="u{$user['uid']}" class="y"><input type="radio" name="suid" value="{$user['uid']}" /></label>
+					<label for="u{$user['uid']}" class="y"><input type="radio" name="suid" value="{$user['uid']}"></label>
 					<!--{/if}-->
 					<a href="home.php?mod=space&uid={$user['uid']}&do=profile">
 						<!--{avatar($user['uid'], 'middle', ['username' => $user['username'], 'class' => 'mimg'])}-->
@@ -322,7 +322,7 @@
 				<!--{/loop}-->
 			</ul>
 		</div>
-		<div class="bodybox setbox mt10 p10 cl"><div class="flex-box input cl"><input type="password" name="grouppwd" placeholder="{lang group_input_password}"  class="mtxt flex" /></div></div>
+		<div class="bodybox setbox mt10 p10 cl"><div class="flex-box input cl"><input type="password" name="grouppwd" placeholder="{lang group_input_password}"  class="mtxt flex"></div></div>
 		<div class="mt5 p10">
 			<input type="hidden" name="groupdemise" value="true">
 			<button type="submit" class="formdialog flex pn">{lang submit}</button>
@@ -360,7 +360,7 @@
 		if(addrowdirect>=typenumlimit){
 			alert('{lang group_threadtype_limit_1}'+typenumlimit+'{lang group_threadtype_limit_2}');
 		}else{
-			var row ='<li class="flex-box cl"><div class="tit"><input type="checkbox" disabled="disabled" /></div><div class="tit"><input type="checkbox" name="newenable[]" checked="checked" value="1" /></div><div class="tit"><input type="text" name="newdisplayorder[]" value="0" style="width:40px;" /></div><div class="flex"><input type="text" name="newname[]" placeholder="{lang threadtype_name}"/></div></li>';
+			var row ='<li class="flex-box cl"><div class="tit"><input type="checkbox" disabled="disabled"></div><div class="tit"><input type="checkbox" name="newenable[]" checked="checked" value="1"></div><div class="tit"><input type="text" name="newdisplayorder[]" value="0" style="width:40px;"></div><div class="flex"><input type="text" name="newname[]" placeholder="{lang threadtype_name}"></div></li>';
 			$('#'+id).append(row);
 			addrowdirect++;
 		}

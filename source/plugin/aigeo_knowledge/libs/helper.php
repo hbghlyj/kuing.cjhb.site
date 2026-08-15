@@ -25,7 +25,7 @@ function aigeo_th($cells){ $html='<tr>'; foreach($cells as $c){ $html.='<th>'.ai
 }
 
 function aigeo_k_static_url($path) { return 'source/plugin/aigeo_knowledge/' . ltrim($path, '/'); }
-function aigeo_k_admin_head() { static $p=false; if($p) return; $p=true; echo '<link rel="stylesheet" href="'.dhtmlspecialchars(aigeo_k_static_url('static/css/aigeo-knowledge.css')).'?v=2026080801" />'; }
+function aigeo_k_admin_head() { static $p=false; if($p) return; $p=true; echo '<link rel="stylesheet" href="'.dhtmlspecialchars(aigeo_k_static_url('static/css/aigeo-knowledge.css')).'?v=2026080801">'; }
 function aigeo_k_admin_query($pmod='admin_dashboard', $extra='') { $pluginid=intval(DB::result_first("SELECT pluginid FROM %t WHERE identifier=%s", array('common_plugin','aigeo_knowledge'))); $frame=isset($_GET['frame']) && $_GET['frame']==='no'?'&frame=no':''; return 'action=plugins&operation=config&do='.$pluginid.'&identifier=aigeo_knowledge&pmod='.$pmod.$extra.$frame; }
 function aigeo_k_admin_url($pmod='admin_dashboard', $extra='') { return ADMINSCRIPT.'?'.aigeo_k_admin_query($pmod,$extra); }
 function aigeo_k_pluginid(){ static $id=null; if($id===null) $id=intval(DB::result_first("SELECT pluginid FROM %t WHERE identifier=%s", array('common_plugin','aigeo_knowledge'))); return $id; }

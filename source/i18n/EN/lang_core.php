@@ -49,10 +49,10 @@ $lang = array
 	'portal'	=> 'Portal',//'门户',
 	'end'		=> 'End',//'末尾',
 
-	'seccode_image_tips'		=> 'Enter the characters from the picture below<br />',//'输入下图中的字符<br />',
-	'seccode_image_ani_tips'	=> 'Enter the following characters from the animated picture in the largest<br />',//'请输入下面动画图片中的字符<br />',
-	'seccode_sound_tips'		=> 'Enter the characters that you hear<br />',//'输入你听到的字符<br />',
-	'secqaa_tips'			=> 'Enter the answer to the following question<br />',//'输入下面问题的答案<br />',
+	'seccode_image_tips'		=> 'Enter the characters from the picture below<br>',//'输入下图中的字符<br>',
+	'seccode_image_ani_tips'	=> 'Enter the following characters from the animated picture in the largest<br>',//'请输入下面动画图片中的字符<br>',
+	'seccode_sound_tips'		=> 'Enter the characters that you hear<br>',//'输入你听到的字符<br>',
+	'secqaa_tips'			=> 'Enter the answer to the following question<br>',//'输入下面问题的答案<br>',
 
 	'fullblankspace'		=> '&nbsp;',//'　',
 
@@ -230,7 +230,7 @@ $lang = array
 	'attackevasive_2_subject'	=> 'Access throug proxy servers is restricted',//'通过代理服务器的访问是受到限制',
 	'attackevasive_2_message'	=> 'Access to the site through a proxy servers is restricted for mow. Please remove your proxy setting configuration, and access to the site directly.',//'通过代理服务器访问网站限制亩。请删除您的代理设置配置，并直接访问该网站。',
 	'attackevasive_4_subject'	=> 'Open the page reload',//'打开页面重载',
-	'attackevasive_4_message'	=> 'Welcome to the site!<br/>Re-loading the page, please wait...',//'欢迎的网站，页面重新载入，请稍候...',
+	'attackevasive_4_message'	=> 'Welcome to the site!<br>Re-loading the page, please wait...',//'欢迎的网站，页面重新载入，请稍候...',
 
 
 );

@@ -1,9 +1,9 @@
 <!--{template common/header}-->
 	<!--{subtemplate home/spacecp_header}-->
 			<form action="home.php?mod=spacecp&ac=sendmail" method="post" autocomplete="off">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="setsendemailsubmit" value="true" />
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="setsendemailsubmit" value="true">
+				<input type="hidden" name="referer" value="{echo dreferer()}">
 			<!--{if empty($space['emailstatus']) }-->
 				<div class="bm bml">
 					<div class="bm_h cl">
@@ -60,7 +60,7 @@
 							<th><!--{eval echo lang('spacecp', $group)}--></th>
 							<td class="pcl">
 								<!--{loop $types $key $desc}-->
-									<label><input type="checkbox" name="sendmail[$key]" class="pc" value="1" {if $sendmail[$key]} checked="checked"{/if} />$desc</label>
+									<label><input type="checkbox" name="sendmail[$key]" class="pc" value="1" {if $sendmail[$key]} checked="checked"{/if}>$desc</label>
 								<!--{/loop}-->
 							</td>
 						</tr>

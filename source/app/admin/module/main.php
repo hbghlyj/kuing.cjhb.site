@@ -35,7 +35,7 @@ if(!$menu) {
 $framecss = '';
 if(!empty($menuData['framecss'])) {
 	if(str_ends_with($menuData['framecss'], '.css')) {
-		$framecss = '<link rel="stylesheet" href="'.$menuData['framecss'].'?'.$_G['style']['verhash'].'" type="text/css" media="all" />';
+		$framecss = '<link rel="stylesheet" href="'.$menuData['framecss'].'?'.$_G['style']['verhash'].'" media="all">';
 	} else {
 		$framecss = '<style>'.$menuData['framecss'].'</style>';
 	}

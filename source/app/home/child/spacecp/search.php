@@ -154,7 +154,7 @@ if(!empty($_GET['searchsubmit']) || !empty($_GET['searchmode'])) {
 
 	foreach($fields as $fkey => $fvalue) {
 		if(empty($fvalue['choices'])) {
-			$fvalue['html'] = '<input type="text" name="field_'.$fkey.'" class="px" value="" />';
+			$fvalue['html'] = '<input type="text" name="field_'.$fkey.'" class="px" value="">';
 		} else {
 			$fvalue['html'] = "<select name=\"field_$fkey\"><option value=\"\">---</option>";
 			$optionarr = explode("\n", $fvalue['choices']);

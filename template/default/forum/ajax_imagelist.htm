@@ -8,10 +8,10 @@
 		<!--{if $_GET[type] != 'single'}-->
 		<td valign="bottom" id="image_td_$image[aid]" width="25%">
 		<!--{/if}-->
-			<a href="javascript:;" title="$image[filename]" id="imageattach$image[aid]"><img src="{echo getforumimg($image[aid], 1, 300, 300, 'fixnone')}" id="image_$image[aid]" onclick="insertAttachimgTag('$image[aid]');doane(event);" /></a>
+			<a href="javascript:;" title="$image[filename]" id="imageattach$image[aid]"><img src="{echo getforumimg($image[aid], 1, 300, 300, 'fixnone')}" id="image_$image[aid]" onclick="insertAttachimgTag('$image[aid]');doane(event);"></a>
 			<p class="mtn mbn xi2">
 				<!--{if $attach['pid']}-->
-					<input type="hidden" name="attachupdate[{$image[aid]}]" id="attachupdate{$image[aid]}" size="2" />&nbsp;
+					<input type="hidden" name="attachupdate[{$image[aid]}]" id="attachupdate{$image[aid]}" size="2">&nbsp;
 					<a href="javascript:;" onclick="uploadWindow(function (aid, url, name){$('attachupdate$image[aid]').value = aid;ajaxget('forum.php?mod=ajax&action=getimage&aid=' + aid, 'imageattach$image[aid]');}, 'image');return false;">{lang update}</a>
 					<span class="pipe">|</span>
 				<!--{/if}-->
@@ -19,15 +19,15 @@
 			</p>
 			<p class="imgf">
 				<!--{if $image['description']}-->
-					<input type="text" name="attachnew[{$image[aid]}][description]" class="px xg2" value="$image[description]" id="image_desc_$image[aid]" />
+					<input type="text" name="attachnew[{$image[aid]}][description]" class="px xg2" value="$image[description]" id="image_desc_$image[aid]">
 				<!--{else}-->
-					<input type="text" class="px xg2" value="{lang description}" onclick="this.style.display='none';$('image_desc_$image[aid]').style.display='';$('image_desc_$image[aid]').focus();" />
-					<input type="text" name="attachnew[{$image[aid]}][description]" class="px" style="display: none" id="image_desc_$image[aid]" />
+					<input type="text" class="px xg2" value="{lang description}" onclick="this.style.display='none';$('image_desc_$image[aid]').style.display='';$('image_desc_$image[aid]').focus();">
+					<input type="text" name="attachnew[{$image[aid]}][description]" class="px" style="display: none" id="image_desc_$image[aid]">
 				<!--{/if}-->
-				<input type="number" name="attachnew[{$image[aid]}][displaywidth]" class="px attach-display-width" min="1" max="4096" value="" placeholder="{lang e_img_width}" title="{lang e_img_width}" />
+				<input type="number" name="attachnew[{$image[aid]}][displaywidth]" class="px attach-display-width" min="1" max="4096" value="" placeholder="{lang e_img_width}" title="{lang e_img_width}">
 			</p>
 			<!--{if helper_access::check_module('album') && $_G['group']['allowupload']}-->
-				<p class="mtn"><!--{if !$attach[pid]}--><input type="hidden" class="pc" id="albumaid_$image[aid]" name="albumaid[]" value="" /><label for="albumaidchk_$image[aid]"><input id="albumaidchk_$image[aid]" type="checkbox" class="pc" onclick="$('albumaid_$image[aid]').value=this.checked?this.value:''" value="$image[aid]" />{lang save_to_album}</label><!--{/if}--></p>
+				<p class="mtn"><!--{if !$attach[pid]}--><input type="hidden" class="pc" id="albumaid_$image[aid]" name="albumaid[]" value=""><label for="albumaidchk_$image[aid]"><input id="albumaidchk_$image[aid]" type="checkbox" class="pc" onclick="$('albumaid_$image[aid]').value=this.checked?this.value:''" value="$image[aid]">{lang save_to_album}</label><!--{/if}--></p>
 			<!--{/if}-->
 		</td>
 		<!--{if $_GET[type] != 'single' && $i % 4 == 0 && isset($imagelist[$i])}--></tr><tr><!--{/if}-->

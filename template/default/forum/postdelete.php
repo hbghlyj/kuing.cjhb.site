@@ -14,8 +14,8 @@
 				<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
 			</span>
 		</h3>
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
         <div class="c{if empty($_GET['infloat'])} mbm{/if}">
             {lang postdelete_tip}
         </div>

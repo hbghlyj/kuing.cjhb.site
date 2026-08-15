@@ -30,55 +30,55 @@ if(submitcheck('settingsubmit')) {
 	showsubtitle(['setting_search_onoff', 'search_item_name', 'setting_serveropti_searchctrl', 'setting_serveropti_maxspm', 'setting_serveropti_maxsearchresults']);
 	if(helper_access::check_module('portal')) {
 		$search_portal = [
-			$setting['search']['portal']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][portal][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][portal][status]" value="1" />',
+			$setting['search']['portal']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][portal][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][portal][status]" value="1">',
 			cplang('setting_search_status_portal'),
-			'<input type="text" class="txt" name="settingnew[search][portal][searchctrl]" value="'.$setting['search']['portal']['searchctrl'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][portal][maxspm]" value="'.$setting['search']['portal']['maxspm'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][portal][maxsearchresults]" value="'.$setting['search']['portal']['maxsearchresults'].'" />',
+			'<input type="text" class="txt" name="settingnew[search][portal][searchctrl]" value="'.$setting['search']['portal']['searchctrl'].'">',
+			'<input type="text" class="txt" name="settingnew[search][portal][maxspm]" value="'.$setting['search']['portal']['maxspm'].'">',
+			'<input type="text" class="txt" name="settingnew[search][portal][maxsearchresults]" value="'.$setting['search']['portal']['maxsearchresults'].'">',
 		];
 	}
 	$search_forum = [
-		$setting['search']['forum']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1" />',
+		$setting['search']['forum']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1">',
 		cplang('setting_search_status_forum'),
-		'<input type="text" class="txt" name="settingnew[search][forum][searchctrl]" value="'.$setting['search']['forum']['searchctrl'].'" />',
-		'<input type="text" class="txt" name="settingnew[search][forum][maxspm]" value="'.$setting['search']['forum']['maxspm'].'" />',
-		'<input type="text" class="txt" name="settingnew[search][forum][maxsearchresults]" value="'.$setting['search']['forum']['maxsearchresults'].'" />',
+		'<input type="text" class="txt" name="settingnew[search][forum][searchctrl]" value="'.$setting['search']['forum']['searchctrl'].'">',
+		'<input type="text" class="txt" name="settingnew[search][forum][maxspm]" value="'.$setting['search']['forum']['maxspm'].'">',
+		'<input type="text" class="txt" name="settingnew[search][forum][maxsearchresults]" value="'.$setting['search']['forum']['maxsearchresults'].'">',
 	];
 
 	if(helper_access::check_module('blog')) {
 		$search_blog = [
-			$setting['search']['blog']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1" />',
+			$setting['search']['blog']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1">',
 			cplang('setting_search_status_blog'),
-			'<input type="text" class="txt" name="settingnew[search][blog][searchctrl]" value="'.$setting['search']['blog']['searchctrl'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][blog][maxspm]" value="'.$setting['search']['blog']['maxspm'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][blog][maxsearchresults]" value="'.$setting['search']['blog']['maxsearchresults'].'" />',
+			'<input type="text" class="txt" name="settingnew[search][blog][searchctrl]" value="'.$setting['search']['blog']['searchctrl'].'">',
+			'<input type="text" class="txt" name="settingnew[search][blog][maxspm]" value="'.$setting['search']['blog']['maxspm'].'">',
+			'<input type="text" class="txt" name="settingnew[search][blog][maxsearchresults]" value="'.$setting['search']['blog']['maxsearchresults'].'">',
 		];
 	}
 	if(helper_access::check_module('album')) {
 		$search_album = [
-			$setting['search']['album']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][album][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][album][status]" value="1" />',
+			$setting['search']['album']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][album][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][album][status]" value="1">',
 			cplang('setting_search_status_album'),
-			'<input type="text" class="txt" name="settingnew[search][album][searchctrl]" value="'.$setting['search']['album']['searchctrl'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][album][maxspm]" value="'.$setting['search']['album']['maxspm'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][album][maxsearchresults]" value="'.$setting['search']['album']['maxsearchresults'].'" />',
+			'<input type="text" class="txt" name="settingnew[search][album][searchctrl]" value="'.$setting['search']['album']['searchctrl'].'">',
+			'<input type="text" class="txt" name="settingnew[search][album][maxspm]" value="'.$setting['search']['album']['maxspm'].'">',
+			'<input type="text" class="txt" name="settingnew[search][album][maxsearchresults]" value="'.$setting['search']['album']['maxsearchresults'].'">',
 		];
 	}
 	if(helper_access::check_module('group')) {
 		$search_group = [
-			$setting['search']['group']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][group][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][group][status]" value="1" />',
+			$setting['search']['group']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][group][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][group][status]" value="1">',
 			cplang('setting_search_status_group'),
-			'<input type="text" class="txt" name="settingnew[search][group][searchctrl]" value="'.$setting['search']['group']['searchctrl'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][group][maxspm]" value="'.$setting['search']['group']['maxspm'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][group][maxsearchresults]" value="'.$setting['search']['group']['maxsearchresults'].'" />',
+			'<input type="text" class="txt" name="settingnew[search][group][searchctrl]" value="'.$setting['search']['group']['searchctrl'].'">',
+			'<input type="text" class="txt" name="settingnew[search][group][maxspm]" value="'.$setting['search']['group']['maxspm'].'">',
+			'<input type="text" class="txt" name="settingnew[search][group][maxsearchresults]" value="'.$setting['search']['group']['maxsearchresults'].'">',
 		];
 	}
 	if(helper_access::check_module('collection')) {
 		$search_collection = [
-			$setting['search']['collection']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][collection][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][collection][status]" value="1" />',
+			$setting['search']['collection']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][collection][status]" value="1" checked="checked">' : '<input type="checkbox" class="checkbox" name="settingnew[search][collection][status]" value="1">',
 			cplang('setting_search_status_collection'),
-			'<input type="text" class="txt" name="settingnew[search][collection][searchctrl]" value="'.$setting['search']['collection']['searchctrl'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][collection][maxspm]" value="'.$setting['search']['collection']['maxspm'].'" />',
-			'<input type="text" class="txt" name="settingnew[search][collection][maxsearchresults]" value="'.$setting['search']['collection']['maxsearchresults'].'" />',
+			'<input type="text" class="txt" name="settingnew[search][collection][searchctrl]" value="'.$setting['search']['collection']['searchctrl'].'">',
+			'<input type="text" class="txt" name="settingnew[search][collection][maxspm]" value="'.$setting['search']['collection']['maxspm'].'">',
+			'<input type="text" class="txt" name="settingnew[search][collection][maxsearchresults]" value="'.$setting['search']['collection']['maxsearchresults'].'">',
 		];
 	}
 	showtablerow('', ['width="100"', 'width="120"', 'width="120"', 'width="120"'], $search_portal);

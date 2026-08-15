@@ -82,7 +82,7 @@ function checkreasonlen() {
 			<div class="mtm ntc_l">{lang collection_select_remain} <a href="javascript:;" onclick="display('createcollection');if($('createcollection').style.display!='none') {$('newcollection').focus();}" class="xi2" id="createRemainTips">{lang collection_create}</a></div>
 		</div>
 		<div id="createcollection" class="ptm vm" style="display:none">
-			{lang collection_title} <input type="text" value="" id="newcollection" class="px" /> <button type="button" id="createbutton" name="createbutton" onclick="javascript:ajaxcreatecollection();" class="pn pnc"><span>{lang collection_create}</span></button>
+			{lang collection_title} <input type="text" value="" id="newcollection" class="px"> <button type="button" id="createbutton" name="createbutton" onclick="javascript:ajaxcreatecollection();" class="pn pnc"><span>{lang collection_create}</span></button>
 		</div>
 		<div class="ptm">
 			<p class="pbn">{lang collection_addreason}</p>
@@ -100,17 +100,17 @@ function checkreasonlen() {
 		<!--{/if}-->
 		<input type="hidden" name="inajax" value="1">
 		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="addthread" id="addthread" value="1" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="addthread" id="addthread" value="1">
 		<button type="submit" name="submitaddthread" id="btn_submitaddthread" onclick="return checkreasonlen();" class="pn pnc"><span>{lang collection_addbtn}</span></button>
 	</div>
 </form>
 <div style="display:none;">
 	<form action="forum.php?mod=collection&action=edit&op=add" method="post" id="fastcreateform">
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="collectionsubmit" value="1" />
-		<input type="hidden" name="submitcollection" value="1" />
-		<input type="hidden" name="title" id="submitnewtitle" value="" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="collectionsubmit" value="1">
+		<input type="hidden" name="submitcollection" value="1">
+		<input type="hidden" name="title" id="submitnewtitle" value="">
 	</form>
 </div>
 <span id="fastcreatereturn"></span>

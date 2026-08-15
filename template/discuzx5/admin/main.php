@@ -6,9 +6,9 @@
 	<meta name="renderer" content="webkit">
 	<meta name="color-scheme" content="light dark">
 	<title>{$menuData['title']}</title>
-	<meta content="Discuz! Team" name="Copyright" />
-	<link rel="stylesheet" href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" type="text/css" media="all" />
-	<link rel="stylesheet" href="{$staticurl}image/admincp/admincpframe.css?{$_G['style']['verhash']}" type="text/css" media="all" />
+	<meta content="Discuz! Team" name="Copyright">
+	<link rel="stylesheet" href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" media="all">
+	<link rel="stylesheet" href="{$staticurl}image/admincp/admincpframe.css?{$_G['style']['verhash']}" media="all">
 	<!--{if $_G['style']['admin_color']}-->
 		<style>
 			.oldlayout nav>ul a.active { background-color: $_G['style']['admin_color']; color: #fff; }
@@ -41,7 +41,7 @@ $shownotice
 			<ul id="leftmenu">
 				$leftmenus
 			</ul>
-			<div id="copyright"><img src="{$staticurl}image/mitframe/mitframe.svg"/></div>
+			<div id="copyright"><img src="{$staticurl}image/mitframe/mitframe.svg"></div>
 		</nav>
 	</div>
 	<div class="ifmcontainer">
@@ -67,7 +67,7 @@ $shownotice
 						</script>
 					<!--{/if}-->
 					<div id="frameuinfo" onmouseover="showMenu({'ctrlid':this.id, 'pos':'34'});" >
-						<p class="greet"><em>{$_G['member']['username']}</em><br />$cpadmingroup</p>
+						<p class="greet"><em>{$_G['member']['username']}</em><br>$cpadmingroup</p>
 						{$useravt}
 						<p class="btnlink">
 							<div class="darkmode" title="$light_mode">
@@ -120,7 +120,7 @@ $shownotice
 				</span>
 			<p>Powered by <a href="https://www.discuz.vip/" target="_blank" class="lightlink2">Discuz! $_G['setting']['version']</a> {lang copyright}</p>
 		</div>
-		<div id="qr_menu" style="display: none;"><img src="static/image/admincp/discuz_qr.jpg" width="120" /></div>
+		<div id="qr_menu" style="display: none;"><img src="static/image/admincp/discuz_qr.jpg" width="120"></div>
 		<div id="favbars" style="display: none">
 			<a id="op_back" title="{lang back}"></a><a id="op_refresh" title="{lang refresh}"></a><span>|</span>
 			<div id="favbar_list">

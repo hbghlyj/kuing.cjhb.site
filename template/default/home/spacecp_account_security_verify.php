@@ -10,8 +10,8 @@
     </h3>
     <form method="post" autocomplete="off" name="security_verify" id="layerform_$layerhash" class="cl" onsubmit="ajaxpost('layerform_$layerhash', 'returnmessage_$layerhash', 'returnmessage_$layerhash', 'onerror');return false;" action="home.php?mod=spacecp&ac=account&op=verify&method=$method&verify=secmobile&security_submit=yes&infloat=yes&formhash={FORMHASH}&layerhash=$layerhash">
         <div class="c cl">
-            <input type="hidden" name="formhash" value="{FORMHASH}" />
-            <input type="hidden" name="referer" value="{echo dreferer()}" />
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <input type="hidden" name="referer" value="{echo dreferer()}">
 
             <div class="rfm">
                 <table>
@@ -30,20 +30,20 @@
                                     <option value="{$_G['setting']['smsdefaultcc']}" selected="selected">+{$_G['setting']['smsdefaultcc']}</option>
                                     <!--{/if}-->
                                 </select>
-                                <input type="text" name="secmobile" id="secmobile" class="px" style="width: 135px;"/>
-                                <input type="hidden" id="idstring_v" name="idstring_v" value="{$idstring_v}" />
-                                <input type="hidden" id="sign_v" name="sign_v" value="{$sign_v}" />
+                                <input type="text" name="secmobile" id="secmobile" class="px" style="width: 135px;">
+                                <input type="hidden" id="idstring_v" name="idstring_v" value="{$idstring_v}">
+                                <input type="hidden" id="sign_v" name="sign_v" value="{$sign_v}">
                             <!--{else}-->
                             +{$_G['member']['secmobicc']} {$_G['member']['secmobile']}
-                            <input type="hidden" id="secmobicc" name="secmobicc" value="{$_G['member']['secmobicc']}" />
-                            <input type="hidden" id="secmobile" name="secmobile" value="{$_G['member']['secmobile']}" />
+                            <input type="hidden" id="secmobicc" name="secmobicc" value="{$_G['member']['secmobicc']}">
+                            <input type="hidden" id="secmobile" name="secmobile" value="{$_G['member']['secmobile']}">
                             <!--{/if}-->
                         </td>
                     </tr>
                     <tr>
                         <th><span class="rq">*</span><label for="secmobseccode">{lang secmobseccode}:</label></th>
                         <td>
-                            <input type="text" name="secmobseccode" id="secmobseccode" value="" class="px" />
+                            <input type="text" name="secmobseccode" id="secmobseccode" value="" class="px">
                             <div class="sendsec" id="sendsec" style="display: inline-block;">
                                 <button type="button" name="secmobseccodesendnew" id="secmobseccodesendnew" value="true" class="pn pnc" onclick="memcp_sendsecmobseccode();" /><strong>{lang send}</strong></button>
                             </div>

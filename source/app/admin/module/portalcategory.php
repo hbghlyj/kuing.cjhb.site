@@ -43,14 +43,14 @@ function showcategoryrow($key, $level = 0, $last = '') {
 	}
 	if($level == 2) {
 		$class = $last ? 'lastchildboard' : 'childboard';
-		$return = '<tr class="hover" id="cat'.$value['catid'].'"><td>&nbsp;</td><td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="'.$class.'">'.
-			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'" />'.
+		$return = '<tr class="hover" id="cat'.$value['catid'].'"><td>&nbsp;</td><td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="'.$class.'">'.
+			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'">'.
 			'</div>'.
 			'</td><td>'.$value['articles'].'</td>'.
 			'<td>'.(empty($value['disallowpublish']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(!empty($value['allowcomment']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(empty($value['closed']) ? cplang('yes') : cplang('no')).'</td>'.
-			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').' /></td>'.
+			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').'></td>'.
 			'<td><a href="'.$value['caturl'].'" target="_blank">'.cplang('view').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=edit&catid='.$value['catid'].'">'.cplang('edit').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=move&catid='.$value['catid'].'">'.cplang('portalcategory_move').'</a>&nbsp;
@@ -59,14 +59,14 @@ function showcategoryrow($key, $level = 0, $last = '') {
 		<td><a href="'.ADMINSCRIPT.'?action=article&operation=list&&catid='.$value['catid'].'">'.cplang('portalcategory_articlemanagement').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=perm&catid='.$value['catid'].'">'.cplang('portalcategory_articleperm').'</a>'.$publish.'</td></tr>';
 	} elseif($level == 1) {
-		$return = '<tr class="hover" id="cat'.$value['catid'].'"><td>&nbsp;</td><td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="board">'.
-			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'" />'.
+		$return = '<tr class="hover" id="cat'.$value['catid'].'"><td>&nbsp;</td><td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="board">'.
+			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'">'.
 			'<a class="addchildboard" href="'.ADMINSCRIPT.'?action=portalcategory&operation=add&upid='.$value['catid'].'">'.cplang('portalcategory_addthirdcategory').'</a></div>'.
 			'</td><td>'.$value['articles'].'</td>'.
 			'<td>'.(empty($value['disallowpublish']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(!empty($value['allowcomment']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(empty($value['closed']) ? cplang('yes') : cplang('no')).'</td>'.
-			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').' /></td>'.
+			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').'></td>'.
 			'<td><a href="'.$value['caturl'].'" target="_blank">'.cplang('view').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=edit&catid='.$value['catid'].'">'.cplang('edit').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=move&catid='.$value['catid'].'">'.cplang('portalcategory_move').'</a>&nbsp;
@@ -81,14 +81,14 @@ function showcategoryrow($key, $level = 0, $last = '') {
 		$childrennum = is_array($_G['cache']['portalcategory'][$key]['children']) ? count($_G['cache']['portalcategory'][$key]['children']) : 0;
 		$toggle = $childrennum > 25 ? ' style="display:none"' : '';
 		$return = '<tbody><tr class="hover" id="cat'.$value['catid'].'"><td onclick="toggle_group(\'group_'.$value['catid'].'\')"><a id="a_group_'.$value['catid'].'" href="javascript:;">'.($toggle ? '[+]' : '[-]').'</a></td>'
-			.'<td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="parentboard">'.
-			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'" />'.
+			.'<td class="td25"><input type="text" class="txt" name="neworder['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="parentboard">'.
+			'<input type="text" class="txt" name="name['.$value['catid'].']" value="'.$value['catname'].'">'.
 			'</div>'.
 			'</td><td>'.$value['articles'].'</td>'.
 			'<td>'.(empty($value['disallowpublish']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(!empty($value['allowcomment']) ? cplang('yes') : cplang('no')).'</td>'.
 			'<td>'.(empty($value['closed']) ? cplang('yes') : cplang('no')).'</td>'.
-			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').' /></td>'.
+			'<td><input class="radio" type="radio" name="newsetindex" value="'.$value['catid'].'" '.($value['caturl'] == $_G['setting']['defaultindex'] ? 'checked="checked"' : '').'></td>'.
 			'<td><a href="'.$value['caturl'].'" target="_blank">'.cplang('view').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=edit&catid='.$value['catid'].'">'.cplang('edit').'</a>&nbsp;
 		<a href="'.ADMINSCRIPT.'?action=portalcategory&operation=move&catid='.$value['catid'].'">'.cplang('portalcategory_move').'</a>&nbsp;
@@ -280,7 +280,7 @@ function showportalprimaltemplate($pritplname, $type) {
 	$tpls = array_merge($default_tpls, $tpls);
 
 	foreach($tpls as $key => $value) {
-		echo "<input name=signs[$type][".dsign($key)."] value='1' type='hidden' />";
+		echo "<input name=signs[$type][".dsign($key)."] value='1' type='hidden'>";
 	}
 
 	$pritplvalue = '';

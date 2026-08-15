@@ -2,13 +2,13 @@
 <div class="tip loginbox loginpop p5" id="floatlayout_topicadmin">
 <!--{if ($_GET['optgroup'] == 1) || ($_GET['optgroup'] == 2) || ($_GET['optgroup'] == 3) || ($_GET['optgroup'] == 4) || ($_GET['optgroup'] == 5)}-->
 <form id="moderateform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=moderate&optgroup=$optgroup&modsubmit=yes" >
-<input type="hidden" name="frommodcp" value="$frommodcp" />
-<input type="hidden" name="formhash" value="{FORMHASH}" />
-<input type="hidden" name="fid" value="$_G['fid']" />
-<input type="hidden" name="redirect" value="{echo dreferer()}" />
-<!--{if !empty($_GET['listextra'])}--><input type="hidden" name="listextra" value="$_GET['listextra']" /><!--{/if}-->
+<input type="hidden" name="frommodcp" value="$frommodcp">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="fid" value="$_G['fid']">
+<input type="hidden" name="redirect" value="{echo dreferer()}">
+<!--{if !empty($_GET['listextra'])}--><input type="hidden" name="listextra" value="$_GET['listextra']"><!--{/if}-->
 <!--{loop $threadlist $thread}-->
-<input type="hidden" name="moderate[]" value="$thread['tid']" />
+<input type="hidden" name="moderate[]" value="$thread['tid']">
 <!--{/loop}-->
 
 <h2 class="log_tit">
@@ -65,7 +65,7 @@
 <!--{if $operation == 'stick'}-->
 <!--{if $_G['group']['allowstickthread']}-->
 <dt id="expirationstick">
-<p><input type="text" autocomplete="off" id="expirationstick" name="expirationstick" class="px pxbg" value="$expirationstick" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" autocomplete="off" id="expirationstick" name="expirationstick" class="px pxbg" value="$expirationstick" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
@@ -94,7 +94,7 @@
 <div class="flex tit"><span class="z">{lang confirms}{lang thread_moderations_action}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="checkbox" name="operations[]" value="stick" $defaultcheck['stick'] /></span>
+<span class="y"><input type="checkbox" name="operations[]" value="stick" $defaultcheck['stick']></span>
 </div>
 </li>
 </label>
@@ -105,7 +105,7 @@
 <!--{elseif $operation == 'digest'}-->
 <!--{if $_G['group']['allowdigestthread']}-->
 <dt id="expirationdigest">
-<p><input type="text" autocomplete="off" id="expirationdigest" name="expirationdigest" class="px pxbg" value="$expirationdigest" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" autocomplete="off" id="expirationdigest" name="expirationdigest" class="px pxbg" value="$expirationdigest" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
@@ -128,7 +128,7 @@
 <li class="flex-box mli b0">
 <div class="flex tit"><span class="z">{lang confirms}{lang thread_moderations_action}</span></div>
 <div class="flex"></div>
-<div class="flex"><span class="y"><input type="checkbox" name="operations[]" class="pc" value="digest" $defaultcheck['digest'] /></span></div>
+<div class="flex"><span class="y"><input type="checkbox" name="operations[]" class="pc" value="digest" $defaultcheck['digest']></span></div>
 </li>
 </label>
 </ul>
@@ -139,14 +139,14 @@
 <!--{if $_G['group']['allowhighlightthread']}-->
 <!--{eval $_G['forum_colorarray'] = array(1=>'#EE1B2E', 2=>'#EE5023', 3=>'#996600', 4=>'#3C9D40', 5=>'#2897C5', 6=>'#2B65B7', 7=>'#8F2A90', 8=>'#EC1282');}-->
 <dt id="expirationhighlight">
-<p><input type="text" autocomplete="off" id="expirationhighlight" name="expirationhighlight" class="px pxbg" value="$expirationhighlight" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" autocomplete="off" id="expirationhighlight" name="expirationhighlight" class="px pxbg" value="$expirationhighlight" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
 <li class="flex-box dopt mli">
-<input type="hidden" id="highlight_style_1" name="highlight_style[1]" value="$stylecheck[1]" />
-<input type="hidden" id="highlight_style_2" name="highlight_style[2]" value="$stylecheck[2]" />
-<input type="hidden" id="highlight_style_3" name="highlight_style[3]" value="$stylecheck[3]" />
+<input type="hidden" id="highlight_style_1" name="highlight_style[1]" value="$stylecheck[1]">
+<input type="hidden" id="highlight_style_2" name="highlight_style[2]" value="$stylecheck[2]">
+<input type="hidden" id="highlight_style_3" name="highlight_style[3]" value="$stylecheck[3]">
 <div class="flex">
 <a href="javascript:;" id="highlight_op_1" onclick="switchhl(this, 1)" class="dopt_b{if $stylecheck[1]} cnt{/if}" style="text-indent:0;text-decoration:none;font-weight:bold;">B</a>
 <a href="javascript:;" id="highlight_op_2" onclick="switchhl(this, 2)" class="dopt_i{if $stylecheck[2]} cnt{/if}" style="text-indent:0;text-decoration:none;font-style:italic;">I</a>
@@ -165,7 +165,7 @@
 <li class="flex-box mli b0">
 <div class="flex tit"><span class="z">{lang confirms}{lang thread_moderations_action}</span></div>
 <div class="flex"></div>
-<div class="flex"><span class="y"><input type="checkbox" name="operations[]" class="pc" value="highlight" $defaultcheck['highlight'] /></span></div>
+<div class="flex"><span class="y"><input type="checkbox" name="operations[]" class="pc" value="highlight" $defaultcheck['highlight']></span></div>
 </li>
 </label>
 </ul>
@@ -177,7 +177,7 @@
 <!--{if $_G['group']['allowrecommendthread'] && !empty($_G['forum']['modrecommend']['open']) && $_G['forum']['modrecommend']['sort'] != 1}-->
 <!--{if $operation == 'recommend'}-->
 <dt id="expirationrecommend">
-<p><input type="text" autocomplete="off" id="expirationrecommend" name="expirationrecommend" class="px pxbg" value="$expirationrecommend" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" autocomplete="off" id="expirationrecommend" name="expirationrecommend" class="px pxbg" value="$expirationrecommend" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
@@ -185,23 +185,23 @@
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang recommend}</span></div>
 <div class="flex-2"></div>
-<div class="flex"><span class="y"><input type="radio" name="isrecommend" class="pr" value="1" checked="checked" /></span></div>
+<div class="flex"><span class="y"><input type="radio" name="isrecommend" class="pr" value="1" checked="checked"></span></div>
 </li>
 </label>
 <label>
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang admin_unrecommend}</span></div>
 <div class="flex-2"></div>
-<div class="flex"><span class="y"><input type="radio" name="isrecommend" class="pr" value="0" /></span></div>
+<div class="flex"><span class="y"><input type="radio" name="isrecommend" class="pr" value="0"></span></div>
 </li>
 </label>
 </ul>
 <!--{if $defaultcheck['recommend'] && count($threadlist) == 1}-->
-<input type="hidden" name="position" value="1" />
+<input type="hidden" name="position" value="1">
 <ul class="post_box cl">
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang forum_recommend_reducetitle}</span></div>
-<div class="flex-3"><label for="reducetitle"><input type="text" name="reducetitle" id="reducetitle" class="px" value="$thread['subject']" placeholder="{lang forum_recommend_reducetitle}" /></label></div>
+<div class="flex-3"><label for="reducetitle"><input type="text" name="reducetitle" id="reducetitle" class="px" value="$thread['subject']" placeholder="{lang forum_recommend_reducetitle}"></label></div>
 </li>
 <!--{if $imgattach}-->
 <li class="flex-box mli">
@@ -214,7 +214,7 @@
 <!--{/loop}-->
 </select>
 </div>
-<div class="flex cl pt10"><img id="selectimg" src="{STATICURL}image/common/none.gif" height="31" /></div>
+<div class="flex cl pt10"><img id="selectimg" src="{STATICURL}image/common/none.gif" height="31"></div>
 </li>
 <script reload="1">
                 var imgk = new Array();
@@ -238,7 +238,7 @@
 <!--{/if}-->
 <!--{elseif $_GET['optgroup'] == 2}-->
 <!--{if $operation != 'type'}-->
-<input type="hidden" name="operations[]" value="move" />
+<input type="hidden" name="operations[]" value="move">
 <ul class="post_box cl">
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang admin_target}</span></div>
@@ -260,21 +260,21 @@ $forumselect
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang admin_move}</span></div>
 <div class="flex"></div>
-<div class="flex"><span class="y"><input type="radio" name="type" class="pr" value="normal" checked="checked" /></span></div>
+<div class="flex"><span class="y"><input type="radio" name="type" class="pr" value="normal" checked="checked"></span></div>
 </li>
 </label>
 <label>
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang admin_move_hold}</span></div>
 <div class="flex"></div>
-<div class="flex"><span class="y"><input type="radio" name="type" class="pr" value="redirect" /></span></div>
+<div class="flex"><span class="y"><input type="radio" name="type" class="pr" value="redirect"></span></div>
 </li>
 </label>
 </ul>
 <div class="mb10 cl"></div>
 <!--{else}-->
 <!--{if $typeselect}-->
-<input type="hidden" name="operations[]" value="type" />
+<input type="hidden" name="operations[]" value="type">
 <ul class="post_box cl">
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang types}</span></div>
@@ -289,13 +289,13 @@ $forumselect
 <!--{elseif $_GET['optgroup'] == 3}-->
 <!--{if $operation == 'delete'}-->
 <!--{if $_G['group']['allowdelpost']}-->
-<input name="operations[]" type="hidden" value="delete"/>
+<input name="operations[]" type="hidden" value="delete">
 <ul class="post_box cl">
 <label for="crimerecord">
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang crimerecord}</span></div>
 <div class="flex"></div>
-<div class="flex"><span class="y"><input type="checkbox" name="crimerecord" id="crimerecord" /></span></div>
+<div class="flex"><span class="y"><input type="checkbox" name="crimerecord" id="crimerecord"></span></div>
 </li>
 </label>
 <label>
@@ -303,7 +303,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_pm}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" {if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} /></span>
+<span class="y"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" {if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if}></span>
 </div>
 </li>
 </label>
@@ -316,7 +316,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang topicadmin_banuser}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="checkbox" name="banuser" id="userban" /></span>
+<span class="y"><input type="checkbox" name="banuser" id="userban"></span>
 </div>
 </li>
 </label>
@@ -325,7 +325,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang topicadmin_userdelpost}</span></div>
 <div class="flex"></div>
 <div class="flex y">
-<span class="y"><input type="checkbox" name="userdelpost" id="userdelpost"/></span>
+<span class="y"><input type="checkbox" name="userdelpost" id="userdelpost"></span>
 </div>
 </li>
 </label>
@@ -336,7 +336,7 @@ $forumselect
 <!--{/if}-->
 <!--{elseif $operation == 'down' || $operation == 'bump'}-->
 <dt id="bump_expirationli">
-<p><input type="text" name="expirationbump" id="expirationbump" class="px pxbg" autocomplete="off" value="" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" name="expirationbump" id="expirationbump" class="px pxbg" autocomplete="off" value="" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
@@ -345,7 +345,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_bump}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="radio" name="operations[]" class="pr" value="bump" checked="checked"/></span>
+<span class="y"><input type="radio" name="operations[]" class="pr" value="bump" checked="checked"></span>
 </div>
 </li>
 </label>
@@ -354,7 +354,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_down}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="radio" name="operations[]" class="pr" value="down"/></span>
+<span class="y"><input type="radio" name="operations[]" class="pr" value="down"></span>
 </div>
 </li>
 </label>
@@ -363,7 +363,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_pm}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" {if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} /></span>
+<span class="y"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" {if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if}></span>
 </div>
 </li>
 </label>
@@ -371,7 +371,7 @@ $forumselect
 <!--{/if}-->
 <!--{elseif $_GET['optgroup'] == 4}-->
 <dt>
-<p><input type="text" name="expirationclose" id="expirationclose" class="px pxbg" autocomplete="off" value="$expirationclose" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)" /></p>
+<p><input type="text" name="expirationclose" id="expirationclose" class="px pxbg" autocomplete="off" value="$expirationclose" placeholder="{lang mobshezhi}{lang expire}" onclick="showmobilecalendar(event, this, true)"></p>
 <p>{lang admin_close_expire_comment}</p>
 </dt>
 <ul class="post_box cl">
@@ -380,7 +380,7 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_open}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="radio" name="operations[]" class="pr" value="open" $closecheck[0] /></span>
+<span class="y"><input type="radio" name="operations[]" class="pr" value="open" $closecheck[0]></span>
 </div>
 </li>
 </label>
@@ -389,14 +389,14 @@ $forumselect
 <div class="flex tit"><span class="z">{lang admin_close}</span></div>
 <div class="flex"></div>
 <div class="flex">
-<span class="y"><input type="radio" name="operations[]" class="pr" value="close" $closecheck[1] /></span>
+<span class="y"><input type="radio" name="operations[]" class="pr" value="close" $closecheck[1]></span>
 </div>
 </li>
 </label>
 </ul>
 <!--{elseif $_GET['optgroup'] == 5}-->
 <!--{if $operation == 'recommend_group'}-->
-<input type="hidden" name="operations[]" value="recommend_group" />
+<input type="hidden" name="operations[]" value="recommend_group">
 <ul class="post_box cl">
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang admin_target}</span></div>
@@ -414,7 +414,7 @@ $forumselect
 </form>
 <!--{else}-->
 <dt>{lang admin_threadtopicadmin_error}</dt>
-<dd><input type="button" onclick="popup.close();" value="{lang confirms}" /></dd>
+<dd><input type="button" onclick="popup.close();" value="{lang confirms}"></dd>
 <!--{/if}-->
 </div>
 
@@ -454,7 +454,7 @@ $forumselect
     }
 </script>
 <!--{if $operation == 'highlight'}-->
-<style type="text/css">
+<style>
     .dopt a {
         float: left;
         margin-right: 3px;

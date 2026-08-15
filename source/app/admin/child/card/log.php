@@ -85,8 +85,8 @@ if($count) {
 				dgmdate($result['dateline']),
 				$result['operation'] == 1 ? cplang('card_log_operation_add') : cplang('card_log_operation_task'),
 				$result['username'],
-				implode('<br />', $showrule),
-				implode('<br />', $showinfo),
+				implode('<br>', $showrule),
+				implode('<br>', $showinfo),
 				$result['description']
 			];
 		} elseif($result['operation'] == 3 || $result['operation'] == 9) {
@@ -97,11 +97,11 @@ if($count) {
 				dgmdate($result['dateline']),
 				cplang('card_log_operation_del'),
 				$result['username'],
-				implode('<br />', $showinfo),
+				implode('<br>', $showinfo),
 			] : [
 				dgmdate($result['dateline']),
 				cplang('card_log_operation_cron'),
-				implode('<br />', $showinfo),
+				implode('<br>', $showinfo),
 			];
 		}
 		showtablerow('', ['class="smallefont"'], $showtablerow);

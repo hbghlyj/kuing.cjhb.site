@@ -78,17 +78,17 @@ function showdetial(&$forum, $varname, $type = '', $last = '', $toggle = false) 
 		echo '<tr class="header"><td colspan="2">'.$tab1.$forum['name'].'</td></tr>';
 		showtablerow('', ['width="12%"', ''], [
 				$tab2.cplang('setting_seo_seotitle'),
-				'<input type="text" id="t_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][seotitle]" value="'.dhtmlspecialchars($forum['seotitle']).'" class="txt" style="width:280px;" />',
+				'<input type="text" id="t_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][seotitle]" value="'.dhtmlspecialchars($forum['seotitle']).'" class="txt" style="width:280px;">',
 			]
 		);
 		showtablerow('', ['width="12%"', ''], [
 				$tab2.cplang('setting_seo_seokeywords'),
-				'<input type="text" id="k_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][keywords]" value="'.dhtmlspecialchars($forum['keywords']).'" class="txt" style="width:280px;" />',
+				'<input type="text" id="k_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][keywords]" value="'.dhtmlspecialchars($forum['keywords']).'" class="txt" style="width:280px;">',
 			]
 		);
 		showtablerow('', ['width="12%"', ''], [
 				$tab2.cplang('setting_seo_seodescription'),
-				'<input type="text" id="d_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][description]" value="'.dhtmlspecialchars($forum['description']).'" class="txt" style="width:280px;" />',
+				'<input type="text" id="d_'.$forum['id'].'_'.$varname.'" onfocus="getcodetext(this, \''.$varname.'\');" name="seo'.$varname.'['.$forum['id'].'][description]" value="'.dhtmlspecialchars($forum['description']).'" class="txt" style="width:280px;">',
 			]
 		);
 	} else {
@@ -216,7 +216,7 @@ function threadprofile_buttons($id, $authorinfoitems) {
 	foreach($authorinfoitems as $k => $name) {
 		if(!is_numeric($k)) {
 			if($i > 11) {
-				$buttons .= '<br />';
+				$buttons .= '<br>';
 				$i = 0;
 			}
 			if(str_starts_with($k, '{')) {
@@ -227,7 +227,7 @@ function threadprofile_buttons($id, $authorinfoitems) {
 			$buttons .= '<a href="###" onclick="insertunit($(\''.$id.'\'), \''.$code.'\')">'.$name.'</a>';
 			$i++;
 		} else {
-			$buttons .= $name ? '<a href="javascript:;" onclick="display(\''.$id.'more\')" class="light">'.cplang('more').'</a><div id="'.$id.'more" style="display:none">' : '<br />';
+			$buttons .= $name ? '<a href="javascript:;" onclick="display(\''.$id.'more\')" class="light">'.cplang('more').'</a><div id="'.$id.'more" style="display:none">' : '<br>';
 			$i = 0;
 		}
 	}

@@ -91,10 +91,10 @@ $lang =
 	'add_member_can_login' => '从现在起您可以使用您的账号登录 {$var[\'bbname\']}，祝您使用愉快！',
 
 	'birthday_subject' => '祝您生日快乐',
-	'birthday_reason' => '这个邮箱地址在 {$var[\'bbname\']} 被登记为用户邮箱，<br />
-并且按照您填写的信息，今天是您的生日。很高兴能在此时为您献上一份生日祝福，<br />
+	'birthday_reason' => '这个邮箱地址在 {$var[\'bbname\']} 被登记为用户邮箱，<br>
+并且按照您填写的信息，今天是您的生日。很高兴能在此时为您献上一份生日祝福，<br>
 我谨代表{$var[\'bbname\']}管理团队，衷心祝福您生日快乐。',
-	'birthday_if_not' => '如果您并非 {$var[\'bbname\']} 的会员，或今天并非您的生日，可能是有人误用了您的邮件地址，<br />
+	'birthday_if_not' => '如果您并非 {$var[\'bbname\']} 的会员，或今天并非您的生日，可能是有人误用了您的邮件地址，<br>
 或错误的填写了生日信息。本邮件不会多次重复发送，',
 
 	'email_to_friend_subject' => '{$_G[\'member\'][\'username\']} 推荐给您: {$thread[\'subject\']}',

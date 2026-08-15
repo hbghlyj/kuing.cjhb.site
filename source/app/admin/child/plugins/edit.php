@@ -248,7 +248,7 @@ if(!submitcheck('editsubmit')) {
 	$specials = [];
 	foreach(table_common_pluginvar::t()->fetch_all_by_pluginid($plugin['pluginid']) as $var) {
 		$var['typename'] = admin\class_component::get_name($var['type']);
-		$var['title'] .= isset($lang[$var['title']]) ? '<br />'.$lang[$var['title']] : '';
+		$var['title'] .= isset($lang[$var['title']]) ? '<br>'.$lang[$var['title']] : '';
 		if($var['type'] == 'stylePage') {
 			$trstyle = 'class="header"';
 		} elseif($var['type'] == 'styleTitle') {

@@ -43,8 +43,8 @@
 
 		</script>
 		<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="op" value="$op" id="operation" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="op" value="$op" id="operation">
 			<div class="exfm">
 				<table class="cp0">
 					<!--{if $adderror || $successed}-->
@@ -80,21 +80,21 @@
 					<tr>
 						<th>{lang username}:</th>
 						<td>
-							<input type="text" size="20" value="$new_user" name="new_user" class="px" /> &nbsp;&nbsp;
+							<input type="text" size="20" value="$new_user" name="new_user" class="px"> &nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
 						<th>{lang mod_access_change}:</th>
 						<td>
-							<label for="deleteaccess" class="lb"><input type="checkbox" value="1" name="deleteaccess" id="deleteaccess" onclick="disallaccess(this)" class="pc" />{lang mod_access_recover}</label>
+							<label for="deleteaccess" class="lb"><input type="checkbox" value="1" name="deleteaccess" id="deleteaccess" onclick="disallaccess(this)" class="pc">{lang mod_access_recover}</label>
 							<span id="customaccess">
-								<label for="new_view" class="lb"><input type="checkbox" value="-1" name="new_view" id="new_view" onclick="chkallaccess(this)" class="pc" />{lang mod_access_ban_viewthread}</label>
-								<label for="new_post" class="lb"><input type="checkbox" value="-1" name="new_post" id="new_post" class="pc" />{lang mod_access_ban_postthread}</label>
-								<label for="new_reply" class="lb"><input type="checkbox" value="-1" name="new_reply" id="new_reply" class="pc" />{lang mod_access_ban_postreply}</label>
-								<label for="new_getattach" class="lb"><input type="checkbox" value="-1" name="new_getattach" id="new_getattach" class="pc" />{lang mod_access_ban_download}</label>
-								<label for="new_getimage" class="lb"><input type="checkbox" value="-1" name="new_getimage" id="new_getimage" class="pc" />{lang mod_access_ban_getimage}</label>
-								<label for="new_postattach" class="lb"><input type="checkbox" value="-1" name="new_postattach" id="new_postattach" class="pc" />{lang mod_access_ban_upload}</label>
-								<label for="new_postimage" class="lb"><input type="checkbox" value="-1" name="new_postimage" id="new_postimage" class="pc" />{lang mod_access_ban_uploadimage}</label>
+								<label for="new_view" class="lb"><input type="checkbox" value="-1" name="new_view" id="new_view" onclick="chkallaccess(this)" class="pc">{lang mod_access_ban_viewthread}</label>
+								<label for="new_post" class="lb"><input type="checkbox" value="-1" name="new_post" id="new_post" class="pc">{lang mod_access_ban_postthread}</label>
+								<label for="new_reply" class="lb"><input type="checkbox" value="-1" name="new_reply" id="new_reply" class="pc">{lang mod_access_ban_postreply}</label>
+								<label for="new_getattach" class="lb"><input type="checkbox" value="-1" name="new_getattach" id="new_getattach" class="pc">{lang mod_access_ban_download}</label>
+								<label for="new_getimage" class="lb"><input type="checkbox" value="-1" name="new_getimage" id="new_getimage" class="pc">{lang mod_access_ban_getimage}</label>
+								<label for="new_postattach" class="lb"><input type="checkbox" value="-1" name="new_postattach" id="new_postattach" class="pc">{lang mod_access_ban_upload}</label>
+								<label for="new_postimage" class="lb"><input type="checkbox" value="-1" name="new_postimage" id="new_postimage" class="pc">{lang mod_access_ban_uploadimage}</label>
 							</span>
 						</td>
 					</tr>
@@ -121,7 +121,7 @@
 		<div class="y pns">
 			<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
 				<input type="hidden" name="formhash" value="{FORMHASH}">
-				{lang username}: <input type="text" name="suser" class="px vm" value="$suser" onclick="this.value='';" />&nbsp;
+				{lang username}: <input type="text" name="suser" class="px vm" value="$suser" onclick="this.value='';">&nbsp;
 				<select name="fid" class="ps vm">
 					<option>{lang all}{lang forum}</option>
 					$forumlistall

@@ -25,7 +25,7 @@ if(!submitcheck('modsubmit')) {
 	if(!$pid) {
 		showmessage('postcomment_not_found');
 	}
-	$deleteid = '<input type="hidden" name="topiclist" value="'.$commentid.'" />';
+	$deleteid = '<input type="hidden" name="topiclist" value="'.$commentid.'">';
 
 	include template('forum/topicadmin_action');
 
@@ -53,7 +53,7 @@ if(!submitcheck('modsubmit')) {
 
 	$totalcomment = [];
 	foreach(table_forum_postcomment::t()->fetch_all_by_pid_score($postcomment['pid'], 1) as $comment) {
-		if(strexists($comment['comment'], '<br />')) {
+		if(strexists($comment['comment'], '<br>')) {
 			if(preg_match_all('/([^:]+?):\s<i>(\d+)<\/i>/', $comment['comment'], $a)) {
 				foreach($a[1] as $k => $itemk) {
 					$totalcomment[trim($itemk)][] = $a[2][$k];

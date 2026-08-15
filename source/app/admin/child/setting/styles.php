@@ -311,7 +311,7 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_styles_viewthread_allow_replybg', 'settingnew[allowreplybg]', $setting['allowreplybg'], 'radio', 0, 1);
 	$replybghtml = '';
 	if($setting['globalreplybg']) {
-		$replybghtml = '<label><input type="checkbox" class="checkbox" name="delglobalreplybg" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$_G['setting']['attachurl'].'common/'.$setting['globalreplybg'].'" width="200px" />';
+		$replybghtml = '<label><input type="checkbox" class="checkbox" name="delglobalreplybg" value="yes"> '.$lang['delete'].'</label><br><img src="'.$_G['setting']['attachurl'].'common/'.$setting['globalreplybg'].'" width="200px">';
 	}
 	if($setting['globalreplybg']) {
 		$replybgurl = parse_url($setting['globalreplybg']);
@@ -369,7 +369,7 @@ if(submitcheck('settingsubmit')) {
 	foreach($threadprofiles as $id => $threadprofile) {
 		showtablerow('', ['style="width:200px"', 'style="width:50px"', ''], [
 			$threadprofile['name'],
-			'<input name="default" type="radio" value="'.$id.'"'.($threadprofile['global'] ? ' checked' : '').' />',
+			'<input name="default" type="radio" value="'.$id.'"'.($threadprofile['global'] ? ' checked' : '').'>',
 			'<a href="'.ADMINSCRIPT.'?action=setting&operation=threadprofile&do=edit&id='.$id.'">'.cplang('edit').'</a>'.
 			($id > 1 ? '&nbsp;<a href="'.ADMINSCRIPT.'?action=setting&operation=threadprofile&do=delete&id='.$id.'">'.cplang('delete').'</a>' : ''),
 		]);

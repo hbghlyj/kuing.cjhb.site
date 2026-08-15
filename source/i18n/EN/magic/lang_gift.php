@@ -15,7 +15,7 @@ $lang = array
 (
 	'gift_name'			=> 'Red Envelope Card',//'红包卡',
 	'gift_desc'			=> 'Present some points for your space visitors, visitors can click to get',//'将自己的一部分积分埋在空间，来访者可以点击获取',
-	'gift_info'			=> 'You can set a total summ of points in a Red Envelope.<br />The total summ can be divided into small chunks, each chunk can be buried by each your space visitors',//'将积分作为红包（可分成多份）埋在自己空间，<br />每个来访者最多可以获取其中一份',
+	'gift_info'			=> 'You can set a total summ of points in a Red Envelope.<br>The total summ can be divided into small chunks, each chunk can be buried by each your space visitors',//'将积分作为红包（可分成多份）埋在自己空间，<br>每个来访者最多可以获取其中一份',
 	'gift_succeed'			=> 'The gift buried successfully',//'埋设红包成功 ',
 	'gift_bad_credits_input'	=> 'The total number of points is wrong',//'输入的积分总数有误',
 	'gift_bad_percredit_input'	=> 'The number of points per each chunk is wrong',//'输入的每份积分数有误',

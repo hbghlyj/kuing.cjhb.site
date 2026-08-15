@@ -58,7 +58,7 @@ if(!submitcheck('modsubmit')) {
 
 	$warnpid = $checkunwarn = $checkwarn = '';
 	foreach($topiclist as $id) {
-		$warnpid .= '<input type="hidden" name="topiclist[]" value="'.$id.'" />';
+		$warnpid .= '<input type="hidden" name="topiclist[]" value="'.$id.'">';
 	}
 
 	$warnstatus ? $checkunwarn = 'checked="checked"' : $checkwarn = 'checked="checked"';

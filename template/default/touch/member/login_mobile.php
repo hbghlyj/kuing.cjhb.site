@@ -14,12 +14,12 @@
     <!--{/if}-->
     <!--{if !isset($_GET['viewlostpw'])}-->
     <form id="loginform" method="post" action="member.php?mod=logging&action=login_mobile&loginsubmit=yes&loginhash=$loginhash" >
-        <input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
+        <input type="hidden" name="formhash" id="formhash" value='{FORMHASH}'>
         <input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php<!--{/if}-->" />
         <input type="hidden" name="fastloginfield" value="username">
         <input type="hidden" name="cookietime" value="2592000">
         <!--{if $auth}-->
-        <input type="hidden" name="auth" value="$auth" />
+        <input type="hidden" name="auth" value="$auth">
         <!--{/if}-->
         <div class="login_from">
             <ul>
@@ -39,10 +39,10 @@
                         <option value="{$_G['setting']['smsdefaultcc']}" selected="selected">+{$_G['setting']['smsdefaultcc']}</option>
                         <!--{/if}-->
                     </select>
-                    <input type="text" name="secmobile" id="secmobile" class="px" style="width: 135px;" placeholder="{lang secmobile}" fwin="secmobile"/>
+                    <input type="text" name="secmobile" id="secmobile" class="px" style="width: 135px;" placeholder="{lang secmobile}" fwin="secmobile">
                 </li>
                 <li style="display: flex;">
-                    <input type="text" name="secmobseccode" id="secmobseccode" value="" class="px"  placeholder="{lang secmobseccode}" fwin="secmobseccode"/>
+                    <input type="text" name="secmobseccode" id="secmobseccode" value="" class="px"  placeholder="{lang secmobseccode}" fwin="secmobseccode">
                     <button type="button" name="secmobseccodesendnew" id="secmobseccodesendnew" value="true" class="pn pnc" onclick="memcp_sendsecmobseccode_{$layerhash}();return false;" style="height: 35px; line-height: 35px;"/><strong>{lang send}</strong></button>
                 </li>
             </ul>
@@ -52,8 +52,8 @@
     <div class="reg_link"><a href="member.php?mod=lostpasswd_mobile">{lang getpassword}</a></div>
     <!--{else}-->
     <form id="lostpwform" method="post" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes" autocomplete="off">
-        <input type="hidden" name="formhash" value="{FORMHASH}" />
-        <input type="hidden" name="handlekey" value="lostpwform" />
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="handlekey" value="lostpwform">
         <div class="login_from">
             <ul>
                 <li><input type="text" class="px" value="" name="email" placeholder="{lang email}" fwin="login"></li>

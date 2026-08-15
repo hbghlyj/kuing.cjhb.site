@@ -115,7 +115,7 @@ class adv_float {
 				$checked = false;
 			}',
 			'create' => '
-			$adcode = empty($parameter[\'disableclose\']) ? (empty($_G[\'cookie\'][\'adclose_\'.$coupleadid]) ? $codes[$adids[array_rand($adids)]].\'<br /><a href="javascript:;" onclick="setcookie(\\\'adclose_\'.$coupleadid.\'\\\', 1, 86400);this.parentNode.style.display=\\\'none\\\'"><img src="\'.STATICURL.\'image/common/ad_close.gif" /></a>\' : \'\') : $codes[$adids[array_rand($adids)]];
+			$adcode = empty($parameter[\'disableclose\']) ? (empty($_G[\'cookie\'][\'adclose_\'.$coupleadid]) ? $codes[$adids[array_rand($adids)]].\'<br><a href="javascript:;" onclick="setcookie(\\\'adclose_\'.$coupleadid.\'\\\', 1, 86400);this.parentNode.style.display=\\\'none\\\'"><img src="\'.STATICURL.\'image/common/ad_close.gif"></a>\' : \'\') : $codes[$adids[array_rand($adids)]];
 			'
 		];
 	}

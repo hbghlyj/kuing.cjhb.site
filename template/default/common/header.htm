@@ -1,7 +1,7 @@
 <!--{subtemplate common/header_common}-->
 	<!--{if !empty($rsshead)}-->$rsshead<!--{/if}-->
 	<!--{if widthauto()}-->
-		<link rel="stylesheet" id="css_widthauto" type="text/css" href='{$_G['setting']['csspath']}{STYLEID}_widthauto.css?{VERHASH}' />
+		<link rel="stylesheet" id="css_widthauto" href='{$_G['setting']['csspath']}{STYLEID}_widthauto.css?{VERHASH}'>
 		<script>document.documentElement.className += ' widthauto'</script>
 	<!--{/if}-->
 	<!--{if $_G['basescript'] == 'forum' || $_G['basescript'] == 'group'}-->
@@ -15,7 +15,7 @@
 		<script src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
 	<!--{/if}-->
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
-		<link rel="stylesheet" type="text/css" id="diy_common" href="{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}" />
+		<link rel="stylesheet" id="diy_common" href="{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}">
 	<!--{/if}-->
 </head>
 

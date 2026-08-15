@@ -56,8 +56,8 @@
 		<!--{/if}-->
 		<div id="forumnew" style="display:none"></div>
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="listextra" value="$extra" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="listextra" value="$extra">
 			<table class="cp0" summary="forum_$_G[fid]" id="threadlisttableid">
 				<!--{if (!$simplestyle || !$_G['forum']['allowside'] && $page == 1) && !empty($announcement)}-->
 					<tbody>
@@ -132,12 +132,12 @@
 									<td class="o">
 										<!--{if $thread['fid'] == $_G[fid]}-->
 											<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-												<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]" />
+												<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]">
 											<!--{else}-->
-												<input type="checkbox" disabled="disabled" />
+												<input type="checkbox" disabled="disabled">
 											<!--{/if}-->
 										<!--{else}-->
-											<input type="checkbox" disabled="disabled" />
+											<input type="checkbox" disabled="disabled">
 										<!--{/if}-->
 									</td>
 									<!--{/if}-->
@@ -184,7 +184,7 @@
 											<i class="fico-attachment fic4 fc-p fnmr vm" title="{lang attachment}"></i>
 										<!--{/if}-->
 										<!--{if $thread['mobile']}-->
-											<img src="{IMGDIR}/mobile-attach-$thread['mobile'].png" alt="{lang post_mobile}" class="vm" />
+											<img src="{IMGDIR}/mobile-attach-$thread['mobile'].png" alt="{lang post_mobile}" class="vm">
 										<!--{/if}-->
 										<!--{if $thread['digest'] > 0 && $filter != 'digest'}-->
 											<span class="tbox tdigest">{lang thread_digest}$thread[digest]</span>
@@ -268,19 +268,19 @@
 									<div style="position:absolute;margin:1px;padding:2px;background:#FFF">
 									<!--{if $thread['fid'] == $_G[fid]}-->
 										<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-											<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]" />
+											<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]">
 										<!--{else}-->
-											<input type="checkbox" disabled="disabled" />
+											<input type="checkbox" disabled="disabled">
 										<!--{/if}-->
 									<!--{else}-->
-										<input type="checkbox" disabled="disabled" />
+										<input type="checkbox" disabled="disabled">
 									<!--{/if}-->
 									</div>
 								<!--{/if}-->
 								<div class="c cl">
 									<a href="forum.php?mod=viewthread&tid=$thread[tid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra" {if $thread['isgroup'] == 1 || $thread['forumstick'] || CURMODULE == 'guide'} target="_blank"{else} onclick="atarget(this)"{/if} title="$thread[subject]" class="z">
 										<!--{if $thread['cover']}-->
-											<img src="$thread[coverpath]" alt="$thread[subject]" width="{$_G[setting][forumpicstyle][thumbwidth]}" />
+											<img src="$thread[coverpath]" alt="$thread[subject]" width="{$_G[setting][forumpicstyle][thumbwidth]}">
 										<!--{else}-->
 											<span class="nophoto nopic" style="width:{$_G[setting][forumpicstyle][thumbwidth]}px; height:{$_G[setting][forumpicstyle][thumbwidth]}px; line-height:{$_G[setting][forumpicstyle][thumbwidth]}px;"></span>
 										<!--{/if}-->

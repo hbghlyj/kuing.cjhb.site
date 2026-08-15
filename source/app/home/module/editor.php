@@ -19,12 +19,12 @@ if(empty($_GET['op'])) {
 	<html>
 	<head>
 		<meta charset="<?php echo $_GET['charset']; ?>"/>
-		<meta name="renderer" content="webkit"/>
+		<meta name="renderer" content="webkit">
 		<title>Editor</title>
 		<script type="text/javascript" src="<?php echo STATICURL; ?>js/common.js"></script>
 		<script type="text/javascript" src="<?php echo STATICURL; ?>js/home.js"></script>
 		<script language="javascript" src="<?php echo STATICURL; ?>image/editor/editor_base.js"></script>
-		<style type="text/css">
+		<style>
 			html, body {
 				height: 100%;
 			}
@@ -772,7 +772,7 @@ if(empty($_GET['op'])) {
 
 			<div id="createUrl" class="eMenu"
 			     style="display:none;top:35px;left:26px;width:300px;font-size:12px">
-				<?php echo lang('home/editor', 'editor_prompt_textlink'); ?>:<br/>
+				<?php echo lang('home/editor', 'editor_prompt_textlink'); ?>:<br>
 				<input type="text" id="insertUrl" name="url" value="http://"
 				       onfocus="checkURL(this, 1);" onblur="checkURL(this, 0);" class="t_input"
 				       style="width: 190px;"> <input type="button" onclick="createLink();"
@@ -783,10 +783,10 @@ if(empty($_GET['op'])) {
 			</div>
 			<div id="createImg" class="eMenu"
 			     style="display:none;top:35px;left:26px;width:300px;font-size:12px">
-				<?php echo lang('home/editor', 'editor_prompt_imagelink'); ?>:<br/>
+				<?php echo lang('home/editor', 'editor_prompt_imagelink'); ?>:<br>
 				<input type="text" id="imgUrl" name="imgUrl" value="http://"
 				       onfocus="checkURL(this, 1);" onblur="checkURL(this, 0);" class="t_input"
-				       style="width: 190px;"/> <input type="button" onclick="createImg();"
+				       style="width: 190px;"> <input type="button" onclick="createImg();"
 				                                      name="createURL"
 				                                      value="<?php echo lang('home/editor', 'editor_ok'); ?>"
 				                                      class="submit"/> <a href="javascript:;"
@@ -794,9 +794,9 @@ if(empty($_GET['op'])) {
 			</div>
 			<div id="createPage" class="eMenu"
 			     style="display:none;top:35px;left:26px;width:300px;font-size:12px">
-				<?php echo lang('home/editor', 'editor_prompt_pagetitle'); ?>:<br/>
+				<?php echo lang('home/editor', 'editor_prompt_pagetitle'); ?>:<br>
 				<input type="text" id="pageTitle" name="pageTitle" value="" class="t_input"
-				       style="width: 190px;"/> <input type="button" onclick="pageBreak();"
+				       style="width: 190px;"> <input type="button" onclick="pageBreak();"
 				                                      name="createURL"
 				                                      value="<?php echo lang('home/editor', 'editor_ok'); ?>"
 				                                      class="submit"/> <a href="javascript:;"
@@ -842,7 +842,7 @@ if(empty($_GET['op'])) {
 	<html>
 	<head>
 		<meta charset="<?php echo $_GET['charset']; ?>"/>
-		<meta name="renderer" content="webkit"/>
+		<meta name="renderer" content="webkit">
 		<title>Editor</title>
 		<style>
 			body {

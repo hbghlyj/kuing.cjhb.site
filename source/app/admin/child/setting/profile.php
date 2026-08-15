@@ -81,7 +81,7 @@ if(submitcheck('settingsubmit')) {
 		$varname[1][] = ['customstatus', $lang['setting_profile_permission_basic_status'], 'customstatus'];
 
 		showsetting('setting_profile_field', $varname, $groupinfo['field'], 'omcheckbox');
-		echo "<input type=\"hidden\" name=\"settingnew[profile][type]\" value=\"{$_GET['type']}\" />";
+		echo "<input type=\"hidden\" name=\"settingnew[profile][type]\" value=\"{$_GET['type']}\">";
 
 	} else {
 		$current = [$_GET['action'] => 1];
@@ -96,7 +96,7 @@ if(submitcheck('settingsubmit')) {
 		showsubtitle(['setting_profile_group_available', 'setting_profile_group_displayorder', 'setting_profile_group_name', ''], 'header');
 		foreach($profilegroup as $key => $group) {
 			showtablerow('', ['class="td25"', '', '', 'class="td25"'], [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[profilegroupnew][$key][available]\" value=\"1\" ".($profilegroup[$key]['available'] ? 'checked' : '').' />',
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[profilegroupnew][$key][available]\" value=\"1\" ".($profilegroup[$key]['available'] ? 'checked' : '').'>',
 				"<input type=\"text\" class=\"txt\" size=\"8\" name=\"settingnew[profilegroupnew][$key][displayorder]\" value=\"{$profilegroup[$key]['displayorder']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"8\" name=\"settingnew[profilegroupnew][$key][title]\" value=\"{$profilegroup[$key]['title']}\">",
 				"<a href=\"".ADMINSCRIPT."?action=setting&operation=profile&anchor=edit&type=$key\">".$lang['edit'].'</a>'

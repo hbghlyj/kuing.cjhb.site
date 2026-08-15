@@ -83,7 +83,7 @@ $lang = [
 
 	'ext_info_succ' => '安装成功。',
 	'install_submit' => '提交',
-	'install_locked' => '安装锁定，已经安装过了，如果您确定要重新安装，请到服务器上删除<br /> '.str_replace(ROOT_PATH, '', $lockfile).'<br /><br />如果您要进入工具箱，请修改本安装文件的文件名(./install/index.php)，然后用修改后的文件名访问',
+	'install_locked' => '安装锁定，已经安装过了，如果您确定要重新安装，请到服务器上删除<br> '.str_replace(ROOT_PATH, '', $lockfile).'<br><br>如果您要进入工具箱，请修改本安装文件的文件名(./install/index.php)，然后用修改后的文件名访问',
 	'error_stuck_msg' => '安装进程已经很久没有进展了，可能相关请求已经因网络超时或服务器严重错误而异常退出',
 	'error_quit_msg' => '您必须解决以上问题，才可以继续进行',
 	'error_reinstall_msg' => '您的数据库可能InnoDB性能不佳，请调高PHP超时时间，刷新页面尝试重新安装',
@@ -133,9 +133,9 @@ $lang = [
 
 	'uc_url_empty' => '您没有填写 UCenter 的 URL，请返回填写',
 	'uc_url_invalid' => 'URL 格式错误',
-	'uc_url_unreachable' => 'UCenter 的 URL 地址可能填写错误，可能原因有:<br />1. UCenter 路径不正确或状态异常<br />2. 应用查询 UCenter 状态请求无法发起或被拦截<br />3. UCenter 后台 “ 通过 URL 添加应用功能 ” 未开启',
+	'uc_url_unreachable' => 'UCenter 的 URL 地址可能填写错误，可能原因有:<br>1. UCenter 路径不正确或状态异常<br>2. 应用查询 UCenter 状态请求无法发起或被拦截<br>3. UCenter 后台 “ 通过 URL 添加应用功能 ” 未开启',
 	'uc_ip_invalid' => '无法解析该域名，请填写站点的 IP',
-	'uc_admin_invalid' => 'UCenter 创始人密码校验未通过, 可能原因有:<br />1. UCenter 创始人密码不正确<br />2. 多次错误输入密码导致创始人用户和 IP 地址被锁定<br />3. UCenter 后台 “ 通过 URL 添加应用功能 ” 未开启',
+	'uc_admin_invalid' => 'UCenter 创始人密码校验未通过, 可能原因有:<br>1. UCenter 创始人密码不正确<br>2. 多次错误输入密码导致创始人用户和 IP 地址被锁定<br>3. UCenter 后台 “ 通过 URL 添加应用功能 ” 未开启',
 	'uc_data_invalid' => '通信失败，请检查 UCenter 的URL 地址是否正确 ',
 	'uc_dbcharset_incorrect' => 'UCenter 数据库字符集与当前应用字符集不一致',
 	'uc_api_add_app_error' => '向 UCenter 添加应用错误',
@@ -288,9 +288,9 @@ $lang = [
 <h3>II. 协议规定的约束和限制</h3>
 <ol>
    <li>不得对本产品、应用程序或与之关联的商业授权进行出租、出售、抵押或发放子许可证。</li>
-   <li>无论如何，即无论用途如何、是否经过修改或美化、修改程度如何，只要使用本产品的整体或任何部分，未经书面许可，本产品中的下列内容都必须保留，不能清除或修改、替换：<br />
-	a. 页面页脚处 “Powered by Discuz!” 的文字及链接；<br />
-	b. 管理中心首页页脚处 “应用中心” 的文字及链接；<br />
+   <li>无论如何，即无论用途如何、是否经过修改或美化、修改程度如何，只要使用本产品的整体或任何部分，未经书面许可，本产品中的下列内容都必须保留，不能清除或修改、替换：<br>
+	a. 页面页脚处 “Powered by Discuz!” 的文字及链接；<br>
+	b. 管理中心首页页脚处 “应用中心” 的文字及链接；<br>
 	c. 管理中心首页页脚处 “Based on MitFrame”、“Cloud services by WitFrame” 的文字及链接；
    </li>
    <li>禁止在本产品的整体或任何部分基础上以发展任何派生版本、修改版本或第三方版本用于重新分发。</li>
@@ -424,10 +424,10 @@ $lang = [
 	'install_locked_format_error' => '无法进入工具箱，修改的文件名不能包含 "index"',
 
 	'tool_tips' => '为了安全起见，如果您已完成全部操作请点击“完成”，我们将帮助您删除当前脚本',
-	'tool_select_resetpw' => '<div class="selradio"><input type="radio" name="method" id="select_resetpw" value="resetpw" /><label for="select_resetpw">重置创始人密码</label></div>',
-	'tool_select_dircheck' => '<div class="selradio"><input type="radio" name="method" id="select_dircheck" value="dircheck" /><label for="select_dircheck">文件目录检测</label></div>',
-	'tool_select_updatecache' => '<div class="selradio"><input type="radio" name="method" id="select_updatecache" value="updatecache" /><label for="select_updatecache">更新缓存</label></div>',
-	'tool_select_restore' => '<div class="selradio"><input type="radio" name="method" id="select_restore" value="restore" /><label for="select_restore">恢复数据库</label></div>',
+	'tool_select_resetpw' => '<div class="selradio"><input type="radio" name="method" id="select_resetpw" value="resetpw"><label for="select_resetpw">重置创始人密码</label></div>',
+	'tool_select_dircheck' => '<div class="selradio"><input type="radio" name="method" id="select_dircheck" value="dircheck"><label for="select_dircheck">文件目录检测</label></div>',
+	'tool_select_updatecache' => '<div class="selradio"><input type="radio" name="method" id="select_updatecache" value="updatecache"><label for="select_updatecache">更新缓存</label></div>',
+	'tool_select_restore' => '<div class="selradio"><input type="radio" name="method" id="select_restore" value="restore"><label for="select_restore">恢复数据库</label></div>',
 
 	'tool_resetpw_uid1' => '本工具只恢复 UID 为 1 的创始人密码，请恢复该用户为创始人后再进行此操作',
 	'tool_resetpw_founder' => '填写创始人信息',
@@ -470,7 +470,7 @@ $lang = [
 	'database_import_file_illegal' => '数据文件不存在：可能服务器不允许上传文件或文件大小超过限制',
 	'database_import_file_write_error' => '数据文件解压写入失败，请检查服务器是否有可写入权限',
 	'database_import_multivol_prompt' => '分卷数据第一卷成功导入数据库，您需要自动导入本次备份的其他分卷吗？',
-	'database_import_succeed' => '数据已成功导入站点数据库<br />请在后台更新缓存<br /><span class="red">出于安全考虑，我们强烈建议您删除备份文件</span>',
+	'database_import_succeed' => '数据已成功导入站点数据库<br>请在后台更新缓存<br><span class="red">出于安全考虑，我们强烈建议您删除备份文件</span>',
 	'database_import_format_illegal' => '数据文件非 Discuz! 格式，无法导入',
 	'database_import_confirm' => '导入和当前 Discuz! 版本不一致的数据极有可能产生无法解决的故障，您确定继续吗？',
 	'database_import_confirm_sql' => '您确定导入该备份吗？',

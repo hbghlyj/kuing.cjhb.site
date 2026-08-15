@@ -47,11 +47,11 @@ showsubtitle($values[0] ? ['', 'display_order', 'name', 'operation'] : ['', 'dis
 foreach($thevalues as $value) {
 	$valarr = [];
 	$valarr[] = '';
-	$valarr[] = '<input type="text" id="displayorder_'.$value[0].'" class="txt" name="displayorder['.$value[0].']" value="'.$value[2].'"/>';
-	$valarr[] = '<p id="p_'.$value[0].'"><input type="text" id="input_'.$value[0].'" class="txt" name="district['.$value[0].']" value="'.$value[1].'"/></p>';
+	$valarr[] = '<input type="text" id="displayorder_'.$value[0].'" class="txt" name="displayorder['.$value[0].']" value="'.$value[2].'">';
+	$valarr[] = '<p id="p_'.$value[0].'"><input type="text" id="input_'.$value[0].'" class="txt" name="district['.$value[0].']" value="'.$value[1].'"></p>';
 	if(!$values[0]) {
-		$valarr[] = '<input type="checkbox" name="birthcity['.$value[0].']" value="1" class="checkbox"'.($value[3] && in_array($value[3], [1, 3]) ? ' checked="checked" ' : '').' />';
-		$valarr[] = '<input type="checkbox" name="residecity['.$value[0].']" value="1" class="checkbox"'.($value[3] && in_array($value[3], [2, 3]) ? ' checked="checked" ' : '').' />';
+		$valarr[] = '<input type="checkbox" name="birthcity['.$value[0].']" value="1" class="checkbox"'.($value[3] && in_array($value[3], [1, 3]) ? ' checked="checked" ' : '').'>';
+		$valarr[] = '<input type="checkbox" name="residecity['.$value[0].']" value="1" class="checkbox"'.($value[3] && in_array($value[3], [2, 3]) ? ' checked="checked" ' : '').'>';
 	}
 	$valarr[] = '<a href="javascript:;" onclick="deletedistrict('.$value[0].');return false;">'.cplang('delete').'</a>';
 	showtablerow('id="td_'.$value[0].'"', ['', 'class="td25"', '', '', '', ''], $valarr);
@@ -64,7 +64,7 @@ $adminurl = ADMINSCRIPT.'?action=district';
 echo <<<SCRIPT
 <script type="text/javascript">
 var rowtypedata = [
-	[[1,'', ''],[1,'<input type="text" class="txt" name="districtnew_order[]" value="0" />', 'td25'],[2,'<input type="text" class="txt" name="districtnew[]" value="" />', '']],
+	[[1,'', ''],[1,'<input type="text" class="txt" name="districtnew_order[]" value="0">', 'td25'],[2,'<input type="text" class="txt" name="districtnew[]" value="">', '']],
 ];
 
 function refreshdistrict(country, province, city, district) {

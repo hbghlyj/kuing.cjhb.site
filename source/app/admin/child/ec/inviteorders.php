@@ -46,7 +46,7 @@ if(!submitcheck('ordersubmit')) {
 				$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_auto_finished'].'</b>';
 				break;
 			case 3:
-				$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_manual_finished'].'</b><br />(<a href="home.php?mod=space&username='.rawurlencode($order['admin']).'" target="_blank">'.$order['admin'].'</a>)';
+				$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_manual_finished'].'</b><br>(<a href="home.php?mod=space&username='.rawurlencode($order['admin']).'" target="_blank">'.$order['admin'].'</a>)';
 				break;
 		}
 		$order['submitdate'] = dgmdate($order['submitdate']);
@@ -57,7 +57,7 @@ if(!submitcheck('ordersubmit')) {
 		$orderid = '<a href="'.$orderurl[$apitype].$orderid.'" target="_blank">'.$orderid.'</a>';
 		showtablerow('', '', [
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"validate[]\" value=\"{$order['orderid']}\" ".($order['status'] != 1 ? 'disabled' : '').'>',
-			"{$order['orderid']}<br />$orderid",
+			"{$order['orderid']}<br>$orderid",
 			$order['orderstatus'],
 			"{$order['email']}<br>{$order['ip']}",
 			$order['amount'],
@@ -67,7 +67,7 @@ if(!submitcheck('ordersubmit')) {
 		]);
 	}
 	showtablerow('', ['colspan="7"'], [$multipage]);
-	showsubmit('ordersubmit', 'ec_orders_validate', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'validate\')" />');
+	showsubmit('ordersubmit', 'ec_orders_validate', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'validate\')">');
 	showtablefooter();
 	showformfooter();
 	showtagfooter('div');

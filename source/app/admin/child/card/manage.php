@@ -50,8 +50,8 @@ showformheader('card');
 showtableheader('', 'fixpadding');
 showtablerow('', ['width="80"', 'width="160"', 'width=100'],
 	[
-		cplang('card_number'), '<input type="text" name="srch_id" class="txt" value="'.$_GET['srch_id'].'" />',
-		cplang('card_log_price').cplang('between'), '<input type="text" name="srch_price_min" class="txt" value="'.($_GET['srch_price_min'] ? $_GET['srch_price_min'] : '').'" />- &nbsp;<input type="text" name="srch_price_max" class="txt" value="'.($_GET['srch_price_max'] ? $_GET['srch_price_max'] : '').'" />',
+		cplang('card_number'), '<input type="text" name="srch_id" class="txt" value="'.$_GET['srch_id'].'">',
+		cplang('card_log_price').cplang('between'), '<input type="text" name="srch_price_min" class="txt" value="'.($_GET['srch_price_min'] ? $_GET['srch_price_min'] : '').'">- &nbsp;<input type="text" name="srch_price_max" class="txt" value="'.($_GET['srch_price_max'] ? $_GET['srch_price_max'] : '').'">',
 	]
 );
 
@@ -65,14 +65,14 @@ foreach(['1' => cplang('card_manage_status_1'), '2' => cplang('card_manage_statu
 }
 showtablerow('', [],
 	[
-		cplang('card_extcreditsval'), '<input type="text" name="srch_extcreditsval" class="txt" style="width:42px;" value="'.$_GET['srch_extcreditsval'].'" /><select name="srch_extcredits">'.$extcredits_option.'</select>',
+		cplang('card_extcreditsval'), '<input type="text" name="srch_extcreditsval" class="txt" style="width:42px;" value="'.$_GET['srch_extcreditsval'].'"><select name="srch_extcredits">'.$extcredits_option.'</select>',
 		cplang('card_status'), "<select name='srch_card_status'><option value=''>".cplang('nolimit').'</option>'.$status_option.'</select>',
 	]
 );
 showtablerow('', ['class="td23"', 'class="td23"'],
 	[
-		cplang('card_log_used_user'), '<input type="text" name="srch_username" class="txt" value="'.$_GET['srch_username'].'" />',
-		cplang('card_used_dateline'), '<input type="text" name="srch_useddateline_start" class="txt" value="'.$_GET['srch_useddateline_start'].'" onclick="showcalendar(event, this);" />- &nbsp;<input type="text" name="srch_useddateline_end" class="txt" value="'.$_GET['srch_useddateline_end'].'" onclick="showcalendar(event, this)" />',
+		cplang('card_log_used_user'), '<input type="text" name="srch_username" class="txt" value="'.$_GET['srch_username'].'">',
+		cplang('card_used_dateline'), '<input type="text" name="srch_useddateline_start" class="txt" value="'.$_GET['srch_useddateline_start'].'" onclick="showcalendar(event, this);">- &nbsp;<input type="text" name="srch_useddateline_end" class="txt" value="'.$_GET['srch_useddateline_end'].'" onclick="showcalendar(event, this)">',
 	]
 );
 
@@ -86,7 +86,7 @@ showtablerow('', [],
 
 showtablerow('', ['width="40"', 'width="100"', 'width=50', 'width="260"'],
 	[
-		'<input type="submit" name="srchbtn" class="btn" value="'.$lang['search'].'" />', ''
+		'<input type="submit" name="srchbtn" class="btn" value="'.$lang['search'].'">', ''
 	]
 );
 showtablefooter();

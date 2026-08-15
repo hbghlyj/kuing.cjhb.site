@@ -29,7 +29,7 @@ if(!$do) {
 			$navtype = [];
 			$navtype[$nav['subtype']] = 'selected="selected"';
 			showtablerow('', ['class="td25"', 'class="td25"', '', ''], [
-				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled" />',
+				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled">',
 				"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayordernew[{$nav['id']}]\" value=\"{$nav['displayorder']}\">",
 				"<div><input type=\"text\" class=\"txt\" size=\"15\" name=\"namenew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['name'])."\">",
 				"<select name=\"subtypenew[{$nav['id']}]\"><option value=\"0\" {$navtype[0]}>{$lang['setting_styles_global_topnavtype_0']}</option><option value=\"1\" {$navtype[1]}>{$lang['setting_styles_global_topnavtype_1']}</option></select>",

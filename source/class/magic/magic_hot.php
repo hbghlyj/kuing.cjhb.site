@@ -62,8 +62,8 @@ class magic_hot {
 		magicshowtips(lang('magic/hot', 'hot_info', ['num' => $num]));
 		echo <<<HTML
 <p>
-	<input type="hidden" name="id" value="'.$id.'" />
-	<input type="hidden" name="idtype" value="'.$idtype.'" />
+	<input type="hidden" name="id" value="'.$id.'">
+	<input type="hidden" name="idtype" value="'.$idtype.'">
 </p>
 HTML;
 	}

@@ -55,7 +55,7 @@ foreach(table_common_member::t()->fetch_all_by_adminid(2) as $uid => $row) {
 		$supmoderator[$uid] = $row['username'];
 	}
 }
-showtableheader('<input type="checkbox" name="chkall_admin" id="chkall_admin" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'adminuser\', \'chkall_admin\')" />'.cplang('usergroups_system_1'));
+showtableheader('<input type="checkbox" name="chkall_admin" id="chkall_admin" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'adminuser\', \'chkall_admin\')">'.cplang('usergroups_system_1'));
 foreach($users as $uid => $member) {
 	$username = trim($member['username']);
 	if(empty($username) || empty($uid)) continue;
@@ -67,7 +67,7 @@ foreach($users as $uid => $member) {
 }
 showtablefooter();
 
-showtableheader('<input type="checkbox" name="chkall_sup" id="chkall_sup" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'supmoderator\', \'chkall_sup\')" />'.cplang('usergroups_system_2'));
+showtableheader('<input type="checkbox" name="chkall_sup" id="chkall_sup" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'supmoderator\', \'chkall_sup\')">'.cplang('usergroups_system_2'));
 foreach($supmoderator as $uid => $username) {
 	$username = trim($username);
 	if(empty($username) || empty($uid)) continue;
@@ -77,7 +77,7 @@ foreach($supmoderator as $uid => $username) {
 		"<a href=\"home.php?mod=space&uid=$uid\" target=\"_blank\">$username</a>"
 	]);
 }
-showsubmit('', '', '', '<input type="submit" class="btn" name="receivesubmit" value="'.$lang['submit'].'" />');
+showsubmit('', '', '', '<input type="submit" class="btn" name="receivesubmit" value="'.$lang['submit'].'">');
 showtablefooter();
 showformfooter();
 	

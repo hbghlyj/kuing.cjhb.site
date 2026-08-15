@@ -449,9 +449,9 @@ if($op == 'replies') {
 				foreach(table_forum_attachment_n::t()->fetch_all_by_id($attachtable, 'pid', $pids) as $attach) {
 					$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 					$attach['url'] = $attach['isimage']
-						? " {$attach['filename']} (".sizecount($attach['filesize']).")<br /><br /><img src=\"{$_G['setting']['attachurl']}forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
+						? " {$attach['filename']} (".sizecount($attach['filesize']).")<br><br><img src=\"{$_G['setting']['attachurl']}forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
 						: "<a href=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).')';
-					$postlist[$attach['pid']]['message'] .= '<br /><br />File: '.attachtype(fileext($attach['filename'])."\t").$attach['url'];
+					$postlist[$attach['pid']]['message'] .= '<br><br>File: '.attachtype(fileext($attach['filename'])."\t").$attach['url'];
 				}
 			}
 		}
@@ -644,7 +644,7 @@ if($op == 'replies') {
 					$threadsortshow = threadsortshow($thread['sortid'], $thread['tid']);
 
 					foreach($threadsortshow['optionlist'] as $option) {
-						$thread['sortinfo'] .= $option['title'].' '.$option['value'].'<br />';
+						$thread['sortinfo'] .= $option['title'].' '.$option['value'].'<br>';
 					}
 				} else {
 					$thread['sortinfo'] = '';
@@ -661,9 +661,9 @@ if($op == 'replies') {
 					$tid = $attach['tid'];
 					$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 					$attach['url'] = $attach['isimage']
-						? " {$attach['filename']} (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
+						? " {$attach['filename']} (".sizecount($attach['filesize']).")<br><br><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
 						: "<a href=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).')';
-					$postlist[$tid]['attach'] .= "<br /><br />{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
+					$postlist[$tid]['attach'] .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
 				}
 			}
 		}

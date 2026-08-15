@@ -10,8 +10,8 @@
     </h3>
     <form method="post" autocomplete="off" name="security_verify" id="layerform_$layerhash" class="cl" onsubmit="ajaxpost('layerform_$layerhash', 'returnmessage_$layerhash', 'returnmessage_$layerhash', 'onerror');return false;" action="home.php?mod=spacecp&ac=account&op=verify&method=$method&idstring=$idstring&sign=$sign&submit=yes&infloat=yes&formhash={FORMHASH}&layerhash=$layerhash">
         <div class="c cl">
-            <input type="hidden" name="formhash" value="{FORMHASH}" />
-            <input type="hidden" name="referer" value="{echo dreferer()}" />
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <input type="hidden" name="referer" value="{echo dreferer()}">
 
             <div class="rfm">
                 <table>

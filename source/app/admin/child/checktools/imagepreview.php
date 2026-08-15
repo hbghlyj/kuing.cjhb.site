@@ -31,11 +31,11 @@ if(!empty($_GET['previewthumb'])) {
 	if($r > 0) {
 		showsubmenu('imagepreview_thumb');
 		$sizesource = filesize(DISCUZ_ROOT.'./static/image/admincp/watermarkpreview.jpg');
-		echo '<img src="data/attachment/temp/watermark_temp1.jpg?'.random(5).'"><br /><br />'.
+		echo '<img src="data/attachment/temp/watermark_temp1.jpg?'.random(5).'"><br><br>'.
 			$lang['imagepreview_imagesize_source'].' '.number_format($sizesource).' Bytes &nbsp;&nbsp;'.
 			$lang['imagepreview_imagesize_target'].' '.number_format($sizetarget1).' Bytes ('.
-			(sprintf('%2.1f', $sizetarget1 / $sizesource * 100)).'%)<br /><br />';
-		echo '<img src="data/attachment/temp/watermark_temp2.jpg?'.random(5).'"><br /><br />'.
+			(sprintf('%2.1f', $sizetarget1 / $sizesource * 100)).'%)<br><br>';
+		echo '<img src="data/attachment/temp/watermark_temp2.jpg?'.random(5).'"><br><br>'.
 			$lang['imagepreview_imagesize_source'].' '.number_format($sizesource).' Bytes &nbsp;&nbsp;'.
 			$lang['imagepreview_imagesize_target'].' '.number_format($sizetarget2).' Bytes ('.
 			(sprintf('%2.1f', $sizetarget2 / $sizesource * 100)).'%)';
@@ -59,7 +59,7 @@ if(!empty($_GET['previewthumb'])) {
 		showsubmenu('imagepreview_watermark');
 		$sizesource = filesize('static/image/admincp/watermarkpreview.jpg');
 		$sizetarget = $image->imginfo['size'];
-		echo '<img src="data/attachment/temp/watermark_temp3.jpg?'.random(5).'"><br /><br />'.
+		echo '<img src="data/attachment/temp/watermark_temp3.jpg?'.random(5).'"><br><br>'.
 			$lang['imagepreview_imagesize_source'].' '.number_format($sizesource).' Bytes &nbsp;&nbsp;'.
 			$lang['imagepreview_imagesize_target'].' '.number_format($sizetarget).' Bytes ('.
 			(sprintf('%2.1f', $sizetarget / $sizesource * 100)).'%)';

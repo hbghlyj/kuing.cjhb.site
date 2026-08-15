@@ -155,7 +155,7 @@ if(!empty($_GET['typeid']) && !empty($_G['forum']['threadtypes']['types'][$_GET[
 	$navtitle = strip_tags($_G['forum']['threadtypes']['types'][$_GET['typeid']]).' - '.$navtitle;
 }
 
-$rsshead = $_G['setting']['rssstatus'] ? ('<link rel="alternate" type="application/rss+xml" title="'.$_G['setting']['bbname'].' - '.$navtitle.'" href="'.$_G['siteurl'].'forum.php?mod=rss&fid='.$_G['fid'].'&amp;auth='.$rssauth."\" />\n") : '';
+$rsshead = $_G['setting']['rssstatus'] ? ('<link rel="alternate" type="application/rss+xml" title="'.$_G['setting']['bbname'].' - '.$navtitle.'" href="'.$_G['siteurl'].'forum.php?mod=rss&fid='.$_G['fid'].'&amp;auth='.$rssauth."\">\n") : '';
 
 if(!$metakeywords) {
 	$metakeywords = $_G['forum']['name'];
@@ -607,7 +607,7 @@ foreach($threadlist as $thread) {
 		if($_G['forum']['threadtypes']['prefix'] == 1) {
 			$thread['typehtml'] = '<em>[<a href="forum.php?mod=forumdisplay&fid='.$_G['fid'].'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.$_G['forum']['threadtypes']['types'][$thread['typeid']].'</a>]</em>';
 		} elseif($_G['forum']['threadtypes']['icons'][$thread['typeid']] && $_G['forum']['threadtypes']['prefix'] == 2) {
-			$thread['typehtml'] = '<em><a title="'.strip_tags($_G['forum']['threadtypes']['types'][$thread['typeid']]).'" href="forum.php?mod=forumdisplay&fid='.$_G['fid'].'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.'<img style="vertical-align: middle;padding-right:4px;" src="'.$_G['forum']['threadtypes']['icons'][$thread['typeid']].'" alt="'.strip_tags($_G['forum']['threadtypes']['types'][$thread['typeid']]).'" /></a></em>';
+			$thread['typehtml'] = '<em><a title="'.strip_tags($_G['forum']['threadtypes']['types'][$thread['typeid']]).'" href="forum.php?mod=forumdisplay&fid='.$_G['fid'].'&amp;filter=typeid&amp;typeid='.$thread['typeid'].'">'.'<img style="vertical-align: middle;padding-right:4px;" src="'.$_G['forum']['threadtypes']['icons'][$thread['typeid']].'" alt="'.strip_tags($_G['forum']['threadtypes']['types'][$thread['typeid']]).'"></a></em>';
 		}
 		$thread['typename'] = $_G['forum']['threadtypes']['types'][$thread['typeid']];
 	} else {
@@ -918,7 +918,7 @@ function forumdisplay_verify_author($ids) {
 		foreach($_G['setting']['verify'] as $vid => $vsetting) {
 			if($vsetting['available'] && $vsetting['showicon'] && $value['verify'.$vid] == 1) {
 				$srcurl = !empty($vsetting['icon']) ? $vsetting['icon'] : '';
-				$verify[$value['uid']] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'" />' : $vsetting['title']).'</a>';
+				$verify[$value['uid']] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'">' : $vsetting['title']).'</a>';
 			}
 		}
 

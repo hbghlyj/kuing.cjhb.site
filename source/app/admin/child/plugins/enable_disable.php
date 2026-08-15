@@ -83,9 +83,9 @@ if($operation == 'enable') {
 			$plugins[] = '<b>'.$plugin['name'].'</b>:'.
 				'&nbsp;<a href="javascript:;" onclick="display(\'conflict_'.$plugin['identifier'].'\')">'.cplang('plugins_conflict_view').'</a>'.
 				'&nbsp;<a href="'.cloudaddons_pluginlogo_url($plugin['identifier']).'" target="_blank">'.cplang('plugins_conflict_info').'</a>'.
-				'<span id="conflict_'.$plugin['identifier'].'" style="display:none"><br />'.implode(',', $exists[$plugin['identifier']]).'</span>';
+				'<span id="conflict_'.$plugin['identifier'].'" style="display:none"><br>'.implode(',', $exists[$plugin['identifier']]).'</span>';
 		}
-		$conflictplugins = '<div align="left" style="margin: auto 100px; border: 1px solid #DEEEFA;padding: 4px;line-height: 25px;">'.implode('<br />', $plugins).'</div>';
+		$conflictplugins = '<div align="left" style="margin: auto 100px; border: 1px solid #DEEEFA;padding: 4px;line-height: 25px;">'.implode('<br>', $plugins).'</div>';
 	}
 }
 table_common_plugin::t()->update($_GET['pluginid'], ['available' => $available]);

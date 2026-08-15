@@ -119,7 +119,7 @@ EOF;
 
 	function getStyle() {
 		return <<<EOF
-<style type="text/css">
+<style>
 .ce-block {
     margin-bottom: 20px;
 }
@@ -284,7 +284,7 @@ EOF;
         <div class="cdx-block image-tool image-tool--filled [if data.withBorder=1]image-tool--withBorder[/if] [if data.stretched=1]image-tool--stretched[/if] [if data.withBackground=1]image-tool--withBackground[/if]">
             <div class="image-tool__image">
                 <div class="image-tool__image-preloader" style=""></div>
-                <img id="aimg_{id}" class="image-tool__image-picture _zoom" src="[url data.file.url,data.file.remote,data.file.directory]" title="{data.caption}" alt="{data.caption}" data-aid="{data.file.aid}"/>
+                <img id="aimg_{id}" class="image-tool__image-picture _zoom" src="[url data.file.url,data.file.remote,data.file.directory]" title="{data.caption}" alt="{data.caption}" data-aid="{data.file.aid}">
             </div>
             <div class="cdx-input image-tool__caption" data-placeholder="{data.caption}">{data.caption}</div>
         </div>

@@ -30,7 +30,7 @@ var fid = parseInt('$_G[fid]');
 					</div>
 					<script reload="1">simulateSelect('typeid_fast');</script>
 				<!--{/if}-->
-				<input type="text" id="subject" name="subject" class="px" value="" onkeyup="dstrLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" />
+				<input type="text" id="subject" name="subject" class="px" value="" onkeyup="dstrLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40">
 				<span>{lang comment_message1} <strong id="checklen">{$_G['setting']['maxsubjectsize']}</strong> {lang comment_message2}</span>
 			</div>
 
@@ -55,7 +55,7 @@ var fid = parseInt('$_G[fid]');
 								<div class="pt hm">
 									<!--{if !$_G['uid']}-->
 										<!--{if !$_G['connectguest']}-->
-											{lang login_to_post}<br /><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a> | <a href="member.php?mod={$_G[setting][regname]}">{lang register}</a>
+											{lang login_to_post}<br><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a> | <a href="member.php?mod={$_G[setting][regname]}">{lang register}</a>
 										<!--{else}-->
 											{lang connect_fill_profile_to_post}
 										<!--{/if}-->
@@ -76,7 +76,7 @@ var fid = parseInt('$_G[fid]');
 					<!--{/if}-->
 				</div>
 
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 			</div>
 
 			<!--{if $allowpostattach}-->
@@ -85,7 +85,7 @@ var fid = parseInt('$_G[fid]');
 				var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0}, ATTACHUNUSEDAID = new Array(), IMGUNUSEDAID = new Array();
 				</script>
 
-				<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+				<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}">
 				<div class="upfl{if empty($_GET[from]) && $_G[setting][fastsmilies]} hasfsl{/if}">
 					<table class="cp0" border="0" width="100%" id="attach_tblheader" style="display: none">
 						<tr>
@@ -94,7 +94,7 @@ var fid = parseInt('$_G[fid]');
 							<!--{if $_G['group']['allowsetattachperm']}-->
 							<td class="attv">
 								{lang readperm}
-								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang post_select_usergroup_readacces}" />
+								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang post_select_usergroup_readacces}">
 							</td>
 							<!--{/if}-->
 							<!--{if $_G['group']['maxprice']}--><td class="attpr">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</td><!--{/if}-->
@@ -160,7 +160,7 @@ var fid = parseInt('$_G[fid]');
 					</span>
 				<!--{/if}-->
 				<!--{if helper_access::check_module('follow')}-->
-				<label><input type="checkbox" name="adddynamic" class="pc" value="1" {if $_G['forum']['allowfeed'] && !$_G[tid] && empty($_G['forum']['viewperm'])}checked="checked"{/if} />{lang post_relay}</label>
+				<label><input type="checkbox" name="adddynamic" class="pc" value="1" {if $_G['forum']['allowfeed'] && !$_G[tid] && empty($_G['forum']['viewperm'])}checked="checked"{/if}>{lang post_relay}</label>
 				<!--{/if}-->
 			</p>
 		</form>

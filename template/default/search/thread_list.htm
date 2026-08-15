@@ -16,9 +16,9 @@
 					<h3 class="xs3">
 						<!--{if $modfid}-->
 							<!--{if $thread['fid'] == $modfid && ($thread['displayorder'] <= 3 || $_G['adminid'] == 1)}-->
-								<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]" />&nbsp;
+								<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread[tid]">&nbsp;
 							<!--{else}-->
-								<input type="checkbox" disabled="disabled" />&nbsp;
+								<input type="checkbox" disabled="disabled">&nbsp;
 							<!--{/if}-->
 						<!--{/if}-->
 						<a href="forum.php?mod=viewthread&tid=$thread[realtid]&highlight=$index[keywords]" target="_blank" $thread[highlight]>$thread[subject]</a>

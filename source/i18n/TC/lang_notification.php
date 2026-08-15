@@ -71,8 +71,8 @@ $lang =
 
 	'reason_ban_post' => '您的主題 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} {modaction} <div class="quote"><blockquote>{reason}</blockquote></div>',
 
-	'reason_warn_post' => '您的主題 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} {modaction}<br />
-連續 {warningexpiration} 天內累計 {warninglimit} 次警告，您將被自動禁止發言 {warningexpiration} 天。<br />
+	'reason_warn_post' => '您的主題 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} {modaction}<br>
+連續 {warningexpiration} 天內累計 {warninglimit} 次警告，您將被自動禁止發言 {warningexpiration} 天。<br>
 截止至目前，您已被警告 {authorwarnings} 次，請注意！<div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'reason_move' => '您的主題 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} 移動到 <a href="forum.php?mod=forumdisplay&fid={tofid}" target="_blank">{toname}</a> <div class="quote"><blockquote>{reason}</blockquote></div>',
@@ -182,7 +182,7 @@ $lang =
 
 	'poke_request' => '<a href="{fromurl}" class="xi2">{fromusername}</a>: <span class="xw0">{pokemsg}&nbsp;</span><a href="home.php?mod=spacecp&ac=poke&op=reply&uid={fromuid}&from=notice" id="a_p_r_{fromuid}" class="xw1" onclick="showWindow(this.id, this.href, \'get\', 0);">回打招呼</a><span class="pipe">|</span><a href="home.php?mod=spacecp&ac=poke&op=ignore&uid={fromuid}&from=notice" id="a_p_i_{fromuid}" onclick="showWindow(\'pokeignore\', this.href, \'get\', 0);">忽略</a>',
 
-	'profile_verify_error' => '{verify}資料審覈被拒絕,以下字段需要重新填寫:<br/>{profile}<br/>拒絕理由:{reason}',
+	'profile_verify_error' => '{verify}資料審覈被拒絕,以下字段需要重新填寫:<br>{profile}<br>拒絕理由:{reason}',
 	'profile_verify_pass' => '恭喜您，您填寫的{verify}資料審覈已通過',
 	'profile_verify_pass_refusal' => '很遺憾，您填寫的{verify}資料審覈已被拒絕',
 	'member_ban_speak' => '您已被 {user} 禁止發言，期限：{day}天(0：代表永久禁言)，禁言理由：{reason}',
@@ -194,8 +194,8 @@ $lang =
 	'member_follow' => '您關注的人已有{count}條新動態。<a href="home.php?mod=follow">點擊查看</a>',
 	'member_follow_add' => '{actor} 關注了您。<a href="home.php?mod=follow&do=follower">點擊查看</a>',
 
-	'member_moderate_invalidate' => '您的賬號未能通過管理員的審覈，請<a href="home.php?mod=spacecp&ac=profile">重新提交註冊資訊</a>。<br />管理員留言: <b>{remark}</b>',
-	'member_moderate_validate' => '您的賬號已通過審覈。<br />管理員留言: <b>{remark}</b>',
+	'member_moderate_invalidate' => '您的賬號未能通過管理員的審覈，請<a href="home.php?mod=spacecp&ac=profile">重新提交註冊資訊</a>。<br>管理員留言: <b>{remark}</b>',
+	'member_moderate_validate' => '您的賬號已通過審覈。<br>管理員留言: <b>{remark}</b>',
 	'member_moderate_invalidate_no_remark' => '您的賬號未能通過管理員的審覈，請<a href="home.php?mod=spacecp&ac=profile">重新提交註冊資訊</a>。',
 	'member_moderate_validate_no_remark' => '您的賬號已通過審覈。',
 	'manage_verifythread' => '有新的待審覈主題。<a href="admin.php?action=moderate&operation=threads&dateline=all">現在進行審覈</a>',
@@ -214,7 +214,7 @@ $lang =
 	'manage_verifytopiccommont' => '有新的待審覈專題評論。<a href="admin.php?action=moderate&operation=topiccomments">現在進行審覈</a>',
 	'manage_verify_field' => '有新的待處理{verifyname}。<a href="admin.php?action=verify&operation=verify&do={doid}">現在處理</a>',
 	'system_notice' => '{subject}<p class="summary">{message}</p>',
-	'system_adv_expiration' => '您站點的以下廣告將於 {day} 天後到期，請及時處理：<br />{advs}',
+	'system_adv_expiration' => '您站點的以下廣告將於 {day} 天後到期，請及時處理：<br>{advs}',
 	'report_change_credits' => '{actor} 處理了您的舉報 {creditchange} {msg}',
 	'at_message' => '<a href="home.php?mod=space&uid={buyerid}" target="_blank">{buyer}</a> 在主題 <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}" target="_blank">{subject}</a> 中提到了您<div class="quote"><blockquote>{message}</blockquote></div><a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}" target="_blank">現在去看看</a>。',
 	'at_doing' => '<a href="home.php?mod=space&uid={buyerid}" target="_blank">{buyer}</a> 在記錄中提到了您<a href="home.php?mod=space&do=doing&doid={doid}" target="_blank">現在去看看</a>。',
@@ -223,7 +223,7 @@ $lang =
 	'magics_receive' => '您收到 {actor} 送給您的道具 {magicname}
 <p class="summary">{actor} 説：<span>{msg}</span></p>
 <p class="mbn"><a href="home.php?mod=magic" target="_blank">回贈道具</a><span class="pipe">|</span><a href="home.php?mod=magic&action=mybox" target="_blank">查看我的道具箱</a></p>',
-	'invite_collection' => '{actor} 邀請您參與維護淘專輯  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。<br /> <a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">接受邀請</a>',
+	'invite_collection' => '{actor} 邀請您參與維護淘專輯  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。<br> <a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">接受邀請</a>',
 	'collection_removed' => '您參與維護的淘專輯  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> 已被 {actor} 關閉。',
 	'exit_collection' => '您已經登出維護淘專輯  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。',
 	'collection_becommented' => '您的淘專輯  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> 收到了新評論。',

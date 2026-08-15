@@ -39,7 +39,7 @@ if(!submitcheck('modsubmit')) {
 
 	$banid = $checkunban = $checkban = '';
 	foreach($topiclist as $id) {
-		$banid .= '<input type="hidden" name="topiclist[]" value="'.$id.'" />';
+		$banid .= '<input type="hidden" name="topiclist[]" value="'.$id.'">';
 	}
 
 	$banstatus ? $checkunban = 'checked="checked"' : $checkban = 'checked="checked"';

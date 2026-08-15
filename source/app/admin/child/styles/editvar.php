@@ -38,7 +38,7 @@ if(!$stylevarid) {
 		foreach(table_common_stylevar_extra::t()->fetch_all_by_styleid($id) as $var) {
 			$newdisplayorder = max($var['displayorder'], $newdisplayorder ?? 0);
 			$var['typename'] = admin\class_component::get_name($var['type']);
-			$var['title'] .= isset($lang[$var['title']]) ? '<br />'.$lang[$var['title']] : '';
+			$var['title'] .= isset($lang[$var['title']]) ? '<br>'.$lang[$var['title']] : '';
 			if($var['type'] == 'stylePage') {
 				$trstyle = 'class="header"';
 			} elseif($var['type'] == 'styleTitle') {

@@ -25,7 +25,7 @@
 				<a href="home.php?mod=space&uid=$space[uid]&do=blog&view=me">{lang blog}</a>
 			</div>
 		</div>
-		<style id="diy_style" type="text/css"></style>
+		<style id="diy_style"></style>
 		<div class="wp">
 			<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 		</div>
@@ -44,7 +44,7 @@
 			<a href="home.php?mod=space&do=blog">{lang blog}</a>
 		</div>
 	</div>
-	<style id="diy_style" type="text/css"></style>
+	<style id="diy_style"></style>
 	<div class="wp">
 		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 	</div>
@@ -150,7 +150,7 @@
 						<!--{if empty($diymode)}--><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a> <!--{/if}--><span class="xg1">$value[dateline]</span>
 					</dd>
 					<dd class="cl" id="blog_article_$value[blogid]">
-						<!--{if $value[pic]}--><div class="atc"><a href="home.php?mod=space&uid=$value[uid]&do=blog&id=$value[blogid]" target="_blank"><img src="$value[pic]" alt="$value[subject]" class="tn" /></a></div><!--{/if}-->
+						<!--{if $value[pic]}--><div class="atc"><a href="home.php?mod=space&uid=$value[uid]&do=blog&id=$value[blogid]" target="_blank"><img src="$value[pic]" alt="$value[subject]" class="tn"></a></div><!--{/if}-->
 						$value[message]
 					</dd>
 					<dd class="xg1">

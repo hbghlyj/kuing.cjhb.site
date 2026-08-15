@@ -82,7 +82,7 @@ EOF;
 
 	function getStyle() {
 		return <<<EOF
-<style type="text/css">
+<style>
 
 </style>
 EOF;

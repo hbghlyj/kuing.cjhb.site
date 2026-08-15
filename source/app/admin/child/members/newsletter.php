@@ -77,7 +77,7 @@ if(!submitcheck('newslettersubmit')) {
 
 			$search_condition = serialize($search_condition);
 			showtableheader();
-			showsubmit('newslettersubmit', 'submit', '', '<input type="hidden" name="conditions" value=\''.$search_condition.'\' />');
+			showsubmit('newslettersubmit', 'submit', '', '<input type="hidden" name="conditions" value=\''.$search_condition.'\'>');
 			showtablefooter();
 		}
 

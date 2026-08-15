@@ -68,7 +68,7 @@ if(!submitcheck('tasksubmit')) {
 		}
 
 		showtablerow('', ['class="td25"', 'class="td25"'], [
-			'<input type="text" class="txt" name="displayordernew['.$task['taskid'].']" value="'.$task['displayorder'].'" size="3" />',
+			'<input type="text" class="txt" name="displayordernew['.$task['taskid'].']" value="'.$task['displayorder'].'" size="3">',
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$task['taskid']}]\" value=\"1\"$checked><input type=\"hidden\" name=\"availableold[{$task['taskid']}]\" value=\"{$task['available']}\">",
 			"<input type=\"text\" class=\"txt\" name=\"namenew[{$task['taskid']}]\" size=\"20\" value=\"{$task['name']}\"><input type=\"hidden\" name=\"nameold[{$task['taskid']}]\" value=\"{$task['name']}\">",
 			$reward,

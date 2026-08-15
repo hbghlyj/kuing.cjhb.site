@@ -92,10 +92,10 @@ if(!property_exists($c, 'pconly')) {
 echo '</ul></div>';
 echo '<div id="ace_editor" style="width:98%;height: 90%;border:1px solid #cdcdcd;min-height:980px"></div>';
 echo '<textarea id="cell" style="display:none;" name="cell" spellcheck="false">'.dhtmlspecialchars($value).'</textarea></td>';
-echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('cell_item').'</div><ul>'.$list.'</ul><br /><div class="infotitle1">'.cplang('cell_usage').'</div>'.$c::$useage.'</td>';
+echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('cell_item').'</div><ul>'.$list.'</ul><br><div class="infotitle1">'.cplang('cell_usage').'</div>'.$c::$useage.'</td>';
 echo '</tr>';
 showsubmit('submit', 'submit', '',
-	'<input type="submit" class="btn" name="updatesubmit" value="'.cplang('tools_updatecache').'" /><label><input name="del" class="checkbox" value="1" type="checkbox" />'.cplang('to_default').'</label> &nbsp; '.cplang('cells_notice'));
+	'<input type="submit" class="btn" name="updatesubmit" value="'.cplang('tools_updatecache').'"><label><input name="del" class="checkbox" value="1" type="checkbox">'.cplang('to_default').'</label> &nbsp; '.cplang('cells_notice'));
 showtablefooter();
 showformfooter();
 echo '<iframe id="hframe" name="hframe" style="display: none"></iframe>';

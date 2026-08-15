@@ -91,7 +91,7 @@ if(!$error) {
 				$share['dateline'] = dgmdate($share['dateline']);
 				$share = mkshare($share);
 				$shares .= showtablerow('', ['', 'style="width:80px;"', 'style="width:150px;"', 'style="width:500px;"'], [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$share['sid']}\" />",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$share['sid']}\">",
 					"<a href=\"home.php?mod=space&uid={$share['uid']}\" target=\"_blank\">".$share['username'].'</a>',
 					$share['title_template'],
 					$share['body_template'],

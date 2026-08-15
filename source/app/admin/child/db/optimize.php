@@ -52,7 +52,7 @@ if(!submitcheck('optimizesubmit')) {
 		showtablerow('', 'colspan="6"', $lang['db_optimize_done']);
 	} else {
 		showtablerow('', 'colspan="6"', $lang['db_optimize_used'].' '.sizecount($totalsize));
-		showsubmit('optimizesubmit', 'submit', '<input name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form)" checked="checked" type="checkbox" /><label for="chkall">'.$lang['db_optimize_opt'].'</label>');
+		showsubmit('optimizesubmit', 'submit', '<input name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form)" checked="checked" type="checkbox"><label for="chkall">'.$lang['db_optimize_opt'].'</label>');
 	}
 
 } else {

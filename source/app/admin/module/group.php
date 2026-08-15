@@ -26,7 +26,7 @@ function showgroup(&$forum, $type = '', $last = '') {
 	global $_G;
 	loadcache('grouptype');
 	if($last == '') {
-		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$forum['fid'].']" value="'.$forum['displayorder'].'" /></td><td>';
+		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$forum['fid'].']" value="'.$forum['displayorder'].'"></td><td>';
 		if($type == 'group') {
 			$return .= '<div class="parentboard">';
 		} elseif($type == '') {
@@ -36,7 +36,7 @@ function showgroup(&$forum, $type = '', $last = '') {
 		}
 
 		$boardattr = $fcolumns = '';
-		$fcolumns = ' '.cplang('groups_type_show_rows').'<input type="text" name="forumcolumnsnew['.$forum['fid'].']" value="'.$forum['forumcolumns'].'" class="txt" style="width: 30px;" />';
+		$fcolumns = ' '.cplang('groups_type_show_rows').'<input type="text" name="forumcolumnsnew['.$forum['fid'].']" value="'.$forum['forumcolumns'].'" class="txt" style="width: 30px;">';
 
 		if(!$forum['status'] || $forum['password'] || $forum['redirect']) {
 			$boardattr = '<div class="boardattr">';
@@ -60,7 +60,7 @@ function showgroup(&$forum, $type = '', $last = '') {
 			$selectgroups = '&selectgroupid[]='.$forum['fid'];
 		}
 
-		$return .= '<input type="text" name="name['.$forum['fid'].']" value="'.dhtmlspecialchars($forum['name']).'" class="txt" />&nbsp;'.$fcolumns.'</div>'.$boardattr.
+		$return .= '<input type="text" name="name['.$forum['fid'].']" value="'.dhtmlspecialchars($forum['name']).'" class="txt">&nbsp;'.$fcolumns.'</div>'.$boardattr.
 			'</td>
 			<td>'.$forum['groupnum'].'</td>
 			<td><a href="'.ADMINSCRIPT.'?action=group&operation=deletetype&fid='.$forum['fid'].'" title="'.cplang('groups_type_delete').'" class="act">'.cplang('delete').'</a>';

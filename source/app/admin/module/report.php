@@ -27,10 +27,10 @@ if(submitcheck('resolvesubmit')) {
 			$creditchange = '';
 			$opresult = !empty($_GET['creditsvalue'][$id]) ? $curcredits."\t".intval($_GET['creditsvalue'][$id]) : 'ignore';
 			$uid = $_GET['reportuids'][$id];
-			$msg = !empty($_GET['msg'][$id]) ? '<br />'.dhtmlspecialchars($_GET['msg'][$id]) : '';
+			$msg = !empty($_GET['msg'][$id]) ? '<br>'.dhtmlspecialchars($_GET['msg'][$id]) : '';
 			if(!empty($_GET['creditsvalue'][$id])) {
 				$credittag = $_GET['creditsvalue'][$id] > 0 ? '+' : '';
-				$creditchange = '<br />'.cplang('report_your').$_G['setting']['extcredits'][$curcredits]['title'].'&nbsp;'.$credittag.$_GET['creditsvalue'][$id];
+				$creditchange = '<br>'.cplang('report_your').$_G['setting']['extcredits'][$curcredits]['title'].'&nbsp;'.$credittag.$_GET['creditsvalue'][$id];
 				updatemembercount($uid, [$curcredits => $_GET['creditsvalue'][$id]], true, 'RPC', $id);
 			}
 			if($uid != $_G['uid'] && ($creditchange || $msg)) {

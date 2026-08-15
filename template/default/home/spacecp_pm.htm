@@ -22,10 +22,10 @@
 		<!--{if $uid}-->
 			<div id="$uid">
 				<form id="delpmform_{$uid}" name="delpmform_{$uid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=delete&deletepm_deluid[]=$uid">
-					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-					<input type="hidden" name="referer" value="{echo dreferer()}" />
-					<input type="hidden" name="deletesubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+					<input type="hidden" name="referer" value="{echo dreferer()}">
+					<input type="hidden" name="deletesubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<div class="c">{lang determine_delete_pm}</div>
 					<p class="o pns">
 						<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -35,10 +35,10 @@
 		<!--{elseif $plid && $delplid}-->
 			<div id="$plid">
 				<form id="delpmform_{$plid}" name="delpmform_{$plid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=delete&deletepm_delplid[]=$plid">
-					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-					<input type="hidden" name="referer" value="{echo dreferer()}" />
-					<input type="hidden" name="deletesubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+					<input type="hidden" name="referer" value="{echo dreferer()}">
+					<input type="hidden" name="deletesubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<div class="c">{lang determine_delete_chatpm}</div>
 					<p class="o pns">
 						<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -48,10 +48,10 @@
 		<!--{elseif $plid && $quitplid}-->
 			<div id="$plid">
 				<form id="delpmform_{$plid}" name="delpmform_{$plid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=delete&deletepm_quitplid[]=$plid">
-					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-					<input type="hidden" name="referer" value="{echo dreferer()}" />
-					<input type="hidden" name="deletesubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+					<input type="hidden" name="referer" value="{echo dreferer()}">
+					<input type="hidden" name="deletesubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<div class="c">{lang determine_quit_chatpm}</div>
 					<p class="o pns">
 						<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang quit}</strong></button>
@@ -61,10 +61,10 @@
 		<!--{elseif $pmid && $delpmid}-->
 			<div id="$pmid">
 				<form id="delpmform_{$pmid}" name="delpmform_{$pmid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=delete&deletepm_pmid[]=$pmid&touid=$touid&daterange=$daterange">
-					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-					<input type="hidden" name="referer" value="{echo dreferer()}" />
-					<input type="hidden" name="deletesubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+					<input type="hidden" name="referer" value="{echo dreferer()}">
+					<input type="hidden" name="deletesubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<div class="c">{lang determine_delete_pmid}</div>
 					<p class="o pns">
 						<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -74,10 +74,10 @@
 		<!--{elseif $pmid && $gpmid}-->
 			<div id="$pmid">
 				<form id="delpmform_{$pmid}" name="delpmform_{$pmid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=delete&deletepm_gpmid[]=$pmid">
-					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-					<input type="hidden" name="referer" value="{echo dreferer()}" />
-					<input type="hidden" name="deletesubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+					<input type="hidden" name="referer" value="{echo dreferer()}">
+					<input type="hidden" name="deletesubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<div class="c">{lang determine_delete_gpmid}</div>
 					<p class="o pns">
 						<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -105,10 +105,10 @@
 		</h3>
 		<div id="$pmid">
 			<form id="pmreportform_{$pmid}" name="pmreportform_{$pmid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=pm_report&pmid=$pmid"  {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmreportsubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmreportsubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c">{lang determine_report_pm}</div>
 				<p class="o pns">
 					<button type="submit" name="pmreportsubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -124,10 +124,10 @@
 		</h3>
 		<div id="$plid">
 			<form id="pmignoreform_{$plid}" name="pmignoreform_{$plid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=pm_ignore&plid=$plid&username={echo urlencode($username)}"  {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmignoresubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmignoresubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c">{lang determine_ignore_pm}</div>
 				<p class="o pns">
 					<button type="submit" name="pmignoresubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -143,10 +143,10 @@
 		</h3>
 		<div id="$memberuid">
 			<form id="kickmemberform_{$memberuid}" name="kickmemberform_{$memberuid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=kickmember&plid=$plid&memberuid=$memberuid"  {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmkickmembersubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmkickmembersubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c">{lang determine_kickmember}</div>
 				<p class="o pns">
 					<button type="submit" name="pmkickmembersubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -162,10 +162,10 @@
 		</h3>
 		<div id="appendmember">
 			<form id="appendmemberform" name="appendmemberform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=appendmember&plid=$plid&memberusername=$memberusername"  {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmappendmembersubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmappendmembersubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c">{lang determine_appendmember}</div>
 				<p class="o pns">
 					<button type="submit" name="pmappendmembersubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -182,12 +182,12 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form id="ignoreuserform" name="ignoreuserform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=ignore&only=1"  {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="ignoresubmit" value="true" />
-		<input type="hidden" name="ignoreuser" value="$_GET[username]" />
-		<input type="hidden" name="single" value="1" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="ignoresubmit" value="true">
+		<input type="hidden" name="ignoreuser" value="$_GET[username]">
+		<input type="hidden" name="single" value="1">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="c">{lang shield_the_user}</div>
 		<p class="o pns">
 			<button type="submit" name="deletesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -239,12 +239,12 @@
 			</script>
 			<div class="pmfm">
 				<form id="pmform_{$touid}" name="pmform_{$touid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=send&touid=$touid" onsubmit="this.message.value = parseurl(this.message.value);{if $_G[inajax]}ajaxpost(this.id,  'return_$_GET[handlekey]');{/if}">
-					<input type="hidden" name="pmsubmit" value="true" />
-					<input type="hidden" name="touid" value="$touid" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="pmsubmit" value="true">
+					<input type="hidden" name="touid" value="$touid">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					<!--{if $_G[inajax]}-->
 					<div id="return_$_GET[handlekey]" class="xi1" style="margin-bottom:5px"></div>
-					<input type="hidden" name="handlekey" value="$_GET[handlekey]" />
+					<input type="hidden" name="handlekey" value="$_GET[handlekey]">
 					<!--{/if}-->
 					<div class="tedt">
 						<div class="bar">
@@ -253,7 +253,7 @@
 						</div>
 						<div class="area">
 							<textarea rows="3" cols="80" name="message" class="pt" id="pmmessage" onkeydown="ctrlEnter(event, 'pmsubmit_btn');" autofocus></textarea>
-							<input type="hidden" name="messageappend" id="messageappend" value="$messageappend" />
+							<input type="hidden" name="messageappend" id="messageappend" value="$messageappend">
 							<script>$('pmmessage').focus();</script>
 						</div>
 					</div>
@@ -324,11 +324,11 @@
 	<!--{if !$type}-->
 		<div id="__pmform_{$pmid}">
 			<form id="pmform_{$pmid}" name="pmform_{$pmid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=send&touid=$touid&pmid=$pmid" onsubmit="this.message.value = parseurl(this.message.value);{if $_G[inajax]}ajaxpost(this.id,  'return_$_GET[handlekey]');{/if}">
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmsubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmsubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<!--{if $_G[inajax]}-->
-					<input type="hidden" name="handlekey" value="$_GET[handlekey]" />
+					<input type="hidden" name="handlekey" value="$_GET[handlekey]">
 				<!--{/if}-->
 				<div class="c">
 					<script src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
@@ -343,7 +343,7 @@
 							<td>
 								<div class="cl">
 									<div class="un_selector px z cl" onclick="$('username').focus();">
-										<input type="text" name="username" id="username" autocomplete="off" />
+										<input type="text" name="username" id="username" autocomplete="off">
 									</div>
 									<!--{if $_G['setting']['friendstatus']}--><a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a><!--{/if}-->
 								</div>
@@ -451,10 +451,10 @@
 	<!--{elseif $type == 1}-->
 		<div id="__pmform_{$pmid}">
 			<form id="pmform_{$pmid}" name="pmform_{$pmid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=pm&op=send&touid=$touid&pmid=$pmid" onsubmit="this.message.value = parseurl(this.message.value);{if $_G[inajax]}ajaxpost(this.id,  'return_$_GET[handlekey]');{/if}">
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="pmsubmit" value="true" />
-				<input type="hidden" name="type" value="1" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="pmsubmit" value="true">
+				<input type="hidden" name="type" value="1">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c">
 					<script src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
 					<script>
@@ -467,7 +467,7 @@
 							<th><label for="subject">{lang title}:</label></th>
 							<td>
 								<div class="un_selector px">
-									<input type="text" name="subject" id="subject" />
+									<input type="text" name="subject" id="subject">
 								</div>
 							</td>
 						</tr>
@@ -476,7 +476,7 @@
 							<td>
 								<div class="cl">
 									<div class="un_selector px z cl" onclick="$('username').focus();">
-										<input type="text" name="username" id="username" autocomplete="off" />
+										<input type="text" name="username" id="username" autocomplete="off">
 									</div>
 									<!--{if $_G['setting']['friendstatus']}--><a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a><!--{/if}-->
 								</div>

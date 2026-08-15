@@ -44,7 +44,7 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 		foreach($allmember as $uid => $member) {
 			if(!is_protect_member($member)) {
 				if($membernum < 2000) {
-					$extra .= '<input type="hidden" name="uidarray[]" value="'.$member['uid'].'" />';
+					$extra .= '<input type="hidden" name="uidarray[]" value="'.$member['uid'].'">';
 				}
 				$uids[] = $member['uid'];
 				$membernum++;
@@ -70,7 +70,7 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 	}
 	if(!submitcheck('confirmed')) {
 
-		cpmsg('members_delete_confirm', 'action=members&operation=clean&submit=yes&confirmed=yes'.$urladd, 'form', ['membernum' => $membernum], $extra.'<br />'.'<label><input type="checkbox" name="includepost" value="1" class="checkbox" />'.$lang['members_delete_all'].'</label>', '');
+		cpmsg('members_delete_confirm', 'action=members&operation=clean&submit=yes&confirmed=yes'.$urladd, 'form', ['membernum' => $membernum], $extra.'<br>'.'<label><input type="checkbox" name="includepost" value="1" class="checkbox">'.$lang['members_delete_all'].'</label>', '');
 
 	} else {
 

@@ -36,7 +36,7 @@ if(!submitcheck('bansubmit')) {
 	showtips('members_ban_tips');
 	showformheader('members&operation=ban');
 	showtableheader();
-	showsetting('members_ban_username', 'username', $member['username'], 'text', null, null, '<input type="button" id="crimebtn" class="btn" style="margin-top:-1px;display:none;" onclick="getcrimerecord();" value="'.$lang['crime_checkrecord'].'" />', 'onkeyup="showcrimebtn(this);" id="banusername"');
+	showsetting('members_ban_username', 'username', $member['username'], 'text', null, null, '<input type="button" id="crimebtn" class="btn" style="margin-top:-1px;display:none;" onclick="getcrimerecord();" value="'.$lang['crime_checkrecord'].'">', 'onkeyup="showcrimebtn(this);" id="banusername"');
 	if($member) {
 
 		showtagheader('tbody', 'member_status', 1);

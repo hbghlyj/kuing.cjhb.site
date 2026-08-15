@@ -1,9 +1,9 @@
 <!--{template common/header_ajax}-->
 <span class="cnr"></span>
 <form method="post" autocomplete="off" id="postform_{$_GET['feedid']}" action="forum.php?mod=post&action=reply&fid=$_GET['fid']&extra=$extra&tid=$_GET['tid']&replysubmit=yes" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['inajax'])}ajaxpost(this.id, 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}" class="mbm">
-	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-	<span id="subjectbox" style="display: none;"><input name="subject" id="subject" class="px" value="" style="width: 25em" /></span>
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+	<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+	<span id="subjectbox" style="display: none;"><input name="subject" id="subject" class="px" value="" style="width: 25em"></span>
 	<div class="moodfm">
 		<div class="moodfm_post">
 			<div class="moodfm_text flw_autopt">
@@ -23,7 +23,7 @@
 				<!--{if helper_access::check_module('follow')}-->
 				<div class="moodfm_signature">
 					<label>
-						<input type="checkbox" name="adddynamic" class="pc" value="1" />
+						<input type="checkbox" name="adddynamic" class="pc" value="1">
 						<span>{lang post_meanwhile_relay}</span>
 					</label>
 				</div>

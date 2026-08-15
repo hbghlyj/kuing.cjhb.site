@@ -90,12 +90,12 @@ if(submitcheck('settingsubmit')) {
 	$count = count(explode(',', $setting['heatthread']['iconlevels']));
 	$heatthreadicons = '';
 	for($i = 0; $i < $count; $i++) {
-		$heatthreadicons .= '<img src="static/image/common/hot_'.($i + 1).'.gif" /> ';
+		$heatthreadicons .= '<img src="static/image/common/hot_'.($i + 1).'.gif"> ';
 	}
 	$count = count(explode(',', $setting['recommendthread']['iconlevels']));
 	$recommendicons = '';
 	for($i = 0; $i < $count; $i++) {
-		$recommendicons .= '<img src="static/image/common/recommend_'.($i + 1).'.gif" /> ';
+		$recommendicons .= '<img src="static/image/common/recommend_'.($i + 1).'.gif"> ';
 	}
 
 	$setting['commentitem'] = explode("\t", $setting['commentitem']);
@@ -110,7 +110,7 @@ if(submitcheck('settingsubmit')) {
 	showtips('setting_functions_heatthread_tips', 'heatthread_tips', $_GET['anchor'] == 'heatthread');
 	showtableheader('', 'nobottom', 'id="heatthread"'.($_GET['anchor'] != 'heatthread' ? ' style="display: none"' : ''));
 	showsetting('setting_functions_heatthread_period', 'settingnew[heatthread][period]', $setting['heatthread']['period'], 'text');
-	showsetting('setting_functions_heatthread_iconlevels', '', '', '<input name="settingnew[heatthread][iconlevels]" class="txt" type="text" value="'.$setting['heatthread']['iconlevels'].'" /><br />'.$heatthreadicons);
+	showsetting('setting_functions_heatthread_iconlevels', '', '', '<input name="settingnew[heatthread][iconlevels]" class="txt" type="text" value="'.$setting['heatthread']['iconlevels'].'"><br>'.$heatthreadicons);
 	showtablefooter();
 	/*search*/
 
@@ -122,7 +122,7 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_functions_recommend_subtracttext', 'settingnew[recommendthread][subtracttext]', $setting['recommendthread']['subtracttext'], 'text');
 	showsetting('setting_functions_recommend_daycount', 'settingnew[recommendthread][daycount]', intval($setting['recommendthread']['daycount']), 'text');
 	showsetting('setting_functions_recommend_ownthread', 'settingnew[recommendthread][ownthread]', $setting['recommendthread']['ownthread'], 'radio');
-	showsetting('setting_functions_recommend_iconlevels', '', '', '<input name="settingnew[recommendthread][iconlevels]" class="txt" type="text" value="'.$setting['recommendthread']['iconlevels'].'" /><br />'.$recommendicons);
+	showsetting('setting_functions_recommend_iconlevels', '', '', '<input name="settingnew[recommendthread][iconlevels]" class="txt" type="text" value="'.$setting['recommendthread']['iconlevels'].'"><br>'.$recommendicons);
 	showtablefooter();
 	/*search*/
 

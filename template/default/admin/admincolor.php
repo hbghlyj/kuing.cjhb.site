@@ -26,10 +26,10 @@ $adminColorBase = $_G['adminColor']['--root-base-value'] ?? '21,91,213';
 				<em style="background: rgb({$color})"></em>{$name}
 			</div>
 			<!--{/loop}-->
-			<input type="text" title="{lang admincolor_tips}" id="--root-base-value" name="--root-base-value" onkeydown="testColor()" onkeyup="testColor(this.value)" value="$adminColorBase" />
+			<input type="text" title="{lang admincolor_tips}" id="--root-base-value" name="--root-base-value" onkeydown="testColor()" onkeyup="testColor(this.value)" value="$adminColorBase">
 		</fieldset>
-		<input type="hidden" name="formhash" value="{FORMHASH}"/>
-		<input name="submit" type="submit" value="{lang save}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input name="submit" type="submit" value="{lang save}">
 	</form>
 </div>
 

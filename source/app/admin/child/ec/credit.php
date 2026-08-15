@@ -52,7 +52,7 @@ if(!submitcheck('creditsubmit')) {
 	foreach($ec_credit['rank'] as $rank => $mincredits) {
 		showtablerow('', '', [
 			$rank,
-			'<input type="text" class="txt" size="6" name="ec_creditnew[rank]['.$rank.']" value="'.$mincredits.'" /> ~ '.$ec_credit['rank'][$rank + 1],
+			'<input type="text" class="txt" size="6" name="ec_creditnew[rank]['.$rank.']" value="'.$mincredits.'"> ~ '.$ec_credit['rank'][$rank + 1],
 			"<img src=\"{$staticurl}image/traderank/seller/$rank.gif\" border=\"0\">",
 			"<img src=\"{$staticurl}image/traderank/buyer/$rank.gif\" border=\"0\">"
 		]);

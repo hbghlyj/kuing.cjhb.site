@@ -2,10 +2,10 @@
 
 <!--{if $_GET['op'] == 'start'}-->
 <ul id="contentstart" class="content">
-	<li><a href="javascript:;" onclick="spaceDiy.getdiy('layout');return false;"><img src="{STATICURL}image/diy/layout.png" />{lang diy_layout_1}</a></li>
-	<li><a href="javascript:;" onclick="spaceDiy.getdiy('style');return false;"><img src="{STATICURL}image/diy/style.png" />{lang diy_style}</a></li>
-	<li><a href="javascript:;" onclick="spaceDiy.getdiy('block');return false;"><img src="{STATICURL}image/diy/module.png" />{lang diy_add_block}</a></li>
-	<li><a href="javascript:;" onclick="spaceDiy.getdiy('diy', 'topicid', '$topic[topicid]');return false;"><img src="{STATICURL}image/diy/diy.png" />{lang do_it_yourself}</a></li>
+	<li><a href="javascript:;" onclick="spaceDiy.getdiy('layout');return false;"><img src="{STATICURL}image/diy/layout.png">{lang diy_layout_1}</a></li>
+	<li><a href="javascript:;" onclick="spaceDiy.getdiy('style');return false;"><img src="{STATICURL}image/diy/style.png">{lang diy_style}</a></li>
+	<li><a href="javascript:;" onclick="spaceDiy.getdiy('block');return false;"><img src="{STATICURL}image/diy/module.png">{lang diy_add_block}</a></li>
+	<li><a href="javascript:;" onclick="spaceDiy.getdiy('diy', 'topicid', '$topic[topicid]');return false;"><img src="{STATICURL}image/diy/diy.png">{lang do_it_yourself}</a></li>
 </ul>
 <!--{elseif $_GET['op'] == 'layout'}-->
 <ul id="contentframe" class="content selector">
@@ -18,7 +18,7 @@
 <!--{elseif $_GET['op'] == 'style'}-->
 <ul class="content" style="overflow-y: auto; height: 90px;">
 <!--{loop $themes $value}-->
-  <li><a href="javascript:;" onclick="spaceDiy.changeStyle('$value[dir]');this.blur();return false;"><img src="{STATICURL}$value['dir']/preview.jpg" />$value['name']</a></li>
+  <li><a href="javascript:;" onclick="spaceDiy.changeStyle('$value[dir]');this.blur();return false;"><img src="{STATICURL}$value['dir']/preview.jpg">$value['name']</a></li>
 <!--{/loop}-->
 </ul>
 <!--{elseif $_GET['op'] == 'block'}-->
@@ -34,7 +34,7 @@
 	<div id="diyimg_prev" class="z">$multi</div>
 	<ul id="imagebody">
 		<!--{loop $list $key $value}-->
-		<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"/></a></li>
+		<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"></a></li>
 		<!--{/loop}-->
 	</ul>
 	<div id="diyimg_next" class="z">$multi</div>
@@ -49,8 +49,8 @@
 			<div id="upload" class="z{if $list} hide{/if}"><iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank" style="display: block;"></iframe>
 				<form method="post" autocomplete="off" name="uploadpic" id="uploadpic" action="home.php?mod=spacecp&ac=index" enctype="multipart/form-data" target="uploadframe" onsubmit="return spaceDiy.uploadSubmit();">
 					<input type="file" class="t_input" name="attach" size="15">
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
-					<input type="hidden" name="albumid" value="$albumid" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<input type="hidden" name="albumid" value="$albumid">
 					<button type="submit" name="uploadsubmit" id="btnupload" class="pn" value="true"><span>{lang upload_start}</span></button>
 				</form>
 			</div>
@@ -75,14 +75,14 @@
 	<dd>
 		<div class="photo_list cl">
 			<div id="currentimgdiv" class="z" style="width:446px;">
-				<center><ul><li class="thumb" style="border:1px solid #ccc; padding:2px;"><img id="currentimg" alt="" src=""/></li></ul>
+				<center><ul><li class="thumb" style="border:1px solid #ccc; padding:2px;"><img id="currentimg" alt="" src=""></li></ul>
 				<div class="z cur1" onclick="spaceDiy.changeBgImgDiv();">{lang replace}</div></center>
 			</div>
 			<div id="diyimages" class="z" style="width:446px;display:none;">
 				<div id="diyimg_prev" class="z">$multi</div>
 				<ul id="imagebody">
 					<!--{loop $list $key $value}-->
-					<li class="thumb"><a href="javascript:;" ><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);return false;"/></a></li>
+					<li class="thumb"><a href="javascript:;" ><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);return false;"></a></li>
 					<!--{/loop}-->
 				</ul>
 				<div id="diyimg_next" class="z">$multi</div>
@@ -129,14 +129,14 @@
 					<tr>
 						<td>{lang background_rolling}:</td>
 						<td>
-							<label for="rabga0"><input type="radio" id="rabga0" name="attachment_mode" onclick="spaceDiy.setBgAttachment(0);" class="pr" />{lang rolling}</label>
-							<label for="rabga1"><input type="radio" id="rabga1" name="attachment_mode" onclick="spaceDiy.setBgAttachment(1);" class="pr" />{lang fixed}</label>
+							<label for="rabga0"><input type="radio" id="rabga0" name="attachment_mode" onclick="spaceDiy.setBgAttachment(0);" class="pr">{lang rolling}</label>
+							<label for="rabga1"><input type="radio" id="rabga1" name="attachment_mode" onclick="spaceDiy.setBgAttachment(1);" class="pr">{lang fixed}</label>
 						</td>
 					</tr>
 					<tr>
 						<td>{lang background_color}:</td>
-						<td><input type="text" id="colorValue" value="" size="6" onchange="spaceDiy.setBgColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="cbpb" onclick="createPalette('bpb', 'colorValue', 'spaceDiy.setBgColor');" type="button" class="pn colorwd" value="" />
+						<td><input type="text" id="colorValue" value="" size="6" onchange="spaceDiy.setBgColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="cbpb" onclick="createPalette('bpb', 'colorValue', 'spaceDiy.setBgColor');" type="button" class="pn colorwd" value="">
 						</td>
 					</tr>
 				</table>
@@ -145,14 +145,14 @@
 				<table class="cp0">
 					<tr>
 						<td>{lang text_color}:</td>
-						<td><input type="text" id="textColorValue" value="" size="6" onchange="spaceDiy.setTextColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="ctpb" onclick="createPalette('tpb', 'textColorValue', 'spaceDiy.setTextColor');" type="button" class="pn colorwd" value="" />
+						<td><input type="text" id="textColorValue" value="" size="6" onchange="spaceDiy.setTextColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="ctpb" onclick="createPalette('tpb', 'textColorValue', 'spaceDiy.setTextColor');" type="button" class="pn colorwd" value="">
 						</td>
 					</tr>
 					<tr>
 						<td>{lang link_color}:</td>
-						<td><input type="text" id="linkColorValue" value="" size="6" onchange="spaceDiy.setLinkColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="clpb" onclick="createPalette('lpb', 'linkColorValue', 'spaceDiy.setLinkColor');" type="button" class="pn colorwd" value="" />
+						<td><input type="text" id="linkColorValue" value="" size="6" onchange="spaceDiy.setLinkColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="clpb" onclick="createPalette('lpb', 'linkColorValue', 'spaceDiy.setLinkColor');" type="button" class="pn colorwd" value="">
 						</td>
 					</tr>
 				</table>
@@ -183,7 +183,7 @@
 					<tr>
 						<th>{lang main_page}</th>
 						<td>
-							<input type="text" name="index" value="{if !isset($personalnv[items][index])}{lang main_page}{else}$personalnv[items][index]{/if}" class="px" />
+							<input type="text" name="index" value="{if !isset($personalnv[items][index])}{lang main_page}{else}$personalnv[items][index]{/if}" class="px">
 							<label><input type="radio" name="banindex" value="1"{if !empty($personalnv[banitems][index])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banindex" value="0"{if empty($personalnv[banitems][index])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -191,7 +191,7 @@
 					<tr>
 						<th>{lang feed}</th>
 						<td>
-							<input type="text" name="feed" value="{if !isset($personalnv[items][feed])}{lang feed}{else}$personalnv[items][feed]{/if}" class="px" />
+							<input type="text" name="feed" value="{if !isset($personalnv[items][feed])}{lang feed}{else}$personalnv[items][feed]{/if}" class="px">
 							<label><input type="radio" name="banfeed" value="1"{if !empty($personalnv[banitems][feed])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banfeed" value="0"{if empty($personalnv[banitems][feed])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -199,7 +199,7 @@
 					<tr>
 						<th>{lang doing}</th>
 						<td>
-							<input type="text" name="doing" value="{if !isset($personalnv[items][doing])}{lang doing}{else}$personalnv[items][doing]{/if}" class="px" />
+							<input type="text" name="doing" value="{if !isset($personalnv[items][doing])}{lang doing}{else}$personalnv[items][doing]{/if}" class="px">
 							<label><input type="radio" name="bandoing" value="1"{if !empty($personalnv[banitems][doing])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="bandoing" value="0"{if empty($personalnv[banitems][doing])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -207,7 +207,7 @@
 					<tr>
 						<th>{lang blog}</th>
 						<td>
-							<input type="text" name="blog" value="{if !isset($personalnv[items][blog])}{lang blog}{else}$personalnv[items][blog]{/if}" class="px" />
+							<input type="text" name="blog" value="{if !isset($personalnv[items][blog])}{lang blog}{else}$personalnv[items][blog]{/if}" class="px">
 							<label><input type="radio" name="banblog" value="1"{if !empty($personalnv[banitems][blog])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banblog" value="0"{if empty($personalnv[banitems][blog])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -215,7 +215,7 @@
 					<tr>
 						<th>{lang album}</th>
 						<td>
-							<input type="text" name="album" value="{if !isset($personalnv[items][album])}{lang album}{else}$personalnv[items][album]{/if}" class="px" />
+							<input type="text" name="album" value="{if !isset($personalnv[items][album])}{lang album}{else}$personalnv[items][album]{/if}" class="px">
 							<label><input type="radio" name="banalbum" value="1"{if !empty($personalnv[banitems][album])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banalbum" value="0"{if empty($personalnv[banitems][album])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -223,7 +223,7 @@
 					<tr>
 						<th>{lang follow}</th>
 						<td>
-							<input type="text" name="follow" value="{if !isset($personalnv[items][follow])}{lang follow}{else}$personalnv[items][follow]{/if}" class="px" />
+							<input type="text" name="follow" value="{if !isset($personalnv[items][follow])}{lang follow}{else}$personalnv[items][follow]{/if}" class="px">
 							<label><input type="radio" name="banfollow" value="1"{if !empty($personalnv[banitems][follow])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banfollow" value="0"{if empty($personalnv[banitems][follow])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -232,7 +232,7 @@
 					<tr>
 						<th>{lang topic}</th>
 						<td>
-							<input type="text" name="topic" value="{if !isset($personalnv[items][topic])}{lang topic}{else}$personalnv[items][topic]{/if}" class="px" />
+							<input type="text" name="topic" value="{if !isset($personalnv[items][topic])}{lang topic}{else}$personalnv[items][topic]{/if}" class="px">
 							<label><input type="radio" name="bantopic" value="1"{if !empty($personalnv[banitems][topic])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="bantopic" value="0"{if empty($personalnv[banitems][topic])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -241,7 +241,7 @@
 					<tr>
 						<th>{lang share}</th>
 						<td>
-							<input type="text" name="share" value="{if !isset($personalnv[items][share])}{lang share}{else}$personalnv[items][share]{/if}" class="px" />
+							<input type="text" name="share" value="{if !isset($personalnv[items][share])}{lang share}{else}$personalnv[items][share]{/if}" class="px">
 							<label><input type="radio" name="banshare" value="1"{if !empty($personalnv[banitems][share])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banshare" value="0"{if empty($personalnv[banitems][share])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -249,7 +249,7 @@
 					<tr>
 						<th>{lang friends}</th>
 						<td>
-							<input type="text" name="friends" value="{if !isset($personalnv[items][friends])}{lang friends}{else}$personalnv[items][friends]{/if}" class="px" />
+							<input type="text" name="friends" value="{if !isset($personalnv[items][friends])}{lang friends}{else}$personalnv[items][friends]{/if}" class="px">
 							<label><input type="radio" name="banfriends" value="1"{if !empty($personalnv[banitems][friends])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banfriends" value="0"{if empty($personalnv[banitems][friends])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -257,7 +257,7 @@
 					<tr>
 						<th>{lang message_board}</th>
 						<td>
-							<input type="text" name="wall" value="{if !isset($personalnv[items][wall])}{lang message_board}{else}$personalnv[items][wall]{/if}" class="px" />
+							<input type="text" name="wall" value="{if !isset($personalnv[items][wall])}{lang message_board}{else}$personalnv[items][wall]{/if}" class="px">
 							<label><input type="radio" name="banwall" value="1"{if !empty($personalnv[banitems][wall])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banwall" value="0"{if empty($personalnv[banitems][wall])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -265,7 +265,7 @@
 					<tr>
 						<th>{lang memcp_profile}</th>
 						<td>
-							<input type="text" name="profile" value="{if !isset($personalnv[items][profile])}{lang memcp_profile}{else}$personalnv[items][profile]{/if}" class="px" />
+							<input type="text" name="profile" value="{if !isset($personalnv[items][profile])}{lang memcp_profile}{else}$personalnv[items][profile]{/if}" class="px">
 							<label><input type="radio" name="banprofile" value="1"{if !empty($personalnv[banitems][profile])} checked="checked"{/if}>{lang nvhidden}</label>
 							<label><input type="radio" name="banprofile" value="0"{if empty($personalnv[banitems][profile])} checked="checked"{/if}>{lang nvshow}</label>
 						</td>
@@ -274,9 +274,9 @@
 			</div>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="editnvsubmit" value="true" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="editnvsubmit" value="true">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc" id="editnvsubmitbtn"><strong>{lang determine}</strong></button>
 		</div>
 	</form>
@@ -299,7 +299,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 					<table class="tfm">
 						<tr>
 							<th>{lang space_block_title}</th>
-							<td><input type="text" name="blocktitle" value="$para[title]" class="px" /></td>
+							<td><input type="text" name="blocktitle" value="$para[title]" class="px"></td>
 						</tr>
 						<!--{if ($blockname == 'profile')}-->
 						<!--{eval $para['banavatar'] = empty($para['banavatar']) ? 'middle' : $para['banavatar'];}-->
@@ -316,13 +316,13 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 						<tr>
 							<th>{lang showcountcontent}</th>
 							<td>
-								<label><input type="checkbox" name="credits" value="1" class="px"{if empty($para[bancredits])} checked="checked"{/if} />{lang credits}</label>
-								<label><input type="checkbox" name="friends" value="1" class="px"{if empty($para[banfriends])} checked="checked"{/if} />{lang friends_num}</label>
-								<label><input type="checkbox" name="threads" value="1" class="px"{if empty($para[banthreads])} checked="checked"{/if} />{lang threads_num}</label>
-								<label><input type="checkbox" name="blogs" value="1" class="px"{if empty($para[banblogs])} checked="checked"{/if} />{lang blogs_num}</label>
-								<label><input type="checkbox" name="albums" value="1" class="px"{if empty($para[banalbums])} checked="checked"{/if} />{lang albums_num}</label>
-								<label><input type="checkbox" name="sharings" value="1" class="px"{if empty($para[bansharings])} checked="checked"{/if} />{lang shares_num}</label>
-								<label><input type="checkbox" name="views" value="1" class="px"{if empty($para[banviews])} checked="checked"{/if} />{lang space_views}</label>
+								<label><input type="checkbox" name="credits" value="1" class="px"{if empty($para[bancredits])} checked="checked"{/if}>{lang credits}</label>
+								<label><input type="checkbox" name="friends" value="1" class="px"{if empty($para[banfriends])} checked="checked"{/if}>{lang friends_num}</label>
+								<label><input type="checkbox" name="threads" value="1" class="px"{if empty($para[banthreads])} checked="checked"{/if}>{lang threads_num}</label>
+								<label><input type="checkbox" name="blogs" value="1" class="px"{if empty($para[banblogs])} checked="checked"{/if}>{lang blogs_num}</label>
+								<label><input type="checkbox" name="albums" value="1" class="px"{if empty($para[banalbums])} checked="checked"{/if}>{lang albums_num}</label>
+								<label><input type="checkbox" name="sharings" value="1" class="px"{if empty($para[bansharings])} checked="checked"{/if}>{lang shares_num}</label>
+								<label><input type="checkbox" name="views" value="1" class="px"{if empty($para[banviews])} checked="checked"{/if}>{lang space_views}</label>
 							</td>
 						</tr>
 						<!--{elseif in_array($blockname, array('block1', 'block2', 'block3', 'block4', 'block5'))}-->
@@ -356,24 +356,24 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 						<!--{else}-->
 						<tr>
 							<th>{lang show_num_of}</th>
-							<td><input type="text" name="shownum" value="$para[shownum]" class="px" /></td>
+							<td><input type="text" name="shownum" value="$para[shownum]" class="px"></td>
 						</tr>
 						<!--{/if}-->
 
 						<!--{if $blockname == 'blog'}-->
 						<tr>
 							<th>{lang show_message}</th>
-							<td><input type="text" name="showmessage" value="$para[showmessage]" class="px" />  {lang show_message_tips}</td>
+							<td><input type="text" name="showmessage" value="$para[showmessage]" class="px">  {lang show_message_tips}</td>
 						</tr>						
 						<!--{/if}-->
 					</table>
 				</div>
 			</div>
 			<div class="o pns">
-				<input type="hidden" name="blocksubmit" value="true" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-				<input type="hidden" name="eleid" value="$_GET['eleid']" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="blocksubmit" value="true">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+				<input type="hidden" name="eleid" value="$_GET['eleid']">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<button type="submit" class="pn pnc" id="blocksubmitbtn"><strong>{lang determine}</strong></button>
 			</div>
 		</form>
@@ -395,7 +395,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 				<table class="tfm">
 					<tr>
 						<th>{lang space_block_title}</th>
-						<td><input type="text" name="blocktitle" value="$para[title]" class="px" /></td>
+						<td><input type="text" name="blocktitle" value="$para[title]" class="px"></td>
 					</tr>
 					<tr>
 						<th>{lang display_mode}</th>
@@ -415,23 +415,23 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 					<tr>
 						<th>{lang default_cover_color}</th>
 						<td>
-							<input type="text" name="crontabcolor" id="usercrontabcolor_v" value="{$config['crontabcolor']}" size="7" class="px p_fre" />
+							<input type="text" name="crontabcolor" id="usercrontabcolor_v" value="{$config['crontabcolor']}" size="7" class="px p_fre">
 							<input id="cm_ctc" onclick="createPalette('m_ctc', 'usercrontabcolor_v');" type="button" class="pn colorwd" value="" style="background-color: {$config['crontabcolor']}">
 						</td>
 					</tr>
 					<tr>
 						<th>{lang musicbox_height}</th>
 						<!--{eval $config['height'] = empty($config['height']) && $config['height'] !== 0 ? 200 : $config['height'];}-->
-						<td><input type="text" name="height" value="$config['height']" size="10" maxlength="10" class="px p_fre" />px
-							<br />{lang musicbox_height_message}</td>
+						<td><input type="text" name="height" value="$config['height']" size="10" maxlength="10" class="px p_fre">px
+							<br>{lang musicbox_height_message}</td>
 					</tr>
 				</table>
 			</div>
 			<div class="o pns">
-				<input type="hidden" name="musicsubmit" value="true" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-				<input type="hidden" name="act" value="config" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="musicsubmit" value="true">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+				<input type="hidden" name="act" value="config">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<button type="submit" class="pn pnc"><strong>{lang determine}</strong></button>
 			</div>
 		</form>
@@ -505,23 +505,23 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			<div class="c diywin" style="max-height:260px;width:480px;height:auto !important;height:260px;_margin-right:20px;overflow-y:auto;">
 				<table class="tfm">
 					<tr><td colspan="2" align="center">{lang mp3_warning_message}</td></tr>
-					<tr><td colspan="2"><hr size="1" color="#EEEEEE" /></td></tr>
+					<tr><td colspan="2"><hr size="1" color="#EEEEEE"></td></tr>
 					<tbody id="tb_menu_new">
 						<tr>
 							<td>
 								<table class="cp0" width="95%" align="center" border="0">
 									<tr>
 										<th>{lang mp3_address}</th>
-										<td><input type="text" name="mp3url[]" value="" size="40" maxlength="200" class="px" /></td>
+										<td><input type="text" name="mp3url[]" value="" size="40" maxlength="200" class="px"></td>
 									</tr>
 									<tr>
 										<th>{lang track_name}</th>
-										<td><input type="text" name="mp3name[]" size="20" maxlength="30" class="px" style="width:150px;" />
+										<td><input type="text" name="mp3name[]" size="20" maxlength="30" class="px" style="width:150px;">
 					   {lang empty_name_message}</td>
 									</tr>
 									<tr>
 										<th>{lang front_cover}</th>
-										<td><input type="text" name="cdbj[]" value="" size="40" maxlength="200" class="px" /></td>
+										<td><input type="text" name="cdbj[]" value="" size="40" maxlength="200" class="px"></td>
 									</tr>
 								</table></td>
 							<td><a href="javascript:;" onclick="delMenu(this)"> {lang delete}</a></td>
@@ -531,10 +531,10 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			</div>
 
 			<div class="o pns">
-				<input type="hidden" name="musicsubmit" value="true" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-				<input type="hidden" name="act" value="addmusic" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="musicsubmit" value="true">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+				<input type="hidden" name="act" value="addmusic">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<button type="button" name="addone" onclick="addMenu();return false;" class="pn"><em>{lang increase}</em></button>&nbsp;
 				<button type="submit" class="pn pnc"><strong>{lang determine}</strong></button>
 			</div>
@@ -547,14 +547,14 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			<div class="c diywin" style="max-height:350px;width:480px;height:auto !important;height:320px;_margin-right:20px;overflow-y:auto;">
 				<table class="cp2" width="100%" align="center" border="0">
 					<tr>
-						<td colspan="2">{lang album_cover_documents_address}<br/>({lang not_play_message})</td>
+						<td colspan="2">{lang album_cover_documents_address}<br>({lang not_play_message})</td>
 						<td><div align="right">{lang delete_all}
 								<input id="chkall" name="chkall" onclick="checkall(this.form, 'id')" type="checkbox">
 							</div></td>
 					</tr>
 					<tr><td colspan="3">
 					<table class="cp1" width="100%" align="center" border="0" id="thetable">
-					<tbody style="display:none;"><tr><td colspan="2"><hr size="0" /></td></tr></tbody>
+					<tbody style="display:none;"><tr><td colspan="2"><hr size="0"></td></tr></tbody>
 					<!--{loop $musicmsgs['mp3list'] $key $list}-->
 					<!--{eval $list['cdbj'] = empty($list['cdbj']) ? IMGDIR.'/nophotosmall.gif' : $list['cdbj'];}-->
 					<!--{eval $list['mp3name'] = dhtmlspecialchars($list['mp3name']);$list['mp3url'] = dhtmlspecialchars($list['mp3url']);$list['cdbj'] = dhtmlspecialchars($list['cdbj']);}-->
@@ -589,10 +589,10 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 				</table>
 			</div>
 			<div class="o pns">
-				<input type="hidden" name="musicsubmit" value="true" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-				<input type="hidden" name="act" value="editlist" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="musicsubmit" value="true">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+				<input type="hidden" name="act" value="editlist">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<button type="submit" class="pn pnc"><strong>{lang update_album_list}</strong></button>
 			</div>
 		</form>
@@ -627,15 +627,15 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 
 <!--{eval $space['domainurl'] = space_domain($space);}-->
 <form id="savespaceinfo" action="home.php?mod=spacecp&ac=index&op=savespaceinfo" method="post">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="savespaceinfosubmit" value="true" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="savespaceinfosubmit" value="true">
 	<strong class="pns mbm">
-		<em class="xw0 xs1">{lang my_space_name}: </em><input type="text" class="px vm" value="{if $space['spacename']}$space['spacename']{else}$space['username']{lang somebody_space}{/if}" name="spacename" />&nbsp;
+		<em class="xw0 xs1">{lang my_space_name}: </em><input type="text" class="px vm" value="{if $space['spacename']}$space['spacename']{else}$space['username']{lang somebody_space}{/if}" name="spacename">&nbsp;
 		<button type="submit" class="pn pnc vm" onclick="spaceDiy.spaceInfoSave();"><em>{lang save}</em></button>
 		<button type="button" class="pn vm" onclick="spaceDiy.spaceInfoCancel();"><em>{lang cancel}</em></button>
 	</strong>
 	<a id="domainurledit" style="display: none;">$space[domainurl]</a>
-	<span><em class="xw0 xs1">{lang my_space_describe}: </em><input type="text" class="px" style="width:600px" value="{$space['spacedescription']}" name="spacedescription" /></span>
+	<span><em class="xw0 xs1">{lang my_space_describe}: </em><input type="text" class="px" style="width:600px" value="{$space['spacedescription']}" name="spacedescription"></span>
 </form>
 <!--{elseif $_GET['op'] == 'getpersonalnv'}-->
 <!--{subtemplate home/space_header_personalnv}-->

@@ -70,13 +70,13 @@ class block_search extends commonblock_html {
 			$html = <<<EOT
 				<div id="scbar" class="cl" style="border-top: 1px solid #CCC;">
 					<form id="scbar_form" class="z" method="post" autocomplete="off" onsubmit="searchFocus($('srchtxt'))" action="search.php?searchsubmit=yes" target="_blank">
-						<input type="hidden" name="mod" id="scbar_mod" value="search" />
-						<input type="hidden" name="formhash" value="{FORMHASH}" />
-						<input type="hidden" name="srchtype" value="title" />
+						<input type="hidden" name="mod" id="scbar_mod" value="search">
+						<input type="hidden" name="formhash" value="{FORMHASH}">
+						<input type="hidden" name="srchtype" value="title">
 						<table class="cp0">
 							<tr>
 								<td class="scbar_icon_td"></td>
-								<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" class="xg1" value="{$lang['enter_content']}" autocomplete="off" onfocus="if(this.value=='{$lang['enter_content']}'){this.value='';this.className=''}" onblur="if(this.value==''){this.value='{$lang['enter_content']}';this.className='xg1'}" /></td>
+								<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" class="xg1" value="{$lang['enter_content']}" autocomplete="off" onfocus="if(this.value=='{$lang['enter_content']}'){this.value='';this.className=''}" onblur="if(this.value==''){this.value='{$lang['enter_content']}';this.className='xg1'}"></td>
 								<td class="scbar_type_td"><a href="javascript:;" id="scbar_type" class="showmenu xg1" onclick="showMenu({'ctrlid':this.id,'pos':'34'})">{$lang['search']}</a></td>
 								<td class="scbar_btn_td"><button type="submit" id="scbar_btn" name="searchsubmit" class="pn pnc" value="true"><strong class="xi2">{$lang['search']}</strong></button></td>
 								<td class="scbar_hot_td">

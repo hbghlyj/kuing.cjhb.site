@@ -154,7 +154,7 @@
 						<table class="cp0">
 							<tr>
 								<td class="icn">&nbsp;</td>
-								<!--{if $permission}--><td class="o"><label class="z" onclick="checkall(this.form, 'delthread')"><input class="pc" type="checkbox" name="chkall" title="{lang checkall}" /></label></td><!--{/if}-->
+								<!--{if $permission}--><td class="o"><label class="z" onclick="checkall(this.form, 'delthread')"><input class="pc" type="checkbox" name="chkall" title="{lang checkall}"></label></td><!--{/if}-->
 								<td class="common">{lang collection_thread}</td>
 								<td class="by">{lang author}</td>
 								<td class="num">{lang replies}</td>
@@ -185,7 +185,7 @@
 									<!--{/if}-->
 								</td>
 								<!--{if $permission}-->
-								<td class="o"><input type="checkbox" value="$thread[tid]" name="delthread[]" class="pc" /></td>
+								<td class="o"><input type="checkbox" value="$thread[tid]" name="delthread[]" class="pc"></td>
 								<!--{/if}-->
 								<th{if $thread['reason']} title="{lang collection_recommended_reason}: $thread['reason']"{/if}>
 									<a href="forum.php?mod=viewthread&tid=$thread[tid]{if !$memberrate AND $_G['uid']}&ctid=$ctid{/if}" target="_blank" class="xst {if $thread[updatedthread]}xw1 xi2{/if}" title="$thread['htmlsubject']">$thread['cutsubject']</a>
@@ -233,8 +233,8 @@
 
 					<!--{if $permission}-->
 					<div class="bm_c cl">
-						<input type="hidden" value="{$ctid}" name="ctid" />
-					    <input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+						<input type="hidden" value="{$ctid}" name="ctid">
+					    <input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
 
 						<button type="submit" class="pn pnc"><span>{lang delete}</span></button>
 					</div>
@@ -252,7 +252,7 @@
 				
 				<!--{hook/collection_threadlistbottom}-->
 			</div>
-			<!--{if $multipage}--><div class="pgs mtm cl">$multipage</div><br /><!--{/if}-->
+			<!--{if $multipage}--><div class="pgs mtm cl">$multipage</div><br><!--{/if}-->
 		<!--{elseif $op == 'related'}-->
 			<!--{hook/collection_relatedop}-->
 		<!--{/if}-->
@@ -272,7 +272,7 @@
 				<div class="pbm">
 					<!--{if trim($comment[message])}--><p{if $comment[rateimg]} class="mbn"{/if}>$comment[message]</p><!--{/if}-->
 					<!--{if $comment[rateimg]}-->
-						<span class="clct_ratestar"><span class="star star$comment[rateimg]"></span></span><br />
+						<span class="clct_ratestar"><span class="star star$comment[rateimg]"></span></span><br>
 					<!--{/if}-->
 				</div>
 			<!--{/loop}-->
@@ -289,7 +289,7 @@
 			<div class="bm_c {if $memberrate}bbda{/if}">
 				<!--{if !$memberrate}-->
 				<div class="cl">
-					<input type="hidden" name="ratescore" id="ratescore" />
+					<input type="hidden" name="ratescore" id="ratescore">
 					<span class="clct_ratestar">
 						<span class="btn">
 							<a href="javascript:;" onmouseover="rateStarHover('clct_ratestar_star',1)" onmouseout="rateStarHover('clct_ratestar_star',0)" onclick="rateStarSet('clct_ratestar_star',1,'ratescore')">1</a>

@@ -156,7 +156,7 @@ if($optype == 'moveforum') {
 			$groupselect = '<select name="forumsticktargets[]" size="10" multiple="multiple">'.get_groupselect(0, 0, 0).'</select>';
 			showsetting('threads_forumstick_targets', '', '', $targetsselect);
 			showsetting('threads_forumstick_targetgroups', '', '', $groupselect);
-			echo '<input type="hidden" value="add" name="do" />';
+			echo '<input type="hidden" value="add" name="do">';
 			showsubmit('forumsticksubmit', 'submit');
 			showtablefooter();
 			showformfooter();
@@ -174,8 +174,8 @@ if($optype == 'moveforum') {
 			}
 			showsetting('threads_forumstick_targets', '', '', $targetsselect);
 			showsetting('threads_forumstick_targetgroups', '', '', $groupselect);
-			echo '<input type="hidden" value="edit" name="do" />';
-			echo "<input type=\"hidden\" value=\"{$_GET['id']}\" name=\"id\" />";
+			echo '<input type="hidden" value="edit" name="do">';
+			echo "<input type=\"hidden\" value=\"{$_GET['id']}\" name=\"id\">";
 			showsubmit('forumsticksubmit', 'submit');
 			showtablefooter();
 			showformfooter();

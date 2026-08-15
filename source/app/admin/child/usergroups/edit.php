@@ -73,19 +73,19 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 		$checked = $_GET['id'] == $ggroup['groupid'] || (is_array($_GET['multi']) && in_array($ggroup['groupid'], $_GET['multi']));
 		$ggroup['type'] = $ggroup['type'] == 'special' && $ggroup['radminid'] ? 'specialadmin' : $ggroup['type'];
 		$groupcount[$ggroup['type']]++;
-		$grouplist[$ggroup['type']] .= '<input class="left checkbox ck" chkvalue="'.$ggroup['type'].'" name="multi[]" value="'.$ggroup['groupid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'/>'.
+		$grouplist[$ggroup['type']] .= '<input class="left checkbox ck" chkvalue="'.$ggroup['type'].'" name="multi[]" value="'.$ggroup['groupid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'>'.
 			'<a href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=usergroups&operation=edit&switch=yes&id='.$ggroup['groupid'].'&anchor=\'+currentAnchor+\'&scrolltop=\'+scrollTopBody()"'.($checked ? ' class="current"' : '').'>'.$ggroup['grouptitle'].'</a>';
 		if(!($groupcount[$ggroup['type']] % 3)) {
-			$grouplist[$ggroup['type']] .= '<br style="clear:both" />';
+			$grouplist[$ggroup['type']] .= '<br style="clear:both">';
 		}
 	}
 	$gselect = '<span id="ugselect" class="right popupmenu_dropmenu" onmouseover="showMenu({\'ctrlid\':this.id,\'pos\':\'34\'});$(\'ugselect_menu\').style.top=(parseInt($(\'ugselect_menu\').style.top)-scrollTopBody())+\'px\';$(\'ugselect_menu\').style.left=(parseInt($(\'ugselect_menu\').style.left)-document.documentElement.scrollLeft-20)+\'px\'">'.$lang['usergroups_switch'].'<em>&nbsp;&nbsp;</em></span>'.
 		'<div id="ugselect_menu" class="popupmenu_popup" style="display:none">'.
-		'<em class="cl"><span class="right"><input name="checkall_member" onclick="checkAll(\'value\', this.form, \'member\', \'checkall_member\')" type="checkbox" class="vmiddle checkbox" /></span>'.$lang['usergroups_member'].'</em>'.$grouplist['member'].'<br />'.
-		($grouplist['special'] ? '<em class="cl"><span class="right"><input name="checkall_special" onclick="checkAll(\'value\', this.form, \'special\', \'checkall_special\')" type="checkbox" class="vmiddle checkbox" /></span>'.$lang['usergroups_special'].'</em>'.$grouplist['special'].'<br />' : '').
-		($grouplist['specialadmin'] ? '<em class="cl"><span class="right"><input name="checkall_specialadmin" onclick="checkAll(\'value\', this.form, \'specialadmin\', \'checkall_specialadmin\')" type="checkbox" class="vmiddle checkbox" /></span>'.$lang['usergroups_specialadmin'].'</em>'.$grouplist['specialadmin'].'<br />' : '').
-		'<em class="cl"><span class="right"><input name="checkall_system" onclick="checkAll(\'value\', this.form, \'system\', \'checkall_system\')" type="checkbox" class="vmiddle checkbox" /></span>'.$lang['usergroups_system'].'</em>'.$grouplist['system'].
-		'<br style="clear:both" /><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('usergroups_multiedit').'" /></div>'.
+		'<em class="cl"><span class="right"><input name="checkall_member" onclick="checkAll(\'value\', this.form, \'member\', \'checkall_member\')" type="checkbox" class="vmiddle checkbox"></span>'.$lang['usergroups_member'].'</em>'.$grouplist['member'].'<br>'.
+		($grouplist['special'] ? '<em class="cl"><span class="right"><input name="checkall_special" onclick="checkAll(\'value\', this.form, \'special\', \'checkall_special\')" type="checkbox" class="vmiddle checkbox"></span>'.$lang['usergroups_special'].'</em>'.$grouplist['special'].'<br>' : '').
+		($grouplist['specialadmin'] ? '<em class="cl"><span class="right"><input name="checkall_specialadmin" onclick="checkAll(\'value\', this.form, \'specialadmin\', \'checkall_specialadmin\')" type="checkbox" class="vmiddle checkbox"></span>'.$lang['usergroups_specialadmin'].'</em>'.$grouplist['specialadmin'].'<br>' : '').
+		'<em class="cl"><span class="right"><input name="checkall_system" onclick="checkAll(\'value\', this.form, \'system\', \'checkall_system\')" type="checkbox" class="vmiddle checkbox"></span>'.$lang['usergroups_system'].'</em>'.$grouplist['system'].
+		'<br style="clear:both"><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('usergroups_multiedit').'"></div>'.
 		'</div>';
 	$anchor = in_array($_GET['anchor'], ['basic', 'system', 'special', 'post', 'attach', 'magic', 'invite', 'pm', 'credit', 'home', 'group', 'portal', 'plugin', 'style']) ? $_GET['anchor'] : 'basic';
 	showformheader('', '', 'menuform', 'get');
@@ -224,7 +224,7 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 					<div id="formulapermexp" class="margintop marginbot diffcolor2">$formulapermexp</div>
 					<textarea name="creditsformulanew" id="creditsformula" class="marginbot" style="width:80%" rows="3" onkeyup="formulaexp()" onkeydown="textareakey(this, event)">{$group['creditsformula']}</textarea>
 					<script type="text/JavaScript">formulaexp()</script>
-					<br /><span class="smalltxt">{$lang['usergroups_up_creditsformula_comment']}</span>
+					<br><span class="smalltxt">{$lang['usergroups_up_creditsformula_comment']}</span>
 				</td>
 			</tr>
 EOF;
@@ -263,7 +263,7 @@ EOF;
 				} else {
 					$groupicon = $_G['setting']['attachurl'].'common/'.$group['icon'].'?'.random(6);
 				}
-				$groupiconhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon['.$group['groupid'].']" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$groupicon.'" />';
+				$groupiconhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon['.$group['groupid'].']" value="yes"> '.$lang['delete'].'</label><br><img src="'.$groupicon.'">';
 			}
 			showsetting('usergroups_icon', 'iconnew', $group['icon'], 'filetext', '', 0, $groupiconhtml);
 		}
@@ -488,8 +488,8 @@ EOF;
 					showsetting($lang['usergroups_edit_credit_exempt_outperm'].$lang['usergroups_edit_credit_exempt_threadpay'], 'exemptnew[4]', $group['exempt'][4], 'radio');
 					showsetting($lang['usergroups_edit_credit_exempt_inperm'].$lang['usergroups_edit_credit_exempt_threadpay'], 'exemptnew[7]', $group['exempt'][7], 'radio');
 				} else {
-					echo '<input name="exemptnew[2]" type="hidden" value="1" /><input name="exemptnew[3]" type="hidden" value="1" /><input name="exemptnew[4]" type="hidden" value="1" />'.
-						'<input name="exemptnew[5]" type="hidden" value="1" /><input name="exemptnew[6]" type="hidden" value="1" /><input name="exemptnew[7]" type="hidden" value="1" />';
+					echo '<input name="exemptnew[2]" type="hidden" value="1"><input name="exemptnew[3]" type="hidden" value="1"><input name="exemptnew[4]" type="hidden" value="1">'.
+						'<input name="exemptnew[5]" type="hidden" value="1"><input name="exemptnew[6]" type="hidden" value="1"><input name="exemptnew[7]" type="hidden" value="1">';
 				}
 			} else {
 				showsetting('usergroups_edit_credit_exempt_getattch', 'exemptnew[2]', $group['exempt'][2], 'radio');

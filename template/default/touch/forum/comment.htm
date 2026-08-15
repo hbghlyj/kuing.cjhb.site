@@ -2,8 +2,8 @@
 <div class="tip loginbox loginpop p5" id="floatlayout_comment">
 	<form method="post" autocomplete="off" id="commentform" action="forum.php?mod=post&action=reply&comment=yes&tid=$post['tid']&pid=$_GET['pid']&extra=$extra{if !empty($_GET['page'])}&page=$_GET['page']{/if}&commentsubmit=yes&infloat=yes&inajax=1" onsubmit="return validatePostComment();">
 		<h2 class="log_tit" id="return_comment"><a href="javascript:;" onclick="popup.close();"><span class="icon_close y">&nbsp;</span></a>{lang comments}</h2>
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 		<!--{if $commentitem}-->
 		<ul class="post-box cl">
 			<!--{eval $items = range(0, 5);$itemlang = array('{lang comment_1}', '{lang comment_2}', '{lang comment_3}', '{lang comment_4}', '{lang comment_5}', '{lang comment_6}');$i = $cmm = 0;}-->
@@ -21,7 +21,7 @@
 					<a href="javascript:;" onclick="rateStarSet('clct_$i',5,'itemc_$i')"><i class="dm-star-fill"></i></a>
 				</span>
 				</div>
-				<input type="hidden" id="itemc_$i" name="commentitem[$item]" value="" />
+				<input type="hidden" id="itemc_$i" name="commentitem[$item]" value="">
 			</li>
 			<!--{eval $i++;}-->
 			<!--{/if}-->
@@ -55,7 +55,7 @@ function convertPostCommentToReply() {
 }
 function validatePostComment() {
 	if(Array.from(getID('commentmessage').value).length <= 200) return true;
-	popup.open('{lang postcomment_too_long}<br /><a href="javascript:convertPostCommentToReply();" class="xi2">{lang postcomment_to_reply}</a>', 'alert');
+	popup.open('{lang postcomment_too_long}<br><a href="javascript:convertPostCommentToReply();" class="xi2">{lang postcomment_to_reply}</a>', 'alert');
 	return false;
 }
 function rateStarSet(target, level, input) {

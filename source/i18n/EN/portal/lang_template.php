@@ -108,7 +108,7 @@ $lang = array (
 	'block_stop'			=> 'Hide',//'屏蔽',
 	'block_template'		=> 'Block template',//'模块模板',
 	'block_type'			=> 'Block Type',//'模块分类',
-	'block_type_convert_tips'	=> 'This block supports converting block type, but <font color=\'red\'>some of special fields may be lost, and the block will change the display style of a custom template</font >, according to your need.<br/><font color=\'red\'>Note:</ font>Select the block type classification from the drop-down list, immediately after the block changed.',//'此模块分类支持转换模块的类型，但<font color=\'red\'>可能会存在部分特殊字段的丢失且模块的显示样式将会变为自定义模板</font>，请根据需要使用。<br/><font color=\'red\'>注意：</font>选择下拉列表中的模块类型以后模块分类立即发生改变。',
+	'block_type_convert_tips'	=> 'This block supports converting block type, but <font color=\'red\'>some of special fields may be lost, and the block will change the display style of a custom template</font >, according to your need.<br><font color=\'red\'>Note:</ font>Select the block type classification from the drop-down list, immediately after the block changed.',//'此模块分类支持转换模块的类型，但<font color=\'red\'>可能会存在部分特殊字段的丢失且模块的显示样式将会变为自定义模板</font>，请根据需要使用。<br><font color=\'red\'>注意：</font>选择下拉列表中的模块类型以后模块分类立即发生改变。',
 	'block_view_banned_data'	=> 'View masked data',//'查看屏蔽数据',
 	'cachetimerange'		=> 'Update interval',//'更新区间',
 	'cancel'			=> 'Cancel',//'取消',
@@ -296,7 +296,7 @@ $lang = array (
 	'topic_static_name'		=> 'Static name',//'静态化名称',
 	'topic_static_name_comment'	=> 'Static topic name is displayed in the link, the individual name can not be repeated.',//'用于专题静态化时显示在链接中的个性化名称，不能重复',
 	'topic_submit'			=> 'Topic title',//'专题标题',
-	'topic_tplname_comment'		=> 'Set the template file name uploaded to the template/default/portal directory, file name must be in form portal_topic_*.htm, * means any custom name.<br />If you want to re-select a template, make sure the new template have the same region ID as the original template, otherwise you will lose the data segment or all of the original template.',//'请将模板文件上传到 template/default/portal目录下，文件名必须为portal_topic_*.htm，*为自定义文件名<br />如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的ID，否则将会丢失分部或全部原DIY数据',
+	'topic_tplname_comment'		=> 'Set the template file name uploaded to the template/default/portal directory, file name must be in form portal_topic_*.htm, * means any custom name.<br>If you want to re-select a template, make sure the new template have the same region ID as the original template, otherwise you will lose the data segment or all of the original template.',//'请将模板文件上传到 template/default/portal目录下，文件名必须为portal_topic_*.htm，*为自定义文件名<br>如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的ID，否则将会丢失分部或全部原DIY数据',
 	'tplname'			=> 'Template name',//'模板名',
 	'upload_from_local'		=> 'Local upload',//'本地上传',
 	'yes'				=> 'Yes',//'是',
@@ -316,6 +316,6 @@ $lang = array (
 	'display_order'			=> 'Display order',//'显示位置',
 	'filename'			=> 'File name',//'文件名',
 
-	'select_all'	=	'Select All',//'全选',
+	'select_all'			=> 'Select All',//'全选',
 );
 

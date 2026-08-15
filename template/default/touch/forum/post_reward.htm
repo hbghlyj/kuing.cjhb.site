@@ -4,7 +4,7 @@
 	<label for="rewardprice">
 	<li class="flex-box mli">
 		<div class="flex pl5"><span class="z xg1">{lang reward_price}</span></div>
-		<div class="flex"><input type="text" name="rewardprice" id="rewardprice" class="px pxs" size="6" onkeyup="getrealprice(this.value)" value="{$_G['group']['minrewardprice']}" /></div>
+		<div class="flex"><input type="text" name="rewardprice" id="rewardprice" class="px pxs" size="6" onkeyup="getrealprice(this.value)" value="{$_G['group']['minrewardprice']}"></div>
 		<div class="flex"><span class="y xg1 xs1">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][2]][unit]}{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][2]][title]}</span></div>
 	</li>
 	</label>
@@ -24,7 +24,7 @@
 			<label for="rewardprice">
 				<li class="flex-box mli">
 					<div class="flex pl5"><span class="z xg1">{lang reward_price}</span></div>
-					<div class="flex"><input type="text" name="rewardprice" id="rewardprice" class="px pxs" onkeyup="getrealprice(this.value)" size="6" value="$rewardprice" /></div>
+					<div class="flex"><input type="text" name="rewardprice" id="rewardprice" class="px pxs" onkeyup="getrealprice(this.value)" size="6" value="$rewardprice"></div>
 					<div class="flex"><span class="y xg1 xs1">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][2]][title]}</span></div>
 				</li>
 			</label>
@@ -38,7 +38,7 @@
 			</li>
 		<!--{else}-->
 			<li class="flex-box mli mtit"><div class="flex pl5"><span class="z xg1">{lang post_reward_resolved}</span></div></li>
-			<input type="hidden" name="rewardprice" value="$rewardprice" tabindex="1" />
+			<input type="hidden" name="rewardprice" value="$rewardprice" tabindex="1">
 		<!--{/if}-->
 	<!--{else}-->
 		<!--{if $thread['price'] > 0}-->

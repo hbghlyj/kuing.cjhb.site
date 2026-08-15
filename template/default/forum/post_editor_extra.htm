@@ -1,6 +1,6 @@
 <div class="pbt cl">
 	<!--{if $sortid}-->
-		<input type="hidden" name="sortid" value="$sortid" />
+		<input type="hidden" name="sortid" value="$sortid">
 	<!--{/if}-->
 	<!--{if $isfirstpost && !empty($_G['forum'][threadtypes][types])}-->
 		<div class="ftid">
@@ -20,13 +20,13 @@
 	<!--{/if}-->
 	<div class="z">
 		<!--{if $_GET[action] == 'reply' && !empty($_GET['addtrade']) || $_GET[action] == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
-			<input name="subject" type="hidden" value="" />
+			<input name="subject" type="hidden" value="">
 		<!--{else}-->
 			<!--{if $_GET[action] != 'reply'}-->
-				<input type="text" name="subject" id="subject" class="px" value="$postinfo[subject]" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" />
+				<input type="text" name="subject" id="subject" class="px" value="$postinfo[subject]" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40">
 			<!--{else}-->
 				<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectchk');display('subjectbox');return false;">{lang modify}</a>]</span>
-				<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" /></span>
+				<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40"></span>
 			<!--{/if}-->
 			<span id="subjectchk"{if $_GET[action] == 'reply'} style="display:none"{/if} class="xg1"><strong id="checklen">0</strong> / {echo intval($_G['setting']['maxsubjectsize'])}</span>
 			<script>dstrLenCalcUsed($('subject'), 'checklen', $_G['setting']['maxsubjectsize'])</script>

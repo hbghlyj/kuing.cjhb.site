@@ -40,13 +40,13 @@ if(!submitcheck('onlinesubmit')) {
 		}
 		showtablerow('', ['class="td25"', 'class="td23 td28"', 'class="td24"', 'class="td24"', 'class="td21 td26"'], [
 			$listarray[$id]['url'] ? " <img src=\"$url\">" : '',
-			'<input type="text" class="txt" name="displayordernew['.$id.']" value="'.$listarray[$id]['displayorder'].'" size="3" />',
+			'<input type="text" class="txt" name="displayordernew['.$id.']" value="'.$listarray[$id]['displayorder'].'" size="3">',
 			$group['groupid'] <= 8 ? cplang('usergroups_system_'.$id) : $group['grouptitle'],
-			implode('<br />', array_map(
-				fn($locale) => '<label>'.$locale.' <input type="text" class="txt" name="titlenew['.$id.']['.$locale.']" value="'.dhtmlspecialchars($listarray[$id]['title_i18n'][$locale] ?? ($locale == 'SC' ? $group['grouptitle'] : '')).'" size="15" /></label>',
+			implode('<br>', array_map(
+				fn($locale) => '<label>'.$locale.' <input type="text" class="txt" name="titlenew['.$id.']['.$locale.']" value="'.dhtmlspecialchars($listarray[$id]['title_i18n'][$locale] ?? ($locale == 'SC' ? $group['grouptitle'] : '')).'" size="15"></label>',
 				i18n::LOCALES
 			)),
-			'<input type="text" class="txt" name="urlnew['.$id.']" value="'.$listarray[$id]['url'].'" size="20" />'
+			'<input type="text" class="txt" name="urlnew['.$id.']" value="'.$listarray[$id]['url'].'" size="20">'
 		]);
 
 	}

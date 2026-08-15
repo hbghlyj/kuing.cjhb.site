@@ -257,7 +257,7 @@ EOF;
 			$value['displayorder'] = '<input type="text" name="displayorder['.$fieldid.']" value="'.$value['displayorder'].'" size="5">';
 			$value['edit'] = '<a href="'.ADMINSCRIPT.'?action=members&operation=profile&fieldid='.$fieldid.'" title="" class="act">'.$lang['edit'].'</a>';
 			$value['encrypt'] = $value['encrypt'] ? cplang('members_profile_edit_encrypt_exists') : '';
-			$value['title'] = $value['title'].'<br/><span class="lightfont">('.$fieldid.')</span>';
+			$value['title'] = $value['title'].'<br><span class="lightfont">('.$fieldid.')</span>';
 			showtablerow('', [], $value);
 		}
 		showsubmit('ordersubmit');

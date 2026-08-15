@@ -13,8 +13,8 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 $magics = '';
 foreach(table_common_magic::t()->fetch_all_data(1) as $magic) {
 	$magics .= showtablerow('', ['class="td25"', 'class="td23"', 'class="td25"', ''], [
-		"<input class=\"checkbox\" type=\"checkbox\" name=\"magic[]\" value=\"{$magic['magicid']}\" />",
-		"<img src=\"static/image/magic/{$magic['identifier']}.gif\" />",
+		"<input class=\"checkbox\" type=\"checkbox\" name=\"magic[]\" value=\"{$magic['magicid']}\">",
+		"<img src=\"static/image/magic/{$magic['identifier']}.gif\">",
 		$magic['name'],
 		'<input class="txt" type="text" name="magicnum['.$magic['magicid'].']" value="1" size="3">'
 	], TRUE);
@@ -66,7 +66,7 @@ if(!submitcheck('confermagicsubmit')) {
 			showtagheader('div', 'messagebody');
 			shownewsletter();
 			showtagfooter('div');
-			showsubmit('confermagicsubmit', 'submit', 'td', '<input class="checkbox" type="checkbox" name="notifymember" value="1" onclick="$(\'messagebody\').style.display = this.checked ? \'\' : \'none\'" id="grant_notify"/><label for="grant_notify">'.cplang('magics_grant_notify').'</label>');
+			showsubmit('confermagicsubmit', 'submit', 'td', '<input class="checkbox" type="checkbox" name="notifymember" value="1" onclick="$(\'messagebody\').style.display = this.checked ? \'\' : \'none\'" id="grant_notify"><label for="grant_notify">'.cplang('magics_grant_notify').'</label>');
 
 		}
 

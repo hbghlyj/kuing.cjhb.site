@@ -22,7 +22,7 @@ $lang =
 	'req_not_found' => '您当前系统环境内未安装或开启 {req} 模块，程序无法按预期正常运行。我们强烈建议您安装或开启此模块，以满足程序正常运行的最低要求。',
 	'req_ok' => '您当前系统环境适合当前版本的 Discuz! {version}。',
 	'subscribe_comsenz_email' => '填写您的邮件地址，订阅 Discuz! 官方产品动态、安全提醒、官方新闻',
-	'scan_discuz_qrcode' => '<img src="source/plugin/wechat/image/discuz_qr.jpg" align="left" width="80" /><br />扫描关注Discuz!官方微信<br /><br />获取官方最新动态',
+	'scan_discuz_qrcode' => '<img src="source/plugin/wechat/image/discuz_qr.jpg" align="left" width="80"><br>扫描关注Discuz!官方微信<br><br>获取官方最新动态',
 	'yes' => '是',
 	'no' => '否',
 	'hidden' => '隐藏',
@@ -884,7 +884,7 @@ $lang =
 	'setting_access_register_welcomemsgtitle' => '欢迎信息标题',
 	'setting_access_register_welcomemsgtitle_comment' => '系统发送的欢迎信息的标题，不支持 HTML，不超过 75 字节。 ',
 	'setting_access_register_welcomemsgtxt' => '欢迎信息内容',
-	'setting_access_register_welcomemsgtxt_comment' => '系统发送的欢迎信息的内容。标题内容均支持变量替换，可以使用如下变量:<br />{username} : 用户名<br />{time} : 发送时间<br />{sitename} : 网站名称（显示在页面底部的联系方式处的名称）<br />{bbname} : 站点名称（显示在浏览器窗口标题等位置的名称）<br />{adminemail} : 管理员 Email',
+	'setting_access_register_welcomemsgtxt_comment' => '系统发送的欢迎信息的内容。标题内容均支持变量替换，可以使用如下变量:<br>{username} : 用户名<br>{time} : 发送时间<br>{sitename} : 网站名称（显示在页面底部的联系方式处的名称）<br>{bbname} : 站点名称（显示在浏览器窗口标题等位置的名称）<br>{adminemail} : 管理员 Email',
 	'setting_access_register_bbrules' => '显示网站服务条款',
 	'setting_access_register_bbruleforce' => '是否强制显示网站服务条款',
 	'setting_access_register_bbruleforce_comment' => '选择是则在用户注册时，首先将看到网站服务条款全文，必须同意才可以继续注册',
@@ -900,7 +900,7 @@ $lang =
 	'setting_access_register_invite' => '开放邀请注册',
 	'setting_access_register_connect' => '开放QQ注册',
 	'setting_access_register_send_register_url' => '通过邮件发送注册链接',
-	'setting_access_register_send_register_url_comment' => '开启后系统会发一条注册的地址到用户的邮箱，从该地址链接过来的允许注册，同时建议UCenter中开启一个邮箱只允许注册一个账户<br/>注意：只有在<a href="'.ADMINSCRIPT.'?action=setting&operation=mail">站长 - 邮件设置</a>中完成邮件设置，确保邮件能发送成功下可以开启该功能 ',
+	'setting_access_register_send_register_url_comment' => '开启后系统会发一条注册的地址到用户的邮箱，从该地址链接过来的允许注册，同时建议UCenter中开启一个邮箱只允许注册一个账户<br>注意：只有在<a href="'.ADMINSCRIPT.'?action=setting&operation=mail">站长 - 邮件设置</a>中完成邮件设置，确保邮件能发送成功下可以开启该功能 ',
 	'setting_access_register_regverifymobile' => '注册追加手机短信验证码验证',
 	'setting_access_register_regverifymobile_comment' => '选择是则在原用户注册表单基础上追加安全手机号验证，需要使用安全手机号进行手机验证码的验证。',
 	'setting_access_register_loginmobile' => '启用手机号同步登录注册功能',
@@ -921,7 +921,7 @@ $lang =
 	'setting_access_register_invite_group' => '邀请注册用户初始用户组',
 	'setting_access_register_invite_group_comment' => '被邀请人的初始用户组',
 	'setting_access_register_invite_areawhite' => '不受邀请码限制的地区列表',
-	'setting_access_register_invite_areawhite_comment' => '当用户处于本列表中的地址时，注册时不受邀请码限制。每个地区一行，例如 "北京"(不含引号)，留空为不设置。<br />注意：如要正确无误的判断您 IP 地址所在的地区，请到网上下载 qqwry.dat IP 地址库文件上传到 "source/data/ip/" 目录下更名为 wry.dat',
+	'setting_access_register_invite_areawhite_comment' => '当用户处于本列表中的地址时，注册时不受邀请码限制。每个地区一行，例如 "北京"(不含引号)，留空为不设置。<br>注意：如要正确无误的判断您 IP 地址所在的地区，请到网上下载 qqwry.dat IP 地址库文件上传到 "source/data/ip/" 目录下更名为 wry.dat',
 	'setting_access_register_invite_ipwhite' => '不受邀请码限制的 IP 列表',
 	'setting_access_register_invite_ipwhite_comment' => '当用户处于本列表中的 IP 地址时，注册时不受邀请码限制。每个 IP 一行，既可输入完整地址，也可只输入 IP 开头，例如 "192.168."(不含引号) 可匹配 192.168.0.0～192.168.255.255 范围内的所有地址，留空为不设置',
 	'setting_access_register_connect_birthday' => 'QQ注册时必填生日',
@@ -1362,11 +1362,11 @@ $lang =
 	'setting_home_base_domainroot' => '二级域名根域名',
 	'setting_home_realname' => '实名认证',
 	'setting_home_realname_switch' => '开启实名',
-	'setting_home_realname_switch_comment' => '以下设置只有在开启实名机制后有效；<br/>注意，开启实名认证会增加服务器负担。 ',
+	'setting_home_realname_switch_comment' => '以下设置只有在开启实名机制后有效；<br>注意，开启实名认证会增加服务器负担。 ',
 	'setting_home_realname_namecheck' => '实名需手工认证',
 	'setting_home_realname_namecheck_comment' => '设置为“是”，则用户填写的姓名只有在被管理者手工认证后才算有效。否则，则自动为认证有效',
 	'setting_home_realname_namechange' => '认证实名可再修改',
-	'setting_home_realname_namechange_comment' => '填写的姓名经认证有效后，是否允许用户再次修改姓名。<br/>如果允许修改且手工认证，那么用户修改的新姓名需要再次手工认证后方可有效',
+	'setting_home_realname_namechange_comment' => '填写的姓名经认证有效后，是否允许用户再次修改姓名。<br>如果允许修改且手工认证，那么用户修改的新姓名需要再次手工认证后方可有效',
 	'setting_home_realname_authority' => '未认证实名权限设置',
 	'setting_home_realname_setting' => '实名设置',
 	'setting_home_realname_setting_detail' => '请在“用户”-“用户栏目”-“真实姓名”项 设置 是否必填，是否需要审核 等属性',
@@ -1425,9 +1425,9 @@ $lang =
 	'setting_home_privacy_default_feed_newreply' => '论坛回帖',
 
 	'setting_home_hotuser' => '推荐成员',
-	'setting_home_hotuser_comment' => '添加格式：<br />请输入用户名，每个用户名一行。<br>例如：<br>admin<br>webmaster<br/>这些用户将随机显示在“站长推荐”栏目中',
+	'setting_home_hotuser_comment' => '添加格式：<br>请输入用户名，每个用户名一行。<br>例如：<br>admin<br>webmaster<br>这些用户将随机显示在“站长推荐”栏目中',
 	'setting_home_hotuser_defaultuser' => '推荐好友',
-	'setting_home_hotuser_defaultuser_comment' => '添加格式：<br />请输入用户名，每个用户名一行。<br>例如：<br>admin<br>webmaster<br>这些用户会自动将新注册用户添加为好友，并向其打个招呼。
+	'setting_home_hotuser_defaultuser_comment' => '添加格式：<br>请输入用户名，每个用户名一行。<br>例如：<br>admin<br>webmaster<br>这些用户会自动将新注册用户添加为好友，并向其打个招呼。
 							注意，指定的这几位用户浏览自己的首页时，可能会因其好友数众多而增加服务器负载',
 	'setting_home_hotuser_defaultpoke' => '默认打招呼内容',
 	'setting_home_hotuser_defaultpoke_comment' => '(不要超过25个汉字)设置自动好友向新人打招呼的内容',
@@ -1860,7 +1860,7 @@ $lang =
 	'setting_functions_recommend_iconlevels_comment' => '设置主题列表页评价图标每一级别对应的评价指数。建议为 3 个级别，请用逗号分隔，如：“0,100,200”表示当主题的评价指数大于 0 时为 1 级，大于 100 时为 2 级，大于 200 时为 3 级。1 级及以上级别的主题会在主题列表页“查看好评主题”中列出。留空或者 0 表示不显示图标',
 	'setting_functions_comment' => '帖子点评',
 	'setting_functions_comment_allow' => '帖子点评方式',
-	'setting_functions_comment_allow_comment' => '设置点评的发表方式，如不选择表示不启用点评功能。开启任意一种点评方式都需要在用户组中设置点评权限<br />“直接点评”即通过帖子每楼层中的“点评”链接发表点评<br />“楼层回复”即通过帖子每楼层中的“回复”链接发表回帖时，自动对该楼层产生点评<br />注意：点击主题中的“回复”链接，不会对主题产生点评',
+	'setting_functions_comment_allow_comment' => '设置点评的发表方式，如不选择表示不启用点评功能。开启任意一种点评方式都需要在用户组中设置点评权限<br>“直接点评”即通过帖子每楼层中的“点评”链接发表点评<br>“楼层回复”即通过帖子每楼层中的“回复”链接发表回帖时，自动对该楼层产生点评<br>注意：点击主题中的“回复”链接，不会对主题产生点评',
 	'setting_functions_comment_allow_1' => '直接点评',
 	'setting_functions_comment_allow_2' => '楼层回复',
 	'setting_functions_comment_number' => '点评条目数',
@@ -2014,7 +2014,7 @@ $lang =
 	'setting_editor_group' => '允许的用户组',
 	'setting_editor_group_comment' => '勾选的用户组允许使用该功能，可以按住 CTRL 多选',
 	'setting_editor_forum' => '允许的版块',
-	'setting_editor_forum_comment' => '勾选的版块允许使用该功能，可以按住 CTRL 多选<br/>选中的版块需要前往 论坛 - 对应版块 - 编辑 - 帖子选项 中，启用“允许使用 HTML 代码”功能。',
+	'setting_editor_forum_comment' => '勾选的版块允许使用该功能，可以按住 CTRL 多选<br>选中的版块需要前往 论坛 - 对应版块 - 编辑 - 帖子选项 中，启用“允许使用 HTML 代码”功能。',
 	'setting_editor_anchorparse' => '锚点解析',
 	'setting_editor_anchorparse_comment' => '此处填写区块标识，多个用英文逗号分隔，如：paragraph,quote。如果区块内容存在a标签的锚点链接（href内容以#号开头，如：#abc），则自动转为为js跳转方式。',
 	'setting_editor_json_independence' => '是否独立页面使用 JSON 编辑器',
@@ -2257,9 +2257,9 @@ $lang =
 	'setting_sec_base_uniqueemail' => '验证激活邮箱唯一性',
 	'setting_sec_base_uniqueemail_comment' => '选择是的话，验证激活的邮箱将唯一性，不允许重复',
 	'setting_sec_base_change_email' => '禁止用户前台修改邮箱',
-	'setting_sec_base_change_email_comment' => '选择是的话，用户不能通过前台自行修改账号绑定的邮箱 <br/> <strong>(弃用)</strong>，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 账号管理 </strong></a> 菜单中调整“允许用户修改安全邮箱”设置。',
+	'setting_sec_base_change_email_comment' => '选择是的话，用户不能通过前台自行修改账号绑定的邮箱 <br> <strong>(弃用)</strong>，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 账号管理 </strong></a> 菜单中调整“允许用户修改安全邮箱”设置。',
 	'setting_sec_base_change_secmobile' => '禁止用户前台修改安全手机',
-	'setting_sec_base_change_secmobile_comment' => '选择是的话，用户不能通过前台自行修改账号绑定的安全手机 <br/> <strong>(弃用)</strong>，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 账号管理 </strong></a> 菜单中调整“允许用户修改安全手机号”设置。',
+	'setting_sec_base_change_secmobile_comment' => '选择是的话，用户不能通过前台自行修改账号绑定的安全手机 <br> <strong>(弃用)</strong>，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 账号管理 </strong></a> 菜单中调整“允许用户修改安全手机号”设置。',
 	'setting_sec_base_need_secmobile' => '强制用户认证安全手机',
 	'setting_sec_base_need_secmobile_comment' => '选择是的话，用户必须认证自己的安全手机后才能进行发布操作',
 	'setting_sec_base_need_avatar' => '强制用户上传头像',
@@ -2275,7 +2275,7 @@ $lang =
 	'setting_account' => '账号管理',
 	'setting_account_base' => '基本设置',
 	'setting_sec_base_security_verify' => '启用账号管理操作安全验证',
-	'setting_sec_base_security_verify_comment' => '启用该功能，用户在前端 设置 - 账号管理 - 安全设置 中，进行各项操作前均需要进行安全验证。如果勾选多项，则前端可由用户自行选择验证方式。没有勾选任何一项，则不需要进行验证。 <br/> 使用“验证安全手机”功能，请在 <a href="'.ADMINSCRIPT.'?action=smsgw"><strong>短信服务</strong></a> 设置中配置短信网关及相关参数。<br/> 使用“验证安全邮箱”功能，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail"><strong>邮件设置</strong></a> 中开启邮件服务，并在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail&anchor=seccode"><strong>邮件验证码</strong></a> 中设置发送邮件验证码相关参数。',
+	'setting_sec_base_security_verify_comment' => '启用该功能，用户在前端 设置 - 账号管理 - 安全设置 中，进行各项操作前均需要进行安全验证。如果勾选多项，则前端可由用户自行选择验证方式。没有勾选任何一项，则不需要进行验证。 <br> 使用“验证安全手机”功能，请在 <a href="'.ADMINSCRIPT.'?action=smsgw"><strong>短信服务</strong></a> 设置中配置短信网关及相关参数。<br> 使用“验证安全邮箱”功能，请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail"><strong>邮件设置</strong></a> 中开启邮件服务，并在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail&anchor=seccode"><strong>邮件验证码</strong></a> 中设置发送邮件验证码相关参数。',
 	'setting_sec_base_security_mobile' => '允许用户修改安全手机号',
 	'setting_sec_base_security_mobile_comment' => '选择是的话，允许用户在前端 设置 - 账号管理 - 安全设置 中，修改安全手机号。 ',
 	'setting_sec_base_security_email' => '允许用户修改安全邮箱',
@@ -2285,7 +2285,7 @@ $lang =
 	'setting_sec_base_security_question' => '允许用户修改安全问题',
 	'setting_sec_base_security_question_comment' => '选择是的话，允许用户在前端 设置 - 账号管理 - 安全设置 中，修改安全问题答案。 ',
 	'setting_sec_base_security_logoff' => '允许用户注销账号',
-	'setting_sec_base_security_logoff_comment' => '选择是的话，允许用户在前端 设置 - 账号管理 - 安全设置 中，注销账号。  <br/> 请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account&anchor=logoff"><strong>账户注销</strong></a> 菜单中进行详细参数设置。',
+	'setting_sec_base_security_logoff_comment' => '选择是的话，允许用户在前端 设置 - 账号管理 - 安全设置 中，注销账号。  <br> 请在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account&anchor=logoff"><strong>账户注销</strong></a> 菜单中进行详细参数设置。',
 
 	'security_verify_none' => '无需安全验证',
 	'security_verify_mobile' => '验证安全手机',
@@ -2310,13 +2310,13 @@ $lang =
 	'setting_sec_seccode_status_password' => '修改密码',
 	'setting_sec_seccode_status_card' => '充值卡密及短信验证',
 	'setting_sec_seccode_status_connect_register' => 'QQ注册',
-	'setting_sec_seccode_status_comment' => '验证码可以避免恶意注册及恶意灌水，请选择需要打开验证码的操作。注意: 启用验证码会使得部分操作变得繁琐，建议仅在必需时打开。<br /><strong>充值卡密验证码建议一直开启</strong>',
+	'setting_sec_seccode_status_comment' => '验证码可以避免恶意注册及恶意灌水，请选择需要打开验证码的操作。注意: 启用验证码会使得部分操作变得繁琐，建议仅在必需时打开。<br><strong>充值卡密验证码建议一直开启</strong>',
 	'setting_sec_seccode_minposts' => '发帖数限制',
 	'setting_sec_seccode_minposts_comment' => '发帖数超过此设置的会员将不受验证码功能限制，0 表示所有会员均受限制。仅针对发表信息及修改密码时有效',
 	'setting_sec_seccode_loginfailedcount' => '登录失败时显示验证码',
 	'setting_sec_seccode_loginfailedcount_comment' => '选择“是”将在用户登录失败 3 次后才显示验证码，选择“否”将始终在登录时显示验证码。注意: 只有在启用了用户登录验证码时本设置才有效',
 	'setting_sec_seccode_type' => '验证码类型',
-	'setting_sec_seccode_type_comment' => '设置验证码的类型。中文图片验证码需要您的主机支持 FreeType 库<br /><br />验证码预览',
+	'setting_sec_seccode_type_comment' => '设置验证码的类型。中文图片验证码需要您的主机支持 FreeType 库<br><br>验证码预览',
 	'setting_sec_seccode_type_image' => '英文图片验证码',
 	'setting_sec_seccode_type_chnfont' => '中文图片验证码',
 	'setting_sec_seccode_type_wav' => '语音验证码',
@@ -2470,13 +2470,13 @@ $lang =
 
 	'setting_datetime_periods' => '时间段设置',
 	'setting_datetime_visitbanperiods' => '禁止访问时间段',
-	'setting_datetime_visitbanperiods_comment' => '每天该时间段内用户不能访问站点，请使用 24 小时时段格式，每个时间段一行，如需要也可跨越零点，留空为不限制。例如:<br />每日晚 11:25 到次日早 5:05 可设置为: <i>23:25-5:05</i><br />每日早 9:00 到当日下午 2:30 可设置为: <i>9:00-14:30</i><br />注意: 格式不正确将可能导致意想不到的问题，用户组中如开启“不受时间段限制”的选项，则该组可不被任何时间段设置约束。所有时间段设置均以站点系统默认时区为准，不受用户自定义时区的影响',
+	'setting_datetime_visitbanperiods_comment' => '每天该时间段内用户不能访问站点，请使用 24 小时时段格式，每个时间段一行，如需要也可跨越零点，留空为不限制。例如:<br>每日晚 11:25 到次日早 5:05 可设置为: <i>23:25-5:05</i><br>每日早 9:00 到当日下午 2:30 可设置为: <i>9:00-14:30</i><br>注意: 格式不正确将可能导致意想不到的问题，用户组中如开启“不受时间段限制”的选项，则该组可不被任何时间段设置约束。所有时间段设置均以站点系统默认时区为准，不受用户自定义时区的影响',
 	'setting_datetime_postbanperiods' => '禁止发帖时间段',
-	'setting_datetime_postbanperiods_comment' => '每天该时间段内用户不能发帖，请使用 24 小时时段格式，每个时间段一行，如需要也可跨越零点，留空为不限制。例如:<br />每日晚 11:25 到次日早 5:05 可设置为: <i>23:25-5:05</i><br />每日早 9:00 到当日下午 2:30 可设置为: <i>9:00-14:30</i><br />注意: 格式不正确将可能导致意想不到的问题，用户组中如开启“不受时间段限制”的选项，则该组可不被任何时间段设置约束。所有时间段设置均以站点系统默认时区为准，不受用户自定义时区的影响',
+	'setting_datetime_postbanperiods_comment' => '每天该时间段内用户不能发帖，请使用 24 小时时段格式，每个时间段一行，如需要也可跨越零点，留空为不限制。例如:<br>每日晚 11:25 到次日早 5:05 可设置为: <i>23:25-5:05</i><br>每日早 9:00 到当日下午 2:30 可设置为: <i>9:00-14:30</i><br>注意: 格式不正确将可能导致意想不到的问题，用户组中如开启“不受时间段限制”的选项，则该组可不被任何时间段设置约束。所有时间段设置均以站点系统默认时区为准，不受用户自定义时区的影响',
 	'setting_datetime_postmodperiods' => '发帖审核时间段',
 	'setting_datetime_postmodperiods_comment' => '每天该时间段内用户发帖不直接显示，需经版主或管理员人工审核才能发表，格式和用法同上',
 	'setting_datetime_postignorearea' => '发帖不受时间限制的地区列表',
-	'setting_datetime_postignorearea_comment' => '当用户处于本列表中的地址时，发帖不受时间段限制。每个地区一行，例如 "北京"(不含引号)，留空为不设置。<br />注意：如要正确无误的判断您 IP 地址所在的地区，请到网上下载 qqwry.dat IP 地址库文件上传到 "source/data/ip/" 目录下更名为 wry.dat',
+	'setting_datetime_postignorearea_comment' => '当用户处于本列表中的地址时，发帖不受时间段限制。每个地区一行，例如 "北京"(不含引号)，留空为不设置。<br>注意：如要正确无误的判断您 IP 地址所在的地区，请到网上下载 qqwry.dat IP 地址库文件上传到 "source/data/ip/" 目录下更名为 wry.dat',
 	'setting_datetime_postignoreip' => '发帖不受时间限制的IP列表',
 	'setting_datetime_postignoreip_comment' => '当用户处于本列表中的 IP 地址时，发帖不受时间段限制。每个 IP 一行，既可输入完整地址，也可只输入 IP 开头，例如 "192.168."(不含引号) 可匹配 192.168.0.0～192.168.255.255 范围内的所有地址，留空为不设置',
 	'setting_datetime_searchbanperiods' => '禁止全文搜索时间段',
@@ -2705,17 +2705,17 @@ $lang =
 	'settings_sphinx_sphinxport' => '设置 Sphinx 主机端口',
 	'settings_sphinx_sphinxport_comment' => '填写 Sphinx 主机端口：例如，3312，主机名填写 socket 地址的，则此处不需要设置',
 	'settings_sphinx_sphinxsubindex' => '设置标题索引名',
-	'settings_sphinx_sphinxsubindex_comment' => '填写 Sphinx 配置中的标题主索引名及标题增量索引名：例如，“threads,threads_minute”。<br />注意：多个索引使用半角逗号 "," 隔开，必须按照 Sphinx 配置文件中的索引名填写',
+	'settings_sphinx_sphinxsubindex_comment' => '填写 Sphinx 配置中的标题主索引名及标题增量索引名：例如，“threads,threads_minute”。<br>注意：多个索引使用半角逗号 "," 隔开，必须按照 Sphinx 配置文件中的索引名填写',
 	'settings_sphinx_sphinxmsgindex' => '设置全文索引名',
-	'settings_sphinx_sphinxmsgindex_comment' => '填写 Sphinx 配置中的全文主索引名及全文增量索引名：例如，“posts,posts_minute”。<br />注意：多个索引使用半角逗号 "," 隔开，必须按照 Sphinx 配置文件中的索引名填写',
+	'settings_sphinx_sphinxmsgindex_comment' => '填写 Sphinx 配置中的全文主索引名及全文增量索引名：例如，“posts,posts_minute”。<br>注意：多个索引使用半角逗号 "," 隔开，必须按照 Sphinx 配置文件中的索引名填写',
 	'settings_sphinx_sphinxmaxquerytime' => '设置最大搜索时间',
 	'settings_sphinx_sphinxmaxquerytime_comment' => '填写最大搜索时间，以毫秒为单位。参数必须是非负整数。默认值为 0，意思是不做限制',
 	'settings_sphinx_sphinxlimit' => '设置最大返回匹配项数目',
 	'settings_sphinx_sphinxlimit_comment' => '填写最大返回匹配项数目，必须是非负整数，默认值10000',
 	'settings_sphinx_sphinxrank' => '设置全文索引评分模式',
 	'settings_sphinx_sphinxrank_comment' => '(1)SPH_RANK_PROXIMITY_BM25， 默认模式，同时使用词组评分和 BM25 评分，并且将二者结合。[默认]
-<br />(2)SPH_RANK_BM25，统计相关度计算模式，仅使用 BM25 评分计算(与大多数全文检索引擎相同)。这个模式比较快，但是可能使包含多个词的查询的结果质量下降。
-<br />(3)SPH_RANK_NONE，禁用评分的模式，这是最快的模式。实际上这种模式与布尔搜索相同。所有的匹配项都被赋予权重1',
+<br>(2)SPH_RANK_BM25，统计相关度计算模式，仅使用 BM25 评分计算(与大多数全文检索引擎相同)。这个模式比较快，但是可能使包含多个词的查询的结果质量下降。
+<br>(3)SPH_RANK_NONE，禁用评分的模式，这是最快的模式。实际上这种模式与布尔搜索相同。所有的匹配项都被赋予权重1',
 
 	'setting_ranklist' => '排行榜设置',
 	'setting_ranklist_all' => '全部',
@@ -2838,21 +2838,21 @@ $lang =
 	'setting_mobile_forums' => '版块设置',
 	'setting_mobile_status_tips' => '<li>本手机功能页仅支持WAP2.0(XHTML方式)以上的手机浏览器进行访问。</li>',
 	'setting_mobile_allowmobile' => '开启手机版',
-	'setting_mobile_allowmobile_comment' => '开启本功能，用户使用手机访问论坛时，将自动跳转到手机版界面<br />手机访问域名配置请进入: <a href="'.ADMINSCRIPT.'?action=domain&operation=app">全局 - 域名设置 - 应用域名</a><br />底部导航设置请进入：<a href="'.ADMINSCRIPT.'?action=nav&operation=footernav">界面 - 导航设置 - 底部导航</a>',
+	'setting_mobile_allowmobile_comment' => '开启本功能，用户使用手机访问论坛时，将自动跳转到手机版界面<br>手机访问域名配置请进入: <a href="'.ADMINSCRIPT.'?action=domain&operation=app">全局 - 域名设置 - 应用域名</a><br>底部导航设置请进入：<a href="'.ADMINSCRIPT.'?action=nav&operation=footernav">界面 - 导航设置 - 底部导航</a>',
 	'setting_mobile_allowmnew' => '启用本地化微社区前端',
-	'setting_mobile_allowmnew_comment' => '使用本地化微社区前端，本地化微社区前端的 URL 为“'.$_G['siteurl'].'m/”。<br />开启后本前端体系将替换原有的手机版体系，但<b>不支持第三方插件以及搜索引擎收录，请谨慎使用</b>',
+	'setting_mobile_allowmnew_comment' => '使用本地化微社区前端，本地化微社区前端的 URL 为“'.$_G['siteurl'].'m/”。<br>开启后本前端体系将替换原有的手机版体系，但<b>不支持第三方插件以及搜索引擎收录，请谨慎使用</b>',
 	'setting_mobile_mobileforward' => '开启手机浏览器自动跳转',
 	'setting_mobile_mobileforward_comment' => '开启后用户使用手机浏览器访问社区论坛功能页以外页面时自动跳转到论坛首页进行访问',
 	'setting_mobile_preview' => '开启电脑访问手机版预览功能',
 	'setting_mobile_preview_comment' => '当电脑浏览器访问手机版时，给予用户引导手机登录的预览页面，用户可以在电脑版中预览手机版首页',
 	'setting_mobile_register' => '是否允许手机版注册',
-	'setting_mobile_register_comment' => '是否开启手机版注册功能，手机注册不会对用户栏目中的注册页必填项进行检测<br />请谨慎开启',
+	'setting_mobile_register_comment' => '是否开启手机版注册功能，手机注册不会对用户栏目中的注册页必填项进行检测<br>请谨慎开启',
 	'setting_mobile_simpletype' => '开启无图模式',
 	'setting_mobile_simpletype_comment' => '默认显示图片，开启后，手机版不显示帖子图片',
 	'setting_mobile_cachetime' => '页面浏览缓存时间',
-	'setting_mobile_cachetime_comment' => '设置访问过的页面在用户手机上保存的时间，留空或0为不缓存<br />单位：秒',
+	'setting_mobile_cachetime_comment' => '设置访问过的页面在用户手机上保存的时间，留空或0为不缓存<br>单位：秒',
 	'setting_mobile_come_from' => '手机发帖来源自定义',
-	'setting_mobile_come_from_comment' => '默认留空，如果填写，将在看帖页面"来自手机"处增加自定义文字或图标<br />如:&lt;a href=\'http://m.x.com\'&gt;手机频道&lt;/a&gt;<br />此处支持HTML标签有：&lt;a&gt;&lt;font&gt;&lt;span&gt;&lt;strong&gt;&lt;b&gt;&lt;img&gt;<br />如果使用图标，请保证图片高度在16px(像素)以内',
+	'setting_mobile_come_from_comment' => '默认留空，如果填写，将在看帖页面"来自手机"处增加自定义文字或图标<br>如:&lt;a href=\'http://m.x.com\'&gt;手机频道&lt;/a&gt;<br>此处支持HTML标签有：&lt;a&gt;&lt;font&gt;&lt;span&gt;&lt;strong&gt;&lt;b&gt;&lt;img&gt;<br>如果使用图标，请保证图片高度在16px(像素)以内',
 	'setting_mobile_portal_catnav' => '开启首页频道导航',
 	'setting_mobile_portal_catnav_comment' => '开启后门户首页将显示一级频道作为导航',
 	'setting_mobile_portal_wzpicture' => '首页显示文章幻灯片',
@@ -2864,7 +2864,7 @@ $lang =
 	'setting_mobile_forum_forumindex_grid' => '首页四格',
 	'setting_mobile_forum_forumindex_forumlist' => '论坛版块',
 	'setting_mobile_forum_forumindex_forumgrid' => '论坛版块含首页四格',
-	'setting_mobile_forum_forumindex_comment' => '选择导读需要开启导读功能；<br />选择首页四格需要开启首页四格功能；',
+	'setting_mobile_forum_forumindex_comment' => '选择导读需要开启导读功能；<br>选择首页四格需要开启首页四格功能；',
 	'setting_mobile_forum_statshow' => '显示统计信息',
 	'setting_mobile_forum_statshow_comment' => '开启后将在论坛首页顶部显示论坛统计信息，仅在论坛首页样式为论坛版块或论坛版块含首页四格模式下显示',
 	'setting_mobile_forum_onlineshow' => '显示在线会员',
@@ -2872,11 +2872,11 @@ $lang =
 	'setting_mobile_forum_displayorder3' => '是否显示置顶贴',
 	'setting_mobile_forum_displayorder3_comment' => '手机版功能，在帖子列表页面中是否显示置顶贴，否为不显示',
 	'setting_mobile_forum_topicperpage' => '每页显示主题数',
-	'setting_mobile_forum_topicperpage_comment' => '主题列表页每页显示主题个数，为空时和界面设置保持一致<br />当此处和界面设置数值不同时会导致手机端和电脑端分页不一致，请谨慎配置',
+	'setting_mobile_forum_topicperpage_comment' => '主题列表页每页显示主题个数，为空时和界面设置保持一致<br>当此处和界面设置数值不同时会导致手机端和电脑端分页不一致，请谨慎配置',
 	'setting_mobile_forum_postperpage' => '主题内每页显示帖数',
-	'setting_mobile_forum_postperpage_comment' => '主题内每页显示的帖子数目，为空时和界面设置保持一致<br />当此处和界面设置数值不同时会导致手机端和电脑端分页不一致，请谨慎配置',
+	'setting_mobile_forum_postperpage_comment' => '主题内每页显示的帖子数目，为空时和界面设置保持一致<br>当此处和界面设置数值不同时会导致手机端和电脑端分页不一致，请谨慎配置',
 	'setting_mobile_forum_forumview' => '首页分区展示方式',
-	'setting_mobile_forum_forumview_comment' => '如“收起”，论坛首页将默认只展示分区标题<br />用户需点击分区展开该分区下的版块列表',
+	'setting_mobile_forum_forumview_comment' => '如“收起”，论坛首页将默认只展示分区标题<br>用户需点击分区展开该分区下的版块列表',
 	'setting_mobile_forum_mlistwrap' => '版块列表换行',
 	'setting_mobile_forum_mlistwrap_comment' => '选“是”将横排超过三个的版块列表换行显示，选“否”将滚动显示',
 	'setting_mobile_forum_iconautowidth' => '版块图标宽度自适应',
@@ -2918,7 +2918,7 @@ $lang =
 	'setting_uc_key' => 'UCenter 通信密钥',
 	'setting_uc_key_comment' => '通信密钥用于在 UCenter 和 Discuz! 之间传输信息的加密，可包含任何字母及数字，请在 UCenter 与 Discuz! 设置完全相同的通讯密钥，以确保两套系统能够正常通信',
 	'setting_uc_api' => 'UCenter 访问地址',
-	'setting_uc_api_comment' => '如果您的头像服务地址发生了改变，请修改此项。不正确的设置可能导致头像与头像裁剪功能异常，请小心修改。<br />格式: http://www.sitename.com/api/avatar (最后不要加\'/\')',
+	'setting_uc_api_comment' => '如果您的头像服务地址发生了改变，请修改此项。不正确的设置可能导致头像与头像裁剪功能异常，请小心修改。<br>格式: http://www.sitename.com/api/avatar (最后不要加\'/\')',
 	'setting_uc_ip' => 'UCenter IP 地址',
 	'setting_uc_ip_comment' => '如果您的服务器无法通过域名访问 UCenter 或者想通过指定的本机或内网 IP 直连，可以输入 UCenter 服务器的 IP 地址',
 	'setting_uc_connect' => 'UCenter 连接方式',
@@ -3038,9 +3038,9 @@ $lang =
 	'forums_edit_basic_banner' => '顶部图片',
 	'forums_edit_basic_basic_icon_comment' => '版块名称和简介左侧的小图标，可填写相对或绝对地址',
 	'forums_edit_basic_description' => '版块简介',
-	'forums_edit_basic_description_comment' => '将显示于版块名称的下面，提供对本版块的简短描述<br />支持内置的 Discuz! 代码',
+	'forums_edit_basic_description_comment' => '将显示于版块名称的下面，提供对本版块的简短描述<br>支持内置的 Discuz! 代码',
 	'forums_edit_basic_rules' => '本版块规则',
-	'forums_edit_basic_rules_comment' => '显示于主题列表页的当前版块规则，留空为不显示<br />支持内置的 Discuz! 代码',
+	'forums_edit_basic_rules_comment' => '显示于主题列表页的当前版块规则，留空为不显示<br>支持内置的 Discuz! 代码',
 	'forums_edit_basic_seotitle' => 'title',
 	'forums_edit_basic_keyword' => 'keywords',
 	'forums_edit_basic_keyword_comment' => 'keywords用于搜索引擎优化，放在 meta 的 keyword 标签中，多个关键字间请用半角逗号 "," 隔开',
@@ -3094,7 +3094,7 @@ $lang =
 	'forums_edit_extend_reply_background' => '快捷回复框背景图片',
 	'forums_edit_extend_reply_background_comment' => '设置后将在快速回复框中展现该图片',
 	'forums_edit_extend_threadcache' => '页面缓存系数',
-	'forums_edit_extend_threadcache_comment' => '此功能可以将游客经常访问的主题临时缓存起来，缓解大型服务器压力。系数范围 0～100，建议数值 20 ～ 40，0 为关闭缓存。在磁盘空间允许的情况下，适当调高缓存系数，可以提高缓存效果<br />注：版块设置完毕后请到 全局 -> 优化设置 -> 站点页面缓存设置，调整其缓存时间',
+	'forums_edit_extend_threadcache_comment' => '此功能可以将游客经常访问的主题临时缓存起来，缓解大型服务器压力。系数范围 0～100，建议数值 20 ～ 40，0 为关闭缓存。在磁盘空间允许的情况下，适当调高缓存系数，可以提高缓存效果<br>注：版块设置完毕后请到 全局 -> 优化设置 -> 站点页面缓存设置，调整其缓存时间',
 	'forums_edit_extend_relatedgroup' => '关联圈子/版块',
 	'forums_edit_extend_relatedgroup_comment' => '填写被关联圈子/版块的fid，以半角逗号 "," 隔开。版块的主题列表页将显示被关联圈子/版块的主题',
 	'forums_edit_extend_edit_rules' => '允许版主修改本版块规则',
@@ -3105,7 +3105,7 @@ $lang =
 	'forums_edit_extend_recommend_sort_auto' => '自动生成',
 	'forums_edit_extend_recommend_sort_manual' => '手动生成',
 	'forums_edit_extend_recommend_sort_mix' => '半自动生成',
-	'forums_edit_extend_recommend_sort_comment' => '自动生成则按照推荐主题规则设定生成推荐列表。<br />手动生成则由版主自行推荐生成推荐列表。<br />半自动生成则和手动方式类似，当手动生成的列表条数不足设置的显示条数时，将按照推荐主题规则自动补足相差条数',
+	'forums_edit_extend_recommend_sort_comment' => '自动生成则按照推荐主题规则设定生成推荐列表。<br>手动生成则由版主自行推荐生成推荐列表。<br>半自动生成则和手动方式类似，当手动生成的列表条数不足设置的显示条数时，将按照推荐主题规则自动补足相差条数',
 	'forums_edit_extend_recommend_num' => '推荐主题显示数量',
 	'forums_edit_extend_recommend_num_comment' => '推荐主题显示的数量，默认为 10 条，建议不要超过 20 条',
 	'forums_edit_extend_recommend_imagenum' => '推荐主题图片附件显示数量',
@@ -3286,10 +3286,10 @@ $lang =
 	'forums_edit_perm_postattach' => '上传附件',
 	'forums_edit_perm_postimage' => '上传图片',
 	'forums_edit_perm_mask' => '特殊用户',
-	'forums_edit_perm_forum_comment' => '某权限如果全部未选则表示如下含义:<br />　　浏览版块，全部用户组具有浏览版块帖子权限；发新话题，除游客以外的用户组具有发帖权限；发表回复，除游客以外的用户组具有回复权限；查看附件，全部用户组具有下载/查看附件权限；上传附件，除游客以外的用户组具有上传附件权限；上传图片，除游客以外的用户组具有上传图片权限',
+	'forums_edit_perm_forum_comment' => '某权限如果全部未选则表示如下含义:<br>　　浏览版块，全部用户组具有浏览版块帖子权限；发新话题，除游客以外的用户组具有发帖权限；发表回复，除游客以外的用户组具有回复权限；查看附件，全部用户组具有下载/查看附件权限；上传附件，除游客以外的用户组具有上传附件权限；上传图片，除游客以外的用户组具有上传图片权限',
 	'forums_edit_perm_spview' => '不受限制的用户组',
 	'forums_edit_perm_formula' => '权限表达式设置',
-	'forums_edit_perm_formula_comment' => '当您设定了权限表达式后，只有符合此表达式的会员才可以浏览本版块。如 "posts > 100 and extcredits1 > 10" 表示 "发帖数 > 100 并且 威望 > 10"<br />日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可输入完整地址，也可只输入 IP 开头，如 "{10.0.0.1}"、"{192.168.0}"',
+	'forums_edit_perm_formula_comment' => '当您设定了权限表达式后，只有符合此表达式的会员才可以浏览本版块。如 "posts > 100 and extcredits1 > 10" 表示 "发帖数 > 100 并且 威望 > 10"<br>日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可输入完整地址，也可只输入 IP 开头，如 "{10.0.0.1}"、"{192.168.0}"',
 	'forums_edit_perm_formula_and' => '并且',
 	'forums_edit_perm_formula_or' => '或者',
 	'forums_edit_perm_formula_digestposts' => '精华帖数',
@@ -3356,7 +3356,7 @@ $lang =
 	'threadtype_infotypes_stemplate' => '分类信息主题显示模板',
 	'threadtype_infotypes_ptemplate' => '分类信息发帖显示模板',
 	'threadtype_infotypes_btemplate' => '分类信息模块调用显示模板',
-	'threadtype_infotypes_template_tips' => '<li>如果模板为空则采用系统默认模板。</li><li>点击上面的 [插入模板] 链接，可以将相关的代码插入到模板，然后您可以用网页编辑工具如 DreamWeaver 或者手工进行编辑。</li><li>分类信息显示模板支持 HTML，其中{字段变量名}代表该字段的名称，[字段变量名]代表该字段的具体值。<br />例如有一个字段变量名为 age，字段名称为年龄，会员填写的数值为 20。那么 {age}[agevalue] 这样的字符串，在模板中将显示为年龄 20。</li>',
+	'threadtype_infotypes_template_tips' => '<li>如果模板为空则采用系统默认模板。</li><li>点击上面的 [插入模板] 链接，可以将相关的代码插入到模板，然后您可以用网页编辑工具如 DreamWeaver 或者手工进行编辑。</li><li>分类信息显示模板支持 HTML，其中{字段变量名}代表该字段的名称，[字段变量名]代表该字段的具体值。<br>例如有一个字段变量名为 age，字段名称为年龄，会员填写的数值为 20。那么 {age}[agevalue] 这样的字符串，在模板中将显示为年龄 20。</li>',
 	'threadtype_infotypes_validity' => '是否设置有效期',
 	'threadtype_infotypes_validity_comment' => '此分类信息是否有有效期限制，过期后将不参与分类信息搜索，此有效期在前台发帖时选择',
 	'threadtype_super' => '超级分类信息',
@@ -3421,16 +3421,16 @@ $lang =
 	'threadtype_edit_colsize' => '输入框宽度(可选)',
 	'threadtype_edit_colsize_comment' => '此宽度设置仅在自定义"分类信息发帖显示模板"时生效',
 	'threadtype_edit_select_choices' => '字段内容',
-	'threadtype_edit_select_choices_comment' => '只在项目为可选时有效，每行一个字段，等号前面为字段索引(建议用数字)，后面为内容，例如: <br /><i>1 = 光电鼠标<br />2 = 机械鼠标<br />3 = 没有鼠标</i><br /><i>1.1 = 黑色光电鼠标</i><br /><i>1.2 = 红色光电鼠标</i><br /><i>1.2.1 = 蓝牙红色光电鼠标</i><br />注意: <br />1、 "1.2.1 = 蓝牙红色光电鼠标"必须有"1.2 = 红色光电鼠标"和"1 = 光电鼠标"这两项<br />2、 "1.2.1"之间不能有空格<br />3、 字段确定后请勿修改索引和内容的对应关系，但仍可以新增字段。如需调换显示顺序，可以通过移动整行的上下位置来实现',
+	'threadtype_edit_select_choices_comment' => '只在项目为可选时有效，每行一个字段，等号前面为字段索引(建议用数字)，后面为内容，例如: <br><i>1 = 光电鼠标<br>2 = 机械鼠标<br>3 = 没有鼠标</i><br><i>1.1 = 黑色光电鼠标</i><br><i>1.2 = 红色光电鼠标</i><br><i>1.2.1 = 蓝牙红色光电鼠标</i><br>注意: <br>1、 "1.2.1 = 蓝牙红色光电鼠标"必须有"1.2 = 红色光电鼠标"和"1 = 光电鼠标"这两项<br>2、 "1.2.1"之间不能有空格<br>3、 字段确定后请勿修改索引和内容的对应关系，但仍可以新增字段。如需调换显示顺序，可以通过移动整行的上下位置来实现',
 	'threadtype_edit_choices' => '字段内容',
-	'threadtype_edit_choices_comment' => '只在项目为可选时有效，每行一个字段，等号前面为字段索引(建议用数字)，后面为内容，例如: <br /><i>1 = 光电鼠标<br />2 = 机械鼠标<br />3 = 没有鼠标</i><br />注意: 字段确定后请勿修改索引和内容的对应关系，但仍可以新增字段。如需调换显示顺序，可以通过移动整行的上下位置来实现',
+	'threadtype_edit_choices_comment' => '只在项目为可选时有效，每行一个字段，等号前面为字段索引(建议用数字)，后面为内容，例如: <br><i>1 = 光电鼠标<br>2 = 机械鼠标<br>3 = 没有鼠标</i><br>注意: 字段确定后请勿修改索引和内容的对应关系，但仍可以新增字段。如需调换显示顺序，可以通过移动整行的上下位置来实现',
 	'threadtype_edit_images_weight' => '图片最大宽度(可选)',
 	'threadtype_edit_images_height' => '图片最大高度(可选)',
 	'threadtype_edit_upload_extension' => '允许上传的文件类型(可选)',
 	'threadtype_edit_upload_extension_comment' => '允许上传的文件类型，留空为允许上传所有文件，各个类型之间用，隔开',
 	'threadtype_edit_area' => '使用几级分类',
 	'threadtype_edit_profile' => '关联用户栏目初始值',
-	'threadtype_edit_profile_comment' => '可以指定某个用户栏目作为初始值，方便用户在发帖时填写。<br />此项优先于默认值',
+	'threadtype_edit_profile_comment' => '可以指定某个用户栏目作为初始值，方便用户在发帖时填写。<br>此项优先于默认值',
 	'threadtype_edit_pluginthreadtype' => '扩展类型',
 	'threadtype_edit_pluginthreadtype_comment' => '请选择插件扩展的分类信息类型',
 	'threadtype_edit_pluginthreadtype_param' => '类型参数',
@@ -3614,13 +3614,13 @@ $lang =
 	'styles_edit_iconbgcolor' => '风格图标背景色',
 	'styles_edit_titlebgcolor' => '版块列表标题背景',
 
-	'styles_edit_bg' => '<br />输入背景图片地址<br />输入附加属性',
+	'styles_edit_bg' => '<br>输入背景图片地址<br>输入附加属性',
 	'styles_edit_name' => '界面方案名称',
 	'styles_edit_name_comment' => '识别界面风格的标志，请勿使用空格或特殊符号',
 	'styles_edit_tpl' => '匹配模板',
 	'styles_edit_tpl_comment' => '与本套界面风格相匹配的模板名称',
 	'styles_edit_logo' => '站点 Logo {BOARDIMG},{BOARDLOGO}',
-	'styles_edit_logo_comment' => '可以上传图片，或者直接填写图片文件名(按论坛根目录、扩展图片目录、界面基础图片目录识别图片路径）<br/>如果需要为指定模块导航设置自定义Logo，可前往 <a href="'.ADMINSCRIPT.'?action=nav&operation=headernav&frames=yes" target="_blank" style="color: #09C;">界面 - 导航设置 - 导航编辑</a> 功能中进行设置。',
+	'styles_edit_logo_comment' => '可以上传图片，或者直接填写图片文件名(按论坛根目录、扩展图片目录、界面基础图片目录识别图片路径）<br>如果需要为指定模块导航设置自定义Logo，可前往 <a href="'.ADMINSCRIPT.'?action=nav&operation=headernav&frames=yes" target="_blank" style="color: #09C;">界面 - 导航设置 - 导航编辑</a> 功能中进行设置。',
 	'styles_edit_searchlogo' => '搜索 Logo {SEARCHIMG},{SEARCHLOGO}',
 	'styles_edit_touchlogo' => '手机版 Logo {TOUCHIMG},{TOUCHLOGO}',
 	'styles_edit_imgdir' => '界面基础图片目录 {IMGDIR}',
@@ -3630,7 +3630,7 @@ $lang =
 	'styles_edit_smileytype' => '默认表情分类',
 	'styles_edit_hexcolor' => '输入 16 进制颜色 #RRGGBB',
 	'styles_edit_extstyle' => '扩展配色',
-	'styles_edit_extstyle_comment' => '选择开放给用户自由选择的扩展配色方案<br />要增加新的扩展配色方案，可上传到风格目录的 style/ 文件夹下，如 template/default/style/',
+	'styles_edit_extstyle_comment' => '选择开放给用户自由选择的扩展配色方案<br>要增加新的扩展配色方案，可上传到风格目录的 style/ 文件夹下，如 template/default/style/',
 	'styles_edit_defaultextstyle' => '默认配色',
 
 	'styles_edit_vars' => '模板变量配置',
@@ -3824,7 +3824,7 @@ $lang =
 	'members_edit_statistics' => '统计信息',
 	'members_edit_uinblack' => '封禁QQ账号',
 	'members_edit_uinblack_comment' => '把当前用户的QQ账号封锁，封禁后此QQ账号无法再登录本站点',
-	'members_edit_uinblack_notice' => '<br /><font color="red">警告: 当前用户未设置独立密码，被封禁后将无法登录本站</font>',
+	'members_edit_uinblack_notice' => '<br><font color="red">警告: 当前用户未设置独立密码，被封禁后将无法登录本站</font>',
 	'members_edit_unbind' => '解除QQ账号绑定状态',
 	'members_edit_unbind_comment' => '如当前用户的QQ账号丢失或者被盗，可以在这里解除QQ账号的绑定',
 
@@ -3839,7 +3839,7 @@ $lang =
 	'members_edit_bday' => '生日',
 	'members_edit_bio' => '自我介绍',
 	'members_edit_fields' => '更多自定义资料',
-	'members_edit_fields_comment' => '需要在 用户栏目 - 更多自定义资料 - 表单类型 - 可选值 中，填写预设JSON数据结构，此处填写的内容，要与预设JSON数据结构保持一致。<br/>可以从 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到预设JSON数据结构内容。',
+	'members_edit_fields_comment' => '需要在 用户栏目 - 更多自定义资料 - 表单类型 - 可选值 中，填写预设JSON数据结构，此处填写的内容，要与预设JSON数据结构保持一致。<br>可以从 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到预设JSON数据结构内容。',
 
 	'members_edit_option' => '论坛选项',
 	'members_edit_style' => '界面风格',
@@ -3896,7 +3896,7 @@ $lang =
 	'members_ban_username' => '禁止用户名',
 	'members_ban_user' => '禁止用户',
 	'members_ban_type' => '禁止类型',
-	'members_ban_type_comment' => '选正常状态可以恢复该用户的普通身份<br/><strong>锁定用户</strong>后该用户将无法访问及进行任何操作，包括其它用户也无法访问该用户的相关信息',
+	'members_ban_type_comment' => '选正常状态可以恢复该用户的普通身份<br><strong>锁定用户</strong>后该用户将无法访问及进行任何操作，包括其它用户也无法访问该用户的相关信息',
 	'members_ban_none' => '正常状态',
 	'members_ban_post' => '禁止发言',
 	'members_ban_visit' => '禁止访问',
@@ -4038,7 +4038,7 @@ $lang =
 	'members_newsletter_subject' => '通知标题',
 	'members_newsletter_message' => '通知内容',
 	'members_newsletter_num' => '分批发送数量',
-	'members_newsletter_processing' => '<input type="hidden" name="conditions" value=\'{search_condition}\' />正在处理 从 {current} 到 {next}',
+	'members_newsletter_processing' => '<input type="hidden" name="conditions" value=\'{search_condition}\'>正在处理 从 {current} 到 {next}',
 	'members_newsletter_system' => '以系统身份发送',
 	'members_newsletter_system_comment' => '选中“是”将已系统身份发送，收件人无法回复',
 	'members_newsletter_empty' => '您还没群发送过短消息，您可直接通过“发送通知”和“积分奖惩”中的“发送积分变更通知”发送短消息，发送后在这里可查看短消息的接收情况',
@@ -4137,7 +4137,7 @@ $lang =
 	'members_profile_edit_validate' => '正则验证',
 	'members_profile_edit_validate_comment' => '检验输入数据的正则表达式，请慎重修改',
 	'members_profile_edit_choices' => '可选值',
-	'members_profile_edit_choices_comment' => '<strong>非JSON类型：</strong><br />每行一个值，例如输入:<br />北京<br />上海<br /><br /><strong>JSON类型(此项必填)：</strong><br />此处填写JSON格式预设值，例如输入:<br />{ "id": 123, "type": "list", "data": { "d1": "abc", "d2": "efg" } }',
+	'members_profile_edit_choices_comment' => '<strong>非JSON类型：</strong><br>每行一个值，例如输入:<br>北京<br>上海<br><br><strong>JSON类型(此项必填)：</strong><br>此处填写JSON格式预设值，例如输入:<br>{ "id": 123, "type": "list", "data": { "d1": "abc", "d2": "efg" } }',
 	'members_profile_edit_available' => '是否启用',
 	'members_profile_edit_unchangeable' => '提交后不可修改',
 	'members_profile_edit_needverify' => '修改后需要审核',
@@ -4391,14 +4391,14 @@ $lang =
 	'founder_patchstatus_error6' => '修复漏洞出现问题，回退时出现问题，请尽快恢复文件，文件备份可在同级目录找到',
 	'founder_patch_tips' => '<li>漏洞修复状态说明：</li>
 							<li>
-								<em class="fixed">&nbsp;2</em> 文件可能已经修改过，未发现漏洞<br />
-								<em class="fixed">&nbsp;1</em> 完成修复<br />
-								<em class="unfixed">&nbsp;0</em> 未修复<br />
-								<em class="unfixed">-1</em> 漏洞编码为空，您本地的漏洞信息数据可能出现问题<br />
-								<em class="unfixed">-2</em> 漏洞修补文件不存在或文件不可修改，请检查并修改权限为可读可写(777)<br />
-								<em class="unfixed">-3</em> 写入临时文件出错，请查看data目录是否可写<br />
-								<em class="unfixed">-4</em> ftp方式无法使用，请确认ftp账号等相关信息填写正确<br />
-								<em class="unfixed">-5</em> 复制文件出现问题，请确认源代码文件目录及子目录可读可写，或文件可能被锁，请关闭站点后进行操作<br />
+								<em class="fixed">&nbsp;2</em> 文件可能已经修改过，未发现漏洞<br>
+								<em class="fixed">&nbsp;1</em> 完成修复<br>
+								<em class="unfixed">&nbsp;0</em> 未修复<br>
+								<em class="unfixed">-1</em> 漏洞编码为空，您本地的漏洞信息数据可能出现问题<br>
+								<em class="unfixed">-2</em> 漏洞修补文件不存在或文件不可修改，请检查并修改权限为可读可写(777)<br>
+								<em class="unfixed">-3</em> 写入临时文件出错，请查看data目录是否可写<br>
+								<em class="unfixed">-4</em> ftp方式无法使用，请确认ftp账号等相关信息填写正确<br>
+								<em class="unfixed">-5</em> 复制文件出现问题，请确认源代码文件目录及子目录可读可写，或文件可能被锁，请关闭站点后进行操作<br>
 								<em class="unfixed">-6</em> 修复漏洞出现问题，回退时出现问题，请尽快恢复文件，文件备份可在同级目录找到
 							</li>',
 
@@ -4466,7 +4466,7 @@ $lang =
 	'usergroups_edit_basic_visit_none' => '禁止访问',
 	'usergroups_edit_basic_visit_normal' => '正常访问',
 	'usergroups_edit_basic_visit_super' => '超级访问',
-	'usergroups_edit_basic_visit_comment' => '禁止访问: 禁止用户浏览本站任何页面<br />正常访问: 当站点开放的时候，可以正常浏览页面<br />超级访问: 即便站点关闭也可以访问，一般用于管理员或站内测试组',
+	'usergroups_edit_basic_visit_comment' => '禁止访问: 禁止用户浏览本站任何页面<br>正常访问: 当站点开放的时候，可以正常浏览页面<br>超级访问: 即便站点关闭也可以访问，一般用于管理员或站内测试组',
 	'usergroups_edit_basic_read_access' => '阅读权限',
 	'usergroups_edit_basic_read_access_comment' => '设置用户浏览帖子或附件的权限级别，范围 0～255，0 为禁止用户浏览任何帖子或附件。当用户的阅读权限小于帖子或附件的阅读权限许可(默认时为 1)时，用户将不能阅读该帖子或下载该附件',
 	'usergroups_edit_basic_max_friend_number' => '最多好友数',
@@ -4541,7 +4541,7 @@ $lang =
 
 
 	'usergroups_edit_system' => '用户组体制',
-	'usergroups_edit_system_tips' => '<li><b><u>晋级用户组</u></b><br />当用户组设置为“晋级用户组”时，您可以设置一个起始用户组以及多个从属用户组，然后在用户组列表页设置积分范围。</li><li><b><u>非公众用户组</u></b><br />当用户组设置为“非公众用户组”时，无论是以主用户组的形式，还是以扩展用户组的形式，均只能由管理员手工将用户加入本组。</li><li><b><u>公众用户组</u></b><br />当本用户组设置为“公众用户组”，且用户当前所在的用户组被允许加入/离开公众用户组时，用户将可以在个人中心将本组设置为其主用户组或扩展用户组。当设为主用户组后，相关权限将遵循本用户组的权限设定；当设为扩展用户组后，将能访问特定的只有本用户组能够访问的论坛版块。</li><li><b>收费公众用户组</b>: <br />您可以选择要求用户支付一定的交易积分才能加入本组，用户支付的交易积分多少，决定了系统允许其拥有本组权限时间的长短。您可以设定用户拥有本组权限一天，所需支付的交易积分的数额。超过用户购买的相应期限后，系统会自动去除该用户相关的用户组属性。</li><li><b>免费公众用户组</b>: <br />用户只需在个人中心选择加入本用户组，即可拥有本用户组的权限和头衔，而不需要付出任何代价。</li>',
+	'usergroups_edit_system_tips' => '<li><b><u>晋级用户组</u></b><br>当用户组设置为“晋级用户组”时，您可以设置一个起始用户组以及多个从属用户组，然后在用户组列表页设置积分范围。</li><li><b><u>非公众用户组</u></b><br>当用户组设置为“非公众用户组”时，无论是以主用户组的形式，还是以扩展用户组的形式，均只能由管理员手工将用户加入本组。</li><li><b><u>公众用户组</u></b><br>当本用户组设置为“公众用户组”，且用户当前所在的用户组被允许加入/离开公众用户组时，用户将可以在个人中心将本组设置为其主用户组或扩展用户组。当设为主用户组后，相关权限将遵循本用户组的权限设定；当设为扩展用户组后，将能访问特定的只有本用户组能够访问的论坛版块。</li><li><b>收费公众用户组</b>: <br>您可以选择要求用户支付一定的交易积分才能加入本组，用户支付的交易积分多少，决定了系统允许其拥有本组权限时间的长短。您可以设定用户拥有本组权限一天，所需支付的交易积分的数额。超过用户购买的相应期限后，系统会自动去除该用户相关的用户组属性。</li><li><b>免费公众用户组</b>: <br>用户只需在个人中心选择加入本用户组，即可拥有本用户组的权限和头衔，而不需要付出任何代价。</li>',
 	'usergroups_edit_system_public' => '公众用户组',
 	'usergroups_edit_system_buy' => '收费用户组',
 	'usergroups_edit_system_free' => '免费用户组',
@@ -4643,11 +4643,11 @@ $lang =
 	'usergroups_edit_post_edit_time_limit' => '编辑帖子时间限制(分钟)',
 	'usergroups_edit_post_edit_time_limit_comment' => '帖子作者发帖后超过此时间限制将不能再编辑帖，版主和管理员在 <a href="'.ADMINSCRIPT.'?action=setting&operation=permissions">全局 - 用户权限</a> 选择“允许用户随时编辑的帖子类型”后不受此限制，0 为不限制',
 	'usergroups_edit_post_allowcommentpost' => '帖子直接点评',
-	'usergroups_edit_post_allowcommentpost_comment' => '设置允许点评的范围，如不选择表示不启用点评功能<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启直接点评功能，本设置才会生效',
+	'usergroups_edit_post_allowcommentpost_comment' => '设置允许点评的范围，如不选择表示不启用点评功能<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启直接点评功能，本设置才会生效',
 	'usergroups_edit_post_allowcommentpost_firstpost' => '点评主题',
 	'usergroups_edit_post_allowcommentpost_reply' => '点评回复',
 	'usergroups_edit_post_allowcommentreply' => '楼层回复点评',
-	'usergroups_edit_post_allowcommentreply_comment' => '允许用户通过点击帖子中的“回复”链接回复他人回帖时，自动对该楼层产生点评<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启楼层回复功能，本设置才会生效；点击主题中的“回复”链接，不会对主题产生点评',
+	'usergroups_edit_post_allowcommentreply_comment' => '允许用户通过点击帖子中的“回复”链接回复他人回帖时，自动对该楼层产生点评<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启楼层回复功能，本设置才会生效；点击主题中的“回复”链接，不会对主题产生点评',
 	'usergroups_edit_post_allowat' => '发帖时可 @ 其他人的数量',
 	'usergroups_edit_post_allowat_comment' => '0为不允许 @ 其他人（包括他关注的人和他的好友）',
 	'usergroups_edit_post_allowsave' => '允许保存草稿',
@@ -4657,7 +4657,7 @@ $lang =
 	'usergroups_edit_post_allowsavenum' => '允许保存草稿的数量',
 	'usergroups_edit_post_allowsavenum_comment' => '设置为 0 为不限制用户保存草稿的数量（高流量站点不建议限制草稿数）',
 	'usergroups_edit_post_allowcommentitem' => '允许用户在点评时发表观点',
-	'usergroups_edit_post_allowcommentitem_comment' => '允许用户在点评时发表观点<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启直接点评功能，本设置才会生效',
+	'usergroups_edit_post_allowcommentitem_comment' => '允许用户在点评时发表观点<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站点功能 - 帖子点评</a> 中开启直接点评功能，本设置才会生效',
 	'usergroups_edit_post_allow_down_remote_img' => '允许下载远程图片',
 	'usergroups_edit_post_allow_down_remote_img_comment' => '远程图片本地化保存',
 	'usergroups_edit_post_allowreplycredit' => '允许设置回帖奖励',
@@ -5283,7 +5283,7 @@ $lang =
 	'moderate_apply_all' => '将操作应用到其他所有页面',
 	'moderate_all_fold' => '全部折叠',
 	'moderate_all_expand' => '全部展开',
-	'moderate_validate_list' => '审核操作成功，共 {validates} 个主题被通过，{ignores} 个主题被忽略，{recycles} 个主题被放入回收站，{deletes} 个主题被删除。<br />您可以<a href="'.ADMINSCRIPT.'?action=moderate&operation=threads">继续审核新主题</a>',
+	'moderate_validate_list' => '审核操作成功，共 {validates} 个主题被通过，{ignores} 个主题被忽略，{recycles} 个主题被放入回收站，{deletes} 个主题被删除。<br>您可以<a href="'.ADMINSCRIPT.'?action=moderate&operation=threads">继续审核新主题</a>',
 	'moderate_none' => '未审核',
 	'moderate_ignore' => '已忽略',
 	'moderate_all_fields' => '所有帖子',
@@ -5382,7 +5382,7 @@ $lang =
 	'announce_time_comment' => '格式: yyyy-mm-dd',
 	'announce_end_time_comment' => '留空为不限制',
 	'announce_message' => '内容',
-	'announce_message_comment' => '<b>文字公告:</b> 直接输入公告内容，支持 Discuz! 代码<br /><b>网址链接:</b> 请输入公告的链接地址如某个主题地址: http://xxx.xxx.xxx',
+	'announce_message_comment' => '<b>文字公告:</b> 直接输入公告内容，支持 Discuz! 代码<br><b>网址链接:</b> 请输入公告的链接地址如某个主题地址: http://xxx.xxx.xxx',
 
 	'misc_onlinelist' => '在线列表图标',
 	'misc_onlinelist_tips' => '<li>本功能用于自定义首页及主题列表页显示的在线会员分组及图例，只在在线列表功能打开时有效。</li><li>用户组图例处空白为不区分该组用户，所有未区分的用户组将统一归入第一行的“普通用户”项。</li><li>用户组图例中请填写图片文件名，并将相应图片文件上传到 static/image/common/ 目录中。</li>',
@@ -5423,7 +5423,7 @@ $lang =
 	'misc_bbcode_edit_tag' => '标签',
 	'misc_bbcode_edit_tag_comment' => '方括号中的标签代码，如 [tag] 的标签为 "tag"(不含引号)',
 	'misc_bbcode_edit_replacement' => '替换内容',
-	'misc_bbcode_edit_replacement_comment' => '标签替换为的 HTML 代码内容，支持至多三个动态参数<br />{1} 代表第一个参数<br />{2} 代表第二个参数<br />{3} 代表第三个参数<br />{RANDOM} 代表随机字符串<br />{MD5} 代表 32 位 MD5 散列值',
+	'misc_bbcode_edit_replacement_comment' => '标签替换为的 HTML 代码内容，支持至多三个动态参数<br>{1} 代表第一个参数<br>{2} 代表第二个参数<br>{3} 代表第三个参数<br>{RANDOM} 代表随机字符串<br>{MD5} 代表 32 位 MD5 散列值',
 	'misc_bbcode_edit_example' => '例子',
 	'misc_bbcode_edit_example_comment' => '本代码作用的例子',
 	'misc_bbcode_edit_explanation' => '解释',
@@ -5485,8 +5485,8 @@ $lang =
 	'misc_censor_wordtype_edit' => '编辑词语分类',
 	'misc_censor_wordtype_tips' => '<li>默认分类为内置分类，当删除一组分类时，词语过滤将会自动编入默认分类中。</li>',
 	'misc_censor_batch_add' => '批量添加',
-	'misc_censor_batch_add_tips' => '<li>每行一组过滤词语，敏感词和替换词之间使用“=”进行分割；</li><li>如需禁止发布包含某个词语的文字，而不是替换过滤，请将其对应的替换内容设置为{BANNED}即可；如需当用户发布包含某个词语的文字时，自动标记为需要人工审核，而不直接显示或替换过滤，请将其对应的替换内容设置为{MOD}即可(审核只对论坛中的内容有效)。</li><li>如果只是想将某个词语直接替换成 **，则只输入词语即可；</li><li>例如：<br />toobad<br />nobad<br />badword=good<br />sexword={BANNED}</li><li>导出/导入时支持词语分类导入，导入时不带有分类则可以通过选择指定导入分类。没有分类时自动归入默认分类</li>',
-	'misc_censor_batch_add_clear' => '清空当前词表后导入新词语，此操作不可恢复，建议首先 <a href="'.ADMINSCRIPT.'?action=misc&operation=censor&do=export" target="_blank"><b><u>导出词表</u></b></a>，做好备份。<br />',
+	'misc_censor_batch_add_tips' => '<li>每行一组过滤词语，敏感词和替换词之间使用“=”进行分割；</li><li>如需禁止发布包含某个词语的文字，而不是替换过滤，请将其对应的替换内容设置为{BANNED}即可；如需当用户发布包含某个词语的文字时，自动标记为需要人工审核，而不直接显示或替换过滤，请将其对应的替换内容设置为{MOD}即可(审核只对论坛中的内容有效)。</li><li>如果只是想将某个词语直接替换成 **，则只输入词语即可；</li><li>例如：<br>toobad<br>nobad<br>badword=good<br>sexword={BANNED}</li><li>导出/导入时支持词语分类导入，导入时不带有分类则可以通过选择指定导入分类。没有分类时自动归入默认分类</li>',
+	'misc_censor_batch_add_clear' => '清空当前词表后导入新词语，此操作不可恢复，建议首先 <a href="'.ADMINSCRIPT.'?action=misc&operation=censor&do=export" target="_blank"><b><u>导出词表</u></b></a>，做好备份。<br>',
 	'misc_censor_batch_add_overwrite' => '使用新的设置覆盖已经存在的词语',
 	'misc_censor_batch_add_no_overwrite' => '不导入已经存在的词语',
 	'misc_censor_word_banned' => '禁止关键词',
@@ -5723,7 +5723,7 @@ $lang =
 	'plugins_edit_vars_variable' => '配置变量名',
 	'plugins_edit_vars_variable_comment' => '设置配置项目的变量名，用于插件程序中调用，可包含英文、数字和下划线，在同一个插件中需要保持变量名的唯一性，最多 40 个字节',
 	'plugins_edit_vars_extra' => '扩充设置',
-	'plugins_edit_vars_extra_comment' => '只在配置类型为“选择(select)”时有效，用于设定选项值。等号前面为选项索引(建议用数字)，后面为内容，例如: <br /><i>1 = 光电鼠标<br />2 = 机械鼠标<br />3 = 没有鼠标</i><br />注意: 选项确定后请勿修改索引和内容的对应关系，但仍可以新增选项。如需调换显示顺序，可以通过移动整行的上下位置来实现',
+	'plugins_edit_vars_extra_comment' => '只在配置类型为“选择(select)”时有效，用于设定选项值。等号前面为选项索引(建议用数字)，后面为内容，例如: <br><i>1 = 光电鼠标<br>2 = 机械鼠标<br>3 = 没有鼠标</i><br>注意: 选项确定后请勿修改索引和内容的对应关系，但仍可以新增选项。如需调换显示顺序，可以通过移动整行的上下位置来实现',
 	'plugins_import_default' => '默认',
 	'plugins_import_installtype_1' => '插件',
 	'plugins_import_installtype_2' => '提供了以下',
@@ -5777,7 +5777,7 @@ $lang =
 	'medals_perm' => '勋章领取权限',
 	'medals_modpass' => '通过',
 	'medals_modnopass' => '否决',
-	'medals_permformula' => '当您设定了权限表达式后，只有符合此表达式的会员才可以领取本勋章，如勋章可购买本功能失效。如 "posts > 100 and extcredits1 > 10" 表示 "发帖数 > 100 并且 威望 > 10"<br />日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可输入完整地址，也可只输入 IP 开头，如 "{10.0.0.1}"、"{192.168.0}"',
+	'medals_permformula' => '当您设定了权限表达式后，只有符合此表达式的会员才可以领取本勋章，如勋章可购买本功能失效。如 "posts > 100 and extcredits1 > 10" 表示 "发帖数 > 100 并且 威望 > 10"<br>日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可输入完整地址，也可只输入 IP 开头，如 "{10.0.0.1}"、"{192.168.0}"',
 	'medals_credit' => '积分',
 	'medals_price' => '价格',
 
@@ -5882,40 +5882,40 @@ $lang =
 [/loop]
 &lt;/ul&gt;
 </pre>
-<br/>
+<br>
 循环索引（放到循环体内部，自动计数）：<pre>
 [loopindex]
 </pre>
-<br/>
+<br>
 多列渲染（放到循环体内部，指定子数据块，仅用于多列渲染）：<pre>
 [column blocks]
 </pre>
-<br/>
+<br>
 IF判断方式：<pre>
 [if data.items=1]
    {text}块数据变量 或者 普通字符串
 [/if]
 </pre>
-<br/>
+<br>
 URL转换绝对网址：<pre>
 [url data.file.url]
 </pre>
-<br/>
+<br>
 获取附件aid加密串：<pre>
 [attach data.file.aid]
 </pre>
-</li><li>CSS样式代码部分必须严格书写在&lt;style type="text/css"&gt;......&lt;/style&gt;内部。</li></ul>',
+</li><li>CSS样式代码部分必须严格书写在&lt;style&gt;......&lt;/style&gt;内部。</li></ul>',
 
-	'editorblock_usage_css_content' => '<ul><li>全局CSS样式会在JSON编辑器发布的内容页面全局加载；</li><li>CSS样式代码部分必须严格书写在&lt;style type="text/css"&gt;......&lt;/style&gt;内部。</li></ul>',
+	'editorblock_usage_css_content' => '<ul><li>全局CSS样式会在JSON编辑器发布的内容页面全局加载；</li><li>CSS样式代码部分必须严格书写在&lt;style&gt;......&lt;/style&gt;内部。</li></ul>',
 
 	'card' => '充值卡密',
 	'card_make_tips' => '<li>生成卡密时，简单的规则或较小的生成张数可能导致实际生成张数小于预设生成张数。</li>',
 	'card_config_open' => '允许前台充值',
-	'card_config_open_comment' => '设置是否允许前台充值，关闭前台充值功能，不影响后台卡密的生成<br />充值卡密验证码开关：<a href="'.ADMINSCRIPT.'?action=setting&operation=seccheck">全局->安全->验证设置</a>',
+	'card_config_open_comment' => '设置是否允许前台充值，关闭前台充值功能，不影响后台卡密的生成<br>充值卡密验证码开关：<a href="'.ADMINSCRIPT.'?action=setting&operation=seccheck">全局->安全->验证设置</a>',
 	'card_number' => '卡密',
 	'card_number_unit' => '位',
 	'card_make_rule' => '卡密生成规则',
-	'card_make_rule_comment' => '"<strong>@</strong>"代表任意随机英文字符，"<strong>#</strong>"代表任意随机数字，"<strong>*</strong>"代表任意英文或数字<br />卡密规则样本："DZ2011@@@@@#####*****"<br />注意：规则位数过小会造成卡密生成重复概率增大，过多的重复卡密会造成卡密生成终止<br />卡密规则中不能带有中文及其他特殊符号<br />为了避免卡密重复，随机位数最好不要少于8位',
+	'card_make_rule_comment' => '"<strong>@</strong>"代表任意随机英文字符，"<strong>#</strong>"代表任意随机数字，"<strong>*</strong>"代表任意英文或数字<br>卡密规则样本："DZ2011@@@@@#####*****"<br>注意：规则位数过小会造成卡密生成重复概率增大，过多的重复卡密会造成卡密生成终止<br>卡密规则中不能带有中文及其他特殊符号<br>为了避免卡密重复，随机位数最好不要少于8位',
 	'card_make_price' => '实际面值',
 	'card_make_price_unit' => '元',
 	'card_make_price_comment' => '单位(元)，实际面值常用在卡片印刷，用作告知用户面值以衡量卡密价值',
@@ -5925,7 +5925,7 @@ URL转换绝对网址：<pre>
 	'card_make_num_comment' => '设置本次生成的卡密张数',
 	'card_make_cleardateline' => '有效期至',
 	'card_make_cleardateline_none' => ' -- (不过期)',
-	'card_make_cleardateline_comment' => '默认有效期为一年<br />卡密会在设定时间的24:00失效，状态变更为“已过期”',
+	'card_make_cleardateline_comment' => '默认有效期为一年<br>卡密会在设定时间的24:00失效，状态变更为“已过期”',
 	'card_make_description' => '备注',
 	'card_make_description_comment' => '为本次生成的卡密添加备注说明，备注将显示在“生成记录”中',
 	'card_log_operation' => '动作',
@@ -6067,11 +6067,11 @@ URL转换绝对网址：<pre>
 	'tasks_add_endtime' => '下线时间',
 	'tasks_add_endtime_comment' => '任务结束时间，结束后会员将无法申请此任务，留空表示不限制',
 	'tasks_add_periodtype' => '任务间隔周期单位',
-	'tasks_add_periodtype_comment' => '设置任务间隔周期的计算单位<br />
-		小时：表示指定小时后可再次申请，间隔周期填写间隔的小时数<br />
-		天：表示指定天后可再次申请，间隔周期填写间隔的天数<br />
-		周：表示在每周指定时间(周一到周日)后才可再次申请，间隔周期填写数字 1 (周一) 到 7 (周日)<br />
-		月：表示在每月指定日期后才可再次申请，间隔周期填写数字 1 到 29、30、31<br />',
+	'tasks_add_periodtype_comment' => '设置任务间隔周期的计算单位<br>
+		小时：表示指定小时后可再次申请，间隔周期填写间隔的小时数<br>
+		天：表示指定天后可再次申请，间隔周期填写间隔的天数<br>
+		周：表示在每周指定时间(周一到周日)后才可再次申请，间隔周期填写数字 1 (周一) 到 7 (周日)<br>
+		月：表示在每月指定日期后才可再次申请，间隔周期填写数字 1 到 29、30、31<br>',
 	'tasks_add_periodtype_hour' => '小时',
 	'tasks_add_periodtype_day' => '天',
 	'tasks_add_periodtype_week' => '周',
@@ -6132,7 +6132,7 @@ URL转换绝对网址：<pre>
 	'ec_alipay_on' => '是否启用支付宝',
 	'ec_alipay_tips' => '<li>“支付宝”(<a href="http://www.alipay.com" target="_blank">http://www.alipay.com</a>)是中国领先的网上支付平台，由全球最佳 B2B 公司阿里巴巴公司创建，为 Discuz! 用户提供积分购买及论坛 B2C、C2C 交易平台。您只需进行简单的设置，即可使论坛内容和人气，真成为除广告收入外的重要利润来源，从而实现论坛的规模化经营。</li><li><b>由于涉及现金交易，为避免因操作不当而造成的资金损失，请在开始使用支付宝积分交易功能(不包含支付宝按钮功能)前，务必仔细阅读《用户使用说明书》中有关电子商务的部分，当确认完全理解和接受相关流程及使用方法后再进行相关设置。</b></li><li>您使用支付宝服务是建立在完全自愿的基础上，除 Discuz! 因主观恶意的因素造成的资金损失以外，腾讯云不对因使用此功能造成的任何损失承担责任。</li><li>支付宝客户服务电话为 95188。</li>',
 	'ec_alipay_account' => '收款支付宝账号',
-	'ec_alipay_account_comment' => '如果开启兑换或交易功能，请填写真实有效的支付宝账号，用于收取用户以现金兑换交易积分的相关款项。如账号无效或安全码有误，将导致用户支付后无法正确对其积分账户自动充值，或进行正常的交易对其积分账户自动充值，或进行正常的交易。<br />如您没有支付宝账号，<a href="http://www.alipay.com/redir.do?id=307&site=allbbs&target=https%3A%2F%2Fwww.alipay.com%2Fuser%2Fuser_register.htm" target="_blank">请点击这里注册</a>',
+	'ec_alipay_account_comment' => '如果开启兑换或交易功能，请填写真实有效的支付宝账号，用于收取用户以现金兑换交易积分的相关款项。如账号无效或安全码有误，将导致用户支付后无法正确对其积分账户自动充值，或进行正常的交易对其积分账户自动充值，或进行正常的交易。<br>如您没有支付宝账号，<a href="http://www.alipay.com/redir.do?id=307&site=allbbs&target=https%3A%2F%2Fwww.alipay.com%2Fuser%2Fuser_register.htm" target="_blank">请点击这里注册</a>',
 	'ec_alipay_check_comment' => '本测试将模拟提交 0.01 元人民币的订单进行测试，如果提交后成功出现付款界面，说明您站点的支付宝功能可以正常使用',
 	'ec_alipay_check_virtualgoodssubject' => '测试虚拟商品',
 	'ec_alipay_check_goodssubject' => '测试实物商品',
@@ -6145,7 +6145,7 @@ URL转换绝对网址：<pre>
 	'ec_alipay_securitycode' => '交易安全校验码 (key)',
 	'ec_alipay_securitycode_comment' => '支付宝签约用户可以在此处填写支付宝分配给您的交易安全校验码，此校验码您可以到支付宝官方的商家服务功能处查看',
 	'ec_alipay_partner' => '合作者身份 (PID)',
-	'ec_alipay_partner_comment' => '支付宝签约用户请在此处填写支付宝分配给您的合作者身份，签约用户的手续费按照您与支付宝官方的签约协议为准。<br/>如果您还未签约，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">请点击这里签约</a>；如果已签约,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" id="aliapitype" target="_blank">请点击这里获取PID、Key</a>;如果在签约时出现合同模板冲突，请咨询0571-88158090',
+	'ec_alipay_partner_comment' => '支付宝签约用户请在此处填写支付宝分配给您的合作者身份，签约用户的手续费按照您与支付宝官方的签约协议为准。<br>如果您还未签约，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">请点击这里签约</a>；如果已签约,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" id="aliapitype" target="_blank">请点击这里获取PID、Key</a>;如果在签约时出现合同模板冲突，请咨询0571-88158090',
 	'ec_alipay_creditdirectpay' => '使用纯即时到账接口',
 	'ec_alipay_creditdirectpay_comment' => '如果您的签约协议中包含纯即时到账接口（不是标准双接口）可以选择此项，让积分充值只能使用即时到账方式付款',
 	'ec_alipay_sign_mode' => '加签模式',
@@ -6232,7 +6232,7 @@ URL转换绝对网址：<pre>
 	'ec_orders_search_confirm_date' => '订单确认时间范围(格式 yyyy-mm-dd)',
 	'ec_orders_validate' => '人工补单',
 	'ec_orders_id' => '订单号 / 交易号',
-	'ec_orders_status' => '订单状态<br />(补单管理员)',
+	'ec_orders_status' => '订单状态<br>(补单管理员)',
 	'ec_orders_username' => '付款用户名',
 	'ec_orders_buyer' => '付款人',
 	'ec_inviteorders_buyer' => '付款人 / IP',
@@ -6636,7 +6636,7 @@ URL转换绝对网址：<pre>
 	'db_multivol' => '多卷',
 	'db_zip' => 'ZIP',
 	'db_volume' => '卷数',
-	'db_delete_tips' => '<br /><br /><a href="'.ADMINSCRIPT.'?action=db&operation=import&deletesubmit=1&delete[]={filename}&formhash={FORMHASH}" onclick="return confirm(\'您确定要把服务器上的备份数据删除么？\');"><font color="#fe7e01"><strong>删除服务器上的备份数据</strong></font></a>',
+	'db_delete_tips' => '<br><br><a href="'.ADMINSCRIPT.'?action=db&operation=import&deletesubmit=1&delete[]={filename}&formhash={FORMHASH}" onclick="return confirm(\'您确定要把服务器上的备份数据删除么？\');"><font color="#fe7e01"><strong>删除服务器上的备份数据</strong></font></a>',
 	'db_export_tips_nouc' => '<li><font color="blue"><b>您当前的数据备份不包含 UCenter，会影响到您的会员数据，请点击<a href="{uc_backup_url}">这里</a>单独备份 UCenter 数据</b></font></li><li>数据备份功能根据您的选择备份全部Discuz!数据，导出的数据文件可用“数据恢复”功能或 phpMyAdmin 导入。</li>',
 	'db_system_backup_tips' => '<li>数据库备份由系统 cron 服务生成，并保存在 Discuz! 配置的备份目录中。</li>',
 	'db_system_backup_list' => '可用数据库备份',
@@ -6678,7 +6678,7 @@ URL转换绝对网址：<pre>
 	'db_import_unzip' => '解压缩',
 
 	'db_runquery' => '数据库升级',
-	'db_runquery_tips' => '<li>您可以通过修改 /source/app/admin/child/db/quickquery.php 来添加常用 SQL 操作进行功能扩充。</li><li>出于安全考虑，Discuz! 后台默认情况下禁止 SQL 语句直接执行，只能使用常用 SQL 当中的内容，<br />如果您想自己随意书写 SQL 升级语句，需要将 config/config_global.php 当中的 $_config[\'admincp\'][\'runquery\'] 设置修改为 1。</li>',
+	'db_runquery_tips' => '<li>您可以通过修改 /source/app/admin/child/db/quickquery.php 来添加常用 SQL 操作进行功能扩充。</li><li>出于安全考虑，Discuz! 后台默认情况下禁止 SQL 语句直接执行，只能使用常用 SQL 当中的内容，<br>如果您想自己随意书写 SQL 升级语句，需要将 config/config_global.php 当中的 $_config[\'admincp\'][\'runquery\'] 设置修改为 1。</li>',
 	'db_runquery_sql' => 'Discuz! 数据库升级 - 请将数据库升级语句粘贴在下面',
 	'db_runquery_denied' => '对不起，此项功能已经被禁止，如果需要开启，请修改 config/config_global.php 中的相关配置',
 	'db_runquery_comment' => '注意: 为确保升级成功，请不要修改 SQL 语句的任何部分',
@@ -7180,7 +7180,7 @@ URL转换绝对网址：<pre>
 	'article_clear_trash_confirm' => '确定要清空回收站吗',
 
 	'diytemplate' => '页面管理',
-	'diytemplate_perm_tips' => '<li>此处设置的用户权限将作用于此页面所有 DIY 添加的模块(模块不继承所在页面权限除外)</li><li>模块是否继承所在页面权限和单个模块的权限的设置在“模块管理”=>“管理权限”中设置</li><li>1、权限由小到大(模块的权限大于所在页面的权限)；2、权限"允许管理"即可以管理模块属性又可以管理模块数据；<br />3、权限"允许推送"且非"推送需要审核"可以管理模块数据； 4、权限"允许推送"且"推送需要审核"可以推送但不可以管理模块数据</li>',
+	'diytemplate_perm_tips' => '<li>此处设置的用户权限将作用于此页面所有 DIY 添加的模块(模块不继承所在页面权限除外)</li><li>模块是否继承所在页面权限和单个模块的权限的设置在“模块管理”=>“管理权限”中设置</li><li>1、权限由小到大(模块的权限大于所在页面的权限)；2、权限"允许管理"即可以管理模块属性又可以管理模块数据；<br>3、权限"允许推送"且非"推送需要审核"可以管理模块数据； 4、权限"允许推送"且"推送需要审核"可以推送但不可以管理模块数据</li>',
 	'diytemplate_name' => '页面名称',
 	'diytemplate_name_comment' => '使用些模板的页面的名称',
 	'diytemplate_targettplname' => '生成模板',
@@ -7227,7 +7227,7 @@ URL转换绝对网址：<pre>
 	'portalcategory_foldername_rename_error' => '目录重命名失败，目录名只能包含字母、数字和下划线(_)，请确认目录名的合法性',
 	'portalcategory_foldername_invalid' => '目录名只能包含字母、数字和下划线(_)，请确认目录名的合法性',
 	'portalcategory_foldername' => '目录名称',
-	'portalcategory_foldername_comment' => '当您要为此频道绑定目录或顶级频道绑定域名时请输入此频道要生成的文件夹名称(只能使用字母、数字、下划线)<br/>要求网站根目录有写的权限，会在网站根目录下生成相应文件夹<br />设置为空将删除所建立的目录',
+	'portalcategory_foldername_comment' => '当您要为此频道绑定目录或顶级频道绑定域名时请输入此频道要生成的文件夹名称(只能使用字母、数字、下划线)<br>要求网站根目录有写的权限，会在网站根目录下生成相应文件夹<br>设置为空将删除所建立的目录',
 	'portalcategory_summary' => 'description',
 	'portalcategory_summary_comment' => 'description内容用于搜索引擎优化，放在 meta 的 description 标签中',
 
@@ -7237,9 +7237,9 @@ URL转换绝对网址：<pre>
 	'portalcategory_url' => '自定义链接地址',
 	'portalcategory_url_comment' => '定义要跳转的链接地址',
 	'portalcategory_listprimaltplname' => '列表页模板名',
-	'portalcategory_listprimaltplname_comment' => '将模板文件上传到模板目录的portal目录下，如：template/default/portal目录下，文件名必须为<font color="red">list</font>_*.htm，*为自定义文件名<br />如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的 ID，否则将会丢失部分或全部原 DIY 数据',
+	'portalcategory_listprimaltplname_comment' => '将模板文件上传到模板目录的portal目录下，如：template/default/portal目录下，文件名必须为<font color="red">list</font>_*.htm，*为自定义文件名<br>如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的 ID，否则将会丢失部分或全部原 DIY 数据',
 	'portalcategory_viewprimaltplname' => '文章页模板名',
-	'portalcategory_viewprimaltplname_comment' => '将模板文件上传到模板目录的portal目录下，如：template/default/portal目录下，文件名必须为<font color="blue">view</font>_*.htm，*为自定义文件名<br />如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的 ID，否则将会丢失部分或全部原 DIY 数据',
+	'portalcategory_viewprimaltplname_comment' => '将模板文件上传到模板目录的portal目录下，如：template/default/portal目录下，文件名必须为<font color="blue">view</font>_*.htm，*为自定义文件名<br>如果要重新选择模板，请确保新模板与原模板中可拖拽区域具有相同的 ID，否则将会丢失部分或全部原 DIY 数据',
 	'portalcategory_domain_duplicate' => '频道二级域名不能重复',
 	'portalcategory_parentfoldername_empty' => '父级频道的目录名不能为空，请先设置父级频道的目录',
 	'portalcategory_foldername_duplicate' => '指定的目录已经存在，请更换其它的目录名',
@@ -7431,7 +7431,7 @@ URL转换绝对网址：<pre>
 	'block_has_no_allowauthorizedblock' => '指定的用户名不存在',
 	'block_choose_blockclass_to_add_jscall' => '请先选择模块分类',
 	'block_diytemplate' => '所属页面',
-	'block_perm_tips' => '<li>不选择继承所在页面的权限，所在页面的权限设置将不会作用于此模块</li><li>只添加用户名，不选择任何权限可实现此用户可以管理所在页面其它模块，但不可以管理此模块(要求此模块继承所在页面权限，并且所在页面权限中有此用户名)</li><li>1、权限由小到大(模块的权限大于所在页面的权限)；2、权限"允许管理"即可以管理模块属性又可以管理模块数据；<br />3、权限"允许推送"且非"推送需要审核"可以管理模块数据； 4、权限"允许推送"且"推送需要审核"可以推送但不可以管理模块数据</li>',
+	'block_perm_tips' => '<li>不选择继承所在页面的权限，所在页面的权限设置将不会作用于此模块</li><li>只添加用户名，不选择任何权限可实现此用户可以管理所在页面其它模块，但不可以管理此模块(要求此模块继承所在页面权限，并且所在页面权限中有此用户名)</li><li>1、权限由小到大(模块的权限大于所在页面的权限)；2、权限"允许管理"即可以管理模块属性又可以管理模块数据；<br>3、权限"允许推送"且非"推送需要审核"可以管理模块数据； 4、权限"允许推送"且"推送需要审核"可以推送但不可以管理模块数据</li>',
 	'block_not_exists' => '指定的模块不存在',
 	'block_perm_inherited' => '继承自',
 
@@ -7635,7 +7635,7 @@ URL转换绝对网址：<pre>
 	'import_data_typeinvalid' => '数据类型错误，请返回',
 
 	'cloudaddons_ftp_setting' => '站点 FTP 设置',
-	'cloudaddons_unwriteabledirs' => '站点 {basedir} 目录下的以下目录不可写，无法在线安装此应用，请填写本站点的 FTP 连接参数(本设置不会被保存):<br />{unwriteabledirs}',
+	'cloudaddons_unwriteabledirs' => '站点 {basedir} 目录下的以下目录不可写，无法在线安装此应用，请填写本站点的 FTP 连接参数(本设置不会被保存):<br>{unwriteabledirs}',
 	'cloudaddons_plugin_link' => '获取更多插件',
 	'cloudaddons_style_link' => '获取更多模板',
 	'cloudaddons_linkto' => '在应用中心查看',

@@ -104,7 +104,7 @@ if(submitcheck('deletesubmit')) {
 		}
 	}
 	$blockclass_sel .= '</select>';
-	$addjscall = $operation == 'jscall' ? '<input type="button" class="btn" onclick="addjscall()" value="'.$searchlang['block_add_jscall'].'" />' : '';
+	$addjscall = $operation == 'jscall' ? '<input type="button" class="btn" onclick="addjscall()" value="'.$searchlang['block_add_jscall'].'">' : '';
 	$firstrow = "<td>{$searchlang['block_diytemplate']}</td><td>$diytemplatename_sel</td><td>{$searchlang['block_blockclass']}</td><td colspan=\"2\">$blockclass_sel $addjscall</td>";
 	$adminscript = ADMINSCRIPT;
 	echo <<<SEARCH
@@ -179,7 +179,7 @@ SEARCH;
 			}
 			if($list) {
 				foreach($list as $bid => $value) {
-					$inpage = empty($diypage[$bid]) ? cplang('block_page_nopage') : implode('<br/>', $diypage[$bid]);
+					$inpage = empty($diypage[$bid]) ? cplang('block_page_nopage') : implode('<br>', $diypage[$bid]);
 					$theclass = block_getclass($value['blockclass'], true);
 					showtablerow('', ['class="td25"'], [
 						"<input type=\"checkbox\" class=\"checkbox\" name=\"ids[]\" value=\"{$value['bid']}\">",
@@ -199,7 +199,7 @@ SEARCH;
 			$multipage = multi($count, $perpage, $page, $mpurl);
 		}
 
-		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="deletesubmit" value="'.cplang('block_delete').'" />', $multipage);
+		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="deletesubmit" value="'.cplang('block_delete').'">', $multipage);
 		showtablefooter();
 		showformfooter();
 
@@ -219,7 +219,7 @@ SEARCH;
 			}
 			if($list) {
 				foreach($list as $bid => $value) {
-					$inpage = empty($diypage[$bid]) ? cplang('block_page_unused') : implode('<br/>', $diypage[$bid]);
+					$inpage = empty($diypage[$bid]) ? cplang('block_page_unused') : implode('<br>', $diypage[$bid]);
 					$theclass = block_getclass($value['blockclass'], true);
 					showtablerow('', '', [
 						$value['name'] ? $value['name'] : cplang('block_name_null'),
@@ -237,7 +237,7 @@ SEARCH;
 			$multipage = multi($count, $perpage, $page, $mpurl);
 		}
 
-		showsubmit('', '', '', '<input type="submit" class="btn" name="clearsubmit" value="'.cplang('block_clear_unused').'" />', $multipage);
+		showsubmit('', '', '', '<input type="submit" class="btn" name="clearsubmit" value="'.cplang('block_clear_unused').'">', $multipage);
 		showtablefooter();
 		showformfooter();
 	}

@@ -3,11 +3,11 @@
 <div id="pt" class="bm cl">
 	<div class="y" style="margin-top: 5px; margin-right: 10px;">
 		<form id="darkroomSearchForm" method="get" action="misc.php">
-			<input type="hidden" name="mod" value="darkroom" />
+			<input type="hidden" name="mod" value="darkroom">
 			<!--{if $username}-->
-			<input type="text" id="searchUsername" name="username" value="$username" class="px vm"/>
+			<input type="text" id="searchUsername" name="username" value="$username" class="px vm">
 			<!--{else}-->
-			<input type="text" id="searchUsername" name="username" placeholder="{lang darkroom_search_placeholder}" class="px vm"/>
+			<input type="text" id="searchUsername" name="username" placeholder="{lang darkroom_search_placeholder}" class="px vm">
 			<!--{/if}-->
 			<button type="submit" class="pn pnc" style="width: 40px">{lang darkroom_search}</button>
 		</form>

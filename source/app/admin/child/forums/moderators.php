@@ -53,8 +53,8 @@ if(!submitcheck('modsubmit')) {
 			}
 		}
 		showtablerow('', ['class="td25"', 'class="td28"'], [
-			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$mod['uid'].'"'.($mod['inherited'] ? ' disabled' : '').' />',
-			'<input type="text" class="txt" name="displayordernew['.$mod['uid'].']" value="'.$mod['displayorder'].'" size="2" />',
+			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$mod['uid'].'"'.($mod['inherited'] ? ' disabled' : '').'>',
+			'<input type="text" class="txt" name="displayordernew['.$mod['uid'].']" value="'.$mod['displayorder'].'" size="2">',
 			"<a href=\"".ADMINSCRIPT."?mod=forum&action=members&operation=group&uid={$mod['uid']}\" target=\"_blank\">{$users[$mod['uid']]['username']}</a>",
 			$groupid,
 			cplang($mod['inherited'] ? 'yes' : 'no'),
@@ -71,14 +71,14 @@ if(!submitcheck('modsubmit')) {
 
 	showtablerow('', ['class="td25"', 'class="td28"'], [
 		cplang('add_new'),
-		'<input type="text" class="txt" name="newdisplayorder" value="0" size="2" />',
-		'<input type="text" class="txt" name="newmoderator" value="" size="20" />',
+		'<input type="text" class="txt" name="newdisplayorder" value="0" size="2">',
+		'<input type="text" class="txt" name="newmoderator" value="" size="20">',
 		$groupselect.
-		'<label><input type="checkbox" name="newextgroup" class="checkbox" value="1" />'.cplang('members_group_extended').'</label>',
+		'<label><input type="checkbox" name="newextgroup" class="checkbox" value="1">'.cplang('members_group_extended').'</label>',
 		''
 	]);
 
-	showsubmit('modsubmit', 'submit', 'del', '<input class="checkbox" type="checkbox" name="inheritedmodnew" value="1" '.$checked.' '.$disabled.' id="inheritedmodnew" /><label for="inheritedmodnew">'.cplang('forums_moderators_inherit').'</label>');
+	showsubmit('modsubmit', 'submit', 'del', '<input class="checkbox" type="checkbox" name="inheritedmodnew" value="1" '.$checked.' '.$disabled.' id="inheritedmodnew"><label for="inheritedmodnew">'.cplang('forums_moderators_inherit').'</label>');
 	showtablefooter();
 	showformfooter();
 

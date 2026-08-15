@@ -29,7 +29,7 @@
             <tr>
                 <th><span class="rq">*</span><label for="answernew">{lang security_answer}</th>
                 <td>
-                    <input type="text" name="answernew" id="answernew" class="px" />
+                    <input type="text" name="answernew" id="answernew" class="px">
                 </td>
                 <td>&nbsp;</td>
             </tr>

@@ -26,10 +26,10 @@
 	</h3>
 	<div class="c" id="hkey_$_GET[handlekey]">
 		<div id="return_$_GET[handlekey]"></div>
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="handlekey" value="$_GET[handlekey]" />
-			<input type="hidden" name="operation" value="$operation" />
-			<input type="hidden" name="magicid" value="$magicid" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="handlekey" value="$_GET[handlekey]">
+			<input type="hidden" name="operation" value="$operation">
+			<input type="hidden" name="magicid" value="$magicid">
 			<!--{if $operation == 'give'}-->
 				<table class="tfm cp0">
 					<tr>
@@ -40,7 +40,7 @@
 					<tr>
 						<th>{lang magics_target_present}</th>
 						<td class="hasd cl">
-							<input type="text" id="selectedusername" name="tousername" size="12" autocomplete="off" value="" class="px p_fre" style="margin-right: 0;" />
+							<input type="text" id="selectedusername" name="tousername" size="12" autocomplete="off" value="" class="px p_fre" style="margin-right: 0;">
 							<!--{if $buddyarray}-->
 							<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'selectedusername', 'selectusername')">&nabla;</a>
 							<ul id="selectusername" style="display:none">
@@ -54,14 +54,14 @@
 					<!--{/if}-->
 					<tr>
 						<th>{lang magics_num}</th>
-						<td><input name="magicnum" type="text" size="12" autocomplete="off" value="1" class="px p_fre" /></td>
+						<td><input name="magicnum" type="text" size="12" autocomplete="off" value="1" class="px p_fre"></td>
 					</tr>
 					<tr>
 						<th>{lang magics_present_message}</th>
 						<td><textarea name="givemessage" rows="3" class="pt">{lang magics_present_message_text}</textarea></td>
 					</tr>
 				</table>
-				<input type="hidden" name="operatesubmit" value="yes" />
+				<input type="hidden" name="operatesubmit" value="yes">
 			<!--{elseif $operation == 'use'}-->
 				<!--{if $magiclist}-->
 				<p class="mtw mbw">
@@ -87,18 +87,18 @@
 						</div>
 					</dt>
 				</dl>
-				<input type="hidden" name="usesubmit" value="yes" />
-				<input type="hidden" name="operation" value="use" />
-				<input type="hidden" name="magicid" value="$magicid" />
+				<input type="hidden" name="usesubmit" value="yes">
+				<input type="hidden" name="operation" value="use">
+				<input type="hidden" name="magicid" value="$magicid">
 				<!--{if !empty($_GET['idtype']) && !empty($_GET['id'])}-->
-					<input type="hidden" name="idtype" value="$_GET[idtype]" />
-					<input type="hidden" name="id" value="$_GET[id]" />
+					<input type="hidden" name="idtype" value="$_GET[idtype]">
+					<input type="hidden" name="id" value="$_GET[id]">
 				<!--{/if}-->
 			<!--{elseif $operation == 'sell'}-->
 				<dl class="xld cl">
 					<dd class="m"><img src="$magic[pic]" alt="$magic[name]"></dd>
 					<dt class="z">
-						<p class="mtm mbm">{lang magics_operation_sell} <input name="magicnum" type="text" size="2" value="1" class="px pxs" /> {lang magics_unit}"$magic[name]"</p>
+						<p class="mtm mbm">{lang magics_operation_sell} <input name="magicnum" type="text" size="2" value="1" class="px pxs"> {lang magics_unit}"$magic[name]"</p>
 						<p class="xw0">
 							{lang recycling_prices}:
 							<!--{if {$_G['setting']['extcredits'][$magic[credit]][unit]}}-->
@@ -109,16 +109,16 @@
 						</p>
 					</dt>
 				</dl>
-				<input type="hidden" name="operatesubmit" value="yes" />
+				<input type="hidden" name="operatesubmit" value="yes">
 			<!--{elseif $operation == 'drop'}-->
 				<dl class="xld cl">
 					<dd class="m"><img src="$magic[pic]" alt="$magic[name]"></dd>
 					<dt class="z">
-						<p class="mtm mbm">{lang magics_operation_drop} <input name="magicnum" type="text" size="2" autocomplete="off" value="1" class="px pxs" /> {lang magics_unit}"$magic[name]"</p>
+						<p class="mtm mbm">{lang magics_operation_drop} <input name="magicnum" type="text" size="2" autocomplete="off" value="1" class="px pxs"> {lang magics_unit}"$magic[name]"</p>
 						<p class="xw0">{lang magics_weight}: $magic[weight]</p>
 					</dt>
 				</dl>
-				<input type="hidden" name="operatesubmit" value="yes" />
+				<input type="hidden" name="operatesubmit" value="yes">
 			<!--{/if}-->
 			</div>
 </div>
@@ -148,7 +148,7 @@
 	function succeedhandle_$_GET[handlekey](url, msg) {
 		hideWindow('$_GET[handlekey]');
 		if(arguments[2] && arguments[2]['avatar']) {
-			msg += ' <ul class="ml mls cl"><li><a class="avt" target="_blank" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'"><em class=""></em><img src="{$_G[siteurl]}api/avatar/avatar.php?uid='+arguments[2]['uid']+'&size=small" /></a><p><a title="admin" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'" target="_blank"><b>'+arguments[2]['username']+'</b></a></p></li></ul>';
+			msg += ' <ul class="ml mls cl"><li><a class="avt" target="_blank" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'"><em class=""></em><img src="{$_G[siteurl]}api/avatar/avatar.php?uid='+arguments[2]['uid']+'&size=small"></a><p><a title="admin" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'" target="_blank"><b>'+arguments[2]['username']+'</b></a></p></li></ul>';
 		}
 		<!--{if !$location}-->
 			showDialog(msg, 'notice', null, function () { location.href=url; }, 0);

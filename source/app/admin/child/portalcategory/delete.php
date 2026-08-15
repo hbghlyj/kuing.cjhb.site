@@ -34,9 +34,9 @@ if(!submitcheck('deletesubmit')) {
 	showtableheader();
 	if($portalcategory[$_GET['catid']]['children']) {
 		showsetting('portalcategory_subcategory_moveto', '', '',
-			'<div class="nofloat"><input class="radio" type="radio" name="subcat_op" value="trash" id="subcat_op_trash" checked="checked" />'.
+			'<div class="nofloat"><input class="radio" type="radio" name="subcat_op" value="trash" id="subcat_op_trash" checked="checked">'.
 			'&nbsp;<label for="subcat_op_trash" />'.cplang('portalcategory_subcategory_moveto_trash').'</label>'.
-			'&nbsp;&nbsp;&nbsp;<input class="radio" type="radio" name="subcat_op" value="parent" id="subcat_op_parent" checked="checked" />'.
+			'&nbsp;&nbsp;&nbsp;<input class="radio" type="radio" name="subcat_op" value="parent" id="subcat_op_parent" checked="checked">'.
 			'&nbsp;<label for="subcat_op_parent" />'.cplang('portalcategory_subcategory_moveto_parent').'</label></div>'
 		);
 	}
@@ -45,8 +45,8 @@ if(!submitcheck('deletesubmit')) {
 				<tr class=\"noborder\">
 					<td class=\"vtop rowform\">
 						<ul class=\"nofloat\" onmouseover=\"altStyle(this);\">
-						<li class=\"checked\"><input class=\"radio\" type=\"radio\" name=\"article_op\" value=\"move\" checked />&nbsp;".cplang('portalcategory_article_moveto').'&nbsp;&nbsp;&nbsp;'.category_showselect('portal', 'tocatid', false, $portalcategory[$_GET['catid']]['upid'])."</li>
-						<li><input class=\"radio\" type=\"radio\" name=\"article_op\" value=\"delete\" />&nbsp;".cplang('portalcategory_article_delete')."</li>
+						<li class=\"checked\"><input class=\"radio\" type=\"radio\" name=\"article_op\" value=\"move\" checked>&nbsp;".cplang('portalcategory_article_moveto').'&nbsp;&nbsp;&nbsp;'.category_showselect('portal', 'tocatid', false, $portalcategory[$_GET['catid']]['upid'])."</li>
+						<li><input class=\"radio\" type=\"radio\" name=\"article_op\" value=\"delete\">&nbsp;".cplang('portalcategory_article_delete')."</li>
 						</ul></td>
 					<td class=\"vtop tips2\"></td>
 				</tr>";
@@ -60,8 +60,8 @@ if(!submitcheck('deletesubmit')) {
 	if($_POST['article_op'] == 'delete') {
 		if(!$_GET['confirmed']) {
 			cpmsg('portal_delete_confirm', "action=portalcategory&operation=delete&catid={$_GET['catid']}", 'form', [],
-				'<input type="hidden" class="btn" id="deletesubmit" name="deletesubmit" value="1" /><input type="hidden" class="btn" id="subcat_op" name="subcat_op" value="'.$_POST['subcat_op'].'" />
-					<input type="hidden" class="btn" id="article_op" name="article_op" value="delete" /><input type="hidden" class="btn" id="tocatid" name="tocatid" value="'.$_POST['tocatid'].'" />');
+				'<input type="hidden" class="btn" id="deletesubmit" name="deletesubmit" value="1"><input type="hidden" class="btn" id="subcat_op" name="subcat_op" value="'.$_POST['subcat_op'].'">
+					<input type="hidden" class="btn" id="article_op" name="article_op" value="delete"><input type="hidden" class="btn" id="tocatid" name="tocatid" value="'.$_POST['tocatid'].'">');
 		}
 	}
 

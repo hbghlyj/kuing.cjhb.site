@@ -26,7 +26,7 @@
 				<a href="home.php?mod=space&uid=$space[uid]&do=blog&view=me">{lang thread}</a>
 			</div>
 		</div>
-		<style id="diy_style" type="text/css"></style>
+		<style id="diy_style"></style>
 		<div class="wp">
 			<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 		</div>
@@ -46,7 +46,7 @@
 			<a href="home.php?mod=space&do=blog">{lang thread}</a>
 		</div>
 	</div>
-	<style id="diy_style" type="text/css"></style>
+	<style id="diy_style"></style>
 	<div class="wp">
 		<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 	</div>
@@ -117,8 +117,8 @@
 		<!--{/if}-->
 		<div class="tl">
 			<form method="post" autocomplete="off" name="delform" id="delform" action="home.php?mod=space&do=thread&view=all&order=dateline" onsubmit="showDialog('{lang del_select_thread_confirm}', 'confirm', '', '$(\'delform\').submit();'); return false;">
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
-					<input type="hidden" name="delthread" value="true" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<input type="hidden" name="delthread" value="true">
 
 					<table class="cp0">
 						<tr class="th">
@@ -126,7 +126,7 @@
 							<!--{if $_GET['view'] == 'all' && $pruneperm && !$_GET['archiveid']}-->
 								<td class="o">&nbsp;</td>
 							<!--{/if}-->
-							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false"><span>{lang search}</span></button><!--{/if}--></th>
+							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15"> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false"><span>{lang search}</span></button><!--{/if}--></th>
 							<td class="frm"><select name="forumlist" id="forumlist" class="ps vm" onchange="viewforumthread(this.value);" style="width: 120px; overflow-wrap: normal;"><option value="0">{lang follow_select_forum}</option>$forumlist</select></td>
 							<!--{if $viewtype != 'postcomment'}-->
 							<!--{if $viewtype == 'reply' || !$actives[me]}-->
@@ -167,12 +167,12 @@
 								<td class="o">
 									<!--{if $thread['digest'] == 0}-->
 										<!--{if $thread['displayorder'] == 0}-->
-											<input type="checkbox" name="moderate[]" value="$thread[tid]" class="pc" />
+											<input type="checkbox" name="moderate[]" value="$thread[tid]" class="pc">
 										<!--{else}-->
-											<input type="checkbox" class="pc" disabled="disabled" />
+											<input type="checkbox" class="pc" disabled="disabled">
 										<!--{/if}-->
 									<!--{else}-->
-										<input type="checkbox" class="pc" disabled="disabled" />
+										<input type="checkbox" class="pc" disabled="disabled">
 									<!--{/if}-->
 								</td>
 							<!--{/if}-->
@@ -247,7 +247,7 @@
 
 					<!--{if $_GET['view'] == 'all' && $pruneperm && !$_GET['archiveid'] && $list}-->
 						<p class="mtm pns">
-							<label for="chkall" onclick="checkall(this.form, 'moderate')"><input type="checkbox" name="chkall" id="chkall" class="pc vm" />{lang select_all}</label>
+							<label for="chkall" onclick="checkall(this.form, 'moderate')"><input type="checkbox" name="chkall" id="chkall" class="pc vm">{lang select_all}</label>
 							<button type="submit" name="delsubmit" value="true" class="pn vm"><em>{lang del_select_thread}</em></button>
 						</p>
 					<!--{/if}-->

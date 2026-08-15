@@ -10,10 +10,10 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form id="editcommentform_{$cid}" name="editcommentform_{$cid}" method="post" autocomplete="off" action="portal.php?mod=portalcp&ac=comment&op=edit&cid=$cid{if $_GET[modarticlecommentkey]}&modarticlecommentkey=$_GET[modarticlecommentkey]{/if}">
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="editsubmit" value="true" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="editsubmit" value="true">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="c">
 			<p>
 				<label for="message">{lang comment_edit_content}: </label>
@@ -32,10 +32,10 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form id="deletecommentform_{$cid}" name="deletecommentform_{$cid}" method="post" autocomplete="off" action="portal.php?mod=portalcp&ac=comment&op=delete&cid=$cid">
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="deletesubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="deletesubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
 		<div class="c">{lang comment_delete_confirm}</div>
 		<p class="o pns">
 			<button type="submit" name="deletesubmitbtn" value="true" class="pn pnc"><strong>{lang confirms}</strong></button>

@@ -9,10 +9,10 @@
 	<script>var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
 	<script src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 	<form method="post" autocomplete="off" name="modactions" id="modactions">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="optgroup" />
-	<input type="hidden" name="operation" />
-	<input type="hidden" name="listextra" value="" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="optgroup">
+	<input type="hidden" name="operation">
+	<input type="hidden" name="listextra" value="">
 	</form>
 <!--{/if}-->
 <div class="viewthread">
@@ -48,7 +48,7 @@
 					<!--{if $_G['setting']['verify']['enabled']}-->
 						<!--{loop $_G['setting']['verify'] $vid $verify}-->
 							<!--{if $verify['available'] && $post['verify'.$vid] == 1}-->
-								<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['icon']}--><img src="$verify['icon']" class="vm" /><!--{else}-->$verify['title']<!--{/if}--></a>&nbsp;
+								<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['icon']}--><img src="$verify['icon']" class="vm"><!--{else}-->$verify['title']<!--{/if}--></a>&nbsp;
 							<!--{/if}-->
 						<!--{/loop}-->
 					<!--{/if}-->
@@ -69,9 +69,9 @@
 				<div class="spvimg">
 					<!--{if $trade['displayorder'] > 0}--><em class="hot">{lang post_trade_sticklist}</em><!--{/if}-->
 					<!--{if $trade['thumb']}-->
-						<img src="$trade['thumb']" alt="$trade['subject']" />
+						<img src="$trade['thumb']" alt="$trade['subject']">
 					<!--{else}-->
-						<img src="{IMGDIR}/nophotosmall.gif" width="90" height="90" alt="$trade['subject']" />
+						<img src="{IMGDIR}/nophotosmall.gif" width="90" height="90" alt="$trade['subject']">
 					<!--{/if}-->
 				</div>
 				<div>
@@ -213,7 +213,7 @@
 				<dd class="m">
 					<a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}" class="tn" style="text-decoration:none !important;">
 						<!--{if $usertrade['displayorder'] > 0}--><em class="hot">{lang post_trade_sticklist}</em><!--{/if}-->
-						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60" /><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
+						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60"><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
 					</a>
 				</dd>
 				<dt><a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}">$usertrade['subject']</a></dt>

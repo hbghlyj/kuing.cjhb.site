@@ -30,7 +30,7 @@ if(submitcheck('editsubmit')) {
 	showsetting('blockxml_clientid', 'clientid', $blockxml['clientid'], 'text');
 	showsetting('blockxml_signtype', array('signtype', $signtypearr), $blockxml['signtype'], 'select');
 	showsetting('blockxml_xmlkey', 'key', $blockxml['key'], 'text');
-	showtablerow('', '', '<input class="checkbox" type="checkbox" name="ignoreversion" id="ignoreversion" value="1" /><label for="ignoreversion"> '.cplang('blockxml_import_ignore_version').'</label>');
+	showtablerow('', '', '<input class="checkbox" type="checkbox" name="ignoreversion" id="ignoreversion" value="1"><label for="ignoreversion"> '.cplang('blockxml_import_ignore_version').'</label>');
 	showsubmit('editsubmit');
 	showtablefooter();
 	showformfooter();

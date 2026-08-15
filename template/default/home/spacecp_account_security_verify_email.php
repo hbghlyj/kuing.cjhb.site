@@ -10,8 +10,8 @@
     </h3>
     <form method="post" autocomplete="off" name="security_verify" id="layerform_$layerhash" class="cl" onsubmit="ajaxpost('layerform_$layerhash', 'returnmessage_$layerhash', 'returnmessage_$layerhash', 'onerror');return false;" action="home.php?mod=spacecp&ac=account&op=verify&method=$method&verify=email&security_submit=yes&infloat=yes&formhash={FORMHASH}&layerhash=$layerhash">
         <div class="c cl">
-            <input type="hidden" name="formhash" value="{FORMHASH}" />
-            <input type="hidden" name="referer" value="{echo dreferer()}" />
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <input type="hidden" name="referer" value="{echo dreferer()}">
 
             <div class="rfm">
                 <table>
@@ -19,17 +19,17 @@
                         <th><span class="rq">*</span>{lang email}:</th>
                         <td>
                             <!--{if $method == 'chgemail' && empty($_G['member']['email'])}-->
-                                <input type="text" name="email" id="email" class="px"/>
+                                <input type="text" name="email" id="email" class="px">
                             <!--{else}-->
                             {$_G['member']['email']}
-                            <input type="hidden" id="email" name="email" value="{$_G['member']['email']}" />
+                            <input type="hidden" id="email" name="email" value="{$_G['member']['email']}">
                             <!--{/if}-->
                         </td>
                     </tr>
                     <tr>
                         <th><span class="rq">*</span><label for="seccode">{lang seccode}:</label></th>
                         <td>
-                            <input type="text" name="seccode" id="seccode" value="" class="px" />
+                            <input type="text" name="seccode" id="seccode" value="" class="px">
                             <div class="sendsec" id="sendsec" style="display: inline-block;">
                                 <button type="button" name="seccodesendnew" id="seccodesendnew" value="true" class="pn pnc" onclick="memcp_sendseccode();" /><strong>{lang send}</strong></button>
                             </div>

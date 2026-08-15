@@ -2,9 +2,9 @@
 <div class="tip loginbox loginpop p5" id="floatlayout_applylist" style="max-height:400px; overflow-y:scroll;">
 <form id="applylistform" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplylist&tid=$_G['tid']&applylistsubmit=yes&infloat=yes{if !empty($_GET['from'])}&from=$_GET['from']{/if}">
 	<h2 class="log_tit" id="return_applylist"><!--{if $isactivitymaster}-->{lang activity_applylist_manage}<!--{else}-->{lang activity_applylist}<!--{/if}--></h2>
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="operation" value="" />
-	<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="operation" value="">
+	<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 	<ul class="post_box cl">
 		<li class="flex-box mli mtit">
 			<!--{if $isactivitymaster}--><div class="flex"></div><!--{/if}-->
@@ -16,9 +16,9 @@
 			<!--{if $isactivitymaster}-->
 			<div class="flex">
 				<!--{if $apply['uid'] != $_G['uid']}-->
-					<input type="checkbox" name="applyidarray[]" class="pc" value="$apply['applyid']" />
+					<input type="checkbox" name="applyidarray[]" class="pc" value="$apply['applyid']">
 				<!--{else}-->
-					<input type="checkbox" class="pc" disabled="disabled" />
+					<input type="checkbox" class="pc" disabled="disabled">
 				<!--{/if}-->
 			</div>
 			<!--{/if}-->
@@ -71,7 +71,7 @@
 	<ul class="post_box cl mb10">
 		<label>
 		<li class="flex-box mli">
-			<div class="flex xs1"><input name="reason" class="px vm" size="25" placeholder="{lang activity_ps}" /></div>
+			<div class="flex xs1"><input name="reason" class="px vm" size="25" placeholder="{lang activity_ps}"></div>
 		</li>
 		</label>
 	</ul>
@@ -86,7 +86,7 @@
 	<!--{/if}-->
 </form>
 </div>
-<style type="text/css">
+<style>
 .ufielddata li { display:flex;-webkit-box-flex: 3;-webkit-flex: 3;-ms-flex: 3;flex: 3; font-size:12px;color: var(--dz-FC-999);height: 20px;line-height: 20px;padding: 5px 15px;}
 </style>
 <!--{template common/footer}-->

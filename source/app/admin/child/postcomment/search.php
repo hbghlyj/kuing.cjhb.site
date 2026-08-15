@@ -50,7 +50,7 @@ if(!$error) {
 			foreach(table_forum_postcomment::t()->fetch_all_by_search($searchtid, $searchpid, ($authorid ? explode(',', str_replace(' ', '', $authorid)) : null), $starttime, $endtime, $ip, $message, (($page - 1) * $perpage), $perpage) as $comment) {
 				$comment['dateline'] = dgmdate($comment['dateline']);
 				$comments .= showtablerow('', '', [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['id']}\" />",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['id']}\">",
 					str_replace(['[b]', '[/b]', '[/color]'], ['<b>', '</b>', '</font>'], preg_replace('/\[color=([#\w]+?)\]/i', "<font color=\"\\1\">", $comment['comment'])),
 					($comment['author'] ? "<a href=\"home.php?mod=space&uid={$comment['authorid']}\" target=\"_blank\">".$comment['author'].'</a>' : cplang('postcomment_guest')),
 					$comment['dateline'],

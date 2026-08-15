@@ -31,14 +31,14 @@ foreach($query as $row) {
 		$opresult = $_G['setting']['extcredits'][$row['opresult'][0]]['title'].'&nbsp;'.$row['opresult'][1];
 	}
 	showtablerow('', ['class="td25"', 'class="td28"', '', '', 'class="td26"'], [
-		'<input type="checkbox" class="checkbox" name="reportids[]" value="'.$row['id'].'" />',
+		'<input type="checkbox" class="checkbox" name="reportids[]" value="'.$row['id'].'">',
 		'<b>'.cplang('report_newreport_url').'</b><a href="'.$row['url'].'" target="_blank">'.$row['url'].'</a><br><b>'.cplang('report_newreport_time').'</b>'.dgmdate($row['dateline']).'<br><b>'.cplang('report_newreport_message').'</b>: '.$row['message'].'<br \><b>'.cplang('report_resolved_result').'</b>'.$opresult,
 		$row['opname'],
 		date('y-m-d H:i', $row['optime'])
 	]);
 }
 $multipage = multi($reportcount, $lpp, $page, ADMINSCRIPT."?action=report&operation=resolved&lpp=$lpp", 0, 3);
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'reportids\')" /><label for="chkall">'.cplang('del').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.$lang['delete'].'" />', $multipage);
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'reportids\')"><label for="chkall">'.cplang('del').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.$lang['delete'].'">', $multipage);
 showtablefooter();
 showformfooter();
 	

@@ -150,14 +150,14 @@ if(!submitcheck('medaleditsubmit')) {
 					&nbsp;</a>&nbsp;
 				<a href="###"
 				   onclick="medalsinsertunit(' or ')">&nbsp;<?php echo $lang['setting_credits_formulaperm_or']; ?>
-					&nbsp;</a>&nbsp;<br/>
+					&nbsp;</a>&nbsp;<br>
 			</div>
 			<div id="formulapermexp" class="marginbot diffcolor2"><?php echo $formulapermexp; ?></div>
 			<textarea name="formulapermnew" id="formulapermnew" style="width: 80%" rows="3"
 			          onkeyup="formulaexp()"
 			          onkeydown="textareakey(this, event)"><?php echo dhtmlspecialchars($medal['permission']); ?></textarea>
-			<br/><span class="smalltxt"><?php echo $lang['medals_permformula']; ?></span>
-			<br/><?php echo $lang['creditwizard_current_formula_notice']; ?>
+			<br><span class="smalltxt"><?php echo $lang['medals_permformula']; ?></span>
+			<br><?php echo $lang['creditwizard_current_formula_notice']; ?>
 			<script type="text/JavaScript">formulaexp()</script>
 		</td>
 	</tr>

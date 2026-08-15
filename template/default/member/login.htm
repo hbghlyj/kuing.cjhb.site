@@ -39,11 +39,11 @@
 		<!--{hook/logging_top}-->
 		<form method="post" autocomplete="off" name="login" id="loginform_$loginhash" class="cl" onsubmit="pwdclear = 1;ajaxpost('loginform_$loginhash', 'returnmessage_$loginhash', 'returnmessage_$loginhash', 'onerror');return false;" action="member.php?mod=logging&action=login&loginsubmit=yes{if !empty($_GET['handlekey'])}&handlekey=$_GET[handlekey]{/if}{if isset($_GET['frommessage'])}&frommessage{/if}&loginhash=$loginhash">
 			<div class="c cl">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="fastloginfield" value="auto" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="fastloginfield" value="auto">
 				<!--{if $auth}-->
-					<input type="hidden" name="auth" value="$auth" />
+					<input type="hidden" name="auth" value="$auth">
 				<!--{/if}-->
 				
 				<!--{if $invite}-->
@@ -62,7 +62,7 @@
 					<table>
 						<tr>
 							<th><label for="username_$loginhash">{lang login_id}:</label></th>
-							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" /></td>
+							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username"></td>
 							<td class="tipcol"><a href="member.php?mod={$_G[setting][regname]}">{lang connect_register_profile}</a></td>
 						</tr>
 					</table>
@@ -71,7 +71,7 @@
 					<table>
 						<tr>
 							<th><label for="password3_$loginhash">{lang login_password}:</label></th>
-							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" /></td>
+							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre"></td>
 							<td class="tipcol"><a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');" title="{lang getpassword}">{lang getpassword}</a></td>
 						</tr>
 					</table>
@@ -100,14 +100,14 @@
 					<table>
 						<tr>
 							<th>{lang security_a}:</th>
-							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" /></td>
+							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre"></td>
 						</tr>
 					</table>
 				</div>
 				<!--{/if}-->
 
 				<!--{if $seccodecheck || $secqaacheck}-->
-					<!--{block sectpl}--><div class="rfm"><table><tr><th><sec>: </th><td><sec><br /><sec></td></tr></table></div><!--{/block}-->
+					<!--{block sectpl}--><div class="rfm"><table><tr><th><sec>: </th><td><sec><br><sec></td></tr></table></div><!--{/block}-->
 					<!--{subtemplate common/seccheck}-->
 				<!--{/if}-->
 
@@ -117,7 +117,7 @@
 					<table>
 						<tr>
 							<th></th>
-							<td><label for="cookietime_$loginhash"><input type="checkbox" class="pc" name="cookietime" id="cookietime_$loginhash" value="2592000" $cookietimecheck />{lang login_permanent}</label></td>
+							<td><label for="cookietime_$loginhash"><input type="checkbox" class="pc" name="cookietime" id="cookietime_$loginhash" value="2592000" $cookietimecheck>{lang login_permanent}</label></td>
 						</tr>
 					</table>
 				</div>
@@ -138,7 +138,7 @@
 
 				<!--{if !empty($_G['setting']['pluginhooks']['logging_method'])}-->
 					<div class="rfm bw0 {if empty($_GET['infloat'])} mbw{/if}">
-						<hr class="l" />
+						<hr class="l">
 						<table>
 							<tr>
 								<th>{lang login_method}:</th>
@@ -157,13 +157,13 @@
 		</h3>
 		<form method="post" autocomplete="off" id="lostpwform_$loginhash" class="cl" onsubmit="ajaxpost('lostpwform_$loginhash', 'returnmessage3_$loginhash', 'returnmessage3_$loginhash', 'onerror');return false;" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes">
 			<div class="c cl">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="handlekey" value="lostpwform" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="handlekey" value="lostpwform">
 				<div class="rfm">
 					<table>
 						<tr>
 							<th><span class="rq">*</span><label for="lostpw_email">{lang email}:</label></th>
-							<td><input type="text" name="email" id="lostpw_email" size="30" value=""  class="px p_fre" /></td>
+							<td><input type="text" name="email" id="lostpw_email" size="30" value=""  class="px p_fre"></td>
 						</tr>
 					</table>
 				</div>
@@ -171,7 +171,7 @@
 					<table>
 						<tr>
 							<th><label for="lostpw_username">{lang username}:</label></th>
-							<td><input type="text" name="username" id="lostpw_username" size="30" value=""  class="px p_fre" /></td>
+							<td><input type="text" name="username" id="lostpw_username" size="30" value=""  class="px p_fre"></td>
 						</tr>
 					</table>
 				</div>

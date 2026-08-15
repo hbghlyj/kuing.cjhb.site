@@ -69,7 +69,7 @@ loadcache('usergroups');
 
 showtableheader();
 showformheader('plugins&operation=config&do='.$pluginid.'&identifier=myrepeats&pmod=admincp', 'repeatsubmit');
-showsubmit('repeatsubmit', $Plang['search'], $Plang['username'].': <input name="srchusername" value="'.htmlspecialchars($_GET['srchusername']).'" class="txt" />&nbsp;&nbsp;'.$Plang['repeat'].': <input name="srchrepeat" value="'.htmlspecialchars($_GET['srchrepeat']).'" class="txt" />', $searchtext);
+showsubmit('repeatsubmit', $Plang['search'], $Plang['username'].': <input name="srchusername" value="'.htmlspecialchars($_GET['srchusername']).'" class="txt">&nbsp;&nbsp;'.$Plang['repeat'].': <input name="srchrepeat" value="'.htmlspecialchars($_GET['srchrepeat']).'" class="txt">', $searchtext);
 showformfooter();
 
 $statselect = '<select onchange="location.href=\''.ADMINSCRIPT.'?action=plugins&operation=config&do='.$pluginid.'&identifier=myrepeats&pmod=admincp'.$extra.'&status=\' + this.value">';

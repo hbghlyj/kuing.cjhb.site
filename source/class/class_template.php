@@ -520,11 +520,11 @@ class template {
 		}
 		$scriptcss = '';
 		foreach($scripts as $css) {
-			$scriptcss .= '<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$css.'.css?{VERHASH}" />';
+			$scriptcss .= '<link rel="stylesheet" href="{$_G[\'setting\'][\'csspath\']}'.$css.'.css?{VERHASH}">';
 		}
-		$scriptcss .= '{if is_file(DISCUZ_DATA.\'./cache/style_'.$moduleScript.'.css\')}<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$moduleScript.'.css?{VERHASH}" />{/if}';
+		$scriptcss .= '{if is_file(DISCUZ_DATA.\'./cache/style_'.$moduleScript.'.css\')}<link rel="stylesheet" href="{$_G[\'setting\'][\'csspath\']}'.$moduleScript.'.css?{VERHASH}">{/if}';
 		if(!$ismobile) {
-			$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}" />{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}" />{/if}';
+			$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}">{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}">{/if}';
 		}
 		return $scriptcss;
 	}

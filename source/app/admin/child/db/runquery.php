@@ -43,14 +43,14 @@ if(!submitcheck('sqlsubmit')) {
 	showtableheader();
 	showformheader('db&operation=runquery&option=simple');
 	showsetting('db_runquery_simply', '', '', $runqueryselect);
-	showsetting('', '', '', '<input type="checkbox" class="checkbox" name="createcompatible" value="1" checked="checked" />'.cplang('db_runquery_createcompatible'));
+	showsetting('', '', '', '<input type="checkbox" class="checkbox" name="createcompatible" value="1" checked="checked">'.cplang('db_runquery_createcompatible'));
 	showsubmit('sqlsubmit');
 	showformfooter();
 
 	if($checkperm) {
 		showformheader('db&operation=runquery&option=');
 		showsetting('db_runquery_sql', '', '', '<textarea cols="85" rows="10" name="queries" style="width:500px;" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)">'.$queries.'</textarea>');
-		showsetting('', '', '', '<input type="checkbox" class="checkbox" name="createcompatible" value="1" checked="checked" />'.cplang('db_runquery_createcompatible'));
+		showsetting('', '', '', '<input type="checkbox" class="checkbox" name="createcompatible" value="1" checked="checked">'.cplang('db_runquery_createcompatible'));
 		showsubmit('sqlsubmit', 'submit', '', cplang('db_runquery_comment'));
 		showformfooter();
 	}

@@ -13,7 +13,7 @@
 <!--{if $_GET['op'] == 'group'}-->
 	<div class="bm bw0">
 		<form enctype="multipart/form-data" action="forum.php?mod=group&action=manage&op=group&fid=$_G[fid]" name="manage" method="post" autocomplete="off">
-			<input type="hidden" value="{FORMHASH}" name="formhash" />
+			<input type="hidden" value="{FORMHASH}" name="formhash">
 			<table class="tfm vt cp0" summary="{lang group_admin_panel}">
 				<tbody>
 					<tr>
@@ -23,7 +23,7 @@
 					<!--{if !empty($specialswitch['allowchangename']) && ($_G['uid'] == $_G['forum']['founderuid'] || $_G['adminid'] == 1)}-->
 					<tr>
 						<th><span class="rq">*</span>{lang group_name}:</th>
-						<td><input type="text" id="name" name="name" class="px" size="36" value="$_G[forum][name]" autocomplete="off" /></td>
+						<td><input type="text" id="name" name="name" class="px" size="36" value="$_G[forum][name]" autocomplete="off"></td>
 					</tr>
 					<!--{/if}-->
 					<!--{if !empty($specialswitch['allowchangetype']) && ($_G['uid'] == $_G['forum']['founderuid'] || $_G['adminid'] == 1)}-->
@@ -60,18 +60,18 @@
 					<tr>
 						<th>{lang group_perm_visit}</th>
 						<td>
-							<label class="lb"><input type="radio" name="gviewpermnew" class="pr" value="1" $gviewpermselect[1] />{lang group_perm_all_user}</label>
-							<label class="lb"><input type="radio" name="gviewpermnew" class="pr" value="0" $gviewpermselect[0] />{lang group_perm_member_only}</label>
+							<label class="lb"><input type="radio" name="gviewpermnew" class="pr" value="1" $gviewpermselect[1]>{lang group_perm_all_user}</label>
+							<label class="lb"><input type="radio" name="gviewpermnew" class="pr" value="0" $gviewpermselect[0]>{lang group_perm_member_only}</label>
 						</td>
 					</tr>
 					<tr>
 						<th>{lang group_join_type}</th>
 						<td>
-							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="0" $jointypeselect[0] />{lang group_join_type_free}</label>
-							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="2" $jointypeselect[2] />{lang group_join_type_moderate}</label>
-							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="1" $jointypeselect[1] />{lang group_join_type_invite}</label>
+							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="0" $jointypeselect[0]>{lang group_join_type_free}</label>
+							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="2" $jointypeselect[2]>{lang group_join_type_moderate}</label>
+							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="1" $jointypeselect[1]>{lang group_join_type_invite}</label>
 							<!--{if !empty($specialswitch['allowclosegroup'])}-->
-							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="-1" $jointypeselect[-1] />{lang close}</label>
+							<label class="lb"><input type="radio" name="jointypenew" class="pr" value="-1" $jointypeselect[-1]>{lang close}</label>
 							<p class="d">{lang group_close_notice}</p>
 							<!--{/if}-->
 						</td>
@@ -80,9 +80,9 @@
 					<tr>
 						<th>{lang subdomain}</th>
 						<td>
-							{$_G['scheme']}://<input type="text" name="domain" class="px" value="$_G[forum][domain]" style="width: 100px;" />.{$_G['setting']['domain']['root']['group']}
+							{$_G['scheme']}://<input type="text" name="domain" class="px" value="$_G[forum][domain]" style="width: 100px;">.{$_G['setting']['domain']['root']['group']}
 							<p class="d">
-								{lang group_domain_message}<br/>
+								{lang group_domain_message}<br>
 								<!--{if $_G[forum][domain] && $consume}-->{lang group_edit_domain_message}<!--{/if}-->
 							</p>
 						</td>
@@ -92,16 +92,16 @@
 					<tr>
 						<th>{lang group_image}</th>
 						<td>
-							<input type="file" name="bannernew" id="bannernew" class="pf" size="25" />
+							<input type="file" name="bannernew" id="bannernew" class="pf" size="25">
 				<!--{if $_G['forum']['banner']}-->
-							<label><input type="checkbox" name="deletebanner" class="pc" value="1" />{lang group_no_image}</label>
+							<label><input type="checkbox" name="deletebanner" class="pc" value="1">{lang group_no_image}</label>
 							<p class="d">{lang group_no_image_comment}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>&nbsp;</th>
 						<td>
-							<img onload="thumbImg(this, 1)" _width="544" _height="400" src="$_G[forum][banner]?{TIMESTAMP}" />
+							<img onload="thumbImg(this, 1)" _width="544" _height="400" src="$_G[forum][banner]?{TIMESTAMP}">
 				<!--{/if}-->
 								<p class="d">
 									<!--{if $_G[setting][group_imgsizelimit]}-->
@@ -116,14 +116,14 @@
 					<tr>
 						<th>{lang group_icon}</th>
 						<td>
-							<input type="file" id="iconnew" class="pf vm" size="25" name="iconnew" />
+							<input type="file" id="iconnew" class="pf vm" size="25" name="iconnew">
 							<p class="d">
 								{lang group_icon_resize} &nbsp;
 								<!--{if $_G[setting][group_imgsizelimit]}-->
 									{lang group_image_filesize_limit}
 								<!--{/if}--></p>
 							<!--{if $_G['forum']['icon']}-->
-								<img width="48" height="48" alt="" class="vm" style="margin-right: 1em;" src="$_G[forum][icon]?{TIMESTAMP}" />
+								<img width="48" height="48" alt="" class="vm" style="margin-right: 1em;" src="$_G[forum][icon]?{TIMESTAMP}">
 							<!--{/if}-->
 						</td>
 					</tr>
@@ -172,8 +172,8 @@
 	</div>
 	<!--{/if}-->
 	<form action="forum.php?mod=group&action=manage&op=manageuser&fid=$_G[fid]&manageuser=true" name="manageuser" id="manageuser" method="post" autocomplete="off" class="ptm">
-		<input type="hidden" value="{FORMHASH}" name="formhash" />
-        <input type="hidden" value="0" name="targetlevel" id="targetlevel" />
+		<input type="hidden" value="{FORMHASH}" name="formhash">
+        <input type="hidden" value="0" name="targetlevel" id="targetlevel">
 		<!--{if $adminuserlist}-->
 			<div class="bm">
 				<div class="bm_h cl">
@@ -195,7 +195,7 @@
 								<!--{echo avatar($user['uid'], 'small')}-->
 							</a>
 							<p><a href="home.php?mod=space&uid=$user[uid]">$user[username]</a></p>
-							<p><!--{if $_G['adminid'] == 1 || ($_G['uid'] != $user['uid'] && ($_G['uid'] == $_G['forum']['founderuid'] || $user['level'] > $groupuser['level']))}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+							<p><!--{if $_G['adminid'] == 1 || ($_G['uid'] != $user['uid'] && ($_G['uid'] == $_G['forum']['founderuid'] || $user['level'] > $groupuser['level']))}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]"><!--{/if}--></p>
 						</li>
 						<!--{/loop}-->
 					</ul>
@@ -220,7 +220,7 @@
 								<!--{echo avatar($user['uid'], 'small')}-->
 							</a>
 							<p><a href="home.php?mod=space&uid=$user[uid]">$user[username]</a></p>
-							<p><!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+							<p><!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]"><!--{/if}--></p>
 						</li>
 						<!--{/loop}-->
 					</ul>
@@ -231,7 +231,7 @@
 						<li>
 							<a href="home.php?mod=space&uid=$user[uid]" class="avt"><!--{echo avatar($user['uid'], 'small')}--></a>
 							<p><a href="home.php?mod=space&uid=$user[uid]">$user[username]</a></p>
-							<p><!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]" /><!--{/if}--></p>
+							<p><!--{if $_G['adminid'] == 1 || $user['level'] > $groupuser['level']}--><input type="checkbox" class="pc" name="muid[{$user[uid]}]" value="$user[level]"><!--{/if}--></p>
 						</li>
 						<!--{/loop}-->
 					</ul>
@@ -256,10 +256,10 @@
 		<script type="text/JavaScript">
 			var rowtypedata = [
 				[
-					[1,'<input type="checkbox" class="pc" disabled="disabled" />', ''],
-					[1,'<input type="checkbox" class="pc" name="newenable[]" checked="checked" value="1" />', ''],
-					[1,'<input class="px" type="text" size="2" name="newdisplayorder[]" value="0" />'],
-					[1,'<input class="px" type="text" name="newname[]" />']
+					[1,'<input type="checkbox" class="pc" disabled="disabled">', ''],
+					[1,'<input type="checkbox" class="pc" name="newenable[]" checked="checked" value="1">', ''],
+					[1,'<input class="px" type="text" size="2" name="newdisplayorder[]" value="0">'],
+					[1,'<input class="px" type="text" name="newname[]">']
 				],
 			];
 			var addrowdirect = 0;
@@ -292,13 +292,13 @@
 		</script>
 		<div id="threadtypes">
 			<form id="threadtypeform" action="forum.php?mod=group&action=manage&op=threadtype&fid=$_G[fid]" autocomplete="off" method="post" name="threadtypeform">
-				<input type="hidden" value="{FORMHASH}" name="formhash" />
+				<input type="hidden" value="{FORMHASH}" name="formhash">
 				<table class="tfm vt cp0">
 					<tr>
 						<th>{lang threadtype_turn_on}:</th>
 						<td>
-							<label class="lb"><input type="radio" name="threadtypesnew[status]" class="pr" value="1" onclick="$('threadtypes_config').style.display = '';$('threadtypes_manage').style.display = '';" $checkeds[status][1] />{lang yes}</label>
-							<label class="lb"><input type="radio" name="threadtypesnew[status]" class="pr" value="0" onclick="$('threadtypes_config').style.display = 'none';$('threadtypes_manage').style.display = 'none';"  $checkeds[status][0] />{lang no}</label>
+							<label class="lb"><input type="radio" name="threadtypesnew[status]" class="pr" value="1" onclick="$('threadtypes_config').style.display = '';$('threadtypes_manage').style.display = '';" $checkeds[status][1]>{lang yes}</label>
+							<label class="lb"><input type="radio" name="threadtypesnew[status]" class="pr" value="0" onclick="$('threadtypes_config').style.display = 'none';$('threadtypes_manage').style.display = 'none';"  $checkeds[status][0]>{lang no}</label>
 							<p class="d">{lang threadtype_turn_on_comment}</p>
 						</td>
 					</tr>
@@ -306,16 +306,16 @@
 						<tr>
 							<th>{lang threadtype_required}:</th>
 							<td>
-								<label class="lb"><input type="radio" name="threadtypesnew[required]" class="pr" value="1" $checkeds[required][1] />{lang yes}</label>
-								<label class="lb"><input type="radio" name="threadtypesnew[required]" class="pr" value="0" $checkeds[required][0] />{lang no}</label>
+								<label class="lb"><input type="radio" name="threadtypesnew[required]" class="pr" value="1" $checkeds[required][1]>{lang yes}</label>
+								<label class="lb"><input type="radio" name="threadtypesnew[required]" class="pr" value="0" $checkeds[required][0]>{lang no}</label>
 								<p class="d">{lang threadtype_required_force}</p>
 							</td>
 						</tr>
 						<tr>
 							<th>{lang threadtype_prefix}:</th>
 							<td>
-								<label class="lb"><input type="radio" name="threadtypesnew[prefix]" class="pr" value="0" $checkeds[prefix][0] />{lang threadtype_prefix_off}</label>
-								<label class="lb"><input type="radio" name="threadtypesnew[prefix]" class="pr" value="1" $checkeds[prefix][1] />{lang threadtype_prefix_on}</label>
+								<label class="lb"><input type="radio" name="threadtypesnew[prefix]" class="pr" value="0" $checkeds[prefix][0]>{lang threadtype_prefix_off}</label>
+								<label class="lb"><input type="radio" name="threadtypesnew[prefix]" class="pr" value="1" $checkeds[prefix][1]>{lang threadtype_prefix_on}</label>
 								<p class="d">{lang threadtype_prefix_comment}</p>
 							</td>
 						</tr>
@@ -336,16 +336,16 @@
 							<!--{loop $threadtypes $val}-->
 							<tbody>
 								<tr>
-									<td><input type="checkbox" class="pc" name="threadtypesnew[options][delete][]" value="{$val[typeid]}" /></td>
-									<td><input type="checkbox" class="pc" name="threadtypesnew[options][enable][{$val[typeid]}]" value="1" $val[enablechecked] /></td>
-									<td><input type="text" name="threadtypesnew[options][displayorder][{$val[typeid]}]" class="px" size="2" value="$val[displayorder]" /></td>
-									<td><input type="text" name="threadtypesnew[options][name][{$val[typeid]}]" class="px" value="$val[name]" /></td>
+									<td><input type="checkbox" class="pc" name="threadtypesnew[options][delete][]" value="{$val[typeid]}"></td>
+									<td><input type="checkbox" class="pc" name="threadtypesnew[options][enable][{$val[typeid]}]" value="1" $val[enablechecked]></td>
+									<td><input type="text" name="threadtypesnew[options][displayorder][{$val[typeid]}]" class="px" size="2" value="$val[displayorder]"></td>
+									<td><input type="text" name="threadtypesnew[options][name][{$val[typeid]}]" class="px" value="$val[name]"></td>
 								</tr>
 							</tbody>
 							<!--{/loop}-->
 						<!--{/if}-->
 						<tr>
-							<td colspan="4"><img class="vm" src="{IMGDIR}/addicn.gif" /> <a href="javascript:;" onclick="addrow(this, 0)">{lang threadtype_add}</a></td>
+							<td colspan="4"><img class="vm" src="{IMGDIR}/addicn.gif"> <a href="javascript:;" onclick="addrow(this, 0)">{lang threadtype_add}</a></td>
 						</tr>
 					</table>
 				</div>
@@ -362,7 +362,7 @@
 				<div class="mtm">{lang group_demise_notice}</div>
 			</div>
 			<form action="forum.php?mod=group&action=manage&op=demise&fid=$_G[fid]" name="groupdemise" method="post" class="exfm">
-				<input type="hidden" value="{FORMHASH}" name="formhash" />
+				<input type="hidden" value="{FORMHASH}" name="formhash">
 				<table class="tfm vt cp0">
 					<tr>
 						<th>{lang transfer_group_to}:</th>
@@ -374,7 +374,7 @@
 										<!--{echo avatar($user['uid'], 'small')}-->
 									</a>
 									<p><a href="home.php?mod=space&uid=$user[uid]">$user[username]</a></p>
-									<p><!--{if $user['uid'] != $_G['uid']}--><input type="radio" class="pr" name="suid" value="$user[uid]" /><!--{/if}--></p>
+									<p><!--{if $user['uid'] != $_G['uid']}--><input type="radio" class="pr" name="suid" value="$user[uid]"><!--{/if}--></p>
 								</li>
 								<!--{/loop}-->
 							</ul>
@@ -382,7 +382,7 @@
 					</tr>
 					<tr>
 						<th>{lang group_input_password}</th>
-						<td><input type="password" name="grouppwd" class="px p_fre" /></td>
+						<td><input type="password" name="grouppwd" class="px p_fre"></td>
 					</tr>
 					<tr>
 						<th>&nbsp;</th>

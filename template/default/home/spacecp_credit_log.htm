@@ -13,7 +13,7 @@
 						<tr>
 							<th>{lang starttime_endtime}:</th>
 							<td>
-								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly" /> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)" />
+								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly"> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)">
 							</td>
 						</tr>
 						<tr>
@@ -59,9 +59,9 @@
 					</tr>
 					<!--{/loop}-->
 				</table>
-				<input type="hidden" name="op" value="log" />
-				<input type="hidden" name="ac" value="credit" />
-				<input type="hidden" name="mod" value="spacecp" />
+				<input type="hidden" name="op" value="log">
+				<input type="hidden" name="ac" value="credit">
+				<input type="hidden" name="mod" value="spacecp">
 			</form>
 			<!--{elseif $_GET[suboperation] == 'creditrulelog'}-->
 				<table summary="{lang get_credit_histroy}" class="dt cp0">

@@ -45,21 +45,21 @@
 					</tr>
 					<tr>
 						<th>{lang modcp_posts_author}:</th>
-						<td><input type="text" name="users" class="px" size="20" value="$result[users]" style="width: 180px"/></td>
+						<td><input type="text" name="users" class="px" size="20" value="$result[users]" style="width: 180px"></td>
 						<th>{lang modcp_dateline_range}:</th>
-						<td><input type="text" name="starttime" class="px" size="10" value="$result[starttime]" onclick="showcalendar(event, this);" /> {lang modcp_posts_to} <input type="text" name="endtime" class="px" size="10" value="$result[endtime]" onclick="showcalendar(event, this);" /></td>
+						<td><input type="text" name="starttime" class="px" size="10" value="$result[starttime]" onclick="showcalendar(event, this);"> {lang modcp_posts_to} <input type="text" name="endtime" class="px" size="10" value="$result[endtime]" onclick="showcalendar(event, this);"></td>
 					</tr>
 					<tr>
 						<th>{lang modcp_subject_keyword}:</th>
-						<td><input type="text" name="keywords" class="px" size="20" value="$result[keywords]" style="width: 180px"/></td>
+						<td><input type="text" name="keywords" class="px" size="20" value="$result[keywords]" style="width: 180px"></td>
 						<th>{lang modcp_views_range}:</th>
-						<td><input type="text" name="viewsmore" class="px" size="10" value="$result[viewsmore]" /> {lang modcp_posts_to} <input type="text" name="viewsless" class="px" size="10" value="$result[viewsless]" /></td>
+						<td><input type="text" name="viewsmore" class="px" size="10" value="$result[viewsmore]"> {lang modcp_posts_to} <input type="text" name="viewsless" class="px" size="10" value="$result[viewsless]"></td>
 					</tr>
 					<tr>
 						<th>{lang modcp_no_reply_range}:</th>
-						<td><input type="text" name="noreplydays" class="px" size="20" value="$result[noreplydays]" style="width: 180px"/></td>
+						<td><input type="text" name="noreplydays" class="px" size="20" value="$result[noreplydays]" style="width: 180px"></td>
 						<th>{lang modcp_reply_range}:</th>
-						<td><input type="text" name="repliesmore" class="px" size="10" value="$result[repliesmore]" /> {lang modcp_posts_to} <input type="text" name="repliesless" class="px" size="10" value="$result[repliesless]" /></td>
+						<td><input type="text" name="repliesmore" class="px" size="10" value="$result[repliesmore]"> {lang modcp_posts_to} <input type="text" name="repliesless" class="px" size="10" value="$result[repliesless]"></td>
 					</tr>
 					<tr>
 						<th width="15%">{lang mod_option_selectthreadclass}:</th>
@@ -95,10 +95,10 @@
 		<!--{if $postlist}-->
 		<div id="threadlist" class="tl">
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="$cpscript?mod=modcp&fid=$_G[fid]&action=$_GET[action]">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="op" value="" />
-				<input type="hidden" name="oldop" value="$op" />
-				<input type="hidden" name="dosubmit" value="submit" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="op" value="">
+				<input type="hidden" name="oldop" value="$op">
+				<input type="hidden" name="dosubmit" value="submit">
 				<table class="cp0">
 					<tr class="th">
 						<td class="icn">&nbsp;</td>
@@ -127,7 +127,7 @@
 										<i class="fico-thread fic6 fc-n"></i>
 									<!--{/if}-->
 								</td>
-								<td class="o"><input class="pc" type="checkbox" name="moderate[]" value="$thread[tid]" /></td>
+								<td class="o"><input class="pc" type="checkbox" name="moderate[]" value="$thread[tid]"></td>
 								<th class="$thread[folder]">
 									<span id="thread_$thread[tid]"><a href="forum.php?mod=viewthread&tid=$thread[tid]&modthreadkey=$thread[modthreadkey]" target="_blank" $thread['highlight']>$thread[subject]</a></span>
 									<!--{if $thread['readperm']}--> - [{lang readperm} <span class="xw1">$thread[readperm]</span>]<!--{/if}-->
@@ -177,7 +177,7 @@
 					<tbody>
 						<tr class="bw0_all">
 							<td>&nbsp;</td>
-							<td><input class="pc" type="checkbox" onclick="checkall(this.form, 'moderate')" name="chkall" id="chkall"/></td>
+							<td><input class="pc" type="checkbox" onclick="checkall(this.form, 'moderate')" name="chkall" id="chkall"></td>
 							<td colspan="5" class="ptm">
 								<!--{if $multipage}-->$multipage<!--{/if}-->
 								<!--{if $_G['group']['allowclearrecycle']}-->

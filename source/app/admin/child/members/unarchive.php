@@ -38,7 +38,7 @@ if(!submitcheck('unarchivesubmit', 1) && !submitcheck('confirmed', 1)) {
 		foreach($allmember as $uid => $member) {
 			if($member['adminid'] !== 1 && $member['groupid'] !== 1) {
 				if($count < 2000 || !empty($_GET['uidarray'])) {
-					$extra .= '<input type="hidden" name="uidarray[]" value="'.$member['uid'].'" />';
+					$extra .= '<input type="hidden" name="uidarray[]" value="'.$member['uid'].'">';
 				}
 				$uids[] = $member['uid'];
 				$membernum++;

@@ -7,8 +7,8 @@
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
 </div>
 <form name="confirmform" method="get" autocomplete="off" action="member.php">
-	<input type="hidden" name="mod" value="{$_G[setting][regname]}" />
-	<input type="hidden" name="invitecode" value="{$codes[0]}" />
+	<input type="hidden" name="mod" value="{$_G[setting][regname]}">
+	<input type="hidden" name="invitecode" value="{$codes[0]}">
 	<div class="post_box">
 		<ul>
 			<li class="mtext">
@@ -31,9 +31,9 @@
 </div>
 
 <form id="confirmform" name="confirmform" method="post" autocomplete="off" action="misc.php?mod=buyinvitecode">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="buysubmit" value="true" />
-	<input type="hidden" name="handlekey" value="buyinvite" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="buysubmit" value="true">
+	<input type="hidden" name="handlekey" value="buyinvite">
 	<div class="post_box p10">
 		<ul>
 			<!--{if $_G['setting']['inviteconfig']['invitecodeprompt']}-->

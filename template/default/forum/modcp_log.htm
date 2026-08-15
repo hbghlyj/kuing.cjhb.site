@@ -6,9 +6,9 @@
 			<table class="cp0">
 				<tr>
 					<th width="15%">{lang keyword}:</th>
-					<td width="45%"><input type="text" name="keyword" value="$keyword" size="20" class="px" /></td>
+					<td width="45%"><input type="text" name="keyword" value="$keyword" size="20" class="px"></td>
 					<th width="15%">{lang modcp_logs_perpage}:</th>
-					<td width="45%"><input type="text" name="lpp" value="$lpp" size="20" class="px" /></td>
+					<td width="45%"><input type="text" name="lpp" value="$lpp" size="20" class="px"></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
@@ -34,9 +34,9 @@
 					<!--{loop $loglist $log}-->
 						<tr>
 							<td>$log[1]</td>
-							<td><span class="xi2">$log[2]</span><br /><span class="xg1"><!--{if $log[3] == 1}--> {lang admin} <!--{elseif $log[3] == 2}--> {lang supermod} <!--{elseif $log[3] == 3}--> {lang moderator} <!--{else}--> GID $log[3] <!--{/if}--></span></td>
+							<td><span class="xi2">$log[2]</span><br><span class="xg1"><!--{if $log[3] == 1}--> {lang admin} <!--{elseif $log[3] == 2}--> {lang supermod} <!--{elseif $log[3] == 3}--> {lang moderator} <!--{else}--> GID $log[3] <!--{/if}--></span></td>
 							<td>$log[4]</td>
-							<td>$log[5] <br />$log[6]</td>
+							<td>$log[5] <br>$log[6]</td>
 							<td class="xi2">$log[7]</td>
 							<td>$log[8]</td>
 						</tr>

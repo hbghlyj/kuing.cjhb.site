@@ -2,10 +2,10 @@
 <div class="tip loginbox loginpop p5" id="floatlayout_attachpay">
 	<h2 class="log_tit" id="return_attachpay">{lang pay_attachment}</h2>
 	<form id="attachpayform" method="post" autocomplete="off" action="forum.php?mod=misc&action=attachpay&tid={$_G['tid']}">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="aid" value="$aid" />
-		<input type="hidden" name="paysubmit" value="true" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="aid" value="$aid">
+		<input type="hidden" name="paysubmit" value="true">
 		<ul class="post_box cl">
 			<li class="flex-box mli">
 				<div class="flex-2 xs1"><span class="z">{lang author}</span></div>
@@ -44,7 +44,7 @@
 			<label>
 			<li class="flex-box mli">
 				<div class="flex-3 xs1"><span class="z">{lang buy_all_attch}</span></div>
-				<div class="flex-2 xs1"><input name="buyall" type="checkbox" class="pc" value="yes" /></div>
+				<div class="flex-2 xs1"><input name="buyall" type="checkbox" class="pc" value="yes"></div>
 			</li>
 			</label>
 			<!--{/if}-->

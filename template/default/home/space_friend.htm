@@ -7,7 +7,7 @@
 		{lang friend_list}
 	</div>
 </div>
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -42,7 +42,7 @@
 						<!--{if $maxfriendnum}-->
 							({lang max_friend_num})
 							<!--{if $_G['setting']['magicstatus'] && $_G[setting][magics][friendnum]}-->
-								<img src="{STATICURL}image/magic/friendnum.small.gif" alt="friendnum" class="vm" />
+								<img src="{STATICURL}image/magic/friendnum.small.gif" alt="friendnum" class="vm">
 								<a id="a_magic_friendnum" href="home.php?mod=magic&mid=friendnum" onmousemove="showTip(this)" tip="{lang expansion_friend_message}" onclick="showWindow('magics', this.href, 'get', 0);return false;">{lang expansion_friend}</a>
 							<!--{/if}-->
 						<!--{/if}-->
@@ -71,13 +71,13 @@
 							<tr>
 								<th>{lang username}</th>
 								<td>
-									<input type="text" name="username" value="" size="15" class="px vm" />
+									<input type="text" name="username" value="" size="15" class="px vm">
 									<button type="submit" name="blacklistsubmit_btn" id="moodsubmit_btn" value="true" class="pn vm"><em>{lang add}</em></button>
 								</td>
 							</tr>
 						</table>
-						<input type="hidden" name="blacklistsubmit" value="true" />
-						<input type="hidden" name="formhash" value="{FORMHASH}" />
+						<input type="hidden" name="blacklistsubmit" value="true">
+						<input type="hidden" name="formhash" value="{FORMHASH}">
 					</form>
 				</div>
 				<!--{/if}-->
@@ -101,7 +101,7 @@
 				<a href="home.php?mod=space&uid=$space[uid]&do=friend&view=me">{lang friends}</a>
 			</div>
 		</div>
-		<style id="diy_style" type="text/css"></style>
+		<style id="diy_style"></style>
 		<div class="wp">
 			<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 		</div>
@@ -124,11 +124,11 @@
 								</div>
 								<div class="bm_c">
 									<form method="get" autocomplete="off" action="home.php" class="pns">
-										<input type="hidden" name="mod" value="space" />
-										<input type="hidden" name="do" value="friend" />
-										<input type="hidden" name="searchmode" value="1" />
-										<input type="hidden" name="searchsubmit" value="1" />
-										<input type="text" name="searchkey" class="px vm" size="20" value="" onclick="if(this.value=='{lang search_friend}')this.value='';" />&nbsp;<button type="submit" class="pn vm"><em>{lang search}</em></button>
+										<input type="hidden" name="mod" value="space">
+										<input type="hidden" name="do" value="friend">
+										<input type="hidden" name="searchmode" value="1">
+										<input type="hidden" name="searchsubmit" value="1">
+										<input type="text" name="searchkey" class="px vm" size="20" value="" onclick="if(this.value=='{lang search_friend}')this.value='';">&nbsp;<button type="submit" class="pn vm"><em>{lang search}</em></button>
 									</form>
 								</div>
 							</div>							
@@ -203,7 +203,7 @@
 						<!--{loop $list $key $value}-->
 							<li id="friend_{$value[uid]}_li">
 							<!--{if $value[username] == ''}-->
-								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}" /></div>
+								<div class="avt"><img src="{STATICURL}image/magic/hidden.gif" alt="{lang anonymity}"></div>
 								<h4>{lang anonymity}</h4>
 							<!--{else}-->
 								<div class="avt">
@@ -213,7 +213,7 @@
 										<!--{avatar($value['uid'], 'small')}-->
 									</a>
 									<!--{else}-->
-									<img src="$value[icon]" alt="$value[username]" />
+									<img src="$value[icon]" alt="$value[username]">
 									<!--{/if}-->
 								</div>
 								<h4>

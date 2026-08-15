@@ -12,7 +12,7 @@
 						</li>
 					<!--{/loop}-->
 					</ul>
-					<hr class="mtn mbn da" />
+					<hr class="mtn mbn da">
 				</div>
 			<!--{/if}-->
 
@@ -22,7 +22,7 @@
 				<!--{loop $blocks $block}-->
 					<li {if !$block[favorite]}onmouseover="display('bfav_$block[bid]');" onmouseout="display('bfav_$block[bid]');"{/if}>
 						<span class="cur1 xi2"{if $op=='recommend'} onclick="if($('recommendto')){$('recommendto').value=(this.innerText ? this.innerText : this.textContent);}recommenditem_byblock('$block[bid]', '$_GET[id]', '$_GET[idtype]')"{/if}>$block[name]</span>
-						<a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark" /><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark" /><!--{/if}--></a>
+						<a href="javascript:;" id="bfav_$block[bid]" onclick="blockFavorite($block[bid]);"{if !$block[favorite]} style="visibility:hidden"{/if}><!--{if $block[favorite]}--><img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark"><!--{else}--><img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark"><!--{/if}--></a>
 					</li>
 				<!--{/loop}-->
 				</ul>

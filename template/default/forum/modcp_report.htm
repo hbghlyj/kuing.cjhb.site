@@ -18,7 +18,7 @@
 						</span>
 					</td>
 					<th width="15%">{lang modcp_report_perpage}:</th>
-					<td width="45%"><input type="text" name="lpp" value="$lpp" size="20" class="px" /></td>
+					<td width="45%"><input type="text" name="lpp" value="$lpp" size="20" class="px"></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -43,16 +43,16 @@
 			<!--{loop $reportlist $report}-->
 				<tr>
 					<td>
-						<input id="report_$report[id]" type="checkbox" class="checkbox" name="reportids[]" value="$report[id]" />
-						<input id="reportuids_$report[id]" type="hidden" name="reportuids[{$report[id]}]" value="$report[uid]" />
+						<input id="report_$report[id]" type="checkbox" class="checkbox" name="reportids[]" value="$report[id]">
+						<input id="reportuids_$report[id]" type="hidden" name="reportuids[{$report[id]}]" value="$report[uid]">
 					</td>
 					<td><strong>{lang modcp_report_post}:</strong><a href="$report[url]" target="_blank">$report[url]</a><br><strong>{lang modcp_report_reason}:</strong>$report[message]<br><strong>{lang modcp_report_time}:</strong>$report[dateline]</td>
 					<td><a href="home.php?mod=space&uid=$report[uid]">$report[username]</a></td>
-					<td><!--{if $report_reward['max'] != $report_reward['min']}-->$_G['setting']['extcredits'][$curcredits]['title']:&nbsp;<select name="creditsvalue[{$report[id]}]">$rewardlist</select><br /><br />{lang modcp_report_note}:&nbsp;<input type="text" name="msg[{$report[id]}]" class="px" value="" size="20" /><!--{/if}--></td>
+					<td><!--{if $report_reward['max'] != $report_reward['min']}-->$_G['setting']['extcredits'][$curcredits]['title']:&nbsp;<select name="creditsvalue[{$report[id]}]">$rewardlist</select><br><br>{lang modcp_report_note}:&nbsp;<input type="text" name="msg[{$report[id]}]" class="px" value="" size="20"><!--{/if}--></td>
 				</tr>
 			<!--{/loop}-->
 				<tr>
-					<td><label for="chkall"><input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkall($('reportform'), 'report')" />{lang select_all}</label></td>
+					<td><label for="chkall"><input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkall($('reportform'), 'report')">{lang select_all}</label></td>
 					<td colspan="3"><button type="submit" class="pn" name="reportsubmit" id="reportsubmit" value="true"><strong>{lang modcp_report_resolve}</strong></button></td>
 				</tr>
 			</table>

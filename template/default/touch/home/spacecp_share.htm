@@ -2,9 +2,9 @@
 <div class="tip loginbox loginpop p5">
 <!--{if $_GET['op'] == 'delete'}-->
 	<form id="shareform_{$sid}" name="shareform_{$sid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=delete&sid=$sid&type=$_GET['type']">
-		<input type="hidden" name="referer" value="{eval echo dreferer();}" />
-		<input type="hidden" name="deletesubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="{eval echo dreferer();}">
+		<input type="hidden" name="deletesubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<dt>{lang delete_share_message}</dt>
 		<dd>
 			<button type="submit" name="deletesubmitbtn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -12,10 +12,10 @@
 	</form>
 <!--{elseif $_GET['op'] == 'edithot'}-->
 	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=edithot&sid=$sid">
-		<input type="hidden" name="referer" value="{eval echo dreferer();}" />
-		<input type="hidden" name="hotsubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<div class="c">{lang new_hot}:<input type="text" name="hot" value="$share[hot]" size="10" class="px" /></div>
+		<input type="hidden" name="referer" value="{eval echo dreferer();}">
+		<input type="hidden" name="hotsubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<div class="c">{lang new_hot}:<input type="text" name="hot" value="$share[hot]" size="10" class="px"></div>
 		<p class="o pns">
 			<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
 		</p>
@@ -32,13 +32,13 @@
 		</h3>
 	<!--{/if}-->
 	<form id="shareform" name="shareform" action="home.php?mod=spacecp&ac=share&type=link" method="post" autocomplete="off" >
-		<input type="hidden" name="refer" value="home.php?mod=space&uid=$space['uid']&do=share&view=me" />
-		<input type="hidden" name="topicid" value="$_GET['topicid']" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="sharesubmit" value="true" />
+		<input type="hidden" name="refer" value="home.php?mod=space&uid=$space['uid']&do=share&view=me">
+		<input type="hidden" name="topicid" value="$_GET['topicid']">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="sharesubmit" value="true">
 		<div class="c tfm">
 			<p>{lang share_web_media}:</p>
-			<p class="mtn mbm"><input type="text" size="30" class="px" name="link" onfocus="javascript:if('http://'==this.value)this.value='';" onblur="javascript:if(''==this.value)this.value='http://'" id="share_link" value="$linkdefault" /></p>
+			<p class="mtn mbm"><input type="text" size="30" class="px" name="link" onfocus="javascript:if('http://'==this.value)this.value='';" onblur="javascript:if(''==this.value)this.value='http://'" id="share_link" value="$linkdefault"></p>
 			<p>{lang description}:</p>
 			<p class="mtn mbm"><textarea id="share_general" name="general" cols="30" rows="3" class="pt" onkeydown="ctrlEnter(event, 'sharesubmit_btn')">$generaldefault</textarea></p>
 			<!--{if $type == 'thread'}-->
@@ -57,7 +57,7 @@
 	<form method="post" autocomplete="off" id="shareform_{$id}" name="shareform_{$id}" action="home.php?mod=spacecp&ac=share&type=$type&id=$id">
 		<input type="hidden" name="sharesubmit" value="true">
 		<input type="hidden" name="referer" value="{eval echo dreferer();}">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<dt>
 			<span class="y xg1">{lang share_count}&nbsp;&nbsp;</span>
 			<span class="z">{lang share_description}:</span>
@@ -71,7 +71,7 @@
 		</dt>
 		<ul class="post_box cl">
 			<!--{if $commentcable[$type]}-->
-			<label><li class="flex-box b0"><div class="flex tit"><!--{if $type == 'thread'}-->{lang post_add_inonetime}<!--{else}-->{lang comment_add_inonetime}<!--{/if}--></div><div class="flex"></div><div class="flex y"><input type="checkbox" class="pc" name="iscomment" value="1"/></div></li></label>
+			<label><li class="flex-box b0"><div class="flex tit"><!--{if $type == 'thread'}-->{lang post_add_inonetime}<!--{else}-->{lang comment_add_inonetime}<!--{/if}--></div><div class="flex"></div><div class="flex y"><input type="checkbox" class="pc" name="iscomment" value="1"></div></li></label>
 			<!--{/if}-->
 		</ul>
 		<dd>

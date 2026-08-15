@@ -56,14 +56,14 @@ if(!submitcheck('searchsubmit', 1)) {
 	showsubtitle(['', 'collection_name', 'collection_username', 'collection_date', 'collection_recommend']);
 	foreach($collection as $uniquecollection) {
 		showtablerow('', ['class="td25"', 'width=400', ''], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"ctidarray[]\" value=\"{$uniquecollection['ctid']}\" />",
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"ctidarray[]\" value=\"{$uniquecollection['ctid']}\">",
 			"<a href='forum.php?mod=collection&action=view&ctid={$uniquecollection['ctid']}' target='_blank'>{$uniquecollection['name']}</a>",
 			"<a href='home.php?mod=space&uid={$uniquecollection['uid']}' target='_blank'>{$uniquecollection['username']}</a>",
 			dgmdate($uniquecollection['dateline']),
 			"<a href='".ADMINSCRIPT."?action=collection&operation=recommend&recommentctid={$uniquecollection['ctid']}'>".cplang('collection_recommend').'</a>',
 		]);
 	}
-	showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ctidarray\', \'chkall\')" /><label for="chkall">'.cplang('select_all').'</label>']);
+	showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ctidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>']);
 	showtablerow('', ['class="td25"', 'colspan="2"'], [
 		cplang('operation'),
 		'<input class="radio" type="radio" name="operate_type" value="delete"> '.cplang('delete').' '

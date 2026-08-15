@@ -28,7 +28,7 @@
             </li>
             <!--{/if}-->
         </ul>
-        <style type="text/css">
+        <style>
             .security_verify a{
                 padding: 15px 50px;
                 height: 50px;

@@ -25,16 +25,16 @@
 							<div class="km_moderate">
 								<!--{if $thread['fid'] == $_G['fid']}-->
 									<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-										<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread['tid']" />
+										<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread['tid']">
 									<!--{else}-->
-										<input type="checkbox" disabled="disabled" />
+										<input type="checkbox" disabled="disabled">
 									<!--{/if}-->
 								<!--{else}-->
-									<input type="checkbox" disabled="disabled" />
+									<input type="checkbox" disabled="disabled">
 								<!--{/if}-->
 							</div>
 							<!--{elseif $permission}-->
-								<div class="km_moderate"><input type="checkbox" value="$thread['tid']" name="delthread[]" class="pc" /></div>
+								<div class="km_moderate"><input type="checkbox" value="$thread['tid']" name="delthread[]" class="pc"></div>
 							<!--{/if}-->
 							<!--{if in_array($thread['displayorder'], array(1, 2, 3, 4)) && CURMODULE == 'forumdisplay'}-->
 								<a href="javascript:void(0);" onclick="hideStickThread('$thread['tid']')" class="closeprev y" title="{lang hidedisplayorder}">{lang hidedisplayorder}</a>
@@ -57,20 +57,20 @@
 									{if $thread['rushreply']}{lang rushreply}{lang forum_threads}{/if}
 									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}">
 								<!--{if $thread['folder'] == 'lock'}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico">
 								<!--{elseif $thread['special'] == 1}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_pollsmall.svg" alt="{lang thread_poll}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_pollsmall.svg" alt="{lang thread_poll}" class="kmimgico">
 								<!--{elseif $thread['special'] == 2}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_tradesmall.svg" alt="{lang thread_trade}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_tradesmall.svg" alt="{lang thread_trade}" class="kmimgico">
 								<!--{elseif $thread['special'] == 3}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_rewardsmall.svg" alt="{lang thread_reward}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_rewardsmall.svg" alt="{lang thread_reward}" class="kmimgico">
 								<!--{elseif $thread['special'] == 4}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_activitysmall.svg" alt="{lang thread_activity}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_activitysmall.svg" alt="{lang thread_activity}" class="kmimgico">
 								<!--{elseif $thread['special'] == 5}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_debatesmall.svg" alt="{lang thread_debate}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_debatesmall.svg" alt="{lang thread_debate}" class="kmimgico">
 								<!--{/if}-->
 								<!--{if $thread['rushreply']}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_rushreply_s.svg" alt="{lang rushreply}" class="kmimgico" />
+									<img src="{STYLEIMGDIR}/svg/dz_ico_rushreply_s.svg" alt="{lang rushreply}" class="kmimgico">
 								<!--{/if}-->
 								<!--{if in_array($thread['displayorder'], array(1, 2, 3, 4))}-->
 									<span class="kmico kmding">{lang thread_stick}</span>

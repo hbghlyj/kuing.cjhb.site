@@ -28,12 +28,12 @@ if(!$_GET['ipact']) {
 			$banned['expiration'] = dgmdate($banned['expiration'], 'Y-m-d');
 			$theip = "{$banned['ip']}";
 			$ipbanned .= showtablerow('', ['class="td25"'], [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[{$banned['id']}]\" value=\"{$banned['id']}\" $disabled />",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[{$banned['id']}]\" value=\"{$banned['id']}\" $disabled>",
 				$theip,
 				convertip($theip),
 				$banned['admin'],
 				$banned['dateline'],
-				"<input type=\"text\" class=\"txt\" size=\"10\" name=\"expirationnew[{$banned['id']}]\" value=\"{$banned['expiration']}\" $disabled />"
+				"<input type=\"text\" class=\"txt\" size=\"10\" name=\"expirationnew[{$banned['id']}]\" value=\"{$banned['expiration']}\" $disabled>"
 			], TRUE);
 		}
 		shownav('user', 'nav_members_ipban');

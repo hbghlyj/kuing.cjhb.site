@@ -15,9 +15,9 @@ $lang =
 
 	'feed_blog_password' => '{actor} 發表了新加密日誌 {subject}',
 	'feed_blog_title' => '{actor} 發表了新日誌',
-	'feed_blog_body' => '<b>{subject}</b><br />{summary}',
+	'feed_blog_body' => '<b>{subject}</b><br>{summary}',
 	'feed_album_title' => '{actor} 更新了相簿',
-	'feed_album_body' => '<b>{album}</b><br />共 {picnum} 張圖片',
+	'feed_album_body' => '<b>{album}</b><br>共 {picnum} 張圖片',
 	'feed_pic_title' => '{actor} 上傳了新圖片',
 	'feed_pic_body' => '{title}',
 
@@ -59,41 +59,41 @@ $lang =
 	'feed_invite' => '{actor} 發起邀請，和 {username} 成爲了好友',
 
 	'magicuse_thunder_announce_title' => '<strong>{username} 發出了“雷鳴之聲”</strong>',
-	'magicuse_thunder_announce_body' => '大家好，我上線啦<br /><a href="home.php?mod=space&uid={uid}" target="_blank">歡迎來我家串個門</a>',
+	'magicuse_thunder_announce_body' => '大家好，我上線啦<br><a href="home.php?mod=space&uid={uid}" target="_blank">歡迎來我家串個門</a>',
 
 
 	'feed_thread_title' => '{actor} 發表了新話題',
-	'feed_thread_message' => '<b>{subject}</b><br />{message}',
+	'feed_thread_message' => '<b>{subject}</b><br>{message}',
 
 	'feed_reply_title' => '{actor} 回覆了 {author} 的話題 {subject}',
 	'feed_reply_title_anonymous' => '{actor} 回覆了話題 {subject}',
 	'feed_reply_message' => '',
 
 	'feed_thread_poll_title' => '{actor} 發起了新投票',
-	'feed_thread_poll_message' => '<b>{subject}</b><br />{message}',
+	'feed_thread_poll_message' => '<b>{subject}</b><br>{message}',
 
 	'feed_thread_votepoll_title' => '{actor} 參與了關於 {subject} 的投票',
 	'feed_thread_votepoll_message' => '',
 
 	'feed_thread_goods_title' => '{actor} 出售了一個新商品',
-	'feed_thread_goods_message_1' => '<b>{itemname}</b><br />售價 {itemprice} 元 附加 {itemcredit}{creditunit}',
-	'feed_thread_goods_message_2' => '<b>{itemname}</b><br />售價 {itemprice} 元',
-	'feed_thread_goods_message_3' => '<b>{itemname}</b><br />售價 {itemcredit}{creditunit}',
+	'feed_thread_goods_message_1' => '<b>{itemname}</b><br>售價 {itemprice} 元 附加 {itemcredit}{creditunit}',
+	'feed_thread_goods_message_2' => '<b>{itemname}</b><br>售價 {itemprice} 元',
+	'feed_thread_goods_message_3' => '<b>{itemname}</b><br>售價 {itemcredit}{creditunit}',
 
 	'feed_thread_reward_title' => '{actor} 發起了新懸賞',
-	'feed_thread_reward_message' => '<b>{subject}</b><br />懸賞 {rewardprice}{extcredits}',
+	'feed_thread_reward_message' => '<b>{subject}</b><br>懸賞 {rewardprice}{extcredits}',
 
 	'feed_reply_reward_title' => '{actor} 回覆了關於 {subject} 的懸賞',
 	'feed_reply_reward_message' => '',
 
 	'feed_thread_activity_title' => '{actor} 發起了新活動',
-	'feed_thread_activity_message' => '<b>{subject}</b><br />開始時間：{starttimefrom}<br />活動地點：{activityplace}<br />{message}',
+	'feed_thread_activity_message' => '<b>{subject}</b><br>開始時間：{starttimefrom}<br>活動地點：{activityplace}<br>{message}',
 
 	'feed_reply_activity_title' => '{actor} 報名參加了 {subject} 的活動',
 	'feed_reply_activity_message' => '',
 
 	'feed_thread_debate_title' => '{actor} 發起了新辯論',
-	'feed_thread_debate_message' => '<b>{subject}</b><br />正方：{affirmpoint}<br />反方：{negapoint}<br />{message}',
+	'feed_thread_debate_message' => '<b>{subject}</b><br>正方：{affirmpoint}<br>反方：{negapoint}<br>{message}',
 
 	'feed_thread_debatevote_title_1' => '{actor} 以正方身份參與了關於 {subject} 的辯論',
 	'feed_thread_debatevote_title_2' => '{actor} 以反方身份參與了關於 {subject} 的辯論',

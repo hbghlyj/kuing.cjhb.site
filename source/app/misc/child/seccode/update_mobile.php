@@ -41,7 +41,7 @@ $ani = $_G['setting']['seccodedata']['animator'] ? '_ani' : '';
 			}
 		}
 	} else {
-		$message = '<img onclick="updateseccode(\''.$idhash.'\')" width="'.$_G['setting']['seccodedata']['width'].'" height="'.$_G['setting']['seccodedata']['height'].'" src="misc.php?mod=seccode&update='.$rand.'&idhash='.$idhash.'" class="seccodeimg" alt="" style="display: inline; visibility: visible;" />';
+		$message = '<img onclick="updateseccode(\''.$idhash.'\')" width="'.$_G['setting']['seccodedata']['width'].'" height="'.$_G['setting']['seccodedata']['height'].'" src="misc.php?mod=seccode&update='.$rand.'&idhash='.$idhash.'" class="seccodeimg" alt="" style="display: inline; visibility: visible;">';
 	}
 $imemode = $_G['setting']['seccodedata']['type'] != 1 ? 'ime-mode:disabled;' : '';
 $message = str_replace("'", "\'", $message);
@@ -51,8 +51,8 @@ echo <<<EOF
 if(document.getElementById('$showid')) {
 	if(!document.getElementById('v$showid')) {
 		var sectpl = seccheck_tpl['$idhash'] != '' ? seccheck_tpl['$idhash'].replace(/<hash>/g, 'code$idhash') : '';
-		var sectplcode = sectpl != '' ? sectpl.split('<sec>') : Array('<br />',': ','<br />','');
-		var string = '<input name="seccodehash" type="hidden" value="$idhash" /><input name="seccodemodid" type="hidden" value="$modid" /><input type="text" class="txt px vm" style="ime-mode:disabled;width:115px;background:white;" autocomplete="off" value="" id="seccodeverify_$idhash" name="seccodeverify" placeholder="$seclang[seccode]" fwin="seccode"><span id="v$showid">$message</span>';
+		var sectplcode = sectpl != '' ? sectpl.split('<sec>') : Array('<br>',': ','<br>','');
+		var string = '<input name="seccodehash" type="hidden" value="$idhash"><input name="seccodemodid" type="hidden" value="$modid"><input type="text" class="txt px vm" style="ime-mode:disabled;width:115px;background:white;" autocomplete="off" value="" id="seccodeverify_$idhash" name="seccodeverify" placeholder="$seclang[seccode]" fwin="seccode"><span id="v$showid">$message</span>';
 		evalscript(string);
 		document.getElementById('$showid').innerHTML = string;
 	} else {

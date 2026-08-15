@@ -47,7 +47,7 @@ if(submitcheck('settingsubmit')) {
 	}
 	foreach($ranklist as $i) {
 		showtablerow('', ['width="60"', 'class="td22"', 'class="td31"', 'class="td28"'], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[ranklist][$i][available]\" value=\"1\" ".($setting['ranklist'][$i]['available'] ? 'checked' : '').' />',
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[ranklist][$i][available]\" value=\"1\" ".($setting['ranklist'][$i]['available'] ? 'checked' : '').'>',
 			cplang('setting_ranklist_'.$i),
 			"<input type=\"text\" class=\"txt\" size=\"8\" name=\"settingnew[ranklist][$i][cache_time]\" value=\"{$setting['ranklist'][$i]['cache_time']}\">",
 			"<input type=\"text\" class=\"txt\" size=\"8\" name=\"settingnew[ranklist][$i][show_num]\" value=\"{$setting['ranklist'][$i]['show_num']}\">"

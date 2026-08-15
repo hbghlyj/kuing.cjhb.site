@@ -15,15 +15,15 @@
 			</h3>
 <!--{/if}-->
 			<form method="post" autocomplete="off"  id="invalueform" name="invalueform" action="home.php?mod=misc&ac=inputpwd" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-				<input type="hidden" name="refer" value="$_SERVER[REQUEST_URI]" />
-				<input type="hidden" name="blogid" value="$invalue[blogid]" />
-				<input type="hidden" name="albumid" value="$invalue[albumid]" />
-				<input type="hidden" name="pwdsubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+				<input type="hidden" name="refer" value="$_SERVER[REQUEST_URI]">
+				<input type="hidden" name="blogid" value="$invalue[blogid]">
+				<input type="hidden" name="albumid" value="$invalue[albumid]">
+				<input type="hidden" name="pwdsubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="c mbn">
-					{lang enter_password} <br />
-					<input type="password" name="viewpwd" value="" class="px mtn" />
+					{lang enter_password} <br>
+					<input type="password" name="viewpwd" value="" class="px mtn">
 				</div>
 				<p class="o pns">
 					<button type="submit" name="submit" value="true" class="pn pnc"><strong>{lang submit}</strong></button>

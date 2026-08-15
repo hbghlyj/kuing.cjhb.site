@@ -23,7 +23,7 @@ if(!submitcheck('importsubmit') && empty($_GET['dir'])) {
 	showformheader('styles&operation=import', 'enctype');
 	showtableheader('');
 	showimportdata();
-	showtablerow('', 'colspan="2"', '<input class="checkbox" type="checkbox" name="ignoreversion" id="ignoreversion" value="1" /><label for="ignoreversion"> '.cplang('styles_import_ignore_version').'</label>');
+	showtablerow('', 'colspan="2"', '<input class="checkbox" type="checkbox" name="ignoreversion" id="ignoreversion" value="1"><label for="ignoreversion"> '.cplang('styles_import_ignore_version').'</label>');
 	showsubmit('importsubmit');
 	showtablefooter();
 	showformfooter();

@@ -47,7 +47,7 @@ if(!submitcheck('qpaysubmit')) {
 	showtagfooter('tbody');
 
 	showsetting('ec_qpay_check', '', '',
-		'<a href="'.ADMINSCRIPT.'?action=ec&operation=qpay&checktype=credit" target="_blank">'.$lang['ec_qpay_checklink_credit'].'</a><br />'
+		'<a href="'.ADMINSCRIPT.'?action=ec&operation=qpay&checktype=credit" target="_blank">'.$lang['ec_qpay_checklink_credit'].'</a><br>'
 	);
 	/*search*/
 	showtableheader('', 'notop');

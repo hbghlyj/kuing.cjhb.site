@@ -8,19 +8,19 @@
 			</span>
 		</h3>
 		<form id="qclearform" method="post" autocomplete="off" action="forum.php?mod=ajax&action=quickclear&inajax=1" onsubmit="ajaxpost(this.id, 'return_$_GET['handlekey']', 'return_$_GET['handlekey']');return false;">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="uid" value="$uid" />
-			<input type="hidden" name="redirect" value="{echo dreferer()}" />
-			<input type="hidden" name="qclearsubmit" value="1" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="uid" value="$uid">
+			<input type="hidden" name="redirect" value="{echo dreferer()}">
+			<input type="hidden" name="qclearsubmit" value="1">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 
 			<div class="c">
 
 				<ul>
-					<li><label><input type="checkbox" name="operations[]" class="pc" value="avatar" />{lang quickclear_avatar}</label></li>
-					<li><label><input type="checkbox" name="operations[]" class="pc" value="customstatus" />{lang quickclear_customstatus}</label></li>
+					<li><label><input type="checkbox" name="operations[]" class="pc" value="avatar">{lang quickclear_avatar}</label></li>
+					<li><label><input type="checkbox" name="operations[]" class="pc" value="customstatus">{lang quickclear_customstatus}</label></li>
 				</ul>
-				<br />
+				<br>
 				<!--{if $crimenum_avatar > 0}-->
 					<div style="clear: both; text-align: right;">{lang quickclear_crime_avatar_nums}</div>
 				<!--{/if}-->
@@ -37,7 +37,7 @@
 
 			</div>
 			<p class="o">
-				<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} />{lang admin_pm}</label>
+				<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if}>{lang admin_pm}</label>
 				<button type="submit" name="modsubmit" id="modsubmit" class="pn pnc" value="true"><strong>{lang submit}</strong></button>
 			</p>
 		</form>
@@ -51,18 +51,18 @@
 			</span>
 		</h3>
 		<form id="setnav" method="post" autocomplete="off" action="forum.php?mod=ajax&action=setnav&type=$type&do=$do" onsubmit="ajaxpost('setnav', 'message_setnav', 'message_setnav');return false;">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="type" value="$type" />
-			<input type="hidden" name="funcsubmit" value="1" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="type" value="$type">
+			<input type="hidden" name="funcsubmit" value="1">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 			<div class="c" id="message_setnav">
 				<!--{if $do == 'open'}-->
 				<ul>
 					<!--{if !in_array($type, array('wall', 'friend', 'medal', 'magic', 'favorite'))}-->
-					<li><label><input type="checkbox" name="location[header]" class="pc" value="1" />{lang main_nav}</label></li>
+					<li><label><input type="checkbox" name="location[header]" class="pc" value="1">{lang main_nav}</label></li>
 					<!--{/if}-->
 					<!--{if $type != 'forum'}-->
-					<li><label><input type="checkbox" name="location[quick]" class="pc" value="1" />{lang quick_nav}</label></li>
+					<li><label><input type="checkbox" name="location[quick]" class="pc" value="1">{lang quick_nav}</label></li>
 					<!--{/if}-->
 				</ul>
 				<!--{else}-->

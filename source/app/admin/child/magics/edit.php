@@ -27,7 +27,7 @@ if(!submitcheck('magiceditsubmit')) {
 	shownav('extended', 'magics', 'admin');
 	showchildmenu([['nav_magics', 'magics']], $magic['name'].'('.$magic['identifier'].')');
 
-	echo '<br />';
+	echo '<br>';
 
 	$eidentifier = explode(':', $magic['identifier']);
 	if(count($eidentifier) > 1 && preg_match('/^[\w\_:]+$/', $magic['identifier'])) {
@@ -42,8 +42,8 @@ if(!submitcheck('magiceditsubmit')) {
 	$magicsetting = $magicclass->getsetting($magicperm);
 	echo '<div class="colorbox"><h4>'.lang('magic/'.$magic['identifier'], $magicclass->name).'</h4>'.
 		'<table><tr><td style="padding:3px">'.
-		(count($eidentifier) > 1 ? (file_exists(DISCUZ_PLUGIN($eidentifier[0]).'/magic/magic_'.$eidentifier[1].'.gif') ? '<img src="source/plugin/'.$eidentifier[0].'/magic/magic_'.$eidentifier[1].'.gif" />' : '')
-			: (file_exists(DISCUZ_ROOT.'./static/image/magic/'.$magic['identifier'].'.gif') ? '<img src="static/image/magic/'.$magic['identifier'].'.gif" />' : '')).
+		(count($eidentifier) > 1 ? (file_exists(DISCUZ_PLUGIN($eidentifier[0]).'/magic/magic_'.$eidentifier[1].'.gif') ? '<img src="source/plugin/'.$eidentifier[0].'/magic/magic_'.$eidentifier[1].'.gif">' : '')
+			: (file_exists(DISCUZ_ROOT.'./static/image/magic/'.$magic['identifier'].'.gif') ? '<img src="static/image/magic/'.$magic['identifier'].'.gif">' : '')).
 		'</td><td valign="top" style="padding:3px">'.lang('magic/'.$magic['identifier'], $magicclass->description).'</td></tr></table>'.
 		'<div style="width:95%" align="right">'.lang('magic/'.$magic['identifier'], $magicclass->copyright).'</div></div>';
 	$credits = [];
@@ -94,11 +94,11 @@ if(!submitcheck('magiceditsubmit')) {
 	}
 
 	showtitle('magics_edit_perm');
-	showtablerow('', 'colspan="2" class="td27"', $lang['magics_edit_usergroupperm'].':<input class="checkbox" type="checkbox" name="chkall1" onclick="checkAll(\'prefix\', this.form, \'usergroupsperm\', \'chkall1\', true)" id="chkall1" /><label for="chkall1"> '.cplang('select_all').'</label>');
+	showtablerow('', 'colspan="2" class="td27"', $lang['magics_edit_usergroupperm'].':<input class="checkbox" type="checkbox" name="chkall1" onclick="checkAll(\'prefix\', this.form, \'usergroupsperm\', \'chkall1\', true)" id="chkall1"><label for="chkall1"> '.cplang('select_all').'</label>');
 	showtablerow('', 'colspan="2"', mcheckbox('usergroupsperm', $groups, explode("\t", $magicperm['usergroups'])));
 
 	if(!empty($magicclass->targetgroupperm)) {
-		showtablerow('', 'colspan="2" class="td27"', $lang['magics_edit_targetgroupperm'].':<input class="checkbox" type="checkbox" name="chkall2" onclick="checkAll(\'prefix\', this.form, \'targetgroupsperm\', \'chkall2\', true)" id="chkall2" /><label for="chkall2"> '.cplang('select_all').'</label>');
+		showtablerow('', 'colspan="2" class="td27"', $lang['magics_edit_targetgroupperm'].':<input class="checkbox" type="checkbox" name="chkall2" onclick="checkAll(\'prefix\', this.form, \'targetgroupsperm\', \'chkall2\', true)" id="chkall2"><label for="chkall2"> '.cplang('select_all').'</label>');
 		showtablerow('', 'colspan="2"', mcheckbox('targetgroupsperm', $groups, explode("\t", $magicperm['targetgroups'])));
 	}
 	showsubmit('magiceditsubmit');

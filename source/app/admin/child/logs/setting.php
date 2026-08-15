@@ -45,9 +45,9 @@ if(!submitcheck('submit')) {
 		$days = $log['clearlogsdays'][$option[0]] ?? 0;
 		showtablerow('', [], [
 			$option[1],
-			'<input type="checkbox" name="log['.$option[0].'][]" value="1" '.(!empty($log[$option[0]]) ? ' checked' : '').'/>',
-			'<input type="checkbox" name="log[clearlogstypes][]" value="'.$option[0].'" '.(in_array($option[0], $clearlogstypes) ? ' checked' : '').'/>',
-			'<input type="text" name="log[clearlogsdays]['.$option[0].']" value="'.$days.'" class="txt" style="width: 50px;" />',
+			'<input type="checkbox" name="log['.$option[0].'][]" value="1" '.(!empty($log[$option[0]]) ? ' checked' : '').'>',
+			'<input type="checkbox" name="log[clearlogstypes][]" value="'.$option[0].'" '.(in_array($option[0], $clearlogstypes) ? ' checked' : '').'>',
+			'<input type="text" name="log[clearlogsdays]['.$option[0].']" value="'.$days.'" class="txt" style="width: 50px;">',
 		]);
 	}
 	showtablefooter();

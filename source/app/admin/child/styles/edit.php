@@ -62,12 +62,12 @@ if(!submitcheck('editsubmit')) {
 				$value = $stylevar['substitute'];
 				$defaulttype = $value ? 1 : 0;
 				$_id = 'file'.random(2);
-				$valueHtml = '<div style="max-width:600px;width:450px"><input id="'.$_id.'_0" style="display:'.($defaulttype ? 'none' : '').'" name="'.($defaulttype ? 'TMP' : '').$varname.'" value="" type="file" class="txt uploadbtn marginbot" />'.
-					'<input id="'.$_id.'_1" style="display:'.(!$defaulttype ? 'none' : '').'" name="'.(!$defaulttype ? 'TMP' : '').$varname.'" value="'.dhtmlspecialchars($value).'" type="text" class="txt marginbot" /><br />'.
+				$valueHtml = '<div style="max-width:600px;width:450px"><input id="'.$_id.'_0" style="display:'.($defaulttype ? 'none' : '').'" name="'.($defaulttype ? 'TMP' : '').$varname.'" value="" type="file" class="txt uploadbtn marginbot">'.
+					'<input id="'.$_id.'_1" style="display:'.(!$defaulttype ? 'none' : '').'" name="'.(!$defaulttype ? 'TMP' : '').$varname.'" value="'.dhtmlspecialchars($value).'" type="text" class="txt marginbot"><br>'.
 					'<a id="'.$_id.'_0a" style="'.(!$defaulttype ? 'font-weight:bold' : '').'" href="javascript:;" onclick="$(\''.$_id.'_1a\').style.fontWeight = \'\';this.style.fontWeight = \'bold\';$(\''.$_id.'_1\').name = \'TMP'.$varname.'\';$(\''.$_id.'_0\').name = \''.$varname.'\';$(\''.$_id.'_0\').style.display = \'\';$(\''.$_id.'_1\').style.display = \'none\'">'.cplang('switch_upload').'</a>&nbsp;'.
 					'<a id="'.$_id.'_1a" style="'.($defaulttype ? 'font-weight:bold' : '').'" href="javascript:;" onclick="$(\''.$_id.'_0a\').style.fontWeight = \'\';this.style.fontWeight = \'bold\';$(\''.$_id.'_0\').name = \'TMP'.$varname.'\';$(\''.$_id.'_1\').name = \''.$varname.'\';$(\''.$_id.'_1\').style.display = \'\';$(\''.$_id.'_0\').style.display = \'none\'">'.cplang('switch_url').'</a>';
 				if($value) {
-					$valueHtml .= '<br /><img src="'.$value.'" />';
+					$valueHtml .= '<br><img src="'.$value.'">';
 				}
 				$valueHtml .= '</div>';
 			} else {
@@ -170,7 +170,7 @@ if(!submitcheck('editsubmit')) {
 			if (el.innerHTML == '') {
 				var bg = el.style.backgroundImage || el.backgroundImage || '';
 				var url = bg.replace(/^url\((['"]?)(.*?)\1\)$/i, '$2');
-				el.innerHTML = '<img onload="imgpre_onload(this)" src="' + url + '" />';
+				el.innerHTML = '<img onload="imgpre_onload(this)" src="' + url + '">';
 				el.backgroundImage = bg;
 				el.style.backgroundImage = '';
 			} else {
@@ -209,13 +209,13 @@ if(!submitcheck('editsubmit')) {
 			showsetting('styles_edit_defaultextstyle', ['defaultextstylenew', $defaultextstyle], $style['defaultextstyle'], 'select');
 		}
 		showsetting('styles_edit_smileytype', ["stylevar[{$stylestuff['stypeid']['id']}]", $smileytypes], $stylestuff['stypeid']['subst'], 'select');
-		showsetting('styles_edit_imgdir', '', '', '<input type="text" class="txt" name="stylevar['.$stylestuff['imgdir']['id'].']" id="imgdir" value="'.$stylestuff['imgdir']['subst'].'" />');
-		showsetting('styles_edit_styleimgdir', '', '', '<input type="text" class="txt" name="stylevar['.$stylestuff['styleimgdir']['id'].']" id="styleimgdir" value="'.$stylestuff['styleimgdir']['subst'].'" />');
+		showsetting('styles_edit_imgdir', '', '', '<input type="text" class="txt" name="stylevar['.$stylestuff['imgdir']['id'].']" id="imgdir" value="'.$stylestuff['imgdir']['subst'].'">');
+		showsetting('styles_edit_styleimgdir', '', '', '<input type="text" class="txt" name="stylevar['.$stylestuff['styleimgdir']['id'].']" id="styleimgdir" value="'.$stylestuff['styleimgdir']['subst'].'">');
 		empty($stylestuff['imgdir']['subst']) && $stylestuff['imgdir']['subst'] = 'static/image/common';
 		empty($stylestuff['styleimgdir']['subst']) && $stylestuff['styleimgdir']['subst'] = $stylestuff['imgdir']['subst'];
-		$boardimghtml = '<br /><img src="'.(empty($stylestuff['boardimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['boardimg']['subst']) || file_exists($stylestuff['boardimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['boardimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['boardimg']['subst']).'" style="max-height: 70px;" />';
-		$searchimghtml = '<img src="'.(empty($stylestuff['searchimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo_sc.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['searchimg']['subst']) || file_exists($stylestuff['searchimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['searchimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['searchimg']['subst']).'" style="max-height: 70px;" />';
-		$touchimghtml = '<img src="'.(empty($stylestuff['touchimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo_m.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['touchimg']['subst']) || file_exists($stylestuff['touchimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['touchimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['touchimg']['subst']).'" style="max-height: 70px;" />';
+		$boardimghtml = '<br><img src="'.(empty($stylestuff['boardimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['boardimg']['subst']) || file_exists($stylestuff['boardimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['boardimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['boardimg']['subst']).'" style="max-height: 70px;">';
+		$searchimghtml = '<img src="'.(empty($stylestuff['searchimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo_sc.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['searchimg']['subst']) || file_exists($stylestuff['searchimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['searchimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['searchimg']['subst']).'" style="max-height: 70px;">';
+		$touchimghtml = '<img src="'.(empty($stylestuff['touchimg']['subst']) ? $stylestuff['imgdir']['subst'].'/logo_m.svg' : (preg_match('/^(https?:)?\/\//i', $stylestuff['touchimg']['subst']) || file_exists($stylestuff['touchimg']['subst']) ? '' : (file_exists($stylestuff['styleimgdir']['subst'].'/'.$stylestuff['touchimg']['subst']) ? $stylestuff['styleimgdir']['subst'].'/' : $stylestuff['imgdir']['subst'].'/')).$stylestuff['touchimg']['subst']).'" style="max-height: 70px;">';
 		showsetting('styles_edit_logo', "stylevar[{$stylestuff['boardimg']['id']}]", empty($stylestuff['boardimg']['subst']) ? 'logo.svg' : $stylestuff['boardimg']['subst'], 'filetext', '', 0, cplang('styles_edit_logo_comment').$boardimghtml);
 		showsetting('styles_edit_searchlogo', "stylevar[{$stylestuff['searchimg']['id']}]", empty($stylestuff['searchimg']['subst']) ? 'logo_sc.svg' : $stylestuff['searchimg']['subst'], 'filetext', '', 0, $searchimghtml);
 		showsetting('styles_edit_touchlogo', "stylevar[{$stylestuff['touchimg']['id']}]", empty($stylestuff['touchimg']['subst']) ? 'logo_m.svg' : $stylestuff['touchimg']['subst'], 'filetext', '', 0, $touchimghtml);
@@ -235,8 +235,8 @@ if(!submitcheck('editsubmit')) {
 					$stylestuff[$predefinedvar]['subst'] = $stylestuff[$predefinedvar]['subst'][0];
 					$bgimgpre = $bgimg ? (preg_match('/^(https?:)?\/\//i', $bgimg) ? $bgimg : ($stylestuff['styleimgdir']['subst'] ? $stylestuff['styleimgdir']['subst'] : ($stylestuff['imgdir']['subst'] ? $stylestuff['imgdir']['subst'] : (STATICURL.'image/common'))).'/'.$bgimg) : (STATICURL.'image/common/none.gif');
 					$comment .= '<div id="bgpre_'.$stylestuff[$predefinedvar]['id'].'" onclick="imgpre_switch('.$stylestuff[$predefinedvar]['id'].')" style="background-image:url('.$bgimgpre.');cursor:pointer;float:right;width:350px;height:40px;overflow:hidden;border: 1px solid #ccc"></div>'.$lang['styles_edit_'.$predefinedvar.'_comment'].$lang['styles_edit_bg'];
-					$extra = '<br /><input name="stylevarbgimg['.$stylestuff[$predefinedvar]['id'].']" value="'.$bgimg.'" onchange="imgpre_update('.$stylestuff[$predefinedvar]['id'].', this)" type="text" class="txt" style="margin:5px 0;" />'.
-						'<br /><input name="stylevarbgextra['.$stylestuff[$predefinedvar]['id'].']" value="'.$bgextra.'" type="text" class="txt" />';
+					$extra = '<br><input name="stylevarbgimg['.$stylestuff[$predefinedvar]['id'].']" value="'.$bgimg.'" onchange="imgpre_update('.$stylestuff[$predefinedvar]['id'].', this)" type="text" class="txt" style="margin:5px 0;">'.
+						'<br><input name="stylevarbgextra['.$stylestuff[$predefinedvar]['id'].']" value="'.$bgextra.'" type="text" class="txt">';
 					$varcomment = ' {'.strtoupper($predefinedvar).'},{'.strtoupper(substr($predefinedvar, 0, -7)).'BGCODE}:';
 				} else {
 					$varcomment = ' {'.strtoupper($predefinedvar).'}:';

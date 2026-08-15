@@ -41,7 +41,7 @@ if(!$do) {
 					"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\">",
 					"<img src=\"$smurl/{$smiley['url']}\" border=\"0\" onload=\"if(this.height>30) {this.resized=true; this.height=30;}\" onmouseover=\"if(this.resized) this.style.cursor='pointer';\" onclick=\"if(!this.resized) {return false;} else {window.open(this.src);}\">",
 					$smiley['id'],
-					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\" />",
+					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\">",
 					"<input type=\"hidden\" value=\"{$smiley['url']}\" id=\"url_$smileynum\">{$smiley['url']}"
 				], TRUE);
 			} else {
@@ -49,7 +49,7 @@ if(!$do) {
 					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$smiley['id']}\">",
 					"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\">",
 					$smiley['id'],
-					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\" />",
+					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\">",
 				], TRUE);
 				$lastDisplayorder = max($lastDisplayorder, $smiley['displayorder']);
 			}
@@ -110,12 +110,12 @@ EOT;
 		if($type['directory'] != ':emoji') {
 			showtablerow('', ['', 'colspan="5"'], [
 				'',
-				$lang['smilies_edit_add_code'].' <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value="{:" title="'.$lang['smilies_prefix'].'" id="prefix" onclick="clearinput(this, \''.$lang['smilies_prefix'].'\')" /> + <select id="middle"><option value="1">'.$lang['smilies_edit_order_file'].'</option><option value="2">'.$lang['smilies_edit_order_radom'].'</option><option value="3">'.$lang['smilies_id'].'</option></select> + <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value=":}" title="'.$lang['smilies_suffix'].'" id="suffix" onclick="clearinput(this, \''.$lang['smilies_suffix'].'\')" /> <input type="button" class="btn" onclick="addsmileycodes(\''.$smileynum.'\', \'\');" value="'.$lang['apply'].'" /> &nbsp;&nbsp; <input type="button" class="btn" onclick="autoaddsmileycodes(\''.$smileynum.'\');" value="'.$lang['smilies_edit_addcode_auto'].'" />'
+				$lang['smilies_edit_add_code'].' <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value="{:" title="'.$lang['smilies_prefix'].'" id="prefix" onclick="clearinput(this, \''.$lang['smilies_prefix'].'\')"> + <select id="middle"><option value="1">'.$lang['smilies_edit_order_file'].'</option><option value="2">'.$lang['smilies_edit_order_radom'].'</option><option value="3">'.$lang['smilies_id'].'</option></select> + <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value=":}" title="'.$lang['smilies_suffix'].'" id="suffix" onclick="clearinput(this, \''.$lang['smilies_suffix'].'\')"> <input type="button" class="btn" onclick="addsmileycodes(\''.$smileynum.'\', \'\');" value="'.$lang['apply'].'"> &nbsp;&nbsp; <input type="button" class="btn" onclick="autoaddsmileycodes(\''.$smileynum.'\');" value="'.$lang['smilies_edit_addcode_auto'].'">'
 			]);
 		} else {
 			showtablerow('', ['', 'colspan="3"'], [
 				cplang('add'),
-				'<input type="text" class="txt" name="addNew" style="width: 200px" value="" /><input type="hidden" name="lastDisplayorder" value="'.$lastDisplayorder.'" />'.
+				'<input type="text" class="txt" name="addNew" style="width: 200px" value=""><input type="hidden" name="lastDisplayorder" value="'.$lastDisplayorder.'">'.
 				cplang('smilies_emoij_tips'),
 			]);
 		}

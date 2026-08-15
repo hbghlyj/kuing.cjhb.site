@@ -62,7 +62,7 @@ if(!getgpc('uncheck')) {
 			if($forum_field['threadtypes']['prefix'] == 1) {
 				$thread['threadtype'] = $forum_field['threadtypes']['types'][$thread['typeid']] ? '<em>[<a href="forum.php?mod=forumdisplay&fid='.$fid.'&filter=typeid&typeid='.$thread['typeid'].'">'.$forum_field['threadtypes']['types'][$thread['typeid']].'</a>]</em> ' : '';
 			} elseif($forum_field['threadtypes']['prefix'] == 2) {
-				$thread['threadtype'] = $forum_field['threadtypes']['icons'][$thread['typeid']] ? '<em><a href="forum.php?mod=forumdisplay&fid='.$fid.'&filter=typeid&typeid='.$thread['typeid'].'"><img src="'.$forum_field['threadtypes']['icons'][$thread['typeid']].'"/></a></em> ' : '';
+				$thread['threadtype'] = $forum_field['threadtypes']['icons'][$thread['typeid']] ? '<em><a href="forum.php?mod=forumdisplay&fid='.$fid.'&filter=typeid&typeid='.$thread['typeid'].'"><img src="'.$forum_field['threadtypes']['icons'][$thread['typeid']].'"></a></em> ' : '';
 			}
 		}
 		if(isset($forum_field['threadsorts']['prefix'])) {

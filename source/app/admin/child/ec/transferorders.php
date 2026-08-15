@@ -33,7 +33,7 @@ if($_GET['op'] == 'query') {
 	$start_limit = ($page - 1) * $_G['tpp'];
 
 	/*search={"nav_ec":"action=ec&operation=base","nav_ec_qpay":"action=ec&operation=transferorders"}*/
-	echo '<style type="text/css">.order-status-1 td { color: #555; } .order-status-2 td { color: green; } .order-status-3 td { color: red; }</style>';
+	echo '<style>.order-status-1 td { color: #555; } .order-status-2 td { color: green; } .order-status-3 td { color: red; }</style>';
 	echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
 	$queryparams = [
 		'out_biz_no' => daddslashes($_GET['out_biz_no']),
@@ -48,8 +48,8 @@ if($_GET['op'] == 'query') {
 	showtableheader('ec_transferorders_search');
 	showtablerow('', [],
 		[
-			lang('admincp', 'ec_orders_search_id'), '<input type="text" class="txt" name="out_biz_no" value="'.$queryparams['out_biz_no'].'" />',
-			lang('admincp', 'ec_transferorders_user'), '<input type="text" class="txt" name="user" value="'.$queryparams['user'].'" />',
+			lang('admincp', 'ec_orders_search_id'), '<input type="text" class="txt" name="out_biz_no" value="'.$queryparams['out_biz_no'].'">',
+			lang('admincp', 'ec_transferorders_user'), '<input type="text" class="txt" name="user" value="'.$queryparams['user'].'">',
 		]
 	);
 
@@ -120,9 +120,9 @@ if($_GET['op'] == 'query') {
 			}
 			showtablerow('class="order-status-'.$order['status'].'"', $tdstyles, [
 				$order['out_biz_no'],
-				$user['username'].' ('.$order['uid'].')'.'<br/>'.$order['clientip'].':'.$order['remoteport'],
+				$user['username'].' ('.$order['uid'].')'.'<br>'.$order['clientip'].':'.$order['remoteport'],
 				$channels[$order['channel']]['title'],
-				$order['subject'].($order['description'] ? '<br/>'.$order['description'] : ''),
+				$order['subject'].($order['description'] ? '<br>'.$order['description'] : ''),
 				number_format($order['amount'] / 100, 2, '.', ','),
 				$lang['ec_transferorders_status_'.$order['status']],
 				$order['status'] == 3 ? $order['error'] : '',
@@ -139,4 +139,3 @@ if($_GET['op'] == 'query') {
 	showformfooter();
 	/*search*/
 }
-	

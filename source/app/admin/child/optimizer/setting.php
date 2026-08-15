@@ -33,7 +33,7 @@ if(submitcheck('setting_optimizer', 1)) {
 	foreach($option as $setting) {
 		$color = ' style="'.($setting[4] ? 'color:red;' : 'color:green').'"';
 		echo '<tr>';
-		echo '<td><input type="checkbox" name="options[]" value="'.$setting[0].'" '.($setting[4] ? 'checked' : 'disabled').' /></td>';
+		echo '<td><input type="checkbox" name="options[]" value="'.$setting[0].'" '.($setting[4] ? 'checked' : 'disabled').'></td>';
 		echo '<td'.$color.'>'.$setting[1].'</td>';
 		echo '<td'.$color.'>'.$setting[2].'</td>';
 		echo '<td'.$color.'>'.$setting[3].'</td>';

@@ -8,7 +8,7 @@
 
 <!--{hook/my_header}-->
 
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -149,7 +149,7 @@
 					<ul class="ml mls cl">
 						<!--{loop $grouplist $groupid $group}-->
 						<li>
-							<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]" /></a>
+							<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt"><img src="$group[icon]" alt="$group[name]"></a>
 							<p><!--{if $group['flevel'] == '-1'}-->({lang group_wait_mod})<!--{/if}--><a href="forum.php?mod=group&fid=$groupid" title="$group[name]">$group[name]</a></p>
 						</li>
 						<!--{/loop}-->
@@ -187,7 +187,7 @@
 					<ul class="ml mls cl">
 						<!--{loop $randgroup $key $group}-->
 						<li>
-							<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" class="avt" target="_blank"><img src="$group[icon]" alt="$group[name]" /></a>
+							<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" class="avt" target="_blank"><img src="$group[icon]" alt="$group[name]"></a>
 							<p><a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" target="_blank">$group[name]</a></p>
 						</li>
 						<!--{/loop}-->
@@ -206,7 +206,7 @@
 				<ul class="ml mls cl">
 					<!--{loop $friendgrouplist $groupid $group}-->
 					<li>
-						<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt" target="_blank"><img src="$group[icon]" alt="$group[name]" /></a>
+						<a href="forum.php?mod=group&fid=$groupid" title="$group[name]" class="avt" target="_blank"><img src="$group[icon]" alt="$group[name]"></a>
 						<p><a href="forum.php?mod=group&fid=$groupid" title="$group[name]" target="_blank">$group[name]</a></p>
 					</li>
 					<!--{/loop}-->

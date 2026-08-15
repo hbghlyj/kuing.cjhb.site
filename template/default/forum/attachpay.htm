@@ -16,10 +16,10 @@
 				<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
 			</span>
 		</h3>
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="aid" value="$aid" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="aid" value="$aid">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 		<div class="c">
 			<table class="list cp0" style="width: 400px">
 				<tr>
@@ -59,7 +59,7 @@
 		</div>
 		<div class="o pns">
 			<!--{if $status != 1}-->
-				<label><input name="buyall" type="checkbox" class="pc" value="yes" />{lang buy_all_attch}</label>
+				<label><input name="buyall" type="checkbox" class="pc" value="yes">{lang buy_all_attch}</label>
 				<button class="pn pnc" type="submit" name="paysubmit" value="true"><span><!--{if $status == 0}-->{lang pay_attachment}<!--{else}-->{lang free_buy}<!--{/if}--></span></button>
 			<!--{/if}-->
 			<button class="pn pnc" type="button" onclick="hideWindow('$_GET['handlekey']');"><span>{lang close}</span></button>

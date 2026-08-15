@@ -12,7 +12,7 @@
             <tr>
                 <th><span class="rq">*</span><label for="email">{lang newemail}:</label></th>
                 <td>
-                    <input type="text" name="email" id="email" value="" class="px" />
+                    <input type="text" name="email" id="email" value="" class="px">
                 </td>
                 <td>&nbsp;</td>
             </tr>

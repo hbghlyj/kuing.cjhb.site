@@ -566,7 +566,7 @@ function block_makeform($blocksetting, $values) {
 			$s .= '<label for="randomid_'.(++$randomid).'" class="lb"><input type="radio" name="'.$varname.'" id="randomid_'.$randomid.'" class="pr" value="1" '.$check['true'].'>'.lang('core', 'yes').'</label>'.
 				'<label for="randomid_'.(++$randomid).'" class="lb"><input type="radio" name="'.$varname.'" id="randomid_'.$randomid.'" class="pr" value="0" '.$check['false'].'>'.lang('core', 'no').'</label>';
 		} elseif($type == 'text' || $type == 'password' || $type == 'number') {
-			$s .= '<input type="'.$type.'" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'" />';
+			$s .= '<input type="'.$type.'" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'">';
 		} elseif($type == 'textarea') {
 			$s .= '<textarea name="'.$varname.'" class="pt" rows="4" cols="40">'.dhtmlspecialchars($value).'</textarea>';
 		} elseif($type == 'mtextarea') {
@@ -610,7 +610,7 @@ function block_makeform($blocksetting, $values) {
 				$s .= "<script type=\"text/javascript\" src=\"{$_G['setting']['jspath']}calendar.js?".$_G['style']['verhash']."\"></script>";
 				$calendar_loaded = true;
 			}
-			$s .= '<input type="text" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'" onclick="showcalendar(event, this, true)" />';
+			$s .= '<input type="text" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'" onclick="showcalendar(event, this, true)">';
 		} elseif($type == 'color') {
 			global $stylestuff;
 			$preview_varname = str_replace('[', '_', str_replace(']', '', $varname));
@@ -639,7 +639,7 @@ function block_makeform($blocksetting, $values) {
 				$elems[] = 'parameter['.$fieldid.']';
 				$vals[$fieldid] = $values[$fieldid];
 				if(!empty($values[$fieldid])) {
-					$districthtml .= $values[$fieldid].'<input type="hidden" name="parameter['.$fieldid.']" value="'.$values[$fieldid].'" /> ';
+					$districthtml .= $values[$fieldid].'<input type="hidden" name="parameter['.$fieldid.']" value="'.$values[$fieldid].'"> ';
 				}
 			}
 			$containertype = str_contains($setting['title'], 'birthcity') ? 'birth' : 'reside';
@@ -652,12 +652,12 @@ function block_makeform($blocksetting, $values) {
 				$s .= "<div id=\"$containerid\">".showdistrict($vals, $elems, $containerid, null, $containertype).'</div>';
 			}
 		} elseif($type == 'file') {
-			$s .= '<input type="'.$type.'" name="'.$varname.'" class="pf" value="'.dhtmlspecialchars($value).'" />';
+			$s .= '<input type="'.$type.'" name="'.$varname.'" class="pf" value="'.dhtmlspecialchars($value).'">';
 		} elseif($type == 'mfile') {
 			$s .= '<label for="'.$settingvar.'way_remote"'.' class="lb"><input type="radio" name="'.$settingvar.'_chk" id="'.$settingvar.'way_remote" class="pr" onclick="showpicedit(\''.$settingvar.'\');" checked="checked">'.lang('portalcp', 'remote').'</label>';
-			$s .= '<label for="'.$settingvar.'way_upload"'.' class="lb"><input type="radio" name="'.$settingvar.'_chk" id="'.$settingvar.'way_upload" class="pr" onclick="showpicedit(\''.$settingvar.'\');">'.lang('portalcp', 'upload').'</label><br />';
-			$s .= '<input type="text" name="'.$varname.'" id="'.$settingvar.'_remote" class="px" value="'.dhtmlspecialchars($value).'" />';
-			$s .= '<input type="file" name="'.$settingvar.'" id="'.$settingvar.'_upload" class="pf" value="" style="display:none" />';
+			$s .= '<label for="'.$settingvar.'way_upload"'.' class="lb"><input type="radio" name="'.$settingvar.'_chk" id="'.$settingvar.'way_upload" class="pr" onclick="showpicedit(\''.$settingvar.'\');">'.lang('portalcp', 'upload').'</label><br>';
+			$s .= '<input type="text" name="'.$varname.'" id="'.$settingvar.'_remote" class="px" value="'.dhtmlspecialchars($value).'">';
+			$s .= '<input type="file" name="'.$settingvar.'" id="'.$settingvar.'_upload" class="pf" value="" style="display:none">';
 		} else {
 			$s .= $type;
 		}

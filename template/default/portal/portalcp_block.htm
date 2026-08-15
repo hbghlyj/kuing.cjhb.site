@@ -108,7 +108,7 @@
 					<tr>
 						<th width="80">{lang block_id}</th>
 						<td>
-							<input type="text" id="name" name="name" value="$block[name]" class="px" />
+							<input type="text" id="name" name="name" value="$block[name]" class="px">
 							<script>document.forms['blockformsetting']['name'].focus();</script>
 						</td>
 					</tr>
@@ -123,7 +123,7 @@
 									<option value="$bblockclass">$convertarr[name]</option>
 								<!--{/loop}-->
 							</select>
-							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang block_type_convert_tips}" />
+							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang block_type_convert_tips}">
 							<!--{else}-->
 							$blockclassname
 							<!--{/if}-->
@@ -138,8 +138,8 @@
 							<!--{/loop}-->
 							</select>
 							<!--{if $is_recommendable}-->
-								&nbsp;<label><input type="checkbox" name="isblank" id="isblank" class="pc" value="1" {if $block[isblank]} checked{/if} onclick="switchSetting();" />{lang block_isblank}</label>
-								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang block_isblank_tips}" />
+								&nbsp;<label><input type="checkbox" name="isblank" id="isblank" class="pc" value="1" {if $block[isblank]} checked{/if} onclick="switchSetting();">{lang block_isblank}</label>
+								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang block_isblank_tips}">
 							<!--{/if}-->
 						</td>
 					</tr>
@@ -155,14 +155,14 @@
 					<!--{if !$is_htmlblock}-->
 					<tr>
 						<th>{lang block_item_display_num}</th>
-						<td><input type="text" name="shownum" value="$block[shownum]" class="px" /></td>
+						<td><input type="text" name="shownum" value="$block[shownum]" class="px"></td>
 					</tr>
 					<!--{/if}-->
 					<!--{if !$nocachetime}-->
 					<tr>
 						<th width="80">{lang block_data_update_cache}</th>
 						<td>
-							<span><input type="text" name="cachetime" id="txt_cachetime" class="px" size="4" maxlength="6" value="$block[cachetime_min]" /> {lang minute}</span>
+							<span><input type="text" name="cachetime" id="txt_cachetime" class="px" size="4" maxlength="6" value="$block[cachetime_min]"> {lang minute}</span>
 							<span id="tbody_range"{if $block[punctualupdate]} style="visibility:hidden;"{/if}>
 								&nbsp; {lang cachetimerange}
 								<select name="cachetimerangestart" class="ps vm" >
@@ -181,8 +181,8 @@
 								<a href="javascript:;" onclick="blockSetCacheTime(10);this.blur();">10{lang minute}</a>&nbsp;
 								<a href="javascript:;" onclick="blockSetCacheTime('60');this.blur();">1{lang hour}</a>&nbsp;
 								<a href="javascript:;" onclick="blockSetCacheTime('1440');this.blur();">1{lang day}</a>&nbsp;
-								<label for="ckpunctualupdate"><input type="checkbox" name="punctualupdate" id="ckpunctualupdate" class="pc" onclick="$('tbody_range').style.visibility = (this.checked ? 'hidden' : 'visible');" value="1"{if $block[punctualupdate]} checked="checked"{/if} />{lang punctualupdate}</label>
-								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang punctualupdate_tips}" />
+								<label for="ckpunctualupdate"><input type="checkbox" name="punctualupdate" id="ckpunctualupdate" class="pc" onclick="$('tbody_range').style.visibility = (this.checked ? 'hidden' : 'visible');" value="1"{if $block[punctualupdate]} checked="checked"{/if}>{lang punctualupdate}</label>
+								<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang punctualupdate_tips}">
 								<span class="pipe">|</span>
 								<a href="javascript:;" onclick="blockSetCacheTime('0');this.blur();">{lang not_auto_update}</a>&nbsp;
 								<a href="javascript:;" onclick="blockSetCacheTime('-1');this.blur();">{lang never_update}</a>
@@ -205,8 +205,8 @@
 							</select>
 							<!--{if $blocktype}-->
 							&nbsp;&nbsp;
-							<label for="ck_hidedisplay"><input type="checkbox" name="hidedisplay" id="ck_hidedisplay" class="pc" value="1"{if $block[hidedisplay]} checked="checked"{/if} />{lang hidedisplay}</label>
-							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang hidedisplay_tips}" />
+							<label for="ck_hidedisplay"><input type="checkbox" name="hidedisplay" id="ck_hidedisplay" class="pc" value="1"{if $block[hidedisplay]} checked="checked"{/if}>{lang hidedisplay}</label>
+							<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang hidedisplay_tips}">
 							<!--{/if}-->
 						</td>
 					</tr>
@@ -231,10 +231,10 @@
 			</div>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="blocksubmit" value="true" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="eleid" value="$_GET['eleid']" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="blocksubmit" value="true">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="eleid" value="$_GET['eleid']">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang confirms}</strong></button>
 			<!--{if $_G[inajax]}--><button type="button" class="pn" onclick="hideWindow('$_GET[handlekey]');{if empty($bid) && $_GET['from']!='cp'}drag.removeBlock('$_GET[eleid]',true);{/if}return false;"><strong>{lang cancel}</strong></button><!--{/if}-->
 		</div>
@@ -267,8 +267,8 @@
 							<td>{lang preorder}</td>
 							<td>$item[displayorder]</td>
 							<!--{else}-->
-							<td><input type="checkbox" name="locked[{$item[itemid]}]" value="1"{if $item[itemtype]=='1'} checked="checked"{/if} /></td>
-							<td><input type="text" name="displayorder[{$item[itemid]}]" class="px" size="2" maxlength="2" value="$item[displayorder]" /></td>
+							<td><input type="checkbox" name="locked[{$item[itemid]}]" value="1"{if $item[itemtype]=='1'} checked="checked"{/if}></td>
+							<td><input type="text" name="displayorder[{$item[itemid]}]" class="px" size="2" maxlength="2" value="$item[displayorder]"></td>
 							<!--{/if}-->
 							<td>[{$item['itemtypename']}] $item['title']</td>
 							<td>
@@ -291,7 +291,7 @@
 				<h4><a href="javascript:;" onclick="display('p_bannedids');return false;">{lang block_view_banned_data}</a></h4>
 				<p id="p_bannedids" style="display:none;">
 					<label>{lang block_data_block}</label>
-					<input type="text" name="bannedids" id="bannedids" class="px" value="$block[param][bannedids]" />
+					<input type="text" name="bannedids" id="bannedids" class="px" value="$block[param][bannedids]">
 					<button type="button" class="pn pnc" id="bannedidssubmit" onclick="blockbanids('$block[bid]');" ><strong>{lang save}</strong></button>
 				</p>
 				<!--{/if}-->
@@ -299,11 +299,11 @@
 		</div>
 		<!--{if $_G[inajax] || $itemlist}-->
 			<div class="o pns">
-				<input type="hidden" name="eleid" value="$_GET['eleid']" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-				<input type="hidden" name="updatesubmit" value="true" />
-				<input type="hidden" name="modifiedids" value="" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="eleid" value="$_GET['eleid']">
+				<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+				<input type="hidden" name="updatesubmit" value="true">
+				<input type="hidden" name="modifiedids" value="">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<button type="submit" class="pn xg1" id="blockformdatasubmit" disabled="disabled"><strong>{lang save}</strong></button>
 				<!--{if $_G[inajax]}--><button type="button" class="pn" onclick="hideWindow('$_GET[handlekey]');return false;"><strong>{lang cancel}</strong></button><!--{/if}-->
 			</div>
@@ -395,8 +395,8 @@
 			 <div id="block_style">
 				<p class="pns mtn mbn"><button type="button" id="a_summary_show" onclick="$('stylename').style.display='';" class="pn"><em>{lang mod_save_to}</em></button></p>
 				<p class="mtn mbm" id="stylename" style="display:none;">
-					{lang mod_name}: <input type="text" name="name" class="px" />
-					<br />
+					{lang mod_name}: <input type="text" name="name" class="px">
+					<br>
 					{lang portalcp_block_message2}
 				</p>
 				<textarea name="template" rows="8" class="pt" style="width: 98%;">$template</textarea>
@@ -454,10 +454,10 @@
 			<!--{/if}-->
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="eleid" value="$_GET['eleid']" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="stylesubmit" value="true" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="eleid" value="$_GET['eleid']">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="stylesubmit" value="true">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang update}</strong></button>
 			<!--{if $_G[inajax]}--><button type="button" class="pn" onclick="hideWindow('$_GET[handlekey]');return false;"><strong>{lang cancel}</strong></button><!--{/if}-->
 		</div>
@@ -476,9 +476,9 @@
 				</tr>
 				<!--{loop $datalist $item}-->
 				<tr>
-					<td><input type="checkbox" class="pc" name="ids[]" value="$item[dataid]" /></td>
-					<td><input type="hidden" name="olddisplayorder[{$item[dataid]}]" value="$item[displayorder]" />
-						<input type="input" class="px" name="displayorder[{$item[dataid]}]" value="$item[displayorder]" size="2" maxlength="4" /></td>
+					<td><input type="checkbox" class="pc" name="ids[]" value="$item[dataid]"></td>
+					<td><input type="hidden" name="olddisplayorder[{$item[dataid]}]" value="$item[displayorder]">
+						<input type="input" class="px" name="displayorder[{$item[dataid]}]" value="$item[displayorder]" size="2" maxlength="4"></td>
 					<td><a href="$item[url]" target="_blank">$item['title']</a></td>
 					<td>$item['verifiedtime']</td>
 					<td><!--{if $item['stickgrade']}-->{lang stick} $item[stickgrade]<!--{else}-->{lang no}<!--{/if}--></td>
@@ -489,10 +489,10 @@
 				<!--{/loop}-->
 				<tr>
 					<td colspan="5">
-						<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc" />{lang select_all}</label>
-						<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-						<input type="hidden" name="deletesubmit" value="true" />
-						<input type="hidden" name="formhash" value="{FORMHASH}" />
+						<label for="chkall" onclick="checkall(this.form, 'ids')"><input type="checkbox" name="chkall" id="chkall" class="pc">{lang select_all}</label>
+						<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+						<input type="hidden" name="deletesubmit" value="true">
+						<input type="hidden" name="formhash" value="{FORMHASH}">
 						<button type="submit" class="pn pnc"><strong>{lang confirms}</strong></button>
 					</td>
 				</tr>
@@ -526,7 +526,7 @@
 							<option value="aids">{lang article}id</option>
 							<option value="picids">{lang image}id</option>
 						</select>
-						<input type="text" name="push_id" id="push_id" class="px p_fre vm" value="" />
+						<input type="text" name="push_id" id="push_id" class="px p_fre vm" value="">
 						<button type="button" class="pn" onclick="block_pushitem('$block[bid]', '$itemid')"><span>{lang grab}</span></button>
 					</td>
 				</tr>
@@ -540,10 +540,10 @@
 						</select>
 						&nbsp;
 						<!--{if $itemid && $item[idtype] != 'rand'}-->
-						<label for="lock_item"><input type="checkbox" name="locked" id="lock_item" class="pc" onclick="$('tbody_orderitem').style.display=this.checked ? '' : 'none';" value="1"{if $item[itemtype]=='1'}checked="checked"{/if} />{lang locked}</label>
+						<label for="lock_item"><input type="checkbox" name="locked" id="lock_item" class="pc" onclick="$('tbody_orderitem').style.display=this.checked ? '' : 'none';" value="1"{if $item[itemtype]=='1'}checked="checked"{/if}>{lang locked}</label>
 						<!--{else}-->
-						<input type="hidden" name="locked" value="1" />
-						<label for="lock_item"><input type="checkbox" class="pc" name="locked_disable" id="lock_item" value="1" checked="checked" disabled="disabled" />{lang locked}</label>
+						<input type="hidden" name="locked" value="1">
+						<label for="lock_item"><input type="checkbox" class="pc" name="locked_disable" id="lock_item" value="1" checked="checked" disabled="disabled">{lang locked}</label>
 						<!--{/if}-->
 					</td>
 				</tr>
@@ -551,14 +551,14 @@
 					<tr>
 						<th>{lang block_start_time}</th>
 						<td>
-							<input type="text" class="px p_fre" name="startdate"{if $item[startdate]} value="$blockitem[startdate]"{/if} onclick="showcalendar(event, this, true)" />
+							<input type="text" class="px p_fre" name="startdate"{if $item[startdate]} value="$blockitem[startdate]"{/if} onclick="showcalendar(event, this, true)">
 							<p class="d">{lang block_start_time_comment}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>{lang block_expire_time}</th>
 						<td>
-							<input type="text" class="px p_fre" name="enddate"{if $item[enddate]} value="$blockitem[enddate]"{/if} onclick="showcalendar(event, this, true)" />
+							<input type="text" class="px p_fre" name="enddate"{if $item[enddate]} value="$blockitem[enddate]"{/if} onclick="showcalendar(event, this, true)">
 							<p class="d">{lang block_expire_time_comment}</p>
 						</td>
 					</tr>
@@ -569,9 +569,9 @@
 			</table>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="itemsubmit" value="true" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="itemsubmit" value="true">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang submit}</strong></button>
 			<!--{if $_G[inajax]}--><button type="button" class="pn" onclick="hideWindow('$_GET[handlekey]');return false;"><strong>{lang cancel}</strong></button><!--{/if}-->
 		</div>
@@ -603,13 +603,13 @@
 	<tr>
 		<th>{lang todo_updateblock}</th>
 		<td>
-			<label for="ck_updateblock"><input type="checkbox" name="updateblock" id="ck_updateblock" class="pc" value="1" checked="checked" />{lang todo_updateblock_message}</label>
+			<label for="ck_updateblock"><input type="checkbox" name="updateblock" id="ck_updateblock" class="pc" value="1" checked="checked">{lang todo_updateblock_message}</label>
 		</td>
 	</tr>
 	<tr>
 		<th>{lang need_moderate}</th>
 		<td>
-			<label for="ck_needverify"><input type="checkbox" name="needverify" id="ck_needverify" class="pc" value="1"{if isset($item[isverified]) && !$item[isverified]} checked="checked"{/if} />{lang moderate_message}</label>
+			<label for="ck_needverify"><input type="checkbox" name="needverify" id="ck_needverify" class="pc" value="1"{if isset($item[isverified]) && !$item[isverified]} checked="checked"{/if}>{lang moderate_message}</label>
 		</td>
 	</tr>
 	<!--{/if}-->
@@ -632,15 +632,15 @@
 				<tr>
 					<th>{lang update_mod}</th>
 					<td>
-						<label for="ckupdateblock"><input type="checkbox" name="updateblock" id="ckupdateblock" value="1" />{lang update_mod_now}</label>
+						<label for="ckupdateblock"><input type="checkbox" name="updateblock" id="ckupdateblock" value="1">{lang update_mod_now}</label>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="verifydatasubmit" value="true" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="verifydatasubmit" value="true">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang passed}</strong></button>
 		</div>
 	</form>
@@ -677,9 +677,9 @@
 			</table>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="managedatasubmit" value="true" />
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="managedatasubmit" value="true">
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang submit}</strong></button>
 		</div>
 	</form>
@@ -710,9 +710,9 @@
 		$('bfav_$bid').parentNode.onmouseout = '';
 	</script>
 	<!--{if $favoriteop == 'add'}-->
-	<img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark" />
+	<img src="{IMGDIR}/fav.gif" alt="fav" title="{lang block_cancel_favorite}" class="favmark">
 	<!--{else}-->
-	<img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark" />
+	<img src="{IMGDIR}/fav_grey.gif" alt="normal" title="{lang block_favorite}" class="favmark">
 	<!--{/if}-->
 <!--{elseif $op == 'moreurl'}-->
 	<!--{if $_G[inajax]}-->
@@ -729,25 +729,25 @@
 
 			<table class="tfm">
 				<tr>
-					 <th>{lang perpage} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang perpage_tips}" /></th>
+					 <th>{lang perpage} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang perpage_tips}"></th>
 					 <td>
-						 <input type="input" name="perpage" id="perpage" value="$block['param']['moreurl']['perpage']" />
+						 <input type="input" name="perpage" id="perpage" value="$block['param']['moreurl']['perpage']">
 					 </td>
 				</tr>
 				<tr>
-					 <th>{lang seotitle} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seotitle_tips}" /></th>
+					 <th>{lang seotitle} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seotitle_tips}"></th>
 					 <td>
-						 <input type="input" class="pt" name="seotitle" id="seotitle" value="$block['param']['moreurl']['seotitle']" />
+						 <input type="input" class="pt" name="seotitle" id="seotitle" value="$block['param']['moreurl']['seotitle']">
 					 </td>
 				</tr>
 				<tr>
-					 <th>{lang seokeywords} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seokeywords_tips}" /></th>
+					 <th>{lang seokeywords} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seokeywords_tips}"></th>
 					 <td>
 						 <textarea class="pt" name="seokeywords" id="seokeywords" >$block['param']['moreurl']['seokeywords']</textarea>
 					 </td>
 				</tr>
 				<tr>
-					 <th>{lang seodescription} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seodescription_tips}" /></th>
+					 <th>{lang seodescription} <img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" onmouseover="showTip(this)" tip="{lang seodescription_tips}"></th>
 					 <td>
 						 <textarea class="pt" name="seodescription" rows="4" id="seodescription">$block['param']['moreurl']['seodescription']</textarea>
 					 </td>
@@ -755,9 +755,9 @@
 			</table>
 		</div>
 		<div class="o pns">
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<input type="hidden" name="moreurlsubmit" value="true" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+			<input type="hidden" name="moreurlsubmit" value="true">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<button type="submit" class="pn pnc"><strong>{lang update}</strong></button>
 			<!--{if $_G[inajax]}--><button type="button" class="pn" onclick="hideWindow('$_GET[handlekey]');return false;"><strong>{lang cancel}</strong></button><!--{/if}-->
 		</div>

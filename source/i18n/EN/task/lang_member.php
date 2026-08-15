@@ -27,7 +27,7 @@ $lang = array
 	'task_complete_time_start'		=> 'Task completion start time',//'从申请任务开始计时，',
 	'task_complete_time_limit'		=> '{value} hours',//'{value} 小时内，',
 	'task_complete_act_favorite'		=> 'Added to favorites {value} threads.',//'收藏 {value} 个主题',
-	'task_complete_act_magic'		=> 'Used magic {value} times.<br />You can post threads, blogs, images, or use magics',//'使用 {value} 次道具。<br />您可以在帖子页面、日志页面、图片页面等使用道具',
+	'task_complete_act_magic'		=> 'Used magic {value} times.<br>You can post threads, blogs, images, or use magics',//'使用 {value} 次道具。<br>您可以在帖子页面、日志页面、图片页面等使用道具',
 	'task_complete_act_userapp'		=> 'Added {value} applications',//'添加 {value} 个漫游应用',
 );
 

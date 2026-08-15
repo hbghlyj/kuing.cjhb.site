@@ -13,12 +13,12 @@
 <div id="ct" class="ct2_a wp cl">
 	<div class="mn">
 		<form method="get" href="portal.php" class="mbm pbm bbda">
-			<input type="hidden" name="mod" value="portalcp" />
-			<input type="hidden" name="ac" value="category" />
-			<input type="hidden" name="type" value="$_GET[type]" />
-			<input type="hidden" value="$cate[catid]" name="catid" />
-			<input type="hidden" value="{FORMHASH}" name="formhash" />
-			<input type="text" name="searchkey" class="px vm" value="$_GET[searchkey]" />
+			<input type="hidden" name="mod" value="portalcp">
+			<input type="hidden" name="ac" value="category">
+			<input type="hidden" name="type" value="$_GET[type]">
+			<input type="hidden" value="$cate[catid]" name="catid">
+			<input type="hidden" value="{FORMHASH}" name="formhash">
+			<input type="text" name="searchkey" class="px vm" value="$_GET[searchkey]">
 			<select name="perpage" class="ps vm">
 				<!--{loop $perpagearr $value}-->
 				<option value="$value" {if $value == $perpage} selected="selected"{/if}>{lang portalcp_perpage} $value {lang unit}</option>
@@ -36,9 +36,9 @@
 				<!--{if empty($cate['disallowpublish'])}--><li class="o y"><a href="portal.php?mod=portalcp&ac=article&catid=$catid" target="_blank">{lang article_new}</a></li><!--{/if}-->
 			</ul>
 			<form name="articlelist" id="articlelist" action="portal.php?mod=portalcp&ac=article&op=batch" method="post" onsubmit="return checkPushSubmit(this);">
-				<input type="hidden" value="true" name="batchsubmit"/>
-				<input type="hidden" value="{FORMHASH}" name="formhash"/>
-				<input type="hidden" value="$cate[catid]" name="catid"/>
+				<input type="hidden" value="true" name="batchsubmit">
+				<input type="hidden" value="{FORMHASH}" name="formhash">
+				<input type="hidden" value="$cate[catid]" name="catid">
 				<table class="dt mtm">
 					<tr>
 						<th width="20">&nbsp;</th>
@@ -53,7 +53,7 @@
 					<tr>
 						<td><!--{if $allowmanage || !empty($permission[$value['catid']]['allowmanage'])}-->
 							<!--{eval $showflag = true;}-->
-								<input type="checkbox" value="$value[aid]" name="aids[]" class="pc" />
+								<input type="checkbox" value="$value[aid]" name="aids[]" class="pc">
 							<!--{else}-->
 							$line
 							<!--{/if}-->
@@ -67,7 +67,7 @@
 						<td><a href="portal.php?mod=portalcp&ac=category&catid=$value[catid]">$category[$value[catid]][catname]</a></td>
 						<td>
 							<a href="home.php?mod=space&uid=$value[uid]" title="{lang view_space}" target="_blank">$value[username]</a>
-							<br /><span class="xs0 xg1">$value[dateline]</span>
+							<br><span class="xs0 xg1">$value[dateline]</span>
 						</td>
 						<td>
 							<!--{if $value['allowmanage'] || ($value['allowpublish'] && $value['uid'] == $_G['uid'])}-->
@@ -91,7 +91,7 @@
 					<!--{if $showflag}-->
 						<tr>
 							<td colspan="5">
-								<label for="chkall" onclick="checkall(this.form, 'aids')"><input type="checkbox" name="chkall" id="chkall" class="pc" />{lang select_all}</label>
+								<label for="chkall" onclick="checkall(this.form, 'aids')"><input type="checkbox" name="chkall" id="chkall" class="pc">{lang select_all}</label>
 								<label for="op_trash"><input type="radio" id="op_trash" class="pr" value="trash" name="optype">{lang article_delete_recyclebin}</label>
 								<label for="op_delete"><input type="radio" id="op_delete" class="pr" value="delete" name="optype">{lang article_delete_direct}</label>
 								<label for="op_move"><input type="radio" id="op_move" class="pr" value="move" name="optype">{lang article_category_move}</label>

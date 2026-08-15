@@ -29,7 +29,7 @@ if(!$do) {
 
 		foreach($navlist as $nav) {
 			showtablerow('', ['class="td25"', 'class="td25"', 'class="td25"', '', '', '', 'class="td25"', 'class="td25"', ''], [
-				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled" />',
+				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled">',
 				"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayordernew[{$nav['id']}]\" value=\"{$nav['displayorder']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"10\" name=\"iconnew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['icon'])."\">",
 				"<input type=\"text\" class=\"txt\" size=\"15\" name=\"namenew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['name'])."\">",
@@ -140,7 +140,7 @@ EOT;
 		showformheader("nav&operation=mnav&do=edit&id=$id");
 		showtableheader();
 		showtitle(cplang('nav_nav_mnav').' - '.$nav['name']);
-		showsetting('misc_customnav_icon', 'iconnew', $nav['icon'], 'text', '', 0, '支持图片URL或字体图标代码，例如：<br/>图片URL: http://example.com/icon.png<br/>字体图标: &amp;#xf015; (FontAwesome图标代码)');
+		showsetting('misc_customnav_icon', 'iconnew', $nav['icon'], 'text', '', 0, '支持图片URL或字体图标代码，例如：<br>图片URL: http://example.com/icon.png<br>字体图标: &amp;#xf015; (FontAwesome图标代码)');
 		foreach(i18n::LOCALES as $locale) {
 			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text');
 		}

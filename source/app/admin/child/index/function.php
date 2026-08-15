@@ -358,9 +358,9 @@ function show_note() {
 			'<textarea name="newmessage" class="txt" rows="2" placeholder="'.cplang('home_notes_add').'..."></textarea>'.
 			'<div class="note-form-meta">'.
 			'<span class="meta-label">'.cplang('validity').'</span>'.
-			'<input type="text" class="txt" name="newexpiration" value="30" />'.
+			'<input type="text" class="txt" name="newexpiration" value="30">'.
 			'<span class="meta-unit">'.cplang('days').'</span>'.
-			'<input name="notesubmit" value="'.cplang('submit').'" type="submit" class="btn" />'.
+			'<input name="notesubmit" value="'.cplang('submit').'" type="submit" class="btn">'.
 			'</div>'.
 			'</div>';
 

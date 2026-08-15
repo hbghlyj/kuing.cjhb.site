@@ -83,15 +83,15 @@
 			<!--{if $_GET[view]=='show'}-->
 				<h3 class="mb10">{lang friend_top_note}:</h3>
 				<!--{if $announcement}-->
-				{$announcement}<br />
+				{$announcement}<br>
 				<!--{/if}-->
 				<!--{if $space[unitprice]}-->
 				{lang your_current_bid}: $space[unitprice] {$extcredits[$creditid][unit]},{lang current_ranking} <span style="font-size:20px;color:red;">$now_pos</span> ,{lang make_persistent_efforts}!
 				<!--{else}-->
 				{lang ranking_message_0}
 				<!--{/if}-->
-				<br />{lang ranking_message_1}
-				<br />{lang ranking_message_2}
+				<br>{lang ranking_message_1}
+				<br>{lang ranking_message_2}
 			<!--{else}-->
 				<!--{if $_GET[view]=='credit'}-->
 				<a href="home.php?mod=spacecp&ac=credit">{lang self_current_credit}<!--{if $now_choose=='all'}-->{lang credits}<!--{else}-->{$extcredits[$now_choose][title]}<!--{/if}-->: $mycredits</a>
@@ -114,28 +114,28 @@
 					<table class="tfm">
 						<caption><h3 class="mb10 xw1">{lang i_ranking}</h3></caption>
 						<tr><td>{lang my_ranking_declaration}<p class="xg1">{lang max_char_ranking}</p></td></tr>
-						<tr><td><input type="text" name="note" class="px b_a" value="" size="25" /></td></tr>
+						<tr><td><input type="text" name="note" class="px b_a" value="" size="25"></td></tr>
 						<tr><td>{lang show_unitprice}<p class="xg1"><!--{if $_G[uid]}--><a href="home.php?mod=spacecp&ac=common&op=modifyunitprice" id="a_modify_unitprice" class="dialog">({lang edit_price})</a><!--{/if}--></p></td></tr>
-						<tr><td><input type="text" id="unitprice" name="unitprice" class="px vm" value="1" size="7" onblur="checkCredit('showcredit');" /></td></tr>
+						<tr><td><input type="text" id="unitprice" name="unitprice" class="px vm" value="1" size="7" onblur="checkCredit('showcredit');"></td></tr>
 						<tr><td>{lang increase_bid}{$extcredits[$creditid][title]}<p class="xg1">{lang not_exceed}{$extcredits[$creditid][title]} $space[credit] {$extcredits[$creditid][unit]}</p></td></tr>
-						<tr><td><input type="text" id="showcredit" name="showcredit" class="px vm" value="100" size="7" onblur="checkCredit('showcredit');" /></td></tr>
+						<tr><td><input type="text" id="showcredit" name="showcredit" class="px vm" value="100" size="7" onblur="checkCredit('showcredit');"></td></tr>
 						<tr><td><button type="submit" name="show_submit" class="formdialog pn vm"><em>{lang increase}</em></button></td></tr>
 					</table>
-					<input type="hidden" name="showsubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="showsubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 				</form>
 
 				<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=top" onsubmit="return checkCredit('stakecredit');">
 					<table class="tfm">
 						<caption><h3 class="mb10 xw1">{lang help_friend_in_top}</h3></caption>
 						<tr><td>{lang friend_need_help}<p class="xg1">{lang please_input_friend_name}</p></td></tr>
-						<tr><td><input type="text" name="fusername" class="px" value="" size="15" /></td></tr>
+						<tr><td><input type="text" name="fusername" class="px" value="" size="15"></td></tr>
 						<tr><td>{lang handsel_bid}{$extcredits[$creditid][title]}<p class="xg1">{lang not_exceed}{$extcredits[$creditid][title]} $space[credit] {$extcredits[$creditid][unit]}</p></td></tr>
-						<tr><td><input type="text" name="stakecredit" id="stakecredit" class="px vm" value="20" size="7" onblur="checkCredit('stakecredit');" /></td></tr>
+						<tr><td><input type="text" name="stakecredit" id="stakecredit" class="px vm" value="20" size="7" onblur="checkCredit('stakecredit');"></td></tr>
 						<tr><td><button type="submit" name="friend_submit" class="formdialog pn vm"><em>{lang handsel}</em></button></td></tr>
 					</table>
-					<input type="hidden" name="friendsubmit" value="true" />
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="friendsubmit" value="true">
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 				</form>
 			</div>
 			<!--{else}-->

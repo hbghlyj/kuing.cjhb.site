@@ -17,9 +17,9 @@ if(!submitcheck('typesubmit')) {
 	while($type = DB::fetch($query)) {
 		$type['maxsize'] = round($type['maxsize'] / 1024);
 		$attachtypes .= showtablerow('', ['class="td25"', 'class="td24"'], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$type['id']}\" />",
-			"<input type=\"text\" class=\"txt\" size=\"10\" name=\"extension[{$type['id']}]\" value=\"{$type['extension']}\" />",
-			"<input type=\"text\" class=\"txt\" size=\"15\" name=\"maxsize[{$type['id']}]\" value=\"{$type['maxsize']}\" />"
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$type['id']}\">",
+			"<input type=\"text\" class=\"txt\" size=\"10\" name=\"extension[{$type['id']}]\" value=\"{$type['extension']}\">",
+			"<input type=\"text\" class=\"txt\" size=\"15\" name=\"maxsize[{$type['id']}]\" value=\"{$type['maxsize']}\">"
 		], TRUE);
 	}
 

@@ -434,7 +434,7 @@ if($_GET['op'] == 'checknewpm') {
 		if(empty($cannotappend)) {
 			showmessage('do_success', dreferer(), [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true, 'locationtime' => 3]);
 		} else {
-			showmessage('message_can_not_append_reason', dreferer(), ['cannotappend' => implode('<br />', $cannotappend)], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true, 'locationtime' => 5]);
+			showmessage('message_can_not_append_reason', dreferer(), ['cannotappend' => implode('<br>', $cannotappend)], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true, 'locationtime' => 5]);
 		}
 	}
 
@@ -488,7 +488,7 @@ if($_GET['op'] == 'checknewpm') {
 	}
 	$contents = '<!DOCTYPE html>';
 	$contents .= '<html>';
-	$contents .= '<head><meta charset="'.CHARSET.'" /><meta name="renderer" content="webkit" /><title>'.lang('space', 'pm_export_header').'</title></head>';
+	$contents .= '<head><meta charset="'.CHARSET.'"><meta name="renderer" content="webkit"><title>'.lang('space', 'pm_export_header').'</title></head>';
 	$contents .= '<body>';
 	$contents .= lang('space', 'pm_export_header');
 	$contents .= "\r\n\r\n================================================================\r\n";
@@ -502,7 +502,7 @@ if($_GET['op'] == 'checknewpm') {
 	$contents .= "\r\n";
 	foreach($list as $key => $val) {
 		$contents .= $val['author']."\t".dgmdate($val['dateline'])."\r\n";
-		$contents .= str_replace(['<br>', '<br />', '&nbsp;'], ["\r\n", "\r\n", ' '], $val['message'])."\r\n\r\n";
+		$contents .= str_replace(['<br>', '<br>', '&nbsp;'], ["\r\n", "\r\n", ' '], $val['message'])."\r\n\r\n";
 	}
 	$contents .= '</body></html>';
 	$contents = nl2br($contents);

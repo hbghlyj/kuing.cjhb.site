@@ -12,7 +12,7 @@
 					<a href="javascript:;" onclick="setcookie('nofocus_$_G['basescript']', 1, $_G['cache']['focus']['cookie']*3600);$('sitefocus').style.display='none'" class="y" title="{lang close}">{lang close}</a>
 					<h2>
 						<!--{if $_G['cache']['focus']['title']}-->{$_G['cache']['focus']['title']}<!--{else}-->{lang focus_hottopics}<!--{/if}-->
-						<span id="focus_ctrl" class="fctrl"><img src="{STYLEIMGDIR}/img/pic_nv_prev.png" alt="{lang footer_previous}" title="{lang footer_previous}" id="focusprev" class="cur1" onclick="showfocus('prev');" /> <em><span id="focuscur"></span>/$focusnum</em> <img src="{STYLEIMGDIR}/img/pic_nv_next.png" alt="{lang footer_next}" title="{lang footer_next}" id="focusnext" class="cur1" onclick="showfocus('next')" /></span>
+						<span id="focus_ctrl" class="fctrl"><img src="{STYLEIMGDIR}/img/pic_nv_prev.png" alt="{lang footer_previous}" title="{lang footer_previous}" id="focusprev" class="cur1" onclick="showfocus('prev');"> <em><span id="focuscur"></span>/$focusnum</em> <img src="{STYLEIMGDIR}/img/pic_nv_next.png" alt="{lang footer_next}" title="{lang footer_next}" id="focusnext" class="cur1" onclick="showfocus('next')"></span>
 					</h2>
 				</div>
 				<div class="bm_c" id="focus_con">
@@ -25,7 +25,7 @@
 					<dl class="xld cl bbda">
 						<dt><a href="{$_G['cache']['focus']['data'][$id]['url']}" class="xi2" target="_blank">$_G['cache']['focus']['data'][$id]['subject']</a></dt>
 						<!--{if $_G['cache']['focus']['data'][$id]['image']}-->
-						<dd class="m"><a href="{$_G['cache']['focus']['data'][$id]['url']}" target="_blank"><img src="{$_G['cache']['focus']['data'][$id]['image']}" alt="$_G['cache']['focus']['data'][$id]['subject']" /></a></dd>
+						<dd class="m"><a href="{$_G['cache']['focus']['data'][$id]['url']}" target="_blank"><img src="{$_G['cache']['focus']['data'][$id]['image']}" alt="$_G['cache']['focus']['data'][$id]['subject']"></a></dd>
 						<!--{/if}-->
 						<dd>$_G['cache']['focus']['data'][$id]['summary']</dd>
 					</dl>
@@ -140,7 +140,7 @@
 					<!--{if $_G['style']['bottom_txt']}-->
 					<p>{$_G['style']['bottom_txt']}</p>
 					<!--{/if}-->
-					<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
+					<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png">$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
 					<p class="xs0">
 						<span id="debuginfo">
 						<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
@@ -242,7 +242,7 @@ checkBlind();
 
 <!--{if !IS_ROBOT}-->
 <!--{eval $pusher_tab_nonce = random(24); $pusher_tab_token = $_G['uid'].'.'.$pusher_tab_nonce.'.'.hash_hmac('sha256', $_G['uid'].'|'.$pusher_tab_nonce, $_G['config']['security']['authkey']);}-->
-<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
+<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet">
 <style>.pusher-chat-widget{bottom:5px;right:5px;z-index:700;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
 <script src="/chat/pusher.min.js"></script>
 <script>window.KK_PUSHER_TAB_ID = '$pusher_tab_token';</script>

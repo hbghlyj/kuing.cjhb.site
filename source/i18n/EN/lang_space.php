@@ -127,25 +127,25 @@ $lang = array(
 
 	'block_title'		=> '<div class="blocktitle title"><span>{bname}</span>{more}</div>',
 	'blog_li'		=> '<dl class="bbda cl"><dt><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}" target="_blank">{subject}</a><span class="xg2 xw0"> {date}</span></dt>',
-	'blog_li_img'		=> '<dd class="atc"><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}" target="_blank"><img src="{src}" class="summaryimg" /></a></dd>',
+	'blog_li_img'		=> '<dd class="atc"><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}" target="_blank"><img src="{src}" class="summaryimg"></a></dd>',
 	'blog_li_ext'		=> '<dd class="xg1"><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}" target="_blank">({viewnum}) Views</a><span class="pipe">|</span><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}#comment" target="_blank">({replynum}) Comments</a></dd>',//'<dd class="xg1"><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}" target="_blank">({viewnum})次阅读</a><span class="pipe">|</span><a href="home.php?mod=space&uid={uid}&do=blog&id={blogid}#comment" target="_blank">({replynum})个评论</a></dd>',
-	'album_li'		=> '<li style="width:70px"><div class="c"><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname}, Updated {date}><img src="{src}" alt="{albumname}" width="70" height="70" /></a></div><p><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname]}">{albumname}</a></p><span>Photos:({picnum})</span> <span>Updated {date}</span></li>',//'<li><div class="c"><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank"><img src="{src}" alt="{albumname}" width="120" /></a></div><p><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname]}">{albumname}</a></p><span>图片数:({picnum})</span><span>更新 {date}</span></li>',
-	'doing_li'		=> '<li>{message}</li><br />{date} {from} Replies ({replynum})',//'<li>{message}</li><br />{date} {from} 回复({replynum})',
+	'album_li'		=> '<li style="width:70px"><div class="c"><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname}, Updated {date}><img src="{src}" alt="{albumname}" width="70" height="70"></a></div><p><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname]}">{albumname}</a></p><span>Photos:({picnum})</span> <span>Updated {date}</span></li>',//'<li><div class="c"><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank"><img src="{src}" alt="{albumname}" width="120"></a></div><p><a href="home.php?mod=space&uid={uid}&do=album&id={albumid}" target="_blank" title="{albumname]}">{albumname}</a></p><span>图片数:({picnum})</span><span>更新 {date}</span></li>',
+	'doing_li'		=> '<li>{message}</li><br>{date} {from} Replies ({replynum})',//'<li>{message}</li><br>{date} {from} 回复({replynum})',
 	'visitor_anonymity'	=> '<div class="avatar48"><img src="image/magic/hidden.gif" alt="Anonymous"></div><p>Anonymous</p>',//'<div class="avatar48"><img src="image/magic/hidden.gif" alt="匿名"></div><p>匿名</p>',
 	'visitor_list'		=> '<a href="home.php?mod=space&uid={uid}" target="_blank" class="avt"><em class="{class}"></em><em class="{self}" onclick="javascript:removeVisitor(event, {cuid});" title="Remove the visit"></em>{avatar}</a><p><a href="home.php?mod=space&uid={uid}" title="{username}">{username}</a></p>',//'<a href="home.php?mod=space&uid={uid}" target="_blank" class="avt"><em class="{class}"></em><em class="{self}" onclick="javascript:removeVisitor(event, {cuid});" title="删除访问足迹"></em>{avatar}</a><p><a href="home.php?mod=space&uid={uid}" title="{username}">{username}</a></p>',
 	'wall_form'		=> '<div class="space_wall_post">
 					<form action="home.php?mod=spacecp&ac=comment" id="quickcommentform_{uid}" name="quickcommentform_{uid}" method="post" autocomplete="off" onsubmit="ajaxpost(\'quickcommentform_{uid}\', \'return_commentwall_{uid}\');doane(event);">
-					'.($_G['uid'] ? '<span id="message_face" onclick="showFace(this.id, \'comment_message\');return false;" class="cur1"><img src="static/image/common/facelist.gif" alt="facelist" class="mbn vm" /></span>
-					<br /><textarea name="message" id="comment_message" class="pt" rows="3" cols="60" onkeydown="ctrlEnter(event, \'commentsubmit_btn\');" style="width: 90%;"></textarea>
-					<input type="hidden" name="refer" value="home.php?mod=space&uid={uid}" />
-					<input type="hidden" name="id" value="{uid}" />
-					<input type="hidden" name="idtype" value="uid" />
-					<input type="hidden" name="commentsubmit" value="true" />' :
+					'.($_G['uid'] ? '<span id="message_face" onclick="showFace(this.id, \'comment_message\');return false;" class="cur1"><img src="static/image/common/facelist.gif" alt="facelist" class="mbn vm"></span>
+					<br><textarea name="message" id="comment_message" class="pt" rows="3" cols="60" onkeydown="ctrlEnter(event, \'commentsubmit_btn\');" style="width: 90%;"></textarea>
+					<input type="hidden" name="refer" value="home.php?mod=space&uid={uid}">
+					<input type="hidden" name="id" value="{uid}">
+					<input type="hidden" name="idtype" value="uid">
+					<input type="hidden" name="commentsubmit" value="true">' :
 					($_G['connectguest'] ? '<div class="pt hm">You have to <a href="member.php?mod=connect" class="xi2">Improve the account information</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">Bind existing account</a> before you can reply</div>' : '<div class="pt hm">You need to log in before you can <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href)" class="xi2">Login</a> | <a href="member.php?mod='.$_G['setting']['regname'].'" class="xi2">Register</a></div>')).'
 					<p class="ptn"><button '.($_G['uid'] ? 'type="submit"' : 'type="button" onclick="showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes\')"').' name="commentsubmit_btn" value="true" id="commentsubmit_btn" class="pn"><strong>Send message</strong></button></p>
-					<input type="hidden" name="handlekey" value="commentwall_{uid}" />
+					<input type="hidden" name="handlekey" value="commentwall_{uid}">
 					<span id="return_commentwall_{uid}"></span>
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 					</form>'.
 					($_G['uid'] ? '<script type="text/javascript">
 						function succeedhandle_commentwall_{uid}(url, msg, values) {
@@ -169,10 +169,10 @@ $lang = array(
 	'wall_edit'		=> '<a href="home.php?mod=spacecp&ac=comment&op=edit&cid={cid}&handlekey=editcommenthk_{cid}" id="c_{cid}_edit" onclick="showWindow(this.id, this.href, \'get\', 0);">Edit</a> ',//'<a href="home.php?mod=spacecp&ac=comment&op=edit&cid={cid}&handlekey=editcommenthk_{cid}" id="c_{cid}_edit" onclick="showWindow(this.id, this.href, \'get\', 0);">编辑</a> ',
 	'wall_del'		=> '<a href="home.php?mod=spacecp&ac=comment&op=delete&cid={cid}&handlekey=delcommenthk_{cid}" id="c_{cid}_delete" onclick="showWindow(this.id, this.href, \'get\', 0);">Delete</a> ',//'<a href="home.php?mod=spacecp&ac=comment&op=delete&cid={cid}&handlekey=delcommenthk_{cid}" id="c_{cid}_delete" onclick="showWindow(this.id, this.href, \'get\', 0);">删除</a> ',
 	'wall_reply'		=> '<a href="home.php?mod=spacecp&ac=comment&op=reply&cid={cid}&handlekey=replycommenthk_{cid}" id="c_{cid}_reply" onclick="showWindow(this.id, this.href, \'get\', 0);">Reply</a>',//'<a href="home.php?mod=spacecp&ac=comment&op=reply&cid={cid}&handlekey=replycommenthk_{cid}" id="c_{cid}_reply" onclick="showWindow(this.id, this.href, \'get\', 0);">回复</a>',
-	'group_li'		=> '<li><a href="forum.php?mod=group&fid={groupid}" target="_blank"><img src="{icon}" alt="{name}" /></a><p><a href="forum.php?mod=group&fid={groupid}" target="_blank">{name}</a></p></li>',
-	'poll_li'		=> '<div class="c z"><img alt="poll" src="static/image/feed/poll.gif" alt="poll" class="t" /><h4 class="h"><a target="_blank" href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a></h4><div class="mtn xg1">Posted: {dateline}</div></div>',//'<div class="c z"><img alt="poll" src="static/image/feed/poll.gif" alt="poll" class="t" /><h4 class="h"><a target="_blank" href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a></h4><div class="mtn xg1">发布时间：{dateline}</div></div>',
-	'myapp_li_icon'		=> '<li><img src="{icon}" onerror="this.onerror=null;this.src=\'http://appicon.manyou.com/icons/{appid}\'" alt="{appname}" class="vm" /> <a href="userapp.php?mod=app&id={appid}">{appname}</a></li>',
-	'myapp_li_logo'		=> '<li><a href="userapp.php?mod=app&id={appid}"><img src="http://appicon.manyou.com/logos/{appid}" alt="{appname}" /><p><a href="userapp.php?mod=app&id={appid}">{appname}</a></p></li>',
+	'group_li'		=> '<li><a href="forum.php?mod=group&fid={groupid}" target="_blank"><img src="{icon}" alt="{name}"></a><p><a href="forum.php?mod=group&fid={groupid}" target="_blank">{name}</a></p></li>',
+	'poll_li'		=> '<div class="c z"><img alt="poll" src="static/image/feed/poll.gif" alt="poll" class="t"><h4 class="h"><a target="_blank" href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a></h4><div class="mtn xg1">Posted: {dateline}</div></div>',//'<div class="c z"><img alt="poll" src="static/image/feed/poll.gif" alt="poll" class="t"><h4 class="h"><a target="_blank" href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a></h4><div class="mtn xg1">发布时间：{dateline}</div></div>',
+	'myapp_li_icon'		=> '<li><img src="{icon}" onerror="this.onerror=null;this.src=\'http://appicon.manyou.com/icons/{appid}\'" alt="{appname}" class="vm"> <a href="userapp.php?mod=app&id={appid}">{appname}</a></li>',
+	'myapp_li_logo'		=> '<li><a href="userapp.php?mod=app&id={appid}"><img src="http://appicon.manyou.com/logos/{appid}" alt="{appname}"><p><a href="userapp.php?mod=app&id={appid}">{appname}</a></p></li>',
 	'music_no_content'	=> 'Music box has no content set',//'还没有设置音乐盒的内容',
 	'block_profile_diy'		=> 'Dress space',//'装扮空间',
 	'block_profile_wall'		=> 'View wall',//'查看留言',

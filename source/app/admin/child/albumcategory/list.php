@@ -49,9 +49,9 @@ if(!submitcheck('editsubmit')) {
 	echo <<<SCRIPT
 <script type="text/Javascript">
 var rowtypedata = [
-	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [3, '<div class="parentboard"><input type="text" class="txt" value="{$lang['albumcategory_addcategory']}" name="newname[{1}][]"/></div>']],
-	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [3, '<div class="board"><input type="text" class="txt" value="{$lang['albumcategory_addsubcategory']}" name="newname[{1}][]"/></div>']],
-	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [3, '<div class="childboard"><input type="text" class="txt" value="{$lang['albumcategory_addthirdcategory']}" name="newname[{1}][]"/></div>']],
+	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [3, '<div class="parentboard"><input type="text" class="txt" value="{$lang['albumcategory_addcategory']}" name="newname[{1}][]"></div>']],
+	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [3, '<div class="board"><input type="text" class="txt" value="{$lang['albumcategory_addsubcategory']}" name="newname[{1}][]"></div>']],
+	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [3, '<div class="childboard"><input type="text" class="txt" value="{$lang['albumcategory_addthirdcategory']}" name="newname[{1}][]"></div>']],
 ];
 </script>
 SCRIPT;

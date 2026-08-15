@@ -322,7 +322,6 @@ body {
 }
 
 .WriteIndex-titleInput .Input {
-    -webkit-box-shadow: none;
     box-shadow: none;
     outline: none;
 }

@@ -5,9 +5,9 @@
 			<script src="{STATICURL}js/qrcode/qrcode.min.js?{VERHASH}"></script>
 			<form id="payform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=payment&op=pay" onsubmit="ajaxpost(this.id, 'return_payform');return false;">
 				<input type="hidden" name="order_id" value="{$order['id']}">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="handlekey" value="payment" />
-				<input type="hidden" name="paysubmit" value="true" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="handlekey" value="payment">
+				<input type="hidden" name="paysubmit" value="true">
 				<ul class="creditl mtm bbda cl">
 					<li style="width: 100%"><em>{lang payment_pay_order_id}: </em>{$order['out_biz_no']}</li>
 				</ul>
@@ -36,7 +36,7 @@
 						<td>
 							<!--{loop $pay_channel_list $index $channel}-->
 							<div class="channel-select"><input id="pay_channel_{$channel['id']}" <!--{if !$index}-->checked<!--{/if}--> name="pay_channel" type="radio" value="{$channel['id']}" title="$channel['title']">
-							<label for="pay_channel_{$channel['id']}"><img src="$channel['logo']" alt="$channel['title']"/></label></div>
+							<label for="pay_channel_{$channel['id']}"><img src="$channel['logo']" alt="$channel['title']"></label></div>
 							<!--{/loop}-->
 						</td>
 					</tr>

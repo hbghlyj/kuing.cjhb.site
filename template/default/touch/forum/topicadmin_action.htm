@@ -2,11 +2,11 @@
 <div class="tip loginbox loginpop p5" id="floatlayout_topicadmin">
 <!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split'))}-->
 	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET['action']&modsubmit=yes&modclick=yes" >
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="fid" value="$_G['fid']" />
-		<input type="hidden" name="tid" value="$_G['tid']" />
-		<input type="hidden" name="page" value="$_G['page']" />
-		<input type="hidden" name="reason" value="{lang topicadmin_mobile_mod}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="fid" value="$_G['fid']">
+		<input type="hidden" name="tid" value="$_G['tid']">
+		<input type="hidden" name="page" value="$_G['page']">
+		<input type="hidden" name="reason" value="{lang topicadmin_mobile_mod}">
 	<!--{if $_GET['action'] == 'delpost'}-->
 		<h2 class="log_tit" id="return_delpost">{lang delete}</h2>
 		<dt>
@@ -22,7 +22,7 @@
 	<!--{elseif $_GET['action'] == 'restore'}-->
 		<h2 class="log_tit" id="return_restore">{lang modmenu_restore}</h2>
 		<dt>
-			<input type="hidden" name="archiveid" value="$archiveid" />
+			<input type="hidden" name="archiveid" value="$archiveid">
 			<p>{lang admin_threadsplit_restore}</p>
 		</dt>
 	<!--{elseif $_GET['action'] == 'copy'}-->
@@ -54,14 +54,14 @@
 			<li class="flex-box mli">
 				<div class="flex">{lang admin_banpost}</div>
 				<div class="flex-2"></div>
-				<div class="flex"><span class="y"><input type="radio" name="banned" class="pr" value="1" $checkban /></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="banned" class="pr" value="1" $checkban></span></div>
 			</li>
 			</label>
 			<label>
 			<li class="flex-box mli b0">
 				<div class="flex">{lang admin_unbanpost}</div>
 				<div class="flex-2"></div>
-				<div class="flex"><span class="y"><input type="radio" name="banned" class="pr" value="0" $checkunban /></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="banned" class="pr" value="0" $checkunban></span></div>
 			</li>
 			</label>
 		</ul>
@@ -81,14 +81,14 @@
 			<li class="flex-box mli">
 				<div class="flex">{lang topicadmin_warn_add}</div>
 				<div class="flex-2"></div>
-				<div class="flex"><span class="y"><input type="radio" name="warned" class="pr" value="1" $checkwarn /></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="warned" class="pr" value="1" $checkwarn></span></div>
 			</li>
 			</label>
 			<label>
 			<li class="flex-box mli b0">
 				<div class="flex">{lang topicadmin_warn_delete}</div>
 				<div class="flex-2"></div>
-				<div class="flex"><span class="y"><input type="radio" name="warned" class="pr" value="0" $checkunwarn /></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="warned" class="pr" value="0" $checkunwarn></span></div>
 			</li>
 			</label>
 		</ul>
@@ -101,21 +101,21 @@
                         <li class="flex-box mli">
                                 <div class="flex"><span class="z">{lang admin_merge}</span></div>
                                 <div class="flex-2">
-                                        <input type="text" name="othertid" id="othertid" class="px" placeholder="tid" />
+                                        <input type="text" name="othertid" id="othertid" class="px" placeholder="tid">
                                 </div>
                         </li>
                         <label>
                         <li class="flex-box mli">
                                 <div class="flex">{lang admin_merge_order_end}</div>
                                 <div class="flex-2"></div>
-                                <div class="flex"><span class="y"><input type="radio" name="newpostposition" class="pr" value="0" checked="checked" /></span></div>
+                                <div class="flex"><span class="y"><input type="radio" name="newpostposition" class="pr" value="0" checked="checked"></span></div>
                         </li>
                         </label>
                         <label>
                         <li class="flex-box mli">
                                 <div class="flex">{lang admin_merge_order_begin}</div>
                                 <div class="flex-2"></div>
-                                <div class="flex"><span class="y"><input type="radio" name="newpostposition" class="pr" value="1" /></span></div>
+                                <div class="flex"><span class="y"><input type="radio" name="newpostposition" class="pr" value="1"></span></div>
                         </li>
                         </label>
                         <li class="flex-box mli b0">
@@ -143,7 +143,7 @@
 		<ul class="post_box cl">
 			<li class="flex-box mli">
 				<div class="flex-3">
-					<input type="text" name="subject" id="subject" class="px" placeholder="{lang admin_split_newsubject}" />
+					<input type="text" name="subject" id="subject" class="px" placeholder="{lang admin_split_newsubject}">
 				</div>
 			</li>
 			<li class="flex-box mli b0">
@@ -162,13 +162,13 @@
 			<label>
 			<li class="flex-box mli">
 				<div class="flex-2"><span class="z">{lang admin_stickreply}</span></div>
-				<div class="flex"><span class="y"><input type="radio" name="stickreply" class="pr" value="1"{if empty($_GET['undo'])} checked="checked"{/if}/></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="stickreply" class="pr" value="1"{if empty($_GET['undo'])} checked="checked"{/if}></span></div>
 			</li>
 			</label>
 			<label>
 			<li class="flex-box mli b0">
 				<div class="flex-2"><span class="z">{lang admin_unstickreply}</span></div>
-				<div class="flex"><span class="y"><input type="radio" name="stickreply" class="pr" value="0"{if !empty($_GET['undo'])} checked="checked"{/if}/></span></div>
+				<div class="flex"><span class="y"><input type="radio" name="stickreply" class="pr" value="0"{if !empty($_GET['undo'])} checked="checked"{/if}></span></div>
 			</li>
 			</label>
 		</ul>
@@ -177,7 +177,7 @@
 	</form>
 <!--{else}-->
 		<dt>{lang admin_threadtopicadmin_error}</dt>
-		<dd><input type="button" onclick="popup.close();" value="{lang confirms}" /></dd>
+		<dd><input type="button" onclick="popup.close();" value="{lang confirms}"></dd>
 <!--{/if}-->
 </div>
 <script reload="1">

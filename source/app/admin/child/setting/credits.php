@@ -151,9 +151,9 @@ if(submitcheck('settingsubmit')) {
 			$creditsetting[7] = '<td class="td23">'.cplang('credits_inport').'</td>';
 			$creditsetting[8] = '<td class="td23">'.cplang('credits_import').'</td>';
 		}
-		$title[] = "<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[extcredits][$i][available]\" value=\"1\" ".($setting['extcredits'][$i]['available'] ? 'checked' : '')." />extcredits$i";
+		$title[] = "<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[extcredits][$i][available]\" value=\"1\" ".($setting['extcredits'][$i]['available'] ? 'checked' : '').">extcredits$i";
 		$creditsetting[0] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[extcredits][$i][title]\" value=\"{$setting['extcredits'][$i]['title']}\"></td>";
-		$creditsetting[2] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" style=\"margin-right:0\" name=\"settingnew[extcredits][$i][img]\" value=\"{$setting['extcredits'][$i]['img']}\">".($setting['extcredits'][$i]['img'] ? ' <img src="'.$setting['extcredits'][$i]['img'].'" class="vmiddle" />' : '').'</td>';
+		$creditsetting[2] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" style=\"margin-right:0\" name=\"settingnew[extcredits][$i][img]\" value=\"{$setting['extcredits'][$i]['img']}\">".($setting['extcredits'][$i]['img'] ? ' <img src="'.$setting['extcredits'][$i]['img'].'" class="vmiddle">' : '').'</td>';
 		$creditsetting[3] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[extcredits][$i][unit]\" value=\"{$setting['extcredits'][$i]['unit']}\"></td>";
 		$creditsetting[4] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[initcredits][$i]\" value=\"".intval($setting['initcredits'][$i])."\"></td>";
 		$creditsetting[5] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[lowerlimit][$i]\" value=\"{$_G['setting']['creditspolicy']['lowerlimit'][$i]}\"></td>";
@@ -226,7 +226,7 @@ if(submitcheck('settingsubmit')) {
 					<div id="formulapermexp" class="margintop marginbot diffcolor2">$formulapermexp</div>
 					<textarea name="settingnew[creditsformula]" id="creditsformula" class="marginbot" style="width:80%" rows="3" onkeyup="formulaexp()" onkeydown="textareakey(this, event)">{$setting['creditsformula']}</textarea>
 					<script type="text/JavaScript">formulaexp()</script>
-					<br /><span class="smalltxt">{$lang['setting_credits_formula_comment']}</span>
+					<br><span class="smalltxt">{$lang['setting_credits_formula_comment']}</span>
 				</td>
 			</tr>
 EOF;
@@ -250,7 +250,7 @@ EOF;
 	showsetting('setting_credits_trans6', '', '', '<select name="settingnew[creditstrans][6]">'.$_G['setting']['creditstrans'][6].'</select>');
 	$setting['report_reward'] = dunserialize($setting['report_reward']);
 	showsetting('setting_credits_trans10', '', '', '<select name="settingnew[creditstrans][10]">'.$_G['setting']['creditstrans'][10].'</select>');
-	showsetting('setting_credits_trans8', '', '', '<select name="settingnew[creditstrans][8]">'.$_G['setting']['creditstrans'][8].'</select><br \><br \>'.cplang('report_reward_min').': <input type="text" size="3" name="settingnew[report_reward][min]" value="'.$setting['report_reward']['min'].'"><br />'.cplang('report_reward_max').': <input type="text" size="3" name="settingnew[report_reward][max]" value="'.$setting['report_reward']['max'].'">&nbsp;&nbsp;<br \>'.cplang('report_reward_comment'));
+	showsetting('setting_credits_trans8', '', '', '<select name="settingnew[creditstrans][8]">'.$_G['setting']['creditstrans'][8].'</select><br \><br \>'.cplang('report_reward_min').': <input type="text" size="3" name="settingnew[report_reward][min]" value="'.$setting['report_reward']['min'].'"><br>'.cplang('report_reward_max').': <input type="text" size="3" name="settingnew[report_reward][max]" value="'.$setting['report_reward']['max'].'">&nbsp;&nbsp;<br \>'.cplang('report_reward_comment'));
 	showsetting('setting_credits_trans11', '', '', '<select name="settingnew[creditstrans][11]">'.$_G['setting']['creditstrans'][11].'</select>');
 	showsetting('setting_credits_trans12', '', '', '<select name="settingnew[creditstrans][12]">'.$_G['setting']['creditstrans'][12].'</select>');
 	showsetting('setting_credits_trans13', '', '', '<select name="settingnew[creditstrans][13]">'.$_G['setting']['creditstrans'][13].'</select>');

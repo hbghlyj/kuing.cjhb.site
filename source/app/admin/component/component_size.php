@@ -55,7 +55,7 @@ class component_size {
 			$return .= '<option value="'.$unit.'"'.($selected == $unit ? ' selected="selected"' : '').'>'.$unit.'</option>';
 		}
 		$return .= '</select>';
-		return '<input name="'.$var['variable'].'[value]" type="text" style="width: 120px !important" class="txt" value="'.$valueNew.'" />'.$return;
+		return '<input name="'.$var['variable'].'[value]" type="text" style="width: 120px !important" class="txt" value="'.$valueNew.'">'.$return;
 	}
 
 	function serialize(&$value) {

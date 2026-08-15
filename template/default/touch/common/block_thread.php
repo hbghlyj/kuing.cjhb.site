@@ -10,7 +10,7 @@
 		<!--{loop $polloptions $key $option}-->
 			<li>
 				<label>
-					<input type="$optiontype" name="pollanswers[]" id="option_$key" class="pc" value="$option[polloptionid]" />
+					<input type="$optiontype" name="pollanswers[]" id="option_$key" class="pc" value="$option[polloptionid]">
 					$option[polloption]
 				</label>
 			</li>
@@ -23,9 +23,9 @@
 		<!--{loop $trades[$tid] $key $trade}-->
 			<li class="cl">
 				<!--{if $trade[aid]}-->
-					<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img src="$trade[aid]" width="80" alt="$trade[subject]" /></a>
+					<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img src="$trade[aid]" width="80" alt="$trade[subject]"></a>
 				<!--{else}-->
-					<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img src="{IMGDIR}/nophoto.gif" width="80" alt="$trade[subject]" /></a>
+					<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$trade[pid]" target="_blank"><img src="{IMGDIR}/nophoto.gif" width="80" alt="$trade[subject]"></a>
 				<!--{/if}-->
 				<!--{if $trade[price] > 0}-->
 					&yen; $trade[price]
@@ -42,9 +42,9 @@
 	<!--{elseif $thread[special] == 4}-->
 		<div>$message</div>
 		<!--{if $activity[aid]}-->
-			<a href="forum.php?mod=viewthread&tid=$tid" target="_blank"><img src="$activity[aid]" width="80" alt="$activity[subject]" /></a>
+			<a href="forum.php?mod=viewthread&tid=$tid" target="_blank"><img src="$activity[aid]" width="80" alt="$activity[subject]"></a>
 		<!--{else}-->
-			<a href="forum.php?mod=viewthread&tid=$tid" target="_blank"><img src="{IMGDIR}/nophoto.gif" width="80" alt="$activity[subject]" /></a>
+			<a href="forum.php?mod=viewthread&tid=$tid" target="_blank"><img src="{IMGDIR}/nophoto.gif" width="80" alt="$activity[subject]"></a>
 		<!--{/if}-->
 		<p>{lang activity_already} $activity[applynumber]</p>
 		<!--{if $activity[number]}-->

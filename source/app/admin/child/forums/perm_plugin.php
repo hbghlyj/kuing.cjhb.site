@@ -14,7 +14,7 @@ $s = $exists = [];
 foreach($_G['setting']['plugins']['perm'] as $c => $v) {
 	$pluginid = $v['pluginid'];
 	$colums = [
-		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallplugin_'.$pluginid.'_'.$c.'" onclick="checkAll(\'value\', this.form, \'plugin_'.$pluginid.'_'.$c.'\', \'chkallplugin_'.$pluginid.'_'.$c.'\')" id="chkallplugin_'.$pluginid.'_'.$c.'" />',
+		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallplugin_'.$pluginid.'_'.$c.'" onclick="checkAll(\'value\', this.form, \'plugin_'.$pluginid.'_'.$c.'\', \'chkallplugin_'.$pluginid.'_'.$c.'\')" id="chkallplugin_'.$pluginid.'_'.$c.'">',
 		'<label for="chkallplugin_'.$pluginid.'_'.$c.'"> '.lang('plugin/'.$pluginid, $v['name']).'</label>', 'p_'.$c];
 	foreach($perms as $perm) {
 		$checked = str_contains($forum[$perm], "\tp_$c\t") ? 'checked="checked"' : NULL;

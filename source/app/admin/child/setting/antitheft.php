@@ -89,11 +89,11 @@ if(submitcheck('settingsubmit')) {
 				$multipage = multi($count, $perpage, $page, $mpurl);
 			}
 
-			$batchradio = '<input type="radio" name="optype" value="white" id="op_white" class="radio" /><label for="op_white">'.cplang('setting_antitheft_addwhitelist').'</label>&nbsp;&nbsp;';
-			$batchradio .= '<input type="radio" name="optype" value="black" id="op_black" class="radio" /><label for="op_black">'.cplang('setting_antitheft_addblacklist').'</label>&nbsp;&nbsp;';
-			$batchradio .= '<input type="radio" name="optype" value="delete" id="op_remove" class="radio" /><label for="op_remove">'.cplang('delete').'</label>&nbsp;&nbsp;<input type="hidden" name="antitheftsubmit" value="yes" />';
-			showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ips\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'
-				.$batchradio.'<input type="submit" class="btn" name="antitheftbutton" value="'.cplang('submit').'" />', $multipage);
+			$batchradio = '<input type="radio" name="optype" value="white" id="op_white" class="radio"><label for="op_white">'.cplang('setting_antitheft_addwhitelist').'</label>&nbsp;&nbsp;';
+			$batchradio .= '<input type="radio" name="optype" value="black" id="op_black" class="radio"><label for="op_black">'.cplang('setting_antitheft_addblacklist').'</label>&nbsp;&nbsp;';
+			$batchradio .= '<input type="radio" name="optype" value="delete" id="op_remove" class="radio"><label for="op_remove">'.cplang('delete').'</label>&nbsp;&nbsp;<input type="hidden" name="antitheftsubmit" value="yes">';
+			showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ips\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'
+				.$batchradio.'<input type="submit" class="btn" name="antitheftbutton" value="'.cplang('submit').'">', $multipage);
 			showtablefooter();
 			showboxfooter();
 			showformfooter();

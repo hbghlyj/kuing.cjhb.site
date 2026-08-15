@@ -26,8 +26,8 @@ class widget_edit {
 			$text = $isplugin ? lang('plugin/'.$widgets[0], $widgets[1]) : cplang('widget_'.$widget);
 			$hide = !empty($setting['data']['hide'][$type]) && in_array($widget, $setting['data']['hide'][$type]) ? ' checked' : '';
 			echo '<div class="dragObj" draggable="true" type="'.$type.'">'.$text;
-			echo '<label style="float:right"><input type="checkbox" name="hide['.$type.'][]" value="'.$widget.'"'.$hide.' />'.cplang('hidden').'</label>';
-			echo '<input type="hidden" name="pos['.$type.'][]" readonly value="'.$widget.'" />';
+			echo '<label style="float:right"><input type="checkbox" name="hide['.$type.'][]" value="'.$widget.'"'.$hide.'>'.cplang('hidden').'</label>';
+			echo '<input type="hidden" name="pos['.$type.'][]" readonly value="'.$widget.'">';
 			echo '</div>';
 		}
 	}

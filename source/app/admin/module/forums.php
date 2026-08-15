@@ -42,7 +42,7 @@ function showforum(&$forum, $type = '', $last = '', $toggle = false, $more = fal
 		}
 		$return = '<tr class="hover">'.
 			'<td class="td30"'.($type == 'group' ? ' onclick="toggle_group(\'group_'.$forum['fid'].'\', $(\'a_group_'.$forum['fid'].'\'))"' : '').'>'.($type == 'group' ? '<a href="javascript:;" id="a_group_'.$forum['fid'].'">'.($toggle ? '[+]' : '[-]').'</a>' : '').'</td>
-			<td class="td25">'.(!$more ? '<input type="text" class="txt" name="order['.$forum['fid'].']" value="'.$forum['displayorder'].'" />' : '<input type="text" class="txt" disabled />').'</td><td>';
+			<td class="td25">'.(!$more ? '<input type="text" class="txt" name="order['.$forum['fid'].']" value="'.$forum['displayorder'].'">' : '<input type="text" class="txt" disabled>').'</td><td>';
 		if($type == 'group') {
 			$return .= '<div class="parentboard">';
 			$_G['fg'] = !empty($_G['fg']) ? intval($_G['fg']) : 0;
@@ -73,12 +73,12 @@ function showforum(&$forum, $type = '', $last = '', $toggle = false, $more = fal
 				$boardattr .= '</div>';
 			}
 
-			$return .= '<input type="text" name="name['.$forum['fid'].']" value="'.dhtmlspecialchars($forum['name']).'" class="txt" />'.
+			$return .= '<input type="text" name="name['.$forum['fid'].']" value="'.dhtmlspecialchars($forum['name']).'" class="txt">'.
 				($type == '' ? '<a href="###" onclick="addrowdirect = 1;addrow(this, 2, '.$forum['fid'].')" class="addchildboard">'.cplang('forums_admin_add_sub').'</a>' : '').
 				'</div>'.$boardattr.
 				'</td><td align="right" class="td23 lightfont">('.($type == 'group' ? 'gid:' : 'fid:').$forum['fid'].')</td>'.
 				'</td><td class="td23">'.showforum_moderators($forum).'</td>
-				<td width="180"><input class="checkbox" value="'.$forum['fid'].'" type="checkbox"'.($type != 'group' ? ' chkvalue="g'.$_G['fg'].'" onclick="multiupdate(this, '.$forum['fid'].')"' : ' name="gc'.$_G['fg'].'" onclick="checkAll(\'value\', this.form, \'g'.$_G['fg'].'\', \'gc'.$_G['fg'].'\', 1)"').' />'.'
+				<td width="180"><input class="checkbox" value="'.$forum['fid'].'" type="checkbox"'.($type != 'group' ? ' chkvalue="g'.$_G['fg'].'" onclick="multiupdate(this, '.$forum['fid'].')"' : ' name="gc'.$_G['fg'].'" onclick="checkAll(\'value\', this.form, \'g'.$_G['fg'].'\', \'gc'.$_G['fg'].'\', 1)"').'>'.'
 				<a href="'.ADMINSCRIPT.'?action=forums&operation=edit&fid='.$forum['fid'].'" title="'.cplang('forums_edit_comment').'" class="act">'.cplang('edit').'</a>'.
 				($type != 'group' ? '<a href="'.ADMINSCRIPT.'?action=forums&operation=copy&source='.$forum['fid'].$vfidstr.'" title="'.cplang('forums_copy_comment').'" class="act">'.cplang('forums_copy').'</a>' : '').
 				'<a href="'.ADMINSCRIPT.'?action=forums&operation=delete&fid='.$forum['fid'].'&formhash='.FORMHASH.$vfidstr.'" title="'.cplang('forums_delete_comment').'" class="act">'.cplang('delete').'</a></td></tr>';
@@ -121,7 +121,7 @@ function showforum_moderators($forum) {
 				$mods[] = $forum['inheritedmod'] ? '<b>'.$moderator.'</b>' : $moderator;
 			}
 			$r = '<a href="'.ADMINSCRIPT.'?action=forums&operation=moderators&fid='.$forum['fid'].'" title="'.cplang('forums_moderators_comment').'">'.$r.' &raquo;</a>';
-			$r .= '<div class="dropmenu1" id="mods_'.$forum['fid'].'_menu" style="display: none">'.implode('<br />', $mods).'</div>';
+			$r .= '<div class="dropmenu1" id="mods_'.$forum['fid'].'_menu" style="display: none">'.implode('<br>', $mods).'</div>';
 		} else {
 			$r = '<a href="'.ADMINSCRIPT.'?action=forums&operation=moderators&fid='.$forum['fid'].'" title="'.cplang('forums_moderators_comment').'">'.$r.' &raquo;</a>';
 		}
@@ -147,12 +147,12 @@ function getthreadclasses_html($fid) {
 			$moderatorschecked = ' checked="checked"';
 		}
 		$typeselect .= showtablerow('', ['class="td25"'], [
-			"<input type=\"checkbox\" class=\"checkbox\" name=\"threadtypesnew[options][delete][]\" value=\"{$type['typeid']}\" />",
-			"<input type=\"text\" size=\"2\" name=\"threadtypesnew[options][displayorder][{$type['typeid']}]\" value=\"{$type['displayorder']}\" />",
-			"<input type=\"text\" name=\"threadtypesnew[options][name][{$type['typeid']}]\" value=\"".(str_replace(["'", "\""], [], $type['name']))."\" />",
-			"<input type=\"text\" name=\"threadtypesnew[options][icon][{$type['typeid']}]\" value=\"{$type['icon']}\" />",
-			'<input type="checkbox" name="threadtypesnew[options][enable]['.$type['typeid'].']" value="1" class="checkbox"'.$enablechecked.' />',
-			"<input type=\"checkbox\" class=\"checkbox\" name=\"threadtypesnew[options][moderators][{$type['typeid']}]\" value=\"1\"{$moderatorschecked} />",
+			"<input type=\"checkbox\" class=\"checkbox\" name=\"threadtypesnew[options][delete][]\" value=\"{$type['typeid']}\">",
+			"<input type=\"text\" size=\"2\" name=\"threadtypesnew[options][displayorder][{$type['typeid']}]\" value=\"{$type['displayorder']}\">",
+			"<input type=\"text\" name=\"threadtypesnew[options][name][{$type['typeid']}]\" value=\"".(str_replace(["'", "\""], [], $type['name']))."\">",
+			"<input type=\"text\" name=\"threadtypesnew[options][icon][{$type['typeid']}]\" value=\"{$type['icon']}\">",
+			'<input type="checkbox" name="threadtypesnew[options][enable]['.$type['typeid'].']" value="1" class="checkbox"'.$enablechecked.'>',
+			"<input type=\"checkbox\" class=\"checkbox\" name=\"threadtypesnew[options][moderators][{$type['typeid']}]\" value=\"1\"{$moderatorschecked}>",
 		], TRUE);
 	}
 	return $typeselect;
@@ -203,12 +203,12 @@ function showrulerow($rule, $sub = 0) {
 		}
 		$readonly = ' readonly="readonly" style="display:none;"';
 	}
-	$usecustom = '<input type="checkbox" name="usecustom['.$rule['rid'].']" onclick="modifystate(this);" value="1" class="checkbox" '.$checked.' />';
+	$usecustom = '<input type="checkbox" name="usecustom['.$rule['rid'].']" onclick="modifystate(this);" value="1" class="checkbox" '.$checked.'>';
 	$tdarr = [$sub ? '<div class="board">&nbsp;</div>' : $rule['rulename'], $rule['rid'] ? cplang('setting_credits_policy_cycletype_'.$rule['cycletype']).($rule['cycletype'] != $globalrule['cycletype'] ? '&nbsp;&nbsp;<del style="color:#9f9f9f;">('.cplang('setting_credits_policy_cycletype_'.$globalrule['cycletype']).')</del>' : '') : 'N/A', $rule['rid'] && $rule['cycletype'] ? $rule['rewardnum'] : 'N/A', $usecustom];
 
 	for($i = 1; $i <= 8; $i++) {
 		if($_G['setting']['extcredits'][$i]) {
-			array_push($tdarr, $sub ? '' : '<input type="text" name="creditnew['.$rule['rid'].']['.$i.']" class="txt smtxt" value="'.$rule['extcredits'.$i].'" '.$readonly.' /><span class="sml">('.($globalrule['extcredits'.$i]).')</span>');
+			array_push($tdarr, $sub ? '' : '<input type="text" name="creditnew['.$rule['rid'].']['.$i.']" class="txt smtxt" value="'.$rule['extcredits'.$i].'" '.$readonly.'><span class="sml">('.($globalrule['extcredits'.$i]).')</span>');
 		}
 	}
 	$opstr = '<a href="'.ADMINSCRIPT.'?action=credits&operation=edit&rid='.$rule['rid'].'&fid='.$fid.'" title="" class="act">'.cplang('edit').'</a>';

@@ -20,18 +20,18 @@
 	<form id="cform" name="cform" action="$form_url" method="post" autocomplete="off">
 		<div class="post_from post_box cl">
 		<!--{if !empty($topicid) }-->
-			<input type="hidden" name="referer" value="$topicurl#comment" />
+			<input type="hidden" name="referer" value="$topicurl#comment">
 					<input type="hidden" name="topicid" value="$topicid">
 		<!--{else}-->
 			<input type="hidden" name="portal_referer" value="$viewurl#comment">
-			<input type="hidden" name="referer" value="$viewurl#comment" />
-			<input type="hidden" name="id" value="$data[id]" />
-			<input type="hidden" name="idtype" value="$data[idtype]" />
+			<input type="hidden" name="referer" value="$viewurl#comment">
+			<input type="hidden" name="id" value="$data[id]">
+			<input type="hidden" name="idtype" value="$data[idtype]">
 			<input type="hidden" name="aid" value="$aid">
 		<!--{/if}-->
 			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<input type="hidden" name="replysubmit" value="true">
-			<input type="hidden" name="commentsubmit" value="true" />
+			<input type="hidden" name="commentsubmit" value="true">
 			<ul class="mb10 cl">
 				<li class="mtext">
 					<textarea name="message" rows="3" class="pt" id="message" placeholder="{lang comment}" ></textarea>

@@ -59,7 +59,7 @@ template: 模板中用 {字段名} 引用相应的列表字段
 	function show($option, $params) {
 		static $header = '';
 		if(!$header) {
-			$header = '<style type="text/css">
+			$header = '<style>
 .enhcomp {
 	width: auto !important;
 }
@@ -246,23 +246,23 @@ function threadTypeAddRow(id) {
 				if($value !== null && !empty($col['mask'])) {
 					$mvalue = dhtmlspecialchars(authcode(json_encode([$value, $col['mask']]), 'ENCODE'));
 					$value = $this->__get_maskvalue($value, $col['mask']);
-					$append = '<input type="hidden" name="'.$var['variable'].'['.$i.']['.$col['field'].'._mask_]" value="'.$mvalue.'" />';
+					$append = '<input type="hidden" name="'.$var['variable'].'['.$i.']['.$col['field'].'._mask_]" value="'.$mvalue.'">';
 				}
 				$paramstr = $value !== null ? ' value="'.dhtmlspecialchars($value).'"' : '';
 				$paramstr .= $col['maxlen'] ? ' maxlength="'.$col['maxlen'].'"' : '';
-				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.' />'.$append;
+				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.'>'.$append;
 			case 'radio':
 				$str = '';
 				foreach($col['options'] as $opt) {
 					$checked = $value !== null && $opt['value'] == $value || $default && $opt['default'] ? ' checked' : '';
-					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="radio" value="'.$opt['value'].'"'.$checked.' />'.$opt['name'].'</label>';
+					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="radio" value="'.$opt['value'].'"'.$checked.'>'.$opt['name'].'</label>';
 				}
 				return $str;
 			case 'checkbox':
 				$str = '';
 				foreach($col['options'] as $opt) {
 					$checked = $value !== null && in_array($opt['value'], $value) || $default && $opt['default'] ? ' checked' : '';
-					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].'][]" type="checkbox" value="'.$opt['value'].'"'.$checked.' />'.$opt['name'].'</label>';
+					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].'][]" type="checkbox" value="'.$opt['value'].'"'.$checked.'>'.$opt['name'].'</label>';
 				}
 				return $str;
 			case 'select':
@@ -274,7 +274,7 @@ function threadTypeAddRow(id) {
 				return $str.'</select>';
 			case 'album':
 				$paramstr = $value !== null ? ' value="'.dhtmlspecialchars($value).'"' : '';
-				$str = '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.' />';
+				$str = '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.'>';
 				return $str.(!defined('IN_MOBILE') ? '<a href="javascript:;" onclick="openAlbumWindow(this.previousElementSibling)" class="albumBtn"></a>' : '');
 		}
 	}

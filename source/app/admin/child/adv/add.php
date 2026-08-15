@@ -41,7 +41,7 @@ if(!submitcheck('advsubmit')) {
 	shownav('extended', 'adv_admin');
 	showchildmenu([['adv_admin', 'adv'], [!empty($_GET['from']) ? cplang('adv_admin_listall') : $advtitle.' ', $returnurl]], ($operation == 'edit' ? $adv['title'] : cplang('adv_add')));
 
-	echo '<br />';
+	echo '<br>';
 
 	$targets = [];
 	foreach($advclass->targets as $target) {
@@ -55,7 +55,7 @@ if(!submitcheck('advsubmit')) {
 					$customv[] = $et;
 				}
 			}
-			$targets[] = [$target, '<input title="'.cplang('adv_custom_target').'" name="advnew[targetcustom]" value="'.implode(',', $customv).'" />'];
+			$targets[] = [$target, '<input title="'.cplang('adv_custom_target').'" name="advnew[targetcustom]" value="'.implode(',', $customv).'">'];
 		}
 	}
 	$imagesizes = '';
@@ -71,8 +71,8 @@ if(!submitcheck('advsubmit')) {
 	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>'.
 		'<div class="colorbox"><h4>'.lang('adv/'.$type, $advclass->name).'</h4>'.
 		'<table><tr><td style="padding:3px">'.
-		(count($etype) > 1 && preg_match('/^[\w\_:]+$/', $type) ? (file_exists(DISCUZ_PLUGIN($etype[0]).'/adv/adv_'.$etype[1].'.gif') ? '<img src="source/plugin/'.$etype[0].'/adv/adv_'.$etype[1].'.gif" />' : '')
-			: (file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$type.'.gif') ? '<img src="static/image/admincp/'.$type.'.gif" />' : '')).
+		(count($etype) > 1 && preg_match('/^[\w\_:]+$/', $type) ? (file_exists(DISCUZ_PLUGIN($etype[0]).'/adv/adv_'.$etype[1].'.gif') ? '<img src="source/plugin/'.$etype[0].'/adv/adv_'.$etype[1].'.gif">' : '')
+			: (file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$type.'.gif') ? '<img src="static/image/admincp/'.$type.'.gif">' : '')).
 		'</td><td valign="top" style="padding:3px">'.lang('adv/'.$type, $advclass->description).'</td></tr></table>'.
 		'<div style="width:95%" align="right">'.lang('adv/'.$type, $advclass->copyright).'</div></div>';
 	if($operation == 'edit') {

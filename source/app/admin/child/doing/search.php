@@ -40,7 +40,7 @@ if(!$error) {
 		foreach($query as $doing) {
 			$doing['dateline'] = dgmdate($doing['dateline']);
 			$doings .= showtablerow('', '', [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$doing['doid']}\"  />",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$doing['doid']}\">",
 				"<a href=\"home.php?mod=space&uid={$doing['uid']}\" target=\"_blank\">{$doing['username']}</a>",
 				$doing['message'],
 				$doing['ip'],

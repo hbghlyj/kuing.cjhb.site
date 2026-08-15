@@ -35,7 +35,7 @@ formula: 按照权限公式表达式方式显示
 	function show(&$var, &$extra) {
 		static $css = null;
 		if($css === null) {
-			$css = '<style type="text/css">
+			$css = '<style>
 .component_perm .pbox {
 	padding: 10px;
 	border: 1px dotted var(--admincp-borderc);
@@ -126,7 +126,7 @@ formula: 按照权限公式表达式方式显示
 				$perms .= '</p>';
 				foreach($items as $item) {
 					!empty($item[2]) && $cv .= '['.$item[1].'] ';
-					$perms .= '<label><input class="checkbox" name="'.$var['variable'].'[]" onclick="perm_preview(\''.$var['variable'].'\', \''.$item[1].'\', 0)" value="'.$item[0].'" type="checkbox"'.(!empty($item[2]) ? ' checked' : '').' />'.$item[1].'</label>';
+					$perms .= '<label><input class="checkbox" name="'.$var['variable'].'[]" onclick="perm_preview(\''.$var['variable'].'\', \''.$item[1].'\', 0)" value="'.$item[0].'" type="checkbox"'.(!empty($item[2]) ? ' checked' : '').'>'.$item[1].'</label>';
 				}
 				$perms .= '</div><p></p>';
 			}

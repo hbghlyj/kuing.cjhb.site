@@ -20,24 +20,24 @@
 			<div class="template_switch">
 				<div class="switch_top">
 					<p>
-						<label><input type="radio" class="radio" name="defaultnew" value="$id" $isdefault /> {$lang['styles_default0']}</label>
+						<label><input type="radio" class="radio" name="defaultnew" value="$id" $isdefault> {$lang['styles_default0']}</label>
 					</p>
 					<!--{if $d2exists}-->
-						<p><label><input type="radio" class="radio" name="defaultnew2" value="$id" {$isdefault2} /> {$lang['styles_default2']}</label></p>
+						<p><label><input type="radio" class="radio" name="defaultnew2" value="$id" {$isdefault2}> {$lang['styles_default2']}</label></p>
 					<!--{else}-->
-						<p class="lightfont"><label><input type="radio" class="radio" disabled readonly /> {$lang['styles_default2']}</label></p>
+						<p class="lightfont"><label><input type="radio" class="radio" disabled readonly> {$lang['styles_default2']}</label></p>
 					<!--{/if}-->
 					<!--{if $d3exists}-->
-						<p><label><input type="radio" class="radio" name="defaultnew3" value="$id" {$isdefault3} /> {$lang['styles_default3']}</label></p>
+						<p><label><input type="radio" class="radio" name="defaultnew3" value="$id" {$isdefault3}> {$lang['styles_default3']}</label></p>
 					<!--{else}-->
-						<p class="lightfont"><label><input type="radio" class="radio" disabled readonly /> {$lang['styles_default3']}</label></p>
+						<p class="lightfont"><label><input type="radio" class="radio" disabled readonly> {$lang['styles_default3']}</label></p>
 					<!--{/if}-->
 					<p>
 						<label>
 							<!--{if $isdefault || $isdefault1 || $isdefault2 || $isdefault3}-->
-							<input class="checkbox" type="checkbox" disabled="disabled" />
+							<input class="checkbox" type="checkbox" disabled="disabled">
 							<!--{else}-->
-							<input class="checkbox" type="checkbox" name="delete[]" value="{$id}" />
+							<input class="checkbox" type="checkbox" name="delete[]" value="{$id}">
 							<!--{/if}-->
 							{$lang['styles_uninstall']}
 						</label>
@@ -92,6 +92,6 @@
 
 		</div>
 	<!--{/if}-->
-	<div class="template_bottom"><input type="text" class="txt" name="namenew[{$id}]" value="{$style['name']}" style="margin:0; width: 204px;" /></div>
+	<div class="template_bottom"><input type="text" class="txt" name="namenew[{$id}]" value="{$style['name']}" style="margin:0; width: 204px;"></div>
 </div>
 <!--{/block}-->

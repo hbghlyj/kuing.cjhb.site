@@ -133,12 +133,12 @@ if(submitcheck('batchsubmit', true)) {
 		$multipage = multi($count, $perpage, $page, $mpurl);
 	}
 
-	$batchradio = '<input type="radio" name="optype" value="recover" id="op_recover" class="radio" /><label for="op_recover">'.cplang('article_trash_recover').'</label>&nbsp;&nbsp;';
-	$batchradio .= '<input type="radio" name="optype" value="delete" id="op_delete" class="radio" /><label for="op_delete">'.cplang('article_trash_delete').'</label>&nbsp;&nbsp;';
-	$batchradio .= '<input type="radio" name="optype" value="clear" id="op_clear" class="radio" style="display:none;"/><input type="hidden" name="batchsubmit" value="yes" />';
-	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'
-		.$batchradio.'<input type="submit" class="btn" name="batchbutton" value="'.cplang('submit').'" />
-					<input type="button" class="btn" name="clearbutton" value="'.cplang('article_clear_trash').'" onclick="if(confirm(\''.cplang('article_clear_trash_confirm').'?\')){this.form.optype[2].checked=\'checked\';this.form.submit();}"/>', $multipage);
+	$batchradio = '<input type="radio" name="optype" value="recover" id="op_recover" class="radio"><label for="op_recover">'.cplang('article_trash_recover').'</label>&nbsp;&nbsp;';
+	$batchradio .= '<input type="radio" name="optype" value="delete" id="op_delete" class="radio"><label for="op_delete">'.cplang('article_trash_delete').'</label>&nbsp;&nbsp;';
+	$batchradio .= '<input type="radio" name="optype" value="clear" id="op_clear" class="radio" style="display:none;"><input type="hidden" name="batchsubmit" value="yes">';
+	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'
+		.$batchradio.'<input type="submit" class="btn" name="batchbutton" value="'.cplang('submit').'">
+					<input type="button" class="btn" name="clearbutton" value="'.cplang('article_clear_trash').'" onclick="if(confirm(\''.cplang('article_clear_trash_confirm').'?\')){this.form.optype[2].checked=\'checked\';this.form.submit();}">', $multipage);
 	showtablefooter();
 	showformfooter();
 }

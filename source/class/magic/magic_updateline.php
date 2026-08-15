@@ -54,7 +54,7 @@ class magic_updateline {
 
 		magic_check_idtype($id, $idtype);
 		magicshowtips(lang('magic/updateline', 'updateline_info'));
-		echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="hidden" name="idtype" value="'.$idtype.'" /></p>';
+		echo '<p><input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="idtype" value="'.$idtype.'"></p>';
 	}
 
 }

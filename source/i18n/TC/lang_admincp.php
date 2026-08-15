@@ -22,7 +22,7 @@ $lang =
 	'req_not_found' => '您當前系統環境內未安裝或開啓 {req} 模組，程式無法按預期正常運行。我們強烈建議您安裝或開啓此模組，以滿足程式正常運行的最低要求。',
 	'req_ok' => '您當前系統環境適合當前版本的 Discuz! {version}。',
 	'subscribe_comsenz_email' => '填寫您的郵件地址，訂閱 Discuz! 官方產品動態、安全提醒、官方新聞',
-	'scan_discuz_qrcode' => '<img src="source/plugin/wechat/image/discuz_qr.jpg" align="left" width="80" /><br />掃描關注Discuz!官方微信<br /><br />獲取官方最新動態',
+	'scan_discuz_qrcode' => '<img src="source/plugin/wechat/image/discuz_qr.jpg" align="left" width="80"><br>掃描關注Discuz!官方微信<br><br>獲取官方最新動態',
 	'yes' => '是',
 	'no' => '否',
 	'hidden' => '隱藏',
@@ -886,7 +886,7 @@ $lang =
 	'setting_access_register_welcomemsgtitle' => '歡迎資訊標題',
 	'setting_access_register_welcomemsgtitle_comment' => '系統發送的歡迎資訊的標題，不支持 HTML，不超過 75 字節。 ',
 	'setting_access_register_welcomemsgtxt' => '歡迎資訊內容',
-	'setting_access_register_welcomemsgtxt_comment' => '系統發送的歡迎資訊的內容。標題內容均支持變量替換，可以使用如下變量:<br />{username} : 用戶名<br />{time} : 發送時間<br />{sitename} : 網站名稱（顯示在頁面底部的聯繫方式處的名稱）<br />{bbname} : 站點名稱（顯示在瀏覽器窗口標題等位置的名稱）<br />{adminemail} : 管理員 Email',
+	'setting_access_register_welcomemsgtxt_comment' => '系統發送的歡迎資訊的內容。標題內容均支持變量替換，可以使用如下變量:<br>{username} : 用戶名<br>{time} : 發送時間<br>{sitename} : 網站名稱（顯示在頁面底部的聯繫方式處的名稱）<br>{bbname} : 站點名稱（顯示在瀏覽器窗口標題等位置的名稱）<br>{adminemail} : 管理員 Email',
 	'setting_access_register_bbrules' => '顯示網站服務條款',
 	'setting_access_register_bbruleforce' => '是否強制顯示網站服務條款',
 	'setting_access_register_bbruleforce_comment' => '選擇是則在用戶註冊時，首先將看到網站服務條款全文，必須同意纔可以繼續註冊',
@@ -902,7 +902,7 @@ $lang =
 	'setting_access_register_invite' => '開放邀請註冊',
 	'setting_access_register_connect' => '開放QQ註冊',
 	'setting_access_register_send_register_url' => '通過郵件發送註冊鏈接',
-	'setting_access_register_send_register_url_comment' => '開啓後系統會發一條註冊的地址到用戶的郵箱，從該地址鏈接過來的允許註冊，同時建議UCenter中開啓一個郵箱只允許註冊一個賬户<br/>注意：只有在<a href="'.ADMINSCRIPT.'?action=setting&operation=mail">站長 - 郵件設置</a>中完成郵件設置，確保郵件能發送成功下可以開啓該功能 ',
+	'setting_access_register_send_register_url_comment' => '開啓後系統會發一條註冊的地址到用戶的郵箱，從該地址鏈接過來的允許註冊，同時建議UCenter中開啓一個郵箱只允許註冊一個賬户<br>注意：只有在<a href="'.ADMINSCRIPT.'?action=setting&operation=mail">站長 - 郵件設置</a>中完成郵件設置，確保郵件能發送成功下可以開啓該功能 ',
 	'setting_access_register_regverifymobile' => '註冊追加手機短信驗證碼驗證',
 	'setting_access_register_regverifymobile_comment' => '選擇是則在原用戶註冊表單基礎上追加安全手機號驗證，需要使用安全手機號進行手機驗證碼的驗證。',
 	'setting_access_register_loginmobile' => '啓用手機號同步登入註冊功能',
@@ -923,7 +923,7 @@ $lang =
 	'setting_access_register_invite_group' => '邀請註冊用戶初始用戶組',
 	'setting_access_register_invite_group_comment' => '被邀請人的初始用戶組',
 	'setting_access_register_invite_areawhite' => '不受邀請碼限制的地區列表',
-	'setting_access_register_invite_areawhite_comment' => '當用戶處於本列表中的地址時，註冊時不受邀請碼限制。每個地區一行，例如 "北京"(不含引號)，留空爲不設定。<br />注意：如要正確無誤的判斷您 IP 地址所在的地區，請到網上下載 qqwry.dat IP 地址庫檔案上傳到 "source/data/ip/" 目錄下更名爲 wry.dat',
+	'setting_access_register_invite_areawhite_comment' => '當用戶處於本列表中的地址時，註冊時不受邀請碼限制。每個地區一行，例如 "北京"(不含引號)，留空爲不設定。<br>注意：如要正確無誤的判斷您 IP 地址所在的地區，請到網上下載 qqwry.dat IP 地址庫檔案上傳到 "source/data/ip/" 目錄下更名爲 wry.dat',
 	'setting_access_register_invite_ipwhite' => '不受邀請碼限制的 IP 列表',
 	'setting_access_register_invite_ipwhite_comment' => '當用戶處於本列表中的 IP 地址時，註冊時不受邀請碼限制。每個 IP 一行，既可輸入完整地址，也可只輸入 IP 開頭，例如 "192.168."(不含引號) 可匹配 192.168.0.0～192.168.255.255 範圍內的所有地址，留空爲不設定',
 	'setting_access_register_connect_birthday' => 'QQ註冊時必填生日',
@@ -1364,11 +1364,11 @@ $lang =
 	'setting_home_base_domainroot' => '二級域名根域名',
 	'setting_home_realname' => '實名認證',
 	'setting_home_realname_switch' => '開啓實名',
-	'setting_home_realname_switch_comment' => '以下設定只有在開啓實名機制後有效；<br/>注意，開啓實名認證會增加伺服器負擔。 ',
+	'setting_home_realname_switch_comment' => '以下設定只有在開啓實名機制後有效；<br>注意，開啓實名認證會增加伺服器負擔。 ',
 	'setting_home_realname_namecheck' => '實名需手工認證',
 	'setting_home_realname_namecheck_comment' => '設定爲“是”，則用戶填寫的姓名只有在被管理者手工認證後纔算有效。否則，則自動爲認證有效',
 	'setting_home_realname_namechange' => '認證實名可再修改',
-	'setting_home_realname_namechange_comment' => '填寫的姓名經認證有效後，是否允許用戶再次修改姓名。<br/>如果允許修改且手工認證，那麼用戶修改的新姓名需要再次手工認證後方可有效',
+	'setting_home_realname_namechange_comment' => '填寫的姓名經認證有效後，是否允許用戶再次修改姓名。<br>如果允許修改且手工認證，那麼用戶修改的新姓名需要再次手工認證後方可有效',
 	'setting_home_realname_authority' => '未認證實名權限設定',
 	'setting_home_realname_setting' => '實名設定',
 	'setting_home_realname_setting_detail' => '請在“用戶”-“用戶欄目”-“真實姓名”項 設定 是否必填，是否需要審覈 等屬性',
@@ -1427,9 +1427,9 @@ $lang =
 	'setting_home_privacy_default_feed_newreply' => '論壇回帖',
 
 	'setting_home_hotuser' => '推薦成員',
-	'setting_home_hotuser_comment' => '添加格式：<br />請輸入用戶名，每個用戶名一行。<br>例如：<br>admin<br>webmaster<br/>這些用戶將隨機顯示在“站長推薦”欄目中',
+	'setting_home_hotuser_comment' => '添加格式：<br>請輸入用戶名，每個用戶名一行。<br>例如：<br>admin<br>webmaster<br>這些用戶將隨機顯示在“站長推薦”欄目中',
 	'setting_home_hotuser_defaultuser' => '推薦好友',
-	'setting_home_hotuser_defaultuser_comment' => '添加格式：<br />請輸入用戶名，每個用戶名一行。<br>例如：<br>admin<br>webmaster<br>這些用戶會自動將新註冊用戶添加爲好友，並向其打個招呼。
+	'setting_home_hotuser_defaultuser_comment' => '添加格式：<br>請輸入用戶名，每個用戶名一行。<br>例如：<br>admin<br>webmaster<br>這些用戶會自動將新註冊用戶添加爲好友，並向其打個招呼。
 							注意，指定的這幾位用戶瀏覽自己的首頁時，可能會因其好友數眾多而增加服務器負載',
 	'setting_home_hotuser_defaultpoke' => '預設打招呼內容',
 	'setting_home_hotuser_defaultpoke_comment' => '(不要超過25個漢字)設定自動好友向新人打招呼的內容',
@@ -1862,7 +1862,7 @@ $lang =
 	'setting_functions_recommend_iconlevels_comment' => '設定主題列表頁評價圖標每一級別對應的評價指數。建議爲 3 個級別，請用逗號分隔，如：“0,100,200”表示當主題的評價指數大於 0 時爲 1 級，大於 100 時爲 2 級，大於 200 時爲 3 級。1 級及以上級別的主題會在主題列表頁“查看好評主題”中列出。留空或者 0 表示不顯示圖標',
 	'setting_functions_comment' => '帖子點評',
 	'setting_functions_comment_allow' => '帖子點評方式',
-	'setting_functions_comment_allow_comment' => '設定點評的發表方式，如不選擇表示不啓用點評功能。開啓任意一種點評方式都需要在用戶組中設定點評權限<br />“直接點評”即通過帖子每樓層中的“點評”鏈接發表點評<br />“樓層回覆”即通過帖子每樓層中的“回覆”鏈接發表回帖時，自動對該樓層產生點評<br />注意：點擊主題中的“回覆”鏈接，不會對主題產生點評',
+	'setting_functions_comment_allow_comment' => '設定點評的發表方式，如不選擇表示不啓用點評功能。開啓任意一種點評方式都需要在用戶組中設定點評權限<br>“直接點評”即通過帖子每樓層中的“點評”鏈接發表點評<br>“樓層回覆”即通過帖子每樓層中的“回覆”鏈接發表回帖時，自動對該樓層產生點評<br>注意：點擊主題中的“回覆”鏈接，不會對主題產生點評',
 	'setting_functions_comment_allow_1' => '直接點評',
 	'setting_functions_comment_allow_2' => '樓層回覆',
 	'setting_functions_comment_number' => '點評條目數',
@@ -2016,7 +2016,7 @@ $lang =
 	'setting_editor_group' => '允許的用戶組',
 	'setting_editor_group_comment' => '勾選的用戶組允許使用該功能，可以按住 CTRL 多選',
 	'setting_editor_forum' => '允許的版塊',
-	'setting_editor_forum_comment' => '勾選的版塊允許使用該功能，可以按住 CTRL 多選<br/>選中的版塊需要前往 論壇 - 對應版塊 - 編輯 - 帖子選項 中，啓用“允許使用 HTML 代碼”功能。',
+	'setting_editor_forum_comment' => '勾選的版塊允許使用該功能，可以按住 CTRL 多選<br>選中的版塊需要前往 論壇 - 對應版塊 - 編輯 - 帖子選項 中，啓用“允許使用 HTML 代碼”功能。',
 	'setting_editor_anchorparse' => '錨點解析',
 	'setting_editor_anchorparse_comment' => '此處填寫區塊標識，多個用英文逗號分隔，如：paragraph,quote。如果區塊內容存在a標籤的錨點鏈接（href內容以#號開頭，如：#abc），則自動轉爲爲js跳轉方式。',
 	'setting_editor_json_independence' => '是否獨立頁面使用 JSON 編輯器',
@@ -2259,9 +2259,9 @@ $lang =
 	'setting_sec_base_uniqueemail' => '驗證激活郵箱唯一性',
 	'setting_sec_base_uniqueemail_comment' => '選擇是的話，驗證激活的郵箱將唯一性，不允許重複',
 	'setting_sec_base_change_email' => '禁止用戶前臺修改郵箱',
-	'setting_sec_base_change_email_comment' => '選擇是的話，用戶不能通過前臺自行修改賬號綁定的郵箱 <br/> <strong>(棄用)</strong>，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 賬號管理 </strong></a> 菜單中調整“允許用戶修改安全郵箱”設定。',
+	'setting_sec_base_change_email_comment' => '選擇是的話，用戶不能通過前臺自行修改賬號綁定的郵箱 <br> <strong>(棄用)</strong>，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 賬號管理 </strong></a> 菜單中調整“允許用戶修改安全郵箱”設定。',
 	'setting_sec_base_change_secmobile' => '禁止用戶前臺修改安全手機',
-	'setting_sec_base_change_secmobile_comment' => '選擇是的話，用戶不能通過前臺自行修改賬號綁定的安全手機 <br/> <strong>(棄用)</strong>，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 賬號管理 </strong></a> 菜單中調整“允許用戶修改安全手機號”設定。',
+	'setting_sec_base_change_secmobile_comment' => '選擇是的話，用戶不能通過前臺自行修改賬號綁定的安全手機 <br> <strong>(棄用)</strong>，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account"><strong> 安全 - 賬號管理 </strong></a> 菜單中調整“允許用戶修改安全手機號”設定。',
 	'setting_sec_base_need_secmobile' => '強制用戶認證安全手機',
 	'setting_sec_base_need_secmobile_comment' => '選擇是的話，用戶必須認證自己的安全手機後才能進行發佈操作',
 	'setting_sec_base_need_avatar' => '強制用戶上傳頭像',
@@ -2277,7 +2277,7 @@ $lang =
 	'setting_account' => '賬號管理',
 	'setting_account_base' => '基本設定',
 	'setting_sec_base_security_verify' => '啓用賬號管理操作安全驗證',
-	'setting_sec_base_security_verify_comment' => '啓用該功能，用戶在前端 設定 - 賬號管理 - 安全設定 中，進行各項操作前均需要進行安全驗證。如果勾選多項，則前端可由用戶自行選擇驗證方式。沒有勾選任何一項，則不需要進行驗證。 <br/> 使用“驗證安全手機”功能，請在 <a href="'.ADMINSCRIPT.'?action=smsgw"><strong>短信服務</strong></a> 設定中配置短信網關及相關參數。<br/> 使用“驗證安全郵箱”功能，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail"><strong>郵件設定</strong></a> 中開啓郵件服務，並在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail&anchor=seccode"><strong>郵件驗證碼</strong></a> 中設定發送郵件驗證碼相關參數。',
+	'setting_sec_base_security_verify_comment' => '啓用該功能，用戶在前端 設定 - 賬號管理 - 安全設定 中，進行各項操作前均需要進行安全驗證。如果勾選多項，則前端可由用戶自行選擇驗證方式。沒有勾選任何一項，則不需要進行驗證。 <br> 使用“驗證安全手機”功能，請在 <a href="'.ADMINSCRIPT.'?action=smsgw"><strong>短信服務</strong></a> 設定中配置短信網關及相關參數。<br> 使用“驗證安全郵箱”功能，請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail"><strong>郵件設定</strong></a> 中開啓郵件服務，並在 <a href="'.ADMINSCRIPT.'?action=setting&operation=mail&anchor=seccode"><strong>郵件驗證碼</strong></a> 中設定發送郵件驗證碼相關參數。',
 	'setting_sec_base_security_mobile' => '允許用戶修改安全手機號',
 	'setting_sec_base_security_mobile_comment' => '選擇是的話，允許用戶在前端 設定 - 賬號管理 - 安全設定 中，修改安全手機號。 ',
 	'setting_sec_base_security_email' => '允許用戶修改安全郵箱',
@@ -2287,7 +2287,7 @@ $lang =
 	'setting_sec_base_security_question' => '允許用戶修改安全問題',
 	'setting_sec_base_security_question_comment' => '選擇是的話，允許用戶在前端 設定 - 賬號管理 - 安全設定 中，修改安全問題答案。 ',
 	'setting_sec_base_security_logoff' => '允許用戶註銷賬號',
-	'setting_sec_base_security_logoff_comment' => '選擇是的話，允許用戶在前端 設定 - 賬號管理 - 安全設定 中，註銷賬號。  <br/> 請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account&anchor=logoff"><strong>賬戶註銷</strong></a> 菜單中進行詳細參數設定。',
+	'setting_sec_base_security_logoff_comment' => '選擇是的話，允許用戶在前端 設定 - 賬號管理 - 安全設定 中，註銷賬號。  <br> 請在 <a href="'.ADMINSCRIPT.'?action=setting&operation=account&anchor=logoff"><strong>賬戶註銷</strong></a> 菜單中進行詳細參數設定。',
 
 	'security_verify_none' => '無需安全驗證',
 	'security_verify_mobile' => '驗證安全手機',
@@ -2312,13 +2312,13 @@ $lang =
 	'setting_sec_seccode_status_password' => '修改密碼',
 	'setting_sec_seccode_status_card' => '充值卡密及短信驗證',
 	'setting_sec_seccode_status_connect_register' => 'QQ註冊',
-	'setting_sec_seccode_status_comment' => '驗證碼可以避免惡意註冊及惡意灌水，請選擇需要打開驗證碼的操作。注意: 啓用驗證碼會使得部分操作變得繁瑣，建議僅在必需時打開。<br /><strong>充值卡密驗證碼建議一直開啓</strong>',
+	'setting_sec_seccode_status_comment' => '驗證碼可以避免惡意註冊及惡意灌水，請選擇需要打開驗證碼的操作。注意: 啓用驗證碼會使得部分操作變得繁瑣，建議僅在必需時打開。<br><strong>充值卡密驗證碼建議一直開啓</strong>',
 	'setting_sec_seccode_minposts' => '發帖數限制',
 	'setting_sec_seccode_minposts_comment' => '發帖數超過此設定的會員將不受驗證碼功能限制，0 表示所有會員均受限制。僅針對發表資訊及修改密碼時有效',
 	'setting_sec_seccode_loginfailedcount' => '登入失敗時顯示驗證碼',
 	'setting_sec_seccode_loginfailedcount_comment' => '選擇“是”將在用戶登入失敗 3 次後才顯示驗證碼，選擇“否”將始終在登入時顯示驗證碼。注意: 只有在啓用了用戶登入驗證碼時本設定纔有效',
 	'setting_sec_seccode_type' => '驗證碼類型',
-	'setting_sec_seccode_type_comment' => '設定驗證碼的類型。中文圖片驗證碼需要您的主機支持 FreeType 庫<br /><br />驗證碼預覽',
+	'setting_sec_seccode_type_comment' => '設定驗證碼的類型。中文圖片驗證碼需要您的主機支持 FreeType 庫<br><br>驗證碼預覽',
 	'setting_sec_seccode_type_image' => '英文圖片驗證碼',
 	'setting_sec_seccode_type_chnfont' => '中文圖片驗證碼',
 	'setting_sec_seccode_type_wav' => '語音驗證碼',
@@ -2472,13 +2472,13 @@ $lang =
 
 	'setting_datetime_periods' => '時間段設定',
 	'setting_datetime_visitbanperiods' => '禁止訪問時間段',
-	'setting_datetime_visitbanperiods_comment' => '每天該時間段內用戶不能訪問站點，請使用 24 小時時段格式，每個時間段一行，如需要也可跨越零點，留空爲不限制。例如:<br />每日晚 11:25 到次日早 5:05 可設定爲: <i>23:25-5:05</i><br />每日早 9:00 到當日下午 2:30 可設定爲: <i>9:00-14:30</i><br />注意: 格式不正確將可能導致意想不到的問題，用戶組中如開啓“不受時間段限制”的選項，則該組可不被任何時間段設定約束。所有時間段設定均以站點系統預設時區爲準，不受用戶自定義時區的影響',
+	'setting_datetime_visitbanperiods_comment' => '每天該時間段內用戶不能訪問站點，請使用 24 小時時段格式，每個時間段一行，如需要也可跨越零點，留空爲不限制。例如:<br>每日晚 11:25 到次日早 5:05 可設定爲: <i>23:25-5:05</i><br>每日早 9:00 到當日下午 2:30 可設定爲: <i>9:00-14:30</i><br>注意: 格式不正確將可能導致意想不到的問題，用戶組中如開啓“不受時間段限制”的選項，則該組可不被任何時間段設定約束。所有時間段設定均以站點系統預設時區爲準，不受用戶自定義時區的影響',
 	'setting_datetime_postbanperiods' => '禁止發帖時間段',
-	'setting_datetime_postbanperiods_comment' => '每天該時間段內用戶不能發帖，請使用 24 小時時段格式，每個時間段一行，如需要也可跨越零點，留空爲不限制。例如:<br />每日晚 11:25 到次日早 5:05 可設定爲: <i>23:25-5:05</i><br />每日早 9:00 到當日下午 2:30 可設定爲: <i>9:00-14:30</i><br />注意: 格式不正確將可能導致意想不到的問題，用戶組中如開啓“不受時間段限制”的選項，則該組可不被任何時間段設定約束。所有時間段設定均以站點系統預設時區爲準，不受用戶自定義時區的影響',
+	'setting_datetime_postbanperiods_comment' => '每天該時間段內用戶不能發帖，請使用 24 小時時段格式，每個時間段一行，如需要也可跨越零點，留空爲不限制。例如:<br>每日晚 11:25 到次日早 5:05 可設定爲: <i>23:25-5:05</i><br>每日早 9:00 到當日下午 2:30 可設定爲: <i>9:00-14:30</i><br>注意: 格式不正確將可能導致意想不到的問題，用戶組中如開啓“不受時間段限制”的選項，則該組可不被任何時間段設定約束。所有時間段設定均以站點系統預設時區爲準，不受用戶自定義時區的影響',
 	'setting_datetime_postmodperiods' => '發帖審覈時間段',
 	'setting_datetime_postmodperiods_comment' => '每天該時間段內用戶發帖不直接顯示，需經版主或管理員人工審覈才能發表，格式和用法同上',
 	'setting_datetime_postignorearea' => '發帖不受時間限制的地區列表',
-	'setting_datetime_postignorearea_comment' => '當用戶處於本列表中的地址時，發帖不受時間段限制。每個地區一行，例如 "北京"(不含引號)，留空爲不設定。<br />注意：如要正確無誤的判斷您 IP 地址所在的地區，請到網上下載 qqwry.dat IP 地址庫檔案上傳到 "source/data/ip/" 目錄下更名爲 wry.dat',
+	'setting_datetime_postignorearea_comment' => '當用戶處於本列表中的地址時，發帖不受時間段限制。每個地區一行，例如 "北京"(不含引號)，留空爲不設定。<br>注意：如要正確無誤的判斷您 IP 地址所在的地區，請到網上下載 qqwry.dat IP 地址庫檔案上傳到 "source/data/ip/" 目錄下更名爲 wry.dat',
 	'setting_datetime_postignoreip' => '發帖不受時間限制的IP列表',
 	'setting_datetime_postignoreip_comment' => '當用戶處於本列表中的 IP 地址時，發帖不受時間段限制。每個 IP 一行，既可輸入完整地址，也可只輸入 IP 開頭，例如 "192.168."(不含引號) 可匹配 192.168.0.0～192.168.255.255 範圍內的所有地址，留空爲不設定',
 	'setting_datetime_searchbanperiods' => '禁止全文搜尋時間段',
@@ -2707,17 +2707,17 @@ $lang =
 	'settings_sphinx_sphinxport' => '設定 Sphinx 主機端口',
 	'settings_sphinx_sphinxport_comment' => '填寫 Sphinx 主機端口：例如，3312，主機名填寫 socket 地址的，則此處不需要設定',
 	'settings_sphinx_sphinxsubindex' => '設定標題索引名',
-	'settings_sphinx_sphinxsubindex_comment' => '填寫 Sphinx 配置中的標題主索引名及標題增量索引名：例如，“threads,threads_minute”。<br />注意：多個索引使用半角逗號 "," 隔開，必須按照 Sphinx 配置檔案中的索引名填寫',
+	'settings_sphinx_sphinxsubindex_comment' => '填寫 Sphinx 配置中的標題主索引名及標題增量索引名：例如，“threads,threads_minute”。<br>注意：多個索引使用半角逗號 "," 隔開，必須按照 Sphinx 配置檔案中的索引名填寫',
 	'settings_sphinx_sphinxmsgindex' => '設定全文索引名',
-	'settings_sphinx_sphinxmsgindex_comment' => '填寫 Sphinx 配置中的全文主索引名及全文增量索引名：例如，“posts,posts_minute”。<br />注意：多個索引使用半角逗號 "," 隔開，必須按照 Sphinx 配置檔案中的索引名填寫',
+	'settings_sphinx_sphinxmsgindex_comment' => '填寫 Sphinx 配置中的全文主索引名及全文增量索引名：例如，“posts,posts_minute”。<br>注意：多個索引使用半角逗號 "," 隔開，必須按照 Sphinx 配置檔案中的索引名填寫',
 	'settings_sphinx_sphinxmaxquerytime' => '設定最大搜尋時間',
 	'settings_sphinx_sphinxmaxquerytime_comment' => '填寫最大搜尋時間，以毫秒爲單位。參數必須是非負整數。預設值爲 0，意思是不做限制',
 	'settings_sphinx_sphinxlimit' => '設定最大返回匹配項數目',
 	'settings_sphinx_sphinxlimit_comment' => '填寫最大返回匹配項數目，必須是非負整數，預設值10000',
 	'settings_sphinx_sphinxrank' => '設定全文索引評分模式',
 	'settings_sphinx_sphinxrank_comment' => '(1)SPH_RANK_PROXIMITY_BM25， 預設模式，同時使用詞組評分和 BM25 評分，並且將二者結合。[預設]
-<br />(2)SPH_RANK_BM25，統計相關度計算模式，僅使用 BM25 評分計算(與大多數全文檢索引擎相同)。這個模式比較快，但是可能使包含多個詞的查詢的結果質量下降。
-<br />(3)SPH_RANK_NONE，禁用評分的模式，這是最快的模式。實際上這種模式與布爾搜索相同。所有的匹配項都被賦予權重1',
+<br>(2)SPH_RANK_BM25，統計相關度計算模式，僅使用 BM25 評分計算(與大多數全文檢索引擎相同)。這個模式比較快，但是可能使包含多個詞的查詢的結果質量下降。
+<br>(3)SPH_RANK_NONE，禁用評分的模式，這是最快的模式。實際上這種模式與布爾搜索相同。所有的匹配項都被賦予權重1',
 
 	'setting_ranklist' => '排行榜設定',
 	'setting_ranklist_all' => '全部',
@@ -2840,21 +2840,21 @@ $lang =
 	'setting_mobile_forums' => '版塊設定',
 	'setting_mobile_status_tips' => '<li>本手機功能頁僅支持WAP2.0(XHTML方式)以上的手機瀏覽器進行訪問。</li>',
 	'setting_mobile_allowmobile' => '開啓手機版',
-	'setting_mobile_allowmobile_comment' => '開啓本功能，用戶使用手機訪問論壇時，將自動跳轉到手機版界面<br />手機訪問域名配置請進入: <a href="'.ADMINSCRIPT.'?action=domain&operation=app">全局 - 域名設定 - 應用域名</a><br />底部導航設定請進入：<a href="'.ADMINSCRIPT.'?action=nav&operation=footernav">界面 - 導航設定 - 底部導航</a>',
+	'setting_mobile_allowmobile_comment' => '開啓本功能，用戶使用手機訪問論壇時，將自動跳轉到手機版界面<br>手機訪問域名配置請進入: <a href="'.ADMINSCRIPT.'?action=domain&operation=app">全局 - 域名設定 - 應用域名</a><br>底部導航設定請進入：<a href="'.ADMINSCRIPT.'?action=nav&operation=footernav">界面 - 導航設定 - 底部導航</a>',
 	'setting_mobile_allowmnew' => '啓用本地化微社區前端',
-	'setting_mobile_allowmnew_comment' => '使用本地化微社區前端，本地化微社區前端的 URL 爲“'.$_G['siteurl'].'m/”。<br />開啓後本前端體系將替換原有的手機版體系，但<b>不支持第三方插件以及搜尋引擎收錄，請謹慎使用</b>',
+	'setting_mobile_allowmnew_comment' => '使用本地化微社區前端，本地化微社區前端的 URL 爲“'.$_G['siteurl'].'m/”。<br>開啓後本前端體系將替換原有的手機版體系，但<b>不支持第三方插件以及搜尋引擎收錄，請謹慎使用</b>',
 	'setting_mobile_mobileforward' => '開啓手機瀏覽器自動跳轉',
 	'setting_mobile_mobileforward_comment' => '開啓後用戶使用手機瀏覽器訪問社區論壇功能頁以外頁面時自動跳轉到論壇首頁進行訪問',
 	'setting_mobile_preview' => '開啓電腦訪問手機版預覽功能',
 	'setting_mobile_preview_comment' => '當電腦瀏覽器訪問手機版時，給予用戶引導手機登入的預覽頁面，用戶可以在電腦版中預覽手機版首頁',
 	'setting_mobile_register' => '是否允許手機版註冊',
-	'setting_mobile_register_comment' => '是否開啓手機版註冊功能，手機註冊不會對用戶欄目中的註冊頁必填項進行檢測<br />請謹慎開啓',
+	'setting_mobile_register_comment' => '是否開啓手機版註冊功能，手機註冊不會對用戶欄目中的註冊頁必填項進行檢測<br>請謹慎開啓',
 	'setting_mobile_simpletype' => '開啓無圖模式',
 	'setting_mobile_simpletype_comment' => '預設顯示圖片，開啓後，手機版不顯示帖子圖片',
 	'setting_mobile_cachetime' => '頁面瀏覽快取時間',
-	'setting_mobile_cachetime_comment' => '設定訪問過的頁面在用戶手機上保存的時間，留空或0爲不快取<br />單位：秒',
+	'setting_mobile_cachetime_comment' => '設定訪問過的頁面在用戶手機上保存的時間，留空或0爲不快取<br>單位：秒',
 	'setting_mobile_come_from' => '手機發帖來源自定義',
-	'setting_mobile_come_from_comment' => '預設留空，如果填寫，將在看帖頁面"來自手機"處增加自定義文字或圖標<br />如:&lt;a href=\'http://m.x.com\'&gt;手機頻道&lt;/a&gt;<br />此處支持HTML標籤有：&lt;a&gt;&lt;font&gt;&lt;span&gt;&lt;strong&gt;&lt;b&gt;&lt;img&gt;<br />如果使用圖標，請保證圖片高度在16px(像素)以內',
+	'setting_mobile_come_from_comment' => '預設留空，如果填寫，將在看帖頁面"來自手機"處增加自定義文字或圖標<br>如:&lt;a href=\'http://m.x.com\'&gt;手機頻道&lt;/a&gt;<br>此處支持HTML標籤有：&lt;a&gt;&lt;font&gt;&lt;span&gt;&lt;strong&gt;&lt;b&gt;&lt;img&gt;<br>如果使用圖標，請保證圖片高度在16px(像素)以內',
 	'setting_mobile_portal_catnav' => '開啓首頁頻道導航',
 	'setting_mobile_portal_catnav_comment' => '開啓後門戶首頁將顯示一級頻道作爲導航',
 	'setting_mobile_portal_wzpicture' => '首頁顯示文章幻燈片',
@@ -2866,7 +2866,7 @@ $lang =
 	'setting_mobile_forum_forumindex_grid' => '首頁四格',
 	'setting_mobile_forum_forumindex_forumlist' => '論壇版塊',
 	'setting_mobile_forum_forumindex_forumgrid' => '論壇版塊含首頁四格',
-	'setting_mobile_forum_forumindex_comment' => '選擇導讀需要開啓導讀功能；<br />選擇首頁四格需要開啓首頁四格功能；',
+	'setting_mobile_forum_forumindex_comment' => '選擇導讀需要開啓導讀功能；<br>選擇首頁四格需要開啓首頁四格功能；',
 	'setting_mobile_forum_statshow' => '顯示統計資訊',
 	'setting_mobile_forum_statshow_comment' => '開啓後將在論壇首頁頂部顯示論壇統計資訊，僅在論壇首頁樣式爲論壇版塊或論壇版塊含首頁四格模式下顯示',
 	'setting_mobile_forum_onlineshow' => '顯示在線會員',
@@ -2874,11 +2874,11 @@ $lang =
 	'setting_mobile_forum_displayorder3' => '是否顯示置頂貼',
 	'setting_mobile_forum_displayorder3_comment' => '手機版功能，在帖子列表頁面中是否顯示置頂貼，否爲不顯示',
 	'setting_mobile_forum_topicperpage' => '每頁顯示主題數',
-	'setting_mobile_forum_topicperpage_comment' => '主題列表頁每頁顯示主題個數，爲空時和界面設定保持一致<br />當此處和界面設定數值不同時會導致手機端和電腦端分頁不一致，請謹慎配置',
+	'setting_mobile_forum_topicperpage_comment' => '主題列表頁每頁顯示主題個數，爲空時和界面設定保持一致<br>當此處和界面設定數值不同時會導致手機端和電腦端分頁不一致，請謹慎配置',
 	'setting_mobile_forum_postperpage' => '主題內每頁顯示帖數',
-	'setting_mobile_forum_postperpage_comment' => '主題內每頁顯示的帖子數目，爲空時和界面設定保持一致<br />當此處和界面設定數值不同時會導致手機端和電腦端分頁不一致，請謹慎配置',
+	'setting_mobile_forum_postperpage_comment' => '主題內每頁顯示的帖子數目，爲空時和界面設定保持一致<br>當此處和界面設定數值不同時會導致手機端和電腦端分頁不一致，請謹慎配置',
 	'setting_mobile_forum_forumview' => '首頁分區展示方式',
-	'setting_mobile_forum_forumview_comment' => '如“收起”，論壇首頁將預設只展示分區標題<br />用戶需點擊分區展開該分區下的版塊列表',
+	'setting_mobile_forum_forumview_comment' => '如“收起”，論壇首頁將預設只展示分區標題<br>用戶需點擊分區展開該分區下的版塊列表',
 	'setting_mobile_forum_mlistwrap' => '版塊列表換行',
 	'setting_mobile_forum_mlistwrap_comment' => '選“是”將橫排超過三個的版塊列表換行顯示，選“否”將滾動顯示',
 	'setting_mobile_forum_iconautowidth' => '版塊圖標寬度自適應',
@@ -2920,7 +2920,7 @@ $lang =
 	'setting_uc_key' => 'UCenter 通信密鑰',
 	'setting_uc_key_comment' => '通信密鑰用於在 UCenter 和 Discuz! 之間傳輸資訊的加密，可包含任何字母及數字，請在 UCenter 與 Discuz! 設定完全相同的通訊密鑰，以確保兩套系統能夠正常通信',
 	'setting_uc_api' => 'UCenter 訪問地址',
-	'setting_uc_api_comment' => '如果您的頭像服務地址發生了改變，請修改此項。不正確的設置可能導致頭像與頭像裁剪功能異常，請小心修改。<br />格式: http://www.sitename.com/api/avatar (最後不要加\'/\')',
+	'setting_uc_api_comment' => '如果您的頭像服務地址發生了改變，請修改此項。不正確的設置可能導致頭像與頭像裁剪功能異常，請小心修改。<br>格式: http://www.sitename.com/api/avatar (最後不要加\'/\')',
 	'setting_uc_ip' => 'UCenter IP 地址',
 	'setting_uc_ip_comment' => '如果您的伺服器無法通過域名訪問 UCenter 或者想通過指定的本機或內網 IP 直連，可以輸入 UCenter 伺服器的 IP 地址',
 	'setting_uc_connect' => 'UCenter 連接方式',
@@ -3040,9 +3040,9 @@ $lang =
 	'forums_edit_basic_banner' => '頂部圖片',
 	'forums_edit_basic_basic_icon_comment' => '版塊名稱和簡介左側的小圖標，可填寫相對或絕對地址',
 	'forums_edit_basic_description' => '版塊簡介',
-	'forums_edit_basic_description_comment' => '將顯示於版塊名稱的下面，提供對本版塊的簡短描述<br />支持內置的 Discuz! 代碼',
+	'forums_edit_basic_description_comment' => '將顯示於版塊名稱的下面，提供對本版塊的簡短描述<br>支持內置的 Discuz! 代碼',
 	'forums_edit_basic_rules' => '本版塊規則',
-	'forums_edit_basic_rules_comment' => '顯示於主題列表頁的當前版塊規則，留空爲不顯示<br />支持內置的 Discuz! 代碼',
+	'forums_edit_basic_rules_comment' => '顯示於主題列表頁的當前版塊規則，留空爲不顯示<br>支持內置的 Discuz! 代碼',
 	'forums_edit_basic_seotitle' => 'title',
 	'forums_edit_basic_keyword' => 'keywords',
 	'forums_edit_basic_keyword_comment' => 'keywords用於搜尋引擎優化，放在 meta 的 keyword 標籤中，多個關鍵字間請用半角逗號 "," 隔開',
@@ -3096,7 +3096,7 @@ $lang =
 	'forums_edit_extend_reply_background' => '快捷回覆框背景圖片',
 	'forums_edit_extend_reply_background_comment' => '設定後將在快速回覆框中展現該圖片',
 	'forums_edit_extend_threadcache' => '頁面快取係數',
-	'forums_edit_extend_threadcache_comment' => '此功能可以將遊客經常訪問的主題臨時快取起來，緩解大型伺服器壓力。係數範圍 0～100，建議數值 20 ～ 40，0 爲關閉快取。在磁盤空間允許的情況下，適當調高快取係數，可以提高快取效果<br />注：版塊設定完畢後請到 全局 -> 優化設定 -> 站點頁面快取設定，調整其快取時間',
+	'forums_edit_extend_threadcache_comment' => '此功能可以將遊客經常訪問的主題臨時快取起來，緩解大型伺服器壓力。係數範圍 0～100，建議數值 20 ～ 40，0 爲關閉快取。在磁盤空間允許的情況下，適當調高快取係數，可以提高快取效果<br>注：版塊設定完畢後請到 全局 -> 優化設定 -> 站點頁面快取設定，調整其快取時間',
 	'forums_edit_extend_relatedgroup' => '關聯圈子/版塊',
 	'forums_edit_extend_relatedgroup_comment' => '填寫被關聯圈子/版塊的fid，以半角逗號 "," 隔開。版塊的主題列表頁將顯示被關聯圈子/版塊的主題',
 	'forums_edit_extend_edit_rules' => '允許版主修改本版塊規則',
@@ -3107,7 +3107,7 @@ $lang =
 	'forums_edit_extend_recommend_sort_auto' => '自動生成',
 	'forums_edit_extend_recommend_sort_manual' => '手動生成',
 	'forums_edit_extend_recommend_sort_mix' => '半自動生成',
-	'forums_edit_extend_recommend_sort_comment' => '自動生成則按照推薦主題規則設定生成推薦列表。<br />手動生成則由版主自行推薦生成推薦列表。<br />半自動生成則和手動方式類似，當手動生成的列表條數不足設定的顯示條數時，將按照推薦主題規則自動補足相差條數',
+	'forums_edit_extend_recommend_sort_comment' => '自動生成則按照推薦主題規則設定生成推薦列表。<br>手動生成則由版主自行推薦生成推薦列表。<br>半自動生成則和手動方式類似，當手動生成的列表條數不足設定的顯示條數時，將按照推薦主題規則自動補足相差條數',
 	'forums_edit_extend_recommend_num' => '推薦主題顯示數量',
 	'forums_edit_extend_recommend_num_comment' => '推薦主題顯示的數量，預設爲 10 條，建議不要超過 20 條',
 	'forums_edit_extend_recommend_imagenum' => '推薦主題圖片附件顯示數量',
@@ -3288,10 +3288,10 @@ $lang =
 	'forums_edit_perm_postattach' => '上傳附件',
 	'forums_edit_perm_postimage' => '上傳圖片',
 	'forums_edit_perm_mask' => '特殊用戶',
-	'forums_edit_perm_forum_comment' => '某權限如果全部未選則表示如下含義:<br />　　瀏覽版塊，全部用戶組具有瀏覽版塊帖子權限；發新話題，除遊客以外的用戶組具有發帖權限；發表回覆，除遊客以外的用戶組具有回覆權限；查看附件，全部用戶組具有下載/查看附件權限；上傳附件，除遊客以外的用戶組具有上傳附件權限；上傳圖片，除遊客以外的用戶組具有上傳圖片權限',
+	'forums_edit_perm_forum_comment' => '某權限如果全部未選則表示如下含義:<br>　　瀏覽版塊，全部用戶組具有瀏覽版塊帖子權限；發新話題，除遊客以外的用戶組具有發帖權限；發表回覆，除遊客以外的用戶組具有回覆權限；查看附件，全部用戶組具有下載/查看附件權限；上傳附件，除遊客以外的用戶組具有上傳附件權限；上傳圖片，除遊客以外的用戶組具有上傳圖片權限',
 	'forums_edit_perm_spview' => '不受限制的用戶組',
 	'forums_edit_perm_formula' => '權限表達式設定',
-	'forums_edit_perm_formula_comment' => '當您設定了權限表達式後，只有符合此表達式的會員纔可以瀏覽本版塊。如 "posts > 100 and extcredits1 > 10" 表示 "發帖數 > 100 並且 威望 > 10"<br />日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可輸入完整地址，也可只輸入 IP 開頭，如 "{10.0.0.1}"、"{192.168.0}"',
+	'forums_edit_perm_formula_comment' => '當您設定了權限表達式後，只有符合此表達式的會員纔可以瀏覽本版塊。如 "posts > 100 and extcredits1 > 10" 表示 "發帖數 > 100 並且 威望 > 10"<br>日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可輸入完整地址，也可只輸入 IP 開頭，如 "{10.0.0.1}"、"{192.168.0}"',
 	'forums_edit_perm_formula_and' => '並且',
 	'forums_edit_perm_formula_or' => '或者',
 	'forums_edit_perm_formula_digestposts' => '精華帖數',
@@ -3358,7 +3358,7 @@ $lang =
 	'threadtype_infotypes_stemplate' => '分類資訊主題顯示模板',
 	'threadtype_infotypes_ptemplate' => '分類資訊發帖顯示模板',
 	'threadtype_infotypes_btemplate' => '分類資訊模組調用顯示模板',
-	'threadtype_infotypes_template_tips' => '<li>如果模板爲空則採用系統預設模板。</li><li>點擊上面的 [插入模板] 鏈接，可以將相關的代碼插入到模板，然後您可以用網頁編輯工具如 DreamWeaver 或者手工進行編輯。</li><li>分類資訊顯示模板支持 HTML，其中{字段變量名}代表該字段的名稱，[字段變量名]代表該字段的具體值。<br />例如有一個字段變量名爲 age，字段名稱爲年齡，會員填寫的數值爲 20。那麼 {age}[agevalue] 這樣的字符串，在模板中將顯示爲年齡 20。</li>',
+	'threadtype_infotypes_template_tips' => '<li>如果模板爲空則採用系統預設模板。</li><li>點擊上面的 [插入模板] 鏈接，可以將相關的代碼插入到模板，然後您可以用網頁編輯工具如 DreamWeaver 或者手工進行編輯。</li><li>分類資訊顯示模板支持 HTML，其中{字段變量名}代表該字段的名稱，[字段變量名]代表該字段的具體值。<br>例如有一個字段變量名爲 age，字段名稱爲年齡，會員填寫的數值爲 20。那麼 {age}[agevalue] 這樣的字符串，在模板中將顯示爲年齡 20。</li>',
 	'threadtype_infotypes_validity' => '是否設定有效期',
 	'threadtype_infotypes_validity_comment' => '此分類資訊是否有有效期限制，過期後將不參與分類資訊搜尋，此有效期在前臺發帖時選擇',
 	'threadtype_super' => '超級分類資訊',
@@ -3423,16 +3423,16 @@ $lang =
 	'threadtype_edit_colsize' => '輸入框寬度(可選)',
 	'threadtype_edit_colsize_comment' => '此寬度設定僅在自定義"分類資訊發帖顯示模板"時生效',
 	'threadtype_edit_select_choices' => '字段內容',
-	'threadtype_edit_select_choices_comment' => '只在項目爲可選時有效，每行一個字段，等號前面爲字段索引(建議用數字)，後面爲內容，例如: <br /><i>1 = 光電鼠標<br />2 = 機械鼠標<br />3 = 沒有鼠標</i><br /><i>1.1 = 黑色光電鼠標</i><br /><i>1.2 = 紅色光電鼠標</i><br /><i>1.2.1 = 藍牙紅色光電鼠標</i><br />注意: <br />1、 "1.2.1 = 藍牙紅色光電鼠標"必須有"1.2 = 紅色光電鼠標"和"1 = 光電鼠標"這兩項<br />2、 "1.2.1"之間不能有空格<br />3、 字段確定後請勿修改索引和內容的對應關係，但仍可以新增字段。如需調換顯示順序，可以通過移動整行的上下位置來實現',
+	'threadtype_edit_select_choices_comment' => '只在項目爲可選時有效，每行一個字段，等號前面爲字段索引(建議用數字)，後面爲內容，例如: <br><i>1 = 光電鼠標<br>2 = 機械鼠標<br>3 = 沒有鼠標</i><br><i>1.1 = 黑色光電鼠標</i><br><i>1.2 = 紅色光電鼠標</i><br><i>1.2.1 = 藍牙紅色光電鼠標</i><br>注意: <br>1、 "1.2.1 = 藍牙紅色光電鼠標"必須有"1.2 = 紅色光電鼠標"和"1 = 光電鼠標"這兩項<br>2、 "1.2.1"之間不能有空格<br>3、 字段確定後請勿修改索引和內容的對應關係，但仍可以新增字段。如需調換顯示順序，可以通過移動整行的上下位置來實現',
 	'threadtype_edit_choices' => '字段內容',
-	'threadtype_edit_choices_comment' => '只在項目爲可選時有效，每行一個字段，等號前面爲字段索引(建議用數字)，後面爲內容，例如: <br /><i>1 = 光電鼠標<br />2 = 機械鼠標<br />3 = 沒有鼠標</i><br />注意: 字段確定後請勿修改索引和內容的對應關係，但仍可以新增字段。如需調換顯示順序，可以通過移動整行的上下位置來實現',
+	'threadtype_edit_choices_comment' => '只在項目爲可選時有效，每行一個字段，等號前面爲字段索引(建議用數字)，後面爲內容，例如: <br><i>1 = 光電鼠標<br>2 = 機械鼠標<br>3 = 沒有鼠標</i><br>注意: 字段確定後請勿修改索引和內容的對應關係，但仍可以新增字段。如需調換顯示順序，可以通過移動整行的上下位置來實現',
 	'threadtype_edit_images_weight' => '圖片最大寬度(可選)',
 	'threadtype_edit_images_height' => '圖片最大高度(可選)',
 	'threadtype_edit_upload_extension' => '允許上傳的檔案類型(可選)',
 	'threadtype_edit_upload_extension_comment' => '允許上傳的檔案類型，留空爲允許上傳所有檔案，各個類型之間用，隔開',
 	'threadtype_edit_area' => '使用幾級分類',
 	'threadtype_edit_profile' => '關聯用戶欄目初始值',
-	'threadtype_edit_profile_comment' => '可以指定某個用戶欄目作爲初始值，方便用戶在發帖時填寫。<br />此項優先於預設值',
+	'threadtype_edit_profile_comment' => '可以指定某個用戶欄目作爲初始值，方便用戶在發帖時填寫。<br>此項優先於預設值',
 	'threadtype_edit_pluginthreadtype' => '擴展類型',
 	'threadtype_edit_pluginthreadtype_comment' => '請選擇插件擴展的分類資訊類型',
 	'threadtype_edit_pluginthreadtype_param' => '類型參數',
@@ -3616,13 +3616,13 @@ $lang =
 	'styles_edit_iconbgcolor' => '風格圖標背景色',
 	'styles_edit_titlebgcolor' => '版塊列表標題背景',
 
-	'styles_edit_bg' => '<br />輸入背景圖片地址<br />輸入附加屬性',
+	'styles_edit_bg' => '<br>輸入背景圖片地址<br>輸入附加屬性',
 	'styles_edit_name' => '界面方案名稱',
 	'styles_edit_name_comment' => '識別界面風格的標誌，請勿使用空格或特殊符號',
 	'styles_edit_tpl' => '匹配模板',
 	'styles_edit_tpl_comment' => '與本套界面風格相匹配的模板名稱',
 	'styles_edit_logo' => '站點 Logo {BOARDIMG},{BOARDLOGO}',
-	'styles_edit_logo_comment' => '可以上傳圖片，或者直接填寫圖片檔案名(按論壇根目錄、擴展圖片目錄、界面基礎圖片目錄識別圖片路徑）<br/>如果需要爲指定模組導航設定自定義Logo，可前往 <a href="'.ADMINSCRIPT.'?action=nav&operation=headernav&frames=yes" target="_blank" style="color: #09C;">界面 - 導航設定 - 導航編輯</a> 功能中進行設定。',
+	'styles_edit_logo_comment' => '可以上傳圖片，或者直接填寫圖片檔案名(按論壇根目錄、擴展圖片目錄、界面基礎圖片目錄識別圖片路徑）<br>如果需要爲指定模組導航設定自定義Logo，可前往 <a href="'.ADMINSCRIPT.'?action=nav&operation=headernav&frames=yes" target="_blank" style="color: #09C;">界面 - 導航設定 - 導航編輯</a> 功能中進行設定。',
 	'styles_edit_searchlogo' => '搜尋 Logo {SEARCHIMG},{SEARCHLOGO}',
 	'styles_edit_touchlogo' => '手機版 Logo {TOUCHIMG},{TOUCHLOGO}',
 	'styles_edit_imgdir' => '界面基礎圖片目錄 {IMGDIR}',
@@ -3632,7 +3632,7 @@ $lang =
 	'styles_edit_smileytype' => '預設表情分類',
 	'styles_edit_hexcolor' => '輸入 16 進制顏色 #RRGGBB',
 	'styles_edit_extstyle' => '擴展配色',
-	'styles_edit_extstyle_comment' => '選擇開放給用戶自由選擇的擴展配色方案<br />要增加新的擴展配色方案，可上傳到風格目錄的 style/ 檔案夾下，如 template/default/style/',
+	'styles_edit_extstyle_comment' => '選擇開放給用戶自由選擇的擴展配色方案<br>要增加新的擴展配色方案，可上傳到風格目錄的 style/ 檔案夾下，如 template/default/style/',
 	'styles_edit_defaultextstyle' => '預設配色',
 
 	'styles_edit_vars' => '模板變量配置',
@@ -3826,7 +3826,7 @@ $lang =
 	'members_edit_statistics' => '統計資訊',
 	'members_edit_uinblack' => '封禁QQ賬號',
 	'members_edit_uinblack_comment' => '把當前用戶的QQ賬號封鎖，封禁後此QQ賬號無法再登入本站點',
-	'members_edit_uinblack_notice' => '<br /><font color="red">警告: 當前用戶未設定獨立密碼，被封禁後將無法登入本站</font>',
+	'members_edit_uinblack_notice' => '<br><font color="red">警告: 當前用戶未設定獨立密碼，被封禁後將無法登入本站</font>',
 	'members_edit_unbind' => '解除QQ賬號綁定狀態',
 	'members_edit_unbind_comment' => '如當前用戶的QQ賬號丟失或者被盜，可以在這裡解除QQ賬號的綁定',
 
@@ -3841,7 +3841,7 @@ $lang =
 	'members_edit_bday' => '生日',
 	'members_edit_bio' => '自我介紹',
 	'members_edit_fields' => '更多自定義資料',
-	'members_edit_fields_comment' => '需要在 用戶欄目 - 更多自定義資料 - 表單類型 - 可選值 中，填寫預設JSON數據結構，此處填寫的內容，要與預設JSON數據結構保持一致。<br/>可以從 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到預設JSON數據結構內容。',
+	'members_edit_fields_comment' => '需要在 用戶欄目 - 更多自定義資料 - 表單類型 - 可選值 中，填寫預設JSON數據結構，此處填寫的內容，要與預設JSON數據結構保持一致。<br>可以從 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到預設JSON數據結構內容。',
 
 	'members_edit_option' => '論壇選項',
 	'members_edit_style' => '界面風格',
@@ -3898,7 +3898,7 @@ $lang =
 	'members_ban_username' => '禁止用戶名',
 	'members_ban_user' => '禁止用戶',
 	'members_ban_type' => '禁止類型',
-	'members_ban_type_comment' => '選正常狀態可以恢復該用戶的普通身份<br/><strong>鎖定用戶</strong>後該用戶將無法訪問及進行任何操作，包括其它用戶也無法訪問該用戶的相關資訊',
+	'members_ban_type_comment' => '選正常狀態可以恢復該用戶的普通身份<br><strong>鎖定用戶</strong>後該用戶將無法訪問及進行任何操作，包括其它用戶也無法訪問該用戶的相關資訊',
 	'members_ban_none' => '正常狀態',
 	'members_ban_post' => '禁止發言',
 	'members_ban_visit' => '禁止訪問',
@@ -4041,7 +4041,7 @@ $lang =
 	'members_newsletter_subject' => '通知標題',
 	'members_newsletter_message' => '通知內容',
 	'members_newsletter_num' => '分批發送數量',
-	'members_newsletter_processing' => '<input type="hidden" name="conditions" value=\'{search_condition}\' />正在處理 從 {current} 到 {next}',
+	'members_newsletter_processing' => '<input type="hidden" name="conditions" value=\'{search_condition}\'>正在處理 從 {current} 到 {next}',
 	'members_newsletter_system' => '以系統身份發送',
 	'members_newsletter_system_comment' => '選中“是”將已係統身份發送，收件人無法回覆',
 	'members_newsletter_empty' => '您還沒羣發送過短訊，您可直接通過“發送通知”和“積分獎懲”中的“發送積分變更通知”發送短訊，發送後在這裡可查看短訊的接收情況',
@@ -4140,7 +4140,7 @@ $lang =
 	'members_profile_edit_validate' => '正則驗證',
 	'members_profile_edit_validate_comment' => '檢驗輸入數據的正則表達式，請慎重修改',
 	'members_profile_edit_choices' => '可選值',
-	'members_profile_edit_choices_comment' => '<strong>非JSON類型：</strong><br />每行一個值，例如輸入:<br />北京<br />上海<br /><br /><strong>JSON類型(此項必填)：</strong><br />此處填寫JSON格式預設值，例如輸入:<br />{ "id": 123, "type": "list", "data": { "d1": "abc", "d2": "efg" } }',
+	'members_profile_edit_choices_comment' => '<strong>非JSON類型：</strong><br>每行一個值，例如輸入:<br>北京<br>上海<br><br><strong>JSON類型(此項必填)：</strong><br>此處填寫JSON格式預設值，例如輸入:<br>{ "id": 123, "type": "list", "data": { "d1": "abc", "d2": "efg" } }',
 	'members_profile_edit_available' => '是否啓用',
 	'members_profile_edit_unchangeable' => '提交後不可修改',
 	'members_profile_edit_needverify' => '修改後需要審覈',
@@ -4394,14 +4394,14 @@ $lang =
 	'founder_patchstatus_error6' => '修復漏洞出現問題，回退時出現問題，請儘快恢復檔案，檔案備份可在同級目錄找到',
 	'founder_patch_tips' => '<li>漏洞修復狀態說明：</li>
 							<li>
-								<em class="fixed">&nbsp;2</em> 文件可能已經修改過，未發現漏洞<br />
-								<em class="fixed">&nbsp;1</em> 完成修復<br />
-								<em class="unfixed">&nbsp;0</em> 未修復<br />
-								<em class="unfixed">-1</em> 漏洞編碼為空，您本地的漏洞資訊數據可能出現問題<br />
-								<em class="unfixed">-2</em> 漏洞修補文件不存在或文件不可修改，請檢查並修改權限為可讀可寫(777)<br />
-								<em class="unfixed">-3</em> 寫入臨時文件出錯，請查看data目錄是否可寫<br />
-								<em class="unfixed">-4</em> ftp方式無法使用，請確認ftp賬號等相關資訊填寫正確<br />
-								<em class="unfixed">-5</em> 複製文件出現問題，請確認源代碼文件目錄及子目錄可讀可寫，或文件可能被鎖，請關閉站點後進行操作<br />
+								<em class="fixed">&nbsp;2</em> 文件可能已經修改過，未發現漏洞<br>
+								<em class="fixed">&nbsp;1</em> 完成修復<br>
+								<em class="unfixed">&nbsp;0</em> 未修復<br>
+								<em class="unfixed">-1</em> 漏洞編碼為空，您本地的漏洞資訊數據可能出現問題<br>
+								<em class="unfixed">-2</em> 漏洞修補文件不存在或文件不可修改，請檢查並修改權限為可讀可寫(777)<br>
+								<em class="unfixed">-3</em> 寫入臨時文件出錯，請查看data目錄是否可寫<br>
+								<em class="unfixed">-4</em> ftp方式無法使用，請確認ftp賬號等相關資訊填寫正確<br>
+								<em class="unfixed">-5</em> 複製文件出現問題，請確認源代碼文件目錄及子目錄可讀可寫，或文件可能被鎖，請關閉站點後進行操作<br>
 								<em class="unfixed">-6</em> 修復漏洞出現問題，回退時出現問題，請儘快恢復文件，文件備份可在同級目錄找到
 							</li>',
 
@@ -4469,7 +4469,7 @@ $lang =
 	'usergroups_edit_basic_visit_none' => '禁止訪問',
 	'usergroups_edit_basic_visit_normal' => '正常訪問',
 	'usergroups_edit_basic_visit_super' => '超級訪問',
-	'usergroups_edit_basic_visit_comment' => '禁止訪問: 禁止用戶瀏覽本站任何頁面<br />正常訪問: 當站點開放的時候，可以正常瀏覽頁面<br />超級訪問: 即便站點關閉也可以訪問，一般用於管理員或站內測試組',
+	'usergroups_edit_basic_visit_comment' => '禁止訪問: 禁止用戶瀏覽本站任何頁面<br>正常訪問: 當站點開放的時候，可以正常瀏覽頁面<br>超級訪問: 即便站點關閉也可以訪問，一般用於管理員或站內測試組',
 	'usergroups_edit_basic_read_access' => '閱讀權限',
 	'usergroups_edit_basic_read_access_comment' => '設定用戶瀏覽帖子或附件的權限級別，範圍 0～255，0 爲禁止用戶瀏覽任何帖子或附件。當用戶的閱讀權限小於帖子或附件的閱讀權限許可(預設時爲 1)時，用戶將不能閱讀該帖子或下載該附件',
 	'usergroups_edit_basic_max_friend_number' => '最多好友數',
@@ -4544,7 +4544,7 @@ $lang =
 
 
 	'usergroups_edit_system' => '用戶組體制',
-	'usergroups_edit_system_tips' => '<li><b><u>晉級用戶組</u></b><br />當用戶組設定爲“晉級用戶組”時，您可以設定一個起始用戶組以及多個從屬用戶組，然後在用戶組列表頁設定積分範圍。</li><li><b><u>非公衆用戶組</u></b><br />當用戶組設定爲“非公衆用戶組”時，無論是以主用戶組的形式，還是以擴展用戶組的形式，均只能由管理員手工將用戶加入本組。</li><li><b><u>公衆用戶組</u></b><br />當本用戶組設定爲“公衆用戶組”，且用戶當前所在的用戶組被允許加入/離開公衆用戶組時，用戶將可以在個人中心將本組設定爲其主用戶組或擴展用戶組。當設爲主用戶組後，相關權限將遵循本用戶組的權限設定；當設爲擴展用戶組後，將能訪問特定的只有本用戶組能夠訪問的論壇版塊。</li><li><b>收費公衆用戶組</b>: <br />您可以選擇要求用戶支付一定的交易積分才能加入本組，用戶支付的交易積分多少，決定了系統允許其擁有本組權限時間的長短。您可以設定用戶擁有本組權限一天，所需支付的交易積分的數額。超過用戶購買的相應期限後，系統會自動去除該用戶相關的用戶組屬性。</li><li><b>免費公衆用戶組</b>: <br />用戶只需在個人中心選擇加入本用戶組，即可擁有本用戶組的權限和頭銜，而不需要付出任何代價。</li>',
+	'usergroups_edit_system_tips' => '<li><b><u>晉級用戶組</u></b><br>當用戶組設定爲“晉級用戶組”時，您可以設定一個起始用戶組以及多個從屬用戶組，然後在用戶組列表頁設定積分範圍。</li><li><b><u>非公衆用戶組</u></b><br>當用戶組設定爲“非公衆用戶組”時，無論是以主用戶組的形式，還是以擴展用戶組的形式，均只能由管理員手工將用戶加入本組。</li><li><b><u>公衆用戶組</u></b><br>當本用戶組設定爲“公衆用戶組”，且用戶當前所在的用戶組被允許加入/離開公衆用戶組時，用戶將可以在個人中心將本組設定爲其主用戶組或擴展用戶組。當設爲主用戶組後，相關權限將遵循本用戶組的權限設定；當設爲擴展用戶組後，將能訪問特定的只有本用戶組能夠訪問的論壇版塊。</li><li><b>收費公衆用戶組</b>: <br>您可以選擇要求用戶支付一定的交易積分才能加入本組，用戶支付的交易積分多少，決定了系統允許其擁有本組權限時間的長短。您可以設定用戶擁有本組權限一天，所需支付的交易積分的數額。超過用戶購買的相應期限後，系統會自動去除該用戶相關的用戶組屬性。</li><li><b>免費公衆用戶組</b>: <br>用戶只需在個人中心選擇加入本用戶組，即可擁有本用戶組的權限和頭銜，而不需要付出任何代價。</li>',
 	'usergroups_edit_system_public' => '公衆用戶組',
 	'usergroups_edit_system_buy' => '收費用戶組',
 	'usergroups_edit_system_free' => '免費用戶組',
@@ -4646,11 +4646,11 @@ $lang =
 	'usergroups_edit_post_edit_time_limit' => '編輯帖子時間限制(分鐘)',
 	'usergroups_edit_post_edit_time_limit_comment' => '帖子作者發帖後超過此時間限制將不能再編輯帖，版主和管理員在 <a href="'.ADMINSCRIPT.'?action=setting&operation=permissions">全局 - 用戶權限</a> 選擇“允許用戶隨時編輯的帖子類型”後不受此限制，0 爲不限制',
 	'usergroups_edit_post_allowcommentpost' => '帖子直接點評',
-	'usergroups_edit_post_allowcommentpost_comment' => '設定允許點評的範圍，如不選擇表示不啓用點評功能<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓直接點評功能，本設定纔會生效',
+	'usergroups_edit_post_allowcommentpost_comment' => '設定允許點評的範圍，如不選擇表示不啓用點評功能<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓直接點評功能，本設定纔會生效',
 	'usergroups_edit_post_allowcommentpost_firstpost' => '點評主題',
 	'usergroups_edit_post_allowcommentpost_reply' => '點評回覆',
 	'usergroups_edit_post_allowcommentreply' => '樓層回覆點評',
-	'usergroups_edit_post_allowcommentreply_comment' => '允許用戶通過點擊帖子中的“回覆”鏈接回覆他人回帖時，自動對該樓層產生點評<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓樓層回覆功能，本設定纔會生效；點擊主題中的“回覆”鏈接，不會對主題產生點評',
+	'usergroups_edit_post_allowcommentreply_comment' => '允許用戶通過點擊帖子中的“回覆”鏈接回覆他人回帖時，自動對該樓層產生點評<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓樓層回覆功能，本設定纔會生效；點擊主題中的“回覆”鏈接，不會對主題產生點評',
 	'usergroups_edit_post_allowat' => '發帖時可 @ 其他人的數量',
 	'usergroups_edit_post_allowat_comment' => '0爲不允許 @ 其他人（包括他關注的人和他的好友）',
 	'usergroups_edit_post_allowsave' => '允許保存草稿',
@@ -4660,7 +4660,7 @@ $lang =
 	'usergroups_edit_post_allowsavenum' => '允許保存草稿的數量',
 	'usergroups_edit_post_allowsavenum_comment' => '設定爲 0 爲不限制用戶保存草稿的數量（高流量站點不建議限制草稿數）',
 	'usergroups_edit_post_allowcommentitem' => '允許用戶在點評時發表觀點',
-	'usergroups_edit_post_allowcommentitem_comment' => '允許用戶在點評時發表觀點<br />注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓直接點評功能，本設定纔會生效',
+	'usergroups_edit_post_allowcommentitem_comment' => '允許用戶在點評時發表觀點<br>注意：只有在 <a href="'.ADMINSCRIPT.'?action=setting&operation=functions&anchor=comment">全局 - 站點功能 - 帖子點評</a> 中開啓直接點評功能，本設定纔會生效',
 	'usergroups_edit_post_allow_down_remote_img' => '允許下載遠程圖片',
 	'usergroups_edit_post_allow_down_remote_img_comment' => '遠程圖片本地化保存',
 	'usergroups_edit_post_allowreplycredit' => '允許設定回帖獎勵',
@@ -5287,7 +5287,7 @@ $lang =
 	'moderate_apply_all' => '將操作應用到其他所有頁面',
 	'moderate_all_fold' => '全部摺疊',
 	'moderate_all_expand' => '全部展開',
-	'moderate_validate_list' => '審覈操作成功，共 {validates} 個主題被通過，{ignores} 個主題被忽略，{recycles} 個主題被放入回收站，{deletes} 個主題被刪除。<br />您可以<a href="'.ADMINSCRIPT.'?action=moderate&operation=threads">繼續審覈新主題</a>',
+	'moderate_validate_list' => '審覈操作成功，共 {validates} 個主題被通過，{ignores} 個主題被忽略，{recycles} 個主題被放入回收站，{deletes} 個主題被刪除。<br>您可以<a href="'.ADMINSCRIPT.'?action=moderate&operation=threads">繼續審覈新主題</a>',
 	'moderate_none' => '未審覈',
 	'moderate_ignore' => '已忽略',
 	'moderate_all_fields' => '所有帖子',
@@ -5386,7 +5386,7 @@ $lang =
 	'announce_time_comment' => '格式: yyyy-mm-dd',
 	'announce_end_time_comment' => '留空爲不限制',
 	'announce_message' => '內容',
-	'announce_message_comment' => '<b>文字公告:</b> 直接輸入公告內容，支持 Discuz! 代碼<br /><b>網址鏈接:</b> 請輸入公告的鏈接地址如某個主題地址: http://xxx.xxx.xxx',
+	'announce_message_comment' => '<b>文字公告:</b> 直接輸入公告內容，支持 Discuz! 代碼<br><b>網址鏈接:</b> 請輸入公告的鏈接地址如某個主題地址: http://xxx.xxx.xxx',
 
 	'misc_onlinelist' => '在線列表圖標',
 	'misc_onlinelist_tips' => '<li>本功能用於自定義首頁及主題列表頁顯示的在線會員分組及圖例，只在在線列表功能打開時有效。</li><li>用戶組圖例處空白爲不區分該組用戶，所有未區分的用戶組將統一歸入第一行的“普通用戶”項。</li><li>用戶組圖例中請填寫圖片檔案名，並將相應圖片檔案上傳到 static/image/common/ 目錄中。</li>',
@@ -5427,7 +5427,7 @@ $lang =
 	'misc_bbcode_edit_tag' => '標籤',
 	'misc_bbcode_edit_tag_comment' => '方括號中的標籤代碼，如 [tag] 的標籤爲 "tag"(不含引號)',
 	'misc_bbcode_edit_replacement' => '替換內容',
-	'misc_bbcode_edit_replacement_comment' => '標籤替換爲的 HTML 代碼內容，支持至多三個動態參數<br />{1} 代表第一個參數<br />{2} 代表第二個參數<br />{3} 代表第三個參數<br />{RANDOM} 代表隨機字串<br />{MD5} 代表 32 位 MD5 散列值',
+	'misc_bbcode_edit_replacement_comment' => '標籤替換爲的 HTML 代碼內容，支持至多三個動態參數<br>{1} 代表第一個參數<br>{2} 代表第二個參數<br>{3} 代表第三個參數<br>{RANDOM} 代表隨機字串<br>{MD5} 代表 32 位 MD5 散列值',
 	'misc_bbcode_edit_example' => '例子',
 	'misc_bbcode_edit_example_comment' => '本代碼作用的例子',
 	'misc_bbcode_edit_explanation' => '解釋',
@@ -5489,8 +5489,8 @@ $lang =
 	'misc_censor_wordtype_edit' => '編輯詞語分類',
 	'misc_censor_wordtype_tips' => '<li>預設分類爲內置分類，當刪除一組分類時，詞語過濾將會自動編入預設分類中。</li>',
 	'misc_censor_batch_add' => '批量添加',
-	'misc_censor_batch_add_tips' => '<li>每行一組過濾詞語，敏感詞和替換詞之間使用“=”進行分割；</li><li>如需禁止發佈包含某個詞語的文字，而不是替換過濾，請將其對應的替換內容設定爲{BANNED}即可；如需當用戶發佈包含某個詞語的文字時，自動標記爲需要人工審覈，而不直接顯示或替換過濾，請將其對應的替換內容設定爲{MOD}即可(審覈只對論壇中的內容有效)。</li><li>如果只是想將某個詞語直接替換成 **，則只輸入詞語即可；</li><li>例如：<br />toobad<br />nobad<br />badword=good<br />sexword={BANNED}</li><li>導出/導入時支持詞語分類導入，導入時不帶有分類則可以通過選擇指定導入分類。沒有分類時自動歸入預設分類</li>',
-	'misc_censor_batch_add_clear' => '清空當前詞表後導入新詞語，此操作不可恢復，建議首先 <a href="'.ADMINSCRIPT.'?action=misc&operation=censor&do=export" target="_blank"><b><u>導出詞表</u></b></a>，做好備份。<br />',
+	'misc_censor_batch_add_tips' => '<li>每行一組過濾詞語，敏感詞和替換詞之間使用“=”進行分割；</li><li>如需禁止發佈包含某個詞語的文字，而不是替換過濾，請將其對應的替換內容設定爲{BANNED}即可；如需當用戶發佈包含某個詞語的文字時，自動標記爲需要人工審覈，而不直接顯示或替換過濾，請將其對應的替換內容設定爲{MOD}即可(審覈只對論壇中的內容有效)。</li><li>如果只是想將某個詞語直接替換成 **，則只輸入詞語即可；</li><li>例如：<br>toobad<br>nobad<br>badword=good<br>sexword={BANNED}</li><li>導出/導入時支持詞語分類導入，導入時不帶有分類則可以通過選擇指定導入分類。沒有分類時自動歸入預設分類</li>',
+	'misc_censor_batch_add_clear' => '清空當前詞表後導入新詞語，此操作不可恢復，建議首先 <a href="'.ADMINSCRIPT.'?action=misc&operation=censor&do=export" target="_blank"><b><u>導出詞表</u></b></a>，做好備份。<br>',
 	'misc_censor_batch_add_overwrite' => '使用新的設定覆蓋已經存在的詞語',
 	'misc_censor_batch_add_no_overwrite' => '不導入已經存在的詞語',
 	'misc_censor_word_banned' => '禁止關鍵詞',
@@ -5727,7 +5727,7 @@ $lang =
 	'plugins_edit_vars_variable' => '配置變量名',
 	'plugins_edit_vars_variable_comment' => '設定配置項目的變量名，用於插件程式中調用，可包含英文、數字和下劃線，在同一個插件中需要保持變量名的唯一性，最多 40 個字節',
 	'plugins_edit_vars_extra' => '擴充設定',
-	'plugins_edit_vars_extra_comment' => '只在配置類型爲“選擇(select)”時有效，用於設定選項值。等號前面爲選項索引(建議用數字)，後面爲內容，例如: <br /><i>1 = 光電鼠標<br />2 = 機械鼠標<br />3 = 沒有鼠標</i><br />注意: 選項確定後請勿修改索引和內容的對應關係，但仍可以新增選項。如需調換顯示順序，可以通過移動整行的上下位置來實現',
+	'plugins_edit_vars_extra_comment' => '只在配置類型爲“選擇(select)”時有效，用於設定選項值。等號前面爲選項索引(建議用數字)，後面爲內容，例如: <br><i>1 = 光電鼠標<br>2 = 機械鼠標<br>3 = 沒有鼠標</i><br>注意: 選項確定後請勿修改索引和內容的對應關係，但仍可以新增選項。如需調換顯示順序，可以通過移動整行的上下位置來實現',
 	'plugins_import_default' => '預設',
 	'plugins_import_installtype_1' => '插件',
 	'plugins_import_installtype_2' => '提供了以下',
@@ -5781,7 +5781,7 @@ $lang =
 	'medals_perm' => '勳章領取權限',
 	'medals_modpass' => '通過',
 	'medals_modnopass' => '否決',
-	'medals_permformula' => '當您設定了權限表達式後，只有符合此表達式的會員纔可以領取本勳章，如勳章可購買本功能失效。如 "posts > 100 and extcredits1 > 10" 表示 "發帖數 > 100 並且 威望 > 10"<br />日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可輸入完整地址，也可只輸入 IP 開頭，如 "{10.0.0.1}"、"{192.168.0}"',
+	'medals_permformula' => '當您設定了權限表達式後，只有符合此表達式的會員纔可以領取本勳章，如勳章可購買本功能失效。如 "posts > 100 and extcredits1 > 10" 表示 "發帖數 > 100 並且 威望 > 10"<br>日期格式 "{Y-M-D}"，如 "{2009-10-1}"。IP 格式 "{x.x.x.x}"，既可輸入完整地址，也可只輸入 IP 開頭，如 "{10.0.0.1}"、"{192.168.0}"',
 	'medals_credit' => '積分',
 	'medals_price' => '價格',
 
@@ -5886,40 +5886,40 @@ $lang =
 [/loop]
 &lt;/ul&gt;
 </pre>
-<br/>
+<br>
 循環索引（放到循環體內部，自動計數）：<pre>
 [loopindex]
 </pre>
-<br/>
+<br>
 多列渲染（放到循環體內部，指定子數據塊，僅用於多列渲染）：<pre>
 [column blocks]
 </pre>
-<br/>
+<br>
 IF判斷方式：<pre>
 [if data.items=1]
    {text}塊數據變量 或者 普通字符串
 [/if]
 </pre>
-<br/>
+<br>
 URL轉換絕對網址：<pre>
 [url data.file.url]
 </pre>
-<br/>
+<br>
 取得附件aid加密串：<pre>
 [attach data.file.aid]
 </pre>
-</li><li>CSS樣式代碼部分必須嚴格書寫在&lt;style type="text/css"&gt;......&lt;/style&gt;內部。</li></ul>',
+</li><li>CSS樣式代碼部分必須嚴格書寫在&lt;style&gt;......&lt;/style&gt;內部。</li></ul>',
 
-	'editorblock_usage_css_content' => '<ul><li>全局CSS樣式會在JSON編輯器發佈的內容頁面全局加載；</li><li>CSS樣式代碼部分必須嚴格書寫在&lt;style type="text/css"&gt;......&lt;/style&gt;內部。</li></ul>',
+	'editorblock_usage_css_content' => '<ul><li>全局CSS樣式會在JSON編輯器發佈的內容頁面全局加載；</li><li>CSS樣式代碼部分必須嚴格書寫在&lt;style&gt;......&lt;/style&gt;內部。</li></ul>',
 
 	'card' => '充值卡密',
 	'card_make_tips' => '<li>生成卡密時，簡單的規則或較小的生成張數可能導致實際生成張數小於預設生成張數。</li>',
 	'card_config_open' => '允許前臺充值',
-	'card_config_open_comment' => '設定是否允許前臺充值，關閉前臺充值功能，不影響後臺卡密的生成<br />充值卡密驗證碼開關：<a href="'.ADMINSCRIPT.'?action=setting&operation=seccheck">全局->安全->驗證設定</a>',
+	'card_config_open_comment' => '設定是否允許前臺充值，關閉前臺充值功能，不影響後臺卡密的生成<br>充值卡密驗證碼開關：<a href="'.ADMINSCRIPT.'?action=setting&operation=seccheck">全局->安全->驗證設定</a>',
 	'card_number' => '卡密',
 	'card_number_unit' => '位',
 	'card_make_rule' => '卡密生成規則',
-	'card_make_rule_comment' => '"<strong>@</strong>"代表任意隨機英文字符，"<strong>#</strong>"代表任意隨機數字，"<strong>*</strong>"代表任意英文或數字<br />卡密規則樣本："DZ2011@@@@@#####*****"<br />注意：規則位數過小會造成卡密生成重複概率增大，過多的重複卡密會造成卡密生成終止<br />卡密規則中不能帶有中文及其他特殊符號<br />爲了避免卡密重複，隨機位數最好不要少於8位',
+	'card_make_rule_comment' => '"<strong>@</strong>"代表任意隨機英文字符，"<strong>#</strong>"代表任意隨機數字，"<strong>*</strong>"代表任意英文或數字<br>卡密規則樣本："DZ2011@@@@@#####*****"<br>注意：規則位數過小會造成卡密生成重複概率增大，過多的重複卡密會造成卡密生成終止<br>卡密規則中不能帶有中文及其他特殊符號<br>爲了避免卡密重複，隨機位數最好不要少於8位',
 	'card_make_price' => '實際面值',
 	'card_make_price_unit' => '元',
 	'card_make_price_comment' => '單位(元)，實際面值常用在卡片印刷，用作告知用戶面值以衡量卡密價值',
@@ -5929,7 +5929,7 @@ URL轉換絕對網址：<pre>
 	'card_make_num_comment' => '設定本次生成的卡密張數',
 	'card_make_cleardateline' => '有效期至',
 	'card_make_cleardateline_none' => ' -- (不過期)',
-	'card_make_cleardateline_comment' => '預設有效期爲一年<br />卡密會在設定時間的24:00失效，狀態變更爲“已過期”',
+	'card_make_cleardateline_comment' => '預設有效期爲一年<br>卡密會在設定時間的24:00失效，狀態變更爲“已過期”',
 	'card_make_description' => '備註',
 	'card_make_description_comment' => '爲本次生成的卡密添加備註說明，備註將顯示在“生成記錄”中',
 	'card_log_operation' => '動作',
@@ -6071,11 +6071,11 @@ URL轉換絕對網址：<pre>
 	'tasks_add_endtime' => '下線時間',
 	'tasks_add_endtime_comment' => '任務結束時間，結束後會員將無法申請此任務，留空表示不限制',
 	'tasks_add_periodtype' => '任務間隔週期單位',
-	'tasks_add_periodtype_comment' => '設定任務間隔週期的計算單位<br />
-		小時：表示指定小時後可再次申請，間隔週期填寫間隔的小時數<br />
-		天：表示指定天后可再次申請，間隔週期填寫間隔的天數<br />
-		周：表示在每週指定時間(週一到週日)後才可再次申請，間隔週期填寫數字 1 (週一) 到 7 (週日)<br />
-		月：表示在每月指定日期後才可再次申請，間隔週期填寫數字 1 到 29、30、31<br />',
+	'tasks_add_periodtype_comment' => '設定任務間隔週期的計算單位<br>
+		小時：表示指定小時後可再次申請，間隔週期填寫間隔的小時數<br>
+		天：表示指定天后可再次申請，間隔週期填寫間隔的天數<br>
+		周：表示在每週指定時間(週一到週日)後才可再次申請，間隔週期填寫數字 1 (週一) 到 7 (週日)<br>
+		月：表示在每月指定日期後才可再次申請，間隔週期填寫數字 1 到 29、30、31<br>',
 	'tasks_add_periodtype_hour' => '小時',
 	'tasks_add_periodtype_day' => '天',
 	'tasks_add_periodtype_week' => '周',
@@ -6136,7 +6136,7 @@ URL轉換絕對網址：<pre>
 	'ec_alipay_on' => '是否啓用支付寶',
 	'ec_alipay_tips' => '<li>“支付寶”(<a href="http://www.alipay.com" target="_blank">http://www.alipay.com</a>)是中國領先的網上支付平臺，由全球最佳 B2B 公司阿裡巴巴公司創建，爲 Discuz! 用戶提供積分購買及論壇 B2C、C2C 交易平臺。您只需進行簡單的設定，即可使論壇內容和人氣，真成爲除廣告收入外的重要利潤來源，從而實現論壇的規模化經營。</li><li><b>由於涉及現金交易，爲避免因操作不當而造成的資金損失，請在開始使用支付寶積分交易功能(不包含支付寶按鈕功能)前，務必仔細閱讀《用戶使用說明書》中有關電子商務的部分，當確認完全理解和接受相關流程及使用方法後再進行相關設定。</b></li><li>您使用支付寶服務是建立在完全自願的基礎上，除 Discuz! 因主觀惡意的因素造成的資金損失以外，騰訊雲不對因使用此功能造成的任何損失承擔責任。</li><li>支付寶客戶服務電話爲 95188。</li>',
 	'ec_alipay_account' => '收款支付寶賬號',
-	'ec_alipay_account_comment' => '如果開啓兌換或交易功能，請填寫真實有效的支付寶賬號，用於收取用戶以現金兌換交易積分的相關款項。如賬號無效或安全碼有誤，將導致用戶支付後無法正確對其積分賬戶自動充值，或進行正常的交易對其積分賬戶自動充值，或進行正常的交易。<br />如您沒有支付寶賬號，<a href="http://www.alipay.com/redir.do?id=307&site=allbbs&target=https%3A%2F%2Fwww.alipay.com%2Fuser%2Fuser_register.htm" target="_blank">請點擊這裡註冊</a>',
+	'ec_alipay_account_comment' => '如果開啓兌換或交易功能，請填寫真實有效的支付寶賬號，用於收取用戶以現金兌換交易積分的相關款項。如賬號無效或安全碼有誤，將導致用戶支付後無法正確對其積分賬戶自動充值，或進行正常的交易對其積分賬戶自動充值，或進行正常的交易。<br>如您沒有支付寶賬號，<a href="http://www.alipay.com/redir.do?id=307&site=allbbs&target=https%3A%2F%2Fwww.alipay.com%2Fuser%2Fuser_register.htm" target="_blank">請點擊這裡註冊</a>',
 	'ec_alipay_check_comment' => '本測試將模擬提交 0.01 元人民幣的訂單進行測試，如果提交後成功出現付款界面，說明您站點的支付寶功能可以正常使用',
 	'ec_alipay_check_virtualgoodssubject' => '測試虛擬商品',
 	'ec_alipay_check_goodssubject' => '測試實物商品',
@@ -6149,7 +6149,7 @@ URL轉換絕對網址：<pre>
 	'ec_alipay_securitycode' => '交易安全校驗碼 (key)',
 	'ec_alipay_securitycode_comment' => '支付寶簽約用戶可以在此處填寫支付寶分配給您的交易安全校驗碼，此校驗碼您可以到支付寶官方的商家服務功能處查看',
 	'ec_alipay_partner' => '合作者身份 (PID)',
-	'ec_alipay_partner_comment' => '支付寶簽約用戶請在此處填寫支付寶分配給您的合作者身份，簽約用戶的手續費按照您與支付寶官方的簽約協議爲準。<br/>如果您還未簽約，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">請點擊這裡簽約</a>；如果已簽約,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" id="aliapitype" target="_blank">請點擊這裡獲取PID、Key</a>;如果在簽約時出現合同模板衝突，請諮詢0571-88158090',
+	'ec_alipay_partner_comment' => '支付寶簽約用戶請在此處填寫支付寶分配給您的合作者身份，簽約用戶的手續費按照您與支付寶官方的簽約協議爲準。<br>如果您還未簽約，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">請點擊這裡簽約</a>；如果已簽約,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" id="aliapitype" target="_blank">請點擊這裡獲取PID、Key</a>;如果在簽約時出現合同模板衝突，請諮詢0571-88158090',
 	'ec_alipay_creditdirectpay' => '使用純即時到賬接口',
 	'ec_alipay_creditdirectpay_comment' => '如果您的簽約協議中包含純即時到賬接口（不是標準雙接口）可以選擇此項，讓積分充值只能使用即時到賬方式付款',
 	'ec_alipay_sign_mode' => '加簽模式',
@@ -6236,7 +6236,7 @@ URL轉換絕對網址：<pre>
 	'ec_orders_search_confirm_date' => '訂單確認時間範圍(格式 yyyy-mm-dd)',
 	'ec_orders_validate' => '人工補單',
 	'ec_orders_id' => '訂單號 / 交易號',
-	'ec_orders_status' => '訂單狀態<br />(補單管理員)',
+	'ec_orders_status' => '訂單狀態<br>(補單管理員)',
 	'ec_orders_username' => '付款用戶名',
 	'ec_orders_buyer' => '付款人',
 	'ec_inviteorders_buyer' => '付款人 / IP',
@@ -6640,7 +6640,7 @@ URL轉換絕對網址：<pre>
 	'db_multivol' => '多卷',
 	'db_zip' => 'ZIP',
 	'db_volume' => '卷數',
-	'db_delete_tips' => '<br /><br /><a href="'.ADMINSCRIPT.'?action=db&operation=import&deletesubmit=1&delete[]={filename}&formhash={FORMHASH}" onclick="return confirm(\'您確定要把伺服器上的備份數據刪除麼？\');"><font color="#fe7e01"><strong>刪除伺服器上的備份數據</strong></font></a>',
+	'db_delete_tips' => '<br><br><a href="'.ADMINSCRIPT.'?action=db&operation=import&deletesubmit=1&delete[]={filename}&formhash={FORMHASH}" onclick="return confirm(\'您確定要把伺服器上的備份數據刪除麼？\');"><font color="#fe7e01"><strong>刪除伺服器上的備份數據</strong></font></a>',
 	'db_export_tips_nouc' => '<li><font color="blue"><b>您當前的數據備份不包含 UCenter，會影響到您的會員數據，請點擊<a href="{uc_backup_url}">這裡</a>單獨備份 UCenter 數據</b></font></li><li>數據備份功能根據您的選擇備份全部Discuz!數據，導出的數據檔案可用“數據恢復”功能或 phpMyAdmin 導入。</li>',
 	'db_system_backup_tips' => '<li>資料庫備份由系統 cron 服務產生，並保存在 Discuz! 設定的備份目錄中。</li>',
 	'db_system_backup_list' => '可用資料庫備份',
@@ -6682,7 +6682,7 @@ URL轉換絕對網址：<pre>
 	'db_import_unzip' => '解壓縮',
 
 	'db_runquery' => '數據庫升級',
-	'db_runquery_tips' => '<li>您可以通過修改 /source/app/admin/child/db/quickquery.php 來添加常用 SQL 操作進行功能擴充。</li><li>出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，<br />如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。</li>',
+	'db_runquery_tips' => '<li>您可以通過修改 /source/app/admin/child/db/quickquery.php 來添加常用 SQL 操作進行功能擴充。</li><li>出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，<br>如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。</li>',
 	'db_runquery_sql' => 'Discuz! 數據庫升級 - 請將數據庫升級語句粘貼在下面',
 	'db_runquery_denied' => '對不起，此項功能已經被禁止，如果需要開啓，請修改 config/config_global.php 中的相關配置',
 	'db_runquery_comment' => '注意: 爲確保升級成功，請不要修改 SQL 語句的任何部分',
@@ -7184,7 +7184,7 @@ URL轉換絕對網址：<pre>
 	'article_clear_trash_confirm' => '確定要清空回收站嗎',
 
 	'diytemplate' => '頁面管理',
-	'diytemplate_perm_tips' => '<li>此處設定的用戶權限將作用於此頁面所有 DIY 添加的模組(模組不繼承所在頁面權限除外)</li><li>模組是否繼承所在頁面權限和單個模組的權限的設定在“模組管理”=>“管理權限”中設定</li><li>1、權限由小到大(模組的權限大於所在頁面的權限)；2、權限"允許管理"即可以管理模組屬性又可以管理模組數據；<br />3、權限"允許推送"且非"推送需要審覈"可以管理模組數據； 4、權限"允許推送"且"推送需要審覈"可以推送但不可以管理模組數據</li>',
+	'diytemplate_perm_tips' => '<li>此處設定的用戶權限將作用於此頁面所有 DIY 添加的模組(模組不繼承所在頁面權限除外)</li><li>模組是否繼承所在頁面權限和單個模組的權限的設定在“模組管理”=>“管理權限”中設定</li><li>1、權限由小到大(模組的權限大於所在頁面的權限)；2、權限"允許管理"即可以管理模組屬性又可以管理模組數據；<br>3、權限"允許推送"且非"推送需要審覈"可以管理模組數據； 4、權限"允許推送"且"推送需要審覈"可以推送但不可以管理模組數據</li>',
 	'diytemplate_name' => '頁面名稱',
 	'diytemplate_name_comment' => '使用些模板的頁面的名稱',
 	'diytemplate_targettplname' => '生成模板',
@@ -7231,7 +7231,7 @@ URL轉換絕對網址：<pre>
 	'portalcategory_foldername_rename_error' => '目錄重命名失敗，目錄名只能包含字母、數字和下劃線(_)，請確認目錄名的合法性',
 	'portalcategory_foldername_invalid' => '目錄名只能包含字母、數字和下劃線(_)，請確認目錄名的合法性',
 	'portalcategory_foldername' => '目錄名稱',
-	'portalcategory_foldername_comment' => '當您要爲此頻道綁定目錄或頂級頻道綁定域名時請輸入此頻道要生成的檔案夾名稱(只能使用字母、數字、下劃線)<br/>要求網站根目錄有寫的權限，會在網站根目錄下生成相應檔案夾<br />設定爲空將刪除所建立的目錄',
+	'portalcategory_foldername_comment' => '當您要爲此頻道綁定目錄或頂級頻道綁定域名時請輸入此頻道要生成的檔案夾名稱(只能使用字母、數字、下劃線)<br>要求網站根目錄有寫的權限，會在網站根目錄下生成相應檔案夾<br>設定爲空將刪除所建立的目錄',
 	'portalcategory_summary' => 'description',
 	'portalcategory_summary_comment' => 'description內容用於搜尋引擎優化，放在 meta 的 description 標籤中',
 
@@ -7241,9 +7241,9 @@ URL轉換絕對網址：<pre>
 	'portalcategory_url' => '自定義鏈接地址',
 	'portalcategory_url_comment' => '定義要跳轉的鏈接地址',
 	'portalcategory_listprimaltplname' => '列表頁模板名',
-	'portalcategory_listprimaltplname_comment' => '將模板檔案上傳到模板目錄的portal目錄下，如：template/default/portal目錄下，檔案名必須爲<font color="red">list</font>_*.htm，*爲自定義檔案名<br />如果要重新選擇模板，請確保新模板與原模板中可拖拽區域具有相同的 ID，否則將會丟失部分或全部原 DIY 數據',
+	'portalcategory_listprimaltplname_comment' => '將模板檔案上傳到模板目錄的portal目錄下，如：template/default/portal目錄下，檔案名必須爲<font color="red">list</font>_*.htm，*爲自定義檔案名<br>如果要重新選擇模板，請確保新模板與原模板中可拖拽區域具有相同的 ID，否則將會丟失部分或全部原 DIY 數據',
 	'portalcategory_viewprimaltplname' => '文章頁模板名',
-	'portalcategory_viewprimaltplname_comment' => '將模板檔案上傳到模板目錄的portal目錄下，如：template/default/portal目錄下，檔案名必須爲<font color="blue">view</font>_*.htm，*爲自定義檔案名<br />如果要重新選擇模板，請確保新模板與原模板中可拖拽區域具有相同的 ID，否則將會丟失部分或全部原 DIY 數據',
+	'portalcategory_viewprimaltplname_comment' => '將模板檔案上傳到模板目錄的portal目錄下，如：template/default/portal目錄下，檔案名必須爲<font color="blue">view</font>_*.htm，*爲自定義檔案名<br>如果要重新選擇模板，請確保新模板與原模板中可拖拽區域具有相同的 ID，否則將會丟失部分或全部原 DIY 數據',
 	'portalcategory_domain_duplicate' => '頻道二級域名不能重複',
 	'portalcategory_parentfoldername_empty' => '父級頻道的目錄名不能爲空，請先設定父級頻道的目錄',
 	'portalcategory_foldername_duplicate' => '指定的目錄已經存在，請更換其它的目錄名',
@@ -7435,7 +7435,7 @@ URL轉換絕對網址：<pre>
 	'block_has_no_allowauthorizedblock' => '指定的用戶名不存在',
 	'block_choose_blockclass_to_add_jscall' => '請先選擇模組分類',
 	'block_diytemplate' => '所屬頁面',
-	'block_perm_tips' => '<li>不選擇繼承所在頁面的權限，所在頁面的權限設定將不會作用於此模組</li><li>只添加用戶名，不選擇任何權限可實現此用戶可以管理所在頁面其它模組，但不可以管理此模組(要求此模組繼承所在頁面權限，並且所在頁面權限中有此用戶名)</li><li>1、權限由小到大(模組的權限大於所在頁面的權限)；2、權限"允許管理"即可以管理模組屬性又可以管理模組數據；<br />3、權限"允許推送"且非"推送需要審覈"可以管理模組數據； 4、權限"允許推送"且"推送需要審覈"可以推送但不可以管理模組數據</li>',
+	'block_perm_tips' => '<li>不選擇繼承所在頁面的權限，所在頁面的權限設定將不會作用於此模組</li><li>只添加用戶名，不選擇任何權限可實現此用戶可以管理所在頁面其它模組，但不可以管理此模組(要求此模組繼承所在頁面權限，並且所在頁面權限中有此用戶名)</li><li>1、權限由小到大(模組的權限大於所在頁面的權限)；2、權限"允許管理"即可以管理模組屬性又可以管理模組數據；<br>3、權限"允許推送"且非"推送需要審覈"可以管理模組數據； 4、權限"允許推送"且"推送需要審覈"可以推送但不可以管理模組數據</li>',
 	'block_not_exists' => '指定的模組不存在',
 	'block_perm_inherited' => '繼承自',
 
@@ -7639,7 +7639,7 @@ URL轉換絕對網址：<pre>
 	'import_data_typeinvalid' => '數據類型錯誤，請返回',
 
 	'cloudaddons_ftp_setting' => '站點 FTP 設定',
-	'cloudaddons_unwriteabledirs' => '站點 {basedir} 目錄下的以下目錄不可寫，無法在線安裝此應用，請填寫本站點的 FTP 連接參數(本設定不會被保存):<br />{unwriteabledirs}',
+	'cloudaddons_unwriteabledirs' => '站點 {basedir} 目錄下的以下目錄不可寫，無法在線安裝此應用，請填寫本站點的 FTP 連接參數(本設定不會被保存):<br>{unwriteabledirs}',
 	'cloudaddons_plugin_link' => '獲取更多插件',
 	'cloudaddons_style_link' => '獲取更多模板',
 	'cloudaddons_linkto' => '在應用中心查看',
@@ -8086,7 +8086,7 @@ function getSign(nonce, t, secret) {
 	'founder_upgrade_complete' => '升級完成',
 	'founder_upgrade_preupdatelist' => '待更新文件列表',
 	'founder_upgrade_store_directory' => '<b>文件存放目錄:</b> ',
-	'founder_upgrade_diff_show' => '與本地文件的比對結果，狀態 <span style="color:red;">差異</span> 表示該本地文件被修改過 <br /><br />注意：如果您的源文件是通過 <span style="color:red;">非二進制</span> 方式上傳到服務器，可能導致對比結果不準確',
+	'founder_upgrade_diff_show' => '與本地文件的比對結果，狀態 <span style="color:red;">差異</span> 表示該本地文件被修改過 <br><br>注意：如果您的源文件是通過 <span style="color:red;">非二進制</span> 方式上傳到服務器，可能導致對比結果不準確',
 	'founder_upgrade_diff' => '差異',
 	'founder_upgrade_normal' => '正常',
 	'founder_upgrade_new' => '新增',

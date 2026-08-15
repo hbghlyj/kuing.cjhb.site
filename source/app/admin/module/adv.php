@@ -23,13 +23,13 @@ if(!empty($_GET['preview'])) {
 	<html>
 	<head>
 		<meta charset="<?php echo CHARSET; ?>"/>
-		<meta name="renderer" content="webkit"/>
+		<meta name="renderer" content="webkit">
 		<script type="text/javascript">var IMGDIR = '<?php echo $_G['style']['imgdir']; ?>',
                         cookiepre = '<?php echo $_G['config']['cookie']['cookiepre'];?>',
                         cookiedomain = '<?php echo $_G['config']['cookie']['cookiedomain'];?>',
                         cookiepath = '<?php echo $_G['config']['cookie']['cookiepath'];?>';</script>
 		<script type="text/javascript" src="<?php echo STATICURL; ?>js/common.js"></script>
-		<link rel="stylesheet" type="text/css"
+		<link rel="stylesheet"
 		      href="data/cache/style_<?php echo $_G['setting']['styleid']; ?>_common.css"/>
 	</head>
 	<body>

@@ -47,7 +47,7 @@ $lang = array (
 	'register_password_tips'	=> 'Please fill in the password',//'请填写密码',
 	'register_repassword_tips'	=> 'Please enter the password again',//'请再次输入密码',
 	'register_username_tips'	=> 'Username must be between 3-15 characters',//'用户名由 3 到 15 个字符组成',
-	'register_validate_email_tips'	=> 'Registration need to verify your mailbox, be sure to fill in correct E-Mail! Please check your email after submission.<br />You may need to wait a few minutes to receive e-mail inbox. If there is no new message, please check the Spam folder.',//'注册需要验证邮箱，请务必填写正确的邮箱，提交后请及时查收邮件。<br />您可能需要等待几分钟才能收到邮件，如果收件箱没有，请检查一下垃圾邮件箱。',
+	'register_validate_email_tips'	=> 'Registration need to verify your mailbox, be sure to fill in correct E-Mail! Please check your email after submission.<br>You may need to wait a few minutes to receive e-mail inbox. If there is no new message, please check the Spam folder.',//'注册需要验证邮箱，请务必填写正确的邮箱，提交后请及时查收邮件。<br>您可能需要等待几分钟才能收到邮件，如果收件箱没有，请检查一下垃圾邮件箱。',
 	'rulemessage'			=> 'Term of service',//'网站服务条款',
 );
 

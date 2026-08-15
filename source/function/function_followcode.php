@@ -328,7 +328,7 @@ function fparseattach($aid, $length = 0, $extra = '') {
 		if($attach['isimage'] && !$attach['price'] && !$attach['readperm']) {
 			$nothumb = $length ? 0 : 1;
 			$src = $attach['url'].(!$attach['thumb'] ? $attach['attachment'] : getimgthumbname($attach['attachment']));
-			$html = bbcodeurl($src, '<img id="aimg_'.$rimg_id.'" src="'.$src.'" border="0" alt="'.$attach['filename'].'" '.$extra.' style="cursor: pointer;" />');
+			$html = bbcodeurl($src, '<img id="aimg_'.$rimg_id.'" src="'.$src.'" border="0" alt="'.$attach['filename'].'" '.$extra.' style="cursor: pointer;">');
 
 			return fcodedisp($html, 'image');
 		} else {
@@ -423,7 +423,7 @@ function fparseaudio($url) {
 	}
 	if(fileext($url) == 'mp3') {
 		$randomid = 'music_'.random(3);
-		$html = '<img src="'.IMGDIR.'/music.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showMedia(\'music\', \''.$url.'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
+		$html = '<img src="'.IMGDIR.'/music.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showMedia(\'music\', \''.$url.'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;">';
 		return fcodedisp($html, 'audio');
 	} else {
 		$html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
@@ -478,7 +478,7 @@ function fparseimg($src, $extra = '') {
 	global $_G;
 
 	$rimg_id = random(5);
-	$html = bbcodeurl($src, '<img id="iimg_'.$rimg_id.'" src="'.$src.'" border="0" alt="" '.$extra.' style="cursor: pointer;" />');
+	$html = bbcodeurl($src, '<img id="iimg_'.$rimg_id.'" src="'.$src.'" border="0" alt="" '.$extra.' style="cursor: pointer;">');
 	return fcodedisp($html, 'image');
 }
 
@@ -492,7 +492,7 @@ function fparsesmiles(&$message) {
 				if(str_starts_with($_G['cache']['smilies']['replacearray'][$key], '<')) {
 					break;
 				}
-				$_G['cache']['smilies']['replacearray'][$key] = '<img src="'.STATICURL.'image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$key]]['directory'].'/'.$smiley.'" smilieid="'.$key.'" border="0" class="s" alt="" />';
+				$_G['cache']['smilies']['replacearray'][$key] = '<img src="'.STATICURL.'image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$key]]['directory'].'/'.$smiley.'" smilieid="'.$key.'" border="0" class="s" alt="">';
 			}
 			$enablesmiles = true;
 		}

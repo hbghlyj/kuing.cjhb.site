@@ -12,7 +12,7 @@
             <tr>
                 <th><span class="rq">*</span><label for="username">{lang newusername}:</label></th>
                 <td>
-                    <input type="text" name="username" id="username" value="" class="px" />
+                    <input type="text" name="username" id="username" value="" class="px">
                 </td>
                 <td>&nbsp;</td>
             </tr>

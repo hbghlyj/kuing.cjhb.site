@@ -42,7 +42,7 @@ if(!$_GET['confirmed']) {
 				$importtxt = @implode('', file($entrydir.'/'.$f));
 				$pluginarray = getimportdata('Discuz! Plugin');
 				$newverother = !empty($pluginarray['plugin']['version']) ? $pluginarray['plugin']['version'] : 0;
-				$upgradestr .= $newverother > $plugin['version'] ? '<input class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=plugins&operation=upgrade&pluginid='.$pluginid.'&confirmed=yes&installtype='.rawurlencode($extra).'\'" type="button" value="'.($extra ? $extratxt : $lang['plugins_import_default']).' '.$newverother.'" />&nbsp;&nbsp;&nbsp;' : '';
+				$upgradestr .= $newverother > $plugin['version'] ? '<input class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=plugins&operation=upgrade&pluginid='.$pluginid.'&confirmed=yes&installtype='.rawurlencode($extra).'\'" type="button" value="'.($extra ? $extratxt : $lang['plugins_import_default']).' '.$newverother.'">&nbsp;&nbsp;&nbsp;' : '';
 			}
 		}
 	}
@@ -60,8 +60,8 @@ if(!$_GET['confirmed']) {
 
 	} elseif($upgradestr) {
 
-		echo '<h3>'.cplang('discuz_message').'</h3><div class="infobox"><h4 class="marginbot normal">'.cplang('plugins_config_upgrade_other', ['pluginname' => $plugin['name'], 'version' => $plugin['version']]).'</h4><br /><p class="margintop">'.$upgradestr.
-			'<input class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=plugins\'" type="button" value="'.$lang['cancel'].'"/></div></div>';
+		echo '<h3>'.cplang('discuz_message').'</h3><div class="infobox"><h4 class="marginbot normal">'.cplang('plugins_config_upgrade_other', ['pluginname' => $plugin['name'], 'version' => $plugin['version']]).'</h4><br><p class="margintop">'.$upgradestr.
+			'<input class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=plugins\'" type="button" value="'.$lang['cancel'].'"></div></div>';
 
 	} else {
 

@@ -32,7 +32,7 @@ if(empty($_G['fid']) && $action != 'create') {
 $first = &$_G['cache']['grouptype']['first'];
 $second = &$_G['cache']['grouptype']['second'];
 $rssauth = $_G['rssauth'];
-$rsshead = $_G['setting']['rssstatus'] ? ('<link rel="alternate" type="application/rss+xml" title="'.$_G['setting']['bbname'].' - '.$navtitle.'" href="'.$_G['siteurl'].'forum.php?mod=rss&fid='.$_G['fid'].'&amp;auth='.$rssauth."\" />\n") : '';
+$rsshead = $_G['setting']['rssstatus'] ? ('<link rel="alternate" type="application/rss+xml" title="'.$_G['setting']['bbname'].' - '.$navtitle.'" href="'.$_G['siteurl'].'forum.php?mod=rss&fid='.$_G['fid'].'&amp;auth='.$rssauth."\">\n") : '';
 if($_G['fid']) {
 	if($_G['forum']['status'] != 3) {
 		showmessage('forum_not_group', 'group.php');

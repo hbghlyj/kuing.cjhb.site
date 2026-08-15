@@ -58,10 +58,10 @@ if(!submitcheck('delsubmit') && !submitcheck('undelsubmit')) {
 				"<input type=\"checkbox\" class=\"checkbox\" name=\"threadlist[]\" value=\"{$thread['tid']}\">",
 				'<a href="forum.php?mod=viewthread&tid='.$thread['tid'].'&modthreadkey='.$thread['modthreadkey'].'" target="_blank">'.$thread['subject'].'</a>',
 				'<a href="forum.php?mod=forumdisplay&fid='.$thread['fid'].'" target="_blank">'.$thread['forumname'].'</a>',
-				'<a href="home.php?mod=space&uid='.$thread['authorid'].'" target="_blank">'.$thread['author'].'</a><br /><em style="font-size:9px;color:#999999;">'.dgmdate($thread['dateline'], 'd').'</em>',
+				'<a href="home.php?mod=space&uid='.$thread['authorid'].'" target="_blank">'.$thread['author'].'</a><br><em style="font-size:9px;color:#999999;">'.dgmdate($thread['dateline'], 'd').'</em>',
 				$thread['replies'].' / '.$thread['views'],
-				$thread['lastposter'].'<br /><em style="font-size:9px;color:#999999;">'.dgmdate($thread['lastpost'], 'd').'</em>',
-				$thread['modusername'] ? $thread['modusername'].'<br /><em style="font-size:9px;color:#999999;">'.dgmdate($thread['moddateline'], 'd').'</em>' : '',
+				$thread['lastposter'].'<br><em style="font-size:9px;color:#999999;">'.dgmdate($thread['lastpost'], 'd').'</em>',
+				$thread['modusername'] ? $thread['modusername'].'<br><em style="font-size:9px;color:#999999;">'.dgmdate($thread['moddateline'], 'd').'</em>' : '',
 				$thread['reason']
 			]);
 		}
@@ -71,7 +71,7 @@ if(!submitcheck('delsubmit') && !submitcheck('undelsubmit')) {
 	$threadcount = table_forum_thread::t()->count_by_displayorder(-1);
 	$multipage = multi($threadcount, $lpp, $page, ADMINSCRIPT."?action=recyclebin&lpp=$lpp", 0, 6);
 
-	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'threadlist\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.cplang('recyclebin_delete').'" />&nbsp;<input type="submit" class="btn" name="undelsubmit" value="'.cplang('recyclebin_undelete').'" />', $multipage);
+	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'threadlist\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.cplang('recyclebin_delete').'">&nbsp;<input type="submit" class="btn" name="undelsubmit" value="'.cplang('recyclebin_undelete').'">', $multipage);
 	showtablefooter();
 	showformfooter();
 } else {

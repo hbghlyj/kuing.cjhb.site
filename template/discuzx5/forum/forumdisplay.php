@@ -4,7 +4,7 @@
 <!--{if $_G['forum']['ismoderator']}-->
 	<script src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
 <!--{/if}-->
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
 <div id="pt" class="bm cl">
 	<div class="z">
@@ -34,7 +34,7 @@
 
 		<div class="mn">
 			<div class="bm bml pbn">
-				<!--{if $_G[forum][banner] && !$subforumonly}--><img src="$_G[forum][banner]" alt="$_G['forum'][name]" /><!--{/if}-->
+				<!--{if $_G[forum][banner] && !$subforumonly}--><img src="$_G[forum][banner]" alt="$_G['forum'][name]"><!--{/if}-->
 				<div class="bm_h cl">
 					<!--{if $_G['page'] == 1 && $_G['forum']['rules']}--><span class="o"><em id="forum_rules_{$_G[fid]}_img" class="tg_{$collapse[forum_rulesimg]}" title="{lang spread}" onclick="toggle_collapse('forum_rules_{$_G[fid]}')"></em></span><!--{/if}-->
 					<span class="y">
@@ -134,7 +134,7 @@
 								<!--{/if}-->
 								<td class="fl_g">
 									<div class="fl_icn_g">
-										<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" target="_blank"><img src="$group[icon]" alt="$group[name]" width="32" /></a>
+										<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" target="_blank"><img src="$group[icon]" alt="$group[name]" width="32"></a>
 									</div>
 									<dl>
 										<dt><a href="forum.php?mod=group&fid=$group[fid]" target="_blank">$group[name]</a><span class="xg1 xw0"> ($group[membernum] {lang activity_member_unit})</span>

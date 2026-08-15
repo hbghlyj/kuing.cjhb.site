@@ -58,7 +58,7 @@
 		</span>
 	</p>
 	<div class="footer-copy mt10">
-		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
+		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png">$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
 		Powered by Discuz! <em>$_G['setting']['version']</em>
 		<p class="xs0">{lang copyright}</p>
 	</div>
@@ -135,7 +135,7 @@
 	<script>window.KK_PUSHER_TAB_ID = '$pusher_tab_token';</script>
 	<script src="/chat/PusherForumMetadata.js?{VERHASH}"></script>
 	<!--{if $_G['basescript'] == 'forum' && $_GET['mod'] == 'find'}-->
-		<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
+		<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet">
 		<style>.pusher-chat-widget ul.activity-stream{max-height: calc(100dvh - 136px);}</style>
 		<script src="/chat/pusher.min.js"></script>
 		<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>

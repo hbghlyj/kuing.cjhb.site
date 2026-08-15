@@ -97,19 +97,19 @@ showformheader("logs&operation=$operation");
 showtableheader('search', 'fixpadding');
 showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 	[
-		cplang('username'), '<input type="text" name="srch_username" class="txt" value="'.$srch_username.'" />',
-		cplang('logs_credit_relatedid'), $select_rid_html.'&nbsp;<input type="text" name="srch_rid" class="txt" value="'.$srch_rid.'" />',
+		cplang('username'), '<input type="text" name="srch_username" class="txt" value="'.$srch_username.'">',
+		cplang('logs_credit_relatedid'), $select_rid_html.'&nbsp;<input type="text" name="srch_rid" class="txt" value="'.$srch_rid.'">',
 	]
 );
 showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 	[
-		cplang('uid'), '<input type="text" name="srch_uid" class="txt" value="'.$srch_uid.'" />',
-		cplang('time'), '<input type="text" name="srch_starttime" class="txt" value="'.$srch_starttime.'" onclick="showcalendar(event, this)" />- <input type="text" name="srch_endtime" class="txt" value="'.$srch_endtime.'" onclick="showcalendar(event, this)" />',
+		cplang('uid'), '<input type="text" name="srch_uid" class="txt" value="'.$srch_uid.'">',
+		cplang('time'), '<input type="text" name="srch_starttime" class="txt" value="'.$srch_starttime.'" onclick="showcalendar(event, this)">- <input type="text" name="srch_endtime" class="txt" value="'.$srch_endtime.'" onclick="showcalendar(event, this)">',
 	]
 );
 showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 	[
-		cplang('logs_lpp'), '<input type="text" name="perpage" class="txt" value="'.$perpage.'" size="5" /></label>',
+		cplang('logs_lpp'), '<input type="text" name="perpage" class="txt" value="'.$perpage.'" size="5"></label>',
 		cplang('type'), $select_operation_html,
 	]
 );
@@ -129,7 +129,7 @@ showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		cplang('credits'), $select_operation_html,
 	]
 );
-showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'" />']);
+showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'">']);
 showtablefooter();
 echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 showtableheader('', 'fixpadding');
@@ -179,7 +179,7 @@ foreach($logs as $log) {
 	if(!$havecredit) {
 		continue;
 	}
-	$log['credit'] = implode('<br/>', $credits);
+	$log['credit'] = implode('<br>', $credits);
 	if(in_array($log['operation'], ['RTC', 'RAC', 'STC', 'BTC', 'ACC', 'RCT', 'RCA', 'RCB'])) {
 		$tids[$log['relatedid']] = $log['relatedid'];
 	} elseif(in_array($log['operation'], ['SAC', 'BAC'])) {

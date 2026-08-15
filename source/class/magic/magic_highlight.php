@@ -109,9 +109,9 @@ class magic_highlight {
 		echo <<<EOF
 	<p class="mtm mbn">{$lang['highlight_color']}</p>
 	<div class="hasd mbm cl">
-		<input type="hidden" id="highlight_color" name="highlight_color" />
-		<input type="hidden" id="highlight_idtype" name="idtype" value="$idtype"/>
-		<input type="text" id="highlight_color_show" class="crl readonly="readonly"" />
+		<input type="hidden" id="highlight_color" name="highlight_color">
+		<input type="hidden" id="highlight_idtype" name="idtype" value="$idtype">
+		<input type="text" id="highlight_color_show" class="crl readonly="readonly"">
 		<a href="javascript:;" id="highlight_color_ctrl" class="dpbtn" onclick="showHighLightColor('highlight_color')">^</a>
 	</div>
 	<script type="text/javascript" reload="1">

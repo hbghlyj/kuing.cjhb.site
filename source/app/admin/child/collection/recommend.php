@@ -42,13 +42,13 @@ if(!submitcheck('submit', 1)) {
 		$collectiondata = table_forum_collection::t()->fetch_all(array_keys($collectionrecommend['ctids']));
 		foreach($collectiondata as $collection) {
 			showtablerow('', ['class="td25"', 'width=400', ''], [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"ctidarray[]\" value=\"{$collection['ctid']}\" />",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"ctidarray[]\" value=\"{$collection['ctid']}\">",
 				"<a href='forum.php?mod=collection&action=view&ctid={$collection['ctid']}' target='_blank'>{$collection['name']}</a>",
 				"<a href='home.php?mod=space&uid={$collection['uid']}' target='_blank'>{$collection['username']}</a>",
 				$collection['threadnum'],
 				$collection['commentnum'],
 				dgmdate($collection['dateline']),
-				"<input class=\"txt\" type=\"text\" name=\"ctidorder[{$collection['ctid']}]\" value=\"{$collectionrecommend['ctids'][$collection['ctid']]}\" />",
+				"<input class=\"txt\" type=\"text\" name=\"ctidorder[{$collection['ctid']}]\" value=\"{$collectionrecommend['ctids'][$collection['ctid']]}\">",
 			]);
 		}
 	} else {
@@ -56,7 +56,7 @@ if(!submitcheck('submit', 1)) {
 			cplang('collection_recommend_tips'),
 		]);
 	}
-	showtablerow('', ['class="td25" colspan="7"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ctidarray\', \'chkall\')" /><label for="chkall"> '.cplang('select_all').'</label>']);
+	showtablerow('', ['class="td25" colspan="7"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ctidarray\', \'chkall\')"><label for="chkall"> '.cplang('select_all').'</label>']);
 	showtablerow('', ['class="td25"', 'colspan="2"'], [
 		cplang('operation'),
 		'<input class="checkbox" type="checkbox" name="operate_type" id="operate_type" value="delete"><label for="operate_type"> '.cplang('delete').'</label> '

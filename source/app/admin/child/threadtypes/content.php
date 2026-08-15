@@ -64,21 +64,21 @@ if(!submitcheck('searchsortsubmit', 1) && !submitcheck('delsortsubmit') && !subm
 					}
 				} elseif(in_array($option['type'], ['number', 'text', 'email', 'calendar', 'image', 'url', 'textarea', 'upload', 'range'])) {
 					if($option['type'] == 'calendar') {
-						$optionshow .= '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'" onclick="showcalendar(event, this, false)" />';
+						$optionshow .= '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'" onclick="showcalendar(event, this, false)">';
 					} elseif($option['type'] == 'number') {
 						$optionshow .= '<select name="searchoption['.$optionid.'][condition]">
 								<option value="0" '.($_GET['searchoption'][$optionid]['condition'] == 0 ? 'selected="selected"' : '').'>'.cplang('equal_to').'</option>
 								<option value="1" '.($_GET['searchoption'][$optionid]['condition'] == 1 ? 'selected="selected"' : '').'>'.cplang('more_than').'</option>
 								<option value="2" '.($_GET['searchoption'][$optionid]['condition'] == 2 ? 'selected="selected"' : '').'>'.cplang('lower_than').'</option>
 							</select>&nbsp;&nbsp;
-							<input type="text" class="txt" name="searchoption['.$optionid.'][value]" value="'.$_GET['searchoption'][$optionid]['value'].'" />
+							<input type="text" class="txt" name="searchoption['.$optionid.'][value]" value="'.$_GET['searchoption'][$optionid]['value'].'">
 							<input type="hidden" name="searchoption['.$optionid.'][type]" value="number">';
 					} elseif($option['type'] == 'range') {
-						$optionshow .= '<input type="text" name="searchoption['.$optionid.'][value][min]" size="16" value="'.$_GET['searchoption'][$optionid]['value']['min'].'" /> -
-							<input type="text" name="searchoption['.$optionid.'][value][max]" size="16" value="'.$_GET['searchoption'][$optionid]['value']['max'].'" />
+						$optionshow .= '<input type="text" name="searchoption['.$optionid.'][value][min]" size="16" value="'.$_GET['searchoption'][$optionid]['value']['min'].'"> -
+							<input type="text" name="searchoption['.$optionid.'][value][max]" size="16" value="'.$_GET['searchoption'][$optionid]['value']['max'].'">
 							<input type="hidden" name="searchoption['.$optionid.'][type]" value="range">';
 					} else {
-						$optionshow .= '<input type="text" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'" />';
+						$optionshow .= '<input type="text" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'">';
 					}
 				}
 				$optionshow .= '&nbsp;'.$option['unit'];
@@ -173,8 +173,8 @@ if(!submitcheck('searchsortsubmit', 1) && !submitcheck('delsortsubmit') && !subm
 			if($threadcount) {
 				foreach(table_forum_thread::t()->fetch_all_by_tid($searchtids, $start_limit, $lpp) as $thread) {
 					$threads .= showtablerow('', ['class="td25"', '', '', 'class="td28"', 'class="td28"'], [
-						"<input class=\"checkbox\" type=\"checkbox\" name=\"tidsarray[]\" value=\"{$thread['tid']}\"/>".
-						"<input type=\"hidden\" name=\"fidsarray[]\" value=\"{$thread['fid']}\"/>",
+						"<input class=\"checkbox\" type=\"checkbox\" name=\"tidsarray[]\" value=\"{$thread['tid']}\">".
+						"<input type=\"hidden\" name=\"fidsarray[]\" value=\"{$thread['fid']}\">",
 						"<a href=\"forum.php?mod=viewthread&tid={$thread['tid']}\" target=\"_blank\">{$thread['subject']}</a>",
 						"<a href=\"forum.php?mod=forumdisplay&fid={$thread['fid']}\" target=\"_blank\">{$_G['cache']['forums'][$thread['fid']]['name']}</a>",
 						"<a href=\"home.php?mod=space&uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a>",
@@ -193,7 +193,7 @@ if(!submitcheck('searchsortsubmit', 1) && !submitcheck('delsortsubmit') && !subm
 		showsubtitle(['', 'subject', 'forum', 'author', 'threads_replies', 'threads_views', 'threads_lastpost']);
 		echo $threads;
 		echo $multipage;
-		showsubmit('', '', '', "<input type=\"submit\" class=\"btn\" name=\"delsortsubmit\" value=\"{$lang['threadtype_content_delete']}\"/>");
+		showsubmit('', '', '', "<input type=\"submit\" class=\"btn\" name=\"delsortsubmit\" value=\"{$lang['threadtype_content_delete']}\">");
 		showtablefooter();
 		showformfooter();
 

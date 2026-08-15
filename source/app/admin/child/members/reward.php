@@ -41,8 +41,8 @@ if(!submitcheck('rewardsubmit')) {
 				$creditsvalue[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="text" class="txt" size="3" id="addextcredits['.$i.']" name="addextcredits['.$i.']" value="0"> '.$_G['setting']['extcredits'][$i]['unit'] : '<input type="text" class="txt" size="3" value="N/A" disabled>';
 				$resetcredits[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="checkbox" id="resetextcredits['.$i.']" name="resetextcredits['.$i.']" value="1" class="radio" disabled> '.$_G['setting']['extcredits'][$i]['unit'] : '<input type="checkbox" disabled  class="radio">';
 			}
-			$creditsvalue = array_merge(['<input type="radio" name="updatecredittype" id="updatecredittype0" value="0" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'resetextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'addextcredits[\'+extcredits[k]+\']\').disabled = false;}" checked="checked" /><label for="updatecredittype0">'.$lang['members_reward_value'].'</label>'], $creditsvalue);
-			$resetcredits = array_merge(['<input type="radio" name="updatecredittype" id="updatecredittype1" value="1" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'addextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'resetextcredits[\'+extcredits[k]+\']\').disabled = false;}" /><label for="updatecredittype1">'.$lang['members_reward_clean'].'</label>'], $resetcredits);
+			$creditsvalue = array_merge(['<input type="radio" name="updatecredittype" id="updatecredittype0" value="0" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'resetextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'addextcredits[\'+extcredits[k]+\']\').disabled = false;}" checked="checked"><label for="updatecredittype0">'.$lang['members_reward_value'].'</label>'], $creditsvalue);
+			$resetcredits = array_merge(['<input type="radio" name="updatecredittype" id="updatecredittype1" value="1" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'addextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'resetextcredits[\'+extcredits[k]+\']\').disabled = false;}"><label for="updatecredittype1">'.$lang['members_reward_clean'].'</label>'], $resetcredits);
 
 			showboxrow('', ['class="dcol"', 'class="dcol"'], [
 				cplang('members_reward_members'),
@@ -62,7 +62,7 @@ if(!submitcheck('rewardsubmit')) {
 			shownewsletter();
 			showtagfooter('div');
 			showtableheader();
-			showsubmit('rewardsubmit', 'submit', '', '<input class="checkbox" type="checkbox" name="notifymember" value="1" onclick="$(\'messagebody\').style.display = this.checked ? \'\' : \'none\'" id="credits_notify" /><label for="credits_notify">'.cplang('members_reward_notify').'</label>');
+			showsubmit('rewardsubmit', 'submit', '', '<input class="checkbox" type="checkbox" name="notifymember" value="1" onclick="$(\'messagebody\').style.display = this.checked ? \'\' : \'none\'" id="credits_notify"><label for="credits_notify">'.cplang('members_reward_notify').'</label>');
 			showtablefooter();
 
 		}

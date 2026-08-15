@@ -21,7 +21,7 @@
 	</div>
 </div>
 
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -114,10 +114,10 @@
 					<!--{loop $tradeloglist $tradelog}-->
 						<tr>
 							<td class="tradl trads">
-								<a href="forum.php?mod=viewthread&tid=$tradelog[tid]&do=tradeinfo&pid=$tradelog[pid]"><!--{if $tradelog['aid']}--><img src="{echo getforumimg($tradelog[aid])}" width="90" /><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
+								<a href="forum.php?mod=viewthread&tid=$tradelog[tid]&do=tradeinfo&pid=$tradelog[pid]"><!--{if $tradelog['aid']}--><img src="{echo getforumimg($tradelog[aid])}" width="90"><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
 							</td>
 							<td>
-								<a href="forum.php?mod=trade&orderid=$tradelog[orderid]">$tradelog[subject]</a><br />
+								<a href="forum.php?mod=trade&orderid=$tradelog[orderid]">$tradelog[subject]</a><br>
 								<a href="forum.php?mod=viewthread&tid=$tradelog[tid]&do=tradeinfo&pid=$tradelog[pid]" class="xg1">$tradelog[threadsubject]</a>
 							</td>
 							<td>
@@ -129,7 +129,7 @@
 							</td>
 							<td>
 								<!--{if $tradelog[price] > 0}-->
-									$tradelog[price] {lang trade_units}<br/>
+									$tradelog[price] {lang trade_units}<br>
 								<!--{/if}-->
 								<!--{if $tradelog[credit] > 0}-->
 									{$extcredits[$creditid][title]} $tradelog[credit] {$extcredits[$creditid][unit]}
@@ -152,7 +152,7 @@
 									<!--{elseif ($item == 'buytrades' && $tradelog[ratestatus] == 1) || ($item == 'selltrades' && $tradelog[ratestatus] == 2)}-->
 										{lang eccredit_post_waiting}
 									<!--{else}-->
-										<!--{if ($item == 'buytrades' && $tradelog[ratestatus] == 2) || ($item == 'selltrades' && $tradelog[ratestatus] == 1)}-->{lang eccredit_post_already}<br /><!--{/if}-->
+										<!--{if ($item == 'buytrades' && $tradelog[ratestatus] == 2) || ($item == 'selltrades' && $tradelog[ratestatus] == 1)}-->{lang eccredit_post_already}<br><!--{/if}-->
 										<!--{if $item == 'buytrades'}-->
 											<a href="home.php?mod=spacecp&ac=eccredit&op=rate&orderid=$tradelog[orderid]&type=0" target="_blank">{lang eccredit1}</a>
 										<!--{else}-->
@@ -177,7 +177,7 @@
 						<p class="u xg1"><a href="home.php?mod=space&uid=$value[sellerid]" title="$value[seller]" target="_blank">$value[seller]</a></p>
 						<a href="forum.php?mod=viewthread&tid=$value[tid]&do=tradeinfo&pid=$value[pid]" class="tn" target="_blank">
 							<!--{if $value[displayorder] > 0}--><em class="hot">{lang post_trade_sticklist}</em><!--{/if}-->
-							<!--{if $value[aid]}--><img src="{echo getforumimg($value[aid])}" alt="$value[subject]" /><!--{else}--><div class="nophoto" title="$value[subject]"></div><!--{/if}-->
+							<!--{if $value[aid]}--><img src="{echo getforumimg($value[aid])}" alt="$value[subject]"><!--{else}--><div class="nophoto" title="$value[subject]"></div><!--{/if}-->
 						</a>
 						<!--{if $value[expiration] && $value[expiration] < $_G[timestamp] || $value[closed]}-->
 						<p class="stat">- {lang trade_closing} -</p>
@@ -206,7 +206,7 @@
 		<!--{if $hiddennum}-->
 			<p class="mtm">{lang hide_trade}</p>
 		<!--{/if}-->
-		<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}--><br />
+		<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}--><br>
 		<!--[diy=diycontentbottom]--><div id="diycontentbottom" class="area"></div><!--[/diy]-->
 	</div>
 	<div class="appl">

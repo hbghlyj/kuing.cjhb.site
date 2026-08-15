@@ -22,7 +22,7 @@ foreach(table_forum_typevar::t()->fetch_all_by_sortid($_GET['typeid']) as $optio
 
 $optionlist = '';
 foreach(table_forum_typeoption::t()->fetch_all_by_classid($classid) as $option) {
-	$optionlist .= '<input '.(in_array($option['optionid'], $options) ? ' checked="checked" ' : '')."class=\"checkbox\" type=\"checkbox\" name=\"typeselect[]\" id=\"typeselect_{$option['optionid']}\" value=\"{$option['optionid']}\" onclick=\"insertoption(this.value);\" /><label for=\"typeselect_{$option['optionid']}\">".dhtmlspecialchars($option['title']).'</label>&nbsp;&nbsp;';
+	$optionlist .= '<input '.(in_array($option['optionid'], $options) ? ' checked="checked" ' : '')."class=\"checkbox\" type=\"checkbox\" name=\"typeselect[]\" id=\"typeselect_{$option['optionid']}\" value=\"{$option['optionid']}\" onclick=\"insertoption(this.value);\"><label for=\"typeselect_{$option['optionid']}\">".dhtmlspecialchars($option['title']).'</label>&nbsp;&nbsp;';
 }
 include template('common/header');
 echo $optionlist;

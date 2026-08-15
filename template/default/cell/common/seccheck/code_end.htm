@@ -1,6 +1,6 @@
 <script>
     function updateseccode_{$sechash}() {
-        document.getElementById('imgseccodespan_{$sechash}').innerHTML = '<img id="imgseccode_{$sechash}" onClick="updateseccode_{$sechash}()" src="misc.php?mod=seccode&update={$ran}&idhash={$sechash}" />';
+        document.getElementById('imgseccodespan_{$sechash}').innerHTML = '<img id="imgseccode_{$sechash}" onClick="updateseccode_{$sechash}()" src="misc.php?mod=seccode&update={$ran}&idhash={$sechash}">';
     }
     updateseccode_{$sechash}();
     setInterval(updateseccode_{$sechash}, 60000);

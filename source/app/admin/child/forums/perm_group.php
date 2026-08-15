@@ -21,7 +21,7 @@ foreach(['member', 'special', 'specialadmin', 'system'] as $type) {
 				$spviewgroup[] = [$group['groupid'], $group['grouptitle']];
 			}
 			$colums = [
-				'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallv'.$group['groupid'].'" onclick="checkAll(\'value\', this.form, '.$group['groupid'].', \'chkallv'.$group['groupid'].'\')" id="chkallv_'.$group['groupid'].'" />',
+				'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallv'.$group['groupid'].'" onclick="checkAll(\'value\', this.form, '.$group['groupid'].', \'chkallv'.$group['groupid'].'\')" id="chkallv_'.$group['groupid'].'">',
 				'<label for="chkallv_'.$group['groupid'].'"> '.$group['grouptitle'].'</label>', 'g'.$group['groupid']];
 			foreach($perms as $perm) {
 				$checked = str_contains($forum[$perm], "\t{$group['groupid']}\t") ? 'checked="checked"' : NULL;

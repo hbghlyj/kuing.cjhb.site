@@ -23,10 +23,10 @@ if(!submitcheck('verifysubmit')) {
 			$_G['setting']['verify'][$i]['icon'] = $_G['setting']['attachurl'].'common/'.$_G['setting']['verify'][$i]['icon'];
 		}
 		showtablerow('', ['class="td25"', '', '', 'class="td25"'], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[verify][$i][available]\" value=\"1\" ".($_G['setting']['verify'][$i]['available'] ? 'checked' : '').' />',
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[verify][$i][available]\" value=\"1\" ".($_G['setting']['verify'][$i]['available'] ? 'checked' : '').'>',
 			'verify'.$i,
 			($readonly ? $_G['setting']['verify'][$i]['title']."<input type=\"hidden\" name=\"settingnew[verify][$i][title]\" value=\"{$_G['setting']['verify'][$i]['title']}\" readonly>&nbsp;" : "<input type=\"text\" class=\"txt\" size=\"8\" name=\"settingnew[verify][$i][title]\" value=\"{$_G['setting']['verify'][$i]['title']}\">").
-			($_G['setting']['verify'][$i]['icon'] ? '<img src="'.$_G['setting']['verify'][$i]['icon'].'" />' : ''),
+			($_G['setting']['verify'][$i]['icon'] ? '<img src="'.$_G['setting']['verify'][$i]['icon'].'">' : ''),
 			"<a href=\"".ADMINSCRIPT."?action=verify&operation=edit&anchor=base&vid=$i\">".$lang['edit'].'</a>'
 		]);
 	}

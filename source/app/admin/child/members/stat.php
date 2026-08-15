@@ -67,7 +67,7 @@ if(!submitcheck('statsubmit')) {
 			."<a href=\"".ADMINSCRIPT."?action=members&operation=stat&fieldid=$key\">$value</a>"
 			.'</li>';
 	}
-	$option_html .= '</ul><br style="clear: both;" />';
+	$option_html .= '</ul><br style="clear: both;">';
 	showtablerow('', ['colspan="5"'], [$option_html]);
 
 	if($_GET['fieldid']) {
@@ -109,8 +109,8 @@ if(!submitcheck('statsubmit')) {
 			]);
 		}
 
-		$optype_html = '<input type="radio" class="radio" name="optype" id="optype_option" value="option" /><label for="optype_option">'.cplang('members_stat_update_option').'</label>&nbsp;&nbsp;'
-			.'<input type="radio" class="radio" name="optype" id="optype_data" value="data" /><label for="optype_data">'.cplang('members_stat_update_data').'</label>';
+		$optype_html = '<input type="radio" class="radio" name="optype" id="optype_option" value="option"><label for="optype_option">'.cplang('members_stat_update_option').'</label>&nbsp;&nbsp;'
+			.'<input type="radio" class="radio" name="optype" id="optype_data" value="data"><label for="optype_data">'.cplang('members_stat_update_data').'</label>';
 		showsubmit('statsubmit', 'submit', $optype_html);
 	}
 	showtablefooter();

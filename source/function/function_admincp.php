@@ -83,7 +83,7 @@ function upgradeinformation($status = 0) {
 	}
 
 	$upgradeurl = 'ht'.'tp:/'.'/cus'.'tome'.'r.disc'.'uz.n'.'et/upg'.'rade'.'.p'.'hp?'.'os=dx&update='.rawurlencode(base64_encode($data)).'&timestamp='.TIMESTAMP;
-	return '<img src="'.$upgradeurl.'" />';
+	return '<img src="'.$upgradeurl.'">';
 }
 
 function isfounder($user = '') {
@@ -371,21 +371,21 @@ function cpmsg($message, $url = '', $type = 'error', $values = [], $extra = '', 
 
 	if($type == 'form') {
 		$message = "<form method=\"post\" action=\"$url\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\">".
-			"<br />$message$extra<br />".
+			"<br>$message$extra<br>".
 			"<p class=\"margintop\"><input type=\"submit\" class=\"btn\" name=\"confirmed\" value=\"".cplang('ok')."\"> &nbsp; \n".
 			($cancelurl ? "<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"location.href='$cancelurl'\">" :
 				"<script type=\"text/javascript\">".
 				"if(history.length > 1) document.write('<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"history.go(-1);\">');".
 				'</script>').
-			'</p></form><br />';
+			'</p></form><br>';
 	} elseif($type == 'loadingform') {
-		$message = "<form method=\"post\" action=\"$url\" id=\"loadingform\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\"><br />$message$extra<div class=\"loading-wrap\" style=\"width: 100%\"><div class=\"loading-inner\"></div></div><br />".
-			'<p class="marginbot"><a href="###" onclick="$(\'loadingform\').submit();" class="lightlink">'.cplang('message_redirect').'</a></p></form><br /><script type="text/JavaScript">setTimeout("$(\'loadingform\').submit();", 2000);</script>';
+		$message = "<form method=\"post\" action=\"$url\" id=\"loadingform\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\"><br>$message$extra<div class=\"loading-wrap\" style=\"width: 100%\"><div class=\"loading-inner\"></div></div><br>".
+			'<p class="marginbot"><a href="###" onclick="$(\'loadingform\').submit();" class="lightlink">'.cplang('message_redirect').'</a></p></form><br><script type="text/JavaScript">setTimeout("$(\'loadingform\').submit();", 2000);</script>';
 	} else {
-		$message .= $extra.($type == 'loading' ? '<div class="loading-wrap"><div class="loading-inner"></div></div><br />' : '');
+		$message .= $extra.($type == 'loading' ? '<div class="loading-wrap"><div class="loading-inner"></div></div><br>' : '');
 		if($url) {
 			if($type == 'button') {
-				$message = "<br />$message<br /><p class=\"margintop\"><input type=\"submit\" class=\"btn\" name=\"submit\" value=\"".cplang('start')."\" onclick=\"location.href='$url'\" />";
+				$message = "<br>$message<br><p class=\"margintop\"><input type=\"submit\" class=\"btn\" name=\"submit\" value=\"".cplang('start')."\" onclick=\"location.href='$url'\">";
 			} else {
 				$message .= '<p class="marginbot"><a href="'.$url.'" class="lightlink">'.cplang($type == 'download' ? 'message_download' : 'message_redirect').'</a></p>';
 				$timeout = $type != 'loading' ? 3000 : 1000;
@@ -427,7 +427,7 @@ function cpheader() {
 	$pagecss = '';
 	if(!empty($_G['cache']['admin']['platform'][PLATFORM]['pagecss'])) {
 		if(str_ends_with($_G['cache']['admin']['platform'][PLATFORM]['pagecss'], '.css')) {
-			$pagecss = '<link rel="stylesheet" href="'.$_G['cache']['admin']['platform'][PLATFORM]['pagecss'].'?'.$_G['style']['verhash'].'" type="text/css" media="all" />';
+			$pagecss = '<link rel="stylesheet" href="'.$_G['cache']['admin']['platform'][PLATFORM]['pagecss'].'?'.$_G['style']['verhash'].'" media="all">';
 		} else {
 			$pagecss = '<style>'.$_G['cache']['admin']['platform'][PLATFORM]['pagecss'].'</style>';
 		}
@@ -584,10 +584,10 @@ function showformheader($action, $extra = '', $name = 'cpform', $method = 'post'
 	}
 	$anchor = isset($_GET['anchor']) ? dhtmlspecialchars($_GET['anchor']) : '';
 	echo $before.'<form name="'.$name.'" method="'.$method.'" autocomplete="'.$autocomplete.'" action="'.ADMINSCRIPT.'?action='.$action.'" id="'.$name.'"'.($extra == 'enctype' ? ' enctype="multipart/form-data"' : " $extra").$multi.'>'.
-		'<input type="hidden" name="formhash" value="'.FORMHASH.'" />'.
-		'<input type="hidden" id="formscrolltop" name="scrolltop" value="" />'.
-		'<input type="hidden" name="anchor" value="'.$anchor.'" />'.
-		(isset($_G['showsetting_multi']) ? '<input type="hidden" name="multijssubmit" value="yes" />' : '');
+		'<input type="hidden" name="formhash" value="'.FORMHASH.'">'.
+		'<input type="hidden" id="formscrolltop" name="scrolltop" value="">'.
+		'<input type="hidden" name="anchor" value="'.$anchor.'">'.
+		(isset($_G['showsetting_multi']) ? '<input type="hidden" name="multijssubmit" value="yes">' : '');
 }
 
 function showhiddenfields($hiddenfields = []) {
@@ -837,17 +837,17 @@ function showsetting($setname, $varname, $value, $type = 'radio', $disabled = ''
 			'<li'.($check['false'] ? ' class="checked"' : '').'><input class="radio" type="radio"'.($varnameid ? ' id="_v0_'.$varnameid.'"' : '').' name="'.$varname.'" value="0" '.$check['false'].$check['hidden0'].$check['disabled'].$onclick.'>&nbsp;'.cplang('no').'</li>'.
 			'</ul>';
 	} elseif($type == 'text' || $type == 'password' || $type == 'number') {
-		$s .= '<input name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="'.$type.'" class="txt" '.$check['disabled'].' '.$extra.' />';
+		$s .= '<input name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="'.$type.'" class="txt" '.$check['disabled'].' '.$extra.'>';
 	} elseif($type == 'htmltext') {
 		$id = 'html'.random(2);
-		$s .= '<div id="'.$id.'">'.$value.'</div><input id="'.$id.'_v" name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="hidden" /><script type="text/javascript">sethtml(\''.$id.'\')</script>';
+		$s .= '<div id="'.$id.'">'.$value.'</div><input id="'.$id.'_v" name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="hidden"><script type="text/javascript">sethtml(\''.$id.'\')</script>';
 	} elseif($type == 'file') {
-		$s .= '<input name="'.$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.' />';
+		$s .= '<input name="'.$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.'>';
 	} elseif($type == 'filetext') {
 		$defaulttype = $value ? 1 : 0;
 		$id = 'file'.random(2);
-		$s .= '<input id="'.$id.'_0" style="display:'.($defaulttype ? 'none' : '').'" name="'.($defaulttype ? 'TMP' : '').$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.' />'.
-			'<input id="'.$id.'_1" style="display:'.(!$defaulttype ? 'none' : '').'" name="'.(!$defaulttype ? 'TMP' : '').$varname.'" value="'.dhtmlspecialchars($value).'" type="text" class="txt marginbot" '.$extra.' /><br />'.
+		$s .= '<input id="'.$id.'_0" style="display:'.($defaulttype ? 'none' : '').'" name="'.($defaulttype ? 'TMP' : '').$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.'>'.
+			'<input id="'.$id.'_1" style="display:'.(!$defaulttype ? 'none' : '').'" name="'.(!$defaulttype ? 'TMP' : '').$varname.'" value="'.dhtmlspecialchars($value).'" type="text" class="txt marginbot" '.$extra.'><br>'.
 			'<a id="'.$id.'_0a" style="'.(!$defaulttype ? 'font-weight:bold' : '').'" href="javascript:;" onclick="$(\''.$id.'_1a\').style.fontWeight = \'\';this.style.fontWeight = \'bold\';$(\''.$id.'_1\').name = \'TMP'.$varname.'\';$(\''.$id.'_0\').name = \''.$varname.'\';$(\''.$id.'_0\').style.display = \'\';$(\''.$id.'_1\').style.display = \'none\'">'.cplang('switch_upload').'</a>&nbsp;'.
 			'<a id="'.$id.'_1a" style="'.($defaulttype ? 'font-weight:bold' : '').'" href="javascript:;" onclick="$(\''.$id.'_0a\').style.fontWeight = \'\';this.style.fontWeight = \'bold\';$(\''.$id.'_0\').name = \'TMP'.$varname.'\';$(\''.$id.'_1\').name = \''.$varname.'\';$(\''.$id.'_1\').style.display = \'\';$(\''.$id.'_0\').style.display = \'none\'">'.cplang('switch_url').'</a>';
 	} elseif($type == 'textarea') {
@@ -1041,13 +1041,13 @@ function showsetting($setname, $varname, $value, $type = 'radio', $disabled = ''
 	if(!$nocomment && ($type != 'omcheckbox' || $varname[2] != 'isfloat')) {
 		if(!isset($_G['showsetting_multi'])) {
 			if($inbox) {
-				echo '<div>'.$s.'</div><div>'.$commenttext.($type == 'textarea' ? '<br />'.cplang('tips_textarea') : '').
-					($disabled ? '<br /><span class="smalltxt" style="color:#F00">'.cplang($setname.'_disabled', false).'</span>' : NULL).'</div>';
+				echo '<div>'.$s.'</div><div>'.$commenttext.($type == 'textarea' ? '<br>'.cplang('tips_textarea') : '').
+					($disabled ? '<br><span class="smalltxt" style="color:#F00">'.cplang($setname.'_disabled', false).'</span>' : NULL).'</div>';
 			} elseif(!$widemode) {
 				showtablerow('class="noborder"', ['class="vtop rowform"', 'class="vtop tips2" s="1"'], [
 					$s,
-					$commenttext.($type == 'textarea' ? '<br />'.cplang('tips_textarea') : '').
-					($disabled ? '<br /><span class="smalltxt" style="color:#F00">'.cplang($setname.'_disabled', false).'</span>' : NULL)
+					$commenttext.($type == 'textarea' ? '<br>'.cplang('tips_textarea') : '').
+					($disabled ? '<br><span class="smalltxt" style="color:#F00">'.cplang($setname.'_disabled', false).'</span>' : NULL)
 				]);
 			} else {
 				showtablerow('class="noborder"', ['class="vtop rowform" colspan="2"'], [$s]);
@@ -1109,7 +1109,7 @@ function mradio($name, $items = [], $checked = '', $float = TRUE) {
 	$list = '<ul'.($float ? '' : ' class="nofloat"').' onmouseover="altStyle(this);">';
 	if(is_array($items)) {
 		foreach($items as $value => $item) {
-			$list .= '<li'.($checked == $value ? ' class="checked"' : '').'><input type="radio" name="'.$name.'" value="'.$value.'" class="radio"'.($checked == $value ? ' checked="checked"' : '').' /> '.$item.'</li>';
+			$list .= '<li'.($checked == $value ? ' class="checked"' : '').'><input type="radio" name="'.$name.'" value="'.$value.'" class="radio"'.($checked == $value ? ' checked="checked"' : '').'> '.$item.'</li>';
 		}
 	}
 	$list .= '</ul>';
@@ -1120,7 +1120,7 @@ function mcheckbox($name, $items = [], $checked = []) {
 	$list = '<ul class="dblist" onmouseover="altStyle(this);">';
 	if(is_array($items)) {
 		foreach($items as $value => $item) {
-			$list .= '<li'.(empty($checked) || in_array($value, $checked) ? ' class="checked"' : '').'><input type="checkbox" name="'.$name.'[]" value="'.$value.'" class="checkbox"'.(empty($checked) || in_array($value, $checked) ? ' checked="checked"' : '').' /> '.$item.'</li>';
+			$list .= '<li'.(empty($checked) || in_array($value, $checked) ? ' class="checked"' : '').'><input type="checkbox" name="'.$name.'[]" value="'.$value.'" class="checkbox"'.(empty($checked) || in_array($value, $checked) ? ' checked="checked"' : '').'> '.$item.'</li>';
 		}
 	}
 	$list .= '</ul>';
@@ -1137,13 +1137,13 @@ function showsubmit($name = '', $value = 'submit', $before = '', $after = '', $f
 	}
 	$random = random(4);
 	$str = '<tr'.($extra ? " $extra" : '').'>';
-	$str .= $name && in_array($before, ['del', 'select_all', 'td']) ? '<td class="td25">'.($before != 'td' ? '<input type="checkbox" name="chkall" id="chkall'.($chkkallid = random(4)).'" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')" /><label for="chkall'.$chkkallid.'">'.cplang($before).'</label>' : '').'</td>' : '';
+	$str .= $name && in_array($before, ['del', 'select_all', 'td']) ? '<td class="td25">'.($before != 'td' ? '<input type="checkbox" name="chkall" id="chkall'.($chkkallid = random(4)).'" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')"><label for="chkall'.$chkkallid.'">'.cplang($before).'</label>' : '').'</td>' : '';
 	$str .= '<td colspan="15">';
 	$str .= $floatright ? '<div class="cuspages right">'.$floatright.'</div>' : '';
 	$str .= '<div class="fixsel">';
 	$str .= $before && !in_array($before, ['del', 'select_all', 'td']) ? $before.' &nbsp;' : '';
-	$str .= $name ? '<input type="submit" class="btn" id="submit_'.$name.'_'.$random.'" name="'.$name.'" title="'.($entersubmit ? cplang('submit_tips') : '').'" value="'.cplang($value).'" />' : '';
-	$after = $after == 'more_options' ? '<input class="checkbox" type="checkbox" value="1" onclick="$(\'advanceoption\').style.display = $(\'advanceoption\').style.display == \'none\' ? \'\' : \'none\'; this.value = this.value == 1 ? 0 : 1; this.checked = this.value == 1 ? false : true" id="btn_more" /><label for="btn_more">'.cplang('more_options').'</label>' : $after;
+	$str .= $name ? '<input type="submit" class="btn" id="submit_'.$name.'_'.$random.'" name="'.$name.'" title="'.($entersubmit ? cplang('submit_tips') : '').'" value="'.cplang($value).'">' : '';
+	$after = $after == 'more_options' ? '<input class="checkbox" type="checkbox" value="1" onclick="$(\'advanceoption\').style.display = $(\'advanceoption\').style.display == \'none\' ? \'\' : \'none\'; this.value = this.value == 1 ? 0 : 1; this.checked = this.value == 1 ? false : true" id="btn_more"><label for="btn_more">'.cplang('more_options').'</label>' : $after;
 	$str = $after ? $str.(($before && $before != 'del') || $name ? ' &nbsp;' : '').$after : $str;
 	$str .= '</div></td>';
 	$str .= '</tr>';

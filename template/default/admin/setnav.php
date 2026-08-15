@@ -7,18 +7,18 @@
 			</span>
 	</h3>
 	<form id="setnav" method="post" autocomplete="off" action="{ADMINSCRIPT}?action=misc&operation=setnav&type=$type&do=$do" onsubmit="ajaxpost('setnav', 'message_setnav', 'message_setnav');return false;">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="type" value="$type" />
-		<input type="hidden" name="funcsubmit" value="1" />
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="type" value="$type">
+		<input type="hidden" name="funcsubmit" value="1">
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 		<div class="c" id="message_setnav">
 			<!--{if $do == 'open'}-->
 			<ul>
 				<!--{if !in_array($type, array('wall', 'friend', 'follower', 'medal', 'magic', 'favorite'))}-->
-				<li><label><input type="checkbox" name="location[header]" class="pc" value="1" />{lang main_nav}</label></li>
+				<li><label><input type="checkbox" name="location[header]" class="pc" value="1">{lang main_nav}</label></li>
 				<!--{/if}-->
 				<!--{if  !in_array($type, array('forum', 'follower'))}-->
-				<li><label><input type="checkbox" name="location[quick]" class="pc" value="1" />{lang quick_nav}</label></li>
+				<li><label><input type="checkbox" name="location[quick]" class="pc" value="1">{lang quick_nav}</label></li>
 				<!--{/if}-->
 			</ul>
 			<!--{else}-->

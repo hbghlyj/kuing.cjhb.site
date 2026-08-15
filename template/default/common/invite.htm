@@ -21,7 +21,7 @@
 				<ul class="cl">
 					<li>
 						<p>{lang invite_orderby_name}</p>
-						<p class="mtn"><input type="text" name="username" size="25" id="username" class="px" value="" autocomplete="off" /> <button class="pn pnc" onclick="clearlist=1;getUser();"><span>{lang find}</span></button></p>
+						<p class="mtn"><input type="text" name="username" size="25" id="username" class="px" value="" autocomplete="off"> <button class="pn pnc" onclick="clearlist=1;getUser();"><span>{lang find}</span></button></p>
 						<script>
 							var invitefs;
 							var clearlist = 0;
@@ -119,9 +119,9 @@
 				}
 			</script>
 			<form method="post" autocomplete="off" name="invite" id="inviteform" action="misc.php?mod=invite&action=$_GET[action]&id=$id{if $_GET['activity']}&activity=1{/if}">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<!--{if !empty($_G['inajax'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<!--{if !empty($_G['inajax'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 				<p class="o pns{if empty($_G['inajax'])} mtw{/if}"><button type="submit" class="pn pnc" name="invitesubmit" value="yes"><strong>{lang invite_send}</strong></button></p>
 			</form>
 		</div>

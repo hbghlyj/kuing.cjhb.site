@@ -107,7 +107,7 @@ $lang = [
 	'not_allow_upload_extend' => '不允许上传{extend}类型的图片',
 	'files_can_not_exceed_size' => '{extend}类文件不能超过{size}',
 	'get_passwd_subject' => '取回密码邮件',
-	'get_passwd_message' => '您只需在提交请求后的三天之内，通过点击下面的链接重置您的密码：<br />\\1<br />(如果上面不是链接形式，请将地址手工粘帖到浏览器地址栏再访问)<br />上面的页面打开后，输入新的密码后提交，之后您即可使用新的密码登录了。',
+	'get_passwd_message' => '您只需在提交请求后的三天之内，通过点击下面的链接重置您的密码：<br>\\1<br>(如果上面不是链接形式，请将地址手工粘帖到浏览器地址栏再访问)<br>上面的页面打开后，输入新的密码后提交，之后您即可使用新的密码登录了。',
 	'file_is_too_big' => '文件过大',
 
 	'take_part_in_the_voting' => '{actor} 参与了 {touser} 的{reward}投票 <a href="{url}" target="_blank">{subject}</a>',
@@ -308,7 +308,7 @@ $lang = [
 
 	'spacecp_message_prompt' => '(支持 {msg} 代码,最大 1000 字)',
 	'card_update_doing' => ' <a class="xi2" href="###">[更新记录]</a>',
-	'email_acitve_message' => '<i class="fico-email vm fc-i" title="未验证"></i><span class="xi1 vm">新邮箱({newemail})等待验证中...</span><br />
+	'email_acitve_message' => '<i class="fico-email vm fc-i" title="未验证"></i><span class="xi1 vm">新邮箱({newemail})等待验证中...</span><br>
 								系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。<br>
 								如果没有收到验证邮件，您可以更换一个邮箱，或者<a href="home.php?mod=spacecp&ac=profile&op=password&resend=1&formhash={formhash}" class="xi2">重新接收验证邮件</a>',
 	'qq_set_status' => '设置我的QQ在线状态',

@@ -289,7 +289,7 @@ function build_cache_setting() {
 	$exchcredits = [];
 	$allowexchangein = $allowexchangeout = FALSE;
 	foreach((array)$data['extcredits'] as $id => $credit) {
-		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'" />' : '';
+		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'">' : '';
 		if(!empty($credit['ratio'])) {
 			$exchcredits[$id] = $credit;
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
@@ -342,7 +342,7 @@ function build_cache_setting() {
 	$allowexchangein = $allowexchangeout = FALSE;
 	$data['creditnames'] = [];
 	foreach((array)$data['extcredits'] as $id => $credit) {
-		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'" />' : '';
+		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'">' : '';
 		if(!empty($credit['ratio'])) {
 			$exchcredits[$id] = $credit;
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
@@ -998,7 +998,7 @@ function get_cachedata_mainnav($locale = '') {
 
 		if($nav['logo']) {
 			$navlogo = admin\class_attach::getUrl($nav['logo']);
-			$data['navlogos'][$navid] = '<a href="'.$nav['url'].'" title="'.$_G['setting']['bbname'].'"><img src="'.$navlogo.'" alt="'.$_G['setting']['bbname'].'" border="0" /></a>';
+			$data['navlogos'][$navid] = '<a href="'.$nav['url'].'" title="'.$_G['setting']['bbname'].'"><img src="'.$navlogo.'" alt="'.$_G['setting']['bbname'].'" border="0"></a>';
 		}
 
 		if($nav['icon']) {
@@ -1086,7 +1086,7 @@ function get_cachedata_spacenavs($locale = '') {
 			if(!preg_match('/^'.preg_quote(STATICURL, '/').'/i', $navicon) && !(($valueparse = parse_url($navicon)) && isset($valueparse['host']))) {
 				$navicon = $nav['icon'].'?'.random(6);
 			}
-			$nav['icon'] = '<img src="'.$navicon.'" width="16" height="16" />';
+			$nav['icon'] = '<img src="'.$navicon.'" width="16" height="16">';
 		}
 		$nav['allowsubnew'] = 1;
 		if(!$nav['subname'] || !$nav['suburl'] || str_starts_with($nav['subname'], "\t")) {
@@ -1142,7 +1142,7 @@ function get_cachedata_spacenavs($locale = '') {
 		if($nav['name'] != '{hr}') {
 			$nav['code'] = '<li>'.$nav['subcode'].'<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').'>'.$nav['icon'].$nav['name'].'</a></li>';
 		} else {
-			$nav['code'] = '</ul><hr class="da" /><ul>';
+			$nav['code'] = '</ul><hr class="da"><ul>';
 		}
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
 		$data['spacenavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'level' => $nav['level']];
@@ -1202,7 +1202,7 @@ function get_cachedata_mnav($locale = '') {
 			if(strpos($nav['icon'], 'http://') !== 0 && strpos($nav['icon'], 'https://') !== 0) {
 				$nav['icon'] = $_G['siteurl'].$nav['icon'];
 			}
-			$nav['icon'] = '<img src="'.$nav['icon'].'" alt="'.$nav['name'].'" />';
+			$nav['icon'] = '<img src="'.$nav['icon'].'" alt="'.$nav['name'].'">';
 		}
 		$data['mnavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'url' => $nav['url'], 'name' => $nav['name'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier'], 'icon' => $nav['icon'], 'is_post' => $nav['identifier'] == 'post'];
 	}

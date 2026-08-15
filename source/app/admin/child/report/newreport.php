@@ -39,15 +39,15 @@ foreach($query as $row) {
 	$tmp = itemview_parse($row['url']);
 	$itemview = !$tmp ? '' : ('<br><b>'.cplang('report_newreport_view').'</b><br>'.$tmp);
 	showtablerow('', ['class="td25"', 'class="td28"', '', ''], [
-		'<input type="checkbox" class="checkbox" name="reportids[]" value="'.$row['id'].'" />',
+		'<input type="checkbox" class="checkbox" name="reportids[]" value="'.$row['id'].'">',
 		'<b>'.cplang('report_newreport_url').'</b><a href="'.$row['url'].'" target="_blank">'.$row['url'].'</a><br \><b>'.cplang('report_newreport_time').'</b>'.dgmdate($row['dateline']).$itemview.'<br><b>'.cplang('report_newreport_message').'</b><br>'.$row['message'],
 		'<a href="home.php?mod=space&uid='.$row['uid'].'">'.$row['username'].'</a><input type="hidden" name="reportuids['.$row['id'].']" value="'.$row['uid'].'">',
-		($report_reward['max'] != $report_reward['min'] ? $_G['setting']['extcredits'][$curcredits]['title'].':&nbsp;<select name="creditsvalue['.$row['id'].']">'.$rewardlist.'</select><br /><br />'.cplang('report_note').':&nbsp;<input type="text" name="msg['.$row['id'].']" value="">' : '')
+		($report_reward['max'] != $report_reward['min'] ? $_G['setting']['extcredits'][$curcredits]['title'].':&nbsp;<select name="creditsvalue['.$row['id'].']">'.$rewardlist.'</select><br><br>'.cplang('report_note').':&nbsp;<input type="text" name="msg['.$row['id'].']" value="">' : '')
 	]);
 }
 $multipage = multi($reportcount, $lpp, $page, ADMINSCRIPT."?action=report&lpp=$lpp", 0, 3);
 
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'reportids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.$lang['delete'].'" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="resolvesubmit" value="'.cplang('report_newreport_resolve').'" />', $multipage);
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'reportids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.$lang['delete'].'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="resolvesubmit" value="'.cplang('report_newreport_resolve').'">', $multipage);
 showtablefooter();
 showformfooter();
 	

@@ -38,18 +38,18 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 
 	showtablerow('', ['width="100"', 'width="200"', 'width="100"'],
 		[
-			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"{$_GET['username']}\" />",
-			cplang('moderate_title_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"{$_GET['title']}\" />",
+			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"{$_GET['username']}\">",
+			cplang('moderate_title_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"{$_GET['title']}\">",
 		]
 	);
 	showtablerow('', ['width="100"', 'width="200"', 'width="100"'],
 		[
 			"{$lang['perpage']}",
-			"<select name=\"tpp\">$tpp_options</select><label><input name=\"showcensor\" type=\"checkbox\" class=\"checkbox\" value=\"yes\" ".($showcensor ? ' checked="checked"' : '')."/> {$lang['moderate_showcensor']}</label>",
+			"<select name=\"tpp\">$tpp_options</select><label><input name=\"showcensor\" type=\"checkbox\" class=\"checkbox\" value=\"yes\" ".($showcensor ? ' checked="checked"' : '')."> {$lang['moderate_showcensor']}</label>",
 			"{$lang['moderate_bound']}",
 			"<select name=\"filter\">$filteroptions</select>
                         <select name=\"dateline\">$dateline_options</select>
-                        <input class=\"btn\" type=\"submit\" value=\"{$lang['search']}\" />"
+                        <input class=\"btn\" type=\"submit\" value=\"{$lang['search']}\">"
 		]
 	);
 
@@ -103,7 +103,7 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			"<p><a target=\"_blank\" href=\"".ADMINSCRIPT."?action=members&operation=search&uid={$pic['uid']}&submit=yes\">{$pic['username']}</a></p> <p>{$pic['dateline']}</p>",
 			"<a target=\"_blank\" href=\"home.php?mod=space&uid={$pic['uid']}&do=album&picid={$pic['picid']}&modpickey={$pic['modpickey']}\">{$lang['view']}</a>",
 		]);
-		showtablerow("id=\"mod_{$pic['picid']}_row2\"", 'colspan="4" style="padding: 10px; line-height: 180%;"', '<div style="overflow: auto; overflow-x: hidden; max-height:120px; height:auto !important; height:100px; word-break: break-all;"><img src="'.$pic['url'].'" /></div>');
+		showtablerow("id=\"mod_{$pic['picid']}_row2\"", 'colspan="4" style="padding: 10px; line-height: 180%;"', '<div style="overflow: auto; overflow-x: hidden; max-height:120px; height:auto !important; height:100px; word-break: break-all;"><img src="'.$pic['url'].'"></div>');
 		showtablerow("id=\"mod_{$pic['picid']}_row3\"", 'class="threadopt threadtitle" colspan="4"', "<a href=\"?action=moderate&operation=pictures&fast=1&picid={$pic['picid']}&moderate[{$pic['picid']}]=validate&page=$page&frame=no\" target=\"fasthandle\">{$lang['validate']}</a> | <a href=\"?action=moderate&operation=pictures&fast=1&picid={$pic['picid']}&moderate[{$pic['picid']}]=delete&page=$page&frame=no\" target=\"fasthandle\">{$lang['delete']}</a> | <a href=\"?action=moderate&operation=pictures&fast=1&picid={$pic['picid']}&moderate[{$pic['picid']}]=ignore&page=$page&frame=no\" target=\"fasthandle\">{$lang['ignore']}</a>");
 		showtagfooter('tbody');
 	}

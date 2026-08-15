@@ -17,7 +17,7 @@ foreach($_G['setting']['verify'] as $vid => $verify) {
 		continue;
 	}
 	$colums = [
-		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallverify'.$vid.'" onclick="checkAll(\'value\', this.form, \'verify'.$vid.'\', \'chkallverify'.$vid.'\')" id="chkallverify_'.$vid.'" />',
+		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallverify'.$vid.'" onclick="checkAll(\'value\', this.form, \'verify'.$vid.'\', \'chkallverify'.$vid.'\')" id="chkallverify_'.$vid.'">',
 		'<label for="chkallverify_'.$vid.'"> '.$verify['title'].'</label>', 'v'.$vid];
 	foreach($perms as $perm) {
 		$checked = str_contains($forum[$perm], "\tv$vid\t") ? 'checked="checked"' : NULL;
@@ -32,7 +32,7 @@ if($s) {
 	showtagheader('tbody', 'gverify', $exists);
 	echo $s;
 	$permtits = [
-		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallmverify" onclick="checkAll(\'value\', this.form, \'mverify\', \'chkallmverify\')" id="chkallmverify" />',
+		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallmverify" onclick="checkAll(\'value\', this.form, \'mverify\', \'chkallmverify\')" id="chkallmverify">',
 		'<label for="chkallmverify"> <b><i>'.cplang('forums_edit_perm_mustall').'</i></b></label>', ''];
 	foreach($perms as $perm) {
 		$checked = preg_match("/(^|\t)_v\[(.+?)\]/", $forum[$perm]) ? 'checked="checked"' : NULL;

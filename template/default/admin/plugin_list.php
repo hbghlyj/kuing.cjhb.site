@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!--{block col1}-->
-<img src="$logo" onerror="this.src='{STATICURL}image/admincp/plugin_logo.png';this.onerror=null" width="80" height="80" align="left" />
+<img src="$logo" onerror="this.src='{STATICURL}image/admincp/plugin_logo.png';this.onerror=null" width="80" height="80" align="left">
 <!--{/block}-->
 <!--{block col2}-->
 <h3 <!--{if !$plugin['available']}-->class="light"<!--{/if}--> style="font-size:16px">
@@ -11,7 +11,7 @@
 	<!--{/if}-->
 </h3>
 <!--{if $plugin['description'] || $plugin['modules']['extra']['intro']}-->
-	<div id="intro_{$plugin['pluginid']}" class="memo" style="display:none">{$plugin['description']}<br />{$plugin['modules']['extra']['intro']}</div>
+	<div id="intro_{$plugin['pluginid']}" class="memo" style="display:none">{$plugin['description']}<br>{$plugin['modules']['extra']['intro']}</div>
 <!--{/if}-->
 <p>
 	<span class="light">
@@ -40,7 +40,7 @@
 </div>
 <!--{if $hookexists !== FALSE && $plugin['available']}-->
 <div style="margin-top: 10px">
-{$lang['display_order']}: <input class="txt num" type="text" id="displayorder_{$plugin['pluginid']}" name="displayordernew[{$plugin['pluginid']}][$hookexists]" value="$hookorder" /><br /><br />
+{$lang['display_order']}: <input class="txt num" type="text" id="displayorder_{$plugin['pluginid']}" name="displayordernew[{$plugin['pluginid']}][$hookexists]" value="$hookorder"><br><br>
 </div>
 <!--{/if}-->
 <!--{/block}-->

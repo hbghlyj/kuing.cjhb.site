@@ -66,7 +66,7 @@ var swiper = new Swiper('.dz-swiper', {
 	<!--{eval $article_url = fetch_article_url($value);}-->
 	<li>
 		<a href="$article_url" $highlight>
-		<!--{if $value['pic']}--><div class="mimg"><img src="$value['pic']" alt="$value['title']" /></div><!--{/if}-->
+		<!--{if $value['pic']}--><div class="mimg"><img src="$value['pic']" alt="$value['title']"></div><!--{/if}-->
 		<div class="minfo">
 			<p class="mtit">$value['title']</p>
 			<p class="mtime">$value['catname'] $value['dateline']<!--{if $value['status'] == 1}--> <span>{lang moderate_need}</span><!--{/if}--></p>

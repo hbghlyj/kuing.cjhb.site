@@ -92,7 +92,7 @@ class extend_thread_poll extends extend_thread_base {
 		$s = '';
 		$i = 1;
 		foreach($pvs as $pv) {
-			$s .= $i.'. '.$pv.'<br />';
+			$s .= $i.'. '.$pv.'<br>';
 		}
 		$s .= '&nbsp;&nbsp;&nbsp;...';
 		$this->feed['icon'] = 'poll';

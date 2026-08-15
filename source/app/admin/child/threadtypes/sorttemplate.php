@@ -66,7 +66,7 @@ if(!submitcheck('sorttemplatesubmit')) {
 [loop]<tr><td><a href="{subject_url}">{subject}</a></td></tr>[/loop]
 </table>
 			</textarea>'.
-		'<br />'.
+		'<br>'.
 		$showoption.
 		'<div id="stype_tip"></div>'.
 		'<textarea cols="100" rows="15" id="stypetemplate" name="stypetemplate" style="width: 95%;" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)">'.dhtmlspecialchars($threadtype['stemplate']).'</textarea>'.
@@ -88,7 +88,7 @@ if(!submitcheck('sorttemplatesubmit')) {
 		'<button onclick="settip(this, \'typename\', \'typename/'.$lang['threadtype_template_threadtypename'].'|typename_url/'.$lang['threadtype_template_threadtypeurl'].'\')" type="button">'.$lang['threadtype_template_threadtype'].'</button>&nbsp;&nbsp;'.
 		'<button onclick="settip(this, \'\', \'attachment/'.$lang['threadtype_template_attachmentexist'].'\')" type="button">'.$lang['threadtype_template_attachment'].'</button>&nbsp;&nbsp'.
 		'<button onclick="settip(this, \'loop\', \'/'.$lang['threadtype_template_loop'].'\')" type="button">[loop]...[/loop]</button>&nbsp;&nbsp;'.
-		'<br />'.
+		'<br>'.
 		$showoption.
 		'<div id="btype_tip"></div>'.
 		'<textarea cols="100" rows="15" id="btypetemplate" name="btypetemplate" style="width: 95%;" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)">'.dhtmlspecialchars($threadtype['btemplate']).'</textarea>'.

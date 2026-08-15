@@ -56,7 +56,7 @@ CSS 写作注意事项：
 			边框与背景：border,background
 			段落与文本：line-height,text-indent,font,color,text-decoration,...
 			其他属性：overflow,cursor,visibility,...
-		2.2. 针对特殊浏览器的属性，应写在标准属性之前，例如：-webkit-box-shadow:; -moz-box-shadow:; box-shaow:;
+		2.2. 使用标准 CSS 属性，避免添加已废弃的浏览器前缀。
 	3. 谨慎添加新的选择符规则，尤其不可滥用 id，尽可能继承和复用已有样式
 	4. 选择符、属性、值均用小写（格式的颜色值除外），缩写的选择符名称须说明缩写前的全称，例如 .cl -> Clearfix
 	5. 避免使用各种 CSS Hack，如需对 IE 进行特殊定义，请参阅下节“关于 CSS Hack 的说明”
@@ -471,7 +471,7 @@ Last Modify:	Pony
 	Last Modify:	Pony
 */
 	button::-moz-focus-inner { border: 0; padding: 0; }
-	.pn { vertical-align: middle; overflow: hidden; margin-right: 3px; padding: 0; height: 23px; border: 1px solid #999; background: #EEE; cursor: pointer; -moz-box-shadow: 0 1px 0 #E5E5E5; -webkit-box-shadow: 0 1px 0 #E5E5E5; box-shadow: 0 1px 0 #E5E5E5; border-radius: 3px; }
+	.pn { vertical-align: middle; overflow: hidden; margin-right: 3px; padding: 0; height: 23px; border: 1px solid #999; background: #EEE; cursor: pointer; box-shadow: 0 1px 0 #E5E5E5; border-radius: 3px; }
 		.pn:active { background: #dbdbdb; }
 		.pn:focus { box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.25); outline: 0; }
 
@@ -1399,7 +1399,7 @@ Last Modify:	Pony
 			.fpd a.fat { background-position: -140px 0; }
 		.tedt .area { padding: 4px; background: {WRAPBG}; zoom: 1; }
 		.tedt .pt { width: 100%; margin-right: 0; padding: 0 !important; border: none; background: {WRAPBG} no-repeat center; }
-			.tedt .pt:focus { outline: none; -moz-box-shadow: none; }
+			.tedt .pt:focus { outline: none; box-shadow: none; }
        .m_c .tedt { width: 100%; max-width: 600px; }
 
 /* 表情 */
@@ -1571,7 +1571,7 @@ Last Modify:	Pony
 		.pmb { position: relative; padding: 20px 20px 0; width: 360px; height: 280px; overflow: auto; overflow-x: hidden; }
 			.pmb li { position: relative; margin-bottom: 10px; }
 				.pmt { overflow: hidden; position: absolute; bottom: 1px; left: -5px; text-indent: -999px; width: 0; height: 0; zoom: 1; border-bottom: 6px solid #F0F0F0; border-left: 6px solid transparent; box-shadow: 0px 1px 0 0px #999; }
-				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; border-radius: 10px 10px 10px 0; }
+				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; box-shadow: 2px 2px 4px #DDD; border-radius: 10px 10px 10px 0; }
 				.pmd, .pmd img { max-width: 292px; }
 				/* 短消息下的引用和代码样式 */
 					.quote { padding: 0; background: none; overflow: visible; display: flex; color: #666; }
@@ -1579,7 +1579,7 @@ Last Modify:	Pony
 					.pmd .blockcode { overflow: hidden; margin: 0; padding: 0; background: transparent; color: {MIDTEXT}; }
 						.pmd .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; margin: 0; white-space: pre-wrap; word-break: break-word; }
 				.pmm .pmt { right: -6px; bottom: 0; left: auto; border: 0; width: 7px; height: 7px; box-shadow: none; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3e%3cpath fill='%23fef5e7' stroke='%23f3bb65' d='M-.7 0L5.8 6.5H0'/%3e%3c/svg%3e"); }
-				.pmm .pmd { float: right; background: #FEF5E7 repeat-x; border-color: #FFC68C #F3BB65 #F3BB65 #DDC4A9; -moz-box-shadow: -2px 2px 4px #DDD; -webkit-box-shadow: -2px 2px 4px #DDD; box-shadow: -2px 2px 4px #DDD; border-radius: 10px 10px 0 10px; }
+				.pmm .pmd { float: right; background: #FEF5E7 repeat-x; border-color: #FFC68C #F3BB65 #F3BB65 #DDC4A9; box-shadow: -2px 2px 4px #DDD; border-radius: 10px 10px 0 10px; }
 			.pmb h4 { text-align: center; }
 		.pmfm { padding: 0 15px 15px; }
 			.pmfm .tedt { width: 365px; }

@@ -5,7 +5,7 @@
 	<!--{if $validate}-->
 		<p class="tbmu mb10">{lang validator_comment}</p>
 		<form action="member.php?mod=regverify" method="post" autocomplete="off">
-		<input type="hidden" value="{FORMHASH}" name="formhash" />
+		<input type="hidden" value="{FORMHASH}" name="formhash">
 		<table summary="{lang memcp_profile}" class="tfm cp0">
 		<tr>
 			<th>{lang validator_remark}</th>
@@ -14,7 +14,7 @@
 		</tr>
 		<tr>
 			<th>{lang validator_message}</th>
-			<td><input type="text" class="px" name="regmessagenew" value="" /></td>
+			<td><input type="text" class="px" name="regmessagenew" value=""></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -39,26 +39,26 @@
 				<!--{/if}-->
 			</p>
 			<form action="home.php?mod=spacecp&ac=profile" method="post" autocomplete="off">
-				<input type="hidden" value="{FORMHASH}" name="formhash" />
+				<input type="hidden" value="{FORMHASH}" name="formhash">
 				<table summary="{lang memcp_profile}" class="tfm cp0">
 					<tr>
 						<th>{lang new_password}</th>
 						<td>
-							<input type="password" name="newpassword" id="newpassword" class="px" />
+							<input type="password" name="newpassword" id="newpassword" class="px">
 							<p class="d" id="chk_newpassword">{lang memcp_profile_passwd_comment}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>{lang new_password_confirm}</th>
 						<td>
-							<input type="password" name="newpassword2" id="newpassword2"class="px" />
+							<input type="password" name="newpassword2" id="newpassword2"class="px">
 							<p class="d" id="chk_newpassword2">{lang memcp_profile_passwd_comment}</p>
 						</td>
 					</tr>
 					<tr id="contact"{if isset($_GET[from]) && $_GET[from] == 'contact'} style="background-color: {$_G['style']['specialbg']};"{/if}>
 						<th>{lang email}</th>
 						<td>
-							<input type="text" name="emailnew" id="emailnew" value="$space[email]" class="px" />
+							<input type="text" name="emailnew" id="emailnew" value="$space[email]" class="px">
 							<p class="d">
 								<!--{if $_G['member']['freeze'] == 2}-->
 									<p class="xi1">{lang freeze_email_tips}</p>
@@ -74,8 +74,8 @@
 					<tr>
 						<th>{lang secmobile}</th>
 						<td>
-							<input type="text" name="secmobiccnew" id="secmobiccnew" value="$space[secmobicc]" class="px" style="width: 30px;" />
-							<input type="text" name="secmobilenew" id="secmobilenew" value="$space[secmobile]" class="px" style="width: 60%;" />
+							<input type="text" name="secmobiccnew" id="secmobiccnew" value="$space[secmobicc]" class="px" style="width: 30px;">
+							<input type="text" name="secmobilenew" id="secmobilenew" value="$space[secmobile]" class="px" style="width: 60%;">
 							<p class="d">{lang memcp_profile_secmobile_comment}</p>
 						</td>
 					</tr>
@@ -83,7 +83,7 @@
 					<tr>
 						<th>{lang secmobseccode}</th>
 						<td>
-							<input type="text" name="secmobseccodenew" id="secmobseccodenew" value="" class="px" />
+							<input type="text" name="secmobseccodenew" id="secmobseccodenew" value="" class="px">
 							<button type="button" name="secmobseccodesendnew" id="secmobseccodesendnew" value="true" class="pn pnc" onclick="memcp_sendsecmobseccode();" /><strong>{lang send}</strong></button>
 							<p class="d">{lang memcp_profile_secmobseccode_comment}</p>
 						</td>
@@ -132,7 +132,7 @@
 					<tr>
 						<th>{lang security_answer}</th>
 						<td>
-							<input type="text" name="answernew" id="answernew" class="px" />
+							<input type="text" name="answernew" id="answernew" class="px">
 							<p class="d">{lang memcp_profile_security_answer_comment}</p>
 						</td>
 					</tr>
@@ -146,7 +146,7 @@
 						<td colspan="2"><button type="submit" name="pwdsubmit" value="true" class="pn pnc" /><strong>{lang save}</strong></button></td>
 					</tr>
 				</table>
-				<input type="hidden" name="passwordsubmit" value="true" />
+				<input type="hidden" name="passwordsubmit" value="true">
 			</form>
 			<script>
 				var strongpw = new Array();
@@ -176,9 +176,9 @@
 				<!--{/if}-->
 			<iframe id="frame_profile" name="frame_profile" style="display: none"></iframe>
 			<form action="{if $operation != 'plugin'}home.php?mod=spacecp&ac=profile&op=$operation{else}home.php?mod=spacecp&ac=plugin&op=profile&id=$_GET[id]{/if}" method="post" enctype="multipart/form-data" autocomplete="off"{if $operation != 'plugin'} target="frame_profile"{/if} onsubmit="clearErrorInfo();">
-				<input type="hidden" value="{FORMHASH}" name="formhash" />
+				<input type="hidden" value="{FORMHASH}" name="formhash">
 				<!--{if !empty($_GET[vid])}-->
-				<input type="hidden" value="$_GET[vid]" name="vid" />
+				<input type="hidden" value="$_GET[vid]" name="vid">
 				<!--{/if}-->
 				<table class="tfm cp0" id="profilelist">
 					<tr>
@@ -195,7 +195,7 @@
 						</td>
 						<td class="p">
 							<!--{if $vid}-->
-							<input type="hidden" name="privacy[$key]" value="3" />
+							<input type="hidden" name="privacy[$key]" value="3">
 							<!--{else}-->
 							<select name="privacy[$key]">
 								<option value="0"{if isset($privacy[$key]) && $privacy[$key] == "0"} selected="selected"{/if}>{lang open_privacy}</option>
@@ -211,7 +211,7 @@
 				<tr>
 					<th id="th_customstatus">{lang permission_basic_status}</th>
 					<td id="td_customstatus">
-						<input type="text" value="$space[customstatus]" name="customstatus" id="customstatus" class="px" />
+						<input type="text" value="$space[customstatus]" name="customstatus" id="customstatus" class="px">
 						<div class="rq mtn" id="showerror_customstatus"></div>
 					</td>
 					<td>&nbsp;</td>
@@ -233,7 +233,7 @@
 				<!--{if $showbtn}-->
 				<tr>
 					<td colspan="3">
-						<input type="hidden" name="profilesubmit" value="true" />
+						<input type="hidden" name="profilesubmit" value="true">
 						<button type="submit" name="profilesubmitbtn" id="profilesubmitbtn" value="true" class="pn pnc" /><strong>{lang save}</strong></button>
 						<span id="submit_result" class="rq"></span>
 					</td>

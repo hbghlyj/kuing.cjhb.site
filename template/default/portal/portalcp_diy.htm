@@ -32,14 +32,14 @@
 <!--{elseif $op == 'style'}-->
 <ul class="content" style="overflow-y: auto; height: 90px;">
 <!--{loop $themes $value}-->
-  <li><a href="javascript:;" onclick="spaceDiy.changeStyle('$value[dir]');return false;"><img src="{STATICURL}$value['dir']/preview.jpg" />$value['name']</a></li>
+  <li><a href="javascript:;" onclick="spaceDiy.changeStyle('$value[dir]');return false;"><img src="{STATICURL}$value['dir']/preview.jpg">$value['name']</a></li>
 <!--{/loop}-->
 </ul>
 <!--{elseif $_GET['op'] == 'image'}-->
 	<div id="diyimg_prev" class="z">$multi</div>
 	<ul id="imagebody">
 		<!--{loop $list $key $value}-->
-		<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"/></a></li>
+		<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"></a></li>
 		<!--{/loop}-->
 	</ul>
 	<div id="diyimg_next" class="z">$multi</div>
@@ -51,8 +51,8 @@
 			<div id="upload" class="z{if $list} hide{/if}"><iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank" style="display: block;"></iframe>
 				<form method="post" autocomplete="off" name="uploadpic" id="uploadpic" action="portal.php?mod=portalcp&ac=diy" enctype="multipart/form-data" target="uploadframe" onsubmit="return spaceDiy.uploadSubmit();">
 					<input type="file" class="t_input" name="attach" size="15">
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
-					<input type="hidden" name="topicid" value="$_GET[topicid]" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<input type="hidden" name="topicid" value="$_GET[topicid]">
 					<button type="submit" name="uploadsubmit" id="btnupload" class="pn" value="true"><span>{lang diy_update_start}</span></button>
 				</form>
 			</div>
@@ -69,14 +69,14 @@
 	<dd>
 		<div class="photo_list cl">
 			<div id="currentimgdiv" class="z" style="width:446px;">
-				<center><ul><li class="thumb" style="border:1px solid #ccc; padding:2px;"><img id="currentimg" alt="" src=""/></li></ul>
+				<center><ul><li class="thumb" style="border:1px solid #ccc; padding:2px;"><img id="currentimg" alt="" src=""></li></ul>
 				<div class="z cur1" onclick="spaceDiy.changeBgImgDiv();">{lang diy_change}</div></center>
 			</div>
 			<div id="diyimages" class="z" style="width: 446px; display: none">
 				<div id="diyimg_prev" class="z">$multi</div>
 				<ul id="imagebody">
 					<!--{loop $list $key $value}-->
-					<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"/></a></li>
+					<li class="thumb"><a href="javascript:;" onclick="return false;"><img src="$value[pic]" alt="" onclick="spaceDiy.setBgImage(this);"></a></li>
 					<!--{/loop}-->
 				</ul>
 				<div id="diyimg_next" class="z">$multi</div>
@@ -123,14 +123,14 @@
 					<tr>
 						<td>{lang background_attach_mode}:</td>
 						<td>
-							<label for="rabga0"><input type="radio" id="rabga0" name="attachment_mode" onclick="spaceDiy.setBgAttachment(0);" class="pr" />{lang background_attach_scroll}</label>
-							<label for="rabga1"><input type="radio" id="rabga1" name="attachment_mode" onclick="spaceDiy.setBgAttachment(1);" class="pr" />{lang background_attach_fixed}</label>
+							<label for="rabga0"><input type="radio" id="rabga0" name="attachment_mode" onclick="spaceDiy.setBgAttachment(0);" class="pr">{lang background_attach_scroll}</label>
+							<label for="rabga1"><input type="radio" id="rabga1" name="attachment_mode" onclick="spaceDiy.setBgAttachment(1);" class="pr">{lang background_attach_fixed}</label>
 						</td>
 					</tr>
 					<tr>
 						<td>{lang background_color}:</td>
-						<td><input type="text" id="colorValue" value="" size="6" onchange="spaceDiy.setBgColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="cbpb" onclick="createPalette('bpb', 'colorValue', 'spaceDiy.setBgColor');" type="button" class="pn colorwd" value="" />
+						<td><input type="text" id="colorValue" value="" size="6" onchange="spaceDiy.setBgColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="cbpb" onclick="createPalette('bpb', 'colorValue', 'spaceDiy.setBgColor');" type="button" class="pn colorwd" value="">
 						</td>
 					</tr>
 				</table>
@@ -139,14 +139,14 @@
 				<table class="cp0">
 					<tr>
 						<td>{lang text_color}:</td>
-						<td><input type="text" id="textColorValue" value="" size="6" onchange="spaceDiy.setTextColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="ctpb" onclick="createPalette('tpb', 'textColorValue', 'spaceDiy.setTextColor');" type="button" class="pn colorwd" value="" />
+						<td><input type="text" id="textColorValue" value="" size="6" onchange="spaceDiy.setTextColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="ctpb" onclick="createPalette('tpb', 'textColorValue', 'spaceDiy.setTextColor');" type="button" class="pn colorwd" value="">
 						</td>
 					</tr>
 					<tr>
 						<td>{lang link_color}:</td>
-						<td><input type="text" id="linkColorValue" value="" size="6" onchange="spaceDiy.setLinkColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
-						<input id="clpb" onclick="createPalette('lpb', 'linkColorValue', 'spaceDiy.setLinkColor');" type="button" class="pn colorwd" value="" style="background: #fff;" />
+						<td><input type="text" id="linkColorValue" value="" size="6" onchange="spaceDiy.setLinkColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;">
+						<input id="clpb" onclick="createPalette('lpb', 'linkColorValue', 'spaceDiy.setLinkColor');" type="button" class="pn colorwd" value="" style="background: #fff;">
 						</td>
 					</tr>
 				</table>
@@ -183,10 +183,10 @@
 	<!--{/if}-->
 	</div>
 	<div class="o pns">
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-		<input type="hidden" name="importsubmit" value="true" />
-		<input type="hidden" name="tpl" value="$_GET['tpl']" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+		<input type="hidden" name="importsubmit" value="true">
+		<input type="hidden" name="tpl" value="$_GET['tpl']">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<button type="submit" class="pn pnc" id="frameimportbutton"><strong>{lang import}</strong></button>
 	</div>
 </form>

@@ -13,30 +13,30 @@
 <form method="post" autocomplete="off" id="postform_$_GET['handlekey']" action="forum.php?mod=post&infloat=yes&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'newthread'}&topicsubmit=yes{elseif $_GET[action] == 'reply'}&tid=$_G[tid]&replysubmit=yes{elseif $_GET[action] == 'edit'}&editsubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['infloat'])}ajaxpost('postform_$_GET['handlekey']', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}">
 	<div class="c" id="floatlayout_$_GET[action]">
 		<div class="p_c">
-			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
 			<!--{if $_GET[action] == 'edit'}-->
-			<input name="tags" type="hidden" id="tags" value="$postinfo[tag]" />
-			<input type="hidden" name="delattachop" id="delattachop" value="0" />
-			<input type="hidden" name="htmlon" value="{if $postinfo['htmlon']}1{else}0{/if}" />
-			<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
-			<input type="hidden" name="tid" value="$_G[tid]" />
-			<input type="hidden" name="pid" value="$pid" />
-			<input type="hidden" name="page" value="$_GET[page]" />
+			<input name="tags" type="hidden" id="tags" value="$postinfo[tag]">
+			<input type="hidden" name="delattachop" id="delattachop" value="0">
+			<input type="hidden" name="htmlon" value="{if $postinfo['htmlon']}1{else}0{/if}">
+			<input type="hidden" name="fid" id="fid" value="$_G[fid]">
+			<input type="hidden" name="tid" value="$_G[tid]">
+			<input type="hidden" name="pid" value="$pid">
+			<input type="hidden" name="page" value="$_GET[page]">
 			<!--{if $quotemessage}-->
-			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+			<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 			<!--{/if}-->
 			<!--{elseif $_GET[action] == 'reply'}-->
-			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+			<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 			<!--{if !empty($reppid)}-->
-			<input type="hidden" name="reppid" value="$reppid" />
+			<input type="hidden" name="reppid" value="$reppid">
 			<!--{/if}-->
 			<!--{if !empty($_GET['reppost'])}-->
-			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}">
 			<!--{elseif !empty($_GET['repquote'])}-->
-				<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
+				<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}">
 			<!--{/if}-->
 			<!--{/if}-->
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 			<!--{hook/post_infloat_top}-->
 			<div class="pbt cl">
 				<!--{if $_GET[action] == 'newthread' && ($threadsorts = $_G['forum'][threadsorts])}-->
@@ -66,10 +66,10 @@
 					<script reload="1">simulateSelect('typeid_float');</script>
 				<!--{/if}-->
 				<!--{if $_GET[action] == 'newthread' || ($_GET[action] == 'edit' && ($isfirstpost || $postinfo['subject'] != ''))}-->
-					<input name="subject" id="subject" class="px" value="$postinfo[subject]" size="40" />
+					<input name="subject" id="subject" class="px" value="$postinfo[subject]" size="40">
 				<!--{else}-->
 					<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');">{lang modify}</a>]</span>
-					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="px" value="" size="40" /></span>
+					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="px" value="" size="40"></span>
 				<!--{/if}-->
 			</div>
 			<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand)}-->

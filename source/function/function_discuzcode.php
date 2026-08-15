@@ -146,7 +146,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		$message = str_replace([
 			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[hr]', '[/p]', '[/float]', '[indent]', '[/indent]'
 		], [
-			'</font>', '</font>', '</font>', '</font>', '</div>', '<hr class="l" />', '</p>', '</span>', '<blockquote>', '</blockquote>'
+			'</font>', '</font>', '</font>', '</font>', '</div>', '<hr class="l">', '</p>', '</span>', '<blockquote>', '</blockquote>'
 		], preg_replace([
 			'/\[color=([#\w]+?)\]/i',
 			'/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
@@ -807,7 +807,7 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 			$img .= guestviewthumbstyle();
 			$styleoutput = true;
 		}
-		$img .= '<div class="guestviewthumb"><img id="aimg_'.$rimg_id.'" class="guestviewthumb_cur" onclick="showWindow(\'login\', \'{loginurl}\'+\'&referer=\'+encodeURIComponent(location))" '.$attrsrc.'="{url}" border="0" alt="" />
+		$img .= '<div class="guestviewthumb"><img id="aimg_'.$rimg_id.'" class="guestviewthumb_cur" onclick="showWindow(\'login\', \'{loginurl}\'+\'&referer=\'+encodeURIComponent(location))" '.$attrsrc.'="{url}" border="0" alt="">
 				<br><a href="{loginurl}" onclick="showWindow(\'login\', this.href+\'&referer=\'+encodeURIComponent(location));">'.lang('forum/template', 'guestviewthumb').'</a></div>';
 
 	} else {
@@ -831,7 +831,7 @@ function parsesmiles(&$message) {
 		$enablesmiles = false;
 		if(!empty($_G['cache']['smilies']) && is_array($_G['cache']['smilies'])) {
 			foreach($_G['cache']['smilies']['replacearray'] as $key => $smiley) {
-				$_G['cache']['smilies']['replacearray'][$key] = '<img src="'.STATICURL.'image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$key]]['directory'].'/'.$smiley.'" smilieid="'.$key.'" border="0" alt="" />';
+				$_G['cache']['smilies']['replacearray'][$key] = '<img src="'.STATICURL.'image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$key]]['directory'].'/'.$smiley.'" smilieid="'.$key.'" border="0" alt="">';
 			}
 			$enablesmiles = true;
 		}
@@ -853,7 +853,7 @@ function parsepostbg($bgimg, $pid) {
 		}
 		$bgimg = dhtmlspecialchars(basename($bgimg), ENT_QUOTES);
 		$postbg[$pid] = true;
-		$_G['forum_posthtml']['header'][$pid] .= '<style type="text/css">#pid'.$pid.'{background-image:url("'.STATICURL.'image/postbg/'.$bgimg.'");}</style>';
+		$_G['forum_posthtml']['header'][$pid] .= '<style>#pid'.$pid.'{background-image:url("'.STATICURL.'image/postbg/'.$bgimg.'");}</style>';
 		break;
 	}
 	return '';

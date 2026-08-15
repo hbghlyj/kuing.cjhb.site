@@ -20,12 +20,12 @@ if(!submitcheck('permsubmit')) {
 	showformheader("block&operation=perm&bid=$bid");
 
 	$inheritance_checked = !$block['notinherited'] ? 'checked' : '';
-	showtableheader('<label><input class="checkbox" type="checkbox" name="inheritance" value="1" '.$inheritance_checked.'/>'.cplang('block_perm_inheritance').'</label>', 'fixpadding');
+	showtableheader('<label><input class="checkbox" type="checkbox" name="inheritance" value="1" '.$inheritance_checked.'>'.cplang('block_perm_inheritance').'</label>', 'fixpadding');
 
 	showsubtitle(['', 'username',
-		'<input class="checkbox" type="checkbox" name="chkallmanage" onclick="checkAll(\'prefix\', this.form, \'allowmanage\', \'chkallmanage\')" id="chkallmanage" /><label for="chkallmanage">'.cplang('block_perm_manage').'</label>',
-		'<input class="checkbox" type="checkbox" name="chkallrecommend" onclick="checkAll(\'prefix\', this.form, \'allowrecommend\', \'chkallrecommend\')" id="chkallrecommend" /><label for="chkallrecommend">'.cplang('block_perm_recommend').'</label>',
-		'<input class="checkbox" type="checkbox" name="chkallneedverify" onclick="checkAll(\'prefix\', this.form, \'needverify\', \'chkallneedverify\')" id="chkallneedverify" /><label for="chkallneedverify">'.cplang('block_perm_needverify').'</label>',
+		'<input class="checkbox" type="checkbox" name="chkallmanage" onclick="checkAll(\'prefix\', this.form, \'allowmanage\', \'chkallmanage\')" id="chkallmanage"><label for="chkallmanage">'.cplang('block_perm_manage').'</label>',
+		'<input class="checkbox" type="checkbox" name="chkallrecommend" onclick="checkAll(\'prefix\', this.form, \'allowrecommend\', \'chkallrecommend\')" id="chkallrecommend"><label for="chkallrecommend">'.cplang('block_perm_recommend').'</label>',
+		'<input class="checkbox" type="checkbox" name="chkallneedverify" onclick="checkAll(\'prefix\', this.form, \'needverify\', \'chkallneedverify\')" id="chkallneedverify"><label for="chkallneedverify">'.cplang('block_perm_needverify').'</label>',
 		'block_perm_inherited'
 	]);
 
@@ -44,24 +44,24 @@ if(!submitcheck('permsubmit')) {
 			]);
 		} else {
 			showtablerow('', ['class="td25"'], [
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"delete[$uid]\" value=\"$uid\" />
-					<input type=\"hidden\" name=\"perm[$uid][allowmanage]\" value=\"{$value['allowmanage']}\" />
-					<input type=\"hidden\" name=\"perm[$uid][allowrecommend]\" value=\"{$value['allowrecommend']}\" />
-					<input type=\"hidden\" name=\"perm[$uid][needverify]\" value=\"{$value['needverify']}\" />",
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"delete[$uid]\" value=\"$uid\">
+					<input type=\"hidden\" name=\"perm[$uid][allowmanage]\" value=\"{$value['allowmanage']}\">
+					<input type=\"hidden\" name=\"perm[$uid][allowrecommend]\" value=\"{$value['allowrecommend']}\">
+					<input type=\"hidden\" name=\"perm[$uid][needverify]\" value=\"{$value['needverify']}\">",
 				"{$members[$uid]['username']}",
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowmanage[$uid]\" value=\"1\" ".($value['allowmanage'] ? 'checked' : '').' />',
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowrecommend[$uid]\" value=\"1\" ".($value['allowrecommend'] ? 'checked' : '').' />',
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"needverify[$uid]\" value=\"1\" ".($value['needverify'] ? 'checked' : '').' />',
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowmanage[$uid]\" value=\"1\" ".($value['allowmanage'] ? 'checked' : '').'>',
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowrecommend[$uid]\" value=\"1\" ".($value['allowrecommend'] ? 'checked' : '').'>',
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"needverify[$uid]\" value=\"1\" ".($value['needverify'] ? 'checked' : '').'>',
 				$line,
 			]);
 		}
 	}
 	showtablerow('', ['class="td25"'], [
 		cplang('add_new'),
-		'<input type="text" class="txt" name="newuser" value="" size="20" />',
-		'<input type="checkbox" class="checkbox" name="newallowmanage" value="1" />',
-		'<input type="checkbox" class="checkbox" name="newallowrecommend" value="1" />',
-		'<input type="checkbox" class="checkbox" name="newneedverify" value="1" />',
+		'<input type="text" class="txt" name="newuser" value="" size="20">',
+		'<input type="checkbox" class="checkbox" name="newallowmanage" value="1">',
+		'<input type="checkbox" class="checkbox" name="newallowrecommend" value="1">',
+		'<input type="checkbox" class="checkbox" name="newneedverify" value="1">',
 		'',
 	]);
 

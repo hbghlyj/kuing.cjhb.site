@@ -58,7 +58,7 @@ showformheader('group&operation=mod');
 showtableheader('group_mod_wait');
 showsubtitle(['', 'groups_manage_name', 'groups_editgroup_category', 'groups_manage_founder', 'groups_manage_createtime']);
 echo $groups;
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'fidarray\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="validate" value="'.cplang('validate').'" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.cplang('delete').'" onclick="return confirm(\''.cplang('group_mod_delconfirm').'\')" />', $multipage);
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'fidarray\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="validate" value="'.cplang('validate').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="delsubmit" value="'.cplang('delete').'" onclick="return confirm(\''.cplang('group_mod_delconfirm').'\')">', $multipage);
 showtablefooter();
 showformfooter();
 	

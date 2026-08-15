@@ -75,7 +75,7 @@ EOF;
 
 	function getStyle() {
 		return <<<EOF
-<style type="text/css">
+<style>
 .cdx-underline {
     text-decoration: underline;
 }

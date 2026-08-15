@@ -36,8 +36,8 @@
 	</div>
 	<div class="bm_c">
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="listextra" value="$extra" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="listextra" value="$extra">
 			<table class="cp0" border="0">
 				<!--{if $_G['forum_threadcount']}-->
 					<tbody class="emptb"><tr><td class="icn"></td><!--{if $_G['forum']['ismoderator']}--><td class="o"></td><!--{/if}--><th></th><td class="by"></td><td class="num"></td><td class="by"></td></tr></tbody>
@@ -70,12 +70,12 @@
 								<td class="o">
 									<!--{if $thread['fid'] == $_G[fid]}-->
 										<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-											<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$thread[tid]" />
+											<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" class="pc" value="$thread[tid]">
 										<!--{else}-->
-											<input type="checkbox" disabled="disabled" class="pc" />
+											<input type="checkbox" disabled="disabled" class="pc">
 										<!--{/if}-->
 									<!--{else}-->
-										<input type="checkbox" disabled="disabled" class="pc" />
+										<input type="checkbox" disabled="disabled" class="pc">
 									<!--{/if}-->
 								</td>
 								<!--{/if}-->

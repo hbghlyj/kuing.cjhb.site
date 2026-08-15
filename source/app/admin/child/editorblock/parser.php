@@ -62,10 +62,10 @@ if(!submitcheck('editorblocksubmit')) {
 	};
 	echo '<div id="ace_editor" style="width:98%;height: 90%;border:1px solid #cdcdcd;min-height:980px"></div>';
 	echo '<textarea id="cell" style="display:none;" name="contentnew" spellcheck="false">'.dhtmlspecialchars($value).'</textarea></td>';
-	echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('editorblock_parametertip').'</div><ul><pre>'.$parameter.'</pre></ul><br /><br/><div class="infotitle1">'.cplang('editorblock_usage').'</div>'.cplang('editorblock_usage_content').'<br /></td>';
+	echo '<td valign="top" class="tipsblock"><div class="infotitle1">'.cplang('editorblock_parametertip').'</div><ul><pre>'.$parameter.'</pre></ul><br><br><div class="infotitle1">'.cplang('editorblock_usage').'</div>'.cplang('editorblock_usage_content').'<br></td>';
 	echo '</tr>';
 	showsubmit('editorblocksubmit', 'submit', '',
-		'<label><input name="del" class="checkbox" value="1" type="checkbox" />'.cplang('to_default').'</label> &nbsp; '.cplang('cells_notice'));
+		'<label><input name="del" class="checkbox" value="1" type="checkbox">'.cplang('to_default').'</label> &nbsp; '.cplang('cells_notice'));
 	showtablefooter();
 	showformfooter();
 	echo '<iframe id="hframe" name="hframe" style="display: none"></iframe>';

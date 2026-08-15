@@ -30,8 +30,8 @@ if(!submitcheck('medalsubmit')) {
 	foreach(table_forum_medal::t()->fetch_all_data(1) as $medal) {
 		$image = preg_match('/^https?:\/\//is', $medal['image']) ? $medal['image'] : STATICURL.'image/common/'.$medal['image'];
 		$medals .= showtablerow('', ['class="td25"', 'class="td23"'], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"medals[{$medal['medalid']}]\" value=\"1\" ".(in_array($medal['medalid'], $membermedals) ? 'checked' : '').' />',
-			"<img src=\"$image\" />",
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"medals[{$medal['medalid']}]\" value=\"1\" ".(in_array($medal['medalid'], $membermedals) ? 'checked' : '').'>',
+			"<img src=\"$image\">",
 			$medal['name']
 
 		], TRUE);

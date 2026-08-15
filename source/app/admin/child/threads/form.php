@@ -233,7 +233,7 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 				if($threadlist) {
 					foreach($threadlist as $thread) {
 						$threads .= showtablerow('', ['class="td25"', '', '', '', 'class="td25"', 'class="td25"'], [
-							"<input class=\"checkbox\" type=\"checkbox\" name=\"tidarray[]\" value=\"{$thread['tid']}\" />",
+							"<input class=\"checkbox\" type=\"checkbox\" name=\"tidarray[]\" value=\"{$thread['tid']}\">",
 							"<a href=\"forum.php?mod=viewthread&tid={$thread['tid']}".($thread['displayorder'] != -4 ? '' : '&modthreadkey='.modauthkey($thread['tid']))."\" target=\"_blank\">{$thread['subject']}</a>".($thread['readperm'] ? " - [{$lang['threads_readperm']} {$thread['readperm']}]" : '').($thread['price'] ? " - [{$lang['threads_price']} {$thread['price']}]" : ''),
 							"<a href=\"forum.php?mod=forumdisplay&fid={$thread['fid']}\" target=\"_blank\">".(empty($thread['isgroup']) ? $_G['cache']['forums'][$thread['fid']]['name'] : $groupsname[$thread['fid']]).'</a>',
 							"<a href=\"home.php?mod=space&uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a>",
@@ -279,7 +279,7 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 		if($_GET['detail']) {
 			showsubtitle(['', 'subject', 'forum', 'author', 'threads_replies', 'threads_views', 'threads_lastpost']);
 			echo $threads;
-			showtablerow('', ['class="td25" colspan="7"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'tidarray\', \'chkall\')" /><label for="chkall">'.cplang('select_all').'</label>']);
+			showtablerow('', ['class="td25" colspan="7"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'tidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>']);
 			showtablefooter();
 			showtableheader('operation', 'notop');
 
@@ -311,7 +311,7 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 		showtablerow('', ['class="td25"', 'class="td24"', 'class="rowform" style="width:auto;"'], [
 			'<input class="radio" type="radio" id="optype_delete" name="optype" value="delete" onclick="this.form.modsubmit.disabled=false;">',
 			$lang['threads_delete'],
-			'<input class="checkbox" type="checkbox" name="donotupdatemember" id="donotupdatemember" value="1" /><label for="donotupdatemember"> '.$lang['threads_delete_no_update_member'].'</label>'
+			'<input class="checkbox" type="checkbox" name="donotupdatemember" id="donotupdatemember" value="1"><label for="donotupdatemember"> '.$lang['threads_delete_no_update_member'].'</label>'
 		]);
 		showtablerow('', ['class="td25"', 'class="td24"', 'class="rowform" style="width:auto;"'], [
 			'<input class="radio" type="radio" name="optype" id="optype_adddigest" value="adddigest" onclick="this.form.modsubmit.disabled=false;">',

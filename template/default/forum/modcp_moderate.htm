@@ -103,13 +103,13 @@
 
 		<!--{if $postlist}-->
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op" class="s_clear">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="fid" value="$_G[fid]" />
-				<input type="hidden" name="modact" value="" />
-				<input type="hidden" name="infloat" value="" />
-				<input type="hidden" name="dosubmit" value="yes" />
-				<input type="hidden" name="filter" value="$filter" />
-				<input type="hidden" name="posttableid" value="$posttableid" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="fid" value="$_G[fid]">
+				<input type="hidden" name="modact" value="">
+				<input type="hidden" name="infloat" value="">
+				<input type="hidden" name="dosubmit" value="yes">
+				<input type="hidden" name="filter" value="$filter">
+				<input type="hidden" name="posttableid" value="$posttableid">
 				<!--{loop $postlist $post}-->
 					<div class="um {echo swapclass('alt');}" id="pid_$post[id]">
 						<p class="pbn">
@@ -120,7 +120,7 @@
 								<a href="forum.php?mod=modcp&action=$_GET[action]&op=$op&posttableid=$posttableid&moderate[]={$post[id]}&modact=ignore&filter=$filter&dosubmit=1" onclick="showWindow('mods', this.href)" class="xi2">{lang ignore}</a><span class="pipe">|</span>
 								<a href="javascript:;" onclick="toggle_post($post[id]);" class="xi2">{lang open}</a>
 							</span>
-							<input type="checkbox" name="moderate[]" id="pidcheck_{$post[id]}" class="pc" value="$post[id]" onclick="recountobj()"/>
+							<input type="checkbox" name="moderate[]" id="pidcheck_{$post[id]}" class="pc" value="$post[id]" onclick="recountobj()">
 							<a href="forum.php?mod=forumdisplay&fid={$post[fid]}" target="_blank" class="xi2 xw1">{$modforums[list][$post[fid]]}</a><!--{if !empty($post[tsubject])}--> &rsaquo; <span class="xw1">$post[tsubject]</span><!--{/if}--><!--{if $post[subject] && !$post[first]}--> &rsaquo; <span class="xw1">$post[subject]</span><!--{/if}--><!--{if !empty($post['censorwords'])}--> &rsaquo; <span class="xw1" style="color: red;">($post['censorwords'])</span><!--{/if}-->
 						</p>
 						<p class="pbn">
@@ -134,7 +134,7 @@
 				<!--{/loop}-->
 				<!--{if !empty($multipage)}--><div class="pgs cl mtm">$multipage</div><!--{/if}-->
 				<div class="um bw0 cl">
-					<label for="chkall"><input type="checkbox" class="pc" name="chkall" id="chkall" onclick="modcheckall()" />{lang checkall}</label>
+					<label for="chkall"><input type="checkbox" class="pc" name="chkall" id="chkall" onclick="modcheckall()">{lang checkall}</label>
 					<button onclick="modthreads('validate'); return false;" class="pn"><strong>{lang validate}</strong></button>
 					<button onclick="modthreads('delete'); return false;" class="pn"><strong>{lang delete}</strong></button>
 					<button onclick="modthreads('ignore'); return false;" class="pn"><strong>{lang ignore}</strong></button>
@@ -171,10 +171,10 @@
 		</form>
 		<!--{if $memberlist}-->
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
-				<input type="hidden" name="infloat" value="" />
-				<input type="hidden" name="modact" value="" />
-				<input type="hidden" name="dosubmit" value="yes" />
-				<input type="hidden" name="filter" value="$filter" />
+				<input type="hidden" name="infloat" value="">
+				<input type="hidden" name="modact" value="">
+				<input type="hidden" name="dosubmit" value="yes">
+				<input type="hidden" name="filter" value="$filter">
 				<table class="dt cp0">
 					<thead>
 						<tr>
@@ -186,7 +186,7 @@
 					</thead>
 					<!--{loop $memberlist $member}-->
 						<tr id="pid_{$member[uid]}" class="{echo swapclass('alt')}">
-							<td><input type="checkbox" name="moderate[]" id="pidcheck_{$member[uid]}" class="pc" value="$member[uid]" onclick="recountobj()" /></td>
+							<td><input type="checkbox" name="moderate[]" id="pidcheck_{$member[uid]}" class="pc" value="$member[uid]" onclick="recountobj()"></td>
 							<td valign="top">
 								<h5>$member[username]</h5>
 								<p>{lang mod_moderate_member_register_dateline}: $member[regdate]</p>
@@ -210,7 +210,7 @@
 				</table>
 				<!--{if !empty($multipage)}--><div class="pgs cl mtm">$multipage</div><!--{/if}-->
 				<div class="um bw0 cl">
-					<label for="chkall"><input type="checkbox" class="pc" name="chkall" id="chkall" onclick="modcheckall()"/>{lang checkall}</label>
+					<label for="chkall"><input type="checkbox" class="pc" name="chkall" id="chkall" onclick="modcheckall()">{lang checkall}</label>
 					<button onclick="modthreads('validate'); return false;" class="pn"><strong>{lang validate}</strong></button>
 					<button onclick="modthreads('delete'); return false;" class="pn"><strong>{lang delete}</strong></button>
 					<button onclick="modthreads('ignore'); return false;" class="pn"><strong>{lang invalidate}</strong></button>

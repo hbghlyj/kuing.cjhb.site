@@ -5,31 +5,31 @@
 			{elseif $_GET['action'] == 'reply'}action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&extra=$extra&replysubmit=yes"
 			{elseif $_GET['action'] == 'edit'}action="forum.php?mod=post&action=edit&extra=$extra&editsubmit=yes" $enctype
 			{/if}>
-	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
-<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}">
+<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}"><!--{/if}-->
 <!--{if $_GET['action'] == 'reply'}-->
-	<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+	<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 	<!--{if $reppid}-->
-		<input type="hidden" name="reppid" value="$reppid" />
+		<input type="hidden" name="reppid" value="$reppid">
 	<!--{/if}-->
 	<!--{if $_GET['reppost']}-->
-		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
+		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}">
 	<!--{elseif $_GET['repquote']}-->
-		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
+		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}">
 	<!--{/if}-->
 <!--{/if}-->
 <!--{if $_GET['action'] == 'edit'}-->
-	<input type="hidden" name="fid" id="fid" value="$_G['fid']" />
-	<input type="hidden" name="tid" value="$_G['tid']" />
-	<input type="hidden" name="pid" value="$pid" />
-	<input type="hidden" name="page" value="$_GET['page']" />
+	<input type="hidden" name="fid" id="fid" value="$_G['fid']">
+	<input type="hidden" name="tid" value="$_G['tid']">
+	<input type="hidden" name="pid" value="$pid">
+	<input type="hidden" name="page" value="$_GET['page']">
 <!--{/if}-->
 <!--{if $special}-->
-	<input type="hidden" name="special" value="$special" />
+	<input type="hidden" name="special" value="$special">
 <!--{/if}-->
 <!--{if $specialextra}-->
-	<input type="hidden" name="specialextra" value="$specialextra" />
+	<input type="hidden" name="specialextra" value="$specialextra">
 <!--{/if}-->
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
@@ -86,7 +86,7 @@
 	<!--{hook/post_top_mobile}-->
 	<ul class="cl">
 		<!--{if $_GET['action'] == 'reply' && !empty($_GET['addtrade']) || $_GET['action'] == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
-		<input name="subject" type="hidden" value="" />
+		<input name="subject" type="hidden" value="">
 		<!--{elseif $_GET['action'] != 'reply'}-->
 		<li class="mli"><input type="text" class="px pl5" id="needsubject" autocomplete="off" value="$postinfo['subject']" name="subject" placeholder="{lang post_thread_subject}"></li>
 		<!--{else}-->
@@ -116,17 +116,17 @@
 				<!--{if ($allowpostimg || $_G['group']['allowpostattach']) && $allowuploadtoday}-->
 				<div class="mimg cl">
 					<!--{if $allowpostimg}-->
-					<a href="javascript:;" class="post_imgbtn"><i class="dm-image"></i>{lang e_img_attach}<input type="file" name="Filedata" id="filedata" multiple="multiple" accept=".jpg,.jpeg,.gif,.png,.bmp,.webp,.svg,image/jpeg,image/gif,image/png,image/bmp,image/webp,image/svg+xml" /></a>
+					<a href="javascript:;" class="post_imgbtn"><i class="dm-image"></i>{lang e_img_attach}<input type="file" name="Filedata" id="filedata" multiple="multiple" accept=".jpg,.jpeg,.gif,.png,.bmp,.webp,.svg,image/jpeg,image/gif,image/png,image/bmp,image/webp,image/svg+xml"></a>
 					<!--{/if}-->
 					<!--{if $_G['group']['allowpostattach']}-->
-					<a href="javascript:;" class="post_attbtn"><i class="dm-plus-c"></i>{lang upload_attach}<input type="file" name="Filedata" id="attfiledata" multiple="multiple" /></a>
+					<a href="javascript:;" class="post_attbtn"><i class="dm-plus-c"></i>{lang upload_attach}<input type="file" name="Filedata" id="attfiledata" multiple="multiple"></a>
 					<!--{/if}-->
 				</div>
 				<!--{/if}-->
 			<div class="cl">
 				<ul id="imglist" class="post_imglist cl">
 				<!--{loop $imgattachs['used'] $temp}-->
-					<li><span aid="$temp['aid']" class="del" up="1"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;"><img style="height:54px;width:54px;" id="aimg_$temp['aid']" src="{$temp['url']}/$temp['attachment']" /></a></span><input type="hidden" name="attachnew[{$temp['aid']}]['description']" /></li>
+					<li><span aid="$temp['aid']" class="del" up="1"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;"><img style="height:54px;width:54px;" id="aimg_$temp['aid']" src="{$temp['url']}/$temp['attachment']"></a></span><input type="hidden" name="attachnew[{$temp['aid']}]['description']"></li>
 				<!--{/loop}-->
 				</ul>
 			</div>
@@ -397,7 +397,7 @@
 				var imageList = document.getElementById('imglist');
 				if(imageList) {
 					var imageItem = document.createElement('li');
-					imageItem.innerHTML = '<span aid="'+dataarr[3]+'" class="del"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;" onclick="addsmilies(\'[attachimg]'+dataarr[3]+'[/attachimg]\')"><img style="height:54px;width:54px;" id="aimg_'+dataarr[3]+'" src="{$_G['setting']['attachurl']}forum/'+dataarr[5]+'" /></a></span><input type="hidden" name="attachnew['+dataarr[3]+'][description]" />';
+					imageItem.innerHTML = '<span aid="'+dataarr[3]+'" class="del"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;" onclick="addsmilies(\'[attachimg]'+dataarr[3]+'[/attachimg]\')"><img style="height:54px;width:54px;" id="aimg_'+dataarr[3]+'" src="{$_G['setting']['attachurl']}forum/'+dataarr[5]+'"></a></span><input type="hidden" name="attachnew['+dataarr[3]+'][description]">';
 					imageList.appendChild(imageItem);
 				}
 			} else {

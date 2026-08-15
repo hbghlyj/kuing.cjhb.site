@@ -11,7 +11,7 @@
 <script src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
 <script>zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
 
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
 <div id="pt" class="bm cl">
 	<div class="z">
@@ -22,7 +22,7 @@
 <!--{hook/viewthread_top}-->
 <!--{ad/text/wp a_t}-->
 
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -340,11 +340,11 @@
 <!--{/if}-->
 
 <form method="post" autocomplete="off" name="modactions" id="modactions">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="optgroup" />
-	<input type="hidden" name="operation" />
-	<input type="hidden" name="listextra" value="{echo dhtmlspecialchars((string)$_GET['extra'])}" />
-	<input type="hidden" name="page" value="$page" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="optgroup">
+	<input type="hidden" name="operation">
+	<input type="hidden" name="listextra" value="{echo dhtmlspecialchars((string)$_GET['extra'])}">
+	<input type="hidden" name="page" value="$page">
 </form>
 
 $_G['forum_tagscript']

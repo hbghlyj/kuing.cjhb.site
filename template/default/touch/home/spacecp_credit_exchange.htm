@@ -3,15 +3,15 @@
 <!--{hook/spacecp_credit_top}-->
 <!--{if $_G['setting']['exchangestatus'] && ($_G['setting']['extcredits'] || $_CACHE['creditsettings'])}-->
 <form id="exchangeform" name="exchangeform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=credit&op=exchange&handlekey=credit">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="operation" value="exchange" />
-	<input type="hidden" name="exchangesubmit" value="true" />
-	<input type="hidden" name="outi" value="" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="operation" value="exchange">
+	<input type="hidden" name="exchangesubmit" value="true">
+	<input type="hidden" name="outi" value="">
 	<div class="post_box">
 		<ul class="cl">
 			<li class="flex-box mli">
 				<div class="tit flex">{lang memcp_credits_exchange}&nbsp;</div>
-				<div class="flex-2"><input type="text" id="exchangeamount" name="exchangeamount" class="px" size="5" value="0" onkeyup="exchangecalcredit()" /></div>
+				<div class="flex-2"><input type="text" id="exchangeamount" name="exchangeamount" class="px" size="5" value="0" onkeyup="exchangecalcredit()"></div>
 				<div class="flex input">
 					<select name="tocredits" id="tocredits" class="sort_sel" onChange="exchangecalcredit()">
 					<!--{loop $_G[setting][extcredits] $id $ecredits}-->
@@ -31,7 +31,7 @@
 			</li>
 			<li class="flex-box mli">
 				<div class="tit flex">{lang credits_need}&nbsp;</div>
-				<div class="flex-2"><input type="text" id="exchangedesamount" class="px" size="5" value="0" disabled="disabled" /></div>
+				<div class="flex-2"><input type="text" id="exchangedesamount" class="px" size="5" value="0" disabled="disabled"></div>
 				<div class="flex input">
 					<select name="fromcredits" id="fromcredits_0" class="sort_sel" style="display: none" onChange="exchangecalcredit();">
 					<!--{loop $_G[setting][extcredits] $id $credit}-->
@@ -58,13 +58,13 @@
 				</div>
 			</li>
 			<li class="mli">
-				<input type="password" name="password" class="px" value="" placeholder="{lang transfer_login_password}" />
+				<input type="password" name="password" class="px" value="" placeholder="{lang transfer_login_password}">
 			</li>
 		</ul>
 	</div>
 	<div class="text-muted">
 							<!--{if $_G[setting][exchangemincredits]}-->
-								{lang memcp_credits_exchange_min_balance} $_G[setting][exchangemincredits]<br />
+								{lang memcp_credits_exchange_min_balance} $_G[setting][exchangemincredits]<br>
 							<!--{/if}-->
 							<span id="taxpercent">
 							<!--{if intval($taxpercent) > 0}-->

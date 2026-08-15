@@ -142,7 +142,7 @@ $lang = array(
 	'not_allow_upload_extend'	=> 'It is not allowed to upload images of {extend} type',//'不允许上传{extend}类型的图片',
 	'files_can_not_exceed_size'	=> '{extend} type files can not exceed the {size}',//'{extend}类文件不能超过{size}',
 	'get_passwd_subject'		=> 'Recover password by email',//'取回密码邮件',
-	'get_passwd_message'		=> 'You should use the link below to reset your password in 3 days:<br />\\1<br />If clicking the URL in this message does not work, just copy and paste it into the address bar of your browser.<br />At the page opened just enter your new password and submit. After this you can login with new password.',//'您只需在提交请求后的三天之内，通过点击下面的链接重置您的密码：<br />\\1<br />(如果上面不是链接形式，请将地址手工粘贴到浏览器地址栏再访问)<br />上面的页面打开后，输入新的密码后提交，之后您即可使用新的密码登录了。',
+	'get_passwd_message'		=> 'You should use the link below to reset your password in 3 days:<br>\\1<br>If clicking the URL in this message does not work, just copy and paste it into the address bar of your browser.<br>At the page opened just enter your new password and submit. After this you can login with new password.',//'您只需在提交请求后的三天之内，通过点击下面的链接重置您的密码：<br>\\1<br>(如果上面不是链接形式，请将地址手工粘贴到浏览器地址栏再访问)<br>上面的页面打开后，输入新的密码后提交，之后您即可使用新的密码登录了。',
 	'file_is_too_big'		=> 'File is too large',//'文件过大',
 
 	'take_part_in_the_voting'		=> '{actor} voted the {touser} poll  <a href="{url}" target="_blank">{subject}</a> and get reward {reward} points.',//'{actor} 参与了 {touser} 的{reward}投票 <a href="{url}" target="_blank">{subject}</a>',
@@ -330,8 +330,8 @@ $lang = array(
 
 	'spacecp_message_prompt'	=> '(supported {msg} code, maximum 1000 characters)',//'(支持 {msg} 代码,最大 1000 字)',
 	'card_update_doing'		=> ' <a class="xi2" href="###">[update doings]</a>',//' <a class="xi2" href="###">[更新记录]</a>',
-	'email_acitve_message'		=> '<img src="{imgdir}/mail_inactive.png" alt="Unverified" class="vm" />
-						<span class="xi1">New E-mail ({newemail}) wait for validation ...</span><br />
+	'email_acitve_message'		=> '<img src="{imgdir}/mail_inactive.png" alt="Unverified" class="vm">
+						<span class="xi1">New E-mail ({newemail}) wait for validation ...</span><br>
 						The system has sent a verification email to you, please check your mailbox for activate this e-mail.<br>
 						If you did not receive the verification message, you can replace a mailbox, or <a href="home.php?mod=spacecp&ac=profile&op=password&resend=1" class="xi2">Re-send the verification message</a>',
 	'qq_dialog'		=> 'Start QQ chat',//'发起QQ聊天',

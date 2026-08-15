@@ -11,12 +11,12 @@
 		<dl>
 			<dt><label for="endtime">{lang endtime}:</label></dt>
 			<dd class="hasd cl">
-				<input type="text" name="endtime" id="endtime" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="$debate[endtime]" />
+				<input type="text" name="endtime" id="endtime" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="$debate[endtime]">
 				<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'endtime')">^</a>
 			</dd>
 			<dt><label for="umpire">{lang debate_umpire}:</label></dt>
 			<dd>
-				<p><input type="text" name="umpire" id="umpire" class="px" onblur="checkuserexists(this.value, 'checkuserinfo')" value="$debate[umpire]" /><span id="checkuserinfo"></span></p>
+				<p><input type="text" name="umpire" id="umpire" class="px" onblur="checkuserexists(this.value, 'checkuserinfo')" value="$debate[umpire]"><span id="checkuserinfo"></span></p>
 			</dd>
 			<!--{hook/post_debate_extra}-->
 		</dl>

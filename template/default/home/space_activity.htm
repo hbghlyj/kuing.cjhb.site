@@ -13,7 +13,7 @@
 <!--{eval 
 	$weekarr = array(0 => '{lang day}', 1 => '{lang one}', 2 => '{lang two}', 3 => '{lang three}', 4 => '{lang four}', 5 => '{lang five}', 6 => '{lang six}');
 }-->
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -69,22 +69,22 @@
 				<caption>
 					<h3 class="cl">
 						<span><strong>$thread[month]</strong><em>$thread[day]</em></span>
-						$thread[time]<br />
+						$thread[time]<br>
 						<cite class="xs1">{lang week}$weekarr[$thread[week]]<cite>
 					</h3>
 				</caption>
 				<!--{eval $caption = false;}-->
 				<!--{/if}-->
 				<tr>
-					<td class="type"><!--{if $thread[aid]}--><img src="{echo getforumimg($thread[aid])}" alt="$thread[subject]" width="80" /><!--{else}--><div class="nophoto" title="nophoto"></div><!--{/if}--></td>
+					<td class="type"><!--{if $thread[aid]}--><img src="{echo getforumimg($thread[aid])}" alt="$thread[subject]" width="80"><!--{else}--><div class="nophoto" title="nophoto"></div><!--{/if}--></td>
 					<td>
 						<h4><a href="forum.php?mod=viewthread&tid=$thread[tid]" target="_blank">$thread[subject]</a></h4>
 						<p>$thread[message]</p>
 					</td>
 					<td class="addr">
-						<strong>$thread[class]</strong><br />
-						$thread[place]<br />
-						<strong>{lang have} <em class="xi1">$thread[applynumber]</em> {lang join_num}</strong><br />
+						<strong>$thread[class]</strong><br>
+						$thread[place]<br>
+						<strong>{lang have} <em class="xi1">$thread[applynumber]</em> {lang join_num}</strong><br>
 						$thread[replies] {lang some_message}
 					</td>
 					<td class="orgr">

@@ -10,7 +10,7 @@
 						<tr>
 							<th>{lang starttime_endtime}:</th>
 							<td>
-								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly" /> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)" />
+								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly"> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)">
 							</td>
 							<th>{lang operation}:</th>
 							<td><span class="ftid">$optypehtml</span></td>
@@ -41,7 +41,7 @@
 						<td>
 							{$order['subject']}
 							<!--{if $order['description']}-->
-							<br/>{$order['description']}
+							<br>{$order['description']}
 							<!--{/if}-->
 						</td>
 						<td class="order-status-{$order['status']}">{$order['status_name']}</td>

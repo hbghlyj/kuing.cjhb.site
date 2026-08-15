@@ -21,11 +21,11 @@
 				</caption>
 				<tr>
 					<th width="15%">{lang username}:</th>
-					<td width="85%"><input type="text" name="username" class="px" value="" size="20" /></td>
+					<td width="85%"><input type="text" name="username" class="px" value="" size="20"></td>
 				</tr>
 				<tr>
 					<th>UID:</th>
-					<td><input type="text" name="uid" class="px" value="" size="20" /> [{lang optional}]</td>
+					<td><input type="text" name="uid" class="px" value="" size="20"> [{lang optional}]</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
@@ -51,7 +51,7 @@
 							<td>
 								<p><a href="home.php?mod=space&uid=$member[uid]" target="_blank" class="xi2">$member[username]</a></p>
 								<p>UID: $member[uid]</p>
-								<p><label><input type="checkbox" name="clearavatar" class="pc" value="1" />{lang avatar_del}</label></p>
+								<p><label><input type="checkbox" name="clearavatar" class="pc" value="1">{lang avatar_del}</label></p>
 							</td>
 						</tr>
 					</table>
@@ -141,10 +141,10 @@
 				<th>{lang changeto}:</th>
 				<td>
 					<!--{if $member[groupid] == 4 || $member[groupid] == 5}-->
-						<label for="bannew_0" class="lb"><input type="radio" name="bannew" id="bannew_0" value="0" checked="checked" class="pr" />{lang modcp_members_status_normal}</label>
+						<label for="bannew_0" class="lb"><input type="radio" name="bannew" id="bannew_0" value="0" checked="checked" class="pr">{lang modcp_members_status_normal}</label>
 					<!--{/if}-->
-					<!--{if $member[groupid] != 4 && $_G[group][allowbanuser]}--><label for="bannew_4" class="lb"><input type="radio" name="bannew" id="bannew_4" class="pr" value="4" {if $member[groupid] != 4 && $member[groupid] != 5}checked="checked"{/if} />{lang modcp_members_status_banpost}</label><!--{/if}-->
-					<!--{if $member[groupid] != 5 && $_G[group][allowbanvisituser]}--><label for="bannew_5" class="lb"><input type="radio" name="bannew" id="bannew_5" class="pr" value="5" {if $member[groupid] != 4 && $member[groupid] != 5 && !$_G[group][allowbanuser]}checked="checked"{/if} />{lang modcp_members_status_banvisit}</label><!--{/if}-->
+					<!--{if $member[groupid] != 4 && $_G[group][allowbanuser]}--><label for="bannew_4" class="lb"><input type="radio" name="bannew" id="bannew_4" class="pr" value="4" {if $member[groupid] != 4 && $member[groupid] != 5}checked="checked"{/if}>{lang modcp_members_status_banpost}</label><!--{/if}-->
+					<!--{if $member[groupid] != 5 && $_G[group][allowbanvisituser]}--><label for="bannew_5" class="lb"><input type="radio" name="bannew" id="bannew_5" class="pr" value="5" {if $member[groupid] != 4 && $member[groupid] != 5 && !$_G[group][allowbanuser]}checked="checked"{/if}>{lang modcp_members_status_banvisit}</label><!--{/if}-->
 				</td>
 			</tr>
 			<tr>
@@ -152,7 +152,7 @@
 				<td>
 					<p class="hasd cl">
 						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
-						<input type="text" id="banexpirynew" name="banexpirynew" autocomplete="off" value="" class="px" style="margin-right: 0; width: 100px;" />
+						<input type="text" id="banexpirynew" name="banexpirynew" autocomplete="off" value="" class="px" style="margin-right: 0; width: 100px;">
 						<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'banexpirynew', 1, 1)">^</a>
 					</p>
 					<p class="d">{lang modcp_members_ban_days_comment}</p>
@@ -179,7 +179,7 @@
 				<tr>
 					<th width="15%">{lang add_new}</th>
 					<td width="85%">
-						<input type="text" name="ipnew" class="px" value="$iptoban" size="30" maxlength="45"/>
+						<input type="text" name="ipnew" class="px" value="$iptoban" size="30" maxlength="45">
 						&nbsp;&nbsp;{lang modcp_ip_message}
 					</td>
 				</tr>
@@ -187,7 +187,7 @@
 					<th width="15%">{lang expiry}:</th>
 					<td width="85%" class="hasd cl">
 						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
-						<input type="text" id="validitynew" name="validitynew" autocomplete="off" value="" class="px" style="width: 100px;" />
+						<input type="text" id="validitynew" name="validitynew" autocomplete="off" value="" class="px" style="width: 100px;">
 						<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'validitynew', 1, 1)">^</a>
 					</td>
 				</tr>
@@ -234,13 +234,13 @@
 					<td>$ip[admin]</td>
 					<td>$ip[dateline]</td>
 					<td class="hasd cl">
-						<input type="text" id="expirationnew[{$ip[id]}]" name="expirationnew[{$ip[id]}]" autocomplete="off" value="$ip[expiration]" class="px"/>
+						<input type="text" id="expirationnew[{$ip[id]}]" name="expirationnew[{$ip[id]}]" autocomplete="off" value="$ip[expiration]" class="px">
 						<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'expirationnew[{$ip[id]}]', 1, 1)">^</a>
 					</td>
 				</tr>
 				<!--{/loop}-->
 				<tr class="bw0_all">
-					<td><label for="chkall" onclick="checkall(this.form)"><input type="checkbox" name="chkall" id="chkall" class="pc" />{lang checkall}</label></td>
+					<td><label for="chkall" onclick="checkall(this.form)"><input type="checkbox" name="chkall" id="chkall" class="pc">{lang checkall}</label></td>
 					<td colspan="5"><button type="submit" name="ipbansubmit" id="submit" class="pn" value="true"><strong>{lang submit}</strong></button></td>
 				</tr>
 			<!--{else}-->

@@ -14,13 +14,13 @@
 		</script>
 
 		<form method="post" autocomplete="off" id="tradepost" name="tradepost" action="forum.php?mod=trade&action=trade&tid=$_G[tid]&pid=$pid">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<div class="bm">
 				<h3 class="bm_h">{lang trade_confirm_buy}</h3>
 				<div class="torder bm_c cl">
 					<div class="spvimg">
 					<!--{if $trade['aid']}-->
-						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]"><img src="{echo getforumimg($trade[aid])}" width="90" /></a>
+						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]"><img src="{echo getforumimg($trade[aid])}" width="90"></a>
 					<!--{else}-->
 						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade[tid]&pid=$trade[pid]"><div class="nophoto"></div></a>
 					<!--{/if}-->
@@ -51,7 +51,7 @@
 						</tr>
 						<tr>
 							<th><label for="number">{lang trade_nums}</label></th>
-							<td><input type="text" id="number" name="number" onkeyup="calcsum()" value="1" class="pt" /></td>
+							<td><input type="text" id="number" name="number" onkeyup="calcsum()" value="1" class="pt"></td>
 						</tr>
 						<tr>
 							<th>{lang post_trade_transport}</th>
@@ -63,9 +63,9 @@
 								<!--{if $trade['transport'] == 4}--><input type="hidden" name="transport" value="4">{lang post_trade_transport_physical}<!--{/if}-->
 								</p>
 								<!--{if $trade['transport'] == 1 or $trade['transport'] == 2 or $trade['transport'] == 4}-->
-									<!--{if !empty($trade['ordinaryfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[ordinaryfee];calcsum()"{/if} />{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[ordinaryfee]</script><!--{/if}--><!--{/if}-->
-									<!--{if !empty($trade['expressfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[expressfee];calcsum()"{/if} />{lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[expressfee]</script><!--{/if}--><!--{/if}-->
-									<!--{if !empty($trade['emsfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[emsfee];calcsum()"{/if} /> EMS $trade[emsfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[emsfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['ordinaryfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[ordinaryfee];calcsum()"{/if}>{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[ordinaryfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['expressfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[expressfee];calcsum()"{/if}>{lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[expressfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['emsfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[emsfee];calcsum()"{/if}> EMS $trade[emsfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[emsfee]</script><!--{/if}--><!--{/if}-->
 								<!--{/if}-->
 							</td>
 						</tr>
@@ -73,42 +73,42 @@
 							<th>{lang trade_paymethod}</th>
 							<td>
 								<!--{if !$_G['uid']}-->
-									<label><input type="hidden" name="offline" value="0" checked="checked" />{lang trade_pay_alipay}</label>
+									<label><input type="hidden" name="offline" value="0" checked="checked">{lang trade_pay_alipay}</label>
 								<!--{elseif !$trade['account'] && !$trade['tenpayaccount']}-->
-									<input type="hidden" name="offline" value="1" checked="checked" />{lang trade_pay_offline}
+									<input type="hidden" name="offline" value="1" checked="checked">{lang trade_pay_offline}
 								<!--{else}-->
-									<label class="lb"><input type="radio" class="pr" name="offline" value="0" checked="checked" />{lang trade_pay_alipay}</label>
-									<label class="lb"><input type="radio" class="pr" name="offline" value="1" />{lang trade_pay_offline}</label>
+									<label class="lb"><input type="radio" class="pr" name="offline" value="0" checked="checked">{lang trade_pay_alipay}</label>
+									<label class="lb"><input type="radio" class="pr" name="offline" value="1">{lang trade_pay_offline}</label>
 								<!--{/if}-->
 							</td>
 						</tr>
 						<!--{if $trade['transport'] != 3}-->
 							<tr>
 								<th><label for="buyername">{lang trade_buyername}</label></th>
-								<td><input type="text" id="buyername" name="buyername" maxlength="50" value="$lastbuyerinfo[buyername]" class="pt" /></td>
+								<td><input type="text" id="buyername" name="buyername" maxlength="50" value="$lastbuyerinfo[buyername]" class="pt"></td>
 							</tr>
 							<tr>
 								<th><label for="buyercontact">{lang trade_buyercontact}</label></th>
-								<td><input type="text" id="buyercontact" name="buyercontact" maxlength="100" size="40" value="$lastbuyerinfo[buyercontact]" class="pt" /></td>
+								<td><input type="text" id="buyercontact" name="buyercontact" maxlength="100" size="40" value="$lastbuyerinfo[buyercontact]" class="pt"></td>
 							</tr>
 							<tr>
 								<th><label for="buyerzip">{lang trade_buyerzip}</label></th>
-								<td><input type="text" id="buyerzip" name="buyerzip" maxlength="10" value="$lastbuyerinfo[buyerzip]" class="pt" /></td>
+								<td><input type="text" id="buyerzip" name="buyerzip" maxlength="10" value="$lastbuyerinfo[buyerzip]" class="pt"></td>
 							</tr>
 							<tr>
 								<th><label for="buyerphone">{lang trade_buyerphone}</label></th>
-								<td><input type="text" id="buyerphone" name="buyerphone" maxlength="20" value="$lastbuyerinfo[buyerphone]" class="pt" /></td>
+								<td><input type="text" id="buyerphone" name="buyerphone" maxlength="20" value="$lastbuyerinfo[buyerphone]" class="pt"></td>
 							</tr>
 							<tr>
 								<th><label for="buyermobile">{lang trade_buyermobile}</label></th>
-								<td><input type="text" id="buyermobile" name="buyermobile" maxlength="20" value="$lastbuyerinfo[buyermobile]" class="pt" /></td>
+								<td><input type="text" id="buyermobile" name="buyermobile" maxlength="20" value="$lastbuyerinfo[buyermobile]" class="pt"></td>
 							</tr>
 						<!--{else}-->
-							<input type="hidden" name="buyername" value="" />
-							<input type="hidden" name="buyercontact" value="" />
-							<input type="hidden" name="buyerzip" value="" />
-							<input type="hidden" name="buyerphone" value="" />
-							<input type="hidden" name="buyermobile" value="" />
+							<input type="hidden" name="buyername" value="">
+							<input type="hidden" name="buyercontact" value="">
+							<input type="hidden" name="buyerzip" value="">
+							<input type="hidden" name="buyerphone" value="">
+							<input type="hidden" name="buyermobile" value="">
 						<!--{/if}-->
 						<tr>
 							<th valign="top"><label for="buyermsg">{lang trade_seller_remark}</label></th>
@@ -157,7 +157,7 @@
 						<li>
 							<a href="forum.php?mod=viewthread&tid=$usertrade[tid]&do=tradeinfo&pid=$usertrade[pid]" class="tn">
 								<!--{if $usertrade['displayorder'] > 0}--><em class="hot">{lang post_trade_sticklist}</em><!--{/if}-->
-								<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade[aid])}" width="130" alt="$usertrade[subject]" /><!--{else}--><div class="nophoto" title="$usertrade[subject]"></div><!--{/if}-->
+								<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade[aid])}" width="130" alt="$usertrade[subject]"><!--{else}--><div class="nophoto" title="$usertrade[subject]"></div><!--{/if}-->
 							</a>
 
 							<!--{if $usertrade[price] > 0}-->

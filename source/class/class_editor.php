@@ -506,7 +506,7 @@ EOF;
 
 		$path = $this->static . $filename . '?' . getglobal('style/verhash');
 
-		return '<link rel="stylesheet" type="text/css" href="' . $path . '" />';
+		return '<link rel="stylesheet" href="' . $path . '">';
 	}
 
 	private function _script($m, $value = null) {

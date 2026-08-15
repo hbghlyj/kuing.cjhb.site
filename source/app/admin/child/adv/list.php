@@ -49,20 +49,20 @@ if($advs) {
 		}
 		if($adv['class'] == 'custom') {
 			$customadv = $adv;
-			$img = file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$customadv['class'].'.gif') ? '<img src="static/image/admincp/'.$customadv['class'].'.gif" /><br />' : '';
+			$img = file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$customadv['class'].'.gif') ? '<img src="static/image/admincp/'.$customadv['class'].'.gif"><br>' : '';
 			echo '<td width="'.$rowwidth.'%" class="hover" align="center">';
 			echo $img.$lang['adv_custom_add'];
 			showformheader('adv&operation=custom&do=add');
-			echo '<input name="addcustom" class="txt" /><input name="submit" class="btn" type="submit" value="'.$lang['submit'].'" />';
+			echo '<input name="addcustom" class="txt"><input name="submit" class="btn" type="submit" value="'.$lang['submit'].'">';
 			showformfooter();
 			echo '</td>';
 		} else {
 			echo '<td width="'.$rowwidth.'%" class="hover" align="center"><a href="'.ADMINSCRIPT.'?action=adv&operation=ad&type='.$adv['class'].'">';
 			$eclass = explode(':', $adv['class']);
 			if(count($eclass) > 1) {
-				echo file_exists(DISCUZ_PLUGIN($eclass[0]).'/adv/adv_'.$eclass[1].'.gif') ? '<img src="source/plugin/'.$eclass[0].'/adv/adv_'.$eclass[1].'.gif" /><br />' : '';
+				echo file_exists(DISCUZ_PLUGIN($eclass[0]).'/adv/adv_'.$eclass[1].'.gif') ? '<img src="source/plugin/'.$eclass[0].'/adv/adv_'.$eclass[1].'.gif"><br>' : '';
 			} else {
-				echo file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$adv['class'].'.gif') ? '<img src="static/image/admincp/'.$adv['class'].'.gif" /><br />' : '';
+				echo file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$adv['class'].'.gif') ? '<img src="static/image/admincp/'.$adv['class'].'.gif"><br>' : '';
 			}
 			echo $adv['name'].($ads[$adv['class']] ? '('.$ads[$adv['class']].')' : '').($adv['filemtime'] > TIMESTAMP - 86400 ? ' <font color="red">New!</font>' : '');
 			echo '</a></td>';
@@ -79,7 +79,7 @@ if($advs) {
 	showtablerow('', '', $lang['adv_nonexistence']);
 }
 if($customadv) {
-	$img = file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$customadv['class'].'.gif') ? '<img src="static/image/admincp/'.$customadv['class'].'.gif" /><br />' : '';
+	$img = file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$customadv['class'].'.gif') ? '<img src="static/image/admincp/'.$customadv['class'].'.gif"><br>' : '';
 	$i = $row;
 	foreach(table_common_advertisement_custom::t()->fetch_all_data() as $custom) {
 		if($i == $row) {
@@ -87,7 +87,7 @@ if($customadv) {
 		}
 		echo '<td width="'.$rowwidth.'%" class="hover" align="center"><div id="op_'.$custom['id'].'"><a href="'.ADMINSCRIPT.'?action=adv&operation=ad&type='.$customadv['class'].'&customid='.$custom['id'].'">';
 		echo $img.$lang['adv_custom'].' '.$custom['name'].($ads['custom_'.$custom['id']] ? '('.$ads['custom_'.$custom['id']].')' : '');
-		echo '</a><br /><div class="right">';
+		echo '</a><br><div class="right">';
 		echo '<a onclick="ajaxget(this.href, \'op_'.$custom['id'].'\');return false;" href="'.ADMINSCRIPT.'?action=adv&operation=custom&do=edit&id='.$custom['id'].'">'.$lang['edit'].'</a>&nbsp;';
 		echo '<a onclick="ajaxget(this.href, \'op_'.$custom['id'].'\');return false;" href="'.ADMINSCRIPT.'?action=adv&operation=custom&do=delete&id='.$custom['id'].'">'.$lang['delete'].'</a>';
 		echo '</div></div></td>';

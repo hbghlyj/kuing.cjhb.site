@@ -132,7 +132,7 @@ if(!submitcheck('advsubmit')) {
 	}
 	$targetselect .= '</select>';
 
-	showsubmit('advsubmit', 'submit', 'del', $type ? '<input type="button" class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=add&type='.$_GET['type'].($_GET['type'] != 'custom' ? '' : '&customid='.$_GET['customid']).'\'" value="'.cplang('add').'" />' : '', $multipage.'
+	showsubmit('advsubmit', 'submit', 'del', $type ? '<input type="button" class="btn" onclick="location.href=\''.ADMINSCRIPT.'?action=adv&operation=add&type='.$_GET['type'].($_GET['type'] != 'custom' ? '' : '&customid='.$_GET['customid']).'\'" value="'.cplang('add').'">' : '', $multipage.'
 <input type="text" class="txt" name="title" value="'.$title.'" size="15" onkeyup="if(event.keyCode == 13) this.form.searchsubmit.click()" onclick="this.value=\'\'"> &nbsp;&nbsp;
 <select name="starttime">
 <option value=""> '.cplang('start_time').'</option>

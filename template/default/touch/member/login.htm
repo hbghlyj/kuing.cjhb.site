@@ -13,12 +13,12 @@
 <!--{/if}-->
 <!--{if !isset($_GET['viewlostpw'])}-->
 	<form id="loginform" method="post" action="member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash">
-	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
+	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}'>
 	<input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php<!--{/if}-->" />
 	<input type="hidden" name="fastloginfield" value="auto">
 	<input type="hidden" name="cookietime" value="2592000">
 	<!--{if $auth}-->
-		<input type="hidden" name="auth" value="$auth" />
+		<input type="hidden" name="auth" value="$auth">
 	<!--{/if}-->
 	<div class="login_from">
 		<ul>
@@ -82,8 +82,8 @@
 	<!--{/if}-->
 <!--{else}-->
 	<form id="lostpwform" method="post" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes" autocomplete="off">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="handlekey" value="lostpwform" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="handlekey" value="lostpwform">
 		<div class="login_from">
 			<ul>
 				<li><input type="text" class="px" value="" name="email" placeholder="{lang email}" fwin="login"></li>

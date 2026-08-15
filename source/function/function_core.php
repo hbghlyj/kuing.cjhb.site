@@ -2343,9 +2343,9 @@ function g_icon($groupid, $return = 0, $height = 20) {
 	} else {
 		$h = $height > 0 ? 'style="width:auto;height:'.intval($height).'px" ' : '';
 		if(preg_match('/^https?:\/\//is', $_G['cache']['usergroups'][$groupid]['icon'])) {
-			$s = '<img src="'.$_G['cache']['usergroups'][$groupid]['icon'].'" alt="" class="vm" '.$h.'/>';
+			$s = '<img src="'.$_G['cache']['usergroups'][$groupid]['icon'].'" alt="" class="vm" '.$h.'>';
 		} else {
-			$s = '<img src="'.$_G['setting']['attachurl'].'common/'.$_G['cache']['usergroups'][$groupid]['icon'].'" alt="" class="vm" '.$h.'/>';
+			$s = '<img src="'.$_G['setting']['attachurl'].'common/'.$_G['cache']['usergroups'][$groupid]['icon'].'" alt="" class="vm" '.$h.'>';
 		}
 	}
 	if($return) {

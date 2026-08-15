@@ -1,5 +1,5 @@
 <?PHP exit('Access Denied');?>
-<link rel="stylesheet" type="text/css" href='{$_G['setting']['csspath']}{STYLEID}_editor.css?{VERHASH}' />
+<link rel="stylesheet" href='{$_G['setting']['csspath']}{STYLEID}_editor.css?{VERHASH}'>
 <script src="{$_G['setting']['jspath']}editor.js?{VERHASH}"></script>
 <script src="{$_G['setting']['jspath']}bbcode.js?{VERHASH}"></script>
 <script src="data/cache/common_postimg.js?{VERHASH}"></script>
@@ -41,7 +41,7 @@
 	<!--{if $editor['allowresize']}-->
 		<span id="{$editorid}_resize">
 		<a href="javascript:;" onclick="editorsize('+');return false;" id="{$editorid}_kmjd">{lang editor_increase}</a>
-		<a href="javascript:;" onclick="editorsize('-');return false;" id="{$editorid}_kmsx">{lang editor_narrow}</a><img src="{STATICURL}image/editor/resize.gif" onmousedown="editorresize(event)" />
+		<a href="javascript:;" onclick="editorsize('-');return false;" id="{$editorid}_kmsx">{lang editor_narrow}</a><img src="{STATICURL}image/editor/resize.gif" onmousedown="editorresize(event)">
 		</span>
 	<!--{/if}-->
 </div>

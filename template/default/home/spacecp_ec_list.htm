@@ -40,23 +40,23 @@
 			<tr>
 				<td>
 					<!--{if $comment[score] == 1}-->
-						<img src="{STATICURL}image/traderank/good.gif" width="14" height="16" alt="good" class="vm" /> <span style="color:red">{lang eccredit_good}</span>
+						<img src="{STATICURL}image/traderank/good.gif" width="14" height="16" alt="good" class="vm"> <span style="color:red">{lang eccredit_good}</span>
 					<!--{elseif $comment[score] == 0}-->
-						<img src="{STATICURL}image/traderank/soso.gif" width="14" height="16" alt="soso" class="vm" /> <span style="color:green">{lang eccredit_soso}</span>
+						<img src="{STATICURL}image/traderank/soso.gif" width="14" height="16" alt="soso" class="vm"> <span style="color:green">{lang eccredit_soso}</span>
 					<!--{else}-->
-						<img src="{STATICURL}image/traderank/bad.gif" width="14" height="16" alt="bad" class="vm" /> {lang eccredit_bad}
+						<img src="{STATICURL}image/traderank/bad.gif" width="14" height="16" alt="bad" class="vm"> {lang eccredit_bad}
 					<!--{/if}-->
 				</td>
 				<td>
-					<span class="xg1">$comment[dateline]</span><br />$comment[message]<br />
+					<span class="xg1">$comment[dateline]</span><br>$comment[message]<br>
 					<!--{if $comment[explanation]}-->
 						{lang eccredit_explanation}: $comment[explanation]
 					<!--{elseif $_G['uid'] && $_G['uid'] == $comment[rateeid] && $comment[dbdateline] >= TIMESTAMP - 30 * 86400}-->
-						<span id="ecce_$comment[id]"><a href="home.php?mod=spacecp&ac=eccredit&op=explain&id=$comment[id]&ajaxmenuid=ajax_$comment[id]_explain_menu" id="ajax_$comment[id]_explain" onclick="ajaxmenu(this, 0, 0);doane(event);">[ {lang eccredit_needexplanation} ]</a><br /><span class="xg1">{lang eccredit_explanationexpiration}</span></span>
+						<span id="ecce_$comment[id]"><a href="home.php?mod=spacecp&ac=eccredit&op=explain&id=$comment[id]&ajaxmenuid=ajax_$comment[id]_explain_menu" id="ajax_$comment[id]_explain" onclick="ajaxmenu(this, 0, 0);doane(event);">[ {lang eccredit_needexplanation} ]</a><br><span class="xg1">{lang eccredit_explanationexpiration}</span></span>
 					<!--{/if}-->
 				</td>
 				<td>
-					<a href="forum.php?mod=redirect&goto=findpost&pid=$comment[pid]" target="_blank">$comment[subject]</a><br />
+					<a href="forum.php?mod=redirect&goto=findpost&pid=$comment[pid]" target="_blank">$comment[subject]</a><br>
 					<!--{if $from == 'myself'}-->
 						<!--{if $comment[type]}-->{lang trade_buyer}: <!--{else}-->{lang trade_seller}: <!--{/if}--><a href="home.php?mod=space&uid=$comment[rateeid]" target="_blank">$comment[ratee]</a>
 					<!--{else}-->
@@ -68,7 +68,7 @@
 						$comment[price] {lang trade_units}&nbsp;&nbsp;
 					<!--{/if}-->
 					<!--{if $_G['setting']['creditstransextra'][5] != -1 && $comment['credit'] > 0}-->
-						<!--{if $comment[price] > 0}--><br /><!--{/if}-->{$_G[setting][extcredits][$_G['setting']['creditstransextra'][5]][title]} $comment[credit] {$_G[setting][extcredits][$_G['setting']['creditstransextra'][5]][unit]}
+						<!--{if $comment[price] > 0}--><br><!--{/if}-->{$_G[setting][extcredits][$_G['setting']['creditstransextra'][5]][title]} $comment[credit] {$_G[setting][extcredits][$_G['setting']['creditstransextra'][5]][unit]}
 					<!--{/if}-->
 				</td>
 			</tr>

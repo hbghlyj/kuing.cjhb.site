@@ -40,15 +40,15 @@ function handlePrompt(type) {
 					<div id="return_doing" class="xi1 xw1"></div>
 					<span class="y">{lang doing_maxlimit_char}</span>
 					<!--{if $_G['group']['maxsigsize']}-->
-					<label for="to_sign"><input type="checkbox" name="to_signhtml" id="to_sign" class="pc" value="1" />{lang doing_update_personal_signature}</label>
+					<label for="to_sign"><input type="checkbox" name="to_signhtml" id="to_sign" class="pc" value="1">{lang doing_update_personal_signature}</label>
 					<!--{/if}-->
 				</td>
 				<td></td>
 			</tr>
 		</table>
-		<input type="hidden" name="addsubmit" value="true" />
-		<input type="hidden" name="refer" value="$theurl" />
-		<input type="hidden" name="topicid" value="$topicid" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="addsubmit" value="true">
+		<input type="hidden" name="refer" value="$theurl">
+		<input type="hidden" name="topicid" value="$topicid">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 	</form>
 </div>

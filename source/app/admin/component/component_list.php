@@ -56,7 +56,7 @@ mask: 星号掩码，格式“s,l”，s=起始位，l=长度，type 为 text �
 	function show(&$var, &$extra) {
 		static $header = '';
 		if(!$header) {
-			$header = '<style type="text/css">
+			$header = '<style>
 .enhcomp th {
     min-width: 50px;
 }
@@ -193,28 +193,28 @@ function addRow(id) {
 				if($value !== null && !empty($col['mask'])) {
 					$mvalue = dhtmlspecialchars(authcode(json_encode([$value, $col['mask']]), 'ENCODE'));
 					$value = $this->__get_maskvalue($value, $col['mask']);
-					$append = '<input type="hidden" name="'.$var['variable'].'['.$i.']['.$col['field'].'._mask_]" value="'.$mvalue.'" />';
+					$append = '<input type="hidden" name="'.$var['variable'].'['.$i.']['.$col['field'].'._mask_]" value="'.$mvalue.'">';
 				}
 				$paramstr = $value !== null ? ' value="'.dhtmlspecialchars($value).'"' : '';
 				$paramstr .= $col['maxlen'] ? ' maxlength="'.$col['maxlen'].'"' : '';
-				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.' />'.$append;
+				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text"'.$paramstr.$widthstr.'>'.$append;
 			case 'radio':
 				if(!empty($value)) {
 					$checked = ' checked';
 				}
-				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="checkbox" value="1"'.$checked.' />';
+				return '<input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="checkbox" value="1"'.$checked.'>';
 			case 'mradio':
 				$str = '';
 				foreach($col['options'] as $opt) {
 					$checked = $value !== null && $opt['value'] == $value || $default && $opt['default'] ? ' checked' : '';
-					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="radio" value="'.$opt['value'].'"'.$checked.' />'.$opt['name'].'</label>';
+					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="radio" value="'.$opt['value'].'"'.$checked.'>'.$opt['name'].'</label>';
 				}
 				return $str;
 			case 'checkbox':
 				$str = '';
 				foreach($col['options'] as $opt) {
 					$checked = $value !== null && in_array($opt['value'], $value) || $default && $opt['default'] ? ' checked' : '';
-					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].'][]" type="checkbox" value="'.$opt['value'].'"'.$checked.' />'.$opt['name'].'</label>';
+					$str .= '<label><input name="'.$var['variable'].'['.$i.']['.$col['field'].'][]" type="checkbox" value="'.$opt['value'].'"'.$checked.'>'.$opt['name'].'</label>';
 				}
 				return $str;
 			case 'select':
@@ -231,7 +231,7 @@ function addRow(id) {
 				$colorid = ++$GLOBALS['coloridcount'];
 				$valstr = $value !== null ? ' value="'.dhtmlspecialchars($value).'"' : '';
 				$maxstr = $col['maxlen'] ? ' maxlength="'.$col['maxlen'].'"' : '';
-				$s .= '<input id="c'.$colorid.'_v"  name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text" '.$valstr.$widthstr.$maxstr.'   value="'.$value.'" onchange="updatecolorpreview(\'c'.$colorid.'\')"/>';
+				$s .= '<input id="c'.$colorid.'_v"  name="'.$var['variable'].'['.$i.']['.$col['field'].']" type="text" '.$valstr.$widthstr.$maxstr.'   value="'.$value.'" onchange="updatecolorpreview(\'c'.$colorid.'\')">';
 				$s .= "<input id=\"c$colorid\" onclick=\"c{$colorid}_frame.location='static/image/admincp/getcolor.htm?c{$colorid}|c{$colorid}_v';showMenu({'ctrlid':'c$colorid'})\" type=\"button\" class=\"colorwd\" value=\"\" style=\"background: ".dhtmlspecialchars($value)."\"><span id=\"c{$colorid}_menu\" style=\"display: none\"><iframe name=\"c{$colorid}_frame\" src=\"\" frameborder=\"0\" width=\"210\" height=\"148\" scrolling=\"no\"></iframe></span>";
 				return $s;
 		}

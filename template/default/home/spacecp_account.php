@@ -115,7 +115,7 @@
                 <!--{/if}-->
             </table>
             <!--{if $list}-->
-            <br/><br/>
+            <br><br>
             <caption>
                 <h2 class="mbm xs2">
                     {lang action_account_title_third_login_method}
@@ -148,7 +148,7 @@
                     </tr>
                 <!--{/loop}-->
             </table>
-            <br/><br/>
+            <br><br>
             <!--{/if}-->
 		</div>
 	</div>

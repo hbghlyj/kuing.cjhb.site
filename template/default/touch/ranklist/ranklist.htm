@@ -53,7 +53,7 @@
 					<!--{if $pictures}-->
 					<li class="d bigpic">
 						<div class="c">
-							<a href="home.php?mod=space&uid=$pictures[0][uid]&do=album&picid=$pictures[0][picid]" target="_blank"><img src="$pictures[0][origurl]" alt="" /></a>
+							<a href="home.php?mod=space&uid=$pictures[0][uid]&do=album&picid=$pictures[0][picid]" target="_blank"><img src="$pictures[0][origurl]" alt=""></a>
 						</div>
 						<p class="pt10"><a href="home.php?mod=space&uid=$pictures[0][uid]&do=album&picid=$pictures[0][picid]" target="_blank">$pictures[0][albumname]</a></p>
 					</li>
@@ -62,7 +62,7 @@
 					<!--{loop $pictures $pic}-->
 					<li class="d">
 						<div class="c">
-							<a href="home.php?mod=space&uid=$pic[uid]&do=album&picid=$pic[picid]" target="_blank"><img src="$pic[url]" alt="" /></a>
+							<a href="home.php?mod=space&uid=$pic[uid]&do=album&picid=$pic[picid]" target="_blank"><img src="$pic[url]" alt=""></a>
 						</div>
 						<p class="pt10"><a href="home.php?mod=space&uid=$pic[uid]&do=album&picid=$pic[picid]" target="_blank">$pic[albumname]</a></p>
 					</li>

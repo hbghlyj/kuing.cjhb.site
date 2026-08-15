@@ -62,7 +62,7 @@ if($do == 'index') {
 				$haveBind = true;
 			}
 		}
-		$s = !$haveBind ? '<input type="submit" class="btn" name="add" value="'.cplang('qrcodelogin_bind').'" />' : '';
+		$s = !$haveBind ? '<input type="submit" class="btn" name="add" value="'.cplang('qrcodelogin_bind').'">' : '';
 		showsubmit($data['data']['list'] ? 'submit' : '', 'submit', '', $s);
 		showtablefooter();
 		showformfooter();
@@ -85,7 +85,7 @@ if($do == 'index') {
 } elseif(submitcheck('add')) {
 	showformheader('qrcodelogin&operation=list&do=submit');
 	showtableheader();
-	showsetting('qrcodelogin_wechat_scan', 'pwd', '', '<img src="https://api.witframe.com/discuzlogin/bind" />');
+	showsetting('qrcodelogin_wechat_scan', 'pwd', '', '<img src="https://api.witframe.com/discuzlogin/bind">');
 	showsetting('qrcodelogin_bindcode', 'code', '', 'text');
 	showsetting('qrcodelogin_pwd', 'pwd', '', 'password');
 	showsubmit('addsubmit');

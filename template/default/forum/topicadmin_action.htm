@@ -16,11 +16,11 @@
 		</span>
 	</h3>
 	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET[action]&modsubmit=yes&infloat=yes&modclick=yes" onsubmit="ajaxpost('topicadminform', 'return_mods', 'return_mods', 'onerror');return false;">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<input type="hidden" name="fid" value="$_G[fid]">
 		<input type="hidden" name="tid" value="$_G[tid]">
-		<!--{if !empty($_GET['page'])}--><input type="hidden" name="page" value="$_GET['page']" /><!--{/if}-->
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<!--{if !empty($_GET['page'])}--><input type="hidden" name="page" value="$_GET['page']"><!--{/if}-->
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 		<div class="c">
 			<div class="{if $_GET[action] != 'split'}tplw{else}tpmh{/if}">
 			<!--{if $_GET[action] == 'delpost'}-->
@@ -28,13 +28,13 @@
 				{lang admin_delposts}
 
 				<!--{if ($modpostsnum == 1 || $authorcount == 1) && $crimenum > 0}-->
-					<br /><div style="clear: both; text-align: right;">{lang topicadmin_crime_delpost_nums}</div>
+					<br><div style="clear: both; text-align: right;">{lang topicadmin_crime_delpost_nums}</div>
 				<!--{/if}-->
 			<!--{elseif $_GET[action] == 'delcomment'}-->
 				$deleteid
 				{lang topicadmin_delet_comment}
 			<!--{elseif $_GET[action] == 'restore'}-->
-				<input type="hidden" name="archiveid" value="$archiveid" />
+				<input type="hidden" name="archiveid" value="$archiveid">
 				{lang admin_threadsplit_restore}
 			<!--{elseif $_GET[action] == 'copy'}-->
 				<p class="mbn tahfx">
@@ -48,20 +48,20 @@
 			<!--{elseif $_GET[action] == 'banpost'}-->
 				$banid
 				<ul class="llst">
-					<li><label><input type="radio" name="banned" class="pr" value="1" $checkban />{lang admin_banpost}</label></li>
-					<li><label><input type="radio" name="banned" class="pr" value="0" $checkunban />{lang admin_unbanpost}</label></li>
+					<li><label><input type="radio" name="banned" class="pr" value="1" $checkban>{lang admin_banpost}</label></li>
+					<li><label><input type="radio" name="banned" class="pr" value="0" $checkunban>{lang admin_unbanpost}</label></li>
 				</ul>
 				<!--{if ($modpostsnum == 1 || $authorcount == 1) && $crimenum > 0}-->
-					<br /><div style="clear: both; text-align: right;">{lang topicadmin_crime_banpost_nums}</div>
+					<br><div style="clear: both; text-align: right;">{lang topicadmin_crime_banpost_nums}</div>
 				<!--{/if}-->
 			<!--{elseif $_GET[action] == 'warn'}-->
 				$warnpid
 				<ul class="llst">
-					<li><label><input type="radio" name="warned" class="pr" value="1" $checkwarn />{lang topicadmin_warn_add}</label></li>
-					<li><label><input type="radio" name="warned" class="pr" value="0" $checkunwarn />{lang topicadmin_warn_delete}</label></li>
+					<li><label><input type="radio" name="warned" class="pr" value="1" $checkwarn>{lang topicadmin_warn_add}</label></li>
+					<li><label><input type="radio" name="warned" class="pr" value="0" $checkunwarn>{lang topicadmin_warn_delete}</label></li>
 				</ul>
 				<!--{if ($modpostsnum == 1 || $authorcount == 1) && $authorwarnings > 0}-->
-					<br /><div style="clear: both; text-align: right;" title="{lang topicadmin_warn_prompt}">{lang topicadmin_warn_nums}</div>
+					<br><div style="clear: both; text-align: right;" title="{lang topicadmin_warn_prompt}">{lang topicadmin_warn_nums}</div>
 				<!--{/if}-->
 			<!--{elseif $_GET[action] == 'merge'}-->
 				<table class="cp0">
@@ -71,13 +71,13 @@
                                         </tr>
                                         <tr>
                                                 <td>&nbsp;</td>
-                                                <td><input type="text" name="othertid" id="othertid" class="px" size="10" /></td>
+                                                <td><input type="text" name="othertid" id="othertid" class="px" size="10"></td>
                                         </tr>
                                         <tr>
                                                 <td><label>{lang admin_merge_order}</label></td>
                                                 <td>
-                                                        <label><input type="radio" name="newpostposition" class="pr" value="0" checked="checked" />{lang admin_merge_order_end}</label>
-                                                        <label><input type="radio" name="newpostposition" class="pr" value="1" />{lang admin_merge_order_begin}</label>
+                                                        <label><input type="radio" name="newpostposition" class="pr" value="0" checked="checked">{lang admin_merge_order_end}</label>
+                                                        <label><input type="radio" name="newpostposition" class="pr" value="1">{lang admin_merge_order_begin}</label>
                                                 </td>
                                         </tr>
                                 </table>
@@ -98,7 +98,7 @@
 						<td><label for="subject">{lang admin_split_newsubject}</label></td>
 					</tr>
 					<tr>
-						<td><input type="text" name="subject" id="subject" class="px" size="20" /></td>
+						<td><input type="text" name="subject" id="subject" class="px" size="20"></td>
 					</tr>
 					<tr>
 						<td><label for="split">{lang admin_split_comment}</label></td>
@@ -110,8 +110,8 @@
 			<!--{elseif $_GET[action] == 'stickreply'}-->
 				$stickpid
 				<ul class="llst">
-					<li><label><input type="radio" name="stickreply" class="pr" value="1"{if empty($_GET['undo'])} checked="checked"{/if}/>{lang admin_stickreply} </label></li>
-					<li><label><input type="radio" name="stickreply" class="pr" value="0"{if !empty($_GET['undo'])} checked="checked"{/if}/>{lang admin_unstickreply} </label></li>
+					<li><label><input type="radio" name="stickreply" class="pr" value="1"{if empty($_GET['undo'])} checked="checked"{/if}>{lang admin_stickreply} </label></li>
+					<li><label><input type="radio" name="stickreply" class="pr" value="0"{if !empty($_GET['undo'])} checked="checked"{/if}>{lang admin_unstickreply} </label></li>
 				</ul>
 			<!--{/if}-->
 			</div>
@@ -129,8 +129,8 @@
 	            <div class="tpclg">
 		            <h4 class="cl">
 		                <p class="y">
-		                    <label for="userban"><input type="checkbox" name="banuser" id="userban" class="pc" />{lang topicadmin_banuser}</label>
-		                    <label for="userdelpost"><input type="checkbox" name="userdelpost" id="userdelpost" class="pc" />{lang topicadmin_userdelpost}</label>
+		                    <label for="userban"><input type="checkbox" name="banuser" id="userban" class="pc">{lang topicadmin_banuser}</label>
+		                    <label for="userdelpost"><input type="checkbox" name="userdelpost" id="userdelpost" class="pc">{lang topicadmin_userdelpost}</label>
 		                </p>
 		                <span>{lang topicadmin_useropt}:</span>
 		            </h4>
@@ -139,9 +139,9 @@
 	    <!--{/if}-->
 		<div class="o pns">
 			<!--{if $_GET[action] == 'delpost'}-->
-			<label for="crimerecord"><input type="checkbox" name="crimerecord" id="crimerecord" class="pc" />{lang crimerecord}</label>
+			<label for="crimerecord"><input type="checkbox" name="crimerecord" id="crimerecord" class="pc">{lang crimerecord}</label>
 			<!--{/if}-->
-			<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} />{lang admin_pm}</label>
+			<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if}>{lang admin_pm}</label>
 			<button type="submit" name="modsubmit" id="modsubmit" value="ture" class="pn pnc"><span>{lang confirms}</span></button>
 		</div>
 	</form>

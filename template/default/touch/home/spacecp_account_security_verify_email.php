@@ -12,10 +12,10 @@
                 <th style="width: 10px;"><span class="rq">*</span></th>
                 <td colspan="2" style="display: flex;">
                     <!--{if $method == 'chgemail' && empty($_G['member']['email'])}-->
-                    <input type="text" name="email" id="secemail" class="px" placeholder="{lang email}"/>
+                    <input type="text" name="email" id="secemail" class="px" placeholder="{lang email}">
                     <!--{else}-->
                     {$_G['member']['email']}
-                    <input type="hidden" id="secemail" name="email" value="{$_G['member']['email']}" />
+                    <input type="hidden" id="secemail" name="email" value="{$_G['member']['email']}">
                     <!--{/if}-->
                 </td>
                 <td colspan="2">&nbsp;</td>
@@ -23,7 +23,7 @@
             <tr>
                 <th style="width: 10px;"><span class="rq">*</span></th>
                 <td colspan="2" style="display: flex;">
-                    <input type="text" name="seccode" id="seccode" value="" class="px" placeholder="{lang seccode}"/>
+                    <input type="text" name="seccode" id="seccode" value="" class="px" placeholder="{lang seccode}">
                     <a href="javascript:void(0);" onclick="memcp_sendsecemailseccode_{$layerhash}();return false;" class="pn pnc" style="width: 80px; height: 30px;line-height: 30px; margin-left: 5px; color: #ffffff; padding: 3px 10px;"><strong>{lang send}</strong></a>
                 </td>
                 <td colspan="2">&nbsp;</td>

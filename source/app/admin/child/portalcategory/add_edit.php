@@ -91,7 +91,7 @@ if(!submitcheck('detailsubmit')) {
 
 	showtableheader();
 	showsubmit('detailsubmit');
-	if($operation == 'add') showsetting('', '', '', '<input type="hidden" name="level" value="'.$cate['level'].'" />');
+	if($operation == 'add') showsetting('', '', '', '<input type="hidden" name="level" value="'.$cate['level'].'">');
 	showtablefooter();
 	showformfooter();
 

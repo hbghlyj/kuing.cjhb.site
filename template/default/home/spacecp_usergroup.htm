@@ -7,12 +7,12 @@
 	</h3>
 
 	<form id="buygroupform_{$groupid}" name="buygroupform_{$groupid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=usergroup&do=$do&groupid=$groupid"{if !empty($_GET['inajax'])} onsubmit="ajaxpost('buygroupform_{$groupid}', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;"{/if}>
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="buysubmit" value="true" />
-		<input type="hidden" name="gid" value="$_GET[gid]" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="buysubmit" value="true">
+		<input type="hidden" name="gid" value="$_GET[gid]">
 
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="c">
 			<table class="list cp0" style="width:300px">
 			<!--{if $join}-->
@@ -24,7 +24,7 @@
 						<td>{lang memcp_usergroups_credit}</td><td>$usermaxdays {lang days}</td>
 					</tr>
 					<tr>
-						<td>{lang memcp_usergroups_span}</td><td><input type="text" size="2" name="days" value="$group[minspan]" class="px" onkeyup="change_credits_need(this.value)" /> {lang days}</td>
+						<td>{lang memcp_usergroups_span}</td><td><input type="text" size="2" name="days" value="$group[minspan]" class="px" onkeyup="change_credits_need(this.value)"> {lang days}</td>
 					</tr>
 					<tr>
 						<td>{lang credits_need}{$_G[setting][extcredits][$_G[setting][creditstrans]][title]}</td><td><span id="credits_need"></span> {$_G[setting][extcredits][$_G[setting][creditstrans]][unit]}
@@ -82,12 +82,12 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form id="switchgroupform_{$groupid}" name="switchgroupform_{$groupid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=usergroup&do=switch&groupid=$groupid"{if !empty($_GET['inajax'])} onsubmit="ajaxpost('switchgroupform_{$groupid}', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;"{/if}>
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="groupsubmit" value="true" />
-		<input type="hidden" name="gid" value="$_GET[gid]" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="groupsubmit" value="true">
+		<input type="hidden" name="gid" value="$_GET[gid]">
 
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="c">
 			<table class="list cp0" style="width:300px">
 				<tr>

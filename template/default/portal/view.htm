@@ -17,7 +17,7 @@
 
 <!--{hook/view_article_top}-->
 <!--{ad/text/wp a_t}-->
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <div class="wp">
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
@@ -154,7 +154,7 @@
 			<div class="bm_c">
 				<ul class="xl xl2 cl" id="raid_div">
 				<!--{loop $article['related'] $raid $rvalue}-->
-					<input type="hidden" value="$raid" />
+					<input type="hidden" value="$raid">
 					<li>&bull; <a href="{$rvalue[uri]}">{$rvalue[title]}</a></li>
 				<!--{/loop}-->
 				</ul>

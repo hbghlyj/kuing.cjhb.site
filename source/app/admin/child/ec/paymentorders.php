@@ -40,8 +40,8 @@ if(submitcheck('querysubmit')) {
 	showtableheader('ec_paymentorders_detail');
 	showsetting('ec_paymentorders_no', '', '', $order['out_biz_no']);
 	showsetting('ec_paymentorders_type', '', '', $order['type_name']);
-	showsetting('ec_paymentorders_desc', '', '', $order['subject'].($order['description'] ? '<br/>'.$order['description'] : ''));
-	showsetting('ec_paymentorders_user', '', '', $user['username'].' ('.$order['uid'].')'.'<br/>'.$order['clientip'].':'.$order['remoteport']);
+	showsetting('ec_paymentorders_desc', '', '', $order['subject'].($order['description'] ? '<br>'.$order['description'] : ''));
+	showsetting('ec_paymentorders_user', '', '', $user['username'].' ('.$order['uid'].')'.'<br>'.$order['clientip'].':'.$order['remoteport']);
 	showsetting('ec_paymentorders_amount', '', '', number_format($order['amount'] / 100, 2, '.', ','));
 	showsetting('ec_orders_submitdate', '', '', dgmdate($order['dateline']));
 	$channelradios = '<ul onmouseover="altStyle(this);">';
@@ -69,7 +69,7 @@ if(submitcheck('querysubmit')) {
 	$start_limit = ($page - 1) * $_G['tpp'];
 
 	/*search={"nav_ec":"action=ec&operation=base","nav_ec_orders":"action=ec&operation=paymentorders"}*/
-	echo '<style type="text/css">.order-status-0 td { color: #555; } .order-status-1 td { color: green; } .order-status-1 td a { color: #fe8080; } .order-status-2 td, .order-status-2 td a { color: #ccc; } .order-status-3 td { color: red; } .order-status-4 td { color: #d80; }</style>';
+	echo '<style>.order-status-0 td { color: #555; } .order-status-1 td { color: green; } .order-status-1 td a { color: #fe8080; } .order-status-2 td, .order-status-2 td a { color: #ccc; } .order-status-3 td { color: red; } .order-status-4 td { color: #d80; }</style>';
 	echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
 	$queryparams = [
 		'out_biz_no' => daddslashes($_GET['out_biz_no']),
@@ -95,8 +95,8 @@ if(submitcheck('querysubmit')) {
 		'style="width:100px"', ''
 	],
 		[
-			lang('admincp', 'ec_orders_search_id'), '<input type="text" class="txt" name="out_biz_no" value="'.$queryparams['out_biz_no'].'" />',
-			lang('admincp', 'ec_paymentorders_user'), '<input type="text" class="txt" name="user" value="'.$queryparams['user'].'" />',
+			lang('admincp', 'ec_orders_search_id'), '<input type="text" class="txt" name="out_biz_no" value="'.$queryparams['out_biz_no'].'">',
+			lang('admincp', 'ec_paymentorders_user'), '<input type="text" class="txt" name="user" value="'.$queryparams['user'].'">',
 			lang('admincp', 'ec_paymentorders_type'), '<select name="type">'.implode('', $typeoptions).'</select>',
 		]
 	);
@@ -171,9 +171,9 @@ if(submitcheck('querysubmit')) {
 
 			$amountstr = number_format($order['amount'] / 100, 2, '.', ',');
 			if($order['status'] == 3) {
-				$amountstr .= '<br/>'.$lang['ec_paymentorders_refund_amount'].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
+				$amountstr .= '<br>'.$lang['ec_paymentorders_refund_amount'].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
 			} elseif($order['status'] == 4) {
-				$amountstr .= '<br/>'.$lang['ec_paymentorders_status_'.$order['status']].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
+				$amountstr .= '<br>'.$lang['ec_paymentorders_status_'.$order['status']].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
 			}
 			$operations = '';
 			if(in_array($order['status'], [0, 2])) {
@@ -187,8 +187,8 @@ if(submitcheck('querysubmit')) {
 			showtablerow('class="order-status-'.$order['status'].'"', $tdstyles, [
 				$order['out_biz_no'],
 				$order['type_name'],
-				$order['subject'].($order['description'] ? '<br/>'.$order['description'] : ''),
-				$user['username'].' ('.$order['uid'].')'.'<br/>'.$order['clientip'].':'.$order['remoteport'],
+				$order['subject'].($order['description'] ? '<br>'.$order['description'] : ''),
+				$user['username'].' ('.$order['uid'].')'.'<br>'.$order['clientip'].':'.$order['remoteport'],
 				$channels[$order['channel']]['title'],
 				$amountstr,
 				$lang['ec_paymentorders_status_'.$order['status']],

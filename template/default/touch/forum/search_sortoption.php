@@ -46,9 +46,9 @@
 	                <!--{else}-->
 	                    <!--{if $option['type'] == 'calendar'}-->
 	                        <script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
-	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" onclick="showcalendar(event, this, false)" />
+	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" onclick="showcalendar(event, this, false)">
 	                    <!--{else}-->
-	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" />
+	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}">
 	                    <!--{/if}-->
 	                <!--{/if}-->
 	            </div>
@@ -110,7 +110,7 @@
 	<!--{/if}-->
 	<!--{if $formsearch_html}-->
 	    <form method="post" autocomplete="off" name="searhsort" id="searhsort" class="bbs bm_c pns mfm cl" action="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=sortid&sortid=$_GET[sortid]">
-	        <input type="hidden" name="formhash" value="{FORMHASH}" />
+	        <input type="hidden" name="formhash" value="{FORMHASH}">
 	        <div class="ptm cl">$formsearch_html
 	        <button type="submit" class="pn pnc" name="searchsortsubmit"><em>{lang search}</em></button></div>
 	    </form>

@@ -75,7 +75,7 @@ $lang = array(
 
 	'ext_info_succ'		=> 'Installed successfully.',//'安装成功。',
 	'install_submit'	=> 'Submit',//'提交',
-	'install_locked'	=> 'Installation is locked.<br><br>If you sure you want to re-install, go to the server and delete the file<br />'.str_replace(ROOT_PATH, '', $lockfile),//'安装锁定，已经安装过了，如果您确定要重新安装，请到服务器上删除<br /> '.str_replace(ROOT_PATH, '', $lockfile),
+	'install_locked'	=> 'Installation is locked.<br><br>If you sure you want to re-install, go to the server and delete the file<br>'.str_replace(ROOT_PATH, '', $lockfile),//'安装锁定，已经安装过了，如果您确定要重新安装，请到服务器上删除<br> '.str_replace(ROOT_PATH, '', $lockfile),
 	'error_quit_msg'	=> 'You must solve the above problems, before the installation can continue.',//'您必须解决以上问题，安装才可以继续',
 
 	'step_app_reg_title'	=> 'Setting environment',//'设置运行环境',

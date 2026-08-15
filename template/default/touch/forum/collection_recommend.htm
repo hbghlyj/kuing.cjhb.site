@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <div class="setbox cl" id="recommend">
 	<form action="forum.php?mod=collection&action=comment&op=recommend&ctid={$ctid}" onsubmit="ajaxpost(this.id, 'form_collectionrecommend');" id="form_collectionrecommend" name="form_collectionrecommend" method="POST">
-		<input type="hidden" value="{FORMHASH}" name="formhash" />
+		<input type="hidden" value="{FORMHASH}" name="formhash">
 		<input type="hidden" name="inajax" value="1">
 		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 		<ul class="bodybox post_box mt15 cl">

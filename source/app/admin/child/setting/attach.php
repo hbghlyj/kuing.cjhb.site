@@ -198,7 +198,7 @@ if(submitcheck('settingsubmit')) {
 				}
 			}
 		}
-		$typeDesc = '<br />';
+		$typeDesc = '<br>';
 
 		!empty($setting['oss']['oss_subtype']) && $setting['oss']['oss_type'] = $setting['oss']['oss_type'].'_sub'.$setting['oss']['oss_subtype'];
 

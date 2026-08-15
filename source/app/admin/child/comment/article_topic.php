@@ -138,7 +138,7 @@ EOT;
 				foreach($query as $comment) {
 					$comment['dateline'] = dgmdate($comment['dateline']);
 					$comments .= showtablerow('', '', [
-						"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['cid']}\" />",
+						"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['cid']}\">",
 						"<a href=\"portal.php?mod=$mod&$idtype={$comment['id']}\" target=\"_blank\">{$comment['title']}</a>",
 						$comment['message'],
 						"<a href=\"home.php?mod=space&uid={$comment['uid']}\" target=\"_blank\">{$comment['username']}</a>",

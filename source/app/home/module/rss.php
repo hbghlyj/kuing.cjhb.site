@@ -61,7 +61,7 @@ foreach($data_blog as $curblogid => $value) {
 	$value['message'] = getstr($value['message'], 300, 0, 0, 0, -1);
 	if($value['pic']) {
 		$value['pic'] = pic_cover_get($value['pic'], $value['picflag']);
-		$value['message'] .= "<br /><img src=\"{$value['pic']}\">";
+		$value['message'] .= "<br><img src=\"{$value['pic']}\">";
 	}
 	echo "    <item>\n".
 		'      <title>'.$value['subject']."</title>\n".

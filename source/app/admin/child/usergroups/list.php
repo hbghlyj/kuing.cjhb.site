@@ -26,9 +26,9 @@ if(!submitcheck('groupsubmit')) {
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[{$group['groupid']}]\" value=\"{$group['groupid']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"12\" name=\"groupnew[{$group['groupid']}][grouptitle]\" value=\"{$group['grouptitle']}\">".iconimg($group['icon']),
 				"(groupid:{$group['groupid']})",
-				"<input type=\"text\" class=\"txt\" size=\"6\" name=\"groupnew[{$group['groupid']}][creditshigher]\" value=\"{$group['creditshigher']}\" /> ~ <input type=\"text\" class=\"txt\" size=\"6\" name=\"groupnew[{$group['groupid']}][creditslower]\" value=\"{$group['creditslower']}\" disabled />",
+				"<input type=\"text\" class=\"txt\" size=\"6\" name=\"groupnew[{$group['groupid']}][creditshigher]\" value=\"{$group['creditshigher']}\"> ~ <input type=\"text\" class=\"txt\" size=\"6\" name=\"groupnew[{$group['groupid']}][creditslower]\" value=\"{$group['creditslower']}\" disabled>",
 				"<input type=\"text\" class=\"txt\" size=\"2\" name=\"groupnew[{$group['groupid']}][stars]\" value=\"{$group['stars']}\">",
-				"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
+				"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
 				"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=copy&source={$group['groupid']}\" title=\"{$lang['usergroups_copy_comment']}\" class=\"act\">{$lang['usergroups_copy']}</a>".
 				"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=merge&source={$group['groupid']}\" title=\"{$lang['usergroups_merge_comment']}\" class=\"act\">{$lang['usergroups_merge_link']}</a>"
 			], TRUE);
@@ -38,7 +38,7 @@ if(!submitcheck('groupsubmit')) {
 				"(groupid:{$group['groupid']})",
 				$lang['usergroups_system_'.$group['groupid']],
 				"<input type=\"text\" class=\"txt\" size=\"2\"name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\">",
-				"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gsystem\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
+				"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gsystem\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
 				"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=copy&source={$group['groupid']}\" title=\"{$lang['usergroups_copy_comment']}\" class=\"act\">{$lang['usergroups_copy']}</a>"
 			], TRUE);
 		} elseif($group['type'] == 'special' && $group['radminid'] == '0') {
@@ -58,7 +58,7 @@ if(!submitcheck('groupsubmit')) {
 
 		if(is_array($smembers[$group['groupid']])) {
 			$num = count($smembers[$group['groupid']]);
-			$specifiedusers = implode('', $smembers[$group['groupid']]).($num > $smembernum[$group['groupid']] ? '<br /><div style="float: right; clear: both; margin:5px"><a href="'.ADMINSCRIPT.'?action=members&submit=yes&usergroupid[]='.$group['groupid'].'" style="text-align: right;">'.$lang['more'].'&raquo;</a>&nbsp;</div>' : '<br /><br/>');
+			$specifiedusers = implode('', $smembers[$group['groupid']]).($num > $smembernum[$group['groupid']] ? '<br><div style="float: right; clear: both; margin:5px"><a href="'.ADMINSCRIPT.'?action=members&submit=yes&usergroupid[]='.$group['groupid'].'" style="text-align: right;">'.$lang['more'].'&raquo;</a>&nbsp;</div>' : '<br><br>');
 			unset($smembers[$group['groupid']]);
 		} else {
 			$specifiedusers = '';
@@ -87,9 +87,9 @@ if(!submitcheck('groupsubmit')) {
 			"<input type=\"text\" class=\"txt\" size=\"12\" name=\"group_title[{$group['groupid']}]\" value=\"{$group['grouptitle']}\">".iconimg($group['icon']),
 			"(groupid:{$group['groupid']})",
 			$gsystem,
-			"<input type=\"text\" class=\"txt\" size=\"6\" name=\"group_credits[{$group['upgroupid']}][{$group['groupid']}][creditshigher]\" value=\"{$group['creditshigher']}\" $readonly/> ~ <input type=\"text\" class=\"txt\" size=\"6\" name=\"group_credits[{$group['upgroupid']}][{$group['groupid']}][creditslower]\" value=\"{$group['creditslower']}\" disabled />",
+			"<input type=\"text\" class=\"txt\" size=\"6\" name=\"group_credits[{$group['upgroupid']}][{$group['groupid']}][creditshigher]\" value=\"{$group['creditshigher']}\" $readonly> ~ <input type=\"text\" class=\"txt\" size=\"6\" name=\"group_credits[{$group['upgroupid']}][{$group['groupid']}][creditslower]\" value=\"{$group['creditslower']}\" disabled>",
 			"<input type=\"text\" class=\"txt\" size=\"2\"name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\">",
-			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gspecial\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
+			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gspecial\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=copy&source={$group['groupid']}\" title=\"{$lang['usergroups_copy_comment']}\" class=\"act\">{$lang['usergroups_copy']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=merge&source={$group['groupid']}\" title=\"{$lang['usergroups_merge_comment']}\" class=\"act\">{$lang['usergroups_merge_link']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=viewsgroup&sgroupid={$group['groupid']}\" onclick=\"ajaxget(this.href, 'sgroup_{$group['groupid']}', 'sgroup_{$group['groupid']}');doane(event);\" class=\"act\">{$lang['view']}</a> &nbsp;"
@@ -106,7 +106,7 @@ if(!submitcheck('groupsubmit')) {
 		}
 		if(is_array($smembers[$group['groupid']])) {
 			$num = count($smembers[$group['groupid']]);
-			$specifiedusers = implode('', $smembers[$group['groupid']]).($num > $smembernum[$group['groupid']] ? '<br /><div style="float: right; clear: both; margin:5px"><a href="'.ADMINSCRIPT.'?action=members&submit=yes&usergroupid[]='.$group['groupid'].'" style="text-align: right;">'.$lang['more'].'&raquo;</a>&nbsp;</div>' : '<br /><br/>');
+			$specifiedusers = implode('', $smembers[$group['groupid']]).($num > $smembernum[$group['groupid']] ? '<br><div style="float: right; clear: both; margin:5px"><a href="'.ADMINSCRIPT.'?action=members&submit=yes&usergroupid[]='.$group['groupid'].'" style="text-align: right;">'.$lang['more'].'&raquo;</a>&nbsp;</div>' : '<br><br>');
 			unset($smembers[$group['groupid']]);
 		} else {
 			$specifiedusers = '';
@@ -128,7 +128,7 @@ if(!submitcheck('groupsubmit')) {
 			"(groupid:{$group['groupid']})",
 			$gsystem, '',
 			"<input type=\"text\" class=\"txt\" size=\"2\"name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\">",
-			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gspecial\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
+			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gspecial\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\"><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['groupid']}\" class=\"act\">{$lang['edit']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=copy&source={$group['groupid']}\" title=\"{$lang['usergroups_copy_comment']}\" class=\"act\">{$lang['usergroups_copy']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=merge&source={$group['groupid']}\" title=\"{$lang['usergroups_merge_comment']}\" class=\"act\">{$lang['usergroups_merge_link']}</a>".
 			"<a href=\"".ADMINSCRIPT."?action=usergroups&operation=viewsgroup&sgroupid={$group['groupid']}\" onclick=\"ajaxget(this.href, 'sgroup_{$group['groupid']}', 'sgroup_{$group['groupid']}');doane(event);\" class=\"act\">{$lang['view']}</a> &nbsp;"
@@ -183,7 +183,7 @@ EOT;
 
 	showformheader('usergroups&type=member');
 	showtableheader('usergroups_member', 'fixpadding', 'id="membergroups"'.($_GET['type'] && $_GET['type'] != 'member' ? ' style="display: none"' : ''));
-	showsubtitle(['', 'usergroups_title', '', 'usergroups_creditsrange', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcmember" onclick="checkAll(\'value\', this.form, \'gmember\', \'gcmember\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
+	showsubtitle(['', 'usergroups_title', '', 'usergroups_creditsrange', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcmember" onclick="checkAll(\'value\', this.form, \'gmember\', \'gcmember\', 1)"> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
 	echo $membergroup;
 	echo '<tr><td>&nbsp;</td><td colspan="7"><div><a href="###" onclick="addrow(this, 0)" class="addtr">'.$lang['usergroups_add'].'</a></div></td></tr>';
 	showsubmit('groupsubmit', 'submit', 'del');
@@ -192,7 +192,7 @@ EOT;
 
 	showformheader('usergroups&type=special');
 	showtableheader('usergroups_special', 'fixpadding', 'id="specialgroups"'.($_GET['type'] != 'special' ? ' style="display: none"' : ''));
-	showsubtitle(['', 'usergroups_title', '', 'usergroups_system', 'usergroups_creditsrange', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcspecial" onclick="checkAll(\'value\', this.form, \'gspecial\', \'gcspecial\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
+	showsubtitle(['', 'usergroups_title', '', 'usergroups_system', 'usergroups_creditsrange', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcspecial" onclick="checkAll(\'value\', this.form, \'gspecial\', \'gcspecial\', 1)"> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
 	if($specialgroup['private']) {
 		echo $specialgroup['private'];
 	}
@@ -218,7 +218,7 @@ EOT;
 
 	showformheader('usergroups&type=system');
 	showtableheader('usergroups_system', 'fixpadding', 'id="systemgroups"'.($_GET['type'] != 'system' ? ' style="display: none"' : ''));
-	showsubtitle(['usergroups_title', '', 'usergroups_status', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcsystem" onclick="checkAll(\'value\', this.form, \'gsystem\', \'gcsystem\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
+	showsubtitle(['usergroups_title', '', 'usergroups_status', 'usergroups_stars', '<input class="checkbox" type="checkbox" name="gcsystem" onclick="checkAll(\'value\', this.form, \'gsystem\', \'gcsystem\', 1)"> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>']);
 	echo $sysgroup;
 	showsubmit('groupsubmit');
 	showtablefooter();

@@ -45,7 +45,7 @@ if(!submitcheck('modsubmit')) {
 
 	$deleteid = '';
 	foreach($topiclist as $id) {
-		$deleteid .= '<input type="hidden" name="topiclist[]" value="'.$id.'" />';
+		$deleteid .= '<input type="hidden" name="topiclist[]" value="'.$id.'">';
 	}
 
 	$authorcount = count(array_keys($authors));

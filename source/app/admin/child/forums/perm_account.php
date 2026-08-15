@@ -23,7 +23,7 @@ if($interfaces) {
 			continue;
 		}
 		$colums = [
-			'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallaccount'.$atype.'" onclick="checkAll(\'value\', this.form, \'account'.$atype.'\', \'chkallaccount'.$atype.'\')" id="chkallaccount_'.$atype.'" />',
+			'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallaccount'.$atype.'" onclick="checkAll(\'value\', this.form, \'account'.$atype.'\', \'chkallaccount'.$atype.'\')" id="chkallaccount_'.$atype.'">',
 			'<label for="chkallaccount_'.$atype.'"> '.account_base::getName($interface).'</label>', 'a'.$atype];
 		foreach($perms as $perm) {
 			$checked = str_contains($forum[$perm], "\ta$atype\t") ? 'checked="checked"' : NULL;
@@ -39,7 +39,7 @@ if($interfaces) {
 	showtagheader('tbody', 'gaccount', $exists);
 	echo $s;
 	$permtits = [
-		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallmaccount" onclick="checkAll(\'value\', this.form, \'maccount\', \'chkallmaccount\')" id="chkallmaccount" />',
+		'<input class="checkbox" title="'.cplang('select_all').'" type="checkbox" name="chkallmaccount" onclick="checkAll(\'value\', this.form, \'maccount\', \'chkallmaccount\')" id="chkallmaccount">',
 		'<label for="chkallmaccount"> <b><i>'.cplang('forums_edit_perm_mustall').'</i></b></label>', ''];
 	foreach($perms as $perm) {
 		$checked = preg_match("/(^|\t)_a\[(.+?)\]/", $forum[$perm]) ? 'checked="checked"' : NULL;

@@ -143,10 +143,10 @@ if($count) {
 }
 
 $ops = cplang('operation').': '
-	."<input type='radio' class='radio' name='optype' value='open' id='op_close' /><label for='op_close'>".cplang('topic_closed_no').'</label>&nbsp;&nbsp;'
-	."<input type='radio' class='radio' name='optype' value='close' id='op_open' /><label for='op_open'>".cplang('topic_closed_yes').'</label>&nbsp;&nbsp;'
-	."<input type='radio' class='radio' name='optype' value='delete' id='op_delete' /><label for='op_delete'>".cplang('delete').'</label>&nbsp;&nbsp;';
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$ops.'<input type="submit" class="btn" name="opsubmit" value="'.cplang('submit').'" />', $multipage);
+	."<input type='radio' class='radio' name='optype' value='open' id='op_close'><label for='op_close'>".cplang('topic_closed_no').'</label>&nbsp;&nbsp;'
+	."<input type='radio' class='radio' name='optype' value='close' id='op_open'><label for='op_open'>".cplang('topic_closed_yes').'</label>&nbsp;&nbsp;'
+	."<input type='radio' class='radio' name='optype' value='delete' id='op_delete'><label for='op_delete'>".cplang('delete').'</label>&nbsp;&nbsp;';
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$ops.'<input type="submit" class="btn" name="opsubmit" value="'.cplang('submit').'">', $multipage);
 showtablefooter();
 showformfooter();
 	

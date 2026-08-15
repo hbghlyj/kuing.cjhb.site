@@ -40,7 +40,7 @@ class block_line extends commonblock_html {
 
 	function getdata($style, $parameter) {
 		$class = $parameter['style'] == 'line' ? 'l' : 'da';
-		$return = "<hr class='$class' />";
+		$return = "<hr class='$class'>";
 		return ['html' => $return, 'data' => null];
 	}
 }

@@ -33,7 +33,7 @@ echo <<<SEARCH
 			</td>
 			<td><label for="inherited">{$searchlang['portalpermission_no_inherited']}</label></td>
 			<td>
-				<input type="checkbox" value=1 name="inherited" id="inherited" $inherited/>
+				<input type="checkbox" value=1 name="inherited" id="inherited" $inherited>
 				<input type="hidden" name="action" value="portalpermission">
 				<input type="hidden" name="operation" value="$operation">
 				<input type="submit" name="searchsubmit" value="{$searchlang['search']}" class="btn">

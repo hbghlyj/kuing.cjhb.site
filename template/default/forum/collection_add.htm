@@ -42,7 +42,7 @@ function checklen() {
 				<table class="tfm cp0">
 					<tr>
 						<th>{lang collection_title}</th>
-						<td><input type="text" value="{$_G['collection']['name']}" name="title" id="formtitle" class="px" /></td>
+						<td><input type="text" value="{$_G['collection']['name']}" name="title" id="formtitle" class="px"></td>
 					</tr>
 					<tr>
 						<th>{lang collection_desc}</th>
@@ -51,17 +51,17 @@ function checklen() {
 					<tr>
 						<th>{lang collection_keywords}</th>
 						<td>
-							<input type="text" value="{$_G['collection']['keyword']}" name="keyword" id="formkeyword" class="px" />
+							<input type="text" value="{$_G['collection']['keyword']}" name="keyword" id="formkeyword" class="px">
 							<p class="xg1">{lang collection_keywords_desc}</p>
 						</td>
 					</tr>
 					<tr>
 						<th></th>
 						<td>
-							<input type="hidden" value="1" name="submitcollection" />
-							<input type="hidden" value="{$op}" name="op" />
-							<input type="hidden" value="{$ctid}" name="ctid" />
-							<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+							<input type="hidden" value="1" name="submitcollection">
+							<input type="hidden" value="{$op}" name="op">
+							<input type="hidden" value="{$ctid}" name="ctid">
+							<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
 							<button type="submit" name="collectionsubmit" class="pn pnc" value="submit"><span><!--{if $op == 'edit'}-->{lang collection_edit}<!--{else}-->{lang collection_create}<!--{/if}--></span></button>
 							<!--{if $op != 'edit'}-->
 								<span class="xg1">{lang collection_remain_tips}</span>

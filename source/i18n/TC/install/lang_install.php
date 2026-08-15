@@ -83,7 +83,7 @@ $lang = [
 
 	'ext_info_succ' => '安裝成功。',
 	'install_submit' => '提交',
-	'install_locked' => '安裝鎖定，已經安裝過了，如果您確定要重新安裝，請到伺服器上刪除<br /> '.str_replace(ROOT_PATH, '', $lockfile).'<br /><br />如果您要進入工具箱，請修改本安裝檔案的檔案名(./install/index.php)，然後用修改後的檔案名訪問',
+	'install_locked' => '安裝鎖定，已經安裝過了，如果您確定要重新安裝，請到伺服器上刪除<br> '.str_replace(ROOT_PATH, '', $lockfile).'<br><br>如果您要進入工具箱，請修改本安裝檔案的檔案名(./install/index.php)，然後用修改後的檔案名訪問',
 	'error_stuck_msg' => '安裝進程已經很久沒有進展了，可能相關請求已經因網絡超時或伺服器嚴重錯誤而異常登出',
 	'error_quit_msg' => '您必須解決以上問題，纔可以繼續進行',
 	'error_reinstall_msg' => '您的數據庫可能InnoDB性能不佳，請調高PHP超時時間，刷新頁面嘗試重新安裝',
@@ -133,9 +133,9 @@ $lang = [
 
 	'uc_url_empty' => '您沒有填寫 UCenter 的 URL，請返回填寫',
 	'uc_url_invalid' => 'URL 格式錯誤',
-	'uc_url_unreachable' => 'UCenter 的 URL 地址可能填寫錯誤，可能原因有:<br />1. UCenter 路徑不正確或狀態異常<br />2. 應用查詢 UCenter 狀態請求無法發起或被攔截<br />3. UCenter 後臺 “ 通過 URL 添加應用功能 ” 未開啓',
+	'uc_url_unreachable' => 'UCenter 的 URL 地址可能填寫錯誤，可能原因有:<br>1. UCenter 路徑不正確或狀態異常<br>2. 應用查詢 UCenter 狀態請求無法發起或被攔截<br>3. UCenter 後臺 “ 通過 URL 添加應用功能 ” 未開啓',
 	'uc_ip_invalid' => '無法解析該域名，請填寫站點的 IP',
-	'uc_admin_invalid' => 'UCenter 創始人密碼校驗未通過, 可能原因有:<br />1. UCenter 創始人密碼不正確<br />2. 多次錯誤輸入密碼導致創始人用戶和 IP 地址被鎖定<br />3. UCenter 後臺 “ 通過 URL 添加應用功能 ” 未開啓',
+	'uc_admin_invalid' => 'UCenter 創始人密碼校驗未通過, 可能原因有:<br>1. UCenter 創始人密碼不正確<br>2. 多次錯誤輸入密碼導致創始人用戶和 IP 地址被鎖定<br>3. UCenter 後臺 “ 通過 URL 添加應用功能 ” 未開啓',
 	'uc_data_invalid' => '通信失敗，請檢查 UCenter 的URL 地址是否正確 ',
 	'uc_dbcharset_incorrect' => 'UCenter 數據庫字符集與當前應用字符集不一致',
 	'uc_api_add_app_error' => '向 UCenter 添加應用錯誤',
@@ -288,9 +288,9 @@ $lang = [
 <h3>II. 協議規定的約束和限制</h3>
 <ol>
    <li>不得對本產品、應用程序或與之關聯的商業授權進行出租、出售、抵押或發放子許可證。</li>
-   <li>無論如何，即無論用途如何、是否經過修改或美化、修改程度如何，只要使用本產品的整體或任何部分，未經書面許可，本產品中的下列內容都必須保留，不能清除或修改、替換：<br />
-	a. 頁面頁腳處 “Powered by Discuz!” 的文字及鏈接；<br />
-	b. 管理中心首頁頁腳處 “應用中心” 的文字及鏈接；<br />
+   <li>無論如何，即無論用途如何、是否經過修改或美化、修改程度如何，只要使用本產品的整體或任何部分，未經書面許可，本產品中的下列內容都必須保留，不能清除或修改、替換：<br>
+	a. 頁面頁腳處 “Powered by Discuz!” 的文字及鏈接；<br>
+	b. 管理中心首頁頁腳處 “應用中心” 的文字及鏈接；<br>
 	c. 管理中心首頁頁腳處 “Based on MitFrame”、“Cloud services by WitFrame” 的文字及鏈接；
    </li>
    <li>禁止在本產品的整體或任何部分基礎上以發展任何派生版本、修改版本或第三方版本用於重新分發。</li>
@@ -424,10 +424,10 @@ $lang = [
 	'install_locked_format_error' => '無法進入工具箱，修改的檔案名不能包含 "index"',
 
 	'tool_tips' => '爲了安全起見，如果您已完成全部操作請點擊“完成”，我們將幫助您刪除當前腳本',
-	'tool_select_resetpw' => '<div class="selradio"><input type="radio" name="method" id="select_resetpw" value="resetpw" /><label for="select_resetpw">重置創始人密碼</label></div>',
-	'tool_select_dircheck' => '<div class="selradio"><input type="radio" name="method" id="select_dircheck" value="dircheck" /><label for="select_dircheck">檔案目錄檢測</label></div>',
-	'tool_select_updatecache' => '<div class="selradio"><input type="radio" name="method" id="select_updatecache" value="updatecache" /><label for="select_updatecache">更新快取</label></div>',
-	'tool_select_restore' => '<div class="selradio"><input type="radio" name="method" id="select_restore" value="restore" /><label for="select_restore">恢復數據庫</label></div>',
+	'tool_select_resetpw' => '<div class="selradio"><input type="radio" name="method" id="select_resetpw" value="resetpw"><label for="select_resetpw">重置創始人密碼</label></div>',
+	'tool_select_dircheck' => '<div class="selradio"><input type="radio" name="method" id="select_dircheck" value="dircheck"><label for="select_dircheck">檔案目錄檢測</label></div>',
+	'tool_select_updatecache' => '<div class="selradio"><input type="radio" name="method" id="select_updatecache" value="updatecache"><label for="select_updatecache">更新快取</label></div>',
+	'tool_select_restore' => '<div class="selradio"><input type="radio" name="method" id="select_restore" value="restore"><label for="select_restore">恢復數據庫</label></div>',
 
 	'tool_resetpw_uid1' => '本工具只恢復 UID 爲 1 的創始人密碼，請恢復該用戶爲創始人後再進行此操作',
 	'tool_resetpw_founder' => '填寫創始人資訊',
@@ -470,7 +470,7 @@ $lang = [
 	'database_import_file_illegal' => '數據檔案不存在：可能伺服器不允許上傳檔案或檔案大小超過限制',
 	'database_import_file_write_error' => '數據檔案解壓寫入失敗，請檢查伺服器是否有可寫入權限',
 	'database_import_multivol_prompt' => '分卷數據第一捲成功導入數據庫，您需要自動導入本次備份的其他分卷嗎？',
-	'database_import_succeed' => '數據已成功導入站點數據庫<br />請在後臺更新快取<br /><span class="red">出於安全考慮，我們強烈建議您刪除備份檔案</span>',
+	'database_import_succeed' => '數據已成功導入站點數據庫<br>請在後臺更新快取<br><span class="red">出於安全考慮，我們強烈建議您刪除備份檔案</span>',
 	'database_import_format_illegal' => '數據檔案非 Discuz! 格式，無法導入',
 	'database_import_confirm' => '導入和當前 Discuz! 版本不一致的數據極有可能產生無法解決的故障，您確定繼續嗎？',
 	'database_import_confirm_sql' => '您確定導入該備份嗎？',

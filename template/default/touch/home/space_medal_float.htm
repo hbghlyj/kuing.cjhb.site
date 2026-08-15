@@ -1,14 +1,14 @@
 <!--{template common/header}-->
 <div class="tip">
 	<form id="medalform" method="post" autocomplete="off" action="home.php?mod=medal&action=apply&medalsubmit=yes">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="medalid" value="$medal['medalid']" />
-		<input type="hidden" name="operation" value="" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="medalid" value="$medal['medalid']">
+		<input type="hidden" name="operation" value="">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 
 		<div class="medal_tip_top">
 			<a href="javascript:;" class="author">
-				<img src="$medal['image']" class="vm" alt="$medal['name']" />
+				<img src="$medal['image']" class="vm" alt="$medal['name']">
 				<p>$medal['name']</p>
 			</a>
 			<p>$medal['description']</p>
@@ -16,10 +16,10 @@
 		<div class="medal_tip_box">
 			<p class="ts">
 				<!--{if $medal['expiration']}-->
-					{lang expire} $medal['expiration'] {lang days}<br />
+					{lang expire} $medal['expiration'] {lang days}<br>
 				<!--{/if}-->
 				<!--{if $medal['permission']}-->
-					$medal['permission']<br />
+					$medal['permission']<br>
 				<!--{/if}-->
 				<!--{if $medal['type'] == 0}-->
 					{lang medals_type_0}

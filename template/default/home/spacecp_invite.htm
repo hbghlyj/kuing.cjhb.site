@@ -6,10 +6,10 @@
 	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 </h3>
 <form id="resendform_{$id}" name="resendform_{$id}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=invite&op=resend&id=$id" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-	<input type="hidden" name="referer" value="{echo dreferer()}" />
-	<input type="hidden" name="resendsubmit" value="true" />
-	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="referer" value="{echo dreferer()}">
+	<input type="hidden" name="resendsubmit" value="true">
+	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="c">{lang sure_resend}</div>
 	<p class="o pns">
 		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang resend}</strong></button>
@@ -28,10 +28,10 @@
 	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 </h3>
 <form id="deleteform_{$id}" name="deleteform_{$id}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=invite&op=delete&id=$id" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-	<input type="hidden" name="referer" value="{echo dreferer()}" />
-	<input type="hidden" name="deletesubmit" value="true" />
-	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="referer" value="{echo dreferer()}">
+	<input type="hidden" name="deletesubmit" value="true">
+	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="c">{lang delete_log_message}</div>
 	<p class="o pns">
 		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang delete}</strong></button>
@@ -149,7 +149,7 @@
 								<!--{if $_G['group']['maxinviteday']}-->
 								<p class="d">{lang max_invite_day_message}</p>
 								<!--{/if}-->
-								<input type="text" name="invitenum" value="1" size="10" class="px vm" style="width: auto;" />
+								<input type="text" name="invitenum" value="1" size="10" class="px vm" style="width: auto;">
 								<button type="submit" name="invitesubmit_btn" value="true" class="pn vm"><em>{lang get_invitation_code}</em></button>
 								<span id="return_newinvite" style="display:none;"></span>
 								<script>
@@ -175,13 +175,13 @@
 						</tr>
 					<!--{/if}-->
 				</table>
-				<input type="hidden" name="handlekey" value="newinvite" />
-				<input type="hidden" name="invitesubmit" value="true" />
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="handlekey" value="newinvite">
+				<input type="hidden" name="invitesubmit" value="true">
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 			</form>
 			<!--{if $_G['group']['allowmailinvite']}-->
 			<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=invite&type=mail&appid=$appid&ref">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<h2 class="xs2">{lang send_invitation_email}<!--{if $appid}-->{lang friend_play_together}$appinfo[appname]<!--{/if}--></h2>
 				<div class="mtn bm bmn">					
 					<table class="tfm mbm cp0">

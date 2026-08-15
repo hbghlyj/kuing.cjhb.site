@@ -5,9 +5,9 @@
 	<dt>{lang delete_blog}</dt>
 	<dt>{lang sure_delete_blog}?</dt>
 	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=blog&op=delete&blogid=$blogid">
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="deletesubmit" value="true" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="deletesubmit" value="true">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<dd>
 			<button type="submit" name="btnsubmit" value="true" class="formdialog button z"><strong>{lang determine}</strong></button>
 			<a href="javascript:;" onclick="popup.close();return false;" class="button y" title="{lang close}">{lang close}</a>
@@ -19,10 +19,10 @@
 	<dt><!--{if $stickflag}-->{lang stick_blog}<!--{else}-->{lang cancel_stick_blog}<!--{/if}--></dt>
 	<dt><!--{if $stickflag}-->{lang sure_stick_blog}<!--{else}-->{lang sure_cancel_stick_blog}<!--{/if}-->?</dt>
 	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=blog&op=stick&blogid=$blogid">
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="sticksubmit" value="true" />
-		<input type="hidden" name="stickflag" value="$stickflag" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="sticksubmit" value="true">
+		<input type="hidden" name="stickflag" value="$stickflag">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<dd>
 			<button type="submit" name="btnsubmit" value="true" class="formdialog button z"><strong>{lang determine}</strong></button>
 			<a href="javascript:;" onclick="popup.close();return false;" class="button y" title="{lang close}">{lang close}</a>
@@ -35,7 +35,7 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="blogCancelAddOption('$_GET[oid]');hideWindow('$_GET[handlekey]');return false;" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<div class="c">
-		<p class="mtm mbm"><label for="newsort">{lang name}: <input type="text" name="newsort" id="newsort" class="px" size="30" /></label></p>
+		<p class="mtm mbm"><label for="newsort">{lang name}: <input type="text" name="newsort" id="newsort" class="px" size="30"></label></p>
 	</div>
 	<p class="o pns">
 		<button type="button" name="btnsubmit" value="true" class="pn pnc" onclick="if(blogAddOption('newsort', '$_GET[oid]'))hideWindow('$_GET[handlekey]');"><strong>{lang create}</strong></button>
@@ -50,11 +50,11 @@
 	<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');return false;" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 </h3>
 <form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=blog&op=edithot&blogid=$blogid">
-	<input type="hidden" name="referer" value="{echo dreferer()}" />
-	<input type="hidden" name="hotsubmit" value="true" />
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="referer" value="{echo dreferer()}">
+	<input type="hidden" name="hotsubmit" value="true">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="c">
-		{lang new_hot}:<input type="text" name="hot" value="$blog[hot]" size="10" class="px" />
+		{lang new_hot}:<input type="text" name="hot" value="$blog[hot]" size="10" class="px">
 	</div>
 	<p class="o pns">
 		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
@@ -67,9 +67,9 @@
 </div>
 
 <form method="post" id="postform" autocomplete="off" action="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]{if $_GET[modblogkey]}&modblogkey=$_GET[modblogkey]{/if}" onsubmit="validate(this);" enctype="multipart/form-data">
-	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="plaintext" value="true" />
-	<input type="hidden" name="blogsubmit" value="true" />
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+	<input type="hidden" name="plaintext" value="true">
+	<input type="hidden" name="blogsubmit" value="true">
 	<div class="post_from post_box">
 		<!--{hook/spacecp_blog_top_mobile}-->
 		<ul class="cl">
@@ -103,11 +103,11 @@
 				</select>
 			</li>
 			<li class="mli">
-				<input type="text" class="px vm" size="40" id="tag" name="tag" value="$blog[tag]" placeholder="{lang label}" />
+				<input type="text" class="px vm" size="40" id="tag" name="tag" value="$blog[tag]" placeholder="{lang label}">
 			</li>
 			<!--{if checkperm('manageblog')}-->
 			<li class="mli">
-				<input type="text" class="px" name="hot" id="hot" value="$blog[hot]" size="5" placeholder="{lang hot}" />
+				<input type="text" class="px" name="hot" id="hot" value="$blog[hot]" size="5" placeholder="{lang hot}">
 			</li>
 			<!--{/if}-->
 			<!--{if helper_access::check_module('feed')}-->

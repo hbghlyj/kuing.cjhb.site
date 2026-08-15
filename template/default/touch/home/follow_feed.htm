@@ -196,7 +196,7 @@
 				<!--{/loop}-->
 			</div>
 			<!--{if !empty($multi)}--><div>$multi</div><!--{/if}-->
-			<br/>
+			<br>
 		<!--{else}-->
 			<div id="nofollowmsg">
 				<div class="flw_thread">
@@ -280,13 +280,13 @@
 
 
 <!--{if $showguide && $do == 'feed'}-->
-<style type="text/css">
+<style>
 	.widthauto #nv_menu { width: 95%; }
 	.widthauto #nv_menu div { position: absolute;left: 50%;margin-left: -472px;width:944px; }
 </style>
 <div id="nv_menu" style="display:none;">
 	<div>
-		<img src="{IMGDIR}/flw_guide.png" alt="" />
+		<img src="{IMGDIR}/flw_guide.png" alt="">
 		<button class="pn pnc" style="margin: -50px 0 20px 430px;" onclick="hideMenu()"><span>{lang follow_i_know}</span></button>
 	</div>
 </div>

@@ -12,14 +12,14 @@
             <tr>
                 <th style="width: 80px;"><span class="rq">*</span><label for="newpassword">{lang newpassword}:</label></th>
                 <td>
-                    <input type="password" name="newpassword" id="newpassword" value="" class="px" />
+                    <input type="password" name="newpassword" id="newpassword" value="" class="px">
                 </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <th style="width: 80px;"><span class="rq">*</span><label for="renewpassword">{lang renewpassword}:</label></th>
                 <td>
-                    <input type="password" name="renewpassword" id="renewpassword" value="" class="px" />
+                    <input type="password" name="renewpassword" id="renewpassword" value="" class="px">
                 </td>
                 <td>&nbsp;</td>
             </tr>

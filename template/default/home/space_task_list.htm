@@ -10,7 +10,7 @@
 		<table class="cp0" width="100%">
 			<!--{loop $tasklist $task}-->
 				<tr>
-					<td width="80" class="bbda"><img src="$task[icon]" width="64" height="64" alt="$task[name]" /></td>
+					<td width="80" class="bbda"><img src="$task[icon]" width="64" height="64" alt="$task[name]"></td>
 					<td class="bbda ptm pbm">
 						<h3 class="xs2 xi2"><a href="home.php?mod=task&do=view&id=$task[taskid]">$task[name]</a> <span class="xs1 xg2 xw0">({lang task_applies}: <a href="home.php?mod=task&do=view&id=$task[taskid]#parter">$task[applicants]</a> )</span></h3>
 						<p class="xg2">$task[description]</p>
@@ -47,10 +47,10 @@
 							<p><a href="home.php?mod=task&do=draw&id=$task[taskid]" class="taskbtn {if $task[csc] >=100}taskrw{else}taskda{/if}">{lang task_reward_get}</a></p>
 						<!--{elseif $_GET['item'] == 'done'}-->
 							<p style="white-space:nowrap">{lang task_complete_on} $task[dateline]
-							<!--{if $task['period'] && $task[t]}--><br /><!--{if $task[allowapply]}--><a href="home.php?mod=task&do=apply&id=$task[taskid]">{lang task_applyagain_now}</a><!--{else}-->{$task[t]}{lang task_applyagain}<!--{/if}--><!--{/if}--></p>
+							<!--{if $task['period'] && $task[t]}--><br><!--{if $task[allowapply]}--><a href="home.php?mod=task&do=apply&id=$task[taskid]">{lang task_applyagain_now}</a><!--{else}-->{$task[t]}{lang task_applyagain}<!--{/if}--><!--{/if}--></p>
 						<!--{elseif $_GET['item'] == 'failed'}-->
 							<p style="white-space:nowrap">{lang task_lose_on} $task[dateline]
-							<!--{if $task['period'] && $task[t]}--><br /><!--{if $task[allowapply]}--><a href="home.php?mod=task&do=apply&id=$task[taskid]">{lang task_applyagain_now}</a><!--{else}-->{$task[t]}{lang task_reapply}<!--{/if}--><!--{/if}--></p>
+							<!--{if $task['period'] && $task[t]}--><br><!--{if $task[allowapply]}--><a href="home.php?mod=task&do=apply&id=$task[taskid]">{lang task_applyagain_now}</a><!--{else}-->{$task[t]}{lang task_reapply}<!--{/if}--><!--{/if}--></p>
 						<!--{/if}-->
 					</td>
 				</tr>

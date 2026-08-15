@@ -31,10 +31,10 @@ function domessageformat(array $value, array $recommend_status): array {
 		$url = trim($url);
 		if(isVideoUrl($url) || parseflv($url)) {
 			$media = parsemedia('x,500,373', $url);
-			return '<br />'.$media.'<br />';
+			return '<br>'.$media.'<br>';
 		} elseif(isAudioUrl($url)) {
 			$audio = parseaudio($url);
-			return '<br />'.$audio.'<br />';
+			return '<br>'.$audio.'<br>';
 		} else {
 			return '<a href="'.dhtmlspecialchars($url).'" target="_blank" rel="nofollow">'.dhtmlspecialchars($url).'</a>';
 		}

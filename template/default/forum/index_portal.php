@@ -6,7 +6,7 @@
 	.threadlist tbody:last-child th, .threadlist tbody:last-child td { border-bottom: 1px solid {$_G['style']['contentseparate']}; }
 </style>
 
-<style id="diy_style" type="text/css"></style>
+<style id="diy_style"></style>
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
 
 <div id="pt" class="bm cl">

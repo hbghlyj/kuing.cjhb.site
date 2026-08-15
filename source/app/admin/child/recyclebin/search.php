@@ -117,14 +117,14 @@ EOT;
 					foreach(table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$thread['tid'], 'tid', $thread['tid']) as $attach) {
 						$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 						$attach['url'] = $attach['isimage']
-							? " {$attach['filename']} (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
+							? " {$attach['filename']} (".sizecount($attach['filesize']).")<br><br><img src=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
 							: "<a href=\"".$_G['setting']['attachurl']."forum/{$attach['attachment']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).')';
-						$thread['message'] .= "<br /><br />{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
+						$thread['message'] .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
 					}
 				}
 
 				showtablerow("id=\"mod_{$thread['tid']}_row1\"", ['rowspan="3" class="rowform threadopt" style="width:80px;"', 'class="threadtitle"'], [
-					"<ul class=\"nofloat\"><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_1\" value=\"delete\" ".(empty($disabledstr) ? "checked=\"checked\"" : '')." $disabledstr /><label for=\"mod_{$thread['tid']}_1\">{$lang['delete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_2\" value=\"undelete\" $disabledstr/><label for=\"mod_{$thread['tid']}_2\">{$lang['undelete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_3\" value=\"ignore\" $disabledstr/><label for=\"mod_{$thread['tid']}_3\">{$lang['ignore']}</label></li></ul>",
+					"<ul class=\"nofloat\"><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_1\" value=\"delete\" ".(empty($disabledstr) ? "checked=\"checked\"" : '')." $disabledstr><label for=\"mod_{$thread['tid']}_1\">{$lang['delete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_2\" value=\"undelete\" $disabledstr><label for=\"mod_{$thread['tid']}_2\">{$lang['undelete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_3\" value=\"ignore\" $disabledstr><label for=\"mod_{$thread['tid']}_3\">{$lang['ignore']}</label></li></ul>",
 					"<h3><a href=\"forum.php?mod=forumdisplay&fid={$thread['fid']}}\" target=\"_blank\">{$thread['forumname']}</a> &raquo; {$thread['subject']}</h3><p><span class=\"bold\">{$lang['author']}:</span> <a href=\"home.php?mod=space&uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a> &nbsp;&nbsp; <span class=\"bold\">{$lang['time']}:</span> {$thread['dateline']} &nbsp;&nbsp; {$lang['threads_replies']}: {$thread['replies']} {$lang['threads_views']}: {$thread['views']}</p>"
 				]);
 				showtablerow("id=\"mod_{$thread['tid']}_row2\"", 'colspan="2" style="padding: 10px; line-height: 180%;"', '<div style="overflow: auto; overflow-x: hidden; max-height:120px; height:auto !important; height:120px; word-break: break-all;">'.$thread['message'].'</div>');

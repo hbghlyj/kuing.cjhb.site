@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta http-equiv="Cache-control" content="{if $_G['setting']['mobile']['mobilecachetime'] > 0}{$_G['setting']['mobile']['mobilecachetime']}{else}no-cache{/if}" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="telephone=no">
 <title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname'] - <!--{/if}--> {lang waptitle}</title>
-<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}" />
-<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)}{/if}" />
+<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}">
+<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)}{/if}">
 $_G['setting']['seohead']
 <!--{subtemplate common/header_mathjax}-->
 
@@ -16,7 +16,7 @@ $_G['setting']['seohead']
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap">
 {csstemplate}
-<link rel="stylesheet" href="{STATICURL}image/mobile/font/dzmicon.css?{VERHASH}" type="text/css" media="all">
+<link rel="stylesheet" href="{STATICURL}image/mobile/font/dzmicon.css?{VERHASH}" media="all">
 <script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}" charset="{CHARSET}"></script>
 <script src="{STATICURL}js/common.js?{VERHASH}" charset="{CHARSET}"></script>
 <script src="{STATICURL}js/mobile/common.js?{VERHASH}" charset="{CHARSET}"></script>

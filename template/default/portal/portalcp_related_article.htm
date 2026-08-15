@@ -4,9 +4,9 @@
 		<li id="$ra[aid]">
 			<em>$ra[title]</em>
 			<span class="xg1">
-				<a href="javascript:;" onclick="uparticle($ra[aid]);" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}" /></a>
-				<a href="javascript:;" onclick="downarticle($ra[aid]);" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}" /></a>
-				<a href="javascript:;" onclick="delarticle($ra[aid]);" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}" /></a>
+				<a href="javascript:;" onclick="uparticle($ra[aid]);" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}"></a>
+				<a href="javascript:;" onclick="downarticle($ra[aid]);" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}"></a>
+				<a href="javascript:;" onclick="delarticle($ra[aid]);" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}"></a>
 			</span>
 		</li>
 	<!--{/if}-->
@@ -15,16 +15,16 @@
 		<li id="$list[aid]">
 			<em>$list[title]</em>
 			<span class="xg1">
-				<a href="javascript:;" onclick="uparticle($list[aid]);" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}" /></a>
-				<a href="javascript:;" onclick="downarticle($list[aid]);" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}" /></a>
-				<a href="javascript:;" onclick="delarticle($list[aid]);" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}" /></a>
+				<a href="javascript:;" onclick="uparticle($list[aid]);" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}"></a>
+				<a href="javascript:;" onclick="downarticle($list[aid]);" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}"></a>
+				<a href="javascript:;" onclick="delarticle($list[aid]);" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}"></a>
 			</span>
 		</li>
 	<!--{/loop}-->
 <!--{elseif ($op == 'search')}-->
 	<!--{loop $articlelist $list}-->
 		<li>
-			<input type="checkbox" name="article" id="article_$list[aid]_pc" class="pc" value="$list[aid]" onclick="getarticlenum();"/>
+			<input type="checkbox" name="article" id="article_$list[aid]_pc" class="pc" value="$list[aid]" onclick="getarticlenum();">
 			<label for="article_$list[aid]_pc" id="article_$list[aid]">$list[title]</label>
 		</li>
 	<!--{/loop}-->
@@ -46,23 +46,23 @@
 		<div class="pns cl">
 			<div class="y">
 				{lang article_id}:
-				<input type="text" name="manualid" id="manualid" class="px vm" value="0" size="10" />&nbsp;
+				<input type="text" name="manualid" id="manualid" class="px vm" value="0" size="10">&nbsp;
 				<button type="button" name="raid_button" class="pn" value="false" onclick="manualadd();"><em>{lang add_by_self}</em></button>
 			</div>
 			{$category}&nbsp;
-			<input type="text" name="searchkey" id="searchkey" class="px vm" value="$searchkey" size="10" />&nbsp;
+			<input type="text" name="searchkey" id="searchkey" class="px vm" value="$searchkey" size="10">&nbsp;
 			<button type="button" name="search_button" class="pn vm" value="false" onclick="articlesearch();"><em>{lang search}</em></button>
 		</div>
 		<div class="cl">
 			<div class="z" id="chkalldiv">
 				<p class="mtm mbn cl">
 					<span class="xg1 y">{lang wait_select}(<span id="articlenum">0</span>/<span id="articlenumall">$count</span> {lang max_wait_select})</span>
-					<label class="chkall"><input type="checkbox" name="chkall" id="chkall" class="pc" value="" onclick="selectall();getarticlenum();"/>{lang select_all}</label>
+					<label class="chkall"><input type="checkbox" name="chkall" id="chkall" class="pc" value="" onclick="selectall();getarticlenum();">{lang select_all}</label>
 				</p>
 				<ul id="articlelist" class="bartl">
 				<!--{loop $articlelist $list}-->
 					<li>
-						<input type="checkbox" name="article" id="article_$list[aid]_pc" class="pc" value="$list[aid]" onclick="getarticlenum();"/><label for="article_$list[aid]_pc" id="article_$list[aid]">$list[title]</label>
+						<input type="checkbox" name="article" id="article_$list[aid]_pc" class="pc" value="$list[aid]" onclick="getarticlenum();"><label for="article_$list[aid]_pc" id="article_$list[aid]">$list[title]</label>
 					</li>
 				<!--{/loop}-->
 				</ul>
@@ -77,9 +77,9 @@
 		</div>
 	</div>
 	<p class="o pns">
-		<input type="hidden" id="selectedarray" name="selectedarray" value="" />
+		<input type="hidden" id="selectedarray" name="selectedarray" value="">
 		<!--{if $_GET['update']}-->
-		<input type="hidden" id="update" name="update" value="1" />
+		<input type="hidden" id="update" name="update" value="1">
 		<!--{/if}-->
 		<button type="submit" name="dsf" class="pn pnc" onclick="addrelatearticle();"><span>{lang confirms}</span></button>
 		<button type="reset" name="dsf" class="pn" onclick="hideWindow('$_GET[handlekey]');"><em>{lang cancel}</em></button>
@@ -91,7 +91,7 @@
 		for(var i = 0; i < article.length; i++){
 			if(article[i].checked) {
 				var choosed = $("article_"+article[i].value).innerHTML;
-				choosed ='<li id="'+article[i].value+'"><em>'+choosed+'</em><span class="xg1"><a href="javascript:;" onclick="uparticle('+article[i].value+');" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}" /></a> <a href="javascript:;" onclick="downarticle('+article[i].value+');" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}" /></a> <a href="javascript:;" onclick="delarticle('+article[i].value+');" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}" /></a></span></li>';
+				choosed ='<li id="'+article[i].value+'"><em>'+choosed+'</em><span class="xg1"><a href="javascript:;" onclick="uparticle('+article[i].value+');" title="{lang move_up}"><img class="vm" src="{IMGDIR}/icon_top.gif" alt="{lang move_up}"></a> <a href="javascript:;" onclick="downarticle('+article[i].value+');" title="{lang move_down}"><img class="vm" src="{IMGDIR}/icon_down.gif" alt="{lang move_down}"></a> <a href="javascript:;" onclick="delarticle('+article[i].value+');" title="{lang delete}"><img class="vm" src="{IMGDIR}/data_invalid.gif" alt="{lang delete}"></a></span></li>';
 				if(!$(article[i].value)) {
 					$("selectedarticle").innerHTML += choosed;
 				}

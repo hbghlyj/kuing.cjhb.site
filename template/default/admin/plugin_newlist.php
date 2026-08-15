@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!--{block col1}-->
-<img src="$logo" onerror="this.src='{STATICURL}image/admincp/plugin_logo.png';this.onerror=null" width="80" height="80" align="left" style="margin-right:5px" />
+<img src="$logo" onerror="this.src='{STATICURL}image/admincp/plugin_logo.png';this.onerror=null" width="80" height="80" align="left" style="margin-right:5px">
 <!--{/block}-->
 <!--{block col2}-->
 <h3 class="light" style="font-size:16px">{$entrytitle} {$entryversion}

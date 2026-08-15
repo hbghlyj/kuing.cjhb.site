@@ -8,7 +8,7 @@
 </script>
 
 <form id="poll" name="poll" method="post" autocomplete="off" action="forum.php?mod=misc&action=votepoll&fid=$_G[fid]&tid=$_G[tid]&pollsubmit=yes{if $_GET[from]}&from=$_GET[from]{/if}&quickforward=yes" onsubmit="if($('post_$post[pid]')) {ajaxpost('poll', 'post_$post[pid]', 'post_$post[pid]');return false}">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="pinf">
 		<!--{if $multiple}--><strong>{lang poll_multiple}{lang thread_poll}</strong><!--{if $maxchoices}-->: ( {lang poll_more_than} )<!--{/if}--><!--{else}--><strong>{lang poll_single}{lang thread_poll}</strong><!--{/if}--><!--{if $visiblepoll && $_G['group']['allowvote']}--> , {lang poll_after_result}<!--{/if}-->, {lang poll_voterscount}
 		<!--{if !$visiblepoll && ($overt || $_G['adminid'] == 1 || $thread['authorid'] == $_G['uid']) && $post['invisible'] == 0}-->
@@ -45,14 +45,14 @@
 						<div class="polltd cl">
 							<!--{if $imginfo}-->
 							<a href="javascript:;" title="$imginfo[filename]" >
-								<img id="aimg_$imginfo[aid]" aid="$imginfo[aid]" src="$imginfo[small]" width="130px" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="$imginfo[big]" alt="$imginfo[filename]" title="$imginfo[filename]" w="$imginfo[width]" />
+								<img id="aimg_$imginfo[aid]" aid="$imginfo[aid]" src="$imginfo[small]" width="130px" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="$imginfo[big]" alt="$imginfo[filename]" title="$imginfo[filename]" w="$imginfo[width]">
 							</a>
 							<!--{else}-->
 							<a href="javascript:;" title=""><div class="nophoto"></div></a>
 							<!--{/if}-->
 							<p class="mtn mbn xi2">
 								<!--{if $_G['group']['allowvote']}-->
-									<label><input class="pr" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" {if $_G['forum_thread']['is_archived']}disabled="disabled"{/if} {if $optiontype=='checkbox'}onclick="poll_checkbox(this)"{else}onclick="$('pollsubmit').disabled = false"{/if} /></label>
+									<label><input class="pr" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" {if $_G['forum_thread']['is_archived']}disabled="disabled"{/if} {if $optiontype=='checkbox'}onclick="poll_checkbox(this)"{else}onclick="$('pollsubmit').disabled = false"{/if}></label>
 								<!--{/if}-->
 								$option[polloption]
 							</p>
@@ -76,7 +76,7 @@
 				<!--{loop $polloptions $key $option}-->
 					<tr{if $visiblepoll} class="ptl"{/if}>
 						<!--{if $_G['group']['allowvote']}-->
-							<td class="pslt"><input class="pr" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" {if $_G['forum_thread']['is_archived']}disabled="disabled"{/if} {if $optiontype=='checkbox'}onclick="poll_checkbox(this)"{else}onclick="$('pollsubmit').disabled = false"{/if} /></td>
+							<td class="pslt"><input class="pr" type="$optiontype" id="option_$key" name="pollanswers[]" value="$option[polloptionid]" {if $_G['forum_thread']['is_archived']}disabled="disabled"{/if} {if $optiontype=='checkbox'}onclick="poll_checkbox(this)"{else}onclick="$('pollsubmit').disabled = false"{/if}></td>
 						<!--{/if}-->
 						<td class="pvt">
 							<label for="option_$key">$key. &nbsp;$option[polloption]</label>

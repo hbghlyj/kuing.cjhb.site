@@ -13,8 +13,8 @@
 				<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}"></a><!--{/if}-->
 			</span>
 		</h3>
-		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
 		<div class="c">
 			<div class="tedt">
 				<div class="bar cm">
@@ -32,7 +32,7 @@
 					<!--{loop $commentitem $item}-->
 						<!--{eval $item = trim($item);}-->
 						<!--{if $item}-->
-							items += '<input type="hidden" id="itemc_$i" name="commentitem[$item]" value="" />';
+							items += '<input type="hidden" id="itemc_$i" name="commentitem[$item]" value="">';
 							itemrow = '<span id="itemt_$i" class="z xg1 cur1" title="{lang comment_give_ip}" onclick="itemdisable($i)">&nbsp;$item</span>';
 							itemstar = '';
 							<!--{loop $items $j}-->

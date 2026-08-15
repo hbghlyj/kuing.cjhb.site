@@ -18,7 +18,7 @@
             <tr>
                 <th style="width: 10px;"><span class="rq">*</span></th>
                 <td colspan="2" style="display: flex;">
-                    <input type="password" name="password" id="password" value="" class="px" placeholder="{lang action_account_security_type_password}"/>
+                    <input type="password" name="password" id="password" value="" class="px" placeholder="{lang action_account_security_type_password}">
                 </td>
                 <td colspan="2">&nbsp;</td>
             </tr>

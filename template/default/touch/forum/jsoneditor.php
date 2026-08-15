@@ -6,10 +6,10 @@
     <div class="my"></div>
 </div>
 <!--  Load Layui -->
-<link rel="stylesheet" type="text/css" href="{STATICURL}js/layui/layui.css?{VERHASH}" />
-<link rel="stylesheet" type="text/css" href="{STATICURL}js/layui/extend/inputTags.css?{VERHASH}" />
+<link rel="stylesheet" href="{STATICURL}js/layui/layui.css?{VERHASH}">
+<link rel="stylesheet" href="{STATICURL}js/layui/extend/inputTags.css?{VERHASH}">
 <!--  Load Editor.js's Css -->
-<link rel="stylesheet" type="text/css" href="{STATICURL}js/editorjs/editorjs_mobile.css?{VERHASH}" />
+<link rel="stylesheet" href="{STATICURL}js/editorjs/editorjs_mobile.css?{VERHASH}">
 
 <div class="json-editor" xmlns="http://www.w3.org/1999/html">
     <form method="post" id="postform"
@@ -20,38 +20,38 @@
     <h3 class="flb">
         <em id="return_postform"></em>
     </h3>
-    <input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-    <input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+    <input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+    <input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}">
     <!--{if $_GET['action'] == 'edit'}-->
-    <input type="hidden" name="delattachop" id="delattachop" value="0" />
+    <input type="hidden" name="delattachop" id="delattachop" value="0">
     <!--{/if}-->
-    <input type="hidden" name="handlekey" id="handlekey" value="postform" />
-    <input type="hidden" name="inajax" id="inajax" value="1" />
-    <input type="hidden" name="message" id="message" value="" />
-    <input type="hidden" name="content" id="content" value="" />
-    <input type="hidden" name="contentType" id="contentType" value="json" />
-    <input type="hidden" name="contentEditor" id="contentEditor" value="jsonEditor" />
+    <input type="hidden" name="handlekey" id="handlekey" value="postform">
+    <input type="hidden" name="inajax" id="inajax" value="1">
+    <input type="hidden" name="message" id="message" value="">
+    <input type="hidden" name="content" id="content" value="">
+    <input type="hidden" name="contentType" id="contentType" value="json">
+    <input type="hidden" name="contentEditor" id="contentEditor" value="jsonEditor">
     <!--{if $_GET['action'] == 'edit'}-->
-    <input type="hidden" name="noticetrimstr" id="noticetrimstr" value="{$postinfo['noticetrimstr']}" />
+    <input type="hidden" name="noticetrimstr" id="noticetrimstr" value="{$postinfo['noticetrimstr']}">
     <!--{/if}-->
     <input type="hidden" id="mobileeditor" name="mobileeditor" value="1">
-    <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
+    <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}"><!--{/if}-->
     <!--{if $_GET['action'] == 'reply'}-->
-    <input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+    <input type="hidden" name="noticetrimstr" value="$noticetrimstr">
     <!--{if $reppid}-->
-    <input type="hidden" name="reppid" value="$reppid" />
+    <input type="hidden" name="reppid" value="$reppid">
     <!--{/if}-->
     <!--{if $_GET['reppost']}-->
-    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
+    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}">
     <!--{elseif $_GET['repquote']}-->
-    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
+    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}">
     <!--{/if}-->
     <!--{/if}-->
     <!--{if $_GET[action] == 'edit'}-->
-    <input type="hidden" name="fid" id="fid" value="$_G[fid]" />
-    <input type="hidden" name="tid" value="$_G[tid]" />
-    <input type="hidden" name="pid" value="$pid" />
-    <input type="hidden" name="page" value="$_GET[page]" />
+    <input type="hidden" name="fid" id="fid" value="$_G[fid]">
+    <input type="hidden" name="tid" value="$_G[tid]">
+    <input type="hidden" name="pid" value="$pid">
+    <input type="hidden" name="page" value="$_GET[page]">
     <!--{/if}-->
     <div class="json-editor__content _json-editor__content--small">
         <div class="json-editor-subject">
@@ -110,7 +110,7 @@
                         <label class="css-publish__div_title">{lang json_editor_title_tags}</label>
                         <div class="layui-form layui-row">
                             <div class="layui-col-sm12 tags">
-                                <input type="text" id="inputtags" name="inputtags" placeholder="{lang json_editor_tags_enter}" autocomplete="off" class="layui-input" style="width: 245px;"/>
+                                <input type="text" id="inputtags" name="inputtags" placeholder="{lang json_editor_tags_enter}" autocomplete="off" class="layui-input" style="width: 245px;">
                                 <input type="hidden" id="tags" name="tags" autocomplete="off" <!--{if $postinfo['tag']}-->value="{$postinfo['tag']}"<!--{/if}--> class="layui-input" style="width: 500px;"/>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
 			        <label class="css-publish__div_title">{lang json_editor_title_seccode}</label>
 			        <div class="layui-form layui-row layui-col-space16">
 				    <div class="layui-col-sm4" style="width: 150px;">
-				        <input type="text" name="seccodeverify" placeholder="{lang json_editor_seccode_desc}" class="layui-input"/>
+				        <input type="text" name="seccodeverify" placeholder="{lang json_editor_seccode_desc}" class="layui-input">
 				    </div>
 				    <div class="layui-col-sm4">{cell common/seccheck/code_image}  {cell common/seccheck/code_text}</div>
 			        </div>
@@ -137,7 +137,7 @@
 		            <label class="css-publish__div_title">{lang json_editor_title_seccode}</label>
 		            <div class="layui-form layui-row layui-col-space16">
 		                <div class="layui-col-sm4" style="width: 150px;">
-			            <input type="text" name="secanswer" class="layui-input"/>
+			            <input type="text" name="secanswer" class="layui-input">
 		                </div>
 		                <div class="layui-col-sm4">{cell common/seccheck/qaa_question} {cell common/seccheck/qaa_change}</div>
 		            </div>
@@ -254,7 +254,7 @@
 
 <!--  Load icon -->
 <script src="{STATICURL}js/iconfont.js?{VERHASH}"></script>
-<style type="text/css">
+<style>
     .icon {
         width: 1em; height: 1em;
         vertical-align: -0.15em;

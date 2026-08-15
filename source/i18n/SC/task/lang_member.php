@@ -26,6 +26,6 @@ $lang =
 	'task_complete_time_start' => '从申请任务开始计时，',
 	'task_complete_time_limit' => '{value} 小时内，',
 	'task_complete_act_favorite' => '收藏 {value} 个主题',
-	'task_complete_act_magic' => '使用 {value} 次道具。<br />您可以在帖子页面、日志页面、图片页面等使用道具',
+	'task_complete_act_magic' => '使用 {value} 次道具。<br>您可以在帖子页面、日志页面、图片页面等使用道具',
 	];
 

@@ -36,7 +36,7 @@ if($do == 'group') {
 					'<a href="'.ADMINSCRIPT.'?action=founder&operation=perm&do=group&id='.$id.'">'.cplang('edit').'</a>'
 				]);
 			}
-			showtablerow('style="height:20px"', [], [cplang('add_new'), '<input class="txt" type="text" name="newcpgroupname" value="" />', '']);
+			showtablerow('style="height:20px"', [], [cplang('add_new'), '<input class="txt" type="text" name="newcpgroupname" value="">', '']);
 			showsubmit('submit', 'submit', 'del');
 			showtablefooter();
 			showformfooter();
@@ -105,7 +105,7 @@ if($do == 'group') {
 						if(!$checked) {
 							$checkedall = false;
 						}
-						$row .= $item[1] ? '<div class="item'.($checked ? ' checked' : '').'"><a class="right" title="'.cplang('config').'" href="'.ADMINSCRIPT.'?frames=yes&action=founder&operation=perm&do=gperm&gplatform='.$platform.'&gset='.$topkey.'_'.$k.'" target="_blank">&nbsp;</a><label><input name="permnew[]" value="'.$item[1].'" class="checkbox" type="checkbox" '.($checked ? 'checked="checked" ' : '').' onclick="checkclk(this)" />'.cplang($item[0]).'</label></div>' : '';
+						$row .= $item[1] ? '<div class="item'.($checked ? ' checked' : '').'"><a class="right" title="'.cplang('config').'" href="'.ADMINSCRIPT.'?frames=yes&action=founder&operation=perm&do=gperm&gplatform='.$platform.'&gset='.$topkey.'_'.$k.'" target="_blank">&nbsp;</a><label><input name="permnew[]" value="'.$item[1].'" class="checkbox" type="checkbox" '.($checked ? 'checked="checked" ' : '').' onclick="checkclk(this)">'.cplang($item[0]).'</label></div>' : '';
 					}
 					$row .= '</div>';
 					if($topkey != 'setting') {
@@ -113,7 +113,7 @@ if($do == 'group') {
 						if(str_starts_with($_lang, 'header_')) {
 							$_lang = substr($_lang, 7);
 						}
-						showboxtitle('<label><input class="checkbox" type="checkbox" onclick="permcheckall(this, \'perms_'.$topkey.'\')" '.($checkedall ? 'checked="checked" ' : '').'/> '.$_lang.'</label>');
+						showboxtitle('<label><input class="checkbox" type="checkbox" onclick="permcheckall(this, \'perms_'.$topkey.'\')" '.($checkedall ? 'checked="checked" ' : '').'> '.$_lang.'</label>');
 					} else {
 						showboxtitle('founder_perm_setting');
 					}
@@ -222,7 +222,7 @@ if($do == 'group') {
 					!$isfounder && $adminmembers[$member['uid']]['cpgroupid'] ? '<a href="'.ADMINSCRIPT.'?action=founder&operation=perm&do=member&id='.$id.'">'.cplang('edit').'</a>' : ''
 				]);
 			}
-			showtablerow('style="height:20px"', ['class="td25"', 'class="td24"', 'class="td24"'], [cplang('add_new'), '<input class="txt" type="text" name="newcpusername" value="" />', $groupselect, '']);
+			showtablerow('style="height:20px"', ['class="td25"', 'class="td24"', 'class="td24"'], [cplang('add_new'), '<input class="txt" type="text" name="newcpusername" value="">', $groupselect, '']);
 			showsubmit('submit', 'submit', 'del');
 			showtablefooter();
 			showformfooter();
@@ -298,7 +298,7 @@ if($do == 'group') {
 						if(!$checked || $customchecked) {
 							$checkedall = false;
 						}
-						$row .= '<div class="item'.($checked && !$customchecked ? ' checked' : '').'"><label><input name="permnew[]" value="'.$item[1].'" class="checkbox" type="checkbox" '.$extra.'/>'.cplang($item[0]).'</label></div>';
+						$row .= '<div class="item'.($checked && !$customchecked ? ' checked' : '').'"><label><input name="permnew[]" value="'.$item[1].'" class="checkbox" type="checkbox" '.$extra.'>'.cplang($item[0]).'</label></div>';
 					}
 					$row .= '</div>';
 					if($topkey != 'setting') {
@@ -306,7 +306,7 @@ if($do == 'group') {
 						if(str_starts_with($_lang, 'header_')) {
 							$_lang = substr($_lang, 7);
 						}
-						showboxtitle('<label><input class="checkbox" type="checkbox" onclick="permcheckall(this, \'perms_'.$topkey.'\')" '.($checkedall ? 'checked="checked" ' : '').'/> '.$_lang.'</label>');
+						showboxtitle('<label><input class="checkbox" type="checkbox" onclick="permcheckall(this, \'perms_'.$topkey.'\')" '.($checkedall ? 'checked="checked" ' : '').'> '.$_lang.'</label>');
 					} else {
 						showboxtitle('founder_perm_setting');
 					}
@@ -403,11 +403,11 @@ if($do == 'group') {
 			showtablerow('style="height:20px"', ['class="td25"', 'class="td24"', 'class="td25"', 'class="vtop"'], [
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"$uid\">",
 				"<input type=\"hidden\" class=\"txtnobd\" name=\"name[$uid]\" value=\"{$user['username']}\">{$user['username']}",
-				'<input name="chkall_'.$uid.'" id="chkall_'.$uid.'" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'notifytypes_'.$uid.'\', \'chkall_'.$uid.'\', 1)" />'.cplang('select_all'),
+				'<input name="chkall_'.$uid.'" id="chkall_'.$uid.'" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'notifytypes_'.$uid.'\', \'chkall_'.$uid.'\', 1)">'.cplang('select_all'),
 				$types
 			]);
 		}
-		showtablerow('style="height:20px"', ['', 'colspan="3"'], [cplang('add_new'), '<input class="txt" type="text" name="newusername" value="" />']);
+		showtablerow('style="height:20px"', ['', 'colspan="3"'], [cplang('add_new'), '<input class="txt" type="text" name="newusername" value="">']);
 		showsubmit('submit', 'submit', 'del');
 		showtablefooter();
 		showformfooter();

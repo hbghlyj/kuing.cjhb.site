@@ -89,8 +89,8 @@ if(!$error) {
 			$pic['albumname'] = empty($pic['albumname']) && empty($pic['albumid']) ? $lang['album_default'] : $pic['albumname'];
 			$pic['albumid'] = empty($pic['albumid']) ? -1 : $pic['albumid'];
 			$pics .= showtablerow('', '', [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$pic['picid']}\" />",
-				"<a href='home.php?mod=space&uid={$pic['uid']}&do=album&picid={$pic['picid']}'  target='_blank'><img src='{$pic['pic']}'/></a>",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$pic['picid']}\">",
+				"<a href='home.php?mod=space&uid={$pic['uid']}&do=album&picid={$pic['picid']}'  target='_blank'><img src='{$pic['pic']}'></a>",
 				$pic['size'],
 				"<a href='home.php?mod=space&uid={$pic['uid']}&do=album&id={$pic['albumid']}'  target='_blank'>{$pic['albumname']}</a>",
 				"<a href=\"home.php?mod=space&uid={$pic['uid']}\" target=\"_blank\">".$pic['username'].'</a>',

@@ -7,15 +7,15 @@
 	</h3>
 	<!--{if !submitcheck('editbkname')}-->
 	<form method="post" autocomplete="off" id="bknameform_{$_GET[handlekey]}" name="bknameform_{$_GET[handlekey]}" action="home.php?mod=spacecp&ac=follow&op=bkname&fuid=$followuser['followuid']" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="editbkname" value="true" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="editbkname" value="true">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="c">
 			<table>
 				<tr>
 					<th valign="top" width="60" class="avt"><a href="home.php?mod=space&uid=$followuser['followuid']"><!--{avatar($followuser['followuid'], 'small')}--></a></th>
-					<td valign="top">{lang follow_editnote}: <input type="text" name="bkname" value="$followuser['bkname']" size="35" class="px"  onkeydown="ctrlEnter(event, 'editsubmit_btn');" />
+					<td valign="top">{lang follow_editnote}: <input type="text" name="bkname" value="$followuser['bkname']" size="35" class="px"  onkeydown="ctrlEnter(event, 'editsubmit_btn');">
 					</td>
 				</tr>
 			</table>
@@ -38,9 +38,9 @@
 	<form method="post" autocomplete="off" id="relayform_{$tid}" name="relayform_{$tid}" action="home.php?mod=spacecp&ac=follow&op=relay&tid=$tid">
 		<input type="hidden" name="relaysubmit" value="true">
 		<input type="hidden" name="referer" value="{echo dreferer()}">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="tid" value="$tid" />
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="tid" value="$tid">
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
 		<ul class="post_box cl">
 			<dt class="mpt">
 				<textarea id="note_{$tid}" name="note" cols="50" rows="5" class="pt mtn" placeholder="{lang follow_add_note}"></textarea>
@@ -55,7 +55,7 @@
 			<li class="flex-box mli">
 				<div class="flex">{lang post_add_inonetime}</div>
 				<div class="flex"></div>
-				<div class="flex"><input type="checkbox" name="addnewreply" checked="checked" class="pc" value="1" /></div>
+				<div class="flex"><input type="checkbox" name="addnewreply" checked="checked" class="pc" value="1"></div>
 			</li>
 			</label>
 		</ul>
@@ -68,8 +68,8 @@
 				<form method="post" autocomplete="off" id="postform_{$tid}" action="home.php?mod=spacecp&ac=follow&op=relay&tid=$tid">
 					<input type="hidden" name="relaysubmit" value="true">
 					<input type="hidden" name="referer" value="{echo dreferer()}">
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
-					<input type="hidden" name="tid" value="$tid" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
+					<input type="hidden" name="tid" value="$tid">
 					<div class="moodfm_text">
 						<textarea id="note_{$tid}" name="note" cols="80" rows="4" class="pts" placeholder="{lang follow_can_enter}140{lang follow_word}">{$comment['message']}</textarea>
 					</div>
@@ -86,7 +86,7 @@
 						<!--{if $_G['group']['maxsigsize']}-->
 						<div class="moodfm_signature">
 							<label>
-								<input type="checkbox" name="to_signhtml" class="pc" value="1" checked="checked" />
+								<input type="checkbox" name="to_signhtml" class="pc" value="1" checked="checked">
 								<span>{lang post_add_inonetime}</span>
 							</label>
 						</div>
@@ -110,10 +110,10 @@
 <!--{elseif $op == 'delete'}-->
 	<div class="tip">
 		<form method="post" autocomplete="off" id="deletefeed_{$_GET['feedid']}" name="deletefeed_{$_GET['feedid']}" action="home.php?mod=spacecp&ac=follow&op=delete&feedid=$_GET['feedid']">
-			<input type="hidden" name="referer" value="{echo dreferer()}" />
-			<input type="hidden" name="deletesubmit" value="true" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
+			<input type="hidden" name="referer" value="{echo dreferer()}">
+			<input type="hidden" name="deletesubmit" value="true">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
 			<dt>
 				<p>{lang follow_del_feed_confirm}</p>
 			</dt>

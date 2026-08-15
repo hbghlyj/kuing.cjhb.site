@@ -33,10 +33,10 @@ if(!$do) {
 				$navicon = admin\class_attach::getUrl($nav['icon']);
 			}
 			showtablerow('', ['class="td25"', 'class="td25"', '', ''], [
-				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled" />',
+				in_array($nav['type'], ['2', '1']) ? "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$nav['id']}\">" : '<input type="checkbox" class="checkbox" value="" disabled="disabled">',
 				"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayordernew[{$nav['id']}]\" value=\"{$nav['displayorder']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"15\" name=\"namenew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['name'])."\">".
-				($nav['icon'] ? '<img src="'.$navicon.'" width="40" height="40" class="vmiddle" />' : ''),
+				($nav['icon'] ? '<img src="'.$navicon.'" width="40" height="40" class="vmiddle">' : ''),
 				$nav['type'] == '0' ? $nav['url'] : "<input type=\"text\" class=\"txt\" size=\"15\" name=\"urlnew[{$nav['id']}]\" value=\"".dhtmlspecialchars($nav['url'])."\">",
 				cplang($nav['type'] == '0' ? 'inbuilt' : ($nav['type'] == '3' ? 'nav_plugin' : ($nav['type'] == '4' ? 'channel' : 'custom'))),
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$nav['id']}]\" value=\"1\" ".($nav['available'] ? 'checked' : '').'>',
@@ -125,7 +125,7 @@ EOT;
 		}
 		if($nav['icon']) {
 			$navicon = admin\class_attach::getUrl($nav['icon']);
-			$naviconhtml = '<br /><label><input type="checkbox" class="checkbox" name="deleteicon" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$navicon.'" width="40" height="40" />';
+			$naviconhtml = '<br><label><input type="checkbox" class="checkbox" name="deleteicon" value="yes"> '.$lang['delete'].'</label><br><img src="'.$navicon.'" width="40" height="40">';
 		}
 		shownav('style', 'nav_setting_customnav');
 		showchildmenu([['nav_setting_customnav', 'nav'], ['nav_nav_mynav', 'nav&operation=mynav']], $nav['name']);

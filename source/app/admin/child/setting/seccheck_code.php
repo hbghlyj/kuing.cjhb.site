@@ -54,7 +54,7 @@ if(submitcheck('settingsubmit')) {
 
 	$seccodecheck = 1;
 	$sechash = 'S'.$_G['sid'];
-	$seccheckhtml = "<span id=\"seccode_c$sechash\"></span><script type=\"text/javascript\">updateseccode('c$sechash', '<br /><sec> <sec> <sec>', 'admin');</script>";
+	$seccheckhtml = "<span id=\"seccode_c$sechash\"></span><script type=\"text/javascript\">updateseccode('c$sechash', '<br><sec> <sec> <sec>', 'admin');</script>";
 
 	$checksc = [];
 

@@ -24,8 +24,8 @@ class helper_sysmessage {
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="$charset" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="$charset">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>$title</title>
 </head>
 <body>

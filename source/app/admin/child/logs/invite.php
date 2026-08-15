@@ -76,29 +76,29 @@ if(!submitcheck('invitesubmit')) {
 	showtableheader('search', 'fixpadding');
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		[
-			cplang('username'), '<input type="text" name="srch_username" class="txt" value="'.$srch_username.'" />',
-			cplang('logs_invite_ip'), '<input type="text" name="srch_ip" class="txt" value="'.$srch_ip.'" size="5" />',
+			cplang('username'), '<input type="text" name="srch_username" class="txt" value="'.$srch_username.'">',
+			cplang('logs_invite_ip'), '<input type="text" name="srch_ip" class="txt" value="'.$srch_ip.'" size="5">',
 		]
 	);
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		[
-			cplang('uid'), '<input type="text" name="srch_uid" class="txt" value="'.$srch_uid.'" />',
-			cplang('logs_invite_code'), '<input type="text" name="srch_code" class="txt" value="'.$srch_code.'" size="5" />',
+			cplang('uid'), '<input type="text" name="srch_uid" class="txt" value="'.$srch_uid.'">',
+			cplang('logs_invite_code'), '<input type="text" name="srch_code" class="txt" value="'.$srch_code.'" size="5">',
 		]
 	);
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		[
-			cplang('logs_invite_target'), '<input type="text" name="srch_fusername" class="txt" value="'.$srch_fusername.'" />',
-			cplang('logs_invite_buydate'), '<input type="text" name="srch_buydate_start" class="txt" value="'.$srch_buydate_start.'" onclick="showcalendar(event, this)" />- <input type="text" name="srch_buydate_end" class="txt" value="'.$srch_buydate_end.'" onclick="showcalendar(event, this)" />',
+			cplang('logs_invite_target'), '<input type="text" name="srch_fusername" class="txt" value="'.$srch_fusername.'">',
+			cplang('logs_invite_buydate'), '<input type="text" name="srch_buydate_start" class="txt" value="'.$srch_buydate_start.'" onclick="showcalendar(event, this)">- <input type="text" name="srch_buydate_end" class="txt" value="'.$srch_buydate_end.'" onclick="showcalendar(event, this)">',
 		]
 	);
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		[
-			cplang('logs_invite_target').cplang('uid'), '<input type="text" name="srch_fuid" class="txt" value="'.$srch_fuid.'" />',
+			cplang('logs_invite_target').cplang('uid'), '<input type="text" name="srch_fuid" class="txt" value="'.$srch_fuid.'">',
 			'', '',
 		]
 	);
-	showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'" />']);
+	showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'">']);
 	showtablefooter();
 	showformfooter();
 	
@@ -138,7 +138,7 @@ if(!submitcheck('invitesubmit')) {
 			$stats = $invite['statuslog'].($invite['status'] == 2 ? '&nbsp;[<a href="home.php?mod=space&uid='.$invite['fuid'].'" target="_blank">'.$lang['logs_invite_target'].':'.$invite['fusername'].'</a>]' : '');
 
 			showtablerow('', ['', 'class="bold"'], [
-				'<input type="checkbox" class="checkbox" name="delete[]" value="'.$invite['id'].'" />',
+				'<input type="checkbox" class="checkbox" name="delete[]" value="'.$invite['id'].'">',
 				$username,
 				$invite['dateline'],
 				$invite['expiration'],

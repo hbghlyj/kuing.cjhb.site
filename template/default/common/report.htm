@@ -15,26 +15,26 @@
 		<span id="report_msg" style="display:none"><span class="z">{lang input_message1} <strong id="checklen">200</strong> {lang input_message2}</span></span>
 		<button id="report_submit" type="submit" value="true" class="pn pnc"><strong>{lang confirms}</strong></button>
 	</p>
-	<input type="hidden" name="referer" value="{echo dreferer()}" />
-	<input type="hidden" name="reportsubmit" value="true" />
-	<input type="hidden" name="rtype" value="$_GET[rtype]" />
-	<input type="hidden" name="rid" value="$_GET[rid]" />
+	<input type="hidden" name="referer" value="{echo dreferer()}">
+	<input type="hidden" name="reportsubmit" value="true">
+	<input type="hidden" name="rtype" value="$_GET[rtype]">
+	<input type="hidden" name="rid" value="$_GET[rid]">
 	<!--{if $_GET['fid']}-->
-	<input type="hidden" name="fid" value="$_GET[fid]" />
+	<input type="hidden" name="fid" value="$_GET[fid]">
 	<!--{/if}-->
 	<!--{if $_GET['uid']}-->
-	<input type="hidden" name="uid" value="$_GET[uid]" />
+	<input type="hidden" name="uid" value="$_GET[uid]">
 	<!--{/if}-->
-	<input type="hidden" name="url" value="$_GET[url]" />
-	<input type="hidden" name="inajax" value="$_G[inajax]" />
-	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="url" value="$_GET[url]">
+	<input type="hidden" name="inajax" value="$_G[inajax]">
+	<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 </form>
 <script reload="1">
 var reasons = {lang report_reason_message};
 var reasonstring = '';
 for (i=0; i<reasons.length; i++) {
-	reasonstring += '<label><input type="radio" name="report_select" class="pr" onclick="' + (i < reasons.length -1 ? '$(\'report_message\').innerHTML=this.value;' : '') + '$(\'report_other\').style.display=\'' + (i < reasons.length -1 ? 'none' : '') + '\';$(\'report_msg\').style.display=\'' + (i < reasons.length -1 ? 'none' : '') + '\'" value="' + reasons[i] + '"> ' + reasons[i] + '</label><br />';
+	reasonstring += '<label><input type="radio" name="report_select" class="pr" onclick="' + (i < reasons.length -1 ? '$(\'report_message\').innerHTML=this.value;' : '') + '$(\'report_other\').style.display=\'' + (i < reasons.length -1 ? 'none' : '') + '\';$(\'report_msg\').style.display=\'' + (i < reasons.length -1 ? 'none' : '') + '\'" value="' + reasons[i] + '"> ' + reasons[i] + '</label><br>';
 }
 $('report_reasons').innerHTML = reasonstring;
 </script>

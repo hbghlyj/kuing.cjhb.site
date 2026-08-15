@@ -39,7 +39,7 @@ foreach(table_forum_tradelog::t()->fetch_all_by_status($filter, $start_limit, $p
 		$tradelog['price'],
 		$tradelog['credit'],
 		$tradelog['tax'],
-		'<a target="_blank" href="forum.php?mod=trade&orderid='.$tradelog['orderid'].'&tid='.$tradelog['tid'].'&modthreadkey='.modauthkey($tradelog['tid']).'">'.$tradelog['status'].'<br />'.$tradelog['lastupdate']
+		'<a target="_blank" href="forum.php?mod=trade&orderid='.$tradelog['orderid'].'&tid='.$tradelog['tid'].'&modthreadkey='.modauthkey($tradelog['tid']).'">'.$tradelog['status'].'<br>'.$tradelog['lastupdate']
 	]);
 }
 

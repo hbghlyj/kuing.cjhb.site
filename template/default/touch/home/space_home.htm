@@ -37,7 +37,7 @@
 					<!--{if $user['uid']}-->
 					<a href="home.php?mod=space&uid={$user['uid']}" class="mimg"><!--{avatar($user['uid'], 'small')}--></a>
 					<!--{else}-->
-					<a href="javascript:;" class="mimg"><img src="{IMGDIR}/systempm.png" alt="" /></a>
+					<a href="javascript:;" class="mimg"><img src="{IMGDIR}/systempm.png" alt=""></a>
 					<!--{/if}-->
 					<!--{loop $daylist $value}-->	
 						<!--{subtemplate home/space_feed_li}-->

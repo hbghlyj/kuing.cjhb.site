@@ -91,37 +91,37 @@
 	{/if}
 	onsubmit="return validate(this)">
 <div id="ct" class="ct2_a ct2_a_r wp cl">
-	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
+	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}">
 	<!--{if $_GET['action'] == 'edit'}-->
-		<input type="hidden" name="delattachop" id="delattachop" value="0" />
+		<input type="hidden" name="delattachop" id="delattachop" value="0">
 	<!--{/if}-->
-	<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
-	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+	<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}"><!--{/if}-->
+	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode">
 	<!--{if $_GET[action] == 'reply'}-->
-		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+		<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 		<!--{if !empty($reppid)}-->
-			<input type="hidden" name="reppid" value="$reppid" />
+			<input type="hidden" name="reppid" value="$reppid">
 		<!--{/if}-->
 		<!--{if !empty($_GET['reppost'])}-->
-			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}">
 		<!--{elseif !empty($_GET['repquote'])}-->
-			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}">
 		<!--{/if}-->
 	<!--{elseif $_GET[action] == 'edit' && $quotemessage}-->
-		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+		<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 	<!--{/if}-->
 	<!--{if $_GET[action] == 'edit'}-->
-		<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
-		<input type="hidden" name="tid" value="$_G[tid]" />
-		<input type="hidden" name="pid" value="$pid" />
-		<input type="hidden" name="page" value="$_GET[page]" />
+		<input type="hidden" name="fid" id="fid" value="$_G[fid]">
+		<input type="hidden" name="tid" value="$_G[tid]">
+		<input type="hidden" name="pid" value="$pid">
+		<input type="hidden" name="page" value="$_GET[page]">
 	<!--{/if}-->
 	<!--{if $special}-->
-		<input type="hidden" name="special" value="$special" />
+		<input type="hidden" name="special" value="$special">
 	<!--{/if}-->
 	<!--{if $specialextra}-->
-		<input type="hidden" name="specialextra" value="$specialextra" />
+		<input type="hidden" name="specialextra" value="$specialextra">
 	<!--{/if}-->
 	<div class="bm bw0 cl"{if !$showthreadsorts && !$adveditor} id="editorbox"{/if}>
 		<!--{if $_GET[action] == 'newthread'}-->
@@ -201,13 +201,13 @@
 				</button>
 				<!--{hook/post_btn_extra}-->
 				<!--{if helper_access::check_module('follow') && $_GET[action] != 'edit'}-->
-				<span id="adddynamicspan"><label><input type="checkbox" name="adddynamic" id="adddynamic" value="true" class="pc" {if $_G['forum']['allowfeed'] && !$_G[tid] && empty($_G['forum']['viewperm'])}checked="checked"{/if} />{lang post_relay}</label></span>
+				<span id="adddynamicspan"><label><input type="checkbox" name="adddynamic" id="adddynamic" value="true" class="pc" {if $_G['forum']['allowfeed'] && !$_G[tid] && empty($_G['forum']['viewperm'])}checked="checked"{/if}>{lang post_relay}</label></span>
 				<!--{/if}-->
 				<!--{if $_G['setting']['attentionstatus'] && $_GET[action] == 'reply' && $thread['authorid'] != $_G['uid']}-->
 					<!--{if $has_attention}-->
-					<span id="attentionspan"><label><input type="checkbox" name="attention_remove" id="attention_remove" value="1" class="pc" />{lang post_no_attention}</label></span>
+					<span id="attentionspan"><label><input type="checkbox" name="attention_remove" id="attention_remove" value="1" class="pc">{lang post_no_attention}</label></span>
 					<!--{else}-->
-					<span id="attentionspan"><label><input type="checkbox" name="attention_add" id="attention_add" value="1" class="pc" />{lang post_attention}</label></span>
+					<span id="attentionspan"><label><input type="checkbox" name="attention_add" id="attention_add" value="1" class="pc">{lang post_attention}</label></span>
 					<!--{/if}-->
 				<!--{/if}-->
 				<!--{if !empty($_G['setting']['pluginhooks']['post_sync_method'])}-->
@@ -217,7 +217,7 @@
 					</span>
 				<!--{/if}-->
 				<!--{if $special == 2}-->
-					<label><input type="checkbox" name="continueadd" value="yes" class="pc" />{lang post_message2}</label>
+					<label><input type="checkbox" name="continueadd" value="yes" class="pc">{lang post_message2}</label>
 				<!--{/if}-->
 				<!--{if helper_access::check_module('group') && $mygroups && $_G['forum']['status'] != 3}-->
 				<span id="adddynamicspan"><label>&nbsp;&nbsp;{lang fromgroup}:<select name="mygroupid"><option value="">{lang selectmygroup}</option><!--{loop $mygroups $mygroupid $mygroupname}--><option value="{$mygroupid}__{$mygroupname}" {if $selectgroupid == $mygroupid} selected{/if}>$mygroupname</option><!--{/loop}--></select></label></span>

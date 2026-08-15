@@ -73,7 +73,7 @@ if($_GET['searchsubmit'] && $keywords) {
 		if($totalcount) {
 			showsubmenu('search_result', [], '<span class="right">'.cplang('search_result_find', ['number' => $totalcount]).'</span>');
 			showboxheader();
-			echo implode('<br />', $html);
+			echo implode('<br>', $html);
 			hlkws($kws);
 			showboxfooter();
 		} else {

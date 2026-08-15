@@ -24,7 +24,7 @@
 				<!--{loop $list $key $value}-->
 				<li>
 					<div class="album_pic c">
-						<a href="home.php?mod=space&uid=$value['uid']&do=$do&picid=$value['picid']"><!--{if $value['pic']}--><img src="$value['pic']" alt="" /><!--{/if}--></a><!--{if $value[status] == 1}--><p>({lang moderate_need})</p><!--{/if}-->
+						<a href="home.php?mod=space&uid=$value['uid']&do=$do&picid=$value['picid']"><!--{if $value['pic']}--><img src="$value['pic']" alt=""><!--{/if}--></a><!--{if $value[status] == 1}--><p>({lang moderate_need})</p><!--{/if}-->
 					</div>
 				</li>
 				<!--{/loop}-->

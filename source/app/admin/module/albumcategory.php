@@ -33,21 +33,21 @@ function showcategoryrow($key, $level = 0, $last = '') {
 	$value['num'] = category_get_num('album', $key);
 	if($level == 2) {
 		$class = $last ? 'lastchildboard' : 'childboard';
-		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="'.$class.'">'.
-			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt" />'.
+		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="'.$class.'">'.
+			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt">'.
 			'</div>'.
 			'</td><td>'.$value['num'].'</td><td><a href="'.ADMINSCRIPT.'?action=albumcategory&operation=delete&catid='.$value['catid'].'">'.cplang('delete').'</a></td></tr>';
 	} elseif($level == 1) {
-		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="board">'.
-			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt" />'.
+		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="board">'.
+			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt">'.
 			'<a class="addchildboard" onclick="addrowdirect = 1;addrow(this, 2, '.$value['catid'].')" href="###">'.cplang('albumcategory_addthirdcategory').'</a></div>'.
 			'</td><td>'.$value['num'].'</td><td><a href="'.ADMINSCRIPT.'?action=albumcategory&operation=delete&catid='.$value['catid'].'">'.cplang('delete').'</a></td></tr>';
 		for($i = 0, $L = (is_array($value['children']) ? count($value['children']) : 0); $i < $L; $i++) {
 			$return .= showcategoryrow($value['children'][$i], 2, $i == $L - 1);
 		}
 	} else {
-		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'" /></td><td><div class="parentboard">'.
-			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt" />'.
+		$return = '<tr class="hover"><td class="td25"><input type="text" class="txt" name="order['.$value['catid'].']" value="'.$value['displayorder'].'"></td><td><div class="parentboard">'.
+			'<input type="text" name="name['.$value['catid'].']" value="'.$value['catname'].'" class="txt">'.
 			'</div>'.
 			'</td><td>'.$value['num'].'</td><td><a href="'.ADMINSCRIPT.'?action=albumcategory&operation=delete&catid='.$value['catid'].'">'.cplang('delete').'</a></td></tr>';
 		for($i = 0, $L = (is_array($value['children']) ? count($value['children']) : 0); $i < $L; $i++) {

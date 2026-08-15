@@ -38,11 +38,11 @@
 		</div>
 		<div id="flk" class="y">
 			<p>
-				<!--{if !empty($_G['setting']['site_qq'])}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" target="_blank" title="QQ"><img src="{IMGDIR}/site_qq.jpg" alt="QQ" /></a><span class="pipe">|</span><!--{/if}-->
+				<!--{if !empty($_G['setting']['site_qq'])}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" target="_blank" title="QQ"><img src="{IMGDIR}/site_qq.jpg" alt="QQ"></a><span class="pipe">|</span><!--{/if}-->
 				<!--{echo implode('<span class="pipe">|</span>',array_column(array_filter(is_array($_G['setting']['footernavs']) ? $_G['setting']['footernavs'] : array(),fn($nav)=>is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) || !$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))),'code'))}-->
 				<!--{if !empty($_G['setting']['styles'][1])}--><span class="pipe">|</span><!--{if $_G['style']['styleid'] == 1}--><span class="xg1">default style</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{/if}--><!--{/if}-->
 				<!--{if !empty($_G['setting']['styles'][3])}--><span class="pipe">|</span><!--{if $_G['style']['styleid'] == 3}--><span class="xg1">discuzx5</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '3', 31536000);location.reload();return false;">discuzx5</a><!--{/if}--><!--{/if}-->
-				<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}-->( <!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--> )<!--{/if}-->
+				<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}-->( <!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png">$_G['setting']['mps']</a><!--{/if}--> )<!--{/if}-->
 				<!--{hook/global_footerlink}-->
 				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
 			</p>
@@ -89,7 +89,7 @@ new_showTopLink();
 
 <!--{if !IS_ROBOT}-->
 <!--{eval $pusher_tab_nonce = random(24); $pusher_tab_token = $_G['uid'].'.'.$pusher_tab_nonce.'.'.hash_hmac('sha256', $_G['uid'].'|'.$pusher_tab_nonce, $_G['config']['security']['authkey']);}-->
-<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
+<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet">
 <style>.pusher-chat-widget{bottom:5px;right:5px;z-index:700;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
 <script src="/chat/pusher.min.js"></script>
 <script>window.KK_PUSHER_TAB_ID = '$pusher_tab_token';</script>

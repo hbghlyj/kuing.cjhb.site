@@ -28,13 +28,13 @@ function build_cache_forumlinks() {
 			$data[$group]['count']++;
 			if($flink['description']) {
 				if($flink['logo']) {
-					$data[$group]['content'] .= '<li class="lk_logo mbm bbda cl"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /><div class="lk_content z"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
+					$data[$group]['content'] .= '<li class="lk_logo mbm bbda cl"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'"><div class="lk_content z"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
 				} else {
 					$data[$group]['content'] .= '<li class="mbm bbda"><div class="lk_content"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
 				}
 			} else {
 				if($flink['logo']) {
-					$data[$group]['logo'] .= '<a href="'.$flink['url'].'" target="_blank" rel="external nofollow"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /></a> ';
+					$data[$group]['logo'] .= '<a href="'.$flink['url'].'" target="_blank" rel="external nofollow"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'"></a> ';
 				} else {
 					$data[$group]['text'] .= '<li><a href="'.$flink['url'].'" target="_blank" rel="external nofollow" title="'.strip_tags($flink['name']).'">'.$flink['name'].'</a></li>';
 				}

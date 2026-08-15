@@ -44,7 +44,7 @@
 					<!--{/if}-->
 				</tr>
 			</table>
-			<style type="text/css">
+			<style>
 				.security_verify a {
 					padding: 15px 20px;
 					height: 50px;

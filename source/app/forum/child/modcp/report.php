@@ -19,13 +19,13 @@ if(!empty($_G['fid'])) {
 					$creditchange = '';
 					$uid = $_GET['reportuids'][$reportid];
 					if($uid != $_G['uid']) {
-						$msg = !empty($_GET['msg'][$reportid]) ? '<br />'.dhtmlspecialchars($_GET['msg'][$reportid]) : '';
+						$msg = !empty($_GET['msg'][$reportid]) ? '<br>'.dhtmlspecialchars($_GET['msg'][$reportid]) : '';
 						if(!empty($_GET['creditsvalue'][$reportid])) {
 							$credittag = $_GET['creditsvalue'][$reportid] > 0 ? '+' : '';
 							if($report_reward['max'] < $_GET['creditsvalue'][$reportid] || $_GET['creditsvalue'][$reportid] < $report_reward['min']) {
 								showmessage('quickclear_noperm', "$cpscript?mod=modcp&action=report&fid={$_G['fid']}");
 							}
-							$creditchange = '<br />'.lang('forum/misc', 'report_msg_your').$_G['setting']['extcredits'][$curcredits]['title'].'&nbsp;'.$credittag.$_GET['creditsvalue'][$reportid];
+							$creditchange = '<br>'.lang('forum/misc', 'report_msg_your').$_G['setting']['extcredits'][$curcredits]['title'].'&nbsp;'.$credittag.$_GET['creditsvalue'][$reportid];
 							updatemembercount($uid, [$curcredits => intval($_GET['creditsvalue'][$reportid])], true, 'RPC', $reportid);
 						}
 						if($creditchange || $msg) {

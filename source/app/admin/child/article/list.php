@@ -188,11 +188,11 @@ SEARCH;
 	}
 
 	$optypehtml = ''
-		.'<input type="hidden" name="hiddenpage" id="hiddenpage" value="'.$page.'"/><input type="hidden" name="hiddencatid" id="hiddencatid" value="'.$catid.'"/><input type="hidden" name="hiddenperpage" id="hiddenperpage" value="'.$perpage.'"/><input type="radio" name="optype" id="optype_trash" value="trash" class="radio" /><label for="optype_trash">'.cplang('article_optrash').'</label>&nbsp;&nbsp;'
-		.'<input type="radio" name="optype" id="optype_move" value="move" class="radio" /><label for="optype_move">'.cplang('article_opmove').'</label> '
+		.'<input type="hidden" name="hiddenpage" id="hiddenpage" value="'.$page.'"><input type="hidden" name="hiddencatid" id="hiddencatid" value="'.$catid.'"><input type="hidden" name="hiddenperpage" id="hiddenperpage" value="'.$perpage.'"><input type="radio" name="optype" id="optype_trash" value="trash" class="radio"><label for="optype_trash">'.cplang('article_optrash').'</label>&nbsp;&nbsp;'
+		.'<input type="radio" name="optype" id="optype_move" value="move" class="radio"><label for="optype_move">'.cplang('article_opmove').'</label> '
 		.category_showselect('portal', 'tocatid', false)
 		.'&nbsp;&nbsp;';
-	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="articlesubmit" value="'.cplang('submit').'" />', $multipage);
+	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="articlesubmit" value="'.cplang('submit').'">', $multipage);
 	showtablefooter();
 	showformfooter();
 }

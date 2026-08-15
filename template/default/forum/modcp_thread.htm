@@ -43,21 +43,21 @@
 				</tr>
 				<tr>
 					<th>{lang modcp_posts_author}:</th>
-					<td><input type="text" class="px" size="20" value="$result[users]" name="users" style="width: 180px"/></td>
+					<td><input type="text" class="px" size="20" value="$result[users]" name="users" style="width: 180px"></td>
 					<th>{lang modcp_dateline_range}:</th>
-					<td><input type="text" class="px" size="10" value="$result[starttime]" name="starttime" onclick="showcalendar(event, this);"/> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[endtime]" name="endtime" onclick="showcalendar(event, this)"/> </td>
+					<td><input type="text" class="px" size="10" value="$result[starttime]" name="starttime" onclick="showcalendar(event, this);"> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[endtime]" name="endtime" onclick="showcalendar(event, this)"> </td>
 				</tr>
 				<tr>
 					<th>{lang modcp_subject_keyword}:</th>
-					<td><input type="text" class="px" size="20" value="$result[keywords]" name="keywords" style="width: 180px"/></td>
+					<td><input type="text" class="px" size="20" value="$result[keywords]" name="keywords" style="width: 180px"></td>
 					<th>{lang modcp_views_range}:</th>
-					<td><input type="text" class="px" size="10" value="$result[viewsmore]" name="viewsmore"/> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[viewsless]" name="viewsless"/> </td>
+					<td><input type="text" class="px" size="10" value="$result[viewsmore]" name="viewsmore"> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[viewsless]" name="viewsless"> </td>
 				</tr>
 				<tr>
 					<th>{lang modcp_no_reply_range}:</th>
-					<td><input type="text" class="px" size="20" value="$result[noreplydays]" name="noreplydays" style="width: 180px"/></td>
+					<td><input type="text" class="px" size="20" value="$result[noreplydays]" name="noreplydays" style="width: 180px"></td>
 					<th>{lang modcp_reply_range}:</th>
-					<td><input type="text" class="px" size="10" value="$result[repliesmore]" name="repliesmore"/> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[repliesless]" name="repliesless"/> </td>
+					<td><input type="text" class="px" size="10" value="$result[repliesmore]" name="repliesmore"> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[repliesless]" name="repliesless"> </td>
 				</tr>
 				<tr>
 					<th width="15%">{lang mod_option_selectthreadclass}:</th>
@@ -93,8 +93,8 @@
 		<!--{if $postlist}-->
 		<div id="threadlist" style="position: relative;" class="tl">
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="frommodcp" value="{if $op == 'thread'}1{else}2{/if}" />
+				<input type="hidden" name="formhash" value="{FORMHASH}">
+				<input type="hidden" name="frommodcp" value="{if $op == 'thread'}1{else}2{/if}">
 				<table class="cp0">
 					<tbody class="th">
 						<tr>
@@ -130,9 +130,9 @@
 							</td>
 							<td class="o">
 								<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-									<input onclick="tmodclick(this)" class="pc" type="checkbox" name="moderate[]" value="$thread[tid]" />
+									<input onclick="tmodclick(this)" class="pc" type="checkbox" name="moderate[]" value="$thread[tid]">
 								<!--{else}-->
-									<input class="pc" type="checkbox" disabled="disabled" />
+									<input class="pc" type="checkbox" disabled="disabled">
 								<!--{/if}-->
 							</td>
 							<th class="$thread[folder]">
@@ -187,7 +187,7 @@
 				<!--{if $multipage}--><div class="pgs cl mtm">$multipage</div><!--{/if}-->
 				<!--{template forum/topicadmin_modlayer}-->
 			</form>
-		</div><br /><br /><br />
+		</div><br><br><br>
 		<!--{/if}-->
 	<!--{else}-->
 		<div class="xi1">{lang modcp_forum_select_msg}</div>

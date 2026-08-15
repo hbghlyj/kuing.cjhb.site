@@ -60,20 +60,20 @@ if(empty($_GET['edit']) && empty($_GET['run'])) {
 
 			showtablerow('', ['class="td25"', 'class="crons"', 'class="td25"', 'class="td25"', 'class="td23"', 'class="td23"', 'class="td23"'.$cron['nextcolor'], 'class="td25"'], [
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$cron['cronid']}\" ".($cron['type'] == 'system' ? 'disabled' : '').'>',
-				"<input type=\"text\" class=\"txt\" name=\"namenew[{$cron['cronid']}]\" size=\"20\" value=\"{$cron['name']}\"><br /><b>{$cron['filename']}</b>",
+				"<input type=\"text\" class=\"txt\" name=\"namenew[{$cron['cronid']}]\" size=\"20\" value=\"{$cron['name']}\"><br><b>{$cron['filename']}</b>",
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$cron['cronid']}]\" value=\"1\" ".($cron['available'] ? 'checked' : '')." $disabled>",
 				cplang($cron['type'] == 'system' ? 'inbuilt' : ($cron['type'] == 'plugin' ? 'plugin' : 'custom')),
 				$cron['time'],
 				$cron['lastrun'],
 				$cron['nextrun'],
-				"<a href=\"".ADMINSCRIPT."?action=misc&operation=cron&edit={$cron['cronid']}\" class=\"act\">{$lang['edit']}</a><br />".
+				"<a href=\"".ADMINSCRIPT."?action=misc&operation=cron&edit={$cron['cronid']}\" class=\"act\">{$lang['edit']}</a><br>".
 				" <a href=\"".ADMINSCRIPT."?action=misc&operation=cron&run={$cron['cronid']}\" class=\"act\">{$lang['misc_cron_run']}</a>"
 			]);
 		}
 
 		showtablerow('', ['', 'colspan="10"'], [
 			cplang('add_new'),
-			'<input type="text" class="txt" name="newname" value="" size="20" />'
+			'<input type="text" class="txt" name="newname" value="" size="20">'
 		]);
 		showsubmit('cronssubmit', 'submit', 'del');
 		showtablefooter();

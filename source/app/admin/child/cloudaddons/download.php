@@ -142,7 +142,7 @@ if($step == 0) {
 	$descdir .= $subdir;
 	cloudaddons_comparetree($tmpdir, $descdir, $tmpdir, $_GET['key'].'.'.$_GET['type'], 1);
 	if(!empty($_G['treeop']['oldchange']) && empty($_GET['confirmed'])) {
-		cpmsg('cloudaddons_install_files_changed', '', 'form', ['files' => implode('<br />', $_G['treeop']['oldchange'])]);
+		cpmsg('cloudaddons_install_files_changed', '', 'form', ['files' => implode('<br>', $_G['treeop']['oldchange'])]);
 	}
 	cloudaddons_copytree($tmpdir, $descdir);
 	cloudaddons_savemd5($_GET['key'].'.'.$_GET['type'], $_GET['end'], $_G['treeop']['md5']);
@@ -229,7 +229,7 @@ if($step == 0) {
 		foreach($batch as $k => $v) {
 			$message .= '<p class="margintop"><a href="'.$v[0].'&frames=yes" onclick="return removelink(this);" target="_blank">'.($v[1] ? $v[1] : $k).'</a></p>';
 		}
-		echo '<div class="infobox"><h4 class="infotitle2">'.cplang('cloudaddons_batch_succeed').'<br /><br /><div id="addonlist">'.$message.'</div></h4></div>
+		echo '<div class="infobox"><h4 class="infotitle2">'.cplang('cloudaddons_batch_succeed').'<br><br><div id="addonlist">'.$message.'</div></h4></div>
 			<script type="text/javascript">
 			function removelink(obj){
 				if(document.getElementById(\'addonlist\').children.length > 1){

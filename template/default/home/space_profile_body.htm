@@ -63,11 +63,11 @@
 				$space[attachsize]
 				<!--{if $space[buyercredit]}-->
 				<span class="pipe">|</span><em>{lang eccredit_buyerinfo}</em>
-				<a href="home.php?mod=space&uid=$space[uid]&do=trade&view=eccredit<!--{if $_G[setting][homepagestyle]}-->&sns=1<!--{/if}-->#sellcredit" target="_blank">$space[buyercredit] <img src="{STATICURL}image/traderank/buyer/$space[buyerrank].gif" border="0" class="vm" /></a>
+				<a href="home.php?mod=space&uid=$space[uid]&do=trade&view=eccredit<!--{if $_G[setting][homepagestyle]}-->&sns=1<!--{/if}-->#sellcredit" target="_blank">$space[buyercredit] <img src="{STATICURL}image/traderank/buyer/$space[buyerrank].gif" border="0" class="vm"></a>
 				<!--{/if}-->
 				<!--{if $space[sellercredit]}-->
 				<span class="pipe">|</span><em>{lang eccredit_sellerinfo}</em>
-				<a href="home.php?mod=space&uid=$space[uid]&do=trade&view=eccredit<!--{if $_G[setting][homepagestyle]}-->&sns=1<!--{/if}-->#buyercredit" target="_blank">$space[sellercredit] <img src="{STATICURL}image/traderank/seller/$space[sellerrank].gif" border="0" class="vm" /></a>
+				<a href="home.php?mod=space&uid=$space[uid]&do=trade&view=eccredit<!--{if $_G[setting][homepagestyle]}-->&sns=1<!--{/if}-->#buyercredit" target="_blank">$space[sellercredit] <img src="{STATICURL}image/traderank/seller/$space[sellerrank].gif" border="0" class="vm"></a>
 				<!--{/if}-->
 				<span class="pipe">|</span><em>{lang credits}</em>
 				$space[credits]
@@ -101,7 +101,7 @@
 		<p class="md_ctrl">
 			<a href="home.php?mod=medal">
 			<!--{loop $space['medals'] $medal}-->
-				<img src="$medal['image']" alt="$medal['name']" id="md_{$medal['medalid']}" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'md_{$medal['medalid']}_menu', 'pos':'12!'});" />
+				<img src="$medal['image']" alt="$medal['name']" id="md_{$medal['medalid']}" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'md_{$medal['medalid']}_menu', 'pos':'12!'});">
 			<!--{/loop}-->
 			</a>
 		</p>
@@ -127,9 +127,9 @@
 			<!--{/if}-->
 
 			<!--{if $space['verify'.$vid] == 1}-->
-				<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['icon']}--><img src="$verify['icon']" class="vm" alt="$verify[title]" title="$verify[title]" /><!--{else}-->$verify[title]<!--{/if}--></a>&nbsp;
+				<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['icon']}--><img src="$verify['icon']" class="vm" alt="$verify[title]" title="$verify[title]"><!--{else}-->$verify[title]<!--{/if}--></a>&nbsp;
 			<!--{elseif !empty($verify['unverifyicon'])}-->
-				<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['unverifyicon']}--><img src="$verify['unverifyicon']" class="vm" alt="$verify[title]" title="$verify[title]" /><!--{/if}--></a>&nbsp;
+				<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><!--{if $verify['unverifyicon']}--><img src="$verify['unverifyicon']" class="vm" alt="$verify[title]" title="$verify[title]"><!--{/if}--></a>&nbsp;
 			<!--{/if}-->
 
 		<!--{/if}-->

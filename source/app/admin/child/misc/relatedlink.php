@@ -52,9 +52,9 @@ if(!submitcheck('linksubmit')) {
 	foreach($query as $link) {
 		$extent = sprintf('%04b', $link['extent']);
 		showtablerow('', ['class="td25"', '', '', 'class="td26"', 'class="td26"', 'class="td26"', ''], [
-			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$link['id'].'" />',
-			'<input type="text" class="txt" name="name['.$link['id'].']}" value="'.$link['name'].'" size="15" />',
-			'<input type="text" name="url['.$link['id'].']}" value="'.$link['url'].'" size="50" />',
+			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$link['id'].'">',
+			'<input type="text" class="txt" name="name['.$link['id'].']}" value="'.$link['name'].'" size="15">',
+			'<input type="text" name="url['.$link['id'].']}" value="'.$link['url'].'" size="50">',
 			'<input class="checkbox" type="checkbox" value="1" name="article['.$link['id'].']}" '.($extent[0] ? 'checked' : '').'>',
 			'<input class="checkbox" type="checkbox" value="1" name="forum['.$link['id'].']}" '.($extent[1] ? 'checked' : '').'>',
 			'<input class="checkbox" type="checkbox" value="1" name="group['.$link['id'].']}" '.($extent[2] ? 'checked' : '').'>',

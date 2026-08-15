@@ -38,7 +38,7 @@ if(!$_GET['mtype']) {
 		showtableheader(cplang('groups_search_result', ['groupnum' => $groupnum]).' <a href="javascript:history.go(-1);" class="act lightlink normal">'.cplang('research').'</a>');
 		showsubtitle(['', 'groups_manage_name', 'groups_manage_postcount', 'groups_manage_threadcount', 'groups_manage_membercount', 'groups_manage_founder', '']);
 		echo $groups;
-		showtablerow('', ['class="td25"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'fidarray\')" /><label for="chkall">'.cplang('select_all').'</label>']);
+		showtablerow('', ['class="td25"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'fidarray\')"><label for="chkall">'.cplang('select_all').'</label>']);
 		showtablefooter();
 		showtableheader('operation', 'notop');
 		showtablerow('', ['class="td25"', 'class="td24"', 'class="rowform" style="width:auto;"'], [

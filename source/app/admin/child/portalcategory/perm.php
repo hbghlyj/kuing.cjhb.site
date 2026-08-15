@@ -26,10 +26,10 @@ if(!submitcheck('permsubmit')) {
 	showtableheader('', 'fixpadding');
 
 	$inherited_checked = !$category['notinheritedarticle'] ? 'checked' : '';
-	if($portalcategory[$catid]['level']) showsubtitle(['', '<input class="checkbox" type="checkbox" name="inherited" value="1" '.$inherited_checked.'/>'.cplang('portalcategory_inheritance'), '', '', '']);
+	if($portalcategory[$catid]['level']) showsubtitle(['', '<input class="checkbox" type="checkbox" name="inherited" value="1" '.$inherited_checked.'>'.cplang('portalcategory_inheritance'), '', '', '']);
 	showsubtitle(['', 'username',
-		'<input class="checkbox" type="checkbox" name="chkallpublish" onclick="checkAll(\'prefix\', this.form, \'publish\', \'chkallpublish\')" id="chkallpublish" /><label for="chkallpublish">'.cplang('portalcategory_perm_publish').'</label>',
-		'<input class="checkbox" type="checkbox" name="chkallmanage" onclick="checkAll(\'prefix\', this.form, \'manage\', \'chkallmanage\')" id="chkallmanage" /><label for="chkallmanage">'.cplang('portalcategory_perm_manage').'</label>',
+		'<input class="checkbox" type="checkbox" name="chkallpublish" onclick="checkAll(\'prefix\', this.form, \'publish\', \'chkallpublish\')" id="chkallpublish"><label for="chkallpublish">'.cplang('portalcategory_perm_publish').'</label>',
+		'<input class="checkbox" type="checkbox" name="chkallmanage" onclick="checkAll(\'prefix\', this.form, \'manage\', \'chkallmanage\')" id="chkallmanage"><label for="chkallmanage">'.cplang('portalcategory_perm_manage').'</label>',
 		'block_perm_inherited',
 	]);
 
@@ -48,21 +48,21 @@ if(!submitcheck('permsubmit')) {
 			]);
 		} else {
 			showtablerow('', ['class="td25"'], [
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"delete[{$value['uid']}]\" value=\"{$value['uid']}\" /><input type=\"hidden\" name=\"perm[{$value['uid']}]\" value=\"{$value['catid']}\" />
-					<input type=\"hidden\" name=\"perm[{$value['uid']}][allowpublish]\" value=\"{$value['allowpublish']}\" />
-					<input type=\"hidden\" name=\"perm[{$value['uid']}][allowmanage]\" value=\"{$value['allowmanage']}\" />",
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"delete[{$value['uid']}]\" value=\"{$value['uid']}\"><input type=\"hidden\" name=\"perm[{$value['uid']}]\" value=\"{$value['catid']}\">
+					<input type=\"hidden\" name=\"perm[{$value['uid']}][allowpublish]\" value=\"{$value['allowpublish']}\">
+					<input type=\"hidden\" name=\"perm[{$value['uid']}][allowmanage]\" value=\"{$value['allowmanage']}\">",
 				"{$value['username']}",
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowpublish[{$value['uid']}]\" value=\"1\" ".($value['allowpublish'] ? 'checked' : '').' />',
-				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowmanage[{$value['uid']}]\" value=\"1\" ".($value['allowmanage'] ? 'checked' : '').' />',
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowpublish[{$value['uid']}]\" value=\"1\" ".($value['allowpublish'] ? 'checked' : '').'>',
+				"<input type=\"checkbox\" class=\"checkbox\" name=\"allowmanage[{$value['uid']}]\" value=\"1\" ".($value['allowmanage'] ? 'checked' : '').'>',
 				$line,
 			]);
 		}
 	}
 	showtablerow('', ['class="td25"'], [
 		cplang('add_new'),
-		'<input type="text" class="txt" name="newuser" value="" size="20" />',
-		'<input type="checkbox" class="checkbox" name="newpublish" value="1" />',
-		'<input type="checkbox" class="checkbox" name="newmanage" value="1" />',
+		'<input type="text" class="txt" name="newuser" value="" size="20">',
+		'<input type="checkbox" class="checkbox" name="newpublish" value="1">',
+		'<input type="checkbox" class="checkbox" name="newmanage" value="1">',
 		'',
 	]);
 

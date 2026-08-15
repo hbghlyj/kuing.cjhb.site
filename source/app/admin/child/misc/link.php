@@ -51,12 +51,12 @@ if(!submitcheck('linksubmit')) {
 		}
 		$grouptd .= '</select>';
 		showtablerow('', ['class="td25"', 'class="td28"', '', '', 'class="td26"'], [
-			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$forumlink['id'].'" />',
-			'<input type="text" class="txt" name="displayorder['.$forumlink['id'].']" value="'.$forumlink['displayorder'].'" size="3" />',
-			'<input type="text" class="txt" name="name['.$forumlink['id'].']" value="'.$forumlink['name'].'" size="15" />',
-			'<input type="text" class="txt" name="url['.$forumlink['id'].']" value="'.$forumlink['url'].'" size="20" />',
-			'<input type="text" class="txt" name="description['.$forumlink['id'].']" value="'.$forumlink['description'].'" size="30" />',
-			'<input type="text" class="txt" name="logo['.$forumlink['id'].']" value="'.$forumlink['logo'].'" size="20" />',
+			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$forumlink['id'].'">',
+			'<input type="text" class="txt" name="displayorder['.$forumlink['id'].']" value="'.$forumlink['displayorder'].'" size="3">',
+			'<input type="text" class="txt" name="name['.$forumlink['id'].']" value="'.$forumlink['name'].'" size="15">',
+			'<input type="text" class="txt" name="url['.$forumlink['id'].']" value="'.$forumlink['url'].'" size="20">',
+			'<input type="text" class="txt" name="description['.$forumlink['id'].']" value="'.$forumlink['description'].'" size="30">',
+			'<input type="text" class="txt" name="logo['.$forumlink['id'].']" value="'.$forumlink['logo'].'" size="20">',
 			$grouptd,
 		]);
 	}

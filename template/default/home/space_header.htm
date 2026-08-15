@@ -2,8 +2,8 @@
 <!--{eval $_G['cookie']['extstyle'] = false;}-->
 <!--{subtemplate common/header_common}-->
 	<script src="{$_G[setting][jspath]}home.js?{VERHASH}"></script>
-	<link rel="stylesheet" type="text/css" href='{$_G['setting']['csspath']}{STYLEID}_css_space.css?{VERHASH}' />
-	<link id="style_css" rel="stylesheet" type="text/css" href="{STATICURL}space/{if $space[theme]}$space[theme]{else}t1{/if}/style.css?{VERHASH}">
+	<link rel="stylesheet" href='{$_G['setting']['csspath']}{STYLEID}_css_space.css?{VERHASH}'>
+	<link id="style_css" rel="stylesheet" href="{STATICURL}space/{if $space[theme]}$space[theme]{else}t1{/if}/style.css?{VERHASH}">
 	<style id="diy_style">$space[spacecss]</style>
 </head>
 
@@ -12,7 +12,7 @@
 	<div id="ajaxwaitid"></div>
 
 	<!--{if $space['self'] && $_GET['diy'] == 'yes' && $do == 'index' }-->
-	<link rel="stylesheet" type="text/css" href='{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}' />
+	<link rel="stylesheet" href='{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}'>
 	<!--{subtemplate home/space_diy}-->
 	<!--{/if}-->
 
@@ -54,7 +54,7 @@
 		</div>
 	</div>
 	<!--{if $space['status'] == -1 && $_G['adminid'] == 1 }-->
-		<p class="ptw xw1 xi1 hm"><img src="{IMGDIR}/locked.gif" alt="Locked" class="vm" /> {lang message_banned}</p>
+		<p class="ptw xw1 xi1 hm"><img src="{IMGDIR}/locked.gif" alt="Locked" class="vm"> {lang message_banned}</p>
 	<!--{/if}-->
 	<div id="hd" class="wp cl">
 

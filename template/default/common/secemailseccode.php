@@ -8,10 +8,10 @@
 		</span>
 	</h3>
 	<form id="confirmform" method="post" autocomplete="off" action="misc.php?mod=secemailseccode&action=send&svctype=$svctype&email=$email" onsubmit="ajaxpost('confirmform', 'return_$handlekey', 'return_$handlekey');return false;">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="seccodesubmit" value="true" />
-		<input type="hidden" name="handlekey" value="$handlekey" />
-		<!--{block sectpl}--><div class="rfm"><table><tr><th><sec>: </th><td><sec><br /><sec></td></tr></table></div><!--{/block}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="seccodesubmit" value="true">
+		<input type="hidden" name="handlekey" value="$handlekey">
+		<!--{block sectpl}--><div class="rfm"><table><tr><th><sec>: </th><td><sec><br><sec></td></tr></table></div><!--{/block}-->
 		<!--{subtemplate common/seccheck}-->
 		<p class="o pns">
             <button type="submit" name="funcsubmit_btn" class="btn pn pnc" ><strong>{lang confirms}</strong></button>

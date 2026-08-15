@@ -203,8 +203,8 @@ class class_component {
 		$var['extra'] = 'accept=\'image/*\'';
 		if($var['value']) {
 			$url = \admin\class_attach::getUrl($var['value']);
-			$GLOBALS['lang']['__t'] = ($var['description'] ? $var['description'].'<br />' : '').'<label><input type="checkbox" class="checkbox" name="deleteUploadimage[]" value="'.$var['var'].'" /> '.cplang('delete').'</label>'.
-				'<br /><img src="'.$url.'" />';
+			$GLOBALS['lang']['__t'] = ($var['description'] ? $var['description'].'<br>' : '').'<label><input type="checkbox" class="checkbox" name="deleteUploadimage[]" value="'.$var['var'].'"> '.cplang('delete').'</label>'.
+				'<br><img src="'.$url.'">';
 			$var['description'] = '__t';
 		}
 	}

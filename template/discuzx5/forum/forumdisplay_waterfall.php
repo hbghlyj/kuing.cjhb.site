@@ -15,19 +15,19 @@
 			<div class="wfmod">
 			<!--{if $thread['fid'] == $_G['fid']}-->
 				<!--{if $thread['displayorder'] <= 3 || $_G['adminid'] == 1}-->
-					<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread['tid']" />
+					<input onclick="tmodclick(this)" type="checkbox" name="moderate[]" value="$thread['tid']">
 				<!--{else}-->
-					<input type="checkbox" disabled="disabled" />
+					<input type="checkbox" disabled="disabled">
 				<!--{/if}-->
 			<!--{else}-->
-				<input type="checkbox" disabled="disabled" />
+				<input type="checkbox" disabled="disabled">
 			<!--{/if}-->
 			</div>
 		<!--{/if}-->
 		<div class="wfpic">
 			<a href="forum.php?mod=viewthread&tid=$thread['tid']&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra" {if $thread['isgroup'] == 1 || $thread['forumstick'] || CURMODULE == 'guide'} target="_blank"{else} onclick="atarget(this)"{/if} title="$thread['subject']">
 				<!--{if $thread['cover']}-->
-					<img src="$thread['coverpath']" alt="$thread['subject']" width="{$_G['setting']['forumpicstyle']['thumbwidth']}" />
+					<img src="$thread['coverpath']" alt="$thread['subject']" width="{$_G['setting']['forumpicstyle']['thumbwidth']}">
 				<!--{else}-->
 					<span class="nophoto nopic" style="width:{$_G['setting']['forumpicstyle']['thumbwidth']}px; height:{$_G['setting']['forumpicstyle']['thumbwidth']}px; line-height:{$_G['setting']['forumpicstyle']['thumbwidth']}px;"></span>
 				<!--{/if}-->

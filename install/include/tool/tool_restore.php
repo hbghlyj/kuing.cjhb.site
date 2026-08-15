@@ -97,7 +97,7 @@ if(!submitcheck('importsubmit', 1)) {
 			if($sql != '') {
 				$db->query($sql, 'SILENT');
 				if(($sqlerror = $db->error()) && $db->errno() != 1062) {
-					restore_msg('MySQL Query Error: '.$sqlerror. '<br />On '.$sql);
+					restore_msg('MySQL Query Error: '.$sqlerror. '<br>On '.$sql);
 				}
 			}
 		}
@@ -172,7 +172,7 @@ function get_backup_dir() {
 
 function show_importfile_list($exportlog = array(), $exportsize = array()) {
 	$title = array('filename', 'version', 'time', 'type', 'size', 'db_volume', '');
-	echo '<style type="text/css">
+	echo '<style>
 		table {
 			font-size: 12px;text-align: left
 		}
@@ -284,11 +284,11 @@ function restore_msg($message, $url_forward = '', $type = 'message', $success = 
 		echo '<span'.($success ? '' : ' style="color: #F00"').'>'.$message.'</span>';
 	} elseif($type == 'redirect') {
 		echo "$message ...";
-		echo "<br /><br /><br /><a href=\"$url_forward\" style=\"color: #333;font-size: 12px;text-decoration: none\">".lang('database_waiting_link')."</a>";
+		echo "<br><br><br><a href=\"$url_forward\" style=\"color: #333;font-size: 12px;text-decoration: none\">".lang('database_waiting_link')."</a>";
 		echo "<script>setTimeout(\"window.location = '$url_forward'\", 1250);</script>";
 	} elseif($type == 'confirm') {
 		echo "$message";
-		echo "<br /><br /><br /><button id=\"confirmbtn\" onclick=\"window.location = '$url_forward'\">".lang('database_confirm')."</button>&nbsp;<button id=\"cancelbtn\" onclick=\"window.location = '?'\">".lang('database_cancel')."</button>";
+		echo "<br><br><br><button id=\"confirmbtn\" onclick=\"window.location = '$url_forward'\">".lang('database_confirm')."</button>&nbsp;<button id=\"cancelbtn\" onclick=\"window.location = '?'\">".lang('database_cancel')."</button>";
 	} elseif($type == 'success') {
 		echo $message;
 		echo '</div>

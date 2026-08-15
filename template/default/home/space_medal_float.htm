@@ -16,16 +16,16 @@
 				<!--{if !empty($_GET['infloat'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a><!--{/if}-->
 			</span>
 		</h3>
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
-		<input type="hidden" name="medalid" value="$medal[medalid]" />
-		<input type="hidden" name="operation" value="" />
-		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+		<input type="hidden" name="formhash" value="{FORMHASH}">
+		<input type="hidden" name="medalid" value="$medal[medalid]">
+		<input type="hidden" name="operation" value="">
+		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 
 		<div class="c">
 			<dl class="xld cl">
 				<dd class="m">
 					<div class="mg_img hm">
-						<img src="$medal['image']" alt="$medal['name']" style="margin: 20px 0 0 0" />
+						<img src="$medal['image']" alt="$medal['name']" style="margin: 20px 0 0 0">
 					</div>
 				</dd>
 				<dt class="z">
@@ -33,10 +33,10 @@
 					<p class="pbm mbm bbda xw0">$medal[description]</p>
 					<p>
 						<!--{if $medal[expiration]}-->
-							{lang expire} $medal[expiration] {lang days}<br />
+							{lang expire} $medal[expiration] {lang days}<br>
 						<!--{/if}-->
 						<!--{if $medal[permission]}-->
-							$medal[permission]<br />
+							$medal[permission]<br>
 						<!--{/if}-->
 						<!--{if $medal[type] == 0}-->
 							{lang medals_type_0}

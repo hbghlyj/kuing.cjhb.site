@@ -81,7 +81,7 @@ if(!submitcheck('searchsubmit', 1)) {
 	foreach($collectioncomment as $uniquecomment) {
 		if($uniquecomment['rate'] == 0) $uniquecomment['rate'] = '-';
 		showtablerow('', ['class="td25"', 'width=400', ''], [
-			"<input class=\"checkbox\" type=\"checkbox\" name=\"cidarray[]\" value=\"{$uniquecomment['cid']}\" />",
+			"<input class=\"checkbox\" type=\"checkbox\" name=\"cidarray[]\" value=\"{$uniquecomment['cid']}\">",
 			$uniquecomment['message'],
 			$uniquecomment['cid'],
 			"<a href='forum.php?mod=collection&action=view&ctid={$uniquecomment['ctid']}' target='_blank'>{$collectiondata[$uniquecomment['ctid']]['name']}</a>",
@@ -91,7 +91,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			dgmdate($uniquecomment['dateline']),
 		]);
 	}
-	showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'cidarray\', \'chkall\')" /><label for="chkall">'.cplang('select_all').'</label>']);
+	showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'cidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>']);
 	showtablerow('', ['class="td25"', 'colspan="2"'], [
 		cplang('operation'),
 		'<input class="radio" type="radio" name="operate_type" value="delete"> '.cplang('delete').' '

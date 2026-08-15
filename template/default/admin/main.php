@@ -6,10 +6,10 @@
 	<meta name="renderer" content="webkit">
 	<meta name="color-scheme" content="light dark">
 	<title>{$menuData['title']}</title>
-	<meta content="Discuz! Team" name="Copyright" />
+	<meta content="Discuz! Team" name="Copyright">
 	{template admin/rootcolor}
-	<link rel="stylesheet" href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" type="text/css" media="all" />
-	<link rel="stylesheet" href="{$staticurl}image/admincp/admincpframe.css?{$_G['style']['verhash']}" type="text/css" media="all" />
+	<link rel="stylesheet" href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" media="all">
+	<link rel="stylesheet" href="{$staticurl}image/admincp/admincpframe.css?{$_G['style']['verhash']}" media="all">
 	$framecss
 	<script type="text/JavaScript">
 		var VERHASH = {echo json_encode($VERHASH)}, IN_ADMINCP = true, SITEURL = {echo json_encode($_G['siteurl'])}, JSPATH = {echo json_encode($_G['setting']['jspath'])}, JSCACHEPATH = {echo json_encode($_G['setting']['jscachepath'])}, cookiepre = {echo json_encode($_G['config']['cookie']['cookiepre'])}, cookiedomain = {echo json_encode($_G['config']['cookie']['cookiedomain'])}, cookiepath = {echo json_encode($_G['config']['cookie']['cookiepath'])}, AVATARURL = {echo json_encode($_G['setting']['avatarbase'])};
@@ -37,7 +37,7 @@ $shownotice
 			<ul id="leftmenu">
 				$leftmenus
 			</ul>
-			<div id="copyright"><img src="{$staticurl}image/mitframe/mitframe.svg"/></div>
+			<div id="copyright"><img src="{$staticurl}image/mitframe/mitframe.svg"></div>
 		</nav>
 	</div>
 	<div class="ifmcontainer">
@@ -64,7 +64,7 @@ $shownotice
 					<!--{/if}-->
 					<p class="coloricon" id="adminColor" title="{lang admincolor}" onclick="showMenu({'ctrlid':this.id, 'pos':'00', 'duration': 3, 'mtype': 'win'});"></p>
 					<div id="frameuinfo" onmouseover="showMenu({'ctrlid':this.id, 'pos':'34'});" >
-						<p class="greet"><em>{$_G['member']['username']}</em><br />$cpadmingroup</p>
+						<p class="greet"><em>{$_G['member']['username']}</em><br>$cpadmingroup</p>
 						{$useravt}
 						<p class="btnlink">
 							<div class="darkmode" title="$light_mode">
@@ -123,7 +123,7 @@ $shownotice
 			</span>
 			<p>Powered by <a href="https://www.discuz.vip/" target="_blank" class="lightlink2">Discuz! $_G['setting']['version']</a> {lang copyright}</p>
 		</div>
-		<div id="qr_menu" style="display: none;"><img src="static/image/admincp/discuz_qr.jpg" width="120" /></div>
+		<div id="qr_menu" style="display: none;"><img src="static/image/admincp/discuz_qr.jpg" width="120"></div>
 		<div id="favbars" style="display: none">
 			<a id="op_back" title="{lang back}"></a><a id="op_refresh" title="{lang refresh}"></a><span>|</span>
 			<div id="favbar_list">

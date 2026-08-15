@@ -40,11 +40,11 @@
 	<!--{if $this->showregisterform}-->
 	<form method="post" autocomplete="off" name="register" id="registerform" enctype="multipart/form-data" onsubmit="checksubmit();return false;" action="member.php?mod=$regname">
 		<div id="layer_reg" class="bm_c">
-			<input type="hidden" name="regsubmit" value="yes" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="referer" value="$dreferer" />
+			<input type="hidden" name="regsubmit" value="yes">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="referer" value="$dreferer">
 			<!--{if $_G['setting']['sendregisterurl']}-->
-				<input type="hidden" name="hash" value="{echo dhtmlspecialchars((string)$_GET['hash'])}" />
+				<input type="hidden" name="hash" value="{echo dhtmlspecialchars((string)$_GET['hash'])}">
 			<!--{/if}-->
 			<div class="mtw">
 				<div id="reginfo_a">
@@ -55,8 +55,8 @@
 								<tr>
 									<th><span class="rq">*</span><label for="{$this->setting['reginput']['email']}">{lang email}:</label></th>
 									<td>
-										<input type="email" id="{$this->setting['reginput']['email']}" name="$this->setting['reginput']['email']" size="25" class="px" required /><br /><em id="emailmore">&nbsp;</em>
-										<input type="hidden" name="handlekey" value="sendregister"/>
+										<input type="email" id="{$this->setting['reginput']['email']}" name="$this->setting['reginput']['email']" size="25" class="px" required /><br><em id="emailmore">&nbsp;</em>
+										<input type="hidden" name="handlekey" value="sendregister">
 									</td>
 									<td class="tipcol"><i id="tip_{$this->setting['reginput']['email']}" class="p_tip">{lang register_email_tips}</i><kbd id="chk_{$this->setting['reginput']['email']}" class="p_chk"></kbd></td>
 								</tr>
@@ -91,7 +91,7 @@
 								<table>
 									<tr>
 										<th><label for="invitecode">{lang invite_code}:</label></th>
-										<td>{echo dhtmlspecialchars((string)$_GET['invitecode'])}<input type="hidden" id="invitecode" name="invitecode" value="{echo dhtmlspecialchars((string)$_GET['invitecode'])}" /></td>
+										<td>{echo dhtmlspecialchars((string)$_GET['invitecode'])}<input type="hidden" id="invitecode" name="invitecode" value="{echo dhtmlspecialchars((string)$_GET['invitecode'])}"></td>
 									</tr>
 								</table>
 							</div>
@@ -104,7 +104,7 @@
 							<table>
 								<tr>
 									<th><span class="rq">*</span><label for="invitecode">{lang invite_code}:</label></th>
-									<td><input type="text" id="invitecode" name="invitecode" autocomplete="off" size="25" onblur="checkinvite()" class="px" required /><!--{if $this->setting['inviteconfig']['buyinvitecode'] && $this->setting['inviteconfig']['invitecodeprice'] && payment::enable()}--><p><a href="misc.php?mod=buyinvitecode" onclick="showWindow('buyinvitecode', 'misc.php?mod=buyinvitecode');return false;" class="xi2">{lang register_buyinvitecode}</a></p><!--{/if}--></td>
+									<td><input type="text" id="invitecode" name="invitecode" autocomplete="off" size="25" onblur="checkinvite()" class="px" required><!--{if $this->setting['inviteconfig']['buyinvitecode'] && $this->setting['inviteconfig']['invitecodeprice'] && payment::enable()}--><p><a href="misc.php?mod=buyinvitecode" onclick="showWindow('buyinvitecode', 'misc.php?mod=buyinvitecode');return false;" class="xi2">{lang register_buyinvitecode}</a></p><!--{/if}--></td>
 									<td class="tipcol"><i id="tip_invitecode" class="p_tip"><!--{if $this->setting['inviteconfig']['invitecodeprompt']}-->$this->setting[inviteconfig][invitecodeprompt]<!--{/if}--></i><kbd id="chk_invitecode" class="p_chk"></kbd></td>
 								</tr>
 							</table>
@@ -146,7 +146,7 @@
 								<table>
 									<tr>
 										<th><!--{if $_G['setting']['regverify']}--><span class="rq">*</span><!--{/if}--><label for="{$this->setting['reginput']['email']}">{lang email}:</label></th>
-										<td><input type="email" id="{$this->setting['reginput']['email']}" name="" size="25" class="px" value="$hash[0]" {if $_G['setting']['regverify']}required{/if} /><br /><em id="emailmore">&nbsp;</em></td>
+										<td><input type="email" id="{$this->setting['reginput']['email']}" name="" size="25" class="px" value="$hash[0]" {if $_G['setting']['regverify']}required{/if} /><br><em id="emailmore">&nbsp;</em></td>
 										<td class="tipcol"><i id="tip_{$this->setting['reginput']['email']}" class="p_tip">{lang register_email_tips}</i><kbd id="chk_{$this->setting['reginput']['email']}" class="p_chk"></kbd></td>
 									</tr>
 								</table>
@@ -157,7 +157,7 @@
 							<table>
 								<tr>
 									<th><span class="rq">*</span><label for="regmessage">{lang register_message}:</label></th>
-									<td><input id="regmessage" name="regmessage" class="px" autocomplete="off" size="25" required /></td>
+									<td><input id="regmessage" name="regmessage" class="px" autocomplete="off" size="25" required></td>
 									<td class="tipcol"><i id="tip_regmessage" class="p_tip">{lang register_message1}</i></td>
 								</tr>
 							</table>
@@ -193,7 +193,7 @@
 					<!--{hook/register_input}-->
 
 					<!--{if $secqaacheck || $seccodecheck}-->
-						<!--{block sectpl}--><div class="rfm"><table><tr><th><span class="rq">*</span><sec>: </th><td><sec><br /><sec></td></tr></table></div><!--{/block}-->
+						<!--{block sectpl}--><div class="rfm"><table><tr><th><span class="rq">*</span><sec>: </th><td><sec><br><sec></td></tr></table></div><!--{/block}-->
 						<!--{subtemplate common/seccheck}-->
 					<!--{/if}-->
 
@@ -213,7 +213,7 @@
 								<em>&nbsp;</em>
 								<button class="pn pnc" id="registerformsubmit" type="submit" name="regsubmit" value="true"><strong>{lang submit}</strong></button>
 								<!--{if $bbrules}-->
-									<input type="checkbox" class="pc" name="agreebbrule" value="$bbrulehash" id="agreebbrule" checked="checked" /> <label for="agreebbrule">{lang agree}<a href="javascript:;" onclick="showBBRule()">{lang rulemessage}</a></label>
+									<input type="checkbox" class="pc" name="agreebbrule" value="$bbrulehash" id="agreebbrule" checked="checked"> <label for="agreebbrule">{lang agree}<a href="javascript:;" onclick="showBBRule()">{lang rulemessage}</a></label>
 								<!--{/if}-->
 							</span>
 						</td>
@@ -223,7 +223,7 @@
 			</div>
 			<!--{if !empty($_G['setting']['pluginhooks']['register_logging_method'])}-->
 				<div class="rfm bw0 {if empty($_GET['infloat'])} mbw{/if}">
-					<hr class="l" />
+					<hr class="l">
 					<table>
 						<tr>
 							<th>{lang login_method}:</th>

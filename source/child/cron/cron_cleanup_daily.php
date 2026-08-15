@@ -85,7 +85,7 @@ if(!empty($_G['setting']['advexpiration']['allow'])) {
 		$users = array_map('trim', $users);
 		if($users) {
 			foreach(table_common_member::t()->fetch_all_by_username($users) as $member) {
-				$noticelang = ['day' => $_G['setting']['advexpiration']['day'], 'advs' => implode('<br />', $advs), 'from_id' => 0, 'from_idtype' => 'advexpire'];
+				$noticelang = ['day' => $_G['setting']['advexpiration']['day'], 'advs' => implode('<br>', $advs), 'from_id' => 0, 'from_idtype' => 'advexpire'];
 				if(in_array('notice', $_G['setting']['advexpiration']['method'])) {
 					notification_add($member['uid'], 'system', 'system_adv_expiration', $noticelang, 1);
 				}

@@ -151,7 +151,7 @@ if(submitcheck('searchsubmit', 1)) {
 							break;
 					}
 					$comments .= showtablerow('', '', [
-						"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['cid']}\" />",
+						"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['cid']}\">",
 						$address,
 						"<a href=\"home.php?mod=space&uid={$comment['uid']}\" target=\"_blank\">{$comment['author']}</a>",
 						$comment['ip'],

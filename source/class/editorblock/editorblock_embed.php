@@ -132,7 +132,7 @@ EOF;
 
 	function getStyle() {
 		return <<<EOF
-<style type="text/css">
+<style>
 .ce-block {
     margin-bottom: 20px;
 }

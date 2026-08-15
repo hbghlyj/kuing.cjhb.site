@@ -23,7 +23,7 @@ if(!submitcheck('threadsplit_update_submit')) {
 
 	$thread_table_orig = table_forum_thread::t()->gettablestatus();
 	showsubtitle(['threadsplit_manage_tablename', 'threadsplit_manage_threadcount', 'threadsplit_manage_datalength', 'threadsplit_manage_indexlength', 'threadsplit_manage_table_createtime', 'threadsplit_manage_table_memo', '']);
-	showtablerow('', [], [$thread_table_orig['Name'], $thread_table_orig['Rows'], $thread_table_orig['Data_length'], $thread_table_orig['Index_length'], $thread_table_orig['Create_time'], "<input type=\"text\" class=\"txt\" name=\"memo[0]\" value=\"{$threadtable_info[0]['memo']}\" />", '']);
+	showtablerow('', [], [$thread_table_orig['Name'], $thread_table_orig['Rows'], $thread_table_orig['Data_length'], $thread_table_orig['Index_length'], $thread_table_orig['Create_time'], "<input type=\"text\" class=\"txt\" name=\"memo[0]\" value=\"{$threadtable_info[0]['memo']}\">", '']);
 
 	showtableheader('threadsplit_manage_table_archive');
 	showsubtitle(['threadsplit_manage_tablename', 'threadsplit_manage_dislayname', 'threadsplit_manage_threadcount', 'threadsplit_manage_datalength', 'threadsplit_manage_indexlength', 'threadsplit_manage_table_createtime', 'threadsplit_manage_table_memo', '']);
@@ -33,7 +33,7 @@ if(!submitcheck('threadsplit_update_submit')) {
 		}
 		$tablename = "forum_thread_$tableid";
 		$table_info = table_forum_thread::t()->gettablestatus($tableid);
-		showtablerow('', [], [$table_info['Name'], "<input type=\"text\" class=\"txt\" name=\"displayname[$tableid]\" value=\"{$threadtable_info[$tableid]['displayname']}\" />", $table_info['Rows'], $table_info['Data_length'], $table_info['Index_length'], $table_info['Create_time'], "<input type=\"text\" class=\"txt\" name=\"memo[$tableid]\" value=\"{$threadtable_info[$tableid]['memo']}\" />", "<a href=\"?action=threadsplit&operation=droptable&tableid=$tableid\">{$lang['delete']}</a>"]);
+		showtablerow('', [], [$table_info['Name'], "<input type=\"text\" class=\"txt\" name=\"displayname[$tableid]\" value=\"{$threadtable_info[$tableid]['displayname']}\">", $table_info['Rows'], $table_info['Data_length'], $table_info['Index_length'], $table_info['Create_time'], "<input type=\"text\" class=\"txt\" name=\"memo[$tableid]\" value=\"{$threadtable_info[$tableid]['memo']}\">", "<a href=\"?action=threadsplit&operation=droptable&tableid=$tableid\">{$lang['delete']}</a>"]);
 	}
 	showsubmit('threadsplit_update_submit', 'threadsplit_manage_update', '', '<a href="?action=threadsplit&operation=addnewtable" style="border-style: solid; border-width: 1px;" class="btn">'.$lang['threadsplit_manage_table_add'].'</a>&nbsp;<a href="?action=threadsplit&operation=forumarchive" style="border-style: solid; border-width: 1px;" class="btn">'.$lang['threadsplit_manage_forum_update'].'</a>');
 	showtablefooter();

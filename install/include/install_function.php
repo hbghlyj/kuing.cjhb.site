@@ -49,10 +49,10 @@ function show_msg($error_no, $error_msg = 'ok', $success = 1, $quit = TRUE) {
 		}
 
 		if($quit) {
-			echo '<br /><span class="red">'.lang('error_quit_msg').'</span><br /><br /><br />';
+			echo '<br><span class="red">'.lang('error_quit_msg').'</span><br><br><br>';
 		}
 
-		echo '<input type="button" class="btn oldbtn" onclick="history.back()" value="'.lang('click_to_back').'" />';
+		echo '<input type="button" class="btn oldbtn" onclick="history.back()" value="'.lang('click_to_back').'">';
 
 		echo '</div>';
 
@@ -390,7 +390,7 @@ EOT;
 
 function show_next_step($step, $error_code) {
 	echo "<form action=\"index.php\" method=\"post\">\n";
-	echo "<input type=\"hidden\" name=\"step\" value=\"$step\" />";
+	echo "<input type=\"hidden\" name=\"step\" value=\"$step\">";
 	if(isset($GLOBALS['hidden'])) {
 		echo $GLOBALS['hidden'];
 	}
@@ -746,21 +746,21 @@ function show_header() {
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="$charset" />
-<meta name="renderer" content="webkit" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="$charset">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>$title</title>
-<link rel="stylesheet" href="static/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="static/style.css" media="all">
 <script type="text/javascript">
 	function $(id) {
 		return document.getElementById(id);
 	}
 
 	function showmessage(message) {
-		document.getElementById('notice').innerHTML += message + '<br />';
+		document.getElementById('notice').innerHTML += message + '<br>';
 	}
 </script>
-<meta content="Discuz! Team" name="Copyright" />
+<meta content="Discuz! Team" name="Copyright">
 </head>
 <body>
 <div class="gear"></div>
@@ -1057,7 +1057,7 @@ function show_db_install($upgrade = false) {
 								window.location = 'index.php?method=ext_info';
 							}, 1000);
 						} else {
-							append_notice('<p class="red">' + data + '<br /><?= lang('error_quit_msg') ?></p>');
+							append_notice('<p class="red">' + data + '<br><?= lang('error_quit_msg') ?></p>');
 							add_instfail();
 						}
 						eventSource.close();
@@ -1265,7 +1265,7 @@ function getgpc($k, $t = 'GP') {
 }
 
 function var_to_hidden($k, $v) {
-	return "<input type=\"hidden\" name=\"$k\" value=\"$v\" />\n";
+	return "<input type=\"hidden\" name=\"$k\" value=\"$v\">\n";
 }
 
 function fsocketopen($hostname, $port = 80, &$errno = null, &$errstr = null, $timeout = 15) {
@@ -1458,7 +1458,7 @@ function show_error($type, $errors = '', $quit = false) {
 	}
 
 	if($quit) {
-		echo '<br /><span class="red">'.$lang['error_quit_msg'].'</span><br /><br /><br /><br /><br /><br />';
+		echo '<br><span class="red">'.$lang['error_quit_msg'].'</span><br><br><br><br><br><br>';
 	}
 
 	echo '</div>';
@@ -1688,9 +1688,9 @@ function save_diy_data($primaltplname, $targettplname, $data, $database = false)
 		$html .= '</div>';
 		$content = preg_replace("/(\<\!\-\-\[diy\=$key\]\-\-\>).+?(\<\!\-\-\[\/diy\]\-\-\>)/is", "\\1".$html."\\2", $content);
 	}
-	$content = preg_replace("/(\<style id\=\"diy_style\" type\=\"text\/css\"\>).*(\<\/style\>)/is", "\\1".$data['spacecss']."\\2", $content);
+	$content = preg_replace("/(\<style id\=\"diy_style\"\>).*(\<\/style\>)/is", "\\1".$data['spacecss']."\\2", $content);
 	if(!empty($data['style'])) {
-		$content = preg_replace("/(\<link id\=\"style_css\" rel\=\"stylesheet\" type\=\"text\/css\" href\=\").+?(\"\>)/is", "\\1".$data['style']."\\2", $content);
+		$content = preg_replace("/(\<link id\=\"style_css\" rel\=\"stylesheet\" href\=\").+?(\"\>)/is", "\\1".$data['style']."\\2", $content);
 	}
 
 	$tplfile = ROOT_PATH.'./data/diy/'.$tpldirectory.'/'.$targettplname.'.htm';
@@ -1809,7 +1809,7 @@ function gettitlehtml($title, $type) {
 		$margin_ = empty($v['float']) ? 'left' : $v['float'];
 		$style .= empty($v['margin']) ? '' : "margin-{$margin_}:{$v['margin']}px;";
 		$color = empty($v['color']) ? '' : "color:{$v['color']};";
-		$img = !empty($v['src']) ? '<img src="'.$v['src'].'" class="vm" alt="'.$v['text'].'"/>' : '';
+		$img = !empty($v['src']) ? '<img src="'.$v['src'].'" class="vm" alt="'.$v['text'].'">' : '';
 		if(empty($v['href'])) {
 			$style = empty($style) && empty($color) ? '' : ' style="'.$style.$color.'"';
 			$one .= $style.">$img{$v['text']}";

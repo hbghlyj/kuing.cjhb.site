@@ -90,7 +90,7 @@ class fp {
 		global $_G;
 		$styleid = $_G['style']['styleid'];
 		showsubmit('submit', 'submit', '',
-			'<input type="button" class="btn" value="'.cplang('add').'" onclick="location.href=\''.ADMINSCRIPT.'?action=forumportal&operation=add\'"/>'.
+			'<input type="button" class="btn" value="'.cplang('add').'" onclick="location.href=\''.ADMINSCRIPT.'?action=forumportal&operation=add\'">'.
 			'<a href="'.ADMINSCRIPT.'?action=cells&id='.$styleid.'&frames=yes&cellId=forum/portal/navlist" target="_blank">'.cplang('forumportal_edit_tpl_nav').'</a>&nbsp;&nbsp;'.
 			'<a href="'.ADMINSCRIPT.'?action=cells&id='.$styleid.'&frames=yes&cellId=forum/portal/threadlist" target="_blank">'.cplang('forumportal_edit_tpl_list').'</a>'
 		);

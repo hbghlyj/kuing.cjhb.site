@@ -10,12 +10,12 @@
 	<div class="txtlist cl"><div class="mtit cl">{lang trade_confirm_buy}</div></div>
 	<div class="plc p15 cl">
 		<form method="post" autocomplete="off" id="tradepost" name="tradepost" action="forum.php?mod=trade&action=trade&tid=$_G['tid']&pid=$pid">
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="xld cl">
 			<dl class="cl">
 				<dd class="m">
 					<!--{if $trade['aid']}-->
-						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade['tid']&pid=$trade['pid']"><img src="{echo getforumimg($trade['aid'])}" width="90" /></a>
+						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade['tid']&pid=$trade['pid']"><img src="{echo getforumimg($trade['aid'])}" width="90"></a>
 					<!--{else}-->
 						<a href="forum.php?mod=viewthread&do=tradeinfo&tid=$trade['tid']&pid=$trade['pid']"><div class="nophoto"></div></a>
 					<!--{/if}-->
@@ -44,7 +44,7 @@
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_nums}</div>
 				<div class="flex-2">
-					<input type="text" id="number" name="number" onkeyup="calcsum()" value="1" class="pt" />
+					<input type="text" id="number" name="number" onkeyup="calcsum()" value="1" class="pt">
 				</div>
 			</li>
 			<li class="flex-box mli">
@@ -60,17 +60,17 @@
 			<li class="flex-box mli mtext">
 				<!--{if !empty($trade['ordinaryfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['ordinaryfee'];calcsum()"{/if} />{lang post_trade_transport_mail} $trade['ordinaryfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['ordinaryfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['ordinaryfee'];calcsum()"{/if}>{lang post_trade_transport_mail} $trade['ordinaryfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['ordinaryfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 				<!--{if !empty($trade['expressfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['expressfee'];calcsum()"{/if} />{lang post_trade_transport_express} $trade['expressfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['expressfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['expressfee'];calcsum()"{/if}>{lang post_trade_transport_express} $trade['expressfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['expressfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 				<!--{if !empty($trade['emsfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['emsfee'];calcsum()"{/if} /> EMS $trade['emsfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['emsfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['emsfee'];calcsum()"{/if}> EMS $trade['emsfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['emsfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 			</li>
@@ -79,12 +79,12 @@
 				<div class="flex">{lang trade_paymethod}</div>
 				<div class="flex-2">
 				<!--{if !$_G['uid']}-->
-					<label><input type="hidden" name="offline" value="0" checked="checked" />{lang trade_pay_alipay}</label>
+					<label><input type="hidden" name="offline" value="0" checked="checked">{lang trade_pay_alipay}</label>
 				<!--{elseif !$trade['account'] && !$trade['tenpayaccount']}-->
-					<input type="hidden" name="offline" value="1" checked="checked" />{lang trade_pay_offline}
+					<input type="hidden" name="offline" value="1" checked="checked">{lang trade_pay_offline}
 				<!--{else}-->
-					<label><input type="radio" class="pr" name="offline" value="0" checked="checked" />{lang trade_pay_alipay}</label>
-					<label class="pl5"><input type="radio" class="pr" name="offline" value="1" />{lang trade_pay_offline}</label>
+					<label><input type="radio" class="pr" name="offline" value="0" checked="checked">{lang trade_pay_alipay}</label>
+					<label class="pl5"><input type="radio" class="pr" name="offline" value="1">{lang trade_pay_offline}</label>
 				<!--{/if}-->
 				</div>
 			</li>
@@ -92,39 +92,39 @@
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_buyername}</div>
 				<div class="flex-2">
-					<input type="text" id="buyername" name="buyername" maxlength="50" value="$lastbuyerinfo['buyername']" class="pt" />
+					<input type="text" id="buyername" name="buyername" maxlength="50" value="$lastbuyerinfo['buyername']" class="pt">
 				</div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_buyercontact}</div>
 				<div class="flex-2">
-					<input type="text" id="buyercontact" name="buyercontact" maxlength="100" value="$lastbuyerinfo['buyercontact']" class="pt" />
+					<input type="text" id="buyercontact" name="buyercontact" maxlength="100" value="$lastbuyerinfo['buyercontact']" class="pt">
 				</div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_buyerzip}</div>
 				<div class="flex-2">
-					<input type="text" id="buyerzip" name="buyerzip" maxlength="10" value="$lastbuyerinfo['buyerzip']" class="pt" />
+					<input type="text" id="buyerzip" name="buyerzip" maxlength="10" value="$lastbuyerinfo['buyerzip']" class="pt">
 				</div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_buyerphone}</div>
 				<div class="flex-2">
-					<input type="text" id="buyerphone" name="buyerphone" maxlength="20" value="$lastbuyerinfo['buyerphone']" class="pt" />
+					<input type="text" id="buyerphone" name="buyerphone" maxlength="20" value="$lastbuyerinfo['buyerphone']" class="pt">
 				</div>
 			</li>
 			<li class="flex-box mli">
 				<div class="flex">{lang trade_buyermobile}</div>
 				<div class="flex-2">
-					<input type="text" id="buyermobile" name="buyermobile" maxlength="20" value="$lastbuyerinfo['buyermobile']" class="pt" />
+					<input type="text" id="buyermobile" name="buyermobile" maxlength="20" value="$lastbuyerinfo['buyermobile']" class="pt">
 				</div>
 			</li>
 			<!--{else}-->
-			<input type="hidden" name="buyername" value="" />
-			<input type="hidden" name="buyercontact" value="" />
-			<input type="hidden" name="buyerzip" value="" />
-			<input type="hidden" name="buyerphone" value="" />
-			<input type="hidden" name="buyermobile" value="" />
+			<input type="hidden" name="buyername" value="">
+			<input type="hidden" name="buyercontact" value="">
+			<input type="hidden" name="buyerzip" value="">
+			<input type="hidden" name="buyerphone" value="">
+			<input type="hidden" name="buyermobile" value="">
 			<!--{/if}-->
 		</ul>
 		<div class="tip b0"><dt class="mpt"><textarea id="buyermsg" name="buyermsg" class="px pxbg" placeholder="{lang trade_seller_remark}"></textarea></dt></div>
@@ -165,7 +165,7 @@
 			<dl class="cl">
 				<dd class="m">
 					<a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}" class="tn" style="text-decoration:none !important;">
-						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60" /><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
+						<!--{if $usertrade['aid']}--><img src="{echo getforumimg($usertrade['aid'])}" width="60"><!--{else}--><div class="nophoto" style="width:60px;height:60px;line-height:60px;border:1px solid #EEE;"></div><!--{/if}-->
 					</a>
 				</dd>
 				<dt><a href="forum.php?mod=viewthread&tid=$usertrade['tid']&do=tradeinfo&pid=$usertrade['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}">$usertrade['subject']</a></dt>

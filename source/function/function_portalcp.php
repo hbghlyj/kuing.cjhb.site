@@ -60,13 +60,13 @@ function get_upload_content($attachs, $dotype = '') {
 			$html .= '<span class="opattach_ctrl">';
 			$html .= '<span onclick="insertImage(\''.$pic.'\');" class="cur1">'.lang('portalcp', 'insert_large_image').'</span><span class="pipe">|</span>';
 			if($small_pic) $html .= '<span onclick="insertImage(\''.$small_pic.'\', \''.$pic.'\');" class="cur1">'.lang('portalcp', 'small_image').'</span>';
-			$html .= '</span><img src="'.($small_pic ? $small_pic : $pic).'" onclick="insertImage(\''.$pic.'\');" class="cur1" /></a>';
+			$html .= '</span><img src="'.($small_pic ? $small_pic : $pic).'" onclick="insertImage(\''.$pic.'\');" class="cur1"></a>';
 			$html .= '<label for="setconver'.$attach['attachid'].'" class="cur1 xi2"><input type="radio" name="setconver" id="setconver'.$attach['attachid'].'" class="pr" value="1" onclick=setConver(\''.addslashes(serialize(['pic' => $type.'/'.$attach['attachment'], 'thumb' => $attach['thumb'], 'remote' => $attach['remote']])).'\') '.$check.'>'.lang('portalcp', 'set_to_conver').'</label>';
 			if($type == 'portal') {
 				$html .= '<span class="pipe">|</span><span class="cur1 xi2" onclick="deleteAttach(\''.$attach['attachid'].'\', \'portal.php?mod=attachment&id='.$attach['attachid'].'&aid='.$aid.'&op=delete&formhash='.FORMHASH.'\');">'.lang('portalcp', 'delete').'</span>';
 			}
 		} else {
-			$html .= '<img src="'.STATICURL.'image/editor/editor_file_thumb.png" class="cur1" onclick="insertFile(\''.$attach['filename'].'\', \'portal.php?mod=attachment&id='.$attach['attachid'].'\');" tip="'.$attach['filename'].'" onmouseover="showTip(this);" /><br/>';
+			$html .= '<img src="'.STATICURL.'image/editor/editor_file_thumb.png" class="cur1" onclick="insertFile(\''.$attach['filename'].'\', \'portal.php?mod=attachment&id='.$attach['attachid'].'\');" tip="'.$attach['filename'].'" onmouseover="showTip(this);"><br>';
 			$html .= '<span onclick="deleteAttach(\''.$attach['attachid'].'\', \'portal.php?mod=attachment&id='.$attach['attachid'].'&op=delete&formhash='.FORMHASH.'\');" class="cur1 xi2">'.lang('portalcp', 'delete').'</span>';
 		}
 		$html .= '</td>';
@@ -180,9 +180,9 @@ function save_diy_data($tpldirectory, $primaltplname, $targettplname, $data, $da
 	}
 	$data['spacecss'] = str_replace('.content', '.dxb_bc', $data['spacecss']);
 	$data['spacecss'] = trimdxtpllang($data['spacecss']);
-	$content = preg_replace("/(\<style id\=\"diy_style\" type\=\"text\/css\"\>).*?(\<\/style\>)/is", "\\1".$data['spacecss']."\\2", $content);
+	$content = preg_replace("/(\<style id\=\"diy_style\"\>).*?(\<\/style\>)/is", "\\1".$data['spacecss']."\\2", $content);
 	if(!empty($data['style'])) {
-		$content = preg_replace("/(\<link id\=\"style_css\" rel\=\"stylesheet\" type\=\"text\/css\" href\=\").+?(\"\>)/is", "\\1".$data['style']."\\2", $content);
+		$content = preg_replace("/(\<link id\=\"style_css\" rel\=\"stylesheet\" href\=\").+?(\"\>)/is", "\\1".$data['style']."\\2", $content);
 	}
 
 	$flag = $optype == 'savecache';
@@ -381,7 +381,7 @@ function gettitlehtml($title, $type) {
 		$margin_ = empty($v['float']) ? 'left' : $v['float'];
 		$style .= empty($v['margin']) ? '' : "margin-{$margin_}:{$v['margin']}px;";
 		$color = empty($v['color']) ? '' : "color:{$v['color']};";
-		$img = !empty($v['src']) ? '<img src="'.$v['src'].'" class="vm" alt="'.$v['text'].'"/>' : '';
+		$img = !empty($v['src']) ? '<img src="'.$v['src'].'" class="vm" alt="'.$v['text'].'">' : '';
 		if(empty($v['href'])) {
 			$style = empty($style) && empty($color) ? '' : ' style="'.$style.$color.'"';
 			$one .= $style.">$img{$v['text']}";

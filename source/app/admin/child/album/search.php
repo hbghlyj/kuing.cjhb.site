@@ -80,8 +80,8 @@ if(!$error) {
 			};
 			$album['friend'] = $album['friend'] ? " <a href=\"".ADMINSCRIPT."?action=album&friend={$album['friend']}\">$privacy_name</a>" : $privacy_name;
 			$albums .= showtablerow('', '', [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"ids[]\" value=\"{$album['albumid']}\" />",
-				"<a href=\"home.php?mod=space&uid={$album['uid']}&do=album&id={$album['albumid']}\" target=\"_blank\"><img src='{$album['pic']}' /></a>",
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"ids[]\" value=\"{$album['albumid']}\">",
+				"<a href=\"home.php?mod=space&uid={$album['uid']}&do=album&id={$album['albumid']}\" target=\"_blank\"><img src='{$album['pic']}'></a>",
 				"<a href=\"home.php?mod=space&uid={$album['uid']}&do=album&id={$album['albumid']}\" target=\"_blank\">{$album['albumname']}</a>",
 				"<a href=\"home.php?mod=space&uid={$album['uid']}\" target=\"_blank\">".$album['username'].'</a>',
 				$album['updatetime'], "<a href=\"".ADMINSCRIPT."?action=pic&albumid={$album['albumid']}\">".$album['picnum'].'</a>',
@@ -120,11 +120,11 @@ if($error) {
 		showsubtitle(['', 'albumpic', 'albumname', 'author', 'updatetime', 'pic_num', 'privacy']);
 		echo $albums;
 		$optypehtml = ''
-			.'<input type="radio" name="optype" id="optype_delete" value="delete" class="radio" /><label for="optype_delete">'.cplang('delete').'</label>&nbsp;&nbsp;';
-		$optypehtml .= '<input type="radio" name="optype" id="optype_move" value="move" class="radio" /><label for="optype_move">'.cplang('article_opmove').'</label> '
+			.'<input type="radio" name="optype" id="optype_delete" value="delete" class="radio"><label for="optype_delete">'.cplang('delete').'</label>&nbsp;&nbsp;';
+		$optypehtml .= '<input type="radio" name="optype" id="optype_move" value="move" class="radio"><label for="optype_move">'.cplang('article_opmove').'</label> '
 			.category_showselect('album', 'tocatid', false)
 			.'&nbsp;&nbsp;';
-		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="albumsubmit" value="'.cplang('submit').'" />', $multi);
+		showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'ids\')"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;'.$optypehtml.'<input type="submit" class="btn" name="albumsubmit" value="'.cplang('submit').'">', $multi);
 	} else {
 		showhiddenfields(['albumids' => authcode($albumids, 'ENCODE')]);
 		showsubmit('albumsubmit', 'delete', $detail ? 'del' : '', '', $multi);

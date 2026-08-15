@@ -158,7 +158,7 @@ if(rewriterulecheck('forum_viewthread')) {
 } else {
 	$canonical = 'forum.php?mod=viewthread&tid='.$_G['tid'].'&page='.$page;
 }
-$_G['setting']['seohead'] .= '<link href="'.$_G['siteurl'].$canonical.'" rel="canonical" />';
+$_G['setting']['seohead'] .= '<link href="'.$_G['siteurl'].$canonical.'" rel="canonical">';
 
 $_G['forum_tagscript'] = '';
 
@@ -1190,7 +1190,7 @@ function viewthread_baseinfo($post, $extra) {
 		if($field != 'qq') {
 			$v = profile_show($field, $post);
 		} elseif(!empty($post['qq'])) {
-			$v = '<a href="//wpa.qq.com/msgrd?v=3&uin='.$post['qq'].'&site='.$_G['setting']['bbname'].'&menu=yes&from=discuz" target="_blank" title="'.lang('spacecp', 'qq_dialog').'"><img src="'.STATICURL.'image/common/qq_big.gif" alt="QQ" style="margin:0px;"/></a>';
+			$v = '<a href="//wpa.qq.com/msgrd?v=3&uin='.$post['qq'].'&site='.$_G['setting']['bbname'].'&menu=yes&from=discuz" target="_blank" title="'.lang('spacecp', 'qq_dialog').'"><img src="'.STATICURL.'image/common/qq_big.gif" alt="QQ" style="margin:0px;"></a>';
 		}
 		if($v) {
 			if(!isset($_G['cache']['profilesetting'])) {
@@ -1199,9 +1199,9 @@ function viewthread_baseinfo($post, $extra) {
 			$v = $type ? $_G['cache']['profilesetting'][$field]['title'] : $v;
 		}
 	} elseif($key == 'eccredit_seller') {
-		$v = $type ? lang('space', 'viewthread_userinfo_sellercredit') : '<a href="home.php?mod=space&uid='.$post['uid'].'&do=trade&view=eccredit#buyercredit" target="_blank" class="vm"><img src="'.STATICURL.'image/traderank/seller/'.countlevel($post['buyercredit']).'.gif" /></a>';
+		$v = $type ? lang('space', 'viewthread_userinfo_sellercredit') : '<a href="home.php?mod=space&uid='.$post['uid'].'&do=trade&view=eccredit#buyercredit" target="_blank" class="vm"><img src="'.STATICURL.'image/traderank/seller/'.countlevel($post['buyercredit']).'.gif"></a>';
 	} elseif($key == 'eccredit_buyer') {
-		$v = $type ? lang('space', 'viewthread_userinfo_buyercredit') : '<a href="home.php?mod=space&uid='.$post['uid'].'&do=trade&view=eccredit#sellercredit" target="_blank" class="vm"><img src="'.STATICURL.'image/traderank/seller/'.countlevel($post['sellercredit']).'.gif" /></a>';
+		$v = $type ? lang('space', 'viewthread_userinfo_buyercredit') : '<a href="home.php?mod=space&uid='.$post['uid'].'&do=trade&view=eccredit#sellercredit" target="_blank" class="vm"><img src="'.STATICURL.'image/traderank/seller/'.countlevel($post['sellercredit']).'.gif"></a>';
 	} else {
 		$v = getLinkByKey($key, $post);
 		if($v !== '') {

@@ -8,7 +8,7 @@
 </div>
 
 <form class="searchform" method="post" autocomplete="off" action="misc.php?mod=tag">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
 	<div class="search flex-box">
 		<input value="$keyword" autocomplete="off" class="mtxt flex" name="name" id="scform_srchtxt" value="" placeholder="{lang mobsearchtxt}">
 		<input type="submit" value="{lang search}" class="mbtn" id="scform_submit">

@@ -55,7 +55,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	if(mb_strlen($commentmessage, 'UTF-8') > 200) {
 		showmessage('postcomment_too_long');
 	}
-	$comment = ($commentscore ? $commentscore.'<br />' : '').$commentmessage;
+	$comment = ($commentscore ? $commentscore.'<br>' : '').$commentmessage;
 	if(mb_strlen($comment, 'UTF-8') > 255) {
 		showmessage('postcomment_too_long');
 	}
@@ -112,7 +112,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		$totalcomment = [];
 		foreach(table_forum_postcomment::t()->fetch_all_by_pid_score($_GET['pid'], 1) as $comment) {
 			$comment['comment'] = addslashes($comment['comment']);
-			if(strexists($comment['comment'], '<br />')) {
+			if(strexists($comment['comment'], '<br>')) {
 				if(preg_match_all('/([^:]+?):\s<i>(\d+)<\/i>/', $comment['comment'], $a)) {
 					foreach($a[1] as $k => $itemk) {
 						$totalcomment[trim($itemk)][] = $a[2][$k];

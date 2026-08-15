@@ -75,8 +75,8 @@ $lang = array
 
 	'reason_ban_post'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was {modaction} by {actor} <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} {modaction} <div class="quote"><blockquote>{reason}</blockquote></div>',
 
-	'reason_warn_post'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was {modaction} by {actor}.<br />
-				If you were warned {warninglimit} times in {warningexpiration} days, you will be disabled to post {warningexpiration} days automatically.<br />
+	'reason_warn_post'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was {modaction} by {actor}.<br>
+				If you were warned {warninglimit} times in {warningexpiration} days, you will be disabled to post {warningexpiration} days automatically.<br>
 				Currently, you have been warned {authorwarnings} times!
 				<div class="quote"><blockquote>{reason}</blockquote></div>',
 
@@ -178,7 +178,7 @@ $lang = array
 
 	'poke_request'		=> '<a href="{fromurl}" class="xi2">{fromusername}</a> sent a greeting: <span class="xw0">{pokemsg}&nbsp;</span><a href="home.php?mod=spacecp&ac=poke&op=reply&uid={fromuid}&from=notice" id="a_p_r_{fromuid}" class="xw1" onclick="showWindow(this.id, this.href, \'get\', 0);">Reply the greeting</a><span class="pipe">|</span><a href="home.php?mod=spacecp&ac=poke&op=ignore&uid={fromuid}&from=notice" id="a_p_i_{fromuid}" onclick="showWindow(\'pokeignore\', this.href, \'get\', 0);">Ignore</a>',//'<a href="{fromurl}" class="xi2">{fromusername}</a>: <span class="xw0">{pokemsg}&nbsp;</span><a href="home.php?mod=spacecp&ac=poke&op=reply&uid={fromuid}&from=notice" id="a_p_r_{fromuid}" class="xw1" onclick="showWindow(this.id, this.href, \'get\', 0);">回打招呼</a><span class="pipe">|</span><a href="home.php?mod=spacecp&ac=poke&op=ignore&uid={fromuid}&from=notice" id="a_p_i_{fromuid}" onclick="showWindow(\'pokeignore\', this.href, \'get\', 0);">忽略</a>',
 
-	'profile_verify_error'		=> '{verify} data verification was rejected. The following fields need to be filled in:<br/>{profile}<br/>The reject reason: {reason}',//'{verify}资料审核被拒绝,以下字段需要重新填写:<br/>{profile}<br/>拒绝理由:{reason}',
+	'profile_verify_error'		=> '{verify} data verification was rejected. The following fields need to be filled in:<br>{profile}<br>The reject reason: {reason}',//'{verify}资料审核被拒绝,以下字段需要重新填写:<br>{profile}<br>拒绝理由:{reason}',
 	'profile_verify_pass'		=> 'Congratulations, your {verify} data was verified by ',//'恭喜你，你填写的{verify}资料审核通过了',
 	'profile_verify_pass_refusal'	=> 'Sorry, your {verify} data was rejected',//'很遗憾，你填写的{verify}资料审核被拒绝了',
 	'member_ban_speak'		=> 'You have been prohibited to speak (R/O) by {user} for the period of {day} days (0 means permanently). R/O reason: {reason}',//'你已被 {user} 禁止发言，期限：{day}天(0：代表永久禁言)，禁言理由：{reason}',
@@ -187,8 +187,8 @@ $lang = array
 	'member_follow'			=> 'There are {count} new feeds from people you follow. <a href="home.php?mod=follow">Click to view</a>',//'您关注的人已有{count}条新动态。<a href="home.php?mod=follow">Click to view</a>',
 	'member_follow_add'		=> '{actor} have followed to you. <a href="home.php?mod=follow&do=follower">Click to view</a>',//'{actor} 收听了你。<a href="home.php?mod=follow&do=follower">Click to view</a>',
 
-	'member_moderate_invalidate'	=> 'Your account was rejected by administrator, please <a href="home.php?mod=spacecp&ac=profile">resubmit your registration info</a>.<br />Administrator remark: <b>{remark}</b>',//'你的账号未能通过管理员的审核，请<a href="home.php?mod=spacecp&ac=profile">重新提交注册信息</a>。<br />管理员留言: <b>{remark}</b>',
-	'member_moderate_validate'	=> 'Your account has been approved.<br />Administrator remark: <b>{remark}</b>',//'你的账号已经通过审核。<br />管理员留言: <b>{remark}</b>',
+	'member_moderate_invalidate'	=> 'Your account was rejected by administrator, please <a href="home.php?mod=spacecp&ac=profile">resubmit your registration info</a>.<br>Administrator remark: <b>{remark}</b>',//'你的账号未能通过管理员的审核，请<a href="home.php?mod=spacecp&ac=profile">重新提交注册信息</a>。<br>管理员留言: <b>{remark}</b>',
+	'member_moderate_validate'	=> 'Your account has been approved.<br>Administrator remark: <b>{remark}</b>',//'你的账号已经通过审核。<br>管理员留言: <b>{remark}</b>',
 	'member_moderate_invalidate_no_remark'	=> 'Your account was rejected by administrator, please <a href="home.php?mod=spacecp&ac=profile">resubmit your registration info</a>.',//'你的账号未能通过管理员的审核，请<a href="home.php?mod=spacecp&ac=profile">重新提交注册信息</a>。',
 	'member_moderate_validate_no_remark'	=> 'Your account has been approved.',//'你的账号已经通过审核。',
 	'manage_verifythread'		=> 'New pending threads. <a href="admin.php?action=moderate&operation=threads&dateline=all">Verify now</a>',//'有新的待审核主题。<a href="admin.php?action=moderate&operation=threads&dateline=all">现在进行审核</a>',//'有新的待审核主题。<a href="admin.php?action=moderate&operation=threads&dateline=all">现在进行审核</a>',//'有新的待审核主题。<a href="admin.php?action=moderate&operation=threads&dateline=all">现在进行审核</a>',
@@ -207,7 +207,7 @@ $lang = array
 	'manage_verifytopiccommont'	=> 'New pending topic comments. <a href="admin.php?action=moderate&operation=topiccomments">Verify now</a>',//'有新的待审核专题评论。<a href="admin.php?action=moderate&operation=topiccomments">现在进行审核</a>',
 	'manage_verify_field'		=> 'New pending fields {verifyname}. <a href="admin.php?action=verify&operation=verify&do={doid}">Verify now</a>',//'有新的待处理{verifyname}。<a href="admin.php?action=verify&operation=verify&do={doid}">现在处理</a>',
 	'system_notice'			=> '{subject}<p class="summary">{message}</p>',
-	'system_adv_expiration'		=> 'The following ads on your site will be expired in {day} days. Please deal with:<br />{advs}',//'您站点的以下广告将于 {day} 天后到期，请及时处理：<br />{advs}',
+	'system_adv_expiration'		=> 'The following ads on your site will be expired in {day} days. Please deal with:<br>{advs}',//'您站点的以下广告将于 {day} 天后到期，请及时处理：<br>{advs}',
 	'report_change_credits'		=> '{actor} has deal with your report, your points bonus {creditchange}',//'{actor} 处理了你的举报，你的 {creditchange}',
 	'at_message'			=> '<a href="home.php?mod=space&uid={buyerid}">{buyer}</a> in the thread <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a> mentioned of your name <div class="quote"><blockquote>{message}</blockquote></div><a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">View now</a>.',//'<a href="home.php?mod=space&uid={buyerid}">{buyer}</a> 在主题 <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a> 中提到了你<div class="quote"><blockquote>{message}</blockquote></div><a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">现在去看看</a>。',
 	'new_report'			=> 'new report pending, <a href="admin.php?action=report">Click here to manage it</a>.',//'有新的举报等待处理，<a href="admin.php?action=report">点此进入后台处理</a>。',
@@ -216,7 +216,7 @@ $lang = array
 					<p class="summary">{actor} said: <span>{msg}</span></p>
 					<p class="mbn"><a href="home.php?mod=magic">Return the gift back!</a>
 					<span class="pipe">|</span><a href="home.php?mod=magic&action=mybox">View my magics</a></p>',
-	'invite_collection'		=> '{actor} invite you to join the collecton <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> work team.<br /><a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">Accept the invitation</a>',//'{actor} 邀请您参与维护淘专辑  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。<br /> <a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">接受邀请</a>',
+	'invite_collection'		=> '{actor} invite you to join the collecton <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> work team.<br><a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">Accept the invitation</a>',//'{actor} 邀请您参与维护淘专辑  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。<br> <a href="forum.php?mod=collection&action=edit&op=acceptinvite&ctid={ctid}&dateline={dateline}">接受邀请</a>',
 	'collection_removed'		=> 'Your participation in the collection <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> work team was canceled by {actor}.',//'您参与维护的淘专辑  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> 已被 {actor} 关闭。',
 	'exit_collection'		=> 'You have successfully exited from the collection <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> work team',//'您已经退出维护淘专辑  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a>。',
 	'collection_becommented'	=> 'Your collection <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> received new comment.',//'您的淘专辑  <a href="forum.php?mod=collection&action=view&ctid={ctid}">{collectionname}</a> 收到了新评论。',

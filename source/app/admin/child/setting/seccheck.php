@@ -107,7 +107,7 @@ if(submitcheck('settingsubmit')) {
 	echo <<<EOT
 	<script type="text/JavaScript">
 		var rowtypedata = [
-			[[1,'<input class="checkbox" type="checkbox" disabled /> <input name="newquestion[SC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[TC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[EN][]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
+			[[1,'<input class="checkbox" type="checkbox" disabled> <input name="newquestion[SC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[TC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[EN][]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
 		];
 		</script>
 	EOT;
@@ -145,7 +145,7 @@ if(submitcheck('settingsubmit')) {
 	$allowcode = !empty($setting['secqaa']['allowcode']) ? 'checked' : '';
 	echo showtablerow('class="hover"', [], [
 		'<a style="float:right" href="'.ADMINSCRIPT.'?action=setting&operation=seccheck_code" target="_blank">'.cplang('edit').'</a>'.
-		'<label><input class="checkbox" type="checkbox" value="1" name="settingnew[secqaa][allowcode]" '.$allowcode.' /> '.cplang('setting_sec_seccode').'</label>',
+		'<label><input class="checkbox" type="checkbox" value="1" name="settingnew[secqaa][allowcode]" '.$allowcode.'> '.cplang('setting_sec_seccode').'</label>',
 		'',
 	], true);
 
@@ -160,7 +160,7 @@ if(submitcheck('settingsubmit')) {
 	$allowqa = !empty($setting['secqaa']['allowqa']) ? 'checked' : '';
 
 	echo showtablerow('class="hover"', ['class="td26"'], [
-		'<label><input class="checkbox" type="checkbox" value="1" onclick="$(\'qalist\').style.display = this.checked ? \'\' : \'none\'" name="settingnew[secqaa][allowqa]" '.$allowqa.' /><b>'.cplang('setting_sec_secqaa_question').'</b></label>',
+		'<label><input class="checkbox" type="checkbox" value="1" onclick="$(\'qalist\').style.display = this.checked ? \'\' : \'none\'" name="settingnew[secqaa][allowqa]" '.$allowqa.'><b>'.cplang('setting_sec_secqaa_question').'</b></label>',
 		'',
 	], true);
 	showtablefooter();

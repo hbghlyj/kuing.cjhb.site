@@ -25,7 +25,7 @@ if(!submitcheck('cardsubmit', 1)) {
 	showtips('card_make_tips');
 	showtableheader();
 
-	showsetting('card_make_rule', '', '', '<input type="text" name="rule" class="txt" value="'.($card_log['rule']['rule'] ? $card_log['rule']['rule'] : '').'" onkeyup="javascript:checkcardrule(this);"><br /><span id="cardrule_view" class="tips2" style="display:none;"></span>');
+	showsetting('card_make_rule', '', '', '<input type="text" name="rule" class="txt" value="'.($card_log['rule']['rule'] ? $card_log['rule']['rule'] : '').'" onkeyup="javascript:checkcardrule(this);"><br><span id="cardrule_view" class="tips2" style="display:none;"></span>');
 	echo <<<EOT
 	<script type="text/javascript" charset="{$_G['charset']}">
 		function checkcardrule(obj) {

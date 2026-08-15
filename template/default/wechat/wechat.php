@@ -1,8 +1,8 @@
 <?php exit('Access Denied');?>
 <html lang="{echo lang_attr();}">
 <head>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 	<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}';</script>
 	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
@@ -47,7 +47,7 @@
 	<p style="color:#fff;font-size:28px;font-family:'microsoft yahei';"><!--{if $_G['uid']}-->{lang wechat_bind}<!--{else}-->{lang wechat_login}<!--{/if}--></p>
 	<div style="background:#fff;width:280px;">
 		<div id="login-url-qr" style="position: relative;">
-			<img src="misc.php?mod=wechat&ac=qrcode&authcode={$authcode}&formhash={FORMHASH}" width="250" height="250" style="padding:15px 0;"/>
+			<img src="misc.php?mod=wechat&ac=qrcode&authcode={$authcode}&formhash={FORMHASH}" width="250" height="250" style="padding:15px 0;">
 			<div id="login-url-qr-refresh" style="display: none;">
 				<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center;">
 					<div onclick="refreshQRCode()" style="width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center;">
@@ -59,8 +59,6 @@
 	</div>
 	<div style="width:280px;margin-top:15px;background-color:#232323;border-radius: 100px;color:#fff;
     box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;
-    -moz-box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;
-    -webkit-box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;
     ">
 		<p style="font-size:16px;line-height:22px;padding-top:10px;"><!--{if $_G['uid']}-->{lang wechat_bind_tip}<!--{else}-->{lang wechat_login_tip}<!--{/if}--></p>
 		<p style="font-size:16px;font-family:'microsoft yahei';line-height:18px;padding:10px 0;"><!--{if !empty($navtitle)}-->$navtitle<!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></p>

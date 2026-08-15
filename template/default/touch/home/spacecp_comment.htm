@@ -4,10 +4,10 @@
 	<div class="tip">
 		<div class="moodfm_post">
 			<form id="editcommentform_{$cid}" name="editcommentform_{$cid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=comment&op=edit&cid=$cid{if $_GET['modcommentkey']}&modcommentkey=$_GET['modcommentkey']{/if}">
-				<input type="hidden" name="referer" value="{echo dreferer()}" />
-				<input type="hidden" name="editsubmit" value="true" />
-				<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="referer" value="{echo dreferer()}">
+				<input type="hidden" name="editsubmit" value="true">
+				<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
+				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<div class="moodfm_text task_viewnr">
 					<textarea id="message_{$cid}" name="message" cols="70" rows="3" class="pts">$comment['message']</textarea>
 				</div>
@@ -27,10 +27,10 @@
 <!--{elseif $_GET['op'] == 'delete'}-->
 	<div class="tip">
 		<form id="deletecommentform_{$cid}" name="deletecommentform_{$cid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=comment&op=delete&cid=$cid">
-			<input type="hidden" name="referer" value="{echo dreferer()}" />
-			<input type="hidden" name="deletesubmit" value="true" />
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
+			<input type="hidden" name="referer" value="{echo dreferer()}">
+			<input type="hidden" name="deletesubmit" value="true">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
 			<dt>
 				<p>{lang delete_reply_message}</p>
 			</dt>
@@ -48,13 +48,13 @@
 <!--{elseif $_GET['op'] == 'reply'}-->
 	<div class="tip">
 		<form id="replycommentform_{$comment['cid']}" name="replycommentform_{$comment['cid']}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=comment">
-			<input type="hidden" name="referer" value="{echo dreferer()}" />
-			<input type="hidden" name="id" value="$cmt[id]" />
-			<input type="hidden" name="idtype" value="$cmt[idtype]" />
-			<input type="hidden" name="cid" value="$cmt['cid']" />
-			<input type="hidden" name="commentsubmit" value="true" />
-			<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<input type="hidden" name="referer" value="{echo dreferer()}">
+			<input type="hidden" name="id" value="$cmt[id]">
+			<input type="hidden" name="idtype" value="$cmt[idtype]">
+			<input type="hidden" name="cid" value="$cmt['cid']">
+			<input type="hidden" name="commentsubmit" value="true">
+			<!--{if $_G['inajax']}--><input type="hidden" name="handlekey" value="$_GET['handlekey']"><!--{/if}-->
+			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<div class="moodfm_text task_viewnr">
 				<textarea id="message_pop_{$comment['cid']}" name="message" class="pts" rows="3" cols="70"></textarea>
 			</div>

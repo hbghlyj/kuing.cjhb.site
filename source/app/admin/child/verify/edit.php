@@ -28,14 +28,14 @@ if(!submitcheck('verifysubmit')) {
 	if($verifyarr['icon']) {
 		$icon_url = parse_url($verifyarr['icon']);
 		$prefix = !$icon_url['host'] && !str_contains($verifyarr['icon'], $_G['setting']['attachurl'].'common/') ? $_G['setting']['attachurl'].'common/' : '';
-		$verificonhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon['.$vid.']" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$prefix.$verifyarr['icon'].'" />';
+		$verificonhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon['.$vid.']" value="yes"> '.$lang['delete'].'</label><br><img src="'.$prefix.$verifyarr['icon'].'">';
 	}
 	$unverifyiconhtml = '';
 	if($verifyarr['unverifyicon']) {
 		$unverifyiconurl = parse_url($verifyarr['unverifyicon']);
 
 		$prefix = !$unverifyiconurl['host'] && !str_contains($verifyarr['unverifyicon'], $_G['setting']['attachurl'].'common/') ? $_G['setting']['attachurl'].'common/' : '';
-		$unverifyiconhtml = '<label><input type="checkbox" class="checkbox" name="delunverifyicon['.$vid.']" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$prefix.$verifyarr['unverifyicon'].'" />';
+		$unverifyiconhtml = '<label><input type="checkbox" class="checkbox" name="delunverifyicon['.$vid.']" value="yes"> '.$lang['delete'].'</label><br><img src="'.$prefix.$verifyarr['unverifyicon'].'">';
 	}
 	showsetting('members_verify_showicon', 'verify[showicon]', $verifyarr['showicon'], 'radio', '', 1);
 	showsetting('members_unverify_icon', 'unverifyiconnew', (!$unverifyiconurl['host'] ? str_replace($_G['setting']['attachurl'].'common/', '', $verifyarr['unverifyicon']) : $verifyarr['unverifyicon']), 'filetext', '', 0, $unverifyiconhtml);

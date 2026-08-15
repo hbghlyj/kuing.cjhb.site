@@ -105,16 +105,16 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 		if($forums['type'] == 'group') {
 			$sgid = $forums['fid'];
 			$forumselect .= '</div><em class="cl">'.
-				'<span class="right"><input name="checkall_'.$forums['fid'].'" onclick="checkAll(\'value\', this.form, '.$forums['fid'].', \'checkall_'.$forums['fid'].'\')" type="checkbox" class="vmiddle checkbox" /></span>'.
-				'<span class="pointer" onclick="sdisplay(\'g_'.$forums['fid'].'\', this)"><img src="'.STATICURL.'image/admincp/desc.gif" class="vmiddle" /></span> <span class="pointer" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].'\'">'.$forums['name'].'</span></em><div id="g_'.$forums['fid'].'" style="display:">';
+				'<span class="right"><input name="checkall_'.$forums['fid'].'" onclick="checkAll(\'value\', this.form, '.$forums['fid'].', \'checkall_'.$forums['fid'].'\')" type="checkbox" class="vmiddle checkbox"></span>'.
+				'<span class="pointer" onclick="sdisplay(\'g_'.$forums['fid'].'\', this)"><img src="'.STATICURL.'image/admincp/desc.gif" class="vmiddle"></span> <span class="pointer" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].'\'">'.$forums['name'].'</span></em><div id="g_'.$forums['fid'].'" style="display:">';
 		} elseif($forums['type'] == 'forum') {
-			$forumselect .= '<input class="left checkbox ck" chkvalue="'.$sgid.'" name="multi[]" value="'.$forums['fid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'/><a class="f cl'.($checked ? ' current"' : '').'" href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].($mforum[0]['type'] != 'group' ? '&anchor=\'+currentAnchor' : '\'').'+\'&scrolltop=\'+scrollTopBody()">'.$forums['name'].'</a>';
+			$forumselect .= '<input class="left checkbox ck" chkvalue="'.$sgid.'" name="multi[]" value="'.$forums['fid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'><a class="f cl'.($checked ? ' current"' : '').'" href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].($mforum[0]['type'] != 'group' ? '&anchor=\'+currentAnchor' : '\'').'+\'&scrolltop=\'+scrollTopBody()">'.$forums['name'].'</a>';
 		} elseif($forums['type'] == 'sub') {
-			$forumselect .= '<input class="left checkbox ck" chkvalue="'.$sgid.'" name="multi[]" value="'.$forums['fid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'/><a class="s cl'.($checked ? ' current"' : '').'" href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].($mforum[0]['type'] != 'group' ? '&anchor=\'+currentAnchor' : '\'').'+\'&scrolltop=\'+scrollTopBody()">'.$forums['name'].'</a>';
+			$forumselect .= '<input class="left checkbox ck" chkvalue="'.$sgid.'" name="multi[]" value="'.$forums['fid'].'" type="checkbox" '.($checked ? 'checked="checked" ' : '').'><a class="s cl'.($checked ? ' current"' : '').'" href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=forums&operation=edit&switch=yes&fid='.$forums['fid'].($mforum[0]['type'] != 'group' ? '&anchor=\'+currentAnchor' : '\'').'+\'&scrolltop=\'+scrollTopBody()">'.$forums['name'].'</a>';
 		}
 	}
 	$forumselect = '<span id="fselect" class="right popupmenu_dropmenu" onmouseover="showMenu({\'ctrlid\':this.id,\'pos\':\'34\'});$(\'fselect_menu\').style.top=(parseInt($(\'fselect_menu\').style.top)-scrollTopBody())+\'px\';$(\'fselect_menu\').style.left=(parseInt($(\'fselect_menu\').style.left)-document.documentElement.scrollLeft-20)+\'px\'">'.cplang('forums_edit_switch').'<em>&nbsp;&nbsp;</em></span>'.
-		'<div id="fselect_menu" class="popupmenu_popup" style="display:none"><div class="fsel"><div>'.$forumselect.'</div></div><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('forums_multiedit').'" /></div></div>';
+		'<div id="fselect_menu" class="popupmenu_popup" style="display:none"><div class="fsel"><div>'.$forumselect.'</div></div><div class="cl"><input type="button" class="btn right" onclick="multiselect(\'menuform\')" value="'.cplang('forums_multiedit').'"></div></div>';
 
 	showformheader('', '', 'menuform', 'get');
 	showhiddenfields(['action' => 'forums', 'operation' => 'edit']);
@@ -166,9 +166,9 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 		foreach(table_forum_attachtype::t()->fetch_all_by_fid($fid) as $type) {
 			$type['maxsize'] = round($type['maxsize'] / 1024);
 			$attachtypes .= showtablerow('', ['class="td25"', 'class="td24"'], [
-				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$type['id']}\" />",
-				"<input type=\"text\" class=\"txt\" size=\"10\" name=\"extension[{$type['id']}]\" value=\"{$type['extension']}\" />",
-				"<input type=\"text\" class=\"txt\" size=\"15\" name=\"maxsize[{$type['id']}]\" value=\"{$type['maxsize']}\" />"
+				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$type['id']}\">",
+				"<input type=\"text\" class=\"txt\" size=\"10\" name=\"extension[{$type['id']}]\" value=\"{$type['extension']}\">",
+				"<input type=\"text\" class=\"txt\" size=\"15\" name=\"maxsize[{$type['id']}]\" value=\"{$type['maxsize']}\">"
 			], TRUE);
 		}
 	} else {
@@ -307,11 +307,11 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 					if($type['special']) {
 						$typeselected[3] = $forum['threadsorts']['show'][$type['typeid']] ? ' checked="checked"' : '';
 						$sortselect .= $showtype ? showtablerow('', ['class="td25"'], [
-							'<input type="checkbox" name="threadsortsnew[options][enable]['.$type['typeid'].']" value="1" class="checkbox"'.$enablechecked.' />',
+							'<input type="checkbox" name="threadsortsnew[options][enable]['.$type['typeid'].']" value="1" class="checkbox"'.$enablechecked.'>',
 							$type['name'],
 							$type['description'],
-							"<input class=\"checkbox\" type=\"checkbox\" name=\"threadsortsnew[options][show][{$type['typeid']}]\" value=\"3\" $typeselected[3] />",
-							"<input class=\"radio\" type=\"radio\" name=\"threadsortsnew[defaultshow]\" value=\"{$type['typeid']}\" ".($forum['threadsorts']['defaultshow'] == $type['typeid'] ? 'checked' : '').' />'
+							"<input class=\"checkbox\" type=\"checkbox\" name=\"threadsortsnew[options][show][{$type['typeid']}]\" value=\"3\" $typeselected[3]>",
+							"<input class=\"radio\" type=\"radio\" name=\"threadsortsnew[defaultshow]\" value=\"{$type['typeid']}\" ".($forum['threadsorts']['defaultshow'] == $type['typeid'] ? 'checked' : '').'>'
 						], TRUE) : '';
 					}
 
@@ -378,7 +378,7 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 					} else {
 						$forumicon = $_G['setting']['attachurl'].'common/'.$forum['icon'].'?'.random(6);
 					}
-					$forumiconhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$forumicon.'" /><br />';
+					$forumiconhtml = '<label><input type="checkbox" class="checkbox" name="deleteicon" value="yes"> '.$lang['delete'].'</label><br><img src="'.$forumicon.'"><br>';
 				}
 				showsetting('forums_edit_basic_icon', 'iconnew', $forum['icon'], 'filetext', '', 0, $forumiconhtml);
 				showsetting('forums_edit_basic_icon_width', 'extranew[iconwidth]', $forum['extra']['iconwidth'], 'text');
@@ -389,7 +389,7 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 					} else {
 						$forumbanner = $_G['setting']['attachurl'].'common/'.$forum['banner'].'?'.random(6);
 					}
-					$forumbannerhtml = '<label><input type="checkbox" class="checkbox" name="deletebanner" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$forumbanner.'" /><br />';
+					$forumbannerhtml = '<label><input type="checkbox" class="checkbox" name="deletebanner" value="yes"> '.$lang['delete'].'</label><br><img src="'.$forumbanner.'"><br>';
 				}
 				showsetting('forums_edit_basic_banner', 'bannernew', $forum['banner'], 'filetext', '', 0, $forumbannerhtml);
 			}
@@ -478,7 +478,7 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 					} else {
 						$replybgicon = $_G['setting']['attachurl'].'common/'.$forum['replybg'].'?'.random(6);
 					}
-					$replybghtml = '<label><input type="checkbox" class="checkbox" name="delreplybg" value="yes" /> '.$lang['delete'].'</label><br /><img src="'.$replybgicon.'" width="200px" />';
+					$replybghtml = '<label><input type="checkbox" class="checkbox" name="delreplybg" value="yes"> '.$lang['delete'].'</label><br><img src="'.$replybgicon.'" width="200px">';
 				}
 				showsetting('forums_edit_extend_reply_background', 'replybgnew', (!$replybgurl['host'] ? str_replace($_G['setting']['attachurl'].'common/', '', $forum['replybg']) : $forum['replybg']), 'filetext', '', 0, $replybghtml);
 			}
@@ -639,11 +639,11 @@ EOF;
 		var rowtypedata = [
 			[
 				[1,'', 'td25'],
-				[1,'<input type="text" size="2" name="newdisplayorder[]" value="0" />'],
-				[1,'<input type="text" name="newname[]" />'],
-				[1,'<input type="text" name="newicon[]" />'],
-				[1,'<input type="hidden" name="newenable[]" value="1"><input type="checkbox" class="checkbox" checked="checked" disabled />'],
-				[1,'<input type="hidden" name="newmoderators[]" value="0"><input type="checkbox" class="checkbox" disabled />'],
+				[1,'<input type="text" size="2" name="newdisplayorder[]" value="0">'],
+				[1,'<input type="text" name="newname[]">'],
+				[1,'<input type="text" name="newicon[]">'],
+				[1,'<input type="hidden" name="newenable[]" value="1"><input type="checkbox" class="checkbox" checked="checked" disabled>'],
+				[1,'<input type="hidden" name="newmoderators[]" value="0"><input type="checkbox" class="checkbox" disabled>'],
 				[1,'']
 			],
 			[

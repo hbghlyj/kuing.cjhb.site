@@ -164,7 +164,7 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 				$fids[] = $thread['fid'];
 				$thread['lastpost'] = dgmdate($thread['lastpost']);
 				$threads .= showtablerow('', ['class="td25"', '', '', '', '', ''], [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"tidarray[]\" value=\"{$thread['tid']}\" checked=\"checked\" />",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"tidarray[]\" value=\"{$thread['tid']}\" checked=\"checked\">",
 					"<a href=\"forum.php?mod=viewthread&tid={$thread['tid']}\" target=\"_blank\">{$thread['subject']}</a>",
 					"<a href=\"forum.php?mod=forumdisplay&fid={$thread['fid']}\" target=\"_blank\">{$_G['cache']['forums'][$thread['fid']]['name']}</a>",
 					"<a href=\"home.php?mod=space&uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a>",
@@ -198,13 +198,13 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 			$threadtable_orig = table_forum_thread::t()->gettablestatus();
 			$tableid = 0;
 
-			showtablerow('', ['class="td25"'], ["<input class=\"radio\" ".($_GET['sourcetableid'] == '0' ? 'disabled="disabled"' : '')." type=\"radio\" name=\"tableid\" value=\"0\" />", $threadtable_orig['Name'], $threadtable_orig['Rows'], $threadtable_orig['Data_length'], $threadtable_orig['Index_length'], $threadtable_orig['Create_time'], $threadtable_info[0]['memo']]);
+			showtablerow('', ['class="td25"'], ["<input class=\"radio\" ".($_GET['sourcetableid'] == '0' ? 'disabled="disabled"' : '')." type=\"radio\" name=\"tableid\" value=\"0\">", $threadtable_orig['Name'], $threadtable_orig['Rows'], $threadtable_orig['Data_length'], $threadtable_orig['Index_length'], $threadtable_orig['Create_time'], $threadtable_info[0]['memo']]);
 			foreach($threadtableids as $tableid) {
 				if($tableid) {
 					$tablename = "forum_thread_$tableid";
 					$tablestatus = table_forum_thread::t()->gettablestatus($tableid);
 
-					showtablerow('', [], ["<input class=\"radio\" ".($_GET['sourcetableid'] == $tableid ? 'disabled="disabled"' : '')." type=\"radio\" name=\"tableid\" value=\"$tableid\" />", $tablestatus['Name'].($threadtable_info[$tableid]['displayname'] ? ' ('.dhtmlspecialchars($threadtable_info[$tableid]['displayname']).')' : ''), $tablestatus['Rows'], $tablestatus['Data_length'], $tablestatus['Index_length'], $tablestatus['Create_time'], $threadtable_info[$tableid]['memo']]);
+					showtablerow('', [], ["<input class=\"radio\" ".($_GET['sourcetableid'] == $tableid ? 'disabled="disabled"' : '')." type=\"radio\" name=\"tableid\" value=\"$tableid\">", $tablestatus['Name'].($threadtable_info[$tableid]['displayname'] ? ' ('.dhtmlspecialchars($threadtable_info[$tableid]['displayname']).')' : ''), $tablestatus['Rows'], $tablestatus['Data_length'], $tablestatus['Index_length'], $tablestatus['Create_time'], $threadtable_info[$tableid]['memo']]);
 				}
 			}
 
@@ -223,7 +223,7 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 			showtableheader('');
 			showsetting('threadsplit_move_threads_per_time', 'threads_per_time', 200, 'text');
 			showtablefooter();
-			showsubmit('threadsplit_move_submit', 'submit', $_GET['detail'] ? '<input name="chkall" id="chkall" type="checkbox" class="checkbox" checked="checked" onclick="checkAll(\'prefix\', this.form, \'tidarray\', \'chkall\')" /><label for="chkall">'.cplang('select_all').'</label>' : '', '', $multi);
+			showsubmit('threadsplit_move_submit', 'submit', $_GET['detail'] ? '<input name="chkall" id="chkall" type="checkbox" class="checkbox" checked="checked" onclick="checkAll(\'prefix\', this.form, \'tidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>' : '', '', $multi);
 
 		}
 		showformfooter();

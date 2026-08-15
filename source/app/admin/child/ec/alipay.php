@@ -66,7 +66,7 @@ if(!submitcheck('alipaysubmit')) {
 	showtagfooter('tbody');
 
 	showsetting('ec_alipay_check', '', '',
-		'<a href="'.ADMINSCRIPT.'?action=ec&operation=alipay&checktype=credit" target="_blank">'.$lang['ec_alipay_checklink_credit'].'</a><br />'
+		'<a href="'.ADMINSCRIPT.'?action=ec&operation=alipay&checktype=credit" target="_blank">'.$lang['ec_alipay_checklink_credit'].'</a><br>'
 	);
 	/*search*/
 	showtableheader('', 'notop');

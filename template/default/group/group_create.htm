@@ -6,15 +6,15 @@
 	</div>
 	<div class="bm_c">
 		<form method="post" autocomplete="off" name="groupform" id="groupform" class="s_clear" onsubmit="checkCategory();ajaxpost('groupform', 'returnmessage4', 'returnmessage4', 'onerror');return false;" action="forum.php?mod=group&action=create">
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="referer" value="{echo dreferer()}" />
-			<input type="hidden" name="handlekey" value="creategroup" />
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="referer" value="{echo dreferer()}">
+			<input type="hidden" name="handlekey" value="creategroup">
 			<table class="tfm cp0" summary="{lang group_create}">
 				<tbody>
 					<tr>
 						<th>&nbsp;</th>
 						<td>
-							<style type="text/css">
+							<style>
 								#returnmessage4 { display: none; color: {$_G['style']['noticetext']}; font-weight: bold; }
 								#returnmessage4.onerror { display: block; }
 							</style>
@@ -24,7 +24,7 @@
 					<tr>
 						<th><strong class="rq y">*</strong>{lang group_name}:</th>
 						<td>
-							<input type="text" name="name" id="name" class="px" size="36" value="" autocomplete="off" onBlur="checkgroupname()" />
+							<input type="text" name="name" id="name" class="px" size="36" value="" autocomplete="off" onBlur="checkgroupname()">
 							<span id="groupnamecheck" class="xi1"></span>
 						</td>
 					</tr>
@@ -62,16 +62,16 @@
 					<tr>
 						<th><strong class="rq y">*</strong>{lang group_perm_visit}:</th>
 						<td>
-							<label class="lb"><input type="radio" name="gviewperm" class="pr" value="1" checked="checked" />{lang group_perm_all_user}</label>
-							<label class="lb"><input type="radio" name="gviewperm" class="pr" value="0" />{lang group_perm_member_only}</label>
+							<label class="lb"><input type="radio" name="gviewperm" class="pr" value="1" checked="checked">{lang group_perm_all_user}</label>
+							<label class="lb"><input type="radio" name="gviewperm" class="pr" value="0">{lang group_perm_member_only}</label>
 						</td>
 					</tr>
 					<tr>
 						<th><strong class="rq y">*</strong>{lang group_join_type}:</th>
 						<td>
-							<label class="lb"><input type="radio" name="jointype" class="pr" value="0" checked="checked" />{lang group_join_type_free}</label>
-							<label class="lb"><input type="radio" name="jointype" class="pr" value="2" />{lang group_join_type_moderate}</label>
-							<label class="lb"><input type="radio" name="jointype" class="pr" value="1" />{lang group_join_type_invite}</label>
+							<label class="lb"><input type="radio" name="jointype" class="pr" value="0" checked="checked">{lang group_join_type_free}</label>
+							<label class="lb"><input type="radio" name="jointype" class="pr" value="2">{lang group_join_type_moderate}</label>
+							<label class="lb"><input type="radio" name="jointype" class="pr" value="1">{lang group_join_type_invite}</label>
 						</td>
 					</tr>
 					<tr>

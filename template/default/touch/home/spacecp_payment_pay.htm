@@ -7,9 +7,9 @@
 </div>
 <form id="addfundsbuyform" name="addfundsbuyform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=payment&op=pay">
 	<input type="hidden" name="order_id" value="{$order['id']}">
-	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="paysubmit" value="true" />
-	<input type="hidden" name="handlekey" value="payment" />
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="paysubmit" value="true">
+	<input type="hidden" name="handlekey" value="payment">
 	<div class="m15 pl5"><b>{lang payment_pay_order_info}</b></div>
 	<div class="dzcell-group dzcell-group-inset">
 		<div class="dzcell-item">
@@ -41,7 +41,7 @@
 		<!--{loop $pay_channel_list $index $channel}-->
 		<div class="dzcell-item">
 			<div class="dzcell-title flex-box align-items-center">
-				<img src="$channel['logo']" />
+				<img src="$channel['logo']">
 			</div>
 			<div class="dzcell-value flex-box align-items-center justify-content-end">
 				<input <!--{if !$index}-->checked<!--{/if}--> name="pay_channel" type="radio" value="{$channel['id']}">

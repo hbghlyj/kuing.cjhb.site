@@ -61,7 +61,7 @@ if(!submitcheck('smiliessubmit')) {
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"availablenew[{$type['typeid']}]\" value=\"1\" ".($type['available'] ? 'checked' : '').'>',
 			"<input type=\"text\" class=\"txt\" name=\"namenew[{$type['typeid']}]\" value=\"{$type['name']}\" size=\"15\">",
 			$type['directory'] != ':emoji' ? "./static/image/smiley/{$type['directory']}" : '',
-			"$smiliesnum<input type=\"hidden\" name=\"smiliesnum[{$type['typeid']}]\" value=\"$smiliesnum\" />",
+			"$smiliesnum<input type=\"hidden\" name=\"smiliesnum[{$type['typeid']}]\" value=\"$smiliesnum\">",
 			($type['directory'] != ':emoji' ? "<a href=\"".ADMINSCRIPT."?action=smilies&operation=update&id={$type['typeid']}\" class=\"act\" onclick=\"return confirm('{$lang['smilies_update_confirm1']}{$type['directory']}{$lang['smilies_update_confirm2']}{$type['name']}{$lang['smilies_update_confirm3']}')\">{$lang['smilies_update']}</a>&nbsp;".
 			"<a href=\"".ADMINSCRIPT."?action=smilies&operation=export&id={$type['typeid']}\" class=\"act\">{$lang['export']}</a>&nbsp;" : '').
 			"<a href=\"".ADMINSCRIPT."?action=smilies&operation=edit&id={$type['typeid']}\" class=\"act\">{$lang['detail']}</a>"
@@ -86,11 +86,11 @@ if(!submitcheck('smiliessubmit')) {
 			}
 			showtablerow('', ['class="td25"', 'class="td28"'], [
 				($lang['add_new']),
-				'<input type="text" class="txt" name="newdisplayorder['.$dirnum.']" value="'.($smtypes + $dirnum + 1).'" size="2" />',
-				'<input class="checkbox" type="checkbox" name="newavailable['.$dirnum.']" value="1"'.($smnums ? ' checked="checked"' : ' disabled="disabled"').' />',
-				'<input type="text" class="txt" name="newname['.$dirnum.']" value="" size="15" />',
+				'<input type="text" class="txt" name="newdisplayorder['.$dirnum.']" value="'.($smtypes + $dirnum + 1).'" size="2">',
+				'<input class="checkbox" type="checkbox" name="newavailable['.$dirnum.']" value="1"'.($smnums ? ' checked="checked"' : ' disabled="disabled"').'>',
+				'<input type="text" class="txt" name="newname['.$dirnum.']" value="" size="15">',
 				'./static/image/smiley/'.$entry.'<input type="hidden" name="newdirectory['.$dirnum.']" value="'.$entry.'">',
-				"$smnums<input type=\"hidden\" name=\"smnums[$dirnum]\" value=\"$smnums\" />",
+				"$smnums<input type=\"hidden\" name=\"smnums[$dirnum]\" value=\"$smnums\">",
 				$smilies,
 				'',
 				''

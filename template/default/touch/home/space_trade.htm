@@ -113,7 +113,7 @@
 	<!--{loop $tradeloglist $tradelog}-->
 		<li class="cl">
 			<div class="mimg">
-				<a href="forum.php?mod=trade&orderid=$tradelog['orderid']"><!--{if $tradelog['aid']}--><img src="{echo getforumimg($tradelog['aid'])}" /><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
+				<a href="forum.php?mod=trade&orderid=$tradelog['orderid']"><!--{if $tradelog['aid']}--><img src="{echo getforumimg($tradelog['aid'])}"><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
 			</div>
 			<div class="minfo">
 				<p class="mtit"><a href="forum.php?mod=trade&orderid=$tradelog['orderid']">$tradelog['subject']</a></p>
@@ -172,7 +172,7 @@
 	<!--{loop $list $key $value}-->
 		<li>
 			<div class="mimg">
-				<a href="forum.php?mod=viewthread&tid=$value['tid']&do=tradeinfo&pid=$value['pid']" target="_blank"><!--{if $value['aid']}--><img src="{echo getforumimg($value['aid'])}" /><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
+				<a href="forum.php?mod=viewthread&tid=$value['tid']&do=tradeinfo&pid=$value['pid']" target="_blank"><!--{if $value['aid']}--><img src="{echo getforumimg($value['aid'])}"><!--{else}--><div class="nophoto"></div><!--{/if}--></a>
 			</div>
 			<div class="minfo">
 				<p class="mtit"><a href="forum.php?mod=viewthread&tid=$value['tid']&do=tradeinfo&pid=$value['pid']" target="_blank">$value['subject']</a></p>

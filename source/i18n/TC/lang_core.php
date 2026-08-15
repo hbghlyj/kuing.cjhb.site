@@ -48,11 +48,11 @@ $lang =
 	'portal' => '門戶',
 	'end' => '末尾',
 
-	'seccode_image_tips' => '輸入下圖中的字符<br />',
-	'seccode_image_shuffer_tips' => '按照“紅黃藍綠”的順序輸入字符<br />',
-	'seccode_image_ani_tips' => '請輸入下面動畫圖片中的字符<br />',
-	'seccode_sound_tips' => '輸入您聽到的字符<br />',
-	'secqaa_tips' => '輸入下面問題的答案<br />',
+	'seccode_image_tips' => '輸入下圖中的字符<br>',
+	'seccode_image_shuffer_tips' => '按照“紅黃藍綠”的順序輸入字符<br>',
+	'seccode_image_ani_tips' => '請輸入下面動畫圖片中的字符<br>',
+	'seccode_sound_tips' => '輸入您聽到的字符<br>',
+	'secqaa_tips' => '輸入下面問題的答案<br>',
 
 	'fullblankspace' => '　',
 

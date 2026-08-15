@@ -12,7 +12,7 @@
 			<!--{if strstr($_G['forum']['icon'],'groupicon.gif')}-->
 			<svg width="48" height="50"><path fill="#{if $val['folder']}fdc910{else}c9c9c9{/if}" d="M48 20C48 9 37.3 0 24 0S0 8.9 0 20s10.7 20 24 20c2.4 0 4.7-.3 6.8-.8L42 44l-2.8-8.5C44.6 31.8 48 26.2 48 20z"/></svg>
 			<!--{else}-->
-			<img src="$_G['forum']['icon']" />
+			<img src="$_G['forum']['icon']">
 			<!--{/if}-->
 			<!--{if helper_access::check_module('group') && $status != 'isgroupuser'}-->
 				<!--{if $status != 3 && $status != 5}-->

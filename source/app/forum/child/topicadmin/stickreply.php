@@ -33,7 +33,7 @@ if(!submitcheck('modsubmit')) {
 
 	$stickpid = '';
 	foreach($sticktopiclist as $id => $postnum) {
-		$stickpid .= '<input type="hidden" name="topiclist[]" value="'.dintval($id).'" />';
+		$stickpid .= '<input type="hidden" name="topiclist[]" value="'.dintval($id).'">';
 	}
 
 	include template('forum/topicadmin_action');

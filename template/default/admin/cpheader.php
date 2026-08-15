@@ -8,8 +8,8 @@
 	<meta name="renderer" content="webkit">
 	<meta name="color-scheme" content="light dark">
 	{template admin/rootcolor}
-	<link href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" rel="stylesheet" />
-	<link href="{$staticurl}image/admincp/admincppage.css?{$_G['style']['verhash']}" rel="stylesheet" />
+	<link href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" rel="stylesheet">
+	<link href="{$staticurl}image/admincp/admincppage.css?{$_G['style']['verhash']}" rel="stylesheet">
 	$pagecss
 </head>
 <body{if $_G['cookie']['darkmode'] == 'd'} class="st-d"{/if}>

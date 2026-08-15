@@ -90,7 +90,7 @@ if(!$error) {
 		if($postlist) {
 			foreach($postlist as $post) {
 				$posts .= showtablerow('', '', [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"pidarray[]\" value=\"{$post['pid']}\" checked />",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"pidarray[]\" value=\"{$post['pid']}\" checked>",
 					"<a href=\"forum.php?mod=redirect&goto=findpost&pid={$post['pid']}&ptid={$post['tid']}\" target=\"_blank\">{$post['subject']}</a>",
 					$post['message'],
 					"<a href=\"forum.php?mod=forumdisplay&fid={$post['fid']}\" target=\"_blank\">".$forumnames[$post['fid']].'</a>',
@@ -131,8 +131,8 @@ if($error) {
 	}
 }
 
-showsubmit('prunesubmit', 'submit', $_GET['detail'] ? '<input type="checkbox" name="chkall" id="chkall" class="checkbox" checked onclick="checkAll(\'prefix\', this.form, \'pidarray\')" /><label for="chkall">'.cplang('del').'</label>' : '',
-	'<input class="checkbox" type="checkbox" name="donotupdatemember" id="donotupdatemember" value="1" checked="checked" /><label for="donotupdatemember"> '.cplang('prune_no_update_member').'</label>', $multi);
+showsubmit('prunesubmit', 'submit', $_GET['detail'] ? '<input type="checkbox" name="chkall" id="chkall" class="checkbox" checked onclick="checkAll(\'prefix\', this.form, \'pidarray\')"><label for="chkall">'.cplang('del').'</label>' : '',
+	'<input class="checkbox" type="checkbox" name="donotupdatemember" id="donotupdatemember" value="1" checked="checked"><label for="donotupdatemember"> '.cplang('prune_no_update_member').'</label>', $multi);
 showtablefooter();
 showformfooter();
 echo '<iframe name="pruneframe" style="display:none"></iframe>';

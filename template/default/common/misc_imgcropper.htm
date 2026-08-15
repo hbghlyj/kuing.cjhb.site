@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="{echo lang_attr();}">
 	<head>
-		<meta charset="{CHARSET}" />
-		<meta name="renderer" content="webkit" />
+		<meta charset="{CHARSET}">
+		<meta name="renderer" content="webkit">
 		<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 
 		<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]';</script>
@@ -11,7 +11,7 @@
 		<script src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
 		<script src="{$_G[setting][jspath]}imgcropper.js?{VERHASH}"></script>
 
-		<style type="text/css">
+		<style>
 			body{margin: 0; padding: 0}
 			#rightDown{
 				position:absolute;
@@ -56,21 +56,21 @@
 
 		<form method="post" autocomplete="off" id="groupnameform_" name="groupnameform_" action="misc.php?mod=imgcropper" {if $_G[inajax]}onsubmit="ajaxpost(this.id, 'return_$_GET[handlekey]');"{/if}>
 			<input type="hidden" name="referer" value="{echo dreferer()}">
-			<input type="hidden" name="imgcroppersubmit" value="true" />
-			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-			<input type="hidden" name="formhash" value="{FORMHASH}" />
-			<input type="hidden" name="cutleft" id="cutleft" value="0" />
-			<input type="hidden" name="cuttop" id="cuttop" value="0" />
-			<input type="hidden" name="cutwidth" id="cutwidth" value="0" />
-			<input type="hidden" name="cutheight" id="cutheight" value="0" />
-			<input type="hidden" name="picwidth" id="picwidth" value="0" />
-			<input type="hidden" name="picheight" id="picheight" value="0" />
-			<input type="hidden" name="cutimg" value="$_GET['img']" />
+			<input type="hidden" name="imgcroppersubmit" value="true">
+			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="cutleft" id="cutleft" value="0">
+			<input type="hidden" name="cuttop" id="cuttop" value="0">
+			<input type="hidden" name="cutwidth" id="cutwidth" value="0">
+			<input type="hidden" name="cutheight" id="cutheight" value="0">
+			<input type="hidden" name="picwidth" id="picwidth" value="0">
+			<input type="hidden" name="picheight" id="picheight" value="0">
+			<input type="hidden" name="cutimg" value="$_GET['img']">
 			<!--{if $_GET['ictype'] == 'block'}-->
-			<input type="hidden" name="bid" value="$_GET[bid]" />
-			<input type="hidden" name="picflag" value="$_GET[picflag]" />
+			<input type="hidden" name="bid" value="$_GET[bid]">
+			<input type="hidden" name="picflag" value="$_GET[picflag]">
 			<!--{/if}-->
-			<input type="hidden" name="ictype" value="$_GET[ictype]" />
+			<input type="hidden" name="ictype" value="$_GET[ictype]">
 			<div class="c">
 				<iframe src="misc.php?mod=imgcropper&op=loadcropper&img={$prefix}{$_GET['img']}&width=$_GET['width']&height=$_GET['height']" id="cropperiframe" frameborder="0" scrolling="no" marginwidth="0" onload="setWinHeight(this)"></iframe>
 			</div>

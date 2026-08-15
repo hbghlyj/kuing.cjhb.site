@@ -44,9 +44,9 @@ if(empty($_GET['blockclass'])) {
 			</tr>
 			<tr>
 				<td class="vtop rowform">
-					<input type="hidden" name="action" value="blockstyle" />
-					<input type="hidden" name="operation" value="add" />
-					<div class="fixsel"><input type="submit" value="$lang_submit" class="btn" /></div>
+					<input type="hidden" name="action" value="blockstyle">
+					<input type="hidden" name="operation" value="add">
+					<div class="fixsel"><input type="submit" value="$lang_submit" class="btn"></div>
 				</td>
 			</tr>
 		</table>
@@ -123,21 +123,21 @@ BLOCKCLASSSEL;
 			$template .= $value['name'].': <a href="###" onclick="insertunit($(\'jstemplate\'), \'{'.$key.'}\')">{'.$key.'}</a>';
 		}
 	}
-	$template .= '<br />';
+	$template .= '<br>';
 	$template .= cplang('blockstyle_add_loop').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'[loop]\n\n[/loop]\')">[loop]...[/loop]</a>';
 	$template .= cplang('blockstyle_add_order').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'[order=N]\n\n[/order]\')">[order=N]...[/order]</a>';
 	$template .= cplang('blockstyle_add_index').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'[index=N]\n\n[/index]\')">[index=N]...[/index]</a>';
 	$template .= cplang('blockstyle_add_urltitle').': <a href="###" onclick=\'insertunit($("jstemplate"), "<a href=\"{url}\"{target}>{title}</a>")\'>&lt;a href=...</a>';
-	$template .= cplang('blockstyle_add_picthumb').': <a href="###" onclick=\'insertunit($("jstemplate"), "<img src=\"{pic}\" width=\"{picwidth}\" height=\"{picheight}\" />")\'>&lt;img src=...&gt;</a>';
+	$template .= cplang('blockstyle_add_picthumb').': <a href="###" onclick=\'insertunit($("jstemplate"), "<img src=\"{pic}\" width=\"{picwidth}\" height=\"{picheight}\">")\'>&lt;img src=...&gt;</a>';
 	if(in_array($_GET['blockclass'], ['forum_thread', 'portal_article', 'group_thread'], true)) {
 		$template .= cplang('blockstyle_add_moreurl').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'{moreurl}\')">{moreurl}</a>';
 	}
 	$template .= cplang('blockstyle_add_currentorder').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'{currentorder}\')">{currentorder}</a>';
 	$template .= cplang('blockstyle_add_parity').': <a href="###" onclick="insertunit($(\'jstemplate\'), \'{parity}\')">{parity}</a>';
-	$template .= '</div><br />';
+	$template .= '</div><br>';
 	$template .= '<textarea cols="100" rows="5" id="jstemplate" name="template" style="width: 95%;" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)">'.$thestyle['template'].'</textarea>';
-	$template .= '<input type="hidden" name="preview" value="0" /><input type="hidden" name="stylesubmit" value="1" />';
-	$template .= '<br /><!--input type="button" class="btn" onclick="this.form.preview=\'1\';this.form.submit()" value="'.$lang['preview'].'">&nbsp; &nbsp;--><input type="submit" class="btn" style="margin-left: 0px;" value="'.$lang['submit'].'"></div>';
+	$template .= '<input type="hidden" name="preview" value="0"><input type="hidden" name="stylesubmit" value="1">';
+	$template .= '<br><!--input type="button" class="btn" onclick="this.form.preview=\'1\';this.form.submit()" value="'.$lang['preview'].'">&nbsp; &nbsp;--><input type="submit" class="btn" style="margin-left: 0px;" value="'.$lang['submit'].'"></div>';
 	echo '<div class="colorbox" style="padding-bottom: 10px;">';
 	echo '<div class="extcredits">';
 	echo $template;

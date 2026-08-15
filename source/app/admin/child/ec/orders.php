@@ -69,7 +69,7 @@ if(!submitcheck('ordersubmit')) {
 					$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_auto_finished'].'</b>';
 					break;
 				case 3:
-					$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_manual_finished'].'</b><br />(<a href="home.php?mod=space&username='.rawurlencode($order['admin']).'" target="_blank">'.$order['admin'].'</a>)';
+					$order['orderstatus'] = '<b>'.$lang['ec_orders_search_status_manual_finished'].'</b><br>(<a href="home.php?mod=space&username='.rawurlencode($order['admin']).'" target="_blank">'.$order['admin'].'</a>)';
 					break;
 			}
 			$order['submitdate'] = dgmdate($order['submitdate']);
@@ -80,7 +80,7 @@ if(!submitcheck('ordersubmit')) {
 			$orderid = '<a href="'.$orderurl[$apitype].$orderid.'" target="_blank">'.$orderid.'</a>';
 			showtablerow('', '', [
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"validate[]\" value=\"{$order['orderid']}\" ".($order['status'] != 1 ? 'disabled' : '').'>',
-				"{$order['orderid']}<br />$orderid",
+				"{$order['orderid']}<br>$orderid",
 				$order['orderstatus'],
 				"<a href=\"home.php?mod=space&uid={$order['uid']}\" target=\"_blank\">{$order['username']}</a>",
 				"{$_G['setting']['extcredits'][$_G['setting']['creditstrans']]['title']} {$order['amount']} {$_G['setting']['extcredits'][$_G['setting']['creditstrans']]['unit']}",
@@ -90,7 +90,7 @@ if(!submitcheck('ordersubmit')) {
 			]);
 		}
 
-		showsubmit('ordersubmit', 'submit', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'validate\')" /><label for="chkall">'.cplang('ec_orders_validate').'</label>', '<a href="#" onclick="$(\'orderlist\').style.display=\'none\';$(\'ordersearch\').style.display=\'\';">'.cplang('research').'</a>', $multipage);
+		showsubmit('ordersubmit', 'submit', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'validate\')"><label for="chkall">'.cplang('ec_orders_validate').'</label>', '<a href="#" onclick="$(\'orderlist\').style.display=\'none\';$(\'ordersearch\').style.display=\'\';">'.cplang('research').'</a>', $multipage);
 		showtablefooter();
 		showformfooter();
 		showtagfooter('div');

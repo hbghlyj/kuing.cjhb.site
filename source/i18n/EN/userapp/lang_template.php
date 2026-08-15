@@ -36,10 +36,10 @@ $lang = array (
 	'my'			=> 'My',//'我的',
 	'remove'		=> 'Remove',//'移除',
 	'remove_app'		=> 'Remove Application',//'移除$_G[setting][navs][5][navname]',
-	'remove_app_message'	=> 'After removed, the application will not displayed at your personal page, the start menu, and manage my applications.<br/>To display this application later, you have to add it again.<br>Sure to continue?',//'移除后，你的个人主页、开始菜单、管理我的应用<br/>将不会显示此应用，你以后需要重新添加才能使用。<br>确定继续吗？',
+	'remove_app_message'	=> 'After removed, the application will not displayed at your personal page, the start menu, and manage my applications.<br>To display this application later, you have to add it again.<br>Sure to continue?',//'移除后，你的个人主页、开始菜单、管理我的应用<br>将不会显示此应用，你以后需要重新添加才能使用。<br>确定继续吗？',
 	'save_settings'		=> 'Save',//'保存设置',
 	'use_assistant'		=> 'Use Assistant',//'使用助手',
-	'user_assistant_message'	=> '<ol><li>You can reorder your applications by <img src="{IMGDIR}/drag.gif" /> drag and drop;</li>
+	'user_assistant_message'	=> '<ol><li>You can reorder your applications by <img src="{IMGDIR}/drag.gif"> drag and drop;</li>
 					<li>The more the application is above, the more forward it will be displayed in the menu;</li>
 					<li>You can manage added by you application, you can set permissions for an application or remove it;</li>
 					<li>If you want to manage your space, blogs, photo albums and other privacy, please go to your profile for privacy settings;</li>

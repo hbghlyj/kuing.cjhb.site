@@ -4,26 +4,26 @@
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<form method="post" autocomplete="off" id="attentionform" name="attentionform" action="group.php?mod=attentiongroup" onsubmit="ajaxpost('attentionform', 'return_attentiongroup', 'return_attentiongroup', 'onerror');return false;">
-		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
-		<input type="hidden" name="referer" value="{echo dreferer()}" />
-		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]"><!--{/if}-->
+		<input type="hidden" name="referer" value="{echo dreferer()}">
+		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="cl">
 			<div class="bm_c attgroup cl">
 				<ul>
 				<!--{loop $usergroups['groups'] $groupid $groupname}-->
 					<!--{if is_array($attentiongroup) && in_array($groupid, $attentiongroup)}-->
-					<li id="li$groupid"><label for="attentiongroupid_$groupid"><input type="checkbox" name="attentiongroupid[]" id="attentiongroupid_$groupid" class="pc" value="$groupid" checked="checked" onclick="attention_checkbox(this, 'attentionform', 'attentiongroupid', 5)" />$groupname</label></li>
+					<li id="li$groupid"><label for="attentiongroupid_$groupid"><input type="checkbox" name="attentiongroupid[]" id="attentiongroupid_$groupid" class="pc" value="$groupid" checked="checked" onclick="attention_checkbox(this, 'attentionform', 'attentiongroupid', 5)">$groupname</label></li>
 					<!--{/if}-->
 				<!--{/loop}-->
 					<li id="heightline"></li>
 				</ul>
 			</div>
-			<hr class="l" />
+			<hr class="l">
 			<div class="bm_c attgroup cl">
 				<ul>
 					<!--{loop $usergroups['groups'] $groupid $groupname}-->
 						<!--{if !is_array($attentiongroup) || !in_array($groupid, $attentiongroup)}-->
-						<li id="li$groupid"><label for="attentiongroupid_$groupid"><input type="checkbox" name="attentiongroupid[]" id="attentiongroupid_$groupid" class="pc" value="$groupid" onclick="attention_checkbox(this, 'attentionform', 'attentiongroupid', 5)" />$groupname</label></li>
+						<li id="li$groupid"><label for="attentiongroupid_$groupid"><input type="checkbox" name="attentiongroupid[]" id="attentiongroupid_$groupid" class="pc" value="$groupid" onclick="attention_checkbox(this, 'attentionform', 'attentiongroupid', 5)">$groupname</label></li>
 						<!--{/if}-->
 					<!--{/loop}-->
 					<li id="lowerline"></li>
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<p class="o pns">
-			<input type="hidden" name="attentionsubmit" value="true" />
+			<input type="hidden" name="attentionsubmit" value="true">
 			<button type="submit" class="pn pnc"><strong>{lang confirms}</strong></button>
 		</p>
 		<script language="javascript">

@@ -22,8 +22,8 @@
 			<div class="tbmu">
 				{lang hava_attach_size} <strong>$haveattachsize</strong> (<a href="home.php?mod=spacecp&ac=upload&op=recount">{lang recount}</a>)
 				<!--{if $_G['setting']['magicstatus'] && $_G[setting][magics][attachsize]}-->
-				<br />
-				<img src="{STATICURL}image/magic/attachsize.small.gif" alt="attachsize" class="vm" />
+				<br>
+				<img src="{STATICURL}image/magic/attachsize.small.gif" alt="attachsize" class="vm">
 				<a id="a_magic_attachsize" href="home.php?mod=magic&mid=attachsize" onclick="showWindow('magics', this.href, 'get', 0)">{lang i_want_more_space}</a>
 				({lang you_can_buy_magictools})
 				<!--{/if}-->
@@ -118,8 +118,8 @@
 				<div class="uploadform mtn ptw pbw">
 					<!--{if $albums}-->
 					<p class="hm pbw xs2 xw1">
-						<label for="albumop_selectalbum" class="lb"><input type="radio" name="albumop" id="albumop_selectalbum" class="pr" value="selectalbum" checked="checked" onclick="album_op(this.value);" />{lang add_to_existing_album}</label>
-						<label for="albumop_creatalbum" class="lb"><input type="radio" name="albumop" id="albumop_creatalbum" class="pr" value="creatalbum" onclick="album_op(this.value);" />{lang create_new_album}</label>
+						<label for="albumop_selectalbum" class="lb"><input type="radio" name="albumop" id="albumop_selectalbum" class="pr" value="selectalbum" checked="checked" onclick="album_op(this.value);">{lang add_to_existing_album}</label>
+						<label for="albumop_creatalbum" class="lb"><input type="radio" name="albumop" id="albumop_creatalbum" class="pr" value="creatalbum" onclick="album_op(this.value);">{lang create_new_album}</label>
 					</p>
 					<div id="selectalbum" class="hm">
 						{lang select_album}
@@ -136,13 +136,13 @@
 					<div id="creatalbum" style="display:none;">
 					<!--{else}-->
 					<p class="hm pbw xs2 xw1">{lang create_new_album}</p>
-					<input type="hidden" name="albumop" value="creatalbum" />
+					<input type="hidden" name="albumop" value="creatalbum">
 					<div id="creatalbum">
 					<!--{/if}-->
 						<table class="tfm cp0">
 							<tr>
 								<th>{lang album_name}</th>
-								<td><input type="text" name="albumname" id="albumname" class="px" size="20" value="{lang my_album}" /></td>
+								<td><input type="text" name="albumname" id="albumname" class="px" size="20" value="{lang my_album}"></td>
 							</tr>
 							<tr>
 								<th>{lang album_depict}</th>
@@ -172,7 +172,7 @@
 							<tbody id="span_password" style="display:none;">
 								<tr>
 									<th>{lang password}</th>
-									<td><input type="text" name="password" id="uploadpassword" class="px" value="" size="10" /></td>
+									<td><input type="text" name="password" id="uploadpassword" class="px" value="" size="10"></td>
 								</tr>
 							</tbody>
 							<tbody id="tb_selectgroup" style="display:none;">
@@ -200,9 +200,9 @@
 					</div>
 				</div>
 				<div class="mtm hm">
-					<input type="hidden" name="albumsubmit" id="albumsubmit" value="true" />
+					<input type="hidden" name="albumsubmit" id="albumsubmit" value="true">
 					<button type="submit" name="albumsubmit_btn" id="albumsubmit_btn" class="pn pnc" value="true"{if $_G['setting']['albumcategoryrequired']} onclick="return validate(this);"{/if}><strong>{lang upload_start}</strong></button>
-					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="formhash" value="{FORMHASH}">
 				</div>
 			</form>
 

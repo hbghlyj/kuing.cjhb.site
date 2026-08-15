@@ -39,7 +39,7 @@ foreach($apps as $orderid => $oapps) {
 		showboxrow('',
 			['class="dcol c1"', 'class="dcol d-2-3 c2"', 'class="dcol c3"'],
 			[
-				'<img src="'.$icon.'" '.(!$status ? 'class="close"' : '').' />',
+				'<img src="'.$icon.'" '.(!$status ? 'class="close"' : '').'>',
 				'<h3>'.cplang($name, mitframeApp: $app).'</h3>'.
 				'<p><span class="light">'.cplang($desc, mitframeApp: $app).'</p>',
 				'<p>'.$op.'</p>',

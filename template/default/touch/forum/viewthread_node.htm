@@ -7,7 +7,7 @@
 				<li class="grey">
 					<em>
 						<!--{if isset($post['isstick'])}-->
-							<img src ="{IMGDIR}/settop.png" class="vm" /> {lang from} {$post['number']}{$postnostick}
+							<img src ="{IMGDIR}/settop.png" class="vm"> {lang from} {$post['number']}{$postnostick}
 						<!--{elseif $post['number'] == -1}-->
 							{lang recommend_post}
 						<!--{else}-->
@@ -67,7 +67,7 @@
 										<h4>$_G['forum']['threadsorts']['types'][$_G['forum_thread']['sortid']]</h4>
 									<!--{loop $threadsortshow['optionlist'] $option}-->
 										<!--{if $option['type'] != 'info'}-->
-											$option['title']: <!--{if $option['value']}-->$option['value'] $option['unit']<!--{else}--><span class="xg1">--</span><!--{/if}--><br />
+											$option['title']: <!--{if $option['value']}-->$option['value'] $option['unit']<!--{else}--><span class="xg1">--</span><!--{/if}--><br>
 										<!--{/if}-->
 									<!--{/loop}-->
 									</div>

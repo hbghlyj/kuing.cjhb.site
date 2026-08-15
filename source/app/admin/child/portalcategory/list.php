@@ -24,7 +24,7 @@ if(!submitcheck('editsubmit')) {
 
 	$tdstyle = ['width="25"', 'width="80"', '', 'width="50"', 'width="65"', 'width="35"', 'width="35"', 'width="35"', 'width="215"', 'width="110"'];
 	showformheader('portalcategory');
-	echo '<div class="forumheader"><a href="javascript:;" onclick="show_all()">'.cplang('show_all').'</a> | <a href="javascript:;" onclick="hide_all()">'.cplang('hide_all').'</a>&nbsp;&nbsp;&nbsp;<input type="text" id="srchforumipt" class="txt" /> <input type="submit" class="btn" value="'.cplang('search').'" onclick="return srchforum()" /></div>';
+	echo '<div class="forumheader"><a href="javascript:;" onclick="show_all()">'.cplang('show_all').'</a> | <a href="javascript:;" onclick="hide_all()">'.cplang('hide_all').'</a>&nbsp;&nbsp;&nbsp;<input type="text" id="srchforumipt" class="txt"> <input type="submit" class="btn" value="'.cplang('search').'" onclick="return srchforum()"></div>';
 	showtableheader('', '', 'id="portalcategory_header" style="min-width:900px;*width:900px;"');
 	showsubtitle(['', '', 'portalcategory_name', 'portalcategory_articles', 'portalcategory_allowpublish', 'portalcategory_allowcomment', 'portalcategory_is_closed', 'setindex', 'operation', 'portalcategory_article_op'], 'header tbm', $tdstyle);
 	showtablefooter();
@@ -49,9 +49,9 @@ if(!submitcheck('editsubmit')) {
 	echo <<<SCRIPT
 <script type="text/Javascript">
 var rowtypedata = [
-	[[1,'', ''], [4, '<div class="parentboard"><input type="text" class="txt" value="{$lang['portalcategory_addcategory']}" name="newname[{1}][]"/></div>']],
-	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [4, '<div class="board"><input type="text" class="txt" value="{$lang['portalcategory_addsubcategory']}" name="newname[{1}][]"/>  <input type="checkbox" name="newinheritance[{1}][]" value="1" checked>{$lang['portalcategory_inheritance']}</div>']],
-	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0" />', 'td25'], [4, '<div class="childboard"><input type="text" class="txt" value="{$lang['portalcategory_addthirdcategory']}" name="newname[{1}][]"/> <input type="checkbox" name="newinheritance[{1}][]" value="1" checked>{$lang['portalcategory_inheritance']}</div>']],
+	[[1,'', ''], [4, '<div class="parentboard"><input type="text" class="txt" value="{$lang['portalcategory_addcategory']}" name="newname[{1}][]"></div>']],
+	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [4, '<div class="board"><input type="text" class="txt" value="{$lang['portalcategory_addsubcategory']}" name="newname[{1}][]">  <input type="checkbox" name="newinheritance[{1}][]" value="1" checked>{$lang['portalcategory_inheritance']}</div>']],
+	[[1,'<input type="text" class="txt" name="neworder[{1}][]" value="0">', 'td25'], [4, '<div class="childboard"><input type="text" class="txt" value="{$lang['portalcategory_addthirdcategory']}" name="newname[{1}][]"> <input type="checkbox" name="newinheritance[{1}][]" value="1" checked>{$lang['portalcategory_inheritance']}</div>']],
 ];
 </script>
 SCRIPT;

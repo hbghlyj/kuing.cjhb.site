@@ -54,7 +54,7 @@ class payment_invite {
 			'tpl' => 'invite_payment',
 			'var' => [
 				'orderid' => $order['out_biz_no'],
-				'codetext' => implode('<br />', $codetext),
+				'codetext' => implode('<br>', $codetext),
 				'siteurl' => $_G['siteurl'],
 				'bbname' => $_G['setting']['bbname'],
 			]

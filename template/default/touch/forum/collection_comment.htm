@@ -70,9 +70,9 @@
 <!--{if $_G['collection']['commentnum'] > 0}-->
 <!--{if $permission}-->
 <form action="forum.php?mod=collection&action=comment&op=del" method="POST" id="form_delComment">
-<input type="hidden" name="delcomment[]" />
-<input type="hidden" name="ctid" value="{$ctid}" />
-<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="delcomment[]">
+<input type="hidden" name="ctid" value="{$ctid}">
+<input type="hidden" name="formhash" value="{FORMHASH}">
 <!--{/if}-->
 <div class="viewthread">
 	<!--{loop $commentlist $comment}-->
@@ -124,7 +124,7 @@
 			</li>
 		<!--{if !$memberrate}-->
 			<li class="flex-box mli">
-				<input type="hidden" name="ratescore" id="ratescore" />
+				<input type="hidden" name="ratescore" id="ratescore">
 				<span id="clct_ratestar_star">
 					<a href="javascript:;" onclick="rateStarSet('clct_ratestar_star',1,'ratescore')"><i class="dm-star-fill"></i></a>
 					<a href="javascript:;" onclick="rateStarSet('clct_ratestar_star',2,'ratescore')"><i class="dm-star-fill"></i></a>

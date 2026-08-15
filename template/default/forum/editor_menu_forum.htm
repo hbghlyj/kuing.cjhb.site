@@ -36,9 +36,9 @@
 					<th width="13%" class="pbn">{lang e_img_height}</th>
 				</tr>
 				<tr>
-					<td><input type="text" id="{$editorid}_image_param_1" onchange="loadimgsize(this.value)" style="width: 95%;" value="" class="px" autocomplete="off" /></td>
-					<td><input id="{$editorid}_image_param_2" size="3" value="" class="px p_fre" autocomplete="off" /></td>
-					<td><input id="{$editorid}_image_param_3" size="3" value="" class="px p_fre" autocomplete="off" /></td>
+					<td><input type="text" id="{$editorid}_image_param_1" onchange="loadimgsize(this.value)" style="width: 95%;" value="" class="px" autocomplete="off"></td>
+					<td><input id="{$editorid}_image_param_2" size="3" value="" class="px p_fre" autocomplete="off"></td>
+					<td><input id="{$editorid}_image_param_3" size="3" value="" class="px p_fre" autocomplete="off"></td>
 				</tr>
 			</table>
 		</div>
@@ -52,25 +52,25 @@
 			<div class="p_opt">
 				<table class="cp0" border="0" width="100%">
 					<tbody id="imgattachbodyhidden" style="display:none"><tr>
-						<td class="atnu"><span id="imglocalno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
+						<td class="atnu"><span id="imglocalno[]"><img src="{STATICURL}image/filetype/common_new.gif"></span></td>
 						<td class="atna">
 							<span id="imgdeschidden[]" style="display:none">
 								<span id="imglocalfile[]"></span>
 							</span>
-							<input type="hidden" name="imglocalid[]" />
+							<input type="hidden" name="imglocalid[]">
 						</td>
 						<td class="attc"><span id="imgcpdel[]"></span></td>
 					</tr></tbody>
 				</table>
 				<div class="p_tbl"><table class="cp0" summary="post_attachbody" border="0" width="100%"><tbody id="imgattachbody"></tbody></table></div>
 				<div class="upbk pbm bbda">
-					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="formhash" value="{FORMHASH}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
+					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="formhash" value="{FORMHASH}"><input type="file" name="Filedata" size="45" class="filedata"></form></span></div>
 					<div id="imgattachbtn" class="ptm pbn"></div>
 					<p id="imguploadbtn">
 						<button class="pn pnc vm" type="button" onclick="uploadAttach(0, 0, 'img')"><span>{lang upload}</span></button>
 						<span class="xg1">&larr;{lang upload_after_selected}</span>
 					</p>
-					<p id="imguploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /> {lang uploading}</p>
+					<p id="imguploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;"> {lang uploading}</p>
 				</div>
 				<div class="notice upnf">
 					{lang attachment_size}: <span class="xi1"><!--{if $_G['group']['maxattachsize']}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></span>
@@ -78,9 +78,9 @@
 						, {lang attachment_allow_exts}: <span class="xi1">$imgexts</span>&nbsp;
 					<!--{/if}-->
 					<!--{if $creditstring}-->
-						<br /><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+						<br><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
 					<!--{/if}-->
-					<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br /><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
+					<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
 				</div>
 			</div>
 			<div class="o">
@@ -98,7 +98,7 @@
 					<div id="imgattach_notice" class="y" {if empty($imgattachs['used'])} style="display: none"{/if}>
 						<!--{if helper_access::check_module('album') && $_G['group']['allowupload']}-->
 							<div id="uploadPanel">
-								<label style="margin-right:10px;"><input type="checkbox" name="selectallimg" class="pc" value="1" onchange="selectAllSaveImg(this.checked);" onpropertychange="selectAllSaveImg(this.checked);" />{lang attachment_select_attach_image}</label>
+								<label style="margin-right:10px;"><input type="checkbox" name="selectallimg" class="pc" value="1" onchange="selectAllSaveImg(this.checked);" onpropertychange="selectAllSaveImg(this.checked);">{lang attachment_select_attach_image}</label>
 								{lang save_selected_pic}:
 								<select name="uploadalbum" id="uploadalbum" class="ps vm" onchange="if(this.value == '-1') {selectCreateTab(0);}">
 									<!--{if $albumlist}-->
@@ -115,7 +115,7 @@
 								<!--{if $_G['setting']['albumcategorystat'] && !empty($_G['cache']['albumcategory'])}-->
 									<!--{eval echo category_showselect('album', 'albumcatid', !$_G['setting']['albumcategoryrequired'] ? true : false, $_GET['catid']);}-->&nbsp;
 								<!--{/if}-->
-								<input type="text" name="newalbum" id="newalbum" class="px vm" size="15" value="{lang input_album_name}"  onfocus="if(this.value == '{lang input_album_name}') {this.value = '';}" onblur="if(this.value == '') {this.value = '{lang input_album_name}';}" />&nbsp;<button type="button" class="pn pnc" onclick="createNewAlbum();"><span>{lang create_new_album}</span></button><button type="button" class="pn" onclick="selectCreateTab(1);"><span>{lang cancel}</span></button>
+								<input type="text" name="newalbum" id="newalbum" class="px vm" size="15" value="{lang input_album_name}"  onfocus="if(this.value == '{lang input_album_name}') {this.value = '';}" onblur="if(this.value == '') {this.value = '{lang input_album_name}';}">&nbsp;<button type="button" class="pn pnc" onclick="createNewAlbum();"><span>{lang create_new_album}</span></button><button type="button" class="pn" onclick="selectCreateTab(1);"><span>{lang cancel}</span></button>
 							</div>
 						<!--{/if}-->
 					</div>
@@ -181,14 +181,14 @@
 			</div>
 			<div class="notice upnf">
 				{lang e_img_insertphoto}
-				<br />{lang attachment_size}: <span class="xi1"><!--{if $_G['group']['maxattachsize']}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></span>
+				<br>{lang attachment_size}: <span class="xi1"><!--{if $_G['group']['maxattachsize']}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></span>
 				<!--{if $imgexts}-->
 					, {lang attachment_allow_exts}: <span class="xi1">$imgexts</span>&nbsp;
 				<!--{/if}-->
 				<!--{if $creditstring}-->
-					<br /><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<br><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
 				<!--{/if}-->
-				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br /><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
+				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
 			</div>
 			</div>
 			<div class="o">
@@ -239,25 +239,25 @@
 		<div class="p_opt" unselectable="on" id="{$editorid}_upload" style="display: none;">
 			<table class="cp0" border="0" width="100%">
 				<tbody id="attachbodyhidden" style="display:none"><tr>
-					<td class="atnu"><span id="localno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
+					<td class="atnu"><span id="localno[]"><img src="{STATICURL}image/filetype/common_new.gif"></span></td>
 					<td class="atna">
 						<span id="deschidden[]" style="display:none">
 							<span id="localfile[]"></span>
 						</span>
-						<input type="hidden" name="localid[]" />
+						<input type="hidden" name="localid[]">
 					</td>
 					<td class="attc"><span id="cpdel[]"></span></td>
 				</tr></tbody>
 			</table>
 			<div class="p_tbl"><table class="cp0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
 			<div class="upbk pbm bbda">
-				<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="formhash" value="{FORMHASH}"><input type="file" name="Filedata" size="45" class="fldt" /></form></span></div>
+				<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="formhash" value="{FORMHASH}"><input type="file" name="Filedata" size="45" class="fldt"></form></span></div>
 				<div id="attachbtn" class="ptm pbn"></div>
 				<p id="uploadbtn">
 					<button type="button" class="pn pnc vm" onclick="uploadAttach(0, 0)"><span>{lang upload}</span></button>
 					<span class="xg1">&larr;{lang upload_after_selected}</span>
 				</p>
-				<p id="uploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;" /> {lang uploading}</p>
+				<p id="uploading" style="display: none;"><img src="{IMGDIR}/uploading.gif" style="vertical-align: middle;"> {lang uploading}</p>
 			</div>
 			<div class="notice upnf">
 				{lang attachment_size}: <span class="xi1"><!--{if $_G['group']['maxattachsize']}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></span>
@@ -265,9 +265,9 @@
 					, {lang attachment_allow_exts}: <span class="xi1">{$_G['group']['attachextensions']}</span>&nbsp;
 				<!--{/if}-->
 				<!--{if $creditstring}-->
-					<br /><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<br><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
 				<!--{/if}-->
-				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br /><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
+				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
 			</div>
 		</div>
 
@@ -286,7 +286,7 @@
 					<!--{if $_G['group']['allowsetattachperm']}-->
 					<td class="attv pbn">
 						{lang readperm}
-						<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" style="margin: 0;" onmouseover="showTip(this)" tip="{lang post_select_usergroup_readacces}" />
+						<img src="{IMGDIR}/faq.gif" alt="Tip" class="vm" style="margin: 0;" onmouseover="showTip(this)" tip="{lang post_select_usergroup_readacces}">
 					</td>
 					<!--{/if}-->
 					<!--{if $_G['group']['maxprice']}--><td class="attp pbn">{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</td><!--{/if}-->
@@ -312,10 +312,10 @@
 					, {lang attachment_allow_exts}: <span class="xi1">{$_G['group']['attachextensions']}</span>&nbsp;
 				<!--{/if}-->
 				<!--{if $creditstring}-->
-					<br /><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
+					<br><a href="forum.php?mod=faq&action=credits&fid=$_G[fid]" target="_blank" title="{lang credits_policy}">{lang post_credits_postattach}&nbsp;$creditstring</a>
 				<!--{/if}-->
-				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br /><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
-				<!--{if $_G['group']['maxprice'] && $_G['setting']['maxincperthread']}--><br />{lang post_price_attachincome_comment}<!--{/if}-->
+				<!--{if $_G['group']['maxattachnum'] || $_G['group']['maxsizeperday']}--><br><!--{subtemplate forum/post_attachlimit}--><!--{/if}-->
+				<!--{if $_G['group']['maxprice'] && $_G['setting']['maxincperthread']}--><br>{lang post_price_attachincome_comment}<!--{/if}-->
 			</div>
 		</div>
 		<!--{hook/post_attach_tab_extra}-->
@@ -367,7 +367,7 @@
 		var msg = '';
 		<!--{loop $attachs['unused'] $attach}-->
 			<!--{if !empty($attach['aid'])}-->
-				msg += '<p><label><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /><span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></label></p>'
+				msg += '<p><label><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc"><span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></label></p>'
 				ATTACHUNUSEDAID[{$attach[aid]}] = '$attach[aid]';
 			<!--{/if}-->
 		<!--{/loop}-->
@@ -379,7 +379,7 @@
 		var msg = '';
 		<!--{loop $imgattachs['unused'] $attach}-->
 			<!--{if !empty($attach['aid'])}-->
-				msg += '<p style="float:left;width:220px;"><label><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc" /><span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></label></p>'
+				msg += '<p style="float:left;width:220px;"><label><input id="unused$attach[aid]" name="unused[]" value="$attach[aid]" checked type="checkbox" class="pc"><span title="$attach[filenametitle] $attach[dateline]">$attach[filename]</span></label></p>'
 				IMGUNUSEDAID[{$attach[aid]}] = '$attach[aid]';
 			<!--{/if}-->
 		<!--{/loop}-->

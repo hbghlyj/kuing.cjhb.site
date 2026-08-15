@@ -76,7 +76,7 @@ EOF;
 
 	function getStyle() {
 		return <<<EOF
-<style type="text/css">
+<style>
 .inline-code {
   background: rgba(250, 239, 240, 0.78);
   color: #b44437;

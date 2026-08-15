@@ -174,11 +174,11 @@ class discuz_error {
 <html>
 <head>
 	<title>$host - $title Error</title>
-	<meta charset="{$_G['config']['output']['charset']}" />
-	<meta name="renderer" content="webkit" />
-	<meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" />
+	<meta charset="{$_G['config']['output']['charset']}">
+	<meta name="renderer" content="webkit">
+	<meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style type="text/css">
+	<style>
 	<!--
 	body { background-color: white; color: black; font: 9px verdana, arial, sans-serif;}
 	#container { max-width: 1024px; margin: auto; }
@@ -304,7 +304,7 @@ EOT;
 				} else {
 					$suggestion = lang('error', $_G['adminid'] ? 'suggestion_admin' : 'suggestion_user');
 				}
-				echo '<br />'.$suggestion;
+				echo '<br>'.$suggestion;
 			}
 
 			echo '</div>';

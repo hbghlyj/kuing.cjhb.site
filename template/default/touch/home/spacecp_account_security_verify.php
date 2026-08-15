@@ -23,13 +23,13 @@
                         <option value="{$_G['setting']['smsdefaultcc']}" selected="selected">+{$_G['setting']['smsdefaultcc']}</option>
                         <!--{/if}-->
                     </select>
-                    <input type="number" name="secmobile" id="secmobile" class="px" placeholder="{lang secmobile}" style="margin-left: 15px;"/>
-                    <input type="hidden" id="idstring_v" name="idstring_v" value="{$idstring_v}" />
-                    <input type="hidden" id="sign_v" name="sign_v" value="{$sign_v}" />
+                    <input type="number" name="secmobile" id="secmobile" class="px" placeholder="{lang secmobile}" style="margin-left: 15px;">
+                    <input type="hidden" id="idstring_v" name="idstring_v" value="{$idstring_v}">
+                    <input type="hidden" id="sign_v" name="sign_v" value="{$sign_v}">
                     <!--{else}-->
                     {lang secmobile}: +{$_G['member']['secmobicc']} {$_G['member']['secmobile']}
-                    <input type="hidden" id="secmobicc" name="secmobicc" value="{$_G['member']['secmobicc']}" />
-                    <input type="hidden" id="secmobile" name="secmobile" value="{$_G['member']['secmobile']}" />
+                    <input type="hidden" id="secmobicc" name="secmobicc" value="{$_G['member']['secmobicc']}">
+                    <input type="hidden" id="secmobile" name="secmobile" value="{$_G['member']['secmobile']}">
                     <!--{/if}-->
                 </td>
                 <td colspan="2">&nbsp;</td>
@@ -37,7 +37,7 @@
             <tr>
                 <th style="width: 10px;"><span class="rq">*</span></th>
                 <td colspan="2" style="display: flex;">
-                    <input type="text" name="secmobseccode" id="secmobseccode" value="" placeholder="{lang secmobseccode}" class="px"/>
+                    <input type="text" name="secmobseccode" id="secmobseccode" value="" placeholder="{lang secmobseccode}" class="px">
                     <a href="javascript:void(0);" onclick="memcp_sendsecmobseccode_{$layerhash}();return false;" class="pn pnc" style="width: 80px; height: 30px;line-height: 30px; margin-left: 5px; color: #ffffff; padding: 3px 10px;"><strong>{lang send}</strong></a>
                 </td>
                 <td colspan="2">&nbsp;</td>

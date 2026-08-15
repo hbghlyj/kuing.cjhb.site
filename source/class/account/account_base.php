@@ -106,7 +106,7 @@ class account_base {
 				'<p class="summary">',
 				'<p class="mbn">',
 				'<span class="pipe">|</span>',
-				'<br />', '<br/>',
+				'<br>', '<br>',
 				"\r",
 				"\n\n",
 				'&nbsp;',

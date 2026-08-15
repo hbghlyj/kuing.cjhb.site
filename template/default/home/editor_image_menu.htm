@@ -18,9 +18,9 @@
 				<th>{lang e_img_height}</th>
 			</tr>
 			<tr>
-				<td width="74%"><input type="text" id="icoImg_image_param_1" onchange="loadimgsize(this.value)" style="width: 95%;" value="" class="px" autocomplete="off" /></td>
-				<td width="13%"><input id="icoImg_image_param_2" size="3" value="" class="px p_fre" autocomplete="off" /></td>
-				<td width="13%"><input id="icoImg_image_param_3" size="3" value="" class="px p_fre" autocomplete="off" /></td>
+				<td width="74%"><input type="text" id="icoImg_image_param_1" onchange="loadimgsize(this.value)" style="width: 95%;" value="" class="px" autocomplete="off"></td>
+				<td width="13%"><input id="icoImg_image_param_2" size="3" value="" class="px p_fre" autocomplete="off"></td>
+				<td width="13%"><input id="icoImg_image_param_3" size="3" value="" class="px p_fre" autocomplete="off"></td>
 			</tr>
 			<tr>
 				<td colspan="3" class="pns ptn">
@@ -44,7 +44,7 @@
 				<!--{/if}-->
 			</div>
 			<div id="createalbum" class="y" style="display:none">
-				<input type="text" name="newalbum" id="newalbum" class="px vm" value="{lang input_album_name}"  onfocus="if(this.value == '{lang input_album_name}') {this.value = '';}" onblur="if(this.value == '') {this.value = '{lang input_album_name}';}" />
+				<input type="text" name="newalbum" id="newalbum" class="px vm" value="{lang input_album_name}"  onfocus="if(this.value == '{lang input_album_name}') {this.value = '';}" onblur="if(this.value == '') {this.value = '{lang input_album_name}';}">
 				<button type="button" class="pn pnc" onclick="createNewAlbum();"><span>{lang create}</span></button>
 				<button type="button" class="pn" onclick="selectCreateTab(1);"><span>{lang cancel}</span></button>
 			</div>

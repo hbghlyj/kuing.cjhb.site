@@ -823,7 +823,7 @@ $data = [[
 		<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 		<dd>{summary}</dd>
 	</dl> 
-	<hr class="da" />
+	<hr class="da">
 </li>
 [/order]
 </ul>
@@ -846,7 +846,7 @@ $data = [[
 		<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 		<dd>{summary}</dd>
 	</dl> 
-	<hr class="da" />
+	<hr class="da">
 </li>',
       ],
       'loopplus' => 
@@ -1337,7 +1337,7 @@ $data = [[
 		<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 		<dd>{summary}</dd>
 	</dl> 
-	<hr class="da" />
+	<hr class="da">
 </li>
 [/order]
 </ul>
@@ -1360,7 +1360,7 @@ $data = [[
 		<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 		<dd>{summary}</dd>
 	</dl> 
-	<hr class="da" />
+	<hr class="da">
 </li>',
       ],
       'loopplus' => 
@@ -1608,7 +1608,7 @@ $data = [[
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{icon}" width="48" height="48" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{icon}" width="48" height="48"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -1632,7 +1632,7 @@ $data = [[
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{icon}" width="48" height="48" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{icon}" width="48" height="48"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -1659,7 +1659,7 @@ $data = [[
       'raw' => '<div class="module cl ml mls">
 <ul>
 [loop]
-<li><a href="{url}"{target}><img src="{icon}" width="48" height="48" /></a><p><a href="{url}" title="{title}"{target}>{title}</a></p></li>
+<li><a href="{url}"{target}><img src="{icon}" width="48" height="48"></a><p><a href="{url}" title="{title}"{target}>{title}</a></p></li>
 [/loop]
 </ul>
 </div>',
@@ -1680,7 +1680,7 @@ $data = [[
       'loopplus' => 
       [
       ],
-      'loop' => '<li><a href="{url}"{target}><img src="{icon}" width="48" height="48" /></a><p><a href="{url}" title="{title}"{target}>{title}</a></p></li>',
+      'loop' => '<li><a href="{url}"{target}><img src="{icon}" width="48" height="48"></a><p><a href="{url}" title="{title}"{target}>{title}</a></p></li>',
     ],
     'hash' => 'f3646b2a',
     'getpic' => '0',
@@ -1879,7 +1879,7 @@ $data = [[
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -1903,7 +1903,7 @@ $data = [[
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -2026,7 +2026,7 @@ $data = [[
       'raw' => '<div class="module cl slidebox">
 <ul class="slideshow">
 [loop]
-<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>
+<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>
 [/loop]
 </ul>
 </div>
@@ -2050,7 +2050,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>',
+      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>',
     ],
     'hash' => '8ff81e35',
     'getpic' => '1',
@@ -2073,7 +2073,7 @@ runslideshow();
       'raw' => '<div class="module cl xld slideshow">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -2100,7 +2100,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -2299,7 +2299,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -2323,7 +2323,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -2491,7 +2491,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="home.php?mod=space&uid={uid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{username}" /></a></dd>
+	<dd class="m"><a href="home.php?mod=space&uid={uid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{username}"></a></dd>
 	<dt><a href="home.php?mod=space&uid={uid}" title="{username}"{target}>{username}</a> <em class="xg1 xw0">{dateline}</em></dt>
 	<dd><a href="{url}"{target}>{title}</a></dd>
 </dl>
@@ -2515,7 +2515,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="home.php?mod=space&uid={uid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{username}" /></a></dd>
+	<dd class="m"><a href="home.php?mod=space&uid={uid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{username}"></a></dd>
 	<dt><a href="home.php?mod=space&uid={uid}" title="{username}"{target}>{username}</a> <em class="xg1 xw0">{dateline}</em></dt>
 	<dd><a href="{url}"{target}>{title}</a></dd>
 </dl>',
@@ -2816,7 +2816,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?uid={uid}"{target}>{username}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -2840,7 +2840,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?uid={uid}"{target}>{username}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -2869,7 +2869,7 @@ runslideshow();
       'raw' => '<div class="module cl slidebox">
 <ul class="slideshow">
 [loop]
-<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>
+<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>
 [/loop]
 </ul>
 </div>
@@ -2893,7 +2893,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>',
+      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>',
     ],
     'hash' => 'c23cc347',
     'getpic' => '1',
@@ -2965,7 +2965,7 @@ runslideshow();
 <ul>
 [loop]
 <li>
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>
 [/loop]
@@ -2989,7 +2989,7 @@ runslideshow();
       [
       ],
       'loop' => '<li>
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>',
     ],
@@ -3016,7 +3016,7 @@ runslideshow();
 <ul>
 [loop]
 <li>
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 	<span><a href="home.php?uid={uid}"{target}>{username}</a></span>
 </li>
@@ -3041,7 +3041,7 @@ runslideshow();
       [
       ],
       'loop' => '<li>
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 	<span><a href="home.php?uid={uid}"{target}>{username}</a></span>
 </li>',
@@ -3071,7 +3071,7 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/loop]
@@ -3095,7 +3095,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
     ],
@@ -3120,7 +3120,7 @@ runslideshow();
       'raw' => '<div class="module cl slidebox">
 <ul class="slideshow">
 [loop]
-<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>
+<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>
 [/loop]
 </ul>
 </div>
@@ -3144,7 +3144,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>',
+      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>',
     ],
     'hash' => 'c5d88e6d',
     'getpic' => '1',
@@ -3168,7 +3168,7 @@ runslideshow();
 <ul>
 [loop]
 <li>
-	<a href="{url}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{title}" /></a>
+	<a href="{url}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/loop]
@@ -3192,7 +3192,7 @@ runslideshow();
       [
       ],
       'loop' => '<li>
-	<a href="{url}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{title}" /></a>
+	<a href="{url}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
     ],
@@ -3260,7 +3260,7 @@ runslideshow();
       'raw' => '<div class="module cl xl xl1">
 <ol>
 [loop]
-<li><em>{posts}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}" /> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>
+<li><em>{posts}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}"> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>
 [/loop]
 </ol>
 </div>',
@@ -3281,7 +3281,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li><em>{posts}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}" /> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>',
+      'loop' => '<li><em>{posts}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}"> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>',
     ],
     'hash' => 'b185afb9',
     'getpic' => '0',
@@ -3305,7 +3305,7 @@ runslideshow();
       'raw' => '<div class="module cl xl xl1">
 <ol>
 [loop]
-<li><em>{credits}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}" /> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>
+<li><em>{credits}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}"> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>
 [/loop]
 </ol>
 </div>',
@@ -3326,7 +3326,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li><em>{credits}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}" /> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>',
+      'loop' => '<li><em>{credits}</em><img class="vm" src="{avatar}" width="16" height="16" alt="{title}"> <a href="{url}" title="{title}" c="1"{target}>{title}</a></li>',
     ],
     'hash' => '8431f4e1',
     'getpic' => '0',
@@ -3351,7 +3351,7 @@ runslideshow();
 <ul>
 [loop]
 <li style="padding: 0 12px 10px; width: {picwidth}px;">
-<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" style="padding: 1px; border: 1px solid #CCC; background: #FFF;" /></a>
+<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" style="padding: 1px; border: 1px solid #CCC; background: #FFF;"></a>
 <p class="xs2"><a href="{url}"{target} class="xi1">{price}</a></p>
 <p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
@@ -3376,7 +3376,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="padding: 0 12px 10px; width: {picwidth}px;">
-<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" style="padding: 1px; border: 1px solid #CCC; background: #FFF;" /></a>
+<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" style="padding: 1px; border: 1px solid #CCC; background: #FFF;"></a>
 <p class="xs2"><a href="{url}"{target} class="xi1">{price}</a></p>
 <p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
@@ -3403,7 +3403,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{time} {place}</dd>
 	<dd> 已有 {applynumber} 人報名</dd>
@@ -3428,7 +3428,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{time} {place}</dd>
 	<dd> 已有 {applynumber} 人報名</dd>
@@ -3459,7 +3459,7 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 	<p>{price}</p>
 </li>
@@ -3484,7 +3484,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 	<p>{price}</p>
 </li>',
@@ -3511,7 +3511,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{time} {place}</dd>
 	<dd> 已有 {applynumber} 人報名</dd>
@@ -3536,7 +3536,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{time} {place}</dd>
 	<dd> 已有 {applynumber} 人報名</dd>
@@ -3566,7 +3566,7 @@ runslideshow();
       'raw' => '<div class="module cl xld xlda">
 [loop]
 <dl class="cl">
-<dd class="m"><a href="home.php?mod=space&uid={authorid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{author}" /></a></dd>
+<dd class="m"><a href="home.php?mod=space&uid={authorid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{author}"></a></dd>
 <dt style="padding-bottom: 0;"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd style="margin-bottom: 0;">{summary}</dd>
 <dd style="margin-bottom: 0;">作者: <a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></dd>
@@ -3591,7 +3591,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-<dd class="m"><a href="home.php?mod=space&uid={authorid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{author}" /></a></dd>
+<dd class="m"><a href="home.php?mod=space&uid={authorid}" c="1"{target}><img src="{avatar}" width="48" height="48" alt="{author}"></a></dd>
 <dt style="padding-bottom: 0;"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd style="margin-bottom: 0;">{summary}</dd>
 <dd style="margin-bottom: 0;">作者: <a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></dd>
@@ -3959,7 +3959,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl>
-<dd class="m"><a href="{url}"{target}><img src="{pic}" width="120" height="140" alt="{title}" /></a></dd>
+<dd class="m"><a href="{url}"{target}><img src="{pic}" width="120" height="140" alt="{title}"></a></dd>
 <dt class="xs2"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd>
 <p class="pbn">{summary}</p>
@@ -3988,7 +3988,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl>
-<dd class="m"><a href="{url}"{target}><img src="{pic}" width="120" height="140" alt="{title}" /></a></dd>
+<dd class="m"><a href="{url}"{target}><img src="{pic}" width="120" height="140" alt="{title}"></a></dd>
 <dt class="xs2"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd>
 <p class="pbn">{summary}</p>
@@ -4024,7 +4024,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-<dd class="m"><a href="{url}"{target}><img src="{pic}" width="48" height="48“ alt="{title}" /></a></dd>
+<dd class="m"><a href="{url}"{target}><img src="{pic}" width="48" height="48“ alt="{title}"></a></dd>
 <dt style="padding-bottom: 0;"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd style="margin: 0;"> {time} {place}</dd>
 <dd class="xg1" style="margin: 0;">{applynumber} 人關注</dd>
@@ -4049,7 +4049,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-<dd class="m"><a href="{url}"{target}><img src="{pic}" width="48" height="48“ alt="{title}" /></a></dd>
+<dd class="m"><a href="{url}"{target}><img src="{pic}" width="48" height="48“ alt="{title}"></a></dd>
 <dt style="padding-bottom: 0;"><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd style="margin: 0;"> {time} {place}</dd>
 <dd class="xg1" style="margin: 0;">{applynumber} 人關注</dd>
@@ -4080,13 +4080,13 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>
 [/loop]
 [order=odd]
 <li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #CCC; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>
 [/order]
@@ -4106,7 +4106,7 @@ runslideshow();
       'order' => 
       [
         'odd' => '<li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #CCC; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>',
       ],
@@ -4114,7 +4114,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}" title="{title}"{target}>{title}</a> ({picnum})</p>
 </li>',
     ],
@@ -4141,13 +4141,13 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/loop]
 [order=odd]
 <li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #EEE; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/order]
@@ -4167,7 +4167,7 @@ runslideshow();
       'order' => 
       [
         'odd' => '<li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #EEE; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
       ],
@@ -4175,7 +4175,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
     ],
@@ -4248,13 +4248,13 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/loop]
 [order=odd]
 <li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #EEE; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/order]
@@ -4274,7 +4274,7 @@ runslideshow();
       'order' => 
       [
         'odd' => '<li style="margin-right: 18px; padding-right: 24px; border-right: 1px solid #EEE; width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
       ],
@@ -4282,7 +4282,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
     ],
@@ -4351,7 +4351,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -4375,7 +4375,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -4404,7 +4404,7 @@ runslideshow();
       'raw' => '<div class="module cl xld">
 [loop]
 <dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>
@@ -4428,7 +4428,7 @@ runslideshow();
       [
       ],
       'loop' => '<dl class="cl">
-	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a></dd>
+	<dd class="m"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a></dd>
 	<dt><em class="y xg1 xw0"><a href="home.php?mod=space&uid={authorid}"{target}>{author}</a></em><a href="{url}" title="{title}"{target}>{title}</a></dt>
 	<dd>{summary}</dd>
 </dl>',
@@ -4733,7 +4733,7 @@ runslideshow();
 <dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd>{summary}</dd>
 </dl>
-<hr class="da" />
+<hr class="da">
 [/index]
 <ul class="xl xl2 cl">
 [loop]<li><a href="{url}" title="{title}"{target}>{title}</a></li>[/loop]
@@ -4750,7 +4750,7 @@ runslideshow();
 <dt><a href="{url}" title="{title}"{target}>{title}</a></dt>
 <dd>{summary}</dd>
 </dl>
-<hr class="da" />',
+<hr class="da">',
       ],
       'orderplus' => 
       [
@@ -4784,7 +4784,7 @@ runslideshow();
       'raw' => '<div class="module cl slidebox">
 <ul class="slideshow">
 [loop]
-<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>
+<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>
 [/loop]
 </ul>
 </div>
@@ -4808,7 +4808,7 @@ runslideshow();
       'loopplus' => 
       [
       ],
-      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" /></a><span class="title">{title}</span></li>',
+      'loop' => '<li style="width: {picwidth}px; height: {picheight}px;"><a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}"></a><span class="title">{title}</span></li>',
     ],
     'hash' => 'cba1f109',
     'getpic' => '1',
@@ -4832,7 +4832,7 @@ runslideshow();
 <ul>
 [loop]
 <li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>
 [/loop]
@@ -4856,7 +4856,7 @@ runslideshow();
       [
       ],
       'loop' => '<li style="width: {picwidth}px;">
-	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}" /></a>
+	<a href="{url}"{target}><img src="{pic}" width="{picwidth}" height="{picheight}" alt="{title}"></a>
 	<p><a href="{url}" title="{title}"{target}>{title}</a></p>
 </li>',
     ],

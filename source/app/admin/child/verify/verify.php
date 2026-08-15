@@ -244,7 +244,7 @@ EOF;
 		$multipage = '';
 
 		showformheader('verify&operation=verify&do='.$vid.'&anchor='.$anchor);
-		echo "<script>disallowfloat = '{$_G['setting']['disallowfloat']}';</script><input type=\"hidden\" name=\"verifysubmit\" value=\"trun\" />";
+		echo "<script>disallowfloat = '{$_G['setting']['disallowfloat']}';</script><input type=\"hidden\" name=\"verifysubmit\" value=\"trun\">";
 		showtableheader('members_verify_manage', 'fixpadding');
 
 		if($anchor != 'pass') {
@@ -273,7 +273,7 @@ EOF;
 				if($anchor == 'pass') {
 					$value = array_merge($value, $profiles[$uid]);
 				}
-				$value['username'] = '<a href="home.php?mod=space&uid='.$value['uid'].'&do=profile" target="_blank">'.avatar($value['uid'], 'small').'<br/>'.$value['username'].'</a>';
+				$value['username'] = '<a href="home.php?mod=space&uid='.$value['uid'].'&do=profile" target="_blank">'.avatar($value['uid'], 'small').'<br>'.$value['username'].'</a>';
 				if($anchor != 'pass') {
 					$fields = $anchor != 'pass' ? dunserialize($value['field']) : $_G['setting']['verify'][$vid]['field'];
 					$verifytype = $value['verifytype'] ? $_G['setting']['verify'][$value['verifytype']]['title'] : $lang['members_verify_profile'];
@@ -287,14 +287,14 @@ EOF;
 						}
 						if($_G['cache']['profilesetting'][$key]['formtype'] == 'file') {
 							if($field) {
-								$field = '<a href="'.(getglobal('setting/attachurl').'./profile/'.$field).'" target="_blank"><img src="'.(getglobal('setting/attachurl').'./profile/'.$field).'" class="verifyimg" /></a>';
+								$field = '<a href="'.(getglobal('setting/attachurl').'./profile/'.$field).'" target="_blank"><img src="'.(getglobal('setting/attachurl').'./profile/'.$field).'" class="verifyimg"></a>';
 							} else {
 								$field = cplang('members_verify_pic_removed');
 							}
 						} elseif(in_array($key, ['gender', 'birthday', 'birthcity', 'residecity'])) {
 							$field = profile_show($key, $fields);
 						}
-						$fieldstr .= '<tr>'.($anchor == 'authstr' ? '<td><input type="checkbox" name="refusal['.$value['vid'].']['.$key.']" value="'.$key.'" onclick="$(\'refusal'.$value['vid'].'\').click();" /></td>' : '').'<td>'.$_G['cache']['profilesetting'][$key]['title'].':</td><td>'.$field.'</td></tr>';
+						$fieldstr .= '<tr>'.($anchor == 'authstr' ? '<td><input type="checkbox" name="refusal['.$value['vid'].']['.$key.']" value="'.$key.'" onclick="$(\'refusal'.$value['vid'].'\').click();"></td>' : '').'<td>'.$_G['cache']['profilesetting'][$key]['title'].':</td><td>'.$field.'</td></tr>';
 						$i++;
 					}
 					$opstr = '';
@@ -322,7 +322,7 @@ EOF;
 							}
 							if($_G['cache']['profilesetting'][$key]['formtype'] == 'file') {
 								if($value[$field]) {
-									$value[$field] = '<a href="'.(getglobal('setting/attachurl').'./profile/'.$value[$field]).'" target="_blank"><img src="'.(getglobal('setting/attachurl').'./profile/'.$value[$field]).'" class="verifyimg" /></a>';
+									$value[$field] = '<a href="'.(getglobal('setting/attachurl').'./profile/'.$value[$field]).'" target="_blank"><img src="'.(getglobal('setting/attachurl').'./profile/'.$value[$field]).'" class="verifyimg"></a>';
 								} else {
 									$value[$field] = cplang('members_verify_pic_removed');
 								}
