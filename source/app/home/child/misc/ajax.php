@@ -179,6 +179,10 @@ if($op == 'comment') {
 			loadcache('creditrule');
 			$creditlog = table_common_credit_rule_log::t()->fetch($log[1]);
 			$rule = $_G['cache']['creditrule'][$log[0]];
+			$rulelang = !empty($rule['action']) ? lang('creditrule', 'creditrule_'.$rule['action']) : '';
+			if($rulelang && $rulelang !== 'creditrule_'.$rule['action']) {
+				$rule['rulename'] = $rulelang;
+			}
 			$rule['cyclenum'] = $rule['rewardnum'] ? $rule['rewardnum'] - $creditlog['cyclenum'] : 0;
 		}
 		dsetcookie('reward_log', '');

@@ -218,6 +218,7 @@ $lang = array(
 	'do_stat_statistic'	=> 'Merged Statistics',//'合并统计',
 	'logs_credit_update_INDEX'	=> array('TRC','RTC','RAC','MRC','BMC','TFR','RCV','CEC','ECU','SAC','BAC','PRC','RSC','STC','BTC','AFD','UGP','RPC','ACC','RCT','RCA','RCB','CDC','RGC','BGC','AGC','RKC','BME','RPR','RPZ','FCP','BGC','PRV'),
 	'logs_credit_update_PRV'	=> 'Hot reply vote',
+	'logs_credit_update_RUL'	=> 'Credit rule',
 	'logs_credit_update_TRC'	=> 'Task reward',//'任务奖励',
 	'logs_credit_update_RTC'	=> 'Reward Topic',//'悬赏主题',
 	'logs_credit_update_RAC'	=> 'Best Reply Award',//'最佳答案',

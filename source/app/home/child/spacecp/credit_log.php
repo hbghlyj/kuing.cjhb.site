@@ -52,7 +52,9 @@ if($_GET['suboperation'] == 'creditrulelog') {
 		$rulelogs = table_common_credit_rule_log::t()->fetch_all_by_uid($_G['uid'], $start, $perpage);
 		$rules = table_common_credit_rule::t()->fetch_all_by_rid(table_common_credit_rule_log::t()->get_rids());
 		foreach($rulelogs as $value) {
-			$value['rulename'] = $rules[$value['rid']]['rulename'];
+			$rule = $rules[$value['rid']] ?? [];
+			$rulelang = !empty($rule['action']) ? lang('creditrule', 'creditrule_'.$rule['action']) : '';
+			$value['rulename'] = $rulelang && $rulelang !== 'creditrule_'.$rule['action'] ? $rulelang : ($rule['rulename'] ?? '');
 			$list[] = $value;
 		}
 	}

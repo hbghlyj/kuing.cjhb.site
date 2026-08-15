@@ -341,6 +341,13 @@ if($_GET['op'] == 'base') {
 		}
 	}
 	$list = $listNew;
+	foreach($list as &$value) {
+		$rulelang = !empty($value['action']) ? lang('creditrule', 'creditrule_'.$value['action']) : '';
+		if($rulelang && $rulelang !== 'creditrule_'.$value['action']) {
+			$value['rulename'] = $rulelang;
+		}
+	}
+	unset($value);
 }
 include_once template('home/spacecp_credit_base');
 
