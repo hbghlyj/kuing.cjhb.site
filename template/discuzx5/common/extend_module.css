@@ -191,7 +191,9 @@ details > div {
 #postbox {padding-top:5px}
 .edt{border: 1px solid var(--dz-borderb)!important;}
 
-.tdats .tfxf {width:560px}
+.tdats {display:flex;flex-wrap:nowrap;overflow-x:auto}
+.tdats > .tdat {float:none;flex:0 1 auto}
+.tdats .tfxf {width:auto;min-width:0;flex:1 1 0}
 .tdats .tfx, .tdats .tb, .tscr, .tscr .tdat th, .tscr .tdat td {width:280px}
 .tdats th {font-weight:normal}
 .tdats th, .tdats td {padding:0 10px}

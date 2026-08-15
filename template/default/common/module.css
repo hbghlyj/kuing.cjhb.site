@@ -1839,13 +1839,13 @@ a.editlog:hover { color: #333; }
 	.scf h2 { line-height: 2.2; font-weight: bold; font-size: 14px; }
 	.scf h2:before { content: "\f101"; font-family: dzicon; line-height: 20px; font-size: 18px; margin-right: 2px; }
 /* 用来展示复杂统计数据的表格，目前仅用户组页面用到 */
-	.tdats { overflow: hidden; zoom: 1; margin: 10px 0; }
+	.tdats { display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
 		.tdats i { font-size: 14px; }
 		.tdats i:before { height: 18px; line-height: 18px; margin-right: 2px; }
 		.tdats th, .tdats td { overflow: hidden; padding: 0 5px; height: 26px; border-width: 0 1px 0 0; border-color: {WRAPBG}; white-space: nowrap; }
 		.tdats th { height: 40px; font-weight: bold; }
 			.tdats .h th { height: 24px; border-top: 1px solid {COMMONBORDER}; border-bottom: 1px solid #E5E5E5; background: linear-gradient(0deg, #efefef, #fcfcfc); color: {MIDTEXT}; zoom: 1; }
-		.tdats .tdat { float: left; border: none; table-layout: fixed; }
+		.tdats .tdat { float: none; border: none; table-layout: fixed; }
 		.tdats .tfx { width: 300px; }
 			.tfx th, .tfx td { border-width: 0 3px !important; background: #FFF2DF; }
 			.tfx .alt, .tfx .alt th, .tfx .alt td { background: #FAEDDA; }
