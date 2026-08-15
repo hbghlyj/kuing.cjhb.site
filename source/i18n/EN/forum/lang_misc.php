@@ -124,7 +124,7 @@ $lang = array
 	'credit_payment'		=> 'Recharge Points',//'积分充值',
 	'credit_forum_payment'		=> 'Recharge forum points',//'论坛积分充值',
 
-	'credit_total'			=> 'Total Points',//'总积分',
+	'credit_total'			=> 'Total Credits',//'总积分',
 
 	'invite_payment'		=> 'Buy an invitation code',//'购买邀请码',
 	'invite_forum_payment'		=> 'Buy an invitation code',//'购买邀请码',

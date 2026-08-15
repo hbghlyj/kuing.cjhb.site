@@ -83,6 +83,7 @@ if($_GET['op'] == 'base') {
 	$creditsformulaexp = preg_replace_callback('/\{(credits_\w+)\}/', function($r) {
 		return lang('credit', $r[1]);
 	}, $creditsformulaexp);
+	$creditsformulaexp = str_replace(['<u>总积分</u>', '<u>總積分</u>'], '<u>'.lang('forum/misc', 'credit_total').'</u>', $creditsformulaexp);
 
 	$upgroup_credits = 0;
 	$upgroup_creditsformulaexp = $upgroup_name = '';
