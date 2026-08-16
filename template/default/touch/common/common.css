@@ -1021,6 +1021,9 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .threadlist_foot li.thread-tags .ptg a { display:inline-flex; align-items:center; gap:3px; color:var(--dz-FC-color); font-size:12px; font-weight:normal; padding:2px 8px; margin:0 4px 4px 0; background:var(--dz-BG-5); border-radius:var(--dz-radius-sm); transition:var(--dz-transition); }
 .threadlist_foot li.thread-tags { flex: 0 1 auto; display: block; min-width: 0; }
 .threadlist_foot li.thread-tags .ptg { width: auto; margin: 0; }
+.threadlist_foot li a.replyadd, .threadlist_foot li a.replysubtract {display:inline-flex;align-items:center;gap:4px;color:var(--dz-FC-999);transition:var(--dz-transition)}
+.threadlist_foot li a.replyadd.active, .threadlist_foot li a.replysubtract.active {color:var(--dz-FC-light)}
+.threadlist_foot li a.replyadd.active i, .threadlist_foot li a.replysubtract.active i {color:inherit}
 .threadlist_foot li.stats {margin-left:auto}
 .threadlist_foot li.stats ~ li.stats {margin-left:0}
 .threadlist_foot li.stats a {display:inline-flex;align-items:center;gap:4px;color:var(--dz-FC-999)}
