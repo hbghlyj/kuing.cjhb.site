@@ -21,13 +21,17 @@ function searchkey($keyword, $field, $returnsrchtxt = 0) {
 			$keywordsrch = '0';
 			$keyword = preg_replace('/( OR |\|)/is', '+', $keyword);
 		}
-		// Escape the LIKE escape character before wildcard characters so a literal
-		// backslash cannot change how the following % or _ is interpreted.
-		$keyword = str_replace('*', '%', addcslashes($keyword, "\\%_"));
-		$srchtxt = $returnsrchtxt ? $keyword : '';
+		// Use an explicit LIKE escape character so backslashes in the keyword are
+		// not confused with MySQL string escaping.
+		$wildcard = chr(1);
+		$keyword = str_replace('*', $wildcard, $keyword);
+		$srchtxt = $returnsrchtxt ? str_replace($wildcard, '%', $keyword) : '';
+		$field = preg_replace('/(LIKE\s+\'[^\']*\{text\}[^\']*\')/i', '$1 ESCAPE \'=\'', $field);
 		foreach(explode('+', $keyword) as $text) {
 			$text = trim(daddslashes($text));
 			if($text) {
+				$text = str_replace(['=', '%', '_'], ['==', '=%', '=_'], $text);
+				$text = str_replace($wildcard, '%', $text);
 				$keywordsrch .= $andor;
 				$keywordsrch .= str_replace('{text}', $text, $field);
 			}
