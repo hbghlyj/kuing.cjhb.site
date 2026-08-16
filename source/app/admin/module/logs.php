@@ -148,12 +148,10 @@ showsubmenu('nav_logs', $menu, $sel);
 $filters = '';
 if($operation != 'setting') {
 	$keywordhtml = dhtmlspecialchars($keyword);
-	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
+	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
 	showtableheader('', 'fixpadding');
 	echo '<input type="hidden" name="app" value="admin">';
 	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars(PLATFORM).'">';
-	echo '<input type="hidden" name="action" value="logs">';
-	echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'">';
 	echo '<input type="hidden" name="lpp" value="'.$lpp.'">';
 	echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'">';
 	showtablerow('', [], [
