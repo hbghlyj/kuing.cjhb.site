@@ -868,10 +868,6 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _init_misc() {
-		if($this->config['security']['urlxssdefend'] && !defined('DISABLEXSSCHECK')) {
-			$this->_xss_check();
-		}
-
 		if(!$this->init_misc) {
 			return false;
 		}
@@ -914,6 +910,12 @@ class discuz_application extends discuz_base {
 					$this->_restful_output('user_banned');
 				}
 			}
+		}
+
+		// Apply request-tainting checks after restricted guest requests have been
+		// redirected, while retaining them for authenticated and guest-enabled flows.
+		if($this->config['security']['urlxssdefend'] && !defined('DISABLEXSSCHECK')) {
+			$this->_xss_check();
 		}
 
 		if($this->var['setting']['ipaccess'] && !ipaccess($this->var['clientip'], $this->var['setting']['ipaccess'])) {
