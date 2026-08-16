@@ -21,7 +21,9 @@ function searchkey($keyword, $field, $returnsrchtxt = 0) {
 			$keywordsrch = '0';
 			$keyword = preg_replace('/( OR |\|)/is', '+', $keyword);
 		}
-		$keyword = str_replace('*', '%', addcslashes($keyword, '%_'));
+		// Escape the LIKE escape character before wildcard characters so a literal
+		// backslash cannot change how the following % or _ is interpreted.
+		$keyword = str_replace('*', '%', addcslashes($keyword, "\\%_"));
 		$srchtxt = $returnsrchtxt ? $keyword : '';
 		foreach(explode('+', $keyword) as $text) {
 			$text = trim(daddslashes($text));

@@ -744,6 +744,26 @@ const testPusherLeaderCoordination = async browser => {
         assert.ok(!creditPromptText.includes('|'), 'Assertion Error: Credit update prompt exposed internal credit-name separators.');
         report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
+        const literalSearchKeyword = 'literal-ci\\%_marker';
+        const literalSearchSubject = `${standardSubject} ${literalSearchKeyword}`;
+        const originalSubjectB64 = Buffer.from(standardSubject).toString('base64');
+        const literalSearchSubjectB64 = Buffer.from(literalSearchSubject).toString('base64');
+        execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1;"`);
+        try {
+            await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
+            await page.waitForLoadState('networkidle');
+            const searchForm = page.locator('form.searchform');
+            await searchForm.locator('#scform_srchtxt').fill(literalSearchKeyword);
+            await Promise.all([
+                page.waitForURL(url => url.pathname.endsWith('/search.php') && url.searchParams.has('searchid')),
+                searchForm.locator('#scform_submit').click()
+            ]);
+            assert.ok((await page.locator('body').textContent()).includes(literalSearchSubject), 'Assertion Error: Forum search did not match literal backslash, percent, and underscore characters.');
+        } finally {
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1;"`);
+        }
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+
         // Reply to Thread
             console.log("Attempting to reply to thread...");
             const desktopReplyBtn = page.locator('#post_reply');
