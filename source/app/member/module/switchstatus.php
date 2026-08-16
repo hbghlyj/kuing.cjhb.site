@@ -25,7 +25,7 @@ if($_G['uid']) {
 		dsetcookie('ulastactivity', TIMESTAMP.'|'.getuserprofile('invisible'), 31536000);
 	}
 	$language = lang('forum/misc');
-	$icon = $_G['session']['invisible'] ? '<svg class="stealth-status-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3"></circle><path d="M5 21c.7-4 2.8-6 7-6s6.3 2 7 6M4 9h16M7 9l1.5 3h2L12 9l1.5 3h2L17 9"></path></svg>' : '';
+	$icon = $_G['session']['invisible'] ? '<svg class="stealth-status-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9V7c0-2 2.7-4 6-4s6 2 6 4v2M3 9h18M4 12h5l1 1.5h4l1-1.5h6M4 12v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2M14 12v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2"></path></svg>' : '';
 	$msg = $_G['session']['invisible'] ? $language['login_invisible_mode'] : $language['login_normal_mode'];
 	showmessage('<a href="member.php?mod=switchstatus" title="'.$language['login_switch_invisible_mode'].'" onclick="ajaxget(this.href, \'loginstatus\');return false;" class="xi2'.($_G['session']['invisible'] ? ' stealth-status' : '').'">'.$icon.$msg.'</a>', dreferer(), [], ['msgtype' => 3, 'showmsg' => 1]);
 
