@@ -11,6 +11,7 @@
 
 $lang = array (
 	'search_nomatch'	=> 'Sorry, no results found.',//'对不起，没有找到匹配结果。',
+	'search_modify'	=> 'Modify search',
 	'search_result'		=> 'Result: <em>Found $index[num] related thread(s)</em>',//'结果: <em>找到相关主题 $index[num] 个</em>',
 	'search_result_keyword'	=> 'Result: <em>Found $index[num] thread(s) related to "<span class="emfont">$keyword</span>"</em>',//'结果: <em>找到 “<span class="emfont">$keyword</span>” 相关内容 $index[num] 个</em>',
 	'a_comment'		=> 'Comment',//'个评论',

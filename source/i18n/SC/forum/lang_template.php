@@ -452,7 +452,6 @@ $lang = [
 	'post_imgcode' => '[img] 代码',
 	'recommend_moderator' => '推荐人',
 	'search_nomatch' => '抱歉，没有找到匹配结果',
-	'search_modify' => '修改搜索',
 	'subject' => '标题',
 	'forum' => '版块',
 	'member' => '会员',

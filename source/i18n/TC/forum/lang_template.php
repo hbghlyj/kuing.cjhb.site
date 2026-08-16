@@ -452,7 +452,6 @@ $lang = [
 	'post_imgcode' => '[img] 代碼',
 	'recommend_moderator' => '推薦人',
 	'search_nomatch' => '抱歉，沒有找到匹配結果',
-	'search_modify' => '修改搜尋',
 	'subject' => '標題',
 	'forum' => '版塊',
 	'member' => '會員',

@@ -451,7 +451,6 @@ $lang = array (
 	'post_imgcode'				=> '[img] Code',//'[img] 代码',
 	'recommend_moderator'			=> 'Recommender',//'推荐人',
 	'search_nomatch'			=> 'Sorry, no results found.',//'抱歉，没有找到匹配结果',
-	'search_modify'			=> 'Modify search',
 	'subject'				=> 'Title',//'标题',
 	'forum'					=> 'Board',//'版块',
 	'member'				=> 'Member',//'会员',
