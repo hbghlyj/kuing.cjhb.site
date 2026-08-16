@@ -69,6 +69,11 @@ $before = intval(getgpc('before'));
 $srchfid = getgpc('srchfid');
 $srhfid = intval($_GET['srhfid']);
 
+// Limit the default forum search to recent posts while preserving explicit ranges.
+if(!$srchfrom && !$before) {
+	$srchfrom = TIMESTAMP - 31536000;
+}
+
 $keyword = isset($srchtxt) ? trim($srchtxt) : '';
 
 if(!$srchuname && $srchuid) {
@@ -402,11 +407,12 @@ if(!submitcheck('searchsubmit', 1)) {
 					}
 
 					if($hastimerange) {
+						$searchtimecolumn = $srchtype == 'fulltext' ? 'p.dateline' : 't.lastpost';
 						if($searchtimemin) {
-							$sqlsrch .= " AND t.lastpost>='$searchtimemin'";
+							$sqlsrch .= " AND $searchtimecolumn>='$searchtimemin'";
 						}
 						if($searchtimemax) {
-							$sqlsrch .= " AND t.lastpost<='$searchtimemax'";
+							$sqlsrch .= " AND $searchtimecolumn<='$searchtimemax'";
 						}
 					}
 
