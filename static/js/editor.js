@@ -1156,7 +1156,7 @@ function insertSmiley(smilieid) {
 }
 
 function discuzcode(cmd, arg) {
-	if(cmd != 'redo') {
+	if(cmd != 'redo' && cmd != 'undo') {
 		addSnapshot(getEditorContents());
 	}
 
@@ -1194,13 +1194,14 @@ function discuzcode(cmd, arg) {
 		}
 		insertText(str);
 	} else if(cmd == 'undo') {
-		addSnapshot(getEditorContents());
-		moveCursor(-1);
-		if((str = getSnapshot()) !== false) {
-			if(wysiwyg) {
-				editdoc.body.innerHTML = str;
-			} else {
-				editdoc.value = str;
+		if(stack[cursor] == getEditorContents()) {
+			moveCursor(-1);
+			if((str = getSnapshot()) !== false) {
+				if(wysiwyg) {
+					editdoc.body.innerHTML = str;
+				} else {
+					editdoc.value = str;
+				}
 			}
 		}
 	} else if(cmd == 'redo') {
