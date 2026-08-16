@@ -362,7 +362,7 @@ function fonttag(fontoptions, text) {
 			if(bbcode == 'font') {
 				optionvalue = normalizefontvalue(optionvalue);
 			}
-			if(!isDefaultFontAttr(bbcode, optionvalue)) {
+			if(!isDefaultStyleAttr(bbcode, optionvalue)) {
 				prepend += '[' + bbcode + '=' + optionvalue + ']';
 				append = '[/' + bbcode + ']' + append;
 			}
@@ -607,9 +607,12 @@ function parsecode(text) {
 	return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
 }
 
-function isDefaultFontAttr(type, value) {
+function isDefaultStyleAttr(type, value) {
 	if(!value) return true;
 	var val = String(value).trim().toLowerCase();
+	if(type === 'align') {
+		return val === 'left';
+	}
 	if(type === 'font') {
 		return ['times new roman', 'times', 'serif', 'sans-serif', 'inherit', 'initial', '-webkit-standard', 'var(--dz-ff)'].indexOf(val) !== -1;
 	}
@@ -660,7 +663,7 @@ function parsestyle(tagoptions, prepend, append) {
 			} else if(searchlist[i][0] == 'font') {
 				opnvalue = normalizefontvalue(opnvalue);
 			}
-			if(!isDefaultFontAttr(searchlist[i][0], opnvalue)) {
+			if(!isDefaultStyleAttr(searchlist[i][0], opnvalue)) {
 				prepend += '[' + searchlist[i][0] + (searchlist[i][1] == true ? '=' + opnvalue + ']' : ']');
 				append = '[/' + searchlist[i][0] + ']' + append;
 			}
