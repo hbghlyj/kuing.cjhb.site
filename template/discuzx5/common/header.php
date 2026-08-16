@@ -106,9 +106,6 @@
 				if(list.children.length) wrap.style.display = '';
 			})();
 			</script>
-			<!--{if CURMODULE == 'index' && $_G['uid'] && $_G['setting']['forumstatus']}-->
-				<span class="pg"><a href="home.php?mod=space&do=thread&view=me">{lang my_posts}</a></span>
-			<!--{/if}-->
 			<!--{if $_G['setting']['visitedforums']}-->
 				<!--{eval require_once libfile('function/forumlist'); empty($_G['cache']['forums']) && loadcache('forums'); $visitedforumsmenu = visitedforums();}-->
 				<!--{if $visitedforumsmenu}-->
