@@ -197,7 +197,7 @@ function queueMathEditorEquation(rendered, math) {
 	if (!queued) pendingMathEditorEquations.push({ rendered: rendered, math: math });
 	if (mathEditorLoaderListening) return;
 	mathEditorLoaderListening = true;
-	var loader = document.querySelector('script[src*="/mathjax@4/tex-chtml.js"]');
+	var loader = document.querySelector('script[src*="/mathjax@4/tex-chtml"]');
 	if (loader) loader.addEventListener('load', flushPendingMathEditorEquations, { once: true });
 	window.addEventListener('load', flushPendingMathEditorEquations, { once: true });
 	waitForMathEditorLoader();

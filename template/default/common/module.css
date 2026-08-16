@@ -504,7 +504,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	.newthread tr th, .newthread tr td { background: #FFFAF3; }
 	.newthread .new em { margin-right: 4px; }
-	.newthread .new em, .newthread .new em a { color: #007CD5; font: {FONTSIZE} "Google Sans"; }
+	.newthread .new em, .newthread .new em a { color: #007CD5; font: {FONTSIZE} "Palatino Linotype"; }
 	/*
 	.tl .newthread tr:hover th, .tl .newthread tr:hover td{ background-color: transparent; }
 	*/

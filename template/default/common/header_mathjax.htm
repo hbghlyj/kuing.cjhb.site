@@ -44,22 +44,6 @@
               };
             }
           <!--{/if}-->
-          if (MathJax._.input && MathJax._.input.tex) {
-            const TEXCLASS = MathJax._.core.MmlTree.MmlNode.TEXCLASS;
-            const Macro = MathJax._.input.tex.Token.Macro;
-            const MakeBig = MathJax._.input.tex.base.BaseMethods.default.MakeBig;
-            const mapHandler = MathJax._.input.tex.MapHandler.MapHandler.getMap('macros');
-            if (mapHandler && mapHandler.map && typeof mapHandler.map.set === 'function') {
-              mapHandler.map.set('big',new Macro('big', MakeBig, [TEXCLASS.ORD, .84]));
-              mapHandler.map.set('bigl',new Macro('bigl', MakeBig, [TEXCLASS.OPEN, .84]));
-              mapHandler.map.set('bigr',new Macro('bigr', MakeBig, [TEXCLASS.CLOSE, .84]));
-              mapHandler.map.set('bigm',new Macro('bigm', MakeBig, [TEXCLASS.REL, .84]));
-              mapHandler.map.set('bigg',new Macro('bigg', MakeBig, [TEXCLASS.ORD, 1.6]));
-              mapHandler.map.set('biggl',new Macro('biggl', MakeBig, [TEXCLASS.OPEN, 1.6]));
-              mapHandler.map.set('biggr',new Macro('biggr', MakeBig, [TEXCLASS.CLOSE, 1.6]));
-              mapHandler.map.set('biggm',new Macro('biggm', MakeBig, [TEXCLASS.REL, 1.6]));
-            }
-          }
         }
       } catch(e) {}
       if (MathJax && MathJax.startup && typeof MathJax.startup.defaultReady === 'function') {
@@ -76,4 +60,4 @@
   window.MathJax.loader.load = ['ui/lazy'].concat(window.MathJax.loader.load || []);
 </script>
 <!--{/if}-->
-<script src="https://unpkg.com/mathjax@4/tex-chtml.js" async></script>
+<script src="https://unpkg.com/mathjax@4/tex-chtml-nofont.js" async></script>
