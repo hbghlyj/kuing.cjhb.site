@@ -755,19 +755,20 @@ const testPusherLeaderCoordination = async browser => {
         const decoySubjectB64New = Buffer.from(decoySubject).toString('base64');
         execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         try {
-            for(const literalSearchKeyword of literalSearchKeywords) {
-                const searchUrl = new URL('http://127.0.0.1:8080/search.php?mod=forum');
-                searchUrl.searchParams.set('srchtxt', literalSearchKeyword);
-                searchUrl.searchParams.set('searchsubmit', 'yes');
-                await page.goto(searchUrl.toString(), { waitUntil: 'networkidle' });
-                assert.ok(new URL(page.url()).searchParams.has('searchid'), `Assertion Error: Forum search did not create a result set for ${literalSearchKeyword}.`);
-                const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
-                    const url = new URL(link.href);
-                    return url.searchParams.get('tid') || url.searchParams.get('ptid');
-                }).filter(Boolean));
-                assert.ok(resultThreadIds.includes(String(tidOutput)), `Assertion Error: Forum search did not return the literal target for ${literalSearchKeyword}.`);
-                assert.ok(!resultThreadIds.includes(decoyTid), `Assertion Error: Forum search treated wildcard characters as patterns for ${literalSearchKeyword}.`);
-            }
+            // Search all literal variants in one OR query so the site's search
+            // throttle does not turn the second assertion into a rate-limit test.
+            const literalSearchKeyword = literalSearchKeywords.join('|');
+            const searchUrl = new URL('http://127.0.0.1:8080/search.php?mod=forum');
+            searchUrl.searchParams.set('srchtxt', literalSearchKeyword);
+            searchUrl.searchParams.set('searchsubmit', 'yes');
+            await page.goto(searchUrl.toString(), { waitUntil: 'networkidle' });
+            assert.ok(new URL(page.url()).searchParams.has('searchid'), `Assertion Error: Forum search did not create a result set for ${literalSearchKeyword}.`);
+            const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
+                const url = new URL(link.href);
+                return url.searchParams.get('tid') || url.searchParams.get('ptid');
+            }).filter(Boolean));
+            assert.ok(resultThreadIds.includes(String(tidOutput)), `Assertion Error: Forum search did not return the literal target for ${literalSearchKeyword}.`);
+            assert.ok(!resultThreadIds.includes(decoyTid), `Assertion Error: Forum search treated wildcard characters as patterns for ${literalSearchKeyword}.`);
         } finally {
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         }

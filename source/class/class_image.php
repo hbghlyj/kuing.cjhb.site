@@ -34,7 +34,7 @@ class image {
 
 		$this->param = [
 			'imagelib' => $_G['setting']['imagelib'],
-			'imageimpath' => $_G['setting']['imageimpath'],
+			'imageimpath' => $_G['setting']['imageimpath'] ?? '',
 			'thumbquality' => $_G['setting']['thumbquality'],
 			'watermarkstatus' => dunserialize($_G['setting']['watermarkstatus']),
 			'watermarkminwidth' => dunserialize($_G['setting']['watermarkminwidth']),

@@ -58,6 +58,9 @@ function codedisp($code) {
 }
 function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 0, $allowsmilies = 1, $allowbbcode = 1, $allowimgcode = 1, $allowhtml = 0, $jammer = 0, $parsetype = '0', $authorid = '0', $allowmediacode = '0', $pid = 0, $lazyload = 0, $pdateline = 0, $first = 0, $jsonEditorOn = 0) {
 	global $_G;
+	if(!isset($_G['forum_discuzcode']) || !is_array($_G['forum_discuzcode'])) {
+		$_G['forum_discuzcode'] = ['pcodecount' => -1, 'codecount' => 0, 'codehtml' => []];
+	}
 
 	static $authorreplyexist;
 
@@ -122,7 +125,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 	}
 
-	if($_G['setting']['plugins']['func'][HOOKTYPE]['discuzcode']) {
+	if(!empty($_G['setting']['plugins']['func'][HOOKTYPE]['discuzcode'])) {
 		$_G['discuzcodemessage'] = &$message;
 		$param = func_get_args();
 		hookscript('discuzcode', 'global', 'funcs', ['param' => $param, 'caller' => 'discuzcode'], 'discuzcode');

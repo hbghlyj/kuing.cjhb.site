@@ -302,7 +302,7 @@ class credit {
 				if($fid) {
 					$extra[] = 'fid:'.$fid;
 				}
-				if($rule['groupid']) {
+				if(!empty($rule['groupid'])) {
 					$extra[] = 'gid:'.$rule['groupid'];
 				}
 				$extra = !empty($extra) ? '('.implode(',', $extra).')' : '';
@@ -559,8 +559,8 @@ class credit {
 			return false;
 		}
 		$fid = $fid ? $fid : (isset($_G['fid']) && $_G['fid'] ? $_G['fid'] : 0);
-		if($_G['forum'] && $_G['forum']['status'] == 3) {
-			$group_creditspolicy = $_G['grouplevels'][$_G['forum']['level']]['creditspolicy'];
+		if(!empty($_G['forum']) && ($_G['forum']['status'] ?? 0) == 3) {
+			$group_creditspolicy = $_G['grouplevels'][$_G['forum']['level']]['creditspolicy'] ?? null;
 			if(is_array($group_creditspolicy) && empty($group_creditspolicy[$action])) {
 				return false;
 			} else {
@@ -569,12 +569,13 @@ class credit {
 		}
 		loadcache('creditrule');
 		$rule = false;
-		if(is_array($_G['cache']['creditrule'][$action])) {
-			$rule = $_G['cache']['creditrule'][$action];
+		$creditrules = $_G['cache']['creditrule'] ?? [];
+		if(is_array($creditrules[$action] ?? null)) {
+			$rule = $creditrules[$action];
 
 			$grouprule = [];
-			if($groupid > 0 && is_array($_G['cache']['creditrule'][$groupid.'#'.$action])) {
-				$grouprule = $_G['cache']['creditrule'][$groupid.'#'.$action];
+			if($groupid > 0 && is_array($creditrules[$groupid.'#'.$action] ?? null)) {
+				$grouprule = $creditrules[$groupid.'#'.$action];
 				$rule['groupid'] = $groupid;
 				for($i = 1; $i <= 8; $i++) {
 					if(empty($_G['setting']['extcredits'][$i])) {

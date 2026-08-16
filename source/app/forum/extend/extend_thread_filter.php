@@ -20,7 +20,7 @@ class extend_thread_filter extends extend_thread_base {
 	private $curFilterCheck = -1;
 
 	private function _check_post_length($message, $length) {
-		if($this->param['special'] || $this->thread['special'] || getstatus($this->thread['status'], 3) || !$length) {
+		if(($this->param['special'] ?? 0) || ($this->thread['special'] ?? 0) || getstatus($this->thread['status'] ?? 0, 3) || !$length) {
 			return 0;
 		}
 		require_once libfile('function/discuzcode');
@@ -40,7 +40,7 @@ class extend_thread_filter extends extend_thread_base {
 	}
 
 	public function before_newreply($parameters) {
-		$this->curFilterCheck = $this->_check_post_length($parameters['noticetrimstr'].$parameters['message'], $this->setting['threadfilternum']);
+		$this->curFilterCheck = $this->_check_post_length(($parameters['noticetrimstr'] ?? '').($parameters['message'] ?? ''), $this->setting['threadfilternum']);
 		if($this->curFilterCheck <= 0) {
 			$this->param['modstatus'][11] = 1;
 		}

@@ -57,6 +57,11 @@ class model_post extends discuz_model {
 	}
 
 	protected function _init_parameters($parameters) {
+		$defaults = [
+			'contentType' => 'text',
+			'from' => '',
+			'noticetrimstr' => '',
+		];
 		$varname = [
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
 			'message', 'content',
@@ -73,6 +78,7 @@ class model_post extends discuz_model {
 				$this->param[$name] = $parameters[$name];
 			}
 		}
+		$this->param += $defaults;
 
 	}
 

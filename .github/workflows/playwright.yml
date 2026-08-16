@@ -91,7 +91,7 @@ jobs:
 
           test "$(mysql ultrax -Nse "SHOW TABLES LIKE 'chat';")" = "chat"
           mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"
-          php -r 'require "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
+          php -r 'require_once "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
           php .agents/tools/rebuild_styles.php --host=127.0.0.1:8080
           DISCUZ_STRICT_LANG=1 php .github/scripts/setup_test_security.php --url=http://127.0.0.1:8080
           test -s data/cache/style_2_common.css
