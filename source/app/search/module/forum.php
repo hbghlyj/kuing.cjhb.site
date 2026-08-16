@@ -58,6 +58,7 @@ $getuidsbyusername = function($username) {
 if($srchtype != 'title' && $srchtype != 'fulltext') {
 	$srchtype = '';
 }
+$fulltextchecked = $srchtype == 'fulltext' ? 'checked="checked"' : '';
 
 $srchtxt = trim(getgpc('srchtxt'));
 $srchuid = intval(getgpc('srchuid'));
