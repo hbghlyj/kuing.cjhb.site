@@ -198,7 +198,7 @@ function clearcode(str) {
 	str= str.replace(/\[color=([^\[\<]+?)\]\[\/color\]/ig, '', str);
 	str= str.replace(/\[size=(\d+?)\]\[\/size\]/ig, '', str);
 	str= str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]\[\/size\]/ig, '', str);
-	str= str.replace(/\[font=([^\[\<]+?)\]\[\/font\]/ig, '', str);
+	str= str.replace(/\[font=([^\[\<\]]+?)\]\[\/font\]/ig, '', str);
 	str= str.replace(/\[align=([^\[\<]+?)\]\[\/align\]/ig, '', str);
 	str= str.replace(/\[p=(\d{1,2}), (\d{1,2}), (left|center|right)\]\[\/p\]/ig, '', str);
 	str= str.replace(/\[float=([^\[\<]+?)\]\[\/float\]/ig, '', str);
