@@ -218,7 +218,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$searchformparams = [
 			'mod' => 'forum',
 			'srchtxt' => $keyword,
-			'srchtype' => $index['searchtype'],
+			'srchtype' => $searchstring[1],
 			'srchuid' => $srchuid,
 			'srchuname' => $srchuname,
 			'srchparticipant' => $srchparticipant,
