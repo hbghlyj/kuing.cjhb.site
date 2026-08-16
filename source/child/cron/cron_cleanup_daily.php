@@ -121,9 +121,59 @@ table_common_member_action_log::t()->delete_by_dateline($_G['timestamp'] - 86400
 
 table_forum_collectioninvite::t()->delete_by_dateline($_G['timestamp'] - 86400 * 7);
 
+cleanup_asy_cache(DISCUZ_ROOT.'asy', 180 * 86400, 256 * 1024 * 1024);
+
 loadcache('seccodedata', true);
 $_G['cache']['seccodedata']['register']['show'] = 0;
 savecache('seccodedata', $_G['cache']['seccodedata']);
+
+function cleanup_asy_cache($directory, $maxAge, $maxBytes) {
+	if(!is_dir($directory)) {
+		return;
+	}
+
+	$now = TIMESTAMP;
+	$files = [];
+	$totalBytes = 0;
+	foreach(scandir($directory) ?: [] as $name) {
+		if(!preg_match('/^[a-f0-9]{64}\.(?:svg|png)$/D', $name)) {
+			continue;
+		}
+		$path = $directory.DIRECTORY_SEPARATOR.$name;
+		if(!is_file($path)) {
+			continue;
+		}
+
+		$mtime = @filemtime($path);
+		$size = @filesize($path);
+		if($mtime === false || $size === false) {
+			continue;
+		}
+		if($mtime < $now - $maxAge) {
+			@unlink($path);
+			continue;
+		}
+
+		$files[] = ['path' => $path, 'mtime' => $mtime, 'size' => $size];
+		$totalBytes += $size;
+	}
+
+	if($totalBytes <= $maxBytes) {
+		return;
+	}
+
+	usort($files, static function($left, $right) {
+		return $left['mtime'] <=> $right['mtime'];
+	});
+	foreach($files as $file) {
+		if($totalBytes <= $maxBytes) {
+			break;
+		}
+		if(@unlink($file['path'])) {
+			$totalBytes -= $file['size'];
+		}
+	}
+}
 
 function removedir($dirname, $keepdir = FALSE) {
 	$dirname = str_replace(["\n", "\r", '..'], ['', '', ''], $dirname);
