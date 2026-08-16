@@ -536,6 +536,7 @@ img{border:none;}
 .header-user-login .login-icon{margin-left:7px;}
 .header-user-login a img{display:flex;width:26px;height:26px;object-fit:contain;}
 .header-user-login .user-login-separate{margin:0 1rem;color:#c0c5cc;font-size:16px;line-height:1;}
+.stealth-status-icon{display:inline-block;width:14px;height:14px;margin-right:4px;vertical-align:-2px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.6;}
 /* */
 .header-button {display:-webkit-box;display:-ms-flexbox;display:flex;margin-right:10px;padding:0 15px;height:34px;border-radius:4px;font-weight:normal;font-size:14px;line-height:1;cursor:pointer;justify-content:center;align-items:center;}
 .header-button i{margin-right:2px;width:18px;height:18px;}

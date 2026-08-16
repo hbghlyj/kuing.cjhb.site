@@ -1,8 +1,11 @@
 <!--{if $_G['uid'] && $_G['group']['allowinvisible']}-->
 <script>
-    var invisiblestatus = '<!--{if $_G['session']['invisible']}-->{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}-->';
+    var invisiblestatus = '<!--{if $_G['session']['invisible']}--><svg class="stealth-status-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3"></circle><path d="M5 21c.7-4 2.8-6 7-6s6.3 2 7 6M4 9h16M7 9l1.5 3h2L12 9l1.5 3h2L17 9"></path></svg>{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}-->';
     var loginstatusobj = $('loginstatusid');
-    if(loginstatusobj != undefined && loginstatusobj != null) loginstatusobj.innerHTML = invisiblestatus;
+    if(loginstatusobj != undefined && loginstatusobj != null) {
+        loginstatusobj.innerHTML = invisiblestatus;
+        <!--{if $_G['session']['invisible']}-->loginstatusobj.className += ' stealth-status';<!--{/if}-->
+    }
 </script>
 <!--{/if}-->
 

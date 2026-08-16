@@ -161,6 +161,7 @@ Last Modify:	Pony
 	Last Modify:	lushnis
 */
 	.cl:after { content: ""; display: table; clear: both; } .cl { zoom: 1; }
+	.stealth-status-icon { display: inline-block; width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
 	#onlinelist .cl li a:last-child { color: revert; }
 /*
 	元素获取焦点时隐藏外边框
