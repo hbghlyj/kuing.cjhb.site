@@ -361,7 +361,7 @@ if(!submitcheck('searchsubmit', 1)) {
 							$spx_matchmode = 'ANY';
 							$s->SetMatchMode(SPH_MATCH_ANY);
 						}
-						$srchtxt = str_replace('*', '%', addcslashes($srchtxt, '%_'));
+						$srchtxt = addcslashes($srchtxt, '\\%_*');
 						foreach(explode('+', $srchtxt) as $text) {
 							$text = trim(daddslashes($text));
 							if($text) {

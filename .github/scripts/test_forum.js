@@ -744,7 +744,7 @@ const testPusherLeaderCoordination = async browser => {
         assert.ok(!creditPromptText.includes('|'), 'Assertion Error: Credit update prompt exposed internal credit-name separators.');
         report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
-        const literalSearchKeywords = ['literal-ci%_marker', 'literal-ci\\%_marker'];
+        const literalSearchKeywords = ['literal-ci%_marker', 'literal-ci\\%_marker', 'literal-ci*marker'];
         const literalSearchSubject = `${standardSubject} ${literalSearchKeywords.join(' ')}`;
         const decoyTid = '4';
         const decoySubjectB64 = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT TO_BASE64(subject) FROM pre_forum_thread WHERE tid=${decoyTid};"`).toString().trim();
