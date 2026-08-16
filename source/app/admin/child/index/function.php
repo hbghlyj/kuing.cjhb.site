@@ -599,6 +599,12 @@ function show_charts() {
 	$statvars['online'] = C::app()->session->count();
 	$statvars['onlinemembers'] = C::app()->session->count(1);
 
+	// Keep the dashboard's "Today's star" current even while aggregate stats are cached.
+	$bestmember = table_forum_post::t()->fetch_all_top_post_author(0, $_G['timestamp'] - 86400, 1);
+	$bestmember = $bestmember[0] ?? [];
+	$statvars['bestmem'] = $bestmember['username'] ?? '';
+	$statvars['bestmemposts'] = $bestmember['posts'] ?? null;
+
 	require_once template('admin/index_charts');
 }
 
