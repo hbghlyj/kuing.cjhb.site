@@ -214,6 +214,26 @@ if(!submitcheck('searchsubmit', 1)) {
 		$srchfilterchecked[$srchfilter] = 'checked="checked""';
 		$beforechecked = [$before => 'checked="checked""'];
 		$srchfromselected = [$srchfrom => 'selected="selected"'];
+		$searchformparams = [
+			'mod' => 'forum',
+			'srchtxt' => $keyword,
+			'srchtype' => $index['searchtype'],
+			'srchuid' => $srchuid,
+			'srchuname' => $srchuname,
+			'srchparticipant' => $srchparticipant,
+			'srchfrom' => $srchfrom,
+			'before' => $before,
+			'srchfilter' => $srchfilter,
+			'seltableid' => $seltableid,
+			'orderby' => $orderby,
+			'ascdesc' => $ascdesc,
+		];
+		if($specials && $specials[0] !== '') {
+			$searchformparams['special'] = $specials;
+		}
+		preg_match_all("/'(\d+)'/", (string)$searchstring[5], $searchformfids);
+		$searchformparams['srchfid'] = $searchformfids[1] ?: 'all';
+		$searchformurl = 'search.php?'.http_build_query($searchformparams);
 		$keyword = dhtmlspecialchars($keyword);
 		include template('search/forum');
 
