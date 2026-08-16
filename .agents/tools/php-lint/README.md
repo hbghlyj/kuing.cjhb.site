@@ -41,7 +41,14 @@ node .agents/tools/php-lint/lint.mjs source/app/forum/child/misc/postreview.php
 node .agents/tools/php-lint/lint.mjs --self-test
 ```
 
-Exit codes: `0` clean, `1` parse errors found, `2` harness failure.
+Exit codes: `0` clean, `1` parse errors found, `2` harness failure or bad
+usage (unknown option, or a path that is missing, not `*.php`, or outside the
+repository).
+
+The exclusion list below is applied in a single step after file collection, so
+every invocation mode — full repo, `--changed`, or explicit paths — agrees on
+which files are linted. Naming an excluded file explicitly reports it as
+skipped rather than linting it.
 
 ### Options
 

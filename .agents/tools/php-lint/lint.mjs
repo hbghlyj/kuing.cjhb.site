@@ -44,6 +44,8 @@ const PHP_INI_PATH = '/internal/shared/php.ini';
 // Files whose *.php extension does not mean "PHP source". DIY XML page
 // exports start with a `<?PHP exit(...)?>` guard and then hold raw XML, so the
 // tokenizer legitimately trips over the `<?xml` prologue.
+class UsageError extends Error {}
+
 const EXCLUDE_PATTERNS = [
 	/(^|\/)diyxml\//,
 	/^vendor\//,
@@ -70,7 +72,7 @@ function parseArgv(argv) {
 		else if(arg === '--self-test') options.selfTest = true;
 		else if(arg.startsWith('--php=')) options.phpVersion = arg.slice('--php='.length);
 		else if(arg.startsWith('--base=')) options.base = arg.slice('--base='.length);
-		else if(arg.startsWith('-')) throw new Error(`Unknown option: ${arg}`);
+		else if(arg.startsWith('-')) throw new UsageError(`Unknown option: ${arg}`);
 		else options.paths.push(arg);
 	}
 
@@ -102,12 +104,44 @@ function resolveBaseRef(explicitBase) {
 	return 'HEAD~1';
 }
 
-function collectFiles(options) {
+function collectExplicitFiles(paths) {
+	const outside = [];
+	const missing = [];
+	const notPhp = [];
+	const files = [];
+
+	for(const path of paths) {
+		const absolute = resolve(process.cwd(), path);
+		if(absolute !== REPO_ROOT && !absolute.startsWith(REPO_ROOT + '/')) {
+			outside.push(path);
+			continue;
+		}
+		if(!existsSync(absolute)) {
+			missing.push(path);
+			continue;
+		}
+		const relative = absolute.slice(REPO_ROOT.length + 1);
+		if(!isPhpFile(relative)) {
+			notPhp.push(path);
+			continue;
+		}
+		files.push(relative);
+	}
+
+	// Bad input is a usage error, not a lint finding. Reporting it as a
+	// diagnostic would claim the *code* is broken and exit 1.
+	const problems = [];
+	if(outside.length) problems.push(`outside the repository: ${outside.join(', ')}`);
+	if(missing.length) problems.push(`not found: ${missing.join(', ')}`);
+	if(notPhp.length) problems.push(`not a *.php file: ${notPhp.join(', ')}`);
+	if(problems.length) throw new UsageError(`Cannot lint the requested path(s) — ${problems.join('; ')}`);
+
+	return files;
+}
+
+function collectCandidates(options) {
 	if(options.paths.length) {
-		return options.paths
-			.map((path) => resolve(process.cwd(), path))
-			.map((path) => path.startsWith(REPO_ROOT + '/') ? path.slice(REPO_ROOT.length + 1) : path)
-			.filter(isPhpFile);
+		return collectExplicitFiles(options.paths);
 	}
 
 	if(options.changed) {
@@ -127,6 +161,20 @@ function collectFiles(options) {
 	}
 
 	return git(['ls-files', '*.php']).split('\n').filter(Boolean);
+}
+
+/**
+ * Single collection point for every input mode. Whatever the mode, the
+ * exclusion filter is applied exactly once here, so `--changed` and explicit
+ * paths can never disagree with a full-repo run about which files count.
+ */
+function collectFiles(options) {
+	const candidates = collectCandidates(options).filter(isPhpFile);
+	const unique = [...new Set(candidates)].sort();
+	return {
+		files: unique.filter((file) => !isExcluded(file)),
+		skipped: unique.filter(isExcluded),
+	};
 }
 
 async function createSandbox(options) {
@@ -216,13 +264,13 @@ async function main() {
 		process.exit(await selfTest(options));
 	}
 
-	const candidates = collectFiles(options);
-	const skipped = candidates.filter(isExcluded);
-	const files = candidates.filter((file) => !isExcluded(file));
+	const { files, skipped } = collectFiles(options);
 
 	if(!files.length) {
-		if(!options.json) console.log('No PHP files to lint.');
-		else console.log(JSON.stringify({ checked: 0, diagnostics: [] }));
+		if(options.json) console.log(JSON.stringify({ checked: 0, diagnostics: [], skipped }, null, 2));
+		else console.log(skipped.length
+			? `No PHP files to lint (${skipped.length} excluded).`
+			: 'No PHP files to lint.');
 		process.exit(0);
 	}
 
@@ -258,6 +306,12 @@ async function main() {
 }
 
 main().catch((error) => {
+	// Usage errors are the caller's mistake: report them plainly, with no
+	// stack trace, and never as a lint finding.
+	if(error instanceof UsageError) {
+		console.error(`${error.message}`);
+		process.exit(2);
+	}
 	console.error(error?.stack || String(error));
 	process.exit(2);
 });
