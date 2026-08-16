@@ -192,8 +192,6 @@ function replacePairedBbcode(str, openTag, closeTag, openHtml, closeHtml) {
 }
 
 function clearcode(str) {
-	str = str.replace(/\[url(=((https?|ftp){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\]\[\/url\]/ig, '');
-	str= str.replace(/\[email\]\[\/email\]/ig, '', str);
 	str= str.replace(/\[email=(.[^\[]*)\]\[\/email\]/ig, '', str);
 	str= str.replace(/\[color=([^\[\<]+?)\]\[\/color\]/ig, '', str);
 	str= str.replace(/\[size=(\d+?)\]\[\/size\]/ig, '', str);
