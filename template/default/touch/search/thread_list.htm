@@ -25,7 +25,11 @@
 						<span class="mtime">{$thread['dateline']}</span>
 					</div>
 				</div>
-				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra">
+				<!--{if !empty($thread['matchpid'])}-->
+			<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread['tid']&pid=$thread['matchpid']&extra=$extra">
+			<!--{else}-->
+			<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra">
+			<!--{/if}-->
 				<div class="threadlist_tit cl">
 					<!--{if $thread['folder'] == 'lock'}-->
 						<span class="micon lock">{lang closed_thread}</span>
@@ -54,7 +58,11 @@
 				</a>
 				<!--{if $threadlist_data[$thread['tid']]['attachment']}-->
 				<!--{eval $attach_on = 0;}-->
+				<!--{if !empty($thread['matchpid'])}-->
+				<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread['tid']&pid=$thread['matchpid']&extra=$extra">
+				<!--{else}-->
 				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra">
+				<!--{/if}-->
 					<div class="{if count($threadlist_data[$thread['tid']]['attachment']) == 1}threadlist_imgs1 {elseif count($threadlist_data[$thread['tid']]['attachment']) == 2} threadlist_imgs threadlist_imgs2{else} threadlist_imgs{/if} cl">
 						<ul>
 							<!--{loop $threadlist_data[$thread['tid']]['attachment'] $value}-->
@@ -65,7 +73,11 @@
 					</div>
 				</a>
 				<!--{/if}-->
-				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra"><div class="threadlist_mes cl">{$threadlist_data[$thread['tid']]['message']}</div></a>
+				<!--{if !empty($thread['matchpid'])}-->
+			<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread['tid']&pid=$thread['matchpid']&extra=$extra"><div class="threadlist_mes cl">{$threadlist_data[$thread['tid']]['message']}</div></a>
+			<!--{else}-->
+			<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra"><div class="threadlist_mes cl">{$threadlist_data[$thread['tid']]['message']}</div></a>
+			<!--{/if}-->
 				<div class="threadlist_foot cl">
 					<ul>
 						<li class="mr"><a href="forum.php?mod=forumdisplay&fid=$thread['fid']">{$_G['cache']['forums'][$thread['fid']]['name']}</a></li>

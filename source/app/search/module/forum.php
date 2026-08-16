@@ -157,10 +157,31 @@ if(!submitcheck('searchsubmit', 1)) {
 				}
 			}
 		}
+		// The ids column may carry an optional pid map for full-text results as
+		// "tid_csv|pid_map_json". Strip the map before consuming the tid list.
+		$firstpostpids = [];
+		$idsstr = (string)$index['ids'];
+		if(($pipepos = strpos($idsstr, '|')) !== false) {
+			$pidsjson = substr($idsstr, $pipepos + 1);
+			$idsstr = substr($idsstr, 0, $pipepos);
+			$decoded = @json_decode($pidsjson, true);
+			if(is_array($decoded)) {
+				foreach($decoded as $t => $p) {
+					$firstpostpids[(int)$t] = (int)$p;
+				}
+			}
+		}
+		$index['ids'] = $idsstr;
+
 		$threadlist = $posttables = [];
 		foreach(table_forum_thread::t()->fetch_all_by_tid_fid_displayorder(explode(',', $index['ids']), null, 0, $orderby, $start_limit, $_G['tpp'], '>=', $ascdesc) as $thread) {
 			$thread['subject'] = bat_highlight($thread['subject'], $keyword);
 			$thread['realtid'] = $thread['isgroup'] == 1 ? $thread['closed'] : $thread['tid'];
+			// For full-text results carry the first matching pid so the template
+			// can link straight to the matching post via findpost.
+			if(isset($firstpostpids[$thread['tid']])) {
+				$thread['matchpid'] = $firstpostpids[$thread['tid']];
+			}
 			$threadlist[$thread['tid']] = procthread($thread, 'dt');
 			$posttables[$thread['posttableid']][] = $thread['tid'];
 		}
@@ -347,11 +368,21 @@ if(!submitcheck('searchsubmit', 1)) {
 					$result = $s->Query($srchtxt, $_G['setting']['sphinxsubindex']);
 				}
 				$tids = [];
+				$pidmap = [];
 				if($result) {
 					if(is_array($result['matches'])) {
-						foreach($result['matches'] as $value) {
+						foreach($result['matches'] as $docid => $value) {
 							if($value['attrs']['tid']) {
-								$tids[$value['attrs']['tid']] = $value['attrs']['tid'];
+								$tid = (int)$value['attrs']['tid'];
+								$tids[$tid] = $tid;
+								// The Sphinx docid is the pid for the message index —
+								// grouping by tid returns one representative matching post.
+								if($srchtype == 'fulltext' && !isset($pidmap[$tid])) {
+									$pid = (int)(isset($value['attrs']['pid']) ? $value['attrs']['pid'] : $docid);
+									if($pid > 0) {
+										$pidmap[$tid] = $pid;
+									}
+								}
 							}
 						}
 					}
@@ -427,13 +458,37 @@ if(!submitcheck('searchsubmit', 1)) {
 
 				$num = 0;
 				$ids = [];
+				$pidmap = [];
 				$_G['setting']['search']['forum']['maxsearchresults'] = $_G['setting']['search']['forum']['maxsearchresults'] ? intval($_G['setting']['search']['forum']['maxsearchresults']) : 500;
-				$query = DB::query('SELECT '.(!empty($usepost) ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
+				// For full-text searches we also collect the smallest matching pid
+				// per thread so results can deep-link to the actual matching post.
+				$isfulltextdb = ($srchtype == 'fulltext' && !empty($usepost));
+				if($isfulltextdb) {
+					// GROUP BY t.tid so we can capture MIN(p.pid) — the earliest
+					// matching post — for each thread.
+					$select = 't.tid, MIN(t.closed) AS closed, MIN(t.author) AS author, MIN(t.authorid) AS authorid, MIN(p.pid) AS matchpid';
+					$tail = ' GROUP BY t.tid ORDER BY t.tid DESC';
+				} else {
+					$select = (!empty($usepost) ? 'DISTINCT ' : '').'t.tid, t.closed, t.author, t.authorid';
+					$tail = ' ORDER BY t.tid DESC';
+				}
+				$query = DB::query("SELECT $select $sqlsrch$tail LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
 				while($thread = DB::fetch($query)) {
 					$ids[] = $thread['tid'];
+					if($isfulltextdb && !empty($thread['matchpid'])) {
+						$pidmap[(int)$thread['tid']] = (int)$thread['matchpid'];
+					}
 					$num++;
 				}
 				DB::free_result($query);
+			}
+
+			// Preserve the first matching pid per tid for full-text results by
+			// appending "|json" after the tid csv. Older readers stay compatible
+			// with the plain csv form used everywhere else.
+			$idsvalue = is_array($ids) ? implode(',', $ids) : (string)$ids;
+			if(!empty($pidmap)) {
+				$idsvalue .= '|'.json_encode($pidmap);
 			}
 
 			$searchid = table_common_searchindex::t()->insert([
@@ -445,7 +500,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				'dateline' => $_G['timestamp'],
 				'expiration' => $expiration,
 				'num' => $num,
-				'ids' => implode(',', $ids)
+				'ids' => $idsvalue
 			], true);
 
 			!($_G['group']['exempt'] & 2) && updatecreditbyaction('search');

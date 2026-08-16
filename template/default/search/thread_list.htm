@@ -21,7 +21,11 @@
 								<input type="checkbox" disabled="disabled">&nbsp;
 							<!--{/if}-->
 						<!--{/if}-->
+						<!--{if !empty($thread['matchpid'])}-->
+						<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[realtid]&pid=$thread[matchpid]&highlight=$index[keywords]" target="_blank" $thread[highlight]>$thread[subject]</a>
+					<!--{else}-->
 						<a href="forum.php?mod=viewthread&tid=$thread[realtid]&highlight=$index[keywords]" target="_blank" $thread[highlight]>$thread[subject]</a>
+					<!--{/if}-->
 					</h3>
 					<p class="xg1">$thread[replies] {lang a_comment_thread} - $thread[views] {lang a_visit}</p>
 					<p><!--{if !$thread['price'] && !$thread['readperm']}-->$thread[message]<!--{else}-->{lang thread_list_message1}<!--{/if}--></p>
