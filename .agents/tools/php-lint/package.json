@@ -1,0 +1,16 @@
+{
+  "name": "discuz-php-lint",
+  "version": "1.0.0",
+  "private": true,
+  "description": "php-wasm lint harness that catches ParseErrors via token_get_all($src, TOKEN_PARSE)",
+  "type": "module",
+  "main": "lint.mjs",
+  "scripts": {
+    "lint": "node lint.mjs",
+    "lint:changed": "node lint.mjs --changed"
+  },
+  "dependencies": {
+    "@php-wasm/node": "^3.1.49",
+    "@php-wasm/universal": "^3.1.49"
+  }
+}
