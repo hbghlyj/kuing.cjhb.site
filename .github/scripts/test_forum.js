@@ -756,14 +756,11 @@ const testPusherLeaderCoordination = async browser => {
         execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         try {
             for(const literalSearchKeyword of literalSearchKeywords) {
-                await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
-                await page.waitForLoadState('networkidle');
-                const searchForm = page.locator('form.searchform');
-                await searchForm.locator('#scform_srchtxt').fill(literalSearchKeyword);
-                await Promise.all([
-                    page.waitForURL(url => url.pathname.endsWith('/search.php') && url.searchParams.has('searchid')),
-                    searchForm.locator('#scform_submit').click()
-                ]);
+                const searchUrl = new URL('http://127.0.0.1:8080/search.php?mod=forum');
+                searchUrl.searchParams.set('srchtxt', literalSearchKeyword);
+                searchUrl.searchParams.set('searchsubmit', 'yes');
+                await page.goto(searchUrl.toString(), { waitUntil: 'networkidle' });
+                assert.ok(new URL(page.url()).searchParams.has('searchid'), `Assertion Error: Forum search did not create a result set for ${literalSearchKeyword}.`);
                 const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
                     const url = new URL(link.href);
                     return url.searchParams.get('tid') || url.searchParams.get('ptid');
