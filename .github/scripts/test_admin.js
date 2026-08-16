@@ -225,8 +225,9 @@ const { reportCiFailure } = require('./report_ci_failure');
 
         const logSearchForm = page.locator('#logsearchform');
         assert.strictEqual(await logSearchForm.count(), 1, 'Assertion Error: AdminCP operation-log search form did not render.');
-        assert.strictEqual(await logSearchForm.locator('input[name="action"][value="logs"]').count(), 1, 'Assertion Error: AdminCP log form did not target the logs action.');
-        assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not render the operation-log view.');
+        const logSearchAction = await logSearchForm.getAttribute('action');
+        assert.ok(logSearchAction && /(?:^|[?&])action=logs(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not target the logs action.');
+        assert.ok(logSearchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not render the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 6. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
