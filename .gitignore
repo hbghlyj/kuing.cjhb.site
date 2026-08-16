@@ -7,3 +7,4 @@ src/config/
 data/
 chat/php/config.php
 sitemap.xml
+node_modules/
