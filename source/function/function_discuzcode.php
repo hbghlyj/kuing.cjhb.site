@@ -65,6 +65,14 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback("/\[code\](.+?)\[\/code\]/is", 'discuzcode_callback_codedisp_1', $message);
 	}
+	$inline_code_arr = array();
+	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '`') !== FALSE) {
+		$message = preg_replace_callback('/`([^`]+)`/s', function($matches) use (&$inline_code_arr) {
+			$index = count($inline_code_arr);
+			$inline_code_arr[$index] = $matches[1];
+			return "[\tDISCUZ_INLINE_CODE_{$index}\t]";
+		}, $message);
+	}
 	// parse [tikz] and [asy]
 	$code_arr = array();
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
@@ -89,6 +97,11 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			$code = preg_replace('/^[ \t]+|[ \t]+$/m', '', $code);
 			return '[img]/asy/?code='.rawurlencode($code).'[/img]';
 		}, $message);
+	}
+	if($inline_code_arr) {
+		foreach($inline_code_arr as $index => $code) {
+			$message = str_replace("[\tDISCUZ_INLINE_CODE_{$index}\t]", '`'.$code.'`', $message);
+		}
 	}
 
 	$msglower = strtolower($message);
