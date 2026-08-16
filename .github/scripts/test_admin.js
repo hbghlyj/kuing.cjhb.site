@@ -229,6 +229,20 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(logSearchAction && /(?:^|[?&])action=logs(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not target the logs action.');
         assert.ok(logSearchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not render the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
+
+        const likeSearchKeyword = 'literal-ci\\%_marker';
+        const likeSearchData = Buffer.from(JSON.stringify({ action: 'ci_like_test', extralog: likeSearchKeyword })).toString('base64');
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_log (uid, loginname, username, type, data, operationuid, source, device, record, dateline) VALUES (1, 'admin', 'admin', 'cp', FROM_BASE64('${likeSearchData}'), 1, 'CI', '{}', '', UNIX_TIMESTAMP());"`);
+        try {
+            await logSearchForm.locator('#keywordraw').fill(likeSearchKeyword);
+            await Promise.all([
+                page.waitForURL(url => url.includes('action=logs') && url.includes('keywordenc=')),
+                logSearchForm.locator('#keywordraw').press('Enter')
+            ]);
+            assert.ok((await page.locator('body').textContent()).includes(likeSearchKeyword), 'Assertion Error: AdminCP log search did not match literal backslash, percent, and underscore characters.');
+        } finally {
+            execSync(`sudo mysql -u root ultrax -e "DELETE FROM pre_common_log WHERE type='cp' AND data LIKE '%ci_like_test%' AND source='CI';"`);
+        }
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 6. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 

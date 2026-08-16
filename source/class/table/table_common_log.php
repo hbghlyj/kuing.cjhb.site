@@ -39,6 +39,10 @@ class table_common_log_mysql extends table_common_log {
 		parent::__construct();
 	}
 
+	private function escape_like_keyword($keyword) {
+		return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $keyword);
+	}
+
 	public function fetch_all_by_conditions($conditions = [], $startlimit = 0, $count = 0, $returncount = 0, $order = ['id' => 'DESC']) {
 		$wheresql = ' 1=1 ';
 		if(!empty($conditions)) {
@@ -46,7 +50,8 @@ class table_common_log_mysql extends table_common_log {
 				if($cvalue[0] == 'keyword') {
 					$keyword = trim($cvalue[2]);
 					if($keyword !== '') {
-						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ';
+						$keyword = $this->escape_like_keyword($keyword);
+						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ESCAPE '.DB::quote('\\').' ';
 					}
 				} else {
 					$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
@@ -93,7 +98,8 @@ class table_common_log_mysql extends table_common_log {
 				if($cvalue[0] == 'keyword') {
 					$keyword = trim($cvalue[2]);
 					if($keyword !== '') {
-						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ';
+						$keyword = $this->escape_like_keyword($keyword);
+						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ESCAPE '.DB::quote('\\').' ';
 					}
 				} else {
 					$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
