@@ -65,8 +65,8 @@ if(!submitcheck('searchsubmit', 1)) {
 		foreach($query as $article) {
 			$article['dateline'] = dgmdate($article['dateline']);
 			$article['pic'] = $article['pic'] ? pic_get($article['pic'], '', $article['thumb'], $article['remote'], 1, 1) : '';
-			$article['title'] = bat_highlight($article['title'], $keyword);
-			$article['summary'] = bat_highlight($article['summary'], $keyword);
+			$article['title'] = search_message_safestr($article['title']);
+			$article['summary'] = search_message_safestr($article['summary']);
 			$articlelist[] = $article;
 		}
 

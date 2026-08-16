@@ -37,51 +37,8 @@ function searchkey($keyword, $field, $returnsrchtxt = 0) {
 	return $returnsrchtxt ? [$srchtxt, $keyword] : $keyword;
 }
 
-function highlight($text, $words, $prepend) {
-	$text = str_replace('\"', '"', $text);
-	$segments = preg_split('/(&#?[a-zA-Z0-9]+;)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-	foreach($segments as $i => $segment) {
-		if(preg_match('/^&#?[a-zA-Z0-9]+;$/', $segment)) {
-			continue;
-		}
-		foreach($words as $key => $replaceword) {
-			$segment = str_replace($replaceword, '<highlight>'.$replaceword.'</highlight>', $segment);
-		}
-		$segments[$i] = $segment;
-	}
-	return $prepend.implode('', $segments);
-}
-
-function bat_highlight($message, $words, $color = '#ff0000') {
-	if(!empty($words)) {
-		$highlightarray = explode(' ', $words);
-		$sppos = strrpos($message, chr(0).chr(0).chr(0));
-		if($sppos !== FALSE) {
-			$specialextra = substr($message, $sppos + 3);
-			$message = substr($message, 0, $sppos);
-		}
-		bat_highlight_callback_highlight_21($highlightarray, 1);
-		$message = preg_replace_callback('/(^|>)([^<]+)(?=<|$)/sU', 'bat_highlight_callback_highlight_21', $message);
-		$message = preg_replace('/<highlight>(.*)<\/highlight>/siU', "<strong><font color=\"$color\">\\1</font></strong>", $message);
-		if($sppos !== FALSE) {
-			$message = $message.chr(0).chr(0).chr(0).$specialextra;
-		}
-	}
-	return $message;
-}
-
 function search_message_safestr($message) {
 	$charset = strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1';
 	return htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, $charset, false);
-}
-
-function bat_highlight_callback_highlight_21($matches, $action = 0) {
-	static $highlightarray = [];
-
-	if($action == 1) {
-		$highlightarray = $matches;
-	} else {
-		return highlight($matches[2], $highlightarray, $matches[1]);
-	}
 }
 

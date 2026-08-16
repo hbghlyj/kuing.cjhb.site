@@ -75,7 +75,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			$forums = table_forum_forum::t()->fetch_all_name_by_fid($fids);
 			foreach($threads as $thread) {
 				$thread['forumname'] = $forums[$thread['fid']]['name'];
-				$thread['subject'] = bat_highlight($thread['subject'], $keyword);
+				$thread['subject'] = search_message_safestr($thread['subject']);
 				$thread['realtid'] = $thread['tid'];
 				$threadlist[$thread['tid']] = procthread($thread);
 				$posttables[$thread['posttableid']][] = $thread['tid'];
@@ -84,7 +84,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				foreach($posttables as $tableid => $tids) {
 					foreach(table_forum_post::t()->fetch_all_by_tid($tableid, $tids, true, '', 0, 0, 1) as $post) {
 						$message = search_message_safestr(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200));
-						$threadlist[$post['tid']]['message'] = bat_highlight($message, $keyword);
+						$threadlist[$post['tid']]['message'] = $message;
 					}
 				}
 			}
@@ -102,8 +102,8 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			foreach($query as $group) {
 				$group['icon'] = get_groupimg($group['icon'], 'icon');
-				$group['name'] = bat_highlight($group['name'], $keyword);
-				$group['description'] = bat_highlight($group['description'], $keyword);
+			$group['name'] = search_message_safestr($group['name']);
+			$group['description'] = search_message_safestr($group['description']);
 				$group['dateline'] = dgmdate($group['dateline'], 'u');
 				$grouplist[] = $group;
 			}

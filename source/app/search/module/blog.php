@@ -72,10 +72,10 @@ if(!submitcheck('searchsubmit', 1)) {
 				if($value['friend'] == 4) {
 					$value['message'] = $value['pic'] = '';
 				} else {
-					$value['message'] = bat_highlight($value['message'], $keyword);
+			$value['message'] = search_message_safestr($value['message']);
 					$value['message'] = getstr($value['message'], 255, 0, 0, 0, -1);
 				}
-				$value['subject'] = bat_highlight($value['subject'], $keyword);
+			$value['subject'] = search_message_safestr($value['subject']);
 				$value['dateline'] = dgmdate($value['dateline']);
 				$value['pic'] = pic_cover_get($value['pic'], $value['picflag']);
 				$bloglist[] = $value;

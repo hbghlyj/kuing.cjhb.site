@@ -69,7 +69,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			} else {
 				$value['pic'] = '';
 			}
-			$value['albumname'] = bat_highlight($value['albumname'], $keyword);
+			$value['albumname'] = search_message_safestr($value['albumname']);
 			$albumlist[$value['albumid']] = $value;
 		}
 

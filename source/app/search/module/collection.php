@@ -66,7 +66,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		foreach($query as $value) {
 			$value['lastupdate'] = dgmdate($value['lastupdate']);
 			$value['shortdesc'] = cutstr(strip_tags(discuzcode($value['desc'])), 50);
-			$value['name'] = bat_highlight($value['name'], $keyword);
+			$value['name'] = search_message_safestr($value['name']);
 			$collectionlist[$value['ctid']] = $value;
 		}
 

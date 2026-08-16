@@ -176,7 +176,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 		$threadlist = $posttables = [];
 		foreach(table_forum_thread::t()->fetch_all_by_tid_fid_displayorder(explode(',', $index['ids']), null, 0, $orderby, $start_limit, $_G['tpp'], '>=', $ascdesc) as $thread) {
-			$thread['subject'] = bat_highlight($thread['subject'], $keyword);
+			$thread['subject'] = search_message_safestr($thread['subject']);
 			$thread['realtid'] = $thread['isgroup'] == 1 ? $thread['closed'] : $thread['tid'];
 			// For full-text results carry the first matching pid so the template
 			// can link straight to the matching post via findpost.
@@ -193,7 +193,7 @@ if(!submitcheck('searchsubmit', 1)) {
 						$threadlist[$post['tid']]['message'] = lang('forum/template', 'message_single_banned');
 					} else {
 						$message = search_message_safestr(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200));
-						$threadlist[$post['tid']]['message'] = bat_highlight($message, $keyword);
+						$threadlist[$post['tid']]['message'] = $message;
 					}
 				}
 			}

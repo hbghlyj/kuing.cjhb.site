@@ -143,6 +143,27 @@
 <!--{/if}-->
 </body>
 </html>
+<!--{if CURMODULE == 'search' && !empty($keyword)}-->
+<script src="https://unpkg.com/mark.js@8.11.1/dist/mark.min.js"></script>
+<script>
+(function() {
+    var keyword = <!--{echo json_encode($keyword, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}-->;
+    var markSearchResults = function() {
+        if(!keyword || typeof Mark != 'function') {
+            return;
+        }
+        new Mark(document.querySelectorAll('.slst, .threadlist')).mark(keyword, {
+            acrossElements: true
+        });
+    };
+    if(document.readyState == 'loading') {
+        document.addEventListener('DOMContentLoaded', markSearchResults);
+    } else {
+        markSearchResults();
+    }
+})();
+</script>
+<!--{/if}-->
 <!--{eval updatesession();}-->
 <!--{if defined('IN_MOBILE')&&!defined('IN_PREVIEW')}-->
 	<!--{eval output();}-->
