@@ -328,6 +328,7 @@ $lang = [
 	'medals' => '勳章',
 	'task' => '任務',
 	'notice' => '提醒',
+	'no_unread_notifications' => '您沒有未讀提醒',
 	'notice_pm' => '我的私訊',
 	'notice_mypost' => '我的帖子',
 	'notice_mypost_at' => '提到我的',

@@ -323,6 +323,7 @@ $lang = array (
 	'medals'			=> 'Medals',//'勋章',
 	'task'				=> 'Tasks',//'任务',
 	'notice'			=> 'Notice',//'提醒',
+	'no_unread_notifications' => 'You have no unread notifications',
 	'notice_pm'			=> 'My PM',//'我的私信',
 	'notice_mypost'			=> 'My Posts',//'我的帖子',
 	'notice_mypost_at'		=> 'Mention to me',//'提到我的',

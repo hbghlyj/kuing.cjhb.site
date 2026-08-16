@@ -512,6 +512,7 @@ img{border:none;}
 .header-notice .notice-content a:hover{background:var(--dz-borderb)}
 .header-notice .notice-content .num{display:none;color:#ffb300;font-size:12px;}
 .header-notice .notice-content .notice-item{position:relative;word-break:keep-all}
+.header-notice .notice-content .notice-empty{padding:12px 20px;color:var(--dz-fc);font-size:14px;line-height:20px;text-align:center;white-space:nowrap}
 .header-notice .notice-content .notice-item .dot{position:absolute;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#f35;margin-left:4px}
 .header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fc);}
 .header-notice .notice-icon .noticeicon:before{content: "\f145";}

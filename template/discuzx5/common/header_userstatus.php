@@ -36,7 +36,7 @@
 				<!--{if !empty($_G['setting']['pmstatus'])}-->
 				<a class="notice-item" href="home.php?mod=space&do=pm">{lang pm_center}{if $_G[member][newpm]}<span class="dot"></span>{/if}</a>
 				<!--{/if}-->
-				<ul id="myprompt_menu" class="notice-list"></ul>
+				<ul id="myprompt_menu" class="notice-list" data-empty-label="{lang no_unread_notifications}"></ul>
 			</div>
 		</div>
 	</div>
@@ -149,6 +149,12 @@ document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-c
 				if(noticeMenu.dataset.loaded || typeof ajaxget !== 'function') return;
 				noticeMenu.dataset.loaded = '1';
 				ajaxget('forum.php?mod=ajax&action=markAsRead', 'myprompt_menu', 'ajaxwaitid', null, null, function() {
+					if(!noticeMenu.children.length) {
+						var emptyItem = document.createElement('li');
+						emptyItem.className = 'notice-empty';
+						emptyItem.textContent = noticeMenu.dataset.emptyLabel;
+						noticeMenu.appendChild(emptyItem);
+					}
 					var dot = element.querySelector('.notice-icon > .dot');
 					var newPm = dot ? parseInt(dot.dataset.newpm || '0', 10) : 0;
 					if(dot && newPm) {
