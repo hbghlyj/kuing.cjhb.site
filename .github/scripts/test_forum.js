@@ -744,23 +744,35 @@ const testPusherLeaderCoordination = async browser => {
         assert.ok(!creditPromptText.includes('|'), 'Assertion Error: Credit update prompt exposed internal credit-name separators.');
         report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
-        const literalSearchKeyword = 'literal-ci\\%_marker';
-        const literalSearchSubject = `${standardSubject} ${literalSearchKeyword}`;
+        const literalSearchKeywords = ['literal-ci%_marker', 'literal-ci\\%_marker'];
+        const literalSearchSubject = `${standardSubject} ${literalSearchKeywords.join(' ')}`;
+        const decoyTid = '4';
+        const decoySubjectB64 = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT TO_BASE64(subject) FROM pre_forum_thread WHERE tid=${decoyTid};"`).toString().trim();
+        assert.ok(decoySubjectB64, 'Assertion Error: Forum search wildcard fixture could not find its decoy thread.');
+        const decoySubject = 'literal-ciXabcYmarker literal-ci%Xmarker';
         const originalSubjectB64 = Buffer.from(standardSubject).toString('base64');
         const literalSearchSubjectB64 = Buffer.from(literalSearchSubject).toString('base64');
-        execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1;"`);
+        const decoySubjectB64New = Buffer.from(decoySubject).toString('base64');
+        execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         try {
-            await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
-            await page.waitForLoadState('networkidle');
-            const searchForm = page.locator('form.searchform');
-            await searchForm.locator('#scform_srchtxt').fill(literalSearchKeyword);
-            await Promise.all([
-                page.waitForURL(url => url.pathname.endsWith('/search.php') && url.searchParams.has('searchid')),
-                searchForm.locator('#scform_submit').click()
-            ]);
-            assert.ok((await page.locator('body').textContent()).includes(literalSearchSubject), 'Assertion Error: Forum search did not match literal backslash, percent, and underscore characters.');
+            for(const literalSearchKeyword of literalSearchKeywords) {
+                await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
+                await page.waitForLoadState('networkidle');
+                const searchForm = page.locator('form.searchform');
+                await searchForm.locator('#scform_srchtxt').fill(literalSearchKeyword);
+                await Promise.all([
+                    page.waitForURL(url => url.pathname.endsWith('/search.php') && url.searchParams.has('searchid')),
+                    searchForm.locator('#scform_submit').click()
+                ]);
+                const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
+                    const url = new URL(link.href);
+                    return url.searchParams.get('tid') || url.searchParams.get('ptid');
+                }).filter(Boolean));
+                assert.ok(resultThreadIds.includes(String(tidOutput)), `Assertion Error: Forum search did not return the literal target for ${literalSearchKeyword}.`);
+                assert.ok(!resultThreadIds.includes(decoyTid), `Assertion Error: Forum search treated wildcard characters as patterns for ${literalSearchKeyword}.`);
+            }
         } finally {
-            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1;"`);
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         }
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
 
