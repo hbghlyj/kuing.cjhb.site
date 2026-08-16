@@ -225,7 +225,7 @@ if(!$editsubmit) {
 
 	$quotemessage = '';
 	$noticetrimstr = '';
-	if(!empty($postinfo['message']) && preg_match('/^[ \t\r\n]*\[quote\]/i', $postinfo['message'], $qm)) {
+	if(!empty($postinfo['repid']) && !empty($postinfo['message']) && preg_match('/^[ \t\r\n]*\[quote\]/i', $postinfo['message'], $qm)) {
 		$qoffset = strlen($qm[0]);
 		$qlength = strlen($postinfo['message']);
 		$qdepth = 1;
