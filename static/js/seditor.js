@@ -45,7 +45,7 @@ function seditor_menu(seditorkey, tag) {
 			case 'url':
 				str = $L('input_link_href') + ':<br /><input type="text" id="' + ctrlid + '_param_1" sautocomplete="off" style="width: 98%" value="" class="px" />' +
 					'<br />' + $L('input_link_text') + ':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />';
-				submitstr = "$('" + ctrlid + "_param_2').value !== '' ? seditor_insertunit('" + seditorkey + "', '[url='+seditor_squarestrip($('" + ctrlid + "_param_1').value)+']'+$('" + ctrlid + "_param_2').value, '[/url]', null, 1) : seditor_insertunit('" + seditorkey + "', '[url]'+$('" + ctrlid + "_param_1').value, '[/url]', null, 1);hideMenu();";
+				submitstr = "seditor_submit_url('" + seditorkey + "', '" + ctrlid + "');";
 				break;
 			case 'code':
 			case 'quote':
@@ -75,6 +75,21 @@ function seditor_squarestrip(str) {
 	str = str.replace('[', '%5B');
 	str = str.replace(']', '%5D');
 	return str;
+}
+
+function seditor_submit_url(seditorkey, ctrlid) {
+	var href = $(ctrlid + '_param_1').value;
+	if(trim(href) == '') {
+		hideMenu();
+		return;
+	}
+	var text = $(ctrlid + '_param_2').value;
+	if(text !== '') {
+		seditor_insertunit(seditorkey, '[url=' + seditor_squarestrip(href) + ']' + text, '[/url]', null, 1);
+	} else {
+		seditor_insertunit(seditorkey, '[url]' + href, '[/url]', null, 1);
+	}
+	hideMenu();
 }
 
 function seditor_insertunit(key, text, textend, moveend, selappend) {
