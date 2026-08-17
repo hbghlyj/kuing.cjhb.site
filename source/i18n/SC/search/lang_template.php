@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'search_nomatch' => '对不起，没有找到匹配结果。',
+	'search_nomatch' => '没有找到匹配结果。',
 	'search_modify' => '修改搜索',
 	'search_result' => '结果: <em>找到相关主题 {$index[\'num\']} 个</em>',
 	'search_result_keyword' => '结果: <em>找到 “<span class="emfont">$keyword</span>” 相关内容 {$index[\'num\']} 个</em>',
