@@ -14,7 +14,6 @@ window.MathJax = {
       pqd: '\\stackrel{/\\!/}{=}',
       veps: '\\varepsilon',
       du: '^\\circ',
-      bsb: '\\boldsymbol',
       bm: '\\boldsymbol',
       kongji: '\\varnothing',
       buji: '\\complement',
