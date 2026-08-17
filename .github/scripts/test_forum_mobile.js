@@ -591,34 +591,39 @@ const { reportCiFailure } = require('./report_ci_failure');
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
 
-        console.log('Testing mobile Thread Recommendation and Hot Reply Voting via UI...');
-        const targetMobileRecommendTid = dbScalar("SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1");
-        assert.match(targetMobileRecommendTid, /^\d+$/, 'Assertion Error: Seeded admin thread for mobile recommendation testing was not found.');
+        console.log('Testing mobile opener and reply voting via UI...');
+        const targetMobilePostreviewTid = dbScalar("SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1");
+        assert.match(targetMobilePostreviewTid, /^\d+$/, 'Assertion Error: Seeded admin thread for mobile opener voting was not found.');
+        const mobileFirstPostPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${targetMobilePostreviewTid}' AND first=1 LIMIT 1`);
+        assert.match(mobileFirstPostPid, /^\d+$/, 'Assertion Error: Seeded admin thread opener was not found on mobile.');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetMobileRecommendTid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetMobilePostreviewTid}`);
         await page.waitForLoadState('networkidle');
-        const mobileRecommendBtn = page.locator('a.dialog[href*="action=recommend&do=add"]');
-        assert.strictEqual(await mobileRecommendBtn.count(), 1, 'Assertion Error: Mobile thread recommend button did not render.');
-        assert.ok(await mobileRecommendBtn.isVisible(), 'Assertion Error: Mobile thread recommend button was not visible.');
-        const mobileRecommendCount = page.locator('#recommendv_add');
-        assert.strictEqual(await mobileRecommendCount.count(), 1, 'Assertion Error: Mobile recommendation count did not render.');
-        const mobileRecommendBefore = Number((await mobileRecommendCount.textContent()).trim() || '0');
-        console.log("Clicking mobile thread recommend button via UI...");
+        const mobileFirstSupportBtn = page.locator(`a.dialog.replyadd[href*="action=postreview&do=support"][href*="pid=${mobileFirstPostPid}"]`);
+        const mobileFirstAgainstBtn = page.locator(`a.dialog.replysubtract[href*="action=postreview&do=against"][href*="pid=${mobileFirstPostPid}"]`);
+        assert.strictEqual(await mobileFirstSupportBtn.count(), 1, 'Assertion Error: Mobile opener support button did not render.');
+        assert.strictEqual(await mobileFirstAgainstBtn.count(), 1, 'Assertion Error: Mobile opener oppose button did not render.');
+        assert.ok(await mobileFirstSupportBtn.isVisible(), 'Assertion Error: Mobile opener support button was not visible.');
+        const mobileFirstAgainstCount = page.locator(`#review_against_${mobileFirstPostPid}`);
+        const mobileFirstAgainstBefore = Number((await mobileFirstAgainstCount.textContent()).trim() || '0');
+        console.log("Clicking mobile opener oppose button via UI...");
         await clickForResponse(
-            mobileRecommendBtn,
-            response => response.url().includes('action=recommend&do=add'),
-            'Mobile thread recommendation'
+            mobileFirstAgainstBtn,
+            response => response.url().includes('action=postreview&do=against'),
+            'Mobile opener oppose vote'
         );
         assert.strictEqual(
-            dbScalar(`SELECT COUNT(*) FROM pre_forum_memberrecommend WHERE tid='${targetMobileRecommendTid}' AND recommenduid='${uid}'`),
+            dbScalar(`SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${mobileFirstPostPid}' AND uid='${uid}' AND attitude=0`),
             '1',
-            'Assertion Error: Mobile thread recommendation was not persisted.'
+            'Assertion Error: Mobile opener oppose vote was not persisted with its direction.'
         );
         await page.reload({ waitUntil: 'networkidle' });
         assert.ok(
-            Number((await page.locator('#recommendv_add').textContent()).trim() || '0') > mobileRecommendBefore,
-            'Assertion Error: Mobile recommendation count did not increase in the rendered UI.'
+            Number((await mobileFirstAgainstCount.textContent()).trim() || '0') > mobileFirstAgainstBefore,
+            'Assertion Error: Mobile opener oppose count did not increase in the rendered UI.'
         );
+        assert.ok(!(await mobileFirstSupportBtn.evaluate(node => node.classList.contains('active'))), 'Assertion Error: Mobile opener support control was incorrectly marked active.');
+        assert.ok(await mobileFirstAgainstBtn.evaluate(node => node.classList.contains('active')), 'Assertion Error: Persisted mobile opener oppose direction was not active.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
@@ -647,7 +652,7 @@ const { reportCiFailure } = require('./report_ci_failure');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
-        await page.screenshot({ path: 'screenshot_mobile_thread_recommend.png' });
+        await page.screenshot({ path: 'screenshot_mobile_postreview.png' });
 
         console.log('Testing mobile UI avatar setup with file upload via UI...');
         const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');

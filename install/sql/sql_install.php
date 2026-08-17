@@ -1812,7 +1812,6 @@ CREATE TABLE pre_common_usergroup_field
 	exempt                 tinyint(3) unsigned   NOT NULL,
 	maxattachnum           smallint(6)           NOT NULL DEFAULT '0',
 	allowposturl           tinyint(1)            NOT NULL DEFAULT '3',
-	allowrecommend         tinyint(3) unsigned   NOT NULL DEFAULT '1',
 	allowpostrushreply     tinyint(1)            NOT NULL DEFAULT '0',
 	maxfriendnum           smallint(6) unsigned  NOT NULL DEFAULT '0',
 	maxspacesize           int(10) unsigned      NOT NULL DEFAULT '0',
@@ -2834,15 +2833,6 @@ CREATE TABLE pre_forum_medallog
 	KEY dateline (dateline)
 ) ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_memberrecommend;
-CREATE TABLE pre_forum_memberrecommend
-(
-	tid          int(10) unsigned      NOT NULL,
-	recommenduid mediumint(8) unsigned NOT NULL,
-	dateline     int(10) unsigned      NOT NULL,
-	KEY tid (tid),
-	KEY uid (recommenduid)
-) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_moderator;
 CREATE TABLE pre_forum_moderator
@@ -3201,9 +3191,6 @@ CREATE TABLE pre_forum_thread
 	moderated     tinyint(1)            NOT NULL DEFAULT '0',
 	closed        mediumint(8) unsigned NOT NULL DEFAULT '0',
 	stickreply    tinyint(1)            NOT NULL DEFAULT '0',
-	recommends    smallint(6)           NOT NULL DEFAULT '0',
-	recommend_add smallint(6)           NOT NULL DEFAULT '0',
-	recommend_sub smallint(6)           NOT NULL DEFAULT '0',
 	heats         int(10) unsigned      NOT NULL DEFAULT '0',
 	`status`      smallint(6) unsigned  NOT NULL DEFAULT '0',
 	isgroup       tinyint(1)            NOT NULL DEFAULT '0',
@@ -3223,7 +3210,6 @@ CREATE TABLE pre_forum_thread
 	KEY sortid (sortid),
 	KEY displayorder (fid, displayorder, lastpost),
 	KEY typeid (fid, typeid, displayorder, lastpost),
-	KEY recommends (recommends),
 	KEY heats (heats),
 	KEY authorid (authorid),
 	KEY isgroup (isgroup, lastpost),
@@ -3231,12 +3217,10 @@ CREATE TABLE pre_forum_thread
 	KEY displayorder_dateline (fid, displayorder, dateline),
 	KEY displayorder_replies (fid, displayorder, replies),
 	KEY displayorder_views (fid, displayorder, views),
-	KEY displayorder_recommends (fid, displayorder, recommends),
 	KEY displayorder_heats (fid, displayorder, heats),
 	KEY typeid_dateline (fid, typeid, displayorder, dateline),
 	KEY typeid_replies (fid, typeid, displayorder, replies),
 	KEY typeid_views (fid, typeid, displayorder, views),
-	KEY typeid_recommends (fid, typeid, displayorder, recommends),
 	KEY typeid_heats (fid, typeid, displayorder, heats)
 ) ENGINE = InnoDB;
 

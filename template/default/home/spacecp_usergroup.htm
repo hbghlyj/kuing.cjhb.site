@@ -370,8 +370,6 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 		<td>
 			<!--{if in_array($grouppperm, array('maxsigsize', 'maxbiosize'))}-->
 				$maingroup[$grouppperm] {lang bytes}
-			<!--{elseif $grouppperm == 'allowrecommend'}-->
-				<!--{if $maingroup[allowrecommend] > 0}-->+$maingroup[allowrecommend]<!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{elseif in_array($grouppperm, array('allowat', 'allowcreatecollection'))}-->
 				<!--{echo intval($maingroup[$grouppperm])}-->
 			<!--{else}-->

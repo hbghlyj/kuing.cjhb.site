@@ -350,14 +350,10 @@ class restfulplugin {
 		}
 		$data[$key]['dateline'] = self::_f_gmdate($data[$key]['dateline']);
 		$data[$key]['lastpost'] = self::_f_gmdate($data[$key]['lastpost']);
-		$data[$key]['isfavorite'] = $data[$key]['isrecommendav'] = 0;
-		$recommendav_add = C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']);
+		$data[$key]['isfavorite'] = 0;
 		$thread_favorite = C::t('home_favorite')->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']);
 		if($thread_favorite['favid'] > 0) {
 			$data[$key]['isfavorite'] = 1;
-		}
-		if($recommendav_add['recommenduid'] > 0) {
-			$data[$key]['isrecommendav'] = 1;
 		}
 		//投票帖
 		if($data[$key]['special'] == 1 && !empty($data['polloptions'])) {

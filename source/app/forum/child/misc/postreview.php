@@ -21,13 +21,13 @@ $doArray = ['support', 'against'];
 
 $post = table_forum_post::t()->fetch_post('tid:'.$_GET['tid'], $_GET['pid'], false);
 
-if(!in_array($_GET['do'], $doArray) || empty($post) || $post['first'] == 1 || ($_G['setting']['threadfilternum'] && $_G['setting']['filterednovote'] && getstatus($post['status'], 11)) || $post['invisible'] < 0) {
+if(!in_array($_GET['do'], $doArray) || empty($post) || intval($post['tid']) != intval($_GET['tid']) || ($_G['setting']['threadfilternum'] && $_G['setting']['filterednovote'] && getstatus($post['status'], 11)) || $post['invisible'] < 0) {
 	showmessage('undefined_action', NULL);
 }
 
 $hotreply = table_forum_hotreply_number::t()->fetch_by_pid($post['pid']);
 if($_G['uid'] == $post['authorid']) {
-	showmessage('noreply_yourself_error', '', [], ['msgtype' => 3]);
+	showmessage('postreview_yourself_error', '', [], ['msgtype' => 3]);
 }
 $typeid = $_GET['do'] == 'support' ? 1 : 0;
 $username = json_encode($_G['username']);
@@ -65,19 +65,19 @@ if($vote) {
 	showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$oldtype.', '.$username.');postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
 }
 
-$votecount = table_forum_hotreply_member::t()->count_by_uid_dateline($_G['uid'], $_G['timestamp'] - 86400);
-if($_G['setting']['recommendthread']['daycount'] && $votecount >= $_G['setting']['recommendthread']['daycount']) {
-	showmessage('recommend_outoftimes', '', [], ['msgtype' => 3]);
+$postreviewdaycount = max(0, intval($_G['setting']['postreviewdaycount'] ?? 0));
+if($postreviewdaycount && table_forum_hotreply_member::t()->count_by_uid_dateline($_G['uid'], $_G['timestamp'] - 86400) >= $postreviewdaycount) {
+	showmessage('postreview_outoftimes', '', [], ['msgtype' => 3]);
 }
 
 if(empty($hotreply)) {
-	$hotreply['pid'] = table_forum_hotreply_number::t()->insert([
+	table_forum_hotreply_number::t()->insert([
 		'pid' => $post['pid'],
 		'tid' => $post['tid'],
 		'support' => 0,
 		'against' => 0,
 		'total' => 0,
-	], true);
+	], false, false, true);
 }
 
 table_forum_hotreply_number::t()->update_num($post['pid'], $typeid);

@@ -1097,9 +1097,9 @@ const testPusherLeaderCoordination = async browser => {
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
-        console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
+        console.log("Testing Opener and Reply Voting via UI...");
         const adminTidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1;\"").toString().trim();
-        assert.match(adminTidOutput, /^\d+$/, 'Assertion Error: Seeded admin thread for recommendation testing was not found.');
+        assert.match(adminTidOutput, /^\d+$/, 'Assertion Error: Seeded admin thread for opener voting was not found.');
         const targetRecommendTid = adminTidOutput;
         const postreviewFixtureMessage = `Desktop postreview fixture ${String(testRunId).replace(/[^A-Za-z0-9_-]/g, '')}`;
         const postreviewFixtureSqlMessage = postreviewFixtureMessage.replace(/'/g, "''");
@@ -1116,26 +1116,36 @@ const testPusherLeaderCoordination = async browser => {
         const targetSupportTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim();
         assert.match(targetSupportTid, /^\d+$/, 'Assertion Error: Seeded admin reply thread ID was not found.');
 
+        const firstPostPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${targetRecommendTid}' AND first=1 LIMIT 1;"`).toString().trim();
+        assert.match(firstPostPid, /^\d+$/, 'Assertion Error: Seeded admin thread opener was not found.');
+
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
-        const recommendBtn = page.locator('a[href*="action=recommend&do=add"]');
-        assert.strictEqual(await recommendBtn.count(), 1, 'Assertion Error: Desktop thread recommend button did not render.');
-        assert.ok(await recommendBtn.isVisible(), 'Assertion Error: Desktop thread recommend button was not visible.');
-        const recommendCount = page.locator('#recommendv_add');
-        assert.strictEqual(await recommendCount.count(), 1, 'Assertion Error: Desktop recommendation count did not render.');
-        const recommendCountBefore = Number((await recommendCount.textContent()).trim() || '0');
-        console.log("Clicking desktop thread recommend button via UI...");
-        const [recommendResponse] = await Promise.all([
-            page.waitForResponse(response => response.url().includes('action=recommend&do=add')),
-            recommendBtn.click()
+        const firstPostSupportBtn = page.locator(`a.replyadd[href*="action=postreview&do=support"][href*="pid=${firstPostPid}"]`);
+        const firstPostAgainstBtn = page.locator(`a.replysubtract[href*="action=postreview&do=against"][href*="pid=${firstPostPid}"]`);
+        assert.strictEqual(await firstPostSupportBtn.count(), 1, 'Assertion Error: Desktop opener support button did not render.');
+        assert.strictEqual(await firstPostAgainstBtn.count(), 1, 'Assertion Error: Desktop opener oppose button did not render.');
+        assert.ok(await firstPostSupportBtn.isVisible(), 'Assertion Error: Desktop opener support button was not visible.');
+        const firstPostSupportCount = page.locator(`#review_support_${firstPostPid}`);
+        const firstPostSupportBefore = Number((await firstPostSupportCount.textContent()).trim() || '0');
+        console.log("Clicking desktop opener support button via UI...");
+        const [firstPostSupportResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=support')),
+            firstPostSupportBtn.click()
         ]);
-        assert.ok(recommendResponse.ok(), `Assertion Error: Thread recommendation request failed with HTTP ${recommendResponse.status()}.`);
+        assert.ok(firstPostSupportResponse.ok(), `Assertion Error: Opener postreview request failed with HTTP ${firstPostSupportResponse.status()}.`);
         await page.waitForFunction(
-            previous => Number(document.querySelector('#recommendv_add')?.textContent.trim() || '0') > previous,
-            recommendCountBefore
+            ({ pid, previous }) => Number(document.getElementById(`review_support_${pid}`)?.textContent.trim() || '0') > previous,
+            { pid: firstPostPid, previous: firstPostSupportBefore }
         );
-        const recommendDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_memberrecommend WHERE tid='${targetRecommendTid}' AND recommenduid='${userUid}';"`).toString().trim();
-        assert.strictEqual(recommendDbCheck, '1', 'Assertion Error: Thread recommendation was not persisted.');
+        const firstPostVoteCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${firstPostPid}' AND uid='${userUid}' AND attitude=1;"`).toString().trim();
+        assert.strictEqual(firstPostVoteCheck, '1', 'Assertion Error: Opener support vote was not persisted with its direction.');
+        const firstPostNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COUNT(*), ':', COALESCE(MAX(from_num), 0)) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${firstPostPid}' AND from_idtype='postreview_support';"`).toString().trim();
+        assert.strictEqual(firstPostNoticeCheck, '1:1', 'Assertion Error: Opener support vote did not notify the post author exactly once.');
+        await page.reload({ waitUntil: 'networkidle' });
+        assert.ok(await firstPostSupportBtn.evaluate(node => node.classList.contains('active')), 'Assertion Error: Persisted opener support direction was not active after reload.');
+        assert.ok(!(await firstPostAgainstBtn.evaluate(node => node.classList.contains('active'))), 'Assertion Error: Opener oppose control was incorrectly marked active.');
+        assert.strictEqual(await page.locator(`table#pid${firstPostPid}`).count(), 1, 'Assertion Error: Opener entered the highlighted hot-replies collection.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetSupportTid}`);
         await page.waitForLoadState('networkidle');
@@ -1204,9 +1214,9 @@ const testPusherLeaderCoordination = async browser => {
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
-        await page.screenshot({ path: 'screenshot_desktop_thread_recommend.png' });
+        await page.screenshot({ path: 'screenshot_desktop_postreview.png' });
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **Thread Recommendation & Hot Reply Check**: Success — `screenshot_desktop_thread_recommend.png`\n\n';
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **Opener & Reply Voting Check**: Success — `screenshot_desktop_postreview.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';

@@ -113,7 +113,6 @@ class block_thread extends discuz_block {
 					['replies', 'threadlist_orderby_replies'],
 					['views', 'threadlist_orderby_views'],
 					['heats', 'threadlist_orderby_heats'],
-					['recommends', 'threadlist_orderby_recommends'],
 				],
 				'default' => 'lastpost'
 			],
@@ -202,7 +201,6 @@ class block_thread extends discuz_block {
 			'replies' => ['name' => lang('blockclass', 'blockclass_thread_field_replies'), 'formtype' => 'text', 'datatype' => 'int'],
 			'views' => ['name' => lang('blockclass', 'blockclass_thread_field_views'), 'formtype' => 'text', 'datatype' => 'int'],
 			'heats' => ['name' => lang('blockclass', 'blockclass_thread_field_heats'), 'formtype' => 'text', 'datatype' => 'int'],
-			'recommends' => ['name' => lang('blockclass', 'blockclass_thread_field_recommends'), 'formtype' => 'text', 'datatype' => 'int'],
 		];
 	}
 
@@ -263,7 +261,7 @@ class block_thread extends discuz_block {
 		$items = !empty($parameter['items']) ? intval($parameter['items']) : 10;
 		$digest = $parameter['digest'] ?? 0;
 		$stick = $parameter['stick'] ?? 0;
-		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'heats', 'recommends']) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'heats']) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
 		$lastposter = !empty($parameter['lastposter']) ? $parameter['lastposter'] : '';
 		$lastpost = isset($parameter['lastpost']) ? intval($parameter['lastpost']) : 0;
 		$postdateline = isset($parameter['postdateline']) ? intval($parameter['postdateline']) : 0;
@@ -414,7 +412,6 @@ class block_thread extends discuz_block {
 					'sorturl' => 'forum.php?mod=forumdisplay&fid='.$data['fid'].'&filter=sortid&sortid='.$data['sortid'],
 					'views' => $data['views'],
 					'heats' => $data['heats'],
-					'recommends' => $data['recommends'],
 					'hourviews' => $data['views'],
 					'todayviews' => $data['views'],
 					'weekviews' => $data['views'],

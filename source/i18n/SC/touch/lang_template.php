@@ -50,7 +50,6 @@ $lang = [
 	'post_newthreadtrade' => '出售商品',
 	'send_threads' => '发帖',
 	'thread_digest' => '精华',
-	'thread_recommend' => '推荐',
 	'thread_sticky' => '置顶',
 	'threadsort' => '分类信息',
 	'threadtype' => '主题分类',

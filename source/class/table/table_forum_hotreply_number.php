@@ -31,7 +31,10 @@ class table_forum_hotreply_number extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('pid', $pids), [$this->_table], 'pid');
 	}
 
-	public function fetch_all_by_tid_total($tid, $limit = 5) {
+	public function fetch_all_by_tid_total($tid, $limit = 5, $excludePid = 0) {
+		if($excludePid) {
+			return DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND pid<>%d ORDER BY total DESC LIMIT %d', [$this->_table, $tid, $excludePid, $limit], 'pid');
+		}
 		return DB::fetch_all('SELECT * FROM %t WHERE tid=%d ORDER BY total DESC LIMIT %d', [$this->_table, $tid, $limit], 'pid');
 	}
 

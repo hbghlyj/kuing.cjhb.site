@@ -385,9 +385,6 @@ EOF;
 		showsetting('usergroups_edit_post_sig_bbcode', 'allowsigbbcodenew', $group['allowsigbbcode'], 'radio');
 		showsetting('usergroups_edit_post_sig_img_code', 'allowsigimgcodenew', $group['allowsigimgcode'], 'radio');
 		showsetting('usergroups_edit_post_max_sig_size', 'maxsigsizenew', $group['maxsigsize'], 'text');
-		if($group['groupid'] != 7) {
-			showsetting('usergroups_edit_post_recommend', 'allowrecommendnew', $group['allowrecommend'], 'text');
-		}
 		showsetting('usergroups_edit_post_edit_time_limit', 'edittimelimitnew', intval($group['edittimelimit']), 'text');
 		showsetting('usergroups_edit_post_allowreplycredit', 'allowreplycreditnew', $group['allowreplycredit'], 'radio');
 		showsetting('usergroups_edit_post_allowcommentpost', ['allowcommentpostnew', [
@@ -735,7 +732,6 @@ EOF;
 		$maxspacesizenew = $_GET['maxspacesizenew'] > 0 ? intval($_GET['maxspacesizenew'] * 1024) : 0;
 		$maxsizeperdaynew = $_GET['maxsizeperdaynew'] > 0 ? intval($_GET['maxsizeperdaynew'] * 1024) : 0;
 		$maxattachnumnew = $_GET['maxattachnumnew'] > 0 ? intval($_GET['maxattachnumnew']) : 0;
-		$allowrecommendnew = $_GET['allowrecommendnew'] > 0 ? intval($_GET['allowrecommendnew']) : 0;
 		$dataarr = [
 			'grouptitle' => $_GET['grouptitlenew'],
 			'radminid' => $radminidnew,
@@ -841,7 +837,6 @@ EOF;
 			'tradestick' => $tradesticknew,
 			'maxattachnum' => $maxattachnumnew,
 			'allowposturl' => $_GET['allowposturlnew'],
-			'allowrecommend' => $allowrecommendnew,
 			'allowpostrushreply' => $_GET['allowpostrushreplynew'],
 			'maxfriendnum' => $_GET['maxfriendnumnew'],
 			'seccode' => $_GET['seccodenew'],

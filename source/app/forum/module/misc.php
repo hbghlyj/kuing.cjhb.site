@@ -18,7 +18,7 @@ if(!in_array($_GET['action'], ['paysucceed', 'showdarkroom']) && !$_G['setting']
 $after_actions = ['votepoll', 'viewvote', 'viewwarning', 'pay', 'viewpayments',
 	'viewthreadmod', 'bestanswer', 'activityapplies', 'getactivityapplylist',
 	'activityapplylist', 'activityexport', 'tradeorder', 'debatevote',
-	'debateumpire', 'recommend', 'protectsort',
+	'debateumpire', 'protectsort',
 	'postreview', 'hidden', 'hiderecover', 'retag', 'editlog'];
 
 require_once libfile('function/post');

@@ -386,6 +386,11 @@ if($method == 'show_license') {
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
 
 	$sql = read_sql($upgrade_sqlfile);
+	if(!migrate_legacy_thread_recommend_aggregates($db, $tablepre)) {
+		$upgradeError = $db->error();
+		sse_output(lang('failed').($upgradeError ? ': '.$upgradeError : ''));
+		exit();
+	}
 	if(!runquery($sql, true)) {
 		exit();
 	}

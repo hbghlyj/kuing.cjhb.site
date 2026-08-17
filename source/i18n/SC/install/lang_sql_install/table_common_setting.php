@@ -1400,17 +1400,6 @@ $data = [[
     'skey' => 'realname',
     'svalue' => '0',
   ],[
-    'skey' => 'recommendthread',
-    'svalue' =>
-    [
-      'status' => '0',
-      'addtext' => '',
-      'subtracttext' => '',
-      'daycount' => '0',
-      'ownthread' => '0',
-      'iconlevels' => '',
-    ],
-  ],[
     'skey' => 'regclosemessage',
     'svalue' => '',
   ],[
@@ -1457,6 +1446,9 @@ $data = [[
     'svalue' => '60',
   ],[
     'skey' => 'repliesrank',
+    'svalue' => '0',
+  ],[
+    'skey' => 'postreviewdaycount',
     'svalue' => '0',
   ],[
     'skey' => 'report_receive',

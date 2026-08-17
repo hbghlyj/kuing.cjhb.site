@@ -29,12 +29,12 @@ if($filter !== 'hot') {
 
 	if(!$indexadd) {
 		if(!empty($filterarr['intype'])) {
-			if(!in_array($_GET['orderby'], ['dateline', 'replies', 'views', 'recommends', 'heats'])) {
+			if(!in_array($_GET['orderby'], ['dateline', 'replies', 'views', 'heats'])) {
 				$indexadd = ' FORCE INDEX (typeid) ';
 			} else {
 				$indexadd = ' FORCE INDEX (typeid_'.$_GET['orderby'].') ';
 			}
-		} elseif(in_array($_GET['orderby'], ['dateline', 'replies', 'views', 'recommends', 'heats'])) {
+		} elseif(in_array($_GET['orderby'], ['dateline', 'replies', 'views', 'heats'])) {
 			$indexadd = ' FORCE INDEX (displayorder_'.$_GET['orderby'].') ';
 		}
 	}

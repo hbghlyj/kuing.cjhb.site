@@ -335,7 +335,7 @@ class table_forum_thread extends discuz_table {
 		return [];
 	}
 
-	public function fetch_all_by_fid_displayorder($fids, $displayorder = null, $dateline = null, $recommends = null, $start = 0, $limit = 0, $order = 'dateline', $sort = 'DESC', $dglue = '>=') {
+	public function fetch_all_by_fid_displayorder($fids, $displayorder = null, $dateline = null, $start = 0, $limit = 0, $order = 'dateline', $sort = 'DESC', $dglue = '>=') {
 		$parameter = [$this->get_table_name()];
 		$wherearr = [];
 		$fids = dintval($fids, true);
@@ -351,10 +351,6 @@ class table_forum_thread extends discuz_table {
 		if($dateline !== null) {
 			$parameter[] = $dateline;
 			$wherearr[] = 'dateline>=%d';
-		}
-		if($recommends !== null) {
-			$parameter[] = $recommends;
-			$wherearr[] = 'recommends>%d';
 		}
 		$ordersql = !empty($order) ? ' ORDER BY '.DB::order($order, $sort) : '';
 		$wheresql = !empty($wherearr) && is_array($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
@@ -855,10 +851,6 @@ class table_forum_thread extends discuz_table {
 			$wherearr[] = $prefix.DB::field('heats', $conditions['heats'], '>');
 			$this->_urlparam[] = 'heats='.$conditions['heats'];
 		}
-		if(!empty($conditions['recommends'])) {
-			$wherearr[] = $prefix.DB::field('recommends', $conditions['recommends'], '>');
-			$this->_urlparam[] = 'recommends='.$conditions['recommends'];
-		}
 		if(!empty($conditions['authorid'])) {
 			$wherearr[] = $prefix.DB::field('authorid', $conditions['authorid']);
 			$this->_urlparam[] = 'authorid='.$conditions['authorid'];
@@ -1008,7 +1000,7 @@ class table_forum_thread extends discuz_table {
 		$tids = dintval((array)$tids, true);
 		$sql = [];
 		$num = 0;
-		$allowkey = ['views', 'replies', 'recommends', 'recommend_add', 'recommend_sub', 'favtimes', 'sharetimes', 'moderated', 'heats', 'lastposter', 'lastpost', 'attachment'];
+		$allowkey = ['views', 'replies', 'favtimes', 'sharetimes', 'moderated', 'heats', 'lastposter', 'lastpost', 'attachment'];
 		foreach($fieldarr as $key => $value) {
 			if(in_array($key, $allowkey)) {
 				if(is_array($value)) {

@@ -19,7 +19,7 @@ function build_cache_setting() {
 		'ipverifywhite', 'defaultdoing', 'antitheftsetting',
 	];
 	$serialized = ['reginput', 'memory', 'search', 'creditspolicy', 'ftp', 'secqaa', 'ec_credit', 'qihoo', 'spacedata',
-		'infosidestatus', 'uc', 'indexhot', 'relatedtag', 'sitemessage', 'uchome', 'heatthread', 'recommendthread',
+		'infosidestatus', 'uc', 'indexhot', 'relatedtag', 'sitemessage', 'uchome', 'heatthread',
 		'disallowfloat', 'allowviewuserthread', 'advtype', 'click', 'card', 'rewritestatus', 'rewriterule', 'privacy', 'focus',
 		'forumkeys', 'article_tags', 'verify', 'seotitle', 'seodescription', 'seokeywords', 'domain', 'ranklist', 'my_search_data',
 		'seccodedata', 'inviteconfig', 'advexpiration', 'allowpostcomment', /*(IN_MOBILE)*/
@@ -143,17 +143,6 @@ function build_cache_setting() {
 				}
 			}
 		}
-	}
-
-	if($data['recommendthread']['status']) {
-		if($data['recommendthread']['iconlevels']) {
-			$data['recommendthread']['iconlevels'] = explode(',', $data['recommendthread']['iconlevels']);
-			arsort($data['recommendthread']['iconlevels']);
-		} else {
-			$data['recommendthread']['iconlevels'] = [];
-		}
-	} else {
-		$data['recommendthread'] = ['allow' => 0];
 	}
 
 	if($data['commentnumber'] && !$data['allowpostcomment']) {

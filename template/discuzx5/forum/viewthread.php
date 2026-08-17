@@ -208,9 +208,6 @@
 						<!--{if $_G['forum_thread']['authorid'] == $_G['uid']}--><a class="psave" id="hiderecover" title="{lang hiderecover_tips}" href="forum.php?mod=misc&action=hiderecover&tid=$_G[tid]&formhash={FORMHASH}" onclick="showWindow(this.id, this.href, 'get', 0);">{lang hidden}</a><!--{else}-->({lang hidden})<!--{/if}-->
 						&nbsp;
 					<!--{/if}-->
-					<!--{if $_G['forum_thread']['recommendlevel']}-->
-						&nbsp;<span class="tbox trecic" title="{lang thread_recommend} $_G['forum_thread'][recommends]">{lang thread_recommend_icon}</span>
-					<!--{/if}-->
 					<!--{if $_G['forum_thread'][heatlevel]}-->
 						&nbsp;<span class="tbox theatlevel" title="{lang heats}: $_G['forum_thread']['heats']">{lang heats_icon}{if $_G['forum_thread'][heatlevel]>1}..{/if}{if $_G['forum_thread'][heatlevel]>2}.{/if}</span>
 					<!--{/if}-->

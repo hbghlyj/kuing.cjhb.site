@@ -38,9 +38,6 @@ $thread[typehtml] $thread[sorthtml]
 <span class="tbox tdigest">{lang thread_digest}$thread[digest]</span>
 <!--{/if}-->
 <!--{if $thread['displayorder'] == 0}-->
-<!--{if $thread[recommendicon] && $filter != 'recommend'}-->
-<span class="tbox trecic" title="{lang thread_recommend} $thread[recommends]">{lang thread_recommend_icon}</span>
-<!--{/if}-->
 <!--{if $thread[heatlevel]}-->
 <span class="tbox theatlevel" title="{lang heats}: {$thread[heats]}">{lang heats_icon}{if $thread[heatlevel]>1}..{/if}{if $thread[heatlevel]>2}.{/if}</span>
 <!--{/if}-->

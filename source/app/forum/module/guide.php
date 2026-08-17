@@ -406,16 +406,6 @@ function guide_procthread($thread) {
 		$thread['highlight'] = '';
 	}
 
-	$thread['recommendicon'] = '';
-	if(!empty($_G['setting']['recommendthread']['status']) && $thread['recommends']) {
-		foreach($_G['setting']['recommendthread']['iconlevels'] as $k => $i) {
-			if($thread['recommends'] > $i) {
-				$thread['recommendicon'] = $k + 1;
-				break;
-			}
-		}
-	}
-
 	$thread['moved'] = $thread['heatlevel'] = $thread['new'] = 0;
 	$thread['icontid'] = $thread['forumstick'] || !$thread['moved'] && $thread['isgroup'] != 1 ? $thread['tid'] : $thread['closed'];
 	$thread['folder'] = 'common';

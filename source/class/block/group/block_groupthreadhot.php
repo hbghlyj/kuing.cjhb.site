@@ -54,7 +54,6 @@ class block_groupthreadhot extends block_groupthread {
 					['replies', 'groupthread_orderby_replies'],
 					['views', 'groupthread_orderby_views'],
 					['heats', 'groupthread_orderby_heats'],
-					['recommends', 'groupthread_orderby_recommends'],
 				],
 				'default' => 'replies'
 			],

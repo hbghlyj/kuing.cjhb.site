@@ -43,7 +43,7 @@ if($view == 'groupthread' || $view == 'mythread') {
 		foreach($attentiongroups as $groupid) {
 			$attentiongroupfid .= $attentiongroupfid ? ','.$groupid : $groupid;
 			if($page == 1) {
-				foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($groupid, 0, null, null, 0, 5, 'lastpost', 'DESC', '=') as $thread) {
+				foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($groupid, 0, null, 0, 5, 'lastpost', 'DESC', '=') as $thread) {
 					$attentionthread[$groupid][$thread['tid']]['fid'] = $thread['fid'];
 					$attentionthread[$groupid][$thread['tid']]['subject'] = $thread['subject'];
 					$attentionthread[$groupid][$thread['tid']]['groupname'] = $usergroups['groups'][$thread['fid']];

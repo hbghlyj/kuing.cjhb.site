@@ -190,9 +190,6 @@
 											<span class="tbox tdigest">{lang thread_digest}$thread[digest]</span>
 										<!--{/if}-->
 										<!--{if $thread['displayorder'] == 0}-->
-											<!--{if $thread[recommendicon] && $filter != 'recommend'}-->
-												<span class="tbox trecic" title="{lang thread_recommend} $thread[recommends]">{lang thread_recommend_icon}</span>
-											<!--{/if}-->
 											<!--{if $thread[heatlevel]}-->
 												<span class="tbox theatlevel" title="{lang heats}: {$thread[heats]}">{lang heats_icon}{if $thread[heatlevel]>1}..{/if}{if $thread[heatlevel]>2}.{/if}</span>
 											<!--{/if}-->
@@ -292,8 +289,7 @@
 								</h3>
 								<div class="auth cl">
 									<cite class="xg1 y">
-										{lang like}: <!--{if $thread[recommends]}-->$thread[recommends]<!--{else}-->0<!--{/if}-->
-										 &nbsp; {lang reply}: <a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra" title="$thread[replies] {lang reply}">$thread[replies]</a>
+										{lang reply}: <a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra" title="$thread[replies] {lang reply}">$thread[replies]</a>
 									</cite>
 									<!--{hook/forumdisplay_author $key}-->
 									<!--{if $thread['authorid'] && $thread['author']}-->

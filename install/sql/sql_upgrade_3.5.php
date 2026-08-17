@@ -961,6 +961,34 @@ CREATE TABLE IF NOT EXISTS pre_forum_threadattention
 
 REPLACE INTO pre_common_setting (skey, svalue) VALUES ('attentionstatus', '1');
 
+-- The installer preserves legacy thread recommendation aggregates on opener
+-- posts in every physical post table before this script drops the source fields.
+-- Directionless member rows are intentionally not migrated.
+
+INSERT INTO pre_common_setting (skey, svalue) VALUES ('postreviewdaycount', '0')
+ON DUPLICATE KEY UPDATE skey = VALUES(skey);
+UPDATE pre_common_setting AS target
+INNER JOIN pre_common_setting AS legacy ON legacy.skey = 'recommendthread'
+SET target.svalue = CASE
+	WHEN LOCATE('s:8:"daycount";i:', legacy.svalue) > 0 THEN
+		CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(legacy.svalue, 's:8:"daycount";i:', -1), ';', 1) AS UNSIGNED)
+	WHEN LOCATE('s:8:"daycount";s:', legacy.svalue) > 0 THEN
+		CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(legacy.svalue, 's:8:"daycount";s:', -1), '";', 1), '"', -1) AS UNSIGNED)
+	ELSE 0
+END
+WHERE target.skey = 'postreviewdaycount';
+DELETE FROM pre_common_setting WHERE skey = 'recommendthread';
+DROP TABLE IF EXISTS pre_forum_memberrecommend;
+ALTER TABLE pre_common_usergroup_field
+	DROP COLUMN allowrecommend;
+ALTER TABLE pre_forum_thread
+	DROP INDEX recommends,
+	DROP INDEX displayorder_recommends,
+	DROP INDEX typeid_recommends,
+	DROP COLUMN recommends,
+	DROP COLUMN recommend_add,
+	DROP COLUMN recommend_sub;
+
 -- Ensure blockstyle hash is unique so upgrade data inserts are deduped by
 -- runquery()/rundatasql(), which skip rows that raise a 'Duplicate' error.
 ALTER TABLE pre_common_block_style

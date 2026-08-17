@@ -132,7 +132,7 @@ function updatersscache($num) {
 	foreach($_G['cache']['forums'] as $fid => $forum) {
 		if($forum['type'] != 'group') {
 			$forum['name'] = addslashes($forum['name']);
-			foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($fid, 0, null, null, 0, $num, 'tid') as $thread) {
+			foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($fid, 0, null, 0, $num, 'tid') as $thread) {
 				$thread['author'] = $thread['author'] != '' ? addslashes($thread['author']) : 'Anonymous';
 				$thread['subject'] = addslashes($thread['subject']);
 				$post = table_forum_post::t()->fetch_threadpost_by_tid_invisible($thread['tid']);

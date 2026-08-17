@@ -52,7 +52,6 @@ $lang = array (
   'post_newthreadtrade' => 'New Product',
   'send_threads' => 'Post',
   'thread_digest' => 'Digest',
-  'thread_recommend' => 'Recommend',
   'thread_sticky' => 'Sticky',
   'threadsort' => 'Thread category',
   'threadtype' => 'Thread type',

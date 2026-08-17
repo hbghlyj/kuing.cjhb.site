@@ -68,7 +68,6 @@ $lang =
 	'sortlist_orderby_replies' => '按回复数倒序排序',
 	'sortlist_orderby_views' => '按浏览次数倒序排序',
 	'sortlist_orderby_heats' => '按热度倒序排序',
-	'sortlist_orderby_recommends' => '按主题评价倒序排序',
 	'sortlist_lastpost' => '主题发布时间',
 	'sortlist_lastpost_nolimit' => '不限制',
 	'sortlist_lastpost_hour' => '一小时内',

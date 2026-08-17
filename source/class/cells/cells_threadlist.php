@@ -93,16 +93,6 @@ class cells_threadlist {
 					$thread['highlight'] = '';
 				}
 
-				$thread['recommendicon'] = '';
-				if(!empty($_G['setting']['recommendthread']['status']) && $thread['recommends']) {
-					foreach($_G['setting']['recommendthread']['iconlevels'] as $k => $i) {
-						if($thread['recommends'] > $i) {
-							$thread['recommendicon'] = $k + 1;
-							break;
-						}
-					}
-				}
-
 				$thread['moved'] = $thread['heatlevel'] = $thread['new'] = 0;
 				if($_G['forum']['status'] != 3 && ($thread['closed'] || ($_G['forum']['autoclose'] && $thread['fid'] == $_G['fid'] && TIMESTAMP - $thread[$closedby] > $_G['forum']['autoclose']))) {
 					if($thread['isgroup'] == 1) {

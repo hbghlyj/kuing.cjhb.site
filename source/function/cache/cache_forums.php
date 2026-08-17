@@ -69,12 +69,12 @@ function build_cache_forums() {
 function formatforumdata($forum, &$pluginvalue, &$stylevalue) {
 	static $keys = ['fid', 'type', 'name', 'name_i18n', 'fup', 'viewperm', 'postperm', 'orderby', 'ascdesc', 'users', 'status',
 		'extra', 'plugin', 'style', 'allowpostspecial', 'commentitem', 'archive', 'domain', 'havepassword'];
-	static $orders = ['lastpost', 'dateline', 'replies', 'views', 'recommends', 'heats'];
+	static $orders = [0 => 'lastpost', 1 => 'dateline', 2 => 'replies', 3 => 'views', 5 => 'heats'];
 
 	$data = [];
 	foreach($keys as $key) {
 		$data[$key] = match ($key) {
-			'orderby' => $orders[$forum['orderby']],
+			'orderby' => $orders[$forum['orderby']] ?? 'lastpost',
 			'plugin' => $pluginvalue[$forum['fid']],
 			'style' => $stylevalue[$forum['fid']],
 			'havepassword' => $forum[$key] ? 1 : 0,

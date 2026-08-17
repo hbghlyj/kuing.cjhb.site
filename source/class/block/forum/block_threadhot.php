@@ -61,7 +61,6 @@ class block_threadhot extends block_thread {
 					['replies', 'threadlist_orderby_replies'],
 					['views', 'threadlist_orderby_views'],
 					['heats', 'threadlist_orderby_heats'],
-					['recommends', 'threadlist_orderby_recommends'],
 				],
 				'default' => 'heats'
 			],

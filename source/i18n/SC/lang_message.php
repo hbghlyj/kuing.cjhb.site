@@ -395,12 +395,6 @@ $lang = [
 	'debate_umpire_nofound_winner' => '抱歉，您没有填写获胜方',
 	'debate_umpire_nofound_point' => '抱歉，您没填写您的观点',
 	'debate_umpire_comment_succeed' => '评判成功 ',
-	'no_privilege_recommend' => '抱歉，您目前没有权限评价此主题，<a href="home.php?mod=spacecp&ac=usergroup" target="_blank">点击这里查看权限</a>',
-	'recommend_self_disallow' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>您不能评价自己的帖子',
-	'recommend_duplicate' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>您已评价过本主题',
-	'recommend_outoftimes' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>今日评价机会已用完',
-	'recommend_daycount_succeed' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span><br>您今天还能评价 {daycount} 次',
-	'recommend_succeed' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
 	'thread_poll_voter_isnull' => '暂时还没有人参与投票，不能添加标签。',
 	'thread_activityapply_isnull' => '暂时还没有人参加活动，不能添加标签。',
 
@@ -1108,8 +1102,8 @@ $lang = [
 	'portal_category_has_no_folder_name' => '抱歉，文章所属的频道没有设置目录名称',
 	'noreply_replynum_error' => '对不起，你已经达到本主题的回帖上限。',
 	'author_not_uploadpic' => '楼主暂时没有上传图片',
-	'noreply_yourself_error' => '您不能对自己的回帖进行投票',
-	'noreply_voted_error' => '您已经对此回帖投过票了',
+	'postreview_yourself_error' => '您不能对自己的帖子进行投票',
+	'postreview_outoftimes' => '抱歉，您在 24 小时内的帖子投票次数已用完',
 
 	'payment_order_no_exist' => '订单不存在或已过期',
 	'payment_type_no_exist' => '请选择支付渠道',
