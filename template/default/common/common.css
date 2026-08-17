@@ -87,7 +87,7 @@ Level:			Global
 Explain:		重定义浏览器默认样式
 Last Modify:	Pony
 */
-	:root { text-autospace: normal; }
+	:root { text-autospace: normal; hyphens: auto; }
 	body { {BGCODE}; }
 	textarea { resize: vertical; }
 	body, button, select { font: {FONTSIZE} "Noto Serif", serif; color: {TABLETEXT}; }
