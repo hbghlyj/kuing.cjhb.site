@@ -308,6 +308,10 @@
 		popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 
 		var myform = document.getElementById('postform');
+		// Match desktop posting: convert bare URLs to [url] BBCode before submission.
+		if(needmessage.length && typeof parseurl === 'function') {
+			needmessage.val(parseurl(needmessage.val()));
+		}
 		var formdata = new FormData(myform);
 		var actionUrl = form.attr('action');
 		if(!actionUrl) {
