@@ -492,7 +492,10 @@ function html2bbcode(str) {
 		str = str.replace(/<hr[^>]*>/ig, "[hr]");
 		str = str.replace(/<img[^>]+smilieid=(["']?)(\d+)(\1)[^>]*>/ig, function($1, $2, $3) {return smileycode($3);});
 		str = str.replace(/<img([^>]*src[^>]*)>/ig, function($1, $2) {return imgtag($2);});
-		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, '$4');
+		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, function($0, $1, $2, $3, $4) {
+			var anchor = $2.replace(/\[/g, '%5B').replace(/\]/g, '%5D');
+			return '[url=' + anchor + ']' + $4 + '[/url]';
+		});
 		str = str.replace(/<div[^>]*quote[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[quote]$1[/quote]");
 		str = str.replace(/<div[^>]*blockcode[^>]*><pre[^>]*>([\s\S]*?)<\/pre><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
 		str = str.replace(/<code[^>]*>([\s\S]*?)<\/code>/ig, "`$1`");
