@@ -1019,23 +1019,6 @@ function keyUp(event) {
 function keyDown(event) {
 	ctlent(event);
 	keyDownNormalizeBlockMerge(event);
-	if(wysiwyg && event.keyCode == 13 && !event.shiftKey && !event.ctrlKey && !event.altKey) {
-		var sel = editwin.getSelection();
-		if(sel && sel.rangeCount) {
-			var node = sel.getRangeAt(0).startContainer;
-			if(node.nodeType == 3) {
-				node = node.parentNode;
-			}
-			while(node && node != editdoc.body) {
-				if(node.tagName == 'BLOCKQUOTE' && node.parentNode && /(^|\s)quote(\s|$)/.test(node.parentNode.className || '')) {
-					doane(event);
-					editdoc.execCommand('insertHTML', false, '<br>');
-					return;
-				}
-				node = node.parentNode;
-			}
-		}
-	}
 	for(i in EXTRAFUNC['keydown']) {
 		EXTRAEVENT = event;
 		try {
