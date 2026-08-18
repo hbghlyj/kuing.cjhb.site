@@ -4,8 +4,8 @@ wysiwyg CSS file for Discuz! X
 https://www.discuz.vip
 */
 html { margin: 0; overflow: auto; }
-body { margin: 0; padding: 2px; overflow: auto; }
-mjx-container.math-editor-selected { cursor: not-allowed; outline: 3px solid #b4d7ff; }
+body { margin: 0; overflow: auto; }
+mjx-container.math-editor-selected { cursor: not-allowed; outline: 2px solid #b4d7ff; outline-offset: -2px; }
 .math-editor-rendered img[src*="upmath.me/svgb/"] { width: auto !important; height: auto !important; }
 .litype_1 li, ol li { list-style-type: decimal; }
 .litype_2 li { list-style-type: lower-alpha; }
