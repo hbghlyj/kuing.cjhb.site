@@ -1078,6 +1078,10 @@ function initJumpCallout() {
 	if(!callout) {
 		return;
 	}
+	var post = callout.parentNode;
+	if(post && !/(^|\s)has-notice-jump(?:\s|$)/.test(post.className)) {
+		post.className += ' has-notice-jump';
+	}
 	callout.style.display = '';
 }
 window.initJumpCallout = initJumpCallout;

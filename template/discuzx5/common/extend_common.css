@@ -617,7 +617,7 @@ img{border:none;}
 .guestbox_btn {background:var(--dz-nvbg);margin-right:24px;padding:5.5px 14px;font-size:14px;color:var(--dz-ff);border-radius:4px;max-width: 80px;margin: 0 auto;}
 .guestbox_btn a {color:var(--dz-ff);margin:0 1px;}
 /* Notice Jump Callout Banner */
-.pl > div[id^="post_"] { position: relative; }
+.pl > div[id^="post_"].has-notice-jump { position: relative; }
 
 /* 头部结束 */
 
