@@ -340,9 +340,6 @@ function succeedhandle_comment(locationhref, message, param) {
 
 function succeedhandle_postappend(locationhref, message, param) {
 	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid', null, null, function() {
-		if(typeof cleanPostBr == 'function') {
-			cleanPostBr('post_' + param['pid']);
-		}
 		if(typeof initCodeCopyButton == 'function') {
 			initCodeCopyButton('post_' + param['pid']);
 		}
@@ -780,44 +777,6 @@ function show_tikz_window(code){
 }
 window.show_tikz_window = show_tikz_window;
 
-//===去br等
-function cleanPostBr(target) {
-	const posts = new Set();
-	if (!target || target === document) {
-		document.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
-	} else {
-		let root = typeof target === 'string' ? document.getElementById(target) : target;
-		if (root) {
-			let el = root.nodeType === Node.ELEMENT_NODE ? root : root.parentElement;
-			if (el) {
-				let container = el.closest ? el.closest('.t_f, .postmessage, .message') : null;
-				if (container) posts.add(container);
-				if (el.querySelectorAll) {
-					if (el.matches && el.matches('.t_f, .postmessage, .message')) posts.add(el);
-					el.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
-				}
-			}
-		}
-	}
-	posts.forEach(post => {
-		post.querySelectorAll('br').forEach(br => {
-			if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
-				br.nextSibling.nodeValue = br.nextSibling.nodeValue.replace(/^\n/, '');
-			}
-			if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
-				if (/(\\\]|\\end\{(align|gather|equation|eqnarray|multline)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
-					br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
-					br.remove();
-				}
-			}
-			else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
-				br.remove();
-			}
-		});
-	});
-}
-window.cleanPostBr = cleanPostBr;
-
 function initCodeCopyButton(root) {
 	const container = typeof root === 'string' ? document.getElementById(root) : (root || document);
 	if (!container) {
@@ -1036,7 +995,6 @@ function debounce(func, delay) {
 }
 
 function initViewthreadEnhancements(root) {
-	cleanPostBr(root);
 	initCodeCopyButton(root);
 	initPostZoomAndWheel(root);
 	initCommentReplyButtons(root);
