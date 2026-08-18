@@ -31,23 +31,33 @@ function escapeMathHtml(value) {
 	});
 }
 
+function isLatexEnvironment(value) {
+	return /^\\begin\{([^}]+)\}[\s\S]*\\end\{\1\}$/.test(value.trim());
+}
+
 function getMathDialogValue(value) {
 	if (value.slice(0, 2) === '\\[' && value.slice(-2) === '\\]') {
-		return { equation: value.slice(2, -2), wrap: 'display' };
+		return { equation: value.slice(2, -2), wrap: 'display', sourceWrap: 'bracket-display' };
 	}
 	if (value.slice(0, 2) === '\\(' && value.slice(-2) === '\\)') {
-		return { equation: value.slice(2, -2), wrap: 'inline' };
+		return { equation: value.slice(2, -2), wrap: 'inline', sourceWrap: 'paren-inline' };
 	}
 	var display = /^\$\$([\s\S]*)\$\$$/.exec(value);
-	if (display) return { equation: display[1], wrap: 'display' };
+	if (display) return { equation: display[1], wrap: 'display', sourceWrap: 'dollar-display' };
 	var inline = /^\$([^$][\s\S]*?)\$$/.exec(value);
-	if (inline) return { equation: inline[1], wrap: 'inline' };
+	if (inline) return { equation: inline[1], wrap: 'inline', sourceWrap: 'dollar-inline' };
+	if (isLatexEnvironment(value)) return { equation: value, wrap: 'environment' };
 	return { equation: value, wrap: 'inline' };
 }
 
-function formatMathDialogValue(equation, wrap) {
-	if (wrap === 'inline' && /^\\begin\{([^}]+)\}[\s\S]*\\end\{\1\}$/.test(equation.trim())) {
-		return equation;
+function formatMathDialogValue(equation, wrap, sourceWrap) {
+	if (wrap === 'environment') return equation;
+	if (isLatexEnvironment(equation)) {
+		if (wrap === 'inline' && sourceWrap === 'dollar-inline') return '$' + equation + '$';
+		if (wrap === 'inline' && sourceWrap === 'paren-inline') return '\\(' + equation + '\\)';
+		if (wrap === 'display' && sourceWrap === 'bracket-display') return '\\[' + equation + '\\]';
+		if (wrap === 'display' && sourceWrap === 'dollar-display') return '$$' + equation + '$$';
+		if (wrap === 'inline') return equation;
 	}
 	return wrap === 'display' ? '$$' + equation + '$$' : '$' + equation + '$';
 }
@@ -700,13 +710,15 @@ function showFullEditorMathDialog(labels, rendered) {
 	var wrapLabel = labels.wrap || 'Text wrap';
 	var inlineLabel = (labels.inline || 'Inline') + ' ($...$)';
 	var displayLabel = (labels.display || 'Display') + ' ($$...$$)';
+	var environmentLabel = labels.environment || '';
 	var content = '<div class="math-editor-dialog">' +
 		'<p><label for="math_editor_equation">' + escapeMathHtml(equationLabel) + '</label>' +
 		'<textarea id="math_editor_equation" class="pt" rows="8"></textarea></p>' +
 		'<div id="math_symbol_tools" class="math-symbol-tools"></div>' +
 		'<p><label for="math_editor_wrap">' + escapeMathHtml(wrapLabel) + '</label>' +
 		'<select id="math_editor_wrap"><option value="inline">' + escapeMathHtml(inlineLabel) + '</option>' +
-		'<option value="display">' + escapeMathHtml(displayLabel) + '</option></select></p>' +
+		'<option value="display">' + escapeMathHtml(displayLabel) + '</option>' +
+		'<option value="environment">' + escapeMathHtml(environmentLabel) + '</option></select></p>' +
 		'<div id="math_editor_preview" class="math-editor-preview" aria-live="polite"></div>' +
 		'</div>';
 
@@ -714,7 +726,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		var equation = document.getElementById('math_editor_equation');
 		var wrap = document.getElementById('math_editor_wrap');
 		if (!equation || !wrap || equation.value === '') return;
-		var math = formatMathDialogValue(equation.value, wrap.value);
+		var math = formatMathDialogValue(equation.value, wrap.value, selected.sourceWrap);
 		if (rendered) {
 			renderMathEquation(rendered, math);
 		} else {
@@ -730,7 +742,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		if (!equation || !wrap || !preview || !symbolTools) return;
 		var previewVersion = 0;
 		var updatePreview = function() {
-			var math = formatMathDialogValue(equation.value, wrap.value);
+			var math = formatMathDialogValue(equation.value, wrap.value, selected.sourceWrap);
 			preview.textContent = math;
 			if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
 			if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([preview]);
