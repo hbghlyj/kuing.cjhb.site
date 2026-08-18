@@ -1598,9 +1598,10 @@ const testPusherLeaderCoordination = async browser => {
         const uploadPickers = page.locator('div[id^="rt_"] input[type="file"]');
         assert.strictEqual(await uploadPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
         const imageInput = uploadPickers.nth(0);
-        // The forum's configured per-post attachment limit is two; two files
-        // still verify concurrent requests without exceeding that policy.
-        const parallelFixtures = attachmentFixtures.slice(0, 2);
+        // Paste/drop already exercises two concurrent uploads above. The native
+        // picker now verifies the exact 1 MiB fixture within the remaining post
+        // attachment quota.
+        const nativeUploadFixtures = attachmentFixtures.slice(0, 1);
         const uploadResponses = [];
         let finishParallelUploadWait;
         const parallelUploadWait = new Promise((resolve, reject) => {
@@ -1611,27 +1612,27 @@ const testPusherLeaderCoordination = async browser => {
             };
             const timeoutId = setTimeout(() => {
                 page.off('response', onUploadResponse);
-                reject(new Error(`Timed out waiting for ${parallelFixtures.length} parallel image uploads; received ${uploadResponses.length}.`));
+                reject(new Error(`Timed out waiting for ${nativeUploadFixtures.length} native image upload; received ${uploadResponses.length}.`));
             }, 60000);
             const onUploadResponse = response => {
                 if(response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload')) {
                     uploadResponses.push(response);
-                    if(uploadResponses.length === parallelFixtures.length) {
+                    if(uploadResponses.length === nativeUploadFixtures.length) {
                         finishParallelUploadWait();
                     }
                 }
             };
             page.on('response', onUploadResponse);
         });
-        await imageInput.setInputFiles(parallelFixtures);
-        const parallelResponses = await parallelUploadWait;
-        for(const response of parallelResponses) {
+        await imageInput.setInputFiles(nativeUploadFixtures);
+        const nativeResponses = await parallelUploadWait;
+        for(const response of nativeResponses) {
             const responseText = await response.text();
             assert.match(responseText.trim(), /^\d+$/, `Assertion Error: Desktop parallel image upload failed. Response: ${responseText}`);
         }
         await page.waitForFunction(
             expected => document.querySelectorAll('#imgattachlist input[name^="attachnew["]').length >= expected,
-            parallelFixtures.length,
+            nativeUploadFixtures.length,
             { timeout: 10000 }
         );
         const aid = await page.locator('#imgattachlist input[name$="[displaywidth]"]').last().evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
