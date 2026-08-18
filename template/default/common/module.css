@@ -1254,8 +1254,6 @@ a.editlog:hover { color: #333; }
 #fwin_dialog:has(.tikz-dialog) .fwin { width: min(calc(100vw - 24px), 560px); }
 .tikz-dialog { box-sizing: border-box; }
 .tikzta { box-sizing: border-box; width: 100%; height: 300px; font-size: 14px; padding: 6px; resize: vertical; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; color: #444; background: #F7F7F7; }
-.tupian { display: inline-block; position: relative; min-width: 100px; min-height: 100px; font-size: 16px; color: black; }
-.tupian.jiazed { display: inline; min-width: unset; min-height: unset; }
 #thread_subject { white-space: pre-wrap; }
 .psti a { color: #369; text-decoration: underline; }
 .reply-btn { display: none; position: absolute; top: 5px; right: 5px; background: url(/static/image/mobile/images/icon_reply.png) no-repeat; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }

@@ -966,44 +966,6 @@ function initCodeCopyButton(root) {
 }
 window.initCodeCopyButton = initCodeCopyButton;
 
-function initializePostImages(root) {
-	const images = [];
-	if(root.nodeType === Node.ELEMENT_NODE && root.matches('.t_fsz img.zoom')) {
-		images.push(root);
-	}
-	if(root.querySelectorAll) {
-		images.push(...root.querySelectorAll('.t_fsz img.zoom'));
-	}
-	images.forEach(img => {
-		if(img.dataset.postImageReady) return;
-		img.dataset.postImageReady = '1';
-
-		let wrapper = img.closest('.tupian');
-		if(!wrapper) {
-			wrapper = document.createElement('div');
-			wrapper.className = 'tupian';
-			img.parentNode.insertBefore(wrapper, img);
-			wrapper.append(img);
-		}
-
-		const finishLoading = function() {
-			wrapper.classList.add('jiazed');
-			wrapper.style.display = 'inline-block';
-		};
-		if(img.complete && img.naturalWidth) {
-			finishLoading();
-		} else {
-			img.addEventListener('load', finishLoading, {once: true});
-		}
-		wrapper.addEventListener('wheel', function(event) {
-			if(event.shiftKey) {
-				wrapper.style.width = '';
-				wrapper.style.height = '';
-			}
-		});
-	});
-}
-
 function initPostZoomAndWheel(root) {
 	root = root || document;
 	const targets = root.querySelectorAll ? root.querySelectorAll('.t_fsz img.zoom,tikz img,asy img') : [];
@@ -1194,7 +1156,6 @@ function debounce(func, delay) {
 function initViewthreadEnhancements(root) {
 	cleanPostBr(root);
 	initCodeCopyButton(root);
-	initializePostImages(root);
 	initPostZoomAndWheel(root);
 	initCommentReplyButtons(root);
 	initThreadSubjectDblClick();
@@ -1207,7 +1168,6 @@ if(postList && !postList.dataset.muluObserver) {
 	postList.dataset.muluObserver = '1';
 	new MutationObserver(mutations => {
 		mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
-			initializePostImages(node);
 			if(window.updateMulu) window.updateMulu();
 		}));
 	}).observe(postList, {childList: true, subtree: true});
