@@ -19,6 +19,7 @@ $lang = [
 	'admincp_perm_add' => '添加',
 
 	'ajax_inner_error' => '內部錯誤，無法顯示此內容',
+	'networkerror' => '網絡出現問題，請稍後再試',
 	'chat_add_photo' => '傳送圖片',
 	'chat_connected' => '已連線',
 	'chat_connecting' => '連線中',

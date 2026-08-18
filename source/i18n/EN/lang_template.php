@@ -74,7 +74,6 @@ $lang = array (
 	'keyword_faq'			=> 'Keyword &quot;<span class="xi1">$keyword</span>&quot; Help',//'关键字为“<span class="xi1">$keyword</span>”Help',
 	'open'				=> 'Open',//'展开',
 	'search'			=> 'Search',//'搜索',
-	'networkerror'			=> 'Network error, please try again later',
 	'close'				=> 'Close',//'关闭',
 	'focus_hottopics'		=> 'Hot Topics',//'站长推荐',
 	'focus_show'			=> 'View',//'查看',
