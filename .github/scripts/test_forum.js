@@ -1428,9 +1428,15 @@ const testPusherLeaderCoordination = async browser => {
             `Assertion Error: Renamed desktop uploader script was not loaded. Scripts: ${uploaderRuntime.scripts.join(', ')}`
         );
 
-        const attachmentFixture = 'static/image/smiley/BQ2/alu1.jpg';
-        assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
+        const attachmentSource = 'static/image/smiley/BQ2/alu1.jpg';
+        const attachmentFixture = 'scratch/one_megabyte_image.jpg';
+        const oneMegabyte = 1024 * 1024;
+        assert.ok(fs.existsSync(attachmentSource), `Assertion Error: Attachment fixture is missing: ${attachmentSource}`);
         fs.mkdirSync('scratch', { recursive: true });
+        const sourceBytes = fs.readFileSync(attachmentSource);
+        assert.ok(sourceBytes.length < oneMegabyte, 'Assertion Error: Attachment source fixture is unexpectedly larger than 1 MiB.');
+        fs.writeFileSync(attachmentFixture, Buffer.concat([sourceBytes, Buffer.alloc(oneMegabyte - sourceBytes.length)]));
+        assert.strictEqual(fs.statSync(attachmentFixture).size, oneMegabyte, 'Assertion Error: Generated image fixture is not exactly 1 MiB.');
         const attachmentFixtures = [
             attachmentFixture,
             'scratch/parallel_image_2.jpg',
@@ -1661,6 +1667,12 @@ const testPusherLeaderCoordination = async browser => {
         assert.strictEqual(attachmentIndex, `${attachTid}:${attachTid.slice(-1)}`, `Assertion Error: Attachment index was not bound to thread ${attachTid}. Found: ${attachmentIndex}`);
         assert.strictEqual(unusedAttachment, '0', `Assertion Error: Attachment ${aid} remained in pre_forum_attachment_unused.`);
 
+        const storedAttachmentInfo = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(filesize, CHAR(9), attachment) FROM pre_forum_attachment_${attachTableId} WHERE aid='${aid}' AND tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        const [storedAttachmentSize, storedAttachmentFile] = storedAttachmentInfo.split('\t');
+        assert.strictEqual(Number(storedAttachmentSize), oneMegabyte, `Assertion Error: Database attachment size did not preserve 1 MiB. Stored: ${storedAttachmentSize}`);
+        const storedAttachmentPath = path.join('data/attachment/forum', storedAttachmentFile);
+        assert.strictEqual(fs.statSync(storedAttachmentPath).size, oneMegabyte, `Assertion Error: Stored attachment file did not preserve 1 MiB: ${storedAttachmentPath}`);
+
         assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
         assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
         assert.strictEqual(await postImg.getAttribute('width'), '64', 'Assertion Error: Attached image display width was not rendered.');
@@ -1669,7 +1681,7 @@ const testPusherLeaderCoordination = async browser => {
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' });
 
-        report += `### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${attachmentSubject} (TID: ${attachTid}, AID: ${aid})\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n`;
+        report += `### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${attachmentSubject} (TID: ${attachTid}, AID: ${aid})\n- **1 MiB Byte-Preservation Check**: Passed\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n`;
 
         // 6b. Non-Image Attachment Post Test
         console.log("Attempting to post thread with non-image attachment...");
