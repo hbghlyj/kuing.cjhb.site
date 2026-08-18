@@ -49,6 +49,12 @@ if($doRebuild) {
 }
 
 if($doVerhash) {
+	if($_G['setting']['jspath'] === 'data/cache/') {
+		require_once './source/function/cache/cache_setting.php';
+		writetojscache();
+		echo "JavaScript cache rebuilt\n";
+	}
+
 	$cacheNames = ['style_default'];
 	foreach(table_common_style::t()->fetch_all_data() as $style) {
 		$cacheNames[] = 'style_'.$style['styleid'];
