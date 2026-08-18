@@ -345,7 +345,10 @@ const testPusherLeaderCoordination = async browser => {
             { timeout: 10000 }
         );
     };
-    const openPmFromNotice = async targetPage => {
+    const openPmFromNotice = async (targetPage, targetUid) => {
+        const beforePromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
+        const [beforePrompt, beforePm] = beforePromptState.split('\t').map(value => parseInt(value || '0', 10));
+        assert.ok(beforePrompt > 0, 'Assertion Error: Test user did not have an unread notification before opening the notice menu.');
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-icon');
         let pmLink;
         if(await x5Notice.count()) {
@@ -361,14 +364,34 @@ const testPusherLeaderCoordination = async browser => {
             assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
             pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
+            await targetPage.waitForFunction(expectedPm => {
+                const dot = document.querySelector('.header-notice .notice-icon > .dot');
+                if(!dot) return expectedPm === 0;
+                return dot.textContent.trim() === String(expectedPm > 99 ? 99 : expectedPm);
+            }, beforePm, { timeout: 10000 });
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
+            const noticeResponse = targetPage.waitForResponse(response =>
+                response.url().includes('forum.php?mod=ajax&action=markAsRead') &&
+                response.request().method() === 'GET'
+            );
             await noticeLink.hover();
+            const response = await noticeResponse;
+            assert.ok(response.ok(), `Assertion Error: Notice request failed with HTTP ${response.status()}.`);
             await targetPage.locator('#myprompt_menu').waitFor({ state: 'visible', timeout: 10000 });
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
             pmLink = targetPage.locator('#myprompt_menu a#pm_ntc');
+            assert.strictEqual(
+                await noticeLink.evaluate(element => !element.classList.contains('new') && !/\(\s*\d+\s*\)/.test(element.textContent)),
+                true,
+                'Assertion Error: Default notice control still displayed an unread notification badge.'
+            );
         }
+        const afterPromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
+        const [afterPrompt, afterPm] = afterPromptState.split('\t').map(value => parseInt(value || '0', 10));
+        assert.strictEqual(afterPrompt, 0, 'Assertion Error: Opening the notice menu did not mark the notification as read.');
+        assert.strictEqual(afterPm, beforePm, 'Assertion Error: Opening the notice menu unexpectedly changed the unread PM count.');
         await pmLink.waitFor({ state: 'visible', timeout: 10000 });
         await Promise.all([
             targetPage.waitForURL(url => url.href.includes('home.php?mod=space&do=pm')),
@@ -1290,11 +1313,11 @@ const testPusherLeaderCoordination = async browser => {
             );
             await adminContext.close();
 
-            // Verify PM center for user through the header notice dropdown.
-            await openPmFromNotice(page);
+            // Verify the notice badge clears and the notification is persisted as read.
+            await openPmFromNotice(page, userUid);
             const pmBody = await page.textContent('body');
             assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
-            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **Header Notice Hover Dropdown**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_notice_dropdown.png`\n\n';
+            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **Header Notice Hover Dropdown**: Success\n- **Unread Badge Cleared**: Success\n- **Notification Read State**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_notice_dropdown.png`\n\n';
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
@@ -1456,7 +1479,9 @@ const testPusherLeaderCoordination = async browser => {
             return textarea ? { type: 'textarea', id: textarea.id } : null;
         });
         assert.ok(editorTarget, 'Assertion Error: No active forum editor was available for paste/drop upload tests.');
-        const fixtureBase64 = fs.readFileSync(attachmentFixture).toString('base64');
+        // Keep paste/drop focused on browser image handling; verify the exact 1 MiB
+        // payload separately through the native file-input upload path below.
+        const fixtureBase64 = sourceBytes.toString('base64');
         const dispatchEditorImageEvent = async (eventType, files) => {
             return page.evaluate(({target, eventType, files}) => {
                 const createEvent = (type, dataTransfer) => {
