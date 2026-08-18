@@ -1636,8 +1636,9 @@ Last Modify:	Pony
 	.fwin .rfm, .nfl .f_c .rfm { width: 500px; }
 	.fwin .rfm th, .fwin .rfm td, .nfl .f_c .rfm th, .nfl .f_c .rfm td { padding: 6px 2px; }
 	@media screen and (max-width: 760px) {
-		.rfm { width: 100%; }
-		.rfm td.tipcol { display: block; width: auto; padding-left: 0; }
+		.rfm, .rfm table, .rfm tbody, .rfm tr { display: block; width: 100%; }
+		.rfm th, .rfm td { display: block; width: auto !important; padding-left: 0; padding-right: 0; text-align: left; }
+		.rfm td.tipcol { padding-top: 0; }
 		.rfm .p_tip, .rfm .p_chk { position: relative; width: auto; max-width: 100%; padding-left: 0; }
 	}
 	.fwin .loginb button { margin-left: 11.3em; }

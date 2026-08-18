@@ -1262,8 +1262,9 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 .password-toggle-field > .password-toggle { background: none; background-color: transparent; }
 .password-toggle-field > .password-toggle::before { content: ''; display: block; width: 16px; height: 16px; margin: 3px; background-color: currentColor; -webkit-mask: url({IMGDIR}/password-eye.svg) no-repeat center / contain; mask: url({IMGDIR}/password-eye.svg) no-repeat center / contain; }
 @media screen and (max-width: 760px) {
-	.rfm { width: 100%; }
-	.rfm td.tipcol { display: block; width: auto; padding-left: 0; }
+	.rfm, .rfm table, .rfm tbody, .rfm tr { display: block; width: 100%; }
+	.rfm th, .rfm td { display: block; width: auto !important; padding-left: 0; padding-right: 0; text-align: left; }
+	.rfm td.tipcol { padding-top: 0; }
 	.rfm .p_tip, .rfm .p_chk { position: relative !important; width: auto !important; max-width: 100%; padding-left: 0; }
 }
 
