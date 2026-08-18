@@ -523,13 +523,16 @@ var mathSymbolCategories = [
 	{ key: 'relations', preview: '= ≈ ≤', symbols: ['=', '\\ne', '\\approx', '\\equiv', '\\sim', '\\simeq', '\\cong', '<', '>', '\\leqslant', '\\geqslant', '\\ll', '\\gg', '\\propto', '\\in', '\\notin', '\\ni', '\\subset', '\\subseteq', '\\supset', '\\supseteq', '\\perp', '\\parallel', '\\mid', '\\nmid'] },
 	{ key: 'arrows', preview: '→ ⇒ ↦', symbols: ['\\leftarrow', '\\rightarrow', '\\leftrightarrow', '\\Leftarrow', '\\Rightarrow', '\\Leftrightarrow', '\\mapsto', '\\longmapsto', '\\hookleftarrow', '\\hookrightarrow', '\\uparrow', '\\downarrow', '\\updownarrow', '\\nearrow', '\\searrow', '\\swarrow', '\\nwarrow'] },
 	{ key: 'logic', preview: '∀ ∃ ∈', symbols: ['\\forall', '\\exists', '\\nexists', '\\neg', '\\land', '\\lor', '\\implies', '\\iff', '\\therefore', '\\because', '\\emptyset', '\\mathbb{N}', '\\mathbb{Z}', '\\mathbb{Q}', '\\mathbb{R}', '\\mathbb{C}', '\\cup', '\\cap', '\\setminus'] },
-	{ key: 'geometry', preview: '∠ △ ⟂', symbols: ['\\angle', '\\measuredangle', '\\triangle', '\\square', '\\diamond', '\\perp', '\\parallel', '\\cong', '\\sim', '\\odot', '\\circ', '^\\circ', '\\overline{}', '\\vec{}'] }
+	{ key: 'geometry', preview: '∠ △ ⟂', symbols: ['\\angle', '\\measuredangle', '\\triangle', '\\square', '\\diamond', '\\perp', '\\parallel', '\\cong', '\\sim', '\\odot', '\\circ', '^\\circ', { source: '\\overline{}', preview: '\\overline{x}' }, { source: '\\vec{}', preview: '\\vec{x}' }] }
 ];
 
 function getMathSymbolCatalog() {
 	var catalog = {};
 	for (var i = 0; i < mathSymbolCategories.length; i++) {
-		for (var j = 0; j < mathSymbolCategories[i].symbols.length; j++) catalog[mathSymbolCategories[i].symbols[j]] = true;
+		for (var j = 0; j < mathSymbolCategories[i].symbols.length; j++) {
+			var symbol = mathSymbolCategories[i].symbols[j];
+			catalog[typeof symbol === 'string' ? symbol : symbol.source] = true;
+		}
 	}
 	return catalog;
 }
@@ -567,15 +570,16 @@ function typesetMathSymbolContainer(container) {
 }
 
 function createMathSymbolButton(symbol, equation, onInsert) {
+	var descriptor = typeof symbol === 'string' ? { source: symbol, preview: symbol } : symbol;
 	var button = document.createElement('button');
 	button.type = 'button';
 	button.className = 'math-symbol-cell';
-	button.title = symbol;
-	button.textContent = '$' + symbol + '$';
+	button.title = descriptor.source;
+	button.textContent = '$' + descriptor.preview + '$';
 	button.addEventListener('click', function(event) {
 		event.preventDefault();
-		insertMathDialogSymbol(equation, symbol);
-		onInsert(symbol);
+		insertMathDialogSymbol(equation, descriptor.source);
+		onInsert(descriptor.source);
 	});
 	return button;
 }
