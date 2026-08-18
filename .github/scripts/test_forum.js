@@ -1548,7 +1548,9 @@ const testPusherLeaderCoordination = async browser => {
                     throw new Error('Editor event target was not found');
                 }
                 const cancelled = !targetNode.dispatchEvent(createEvent(eventType, dataTransfer));
-                return { cancelled };
+                const hasPlaceholder = !!(targetDocument.querySelector && targetDocument.querySelector('.editor-image-uploading, [data-editor-upload]'));
+                const sourceHasToken = target.type !== 'iframe' && /\[(?:Uploading|上传)[^\]]*eu_/i.test(targetNode.value || '');
+                return { cancelled, hasPlaceholder: hasPlaceholder || sourceHasToken };
             }, {
                 target: editorTarget,
                 eventType,

@@ -25,3 +25,6 @@ div.blockcode { margin: 10px 0; padding: 10px; border: 1px solid {WRAPBORDERCOLO
 	div.blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',monospace; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
 .float td { border: 0; padding: 0; }
 img { max-width:400px; }
+.editor-image-uploading { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0; padding: 6px 10px; border: 1px dashed #8aa4c8; border-radius: 4px; background: #f3f7fb; color: #4a5b70; font: 13px/1.4 sans-serif; }
+.editor-image-uploading img { width: 16px; height: 16px; max-width: 16px; vertical-align: middle; }
+.editor-image-upload-failed { border-color: #e08a8a; background: #fff2f2; color: #b42318; }
