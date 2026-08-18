@@ -460,6 +460,58 @@ function sanitizePaste(event) {
 	}
 }
 
+var editorUploadSeq = 0;
+var editorUploadQueue = {};
+
+function editorUploadLabel() {
+	return typeof $L == 'function' ? $L('uploading') : 'Uploading...';
+}
+
+function getEditorUploadId(file) {
+	if(!file) {
+		return '';
+	}
+	if(file.editorUploadId) {
+		return file.editorUploadId;
+	}
+	var raw = file.source ? (file.source.source || file.source) : file;
+	return (raw && raw._editorUploadId) || (file.source && file.source._editorUploadId) || '';
+}
+
+function insertEditorUploadPlaceholder(id) {
+	var label = editorUploadLabel();
+	var token = '[' + label.replace(/[\[\]]/g, '') + ':' + id + ']';
+	editorUploadQueue[id] = {status: 'uploading', token: token};
+	if(typeof setEditorTip == 'function') {
+		setEditorTip(label);
+	}
+	if(wysiwyg) {
+		insertText('<span id="' + id + '" class="editor-image-uploading" contenteditable="false" data-editor-upload="1"><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /> ' + htmlspecialchars(label) + '</span>&nbsp;', false);
+	} else {
+		insertText(token, strlen(token), 0);
+	}
+}
+
+function failEditorUploadPlaceholder(id, message) {
+	if(!id) {
+		return;
+	}
+	var msg = message || (typeof $L == 'function' ? $L('upload_failed') : 'Upload failed');
+	if(wysiwyg && editdoc) {
+		var el = editdoc.getElementById(id);
+		if(el) {
+			el.className = 'editor-image-uploading editor-image-upload-failed';
+			el.textContent = msg;
+		}
+	} else if(editorUploadQueue[id] && editorUploadQueue[id].token && editdoc && editdoc.value && editdoc.value.indexOf(editorUploadQueue[id].token) !== -1) {
+		editdoc.value = editdoc.value.replace(editorUploadQueue[id].token, '');
+	}
+	if(typeof setEditorTip == 'function') {
+		setEditorTip(msg);
+	}
+	delete editorUploadQueue[id];
+}
+
 function uploadEditorImageFiles(files) {
 	var status = {uploadedCount: 0, failedCount: 0, ignoredCount: 0, duplicateCount: 0};
 	var seen = Object.create(null);
@@ -482,9 +534,13 @@ function uploadEditorImageFiles(files) {
 			continue;
 		}
 		seen[fileKey] = true;
+		var uploadId = 'eu_' + (++editorUploadSeq) + '_' + (+new Date());
+		files[i]._editorUploadId = uploadId;
+		insertEditorUploadPlaceholder(uploadId);
 		if(imgUpload.uploadFile(files[i])) {
 			status.uploadedCount++;
 		} else {
+			failEditorUploadPlaceholder(uploadId, typeof $L == 'function' ? $L('upload_failed') : 'Upload failed');
 			status.failedCount++;
 		}
 	}
@@ -507,8 +563,17 @@ function allowEditorImageDrop(event) {
 	}
 }
 
-function insertUploadedImage(aid) {
+function insertUploadedImage(aid, uploadId) {
+	uploadId = uploadId || '';
 	if(!wysiwyg) {
+		if(uploadId && editorUploadQueue[uploadId] && editorUploadQueue[uploadId].token && editdoc && editdoc.value && editdoc.value.indexOf(editorUploadQueue[uploadId].token) !== -1) {
+			editdoc.value = editdoc.value.replace(editorUploadQueue[uploadId].token, '[attachimg]' + aid + '[/attachimg]');
+			delete editorUploadQueue[uploadId];
+			if(typeof setEditorTip == 'function') {
+				setEditorTip('');
+			}
+			return;
+		}
 		insertAttachimgTag(aid);
 		return;
 	}
@@ -534,7 +599,23 @@ function insertUploadedImage(aid) {
 		}
 		var image = holder.querySelector('#image_' + aid);
 		if(image) {
-			insertText('<img src="' + image.src + '" border="0" aid="attachimg_' + aid + '" alt="" />', false);
+			var imgHtml = '<img src="' + image.src + '" border="0" aid="attachimg_' + aid + '" alt="" />';
+			var placeholder = uploadId && editdoc ? editdoc.getElementById(uploadId) : null;
+			if(placeholder && placeholder.parentNode) {
+				var wrap = editdoc.createElement('span');
+				wrap.innerHTML = imgHtml;
+				placeholder.parentNode.replaceChild(wrap.firstChild, placeholder);
+			} else {
+				insertText(imgHtml, false);
+			}
+		} else if(uploadId) {
+			failEditorUploadPlaceholder(uploadId);
+		}
+		if(uploadId) {
+			delete editorUploadQueue[uploadId];
+		}
+		if(typeof setEditorTip == 'function') {
+			setEditorTip('');
 		}
 		cleanup();
 	});

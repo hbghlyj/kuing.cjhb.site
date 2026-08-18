@@ -127,6 +127,7 @@ foreach([1, 7, 10] as $groupId) {
 		'allowcommentpost' => '3',
 		'allowupload' => '1',
 		'attachextensions' => 'gif, jpg, png, txt, svg',
+		'maxattachsize' => '2097152',
 		'maxsigsize' => '500',
 	]);
 }
@@ -255,6 +256,7 @@ foreach([1, 7, 10] as $groupId) {
 	$expect(!empty($group['allowposttag']), "usergroup_{$groupId}.allowposttag");
 	$expect((int)($group['allowcommentpost'] ?? 0) === 3, "usergroup_{$groupId}.allowcommentpost");
 	$expect(($group['attachextensions'] ?? '') === 'gif, jpg, png, txt, svg', "usergroup_{$groupId}.attachextensions");
+	$expect((int)($group['maxattachsize'] ?? 0) >= 1048576, "usergroup_{$groupId}.maxattachsize");
 	$expect((int)($group['maxsigsize'] ?? 0) === 500, "usergroup_{$groupId}.maxsigsize");
 }
 $expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smilies_var.js');

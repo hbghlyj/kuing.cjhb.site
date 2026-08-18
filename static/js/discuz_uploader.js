@@ -285,6 +285,10 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 	});
 
 	uploader.on('fileQueued', function(file) {
+		var raw = file.source ? (file.source.source || file.source) : null;
+		if(raw && raw._editorUploadId) {
+			file.editorUploadId = raw._editorUploadId;
+		}
 		if (file.type == "video/mp4") {
 			const blob = file.source.source;
 			getFirstFrame(blob, function (base64Image) {
@@ -511,6 +515,12 @@ function fileQueueError(errorCode) {
 			break;
 		}
 		showDialog(err, 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+		if(this.customSettings && this.customSettings.pasteEditor && typeof failEditorUploadPlaceholder == 'function' && typeof editorUploadQueue == 'object') {
+			var pending = Object.keys(editorUploadQueue);
+			if(pending.length) {
+				failEditorUploadPlaceholder(pending[pending.length - 1], err);
+			}
+		}
 	} catch (ex) {
         this.debug(ex);
     }
@@ -619,9 +629,9 @@ function uploadSuccess(file, serverData) {
 					if(this.customSettings.uploadType == 'attach') {
 						ajaxget('forum.php?mod=ajax&action=attachlist&aids=' + aid + (!fid ? '' : '&fid=' + fid)+(typeof resulttype == 'undefined' ? '' : '&result=simple'), file.id);
 					} else if(this.customSettings.uploadType == 'image') {
-						if(this.customSettings.pasteEditor && typeof insertUploadedImage == 'function') {
-							insertUploadedImage(aid);
-						}
+					if(this.customSettings.pasteEditor && typeof insertUploadedImage == 'function') {
+						insertUploadedImage(aid, typeof getEditorUploadId == 'function' ? getEditorUploadId(file) : '');
+					}
 						var tdObj = getInsertTdId(this.customSettings.imgBoxObj, 'image_td_'+aid);
 						ajaxget('forum.php?mod=ajax&action=imagelist&type=single&pid=' + pid + '&aids=' + aid + (!fid ? '' : '&fid=' + fid), tdObj.id);
 						$(file.id).style.display = 'none';
@@ -637,6 +647,9 @@ function uploadSuccess(file, serverData) {
 					this.uploader.cancelFile(file);
 					progress.setCancelled();
 					progress.toggleCancel(true, this.uploader);
+					if(this.customSettings.pasteEditor && typeof failEditorUploadPlaceholder == 'function') {
+						failEditorUploadPlaceholder(typeof getEditorUploadId == 'function' ? getEditorUploadId(file) : '', typeof STATUSMSG[aid] == "string" ? STATUSMSG[aid] : uploadFailedStatus());
+					}
 				}
 			}
 		} else if(this.customSettings.uploadType == 'album') {
@@ -764,6 +777,9 @@ function uploadError(file, message) {
 	var progress = new FileProgress(file, this.customSettings.progressTarget);
 	progress.setStatus(uploadFailedStatus());
 	progress.setCancelled();
+	if(this.customSettings && this.customSettings.pasteEditor && typeof failEditorUploadPlaceholder == 'function') {
+		failEditorUploadPlaceholder(typeof getEditorUploadId == 'function' ? getEditorUploadId(file) : '', uploadFailedStatus());
+	}
 }
 
 function getInsertTdId(boxObj, tdId) {
