@@ -16,7 +16,7 @@ if(!$do) {
 		cleanup_default_mobile_nav_duplicates();
 
 		shownav('style', 'nav_setting_customnav');
-		showsubmenu('nav_setting_customnav', $navdata);
+		showchildmenu([['nav_setting_customnav', 'nav'], ['nav_nav_mnav', 'nav&operation=mnav']], $nav['name']);
 
 		showformheader('nav&operation=mnav');
 		showtableheader();
@@ -139,7 +139,6 @@ EOT;
 
 		showformheader("nav&operation=mnav&do=edit&id=$id");
 		showtableheader();
-		showtitle(cplang('nav_nav_mnav').' - '.$nav['name']);
 		showsetting('misc_customnav_icon', 'iconnew', $nav['icon'], 'text', '', 0, '支持图片URL或字体图标代码，例如：<br>图片URL: http://example.com/icon.png<br>字体图标: &amp;#xf015; (FontAwesome图标代码)');
 		foreach(i18n::LOCALES as $locale) {
 			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text');
