@@ -262,6 +262,7 @@ $lang = array (
 	'post_hide_reply_hidden'	=> ', if you want to see the hidden content, please <a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]" onclick="showWindow(\'reply\', this.href)">Reply</a>',//'，如果您要查看本帖隐藏内容请<a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]" onclick="showWindow(\'reply\', this.href)">回复</a>',
 	'set_cover'			=> 'Set Cover',//'设为封面',
 	'upload'			=> 'Upload',//'上传',
+	'uploaded'			=> 'Uploaded',//'上传于',
 	'attachment_allow_exts'		=> 'Types allowed',//'可用扩展名',
 	'attachment_insert_all_attach'	=> 'Insert all attachments',//'插入全部附件',
 	'attachment_list'		=> 'Attachment List',//'上传附件',

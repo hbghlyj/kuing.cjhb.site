@@ -261,6 +261,7 @@ $lang = [
 	'post_hide_reply_hidden_text' => '，如果您要查看本帖隱藏內容請',
 	'set_cover' => '設爲封面',
 	'upload' => '上傳',
+	'uploaded' => '上傳於',
 	'attachment_allow_exts' => '可用擴展名',
 	'attachment_insert_all_attach' => '插入全部附件',
 	'attachment_list' => '上傳附件',

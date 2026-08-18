@@ -69,7 +69,7 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 		<div class="tit">
 			<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->$attach['attachicon']<!--{/if}-->
 			<span class="link f_b">$attach['filename']</span>
-			<p class="pl5 f_9">$attach['dateline'] {lang upload}</p>
+			<p class="pl5 f_9">{lang uploaded} $attach['dateline']</p>
 			<p class="pl5 f_9">$attach['attachsize']<!--{if $attach['readperm']}-->, {lang readperm}: <strong>$attach['readperm']</strong><!--{/if}--><!--{if !$_G['setting']['hideattachdown']}-->, {lang downloads}: $attach['downloads']<!--{/if}--><!--{if !$attach['attachimg'] && $_G['getattachcredits']}-->, {lang attachcredits}: $_G['getattachcredits']<!--{/if}--></p>
 			<!--{if $attach['price']}-->
 				<p class="pl5 f_9">
@@ -147,7 +147,7 @@ $mobileguestviewthumburl = $guestviewthumb ? ($attach['attachimg'] && $_G['setti
 			<div class="tit">
 				<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}--><span class="z mr5 cl">$attach['attachicon']</span><!--{/if}-->
 				<span class="link f_b">$attach['filename']</span>
-				<p class="pl5 f_9">$attach['dateline'] {lang upload}</p>
+				<p class="pl5 f_9">{lang uploaded} $attach['dateline']</p>
 				<p class="pl5 f_9">$attach['attachsize']<!--{if !$_G['setting']['hideattachdown']}-->, {lang downloads}: $attach['downloads']<!--{/if}--><!--{if !$attach['attachimg'] && $_G['getattachcredits']}-->, {lang attachcredits}: $_G['getattachcredits']<!--{/if}--></p>
 				<!--{if $attach['readperm']}--><p class="pl5 f_9">{lang readperm}: <strong>$attach['readperm']</strong></p><!--{/if}-->
 				<!--{if $attach['price']}-->
