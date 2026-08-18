@@ -640,6 +640,10 @@ function showMenu(v) {
 	var ctrlObj = typeof ctrlid == 'string' ? $(ctrlid) : null;
 	var menuObj = $(menuid);
 	if (!menuObj) return;
+	// Image tips use document coordinates; keep their containing block at the document root.
+	if (menuObj.className.indexOf('aimg_tip') !== -1 && $('append_parent') && menuObj.parentNode !== $('append_parent')) {
+		$('append_parent').appendChild(menuObj);
+	}
 	var mtype = isUndefined(v['mtype']) ? 'menu' : v['mtype'];
 	var evt = isUndefined(v['evt']) ? 'mouseover' : v['evt'];
 	var pos = isUndefined(v['pos']) ? '43' : v['pos'];
