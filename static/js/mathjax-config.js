@@ -15,8 +15,6 @@ window.MathJax = {
       veps: '\\varepsilon',
       du: '^\\circ',
       bm: '\\boldsymbol',
-      // Pagella maps the AMS U+25FC glyph as an italic math identifier.
-      blacksquare: '\\mathord{\\text{■}}',
       kongji: '\\varnothing',
       buji: '\\complement',
       S: ['S_{\\triangle #1}', 1],
@@ -105,7 +103,7 @@ window.MathJax = {
     matchFontHeight: true
   },
   output: {
-    font: 'mathjax-pagella',
+    font: 'mathjax-newcm',
     displayOverflow: 'scroll',
     fontPath: 'https://unpkg.com/@mathjax/%%FONT%%-font'
   }
