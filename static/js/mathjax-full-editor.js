@@ -45,6 +45,13 @@ function getMathDialogValue(value) {
 	return { equation: value, wrap: 'inline' };
 }
 
+function formatMathDialogValue(equation, wrap) {
+	if (wrap === 'inline' && /^\\begin\{([^}]+)\}[\s\S]*\\end\{\1\}$/.test(equation.trim())) {
+		return equation;
+	}
+	return wrap === 'display' ? '$$' + equation + '$$' : '$' + equation + '$';
+}
+
 function getSelectedMathEquation() {
 	return wysiwyg && editdoc ? editdoc.querySelector('.math-editor-rendered.math-editor-selected') : null;
 }
@@ -707,7 +714,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		var equation = document.getElementById('math_editor_equation');
 		var wrap = document.getElementById('math_editor_wrap');
 		if (!equation || !wrap || equation.value === '') return;
-		var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
+		var math = formatMathDialogValue(equation.value, wrap.value);
 		if (rendered) {
 			renderMathEquation(rendered, math);
 		} else {
@@ -723,7 +730,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		if (!equation || !wrap || !preview || !symbolTools) return;
 		var previewVersion = 0;
 		var updatePreview = function() {
-			var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
+			var math = formatMathDialogValue(equation.value, wrap.value);
 			preview.textContent = math;
 			if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
 			if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([preview]);
