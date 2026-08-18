@@ -72,6 +72,7 @@ $lang = [
 	'keyword_faq' => '关键字为“<span class="xi1">$keyword</span>”的帮助',
 	'open' => '展开',
 	'search' => '搜索',
+	'networkerror' => '网络出现问题，请稍后再试',
 	'close' => '关闭',
 	'focus_hottopics' => '站长推荐',
 	'focus_show' => '查看',
