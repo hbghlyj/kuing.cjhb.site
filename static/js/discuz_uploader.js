@@ -584,6 +584,9 @@ function uploadProgress(file, percentage) {
 	try {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setStatus($L('uploading_progress', ["<progress value='" + percentage + "' max='1' style='width: 200px;'></progress> " + Math.ceil(percentage * 100)]));
+		if(this.customSettings.pasteEditor && typeof updateEditorUploadProgress == 'function') {
+			updateEditorUploadProgress(typeof getEditorUploadId == 'function' ? getEditorUploadId(file) : '', percentage);
+		}
 	} catch (ex) {
 		this.debug(ex);
 	}

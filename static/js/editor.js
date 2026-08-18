@@ -467,6 +467,11 @@ function editorUploadLabel() {
 	return typeof $L == 'function' ? $L('uploading') : 'Uploading...';
 }
 
+function editorUploadProgressLabel(percentage) {
+	var value = Math.max(0, Math.min(100, Math.ceil(percentage * 100)));
+	return typeof $L == 'function' ? $L('uploading_progress', [value]) : 'Uploading ' + value + '%...';
+}
+
 function getEditorUploadId(file) {
 	if(!file) {
 		return '';
@@ -486,9 +491,33 @@ function insertEditorUploadPlaceholder(id) {
 		setEditorTip(label);
 	}
 	if(wysiwyg) {
-		insertText('<span id="' + id + '" class="editor-image-uploading" contenteditable="false" data-editor-upload="1"><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /> ' + htmlspecialchars(label) + '</span>&nbsp;', false);
+		insertText('<span id="' + id + '" class="editor-image-uploading" contenteditable="false" data-editor-upload="1"><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /> <span class="editor-image-upload-label">' + htmlspecialchars(label) + '</span></span>&nbsp;', false);
 	} else {
 		insertText(token, strlen(token), 0);
+	}
+}
+
+function updateEditorUploadProgress(id, percentage) {
+	if(!id || !editorUploadQueue[id]) {
+		return;
+	}
+	var label = editorUploadProgressLabel(percentage);
+	if(wysiwyg && editdoc) {
+		var el = editdoc.getElementById(id);
+		var labelEl = el && el.querySelector('.editor-image-upload-label');
+		if(labelEl) {
+			labelEl.textContent = label;
+		}
+	} else if(!wysiwyg && editdoc && editdoc.value) {
+		var currentToken = editorUploadQueue[id].token;
+		var nextToken = '[' + label.replace(/[\[\]]/g, '') + ':' + id + ']';
+		if(currentToken && editdoc.value.indexOf(currentToken) !== -1) {
+			editdoc.value = editdoc.value.replace(currentToken, nextToken);
+			editorUploadQueue[id].token = nextToken;
+		}
+	}
+	if(typeof setEditorTip == 'function') {
+		setEditorTip(label);
 	}
 }
 
