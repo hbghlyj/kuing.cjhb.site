@@ -616,8 +616,9 @@ img{border:none;}
 .guestbox_p{font-size: 14px;margin-bottom: 10px;}
 .guestbox_btn {background:var(--dz-nvbg);margin-right:24px;padding:5.5px 14px;font-size:14px;color:var(--dz-ff);border-radius:4px;max-width: 80px;margin: 0 auto;}
 .guestbox_btn a {color:var(--dz-ff);margin:0 1px;}
-/* A #pid fragment targets the post table, so render its sibling callout without waiting for JavaScript. */
-.pl > div[id^="post_"]:has(> table:target) > .ntc_jp_anchor > .ntc_jp { display: block !important; }
+/* A #pid or #lastpost fragment targets a descendant of the post table, so reveal its sibling callout without JavaScript. */
+.pl > div[id^="post_"]:has(> table:target) > .ntc_jp_anchor > .ntc_jp,
+.pl > div[id^="post_"]:has(> table #lastpost:target) > .ntc_jp_anchor > .ntc_jp { display: block !important; }
 
 /* 头部结束 */
 
