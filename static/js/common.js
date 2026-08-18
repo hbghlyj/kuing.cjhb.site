@@ -966,7 +966,7 @@ function setMenuPosition(showid, menuid, pos) {
 	}
 	switch (direction) {
 		case 0:
-			menuObj.style.left = (document.body.clientWidth - menuObj.clientWidth) / 2 + 'px';
+			ml = (document.body.clientWidth - menuObj.clientWidth) / 2;
 			mt = (document.documentElement.clientHeight - menuObj.clientHeight) / 2;
 			break;
 		case 1:
