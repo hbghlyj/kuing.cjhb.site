@@ -359,11 +359,14 @@ const testPusherLeaderCoordination = async browser => {
             const noticeItems = targetPage.locator('#myprompt_menu li');
             await noticeItems.first().waitFor({ state: 'visible', timeout: 10000 });
             assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
+            await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
             pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
             await noticeLink.hover();
+            await targetPage.locator('#myprompt_menu').waitFor({ state: 'visible', timeout: 10000 });
+            await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
             pmLink = targetPage.locator('#myprompt_menu a#pm_ntc');
         }
         await pmLink.waitFor({ state: 'visible', timeout: 10000 });
@@ -1291,7 +1294,7 @@ const testPusherLeaderCoordination = async browser => {
             await openPmFromNotice(page);
             const pmBody = await page.textContent('body');
             assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
-            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n\n';
+            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **Header Notice Hover Dropdown**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_notice_dropdown.png`\n\n';
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
