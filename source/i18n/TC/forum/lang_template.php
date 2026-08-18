@@ -313,7 +313,6 @@ $lang = [
 	'recommended_groups' => '推薦圈子',
 	'return_index' => '返&nbsp;回',
 	'rss_subscribe_this' => '訂閱',
-	'send_posts' => '發新帖',
 	'emailpost_newthread' => '郵件發帖',
 	'emailpost_newthread_title' => '用郵件發表新主題，發件人需為已驗證的註冊信箱',
 	'emailpost_copy' => '郵件副本',

@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
-	<h2>{lang send_posts}</h2>
+	<h2>{lang post_newthread}</h2>
 	<div class="my"><a href="search.php?mod=forum"><i class="dm-search"></i></a></div>
 </div>
 <div style="display:none">
@@ -23,7 +23,7 @@
 </div>
 <!--{if $_G['group']['allowpost'] || !$_G['uid']}-->
 <div class="post_btn cl">
-		<button id="postbtn" class="pn" onclick="window.location.href='forum.php?mod=post&action=newthread&fid=' + selectfid" disabled="disabled">{lang send_posts}</button>
+		<button id="postbtn" class="pn" onclick="window.location.href='forum.php?mod=post&action=newthread&fid=' + selectfid" disabled="disabled">{lang post_newthread}</button>
 </div>
 <!--{/if}-->
 <script reload="1">

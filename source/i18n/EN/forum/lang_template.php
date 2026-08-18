@@ -313,7 +313,6 @@ $lang = array (
 	'recommended_groups'		=> 'Recommended Groups',//'推荐{$_G[setting][navs][3][navname]}',
 	'return_index'			=> 'Return home',//'返&nbsp;回',
 	'rss_subscribe_this'		=> 'RSS',//'订阅',
-	'send_posts'			=> 'New topic',//'发新帖',
 	'emailpost_newthread'			=> 'Post by email',
 	'emailpost_newthread_title'			=> 'Start a new thread by email; the sender must be your verified registered email',
 	'emailpost_copy'			=> 'Email a copy',

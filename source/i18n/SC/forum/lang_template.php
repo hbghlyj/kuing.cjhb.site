@@ -313,7 +313,6 @@ $lang = [
 	'recommended_groups' => '推荐圈子',
 	'return_index' => '返&nbsp;回',
 	'rss_subscribe_this' => '订阅',
-	'send_posts' => '发新帖',
 	'emailpost_newthread' => '邮件发帖',
 	'emailpost_newthread_title' => '用邮件发表新主题，发件人需为已验证的注册邮箱',
 	'emailpost_copy' => '邮件副本',

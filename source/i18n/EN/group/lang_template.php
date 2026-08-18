@@ -60,7 +60,6 @@ $lang = array (
 	'post_newthreadreward'		=> 'New Reward',//'发布悬赏',
 	'post_newthreadtrade'		=> 'New Product',//'发布商品',
 	'replies'			=> 'Replies',//'回复',
-	'send_posts'			=> 'Send posts',//'发帖',
 	'target_blank'			=> 'Open in a new window',//'新窗口打开',
 	'thread_activity'		=> 'Events',//'活动',
 	'thread_debate'			=> 'Debates',//'辩论',

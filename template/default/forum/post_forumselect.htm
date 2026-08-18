@@ -22,7 +22,7 @@
 	<!--{if $special === null}-->
 		<em>{lang post_forum_navigation}</em>
 	<!--{else}-->
-		<!--{block actiontitle}--><!--{if $special == 1}-->{lang post_newthreadpoll}<!--{elseif $special == 2}-->{lang post_newthreadtrade}<!--{elseif $special == 3}-->{lang post_newthreadreward}<!--{elseif $special == 4}-->{lang post_newthreadactivity}<!--{elseif $special == 5}-->{lang post_newthreaddebate}<!--{else}-->{lang send_posts}<!--{/if}--><!--{/block}-->
+		<!--{block actiontitle}--><!--{if $special == 1}-->{lang post_newthreadpoll}<!--{elseif $special == 2}-->{lang post_newthreadtrade}<!--{elseif $special == 3}-->{lang post_newthreadreward}<!--{elseif $special == 4}-->{lang post_newthreadactivity}<!--{elseif $special == 5}-->{lang post_newthreaddebate}<!--{else}-->{lang post_newthread}<!--{/if}--><!--{/block}-->
 		<em>$actiontitle</em>
 	<!--{/if}-->
 	<!--{if !empty($_GET['infloat'])}-->
@@ -35,7 +35,7 @@
 	<p class="cl">
 		<!--{if $_G['group']['allowpost'] || !$_G['uid']}-->
 			<!--{if $special === null}-->
-				<button id="postbtn" class="pn pnc y" onclick="hideWindow('nav');showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=' + selectfid)" disabled="disabled"><span>{lang send_posts}</span></button>
+				<button id="postbtn" class="pn pnc y" onclick="hideWindow('nav');showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=' + selectfid)" disabled="disabled"><span>{lang post_newthread}</span></button>
 			<!--{else}-->
 				<button id="postbtn" class="pn pnc y" onclick="hideWindow('nav');window.location.href='forum.php?mod=post&action=newthread&fid=' + selectfid + '&special=$special'" disabled="disabled"><span>$actiontitle</span></button>
 			<!--{/if}-->

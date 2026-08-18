@@ -58,7 +58,6 @@ $lang = [
 	'post_newthreadreward' => '发布悬赏',
 	'post_newthreadtrade' => '发布商品',
 	'replies' => '回复/查看',
-	'send_posts' => '发帖',
 	'target_blank' => '新窗口打开',
 	'thread_activity' => '活动',
 	'thread_debate' => '辩论',
