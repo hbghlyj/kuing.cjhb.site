@@ -349,16 +349,18 @@ const testPusherLeaderCoordination = async browser => {
         const beforePromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
         const [beforePrompt, beforePm] = beforePromptState.split('\t').map(value => parseInt(value || '0', 10));
         assert.ok(beforePrompt > 0, 'Assertion Error: Test user did not have an unread notification before opening the notice menu.');
-        const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-icon');
+        const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown)');
         let pmLink;
         if(await x5Notice.count()) {
-            const initialDot = targetPage.locator('.header-notice .notice-icon > .dot');
-            const initialUiPm = parseInt(await initialDot.getAttribute('data-newpm') || '0', 10) || 0;
+            const initialDot = x5Notice.locator('.notice-icon > .dot');
+            const initialUiPm = await initialDot.count()
+                ? parseInt(await initialDot.getAttribute('data-newpm') || '0', 10) || 0
+                : 0;
             const noticeResponse = targetPage.waitForResponse(response =>
                 response.url().includes('forum.php?mod=ajax&action=markAsRead') &&
                 response.request().method() === 'GET'
             );
-            await x5Notice.hover();
+            await x5Notice.locator('.notice-icon').hover();
             const response = await noticeResponse;
             assert.ok(response.ok(), `Assertion Error: X5 notice request failed with HTTP ${response.status()}.`);
             const noticeItems = targetPage.locator('#myprompt_menu li');
