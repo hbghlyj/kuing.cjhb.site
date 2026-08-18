@@ -352,6 +352,8 @@ const testPusherLeaderCoordination = async browser => {
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-icon');
         let pmLink;
         if(await x5Notice.count()) {
+            const initialDot = targetPage.locator('.header-notice .notice-icon > .dot');
+            const initialUiPm = parseInt(await initialDot.getAttribute('data-newpm') || '0', 10) || 0;
             const noticeResponse = targetPage.waitForResponse(response =>
                 response.url().includes('forum.php?mod=ajax&action=markAsRead') &&
                 response.request().method() === 'GET'
@@ -368,7 +370,7 @@ const testPusherLeaderCoordination = async browser => {
                 const dot = document.querySelector('.header-notice .notice-icon > .dot');
                 if(!dot) return expectedPm === 0;
                 return dot.textContent.trim() === String(expectedPm > 99 ? 99 : expectedPm);
-            }, beforePm, { timeout: 10000 });
+            }, initialUiPm, { timeout: 10000 });
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
