@@ -966,32 +966,6 @@ function initCodeCopyButton(root) {
 }
 window.initCodeCopyButton = initCodeCopyButton;
 
-function tuozhuai2(event, ee) {
-	const imgOffset = ee.querySelector('img').getBoundingClientRect();
-	var offsetX = event.clientX - imgOffset.left;
-	var offsetY = event.clientY - imgOffset.top;
-	ee.style.left = event.clientX - offsetX + "px";
-	ee.style.top = event.clientY - offsetY + "px";
-	if (!ee.classList.contains('tuoing')) {
-		ee.classList.add('tuoing');
-	}
-	document.onmousemove = function (event) {
-		ee.style.left = event.clientX - offsetX + "px";
-		ee.style.top = event.clientY - offsetY + "px";
-	};
-	document.onmouseup = function () {
-		document.onmousemove = null;
-		document.onmouseup = null;
-	};
-}
-
-function guiwei(ee) {
-	ee.classList.remove('tuoing');
-	ee.style.left = 0;
-	ee.style.top = 0;
-	ee.style.width = 'unset';
-}
-
 function initializePostImages(root) {
 	const images = [];
 	if(root.nodeType === Node.ELEMENT_NODE && root.matches('.t_fsz img.zoom')) {
@@ -1008,22 +982,8 @@ function initializePostImages(root) {
 		if(!wrapper) {
 			wrapper = document.createElement('div');
 			wrapper.className = 'tupian';
-			const loader = document.createElement('div');
-			loader.className = 'jiaz';
-			const drag = document.createElement('div');
-			drag.className = 'tuozt';
-			drag.addEventListener('mousedown', function(event) {
-				event.preventDefault();
-				tuozhuai2(event, wrapper);
-			});
-			const reset = document.createElement('div');
-			reset.className = 'guiw';
-			reset.addEventListener('click', function(event) {
-				event.preventDefault();
-				guiwei(wrapper);
-			});
 			img.parentNode.insertBefore(wrapper, img);
-			wrapper.append(loader, drag, reset, img);
+			wrapper.append(img);
 		}
 
 		const finishLoading = function() {

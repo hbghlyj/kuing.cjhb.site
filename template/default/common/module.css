@@ -1254,20 +1254,11 @@ a.editlog:hover { color: #333; }
 #fwin_dialog:has(.tikz-dialog) .fwin { width: min(calc(100vw - 24px), 560px); }
 .tikz-dialog { box-sizing: border-box; }
 .tikzta { box-sizing: border-box; width: 100%; height: 300px; font-size: 14px; padding: 6px; resize: vertical; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; color: #444; background: #F7F7F7; }
-.jiaz { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #EDEDED; border-top: 2px solid #429296; animation: dzrotate 1.2s infinite linear; }
 .tupian { display: inline-block; position: relative; min-width: 100px; min-height: 100px; font-size: 16px; color: black; }
-.tupian .jiaz { position: absolute; margin: auto; left: 0; right: 0; top: 0; bottom: 0; }
 .tupian.jiazed { display: inline; min-width: unset; min-height: unset; }
-.jiazed .jiaz { display: none; }
-.tuoing { position: fixed; box-shadow: 0 5px 10px rgba(0,0,0,0.2); z-index: 1; background-color: white; }
-.tuozt { position: absolute; background: rgba(235,245,246,0.5); color: gray; font-size: 12px; line-height: 1.3; width: 100%; height: 16px; max-height: 10%; text-align: center; overflow: hidden; cursor: move; display: none; }
-.tuozt:before { content: "拖动"; }
-.guiw { position: absolute; right: 0; font-size: 12px; line-height: 1.1; width: 14px; max-width: 25%; height: 14px; max-height: 10%; border-left: 2px gray solid; border-top: 2px gray solid; overflow: hidden; cursor: pointer; display: none; }
-.guiw:before { content: "↖"; }
 .aimginfo { position: absolute; width: 12px; height: 12px; font-size: 12px; line-height: 12px; text-align: center; border: 2px gray solid; border-radius: 50%; display: none; }
 .aimginfo:before { content: "i"; }
-.tupian:hover .tuozt,.tupian:hover .aimginfo,.tuoing:hover .guiw { display: block; }
-.tuoing img { vertical-align: bottom; }
+.tupian:hover .aimginfo { display: block; }
 #thread_subject { white-space: pre-wrap; }
 .psti a { color: #369; text-decoration: underline; }
 .reply-btn { display: none; position: absolute; top: 5px; right: 5px; background: url(/static/image/mobile/images/icon_reply.png) no-repeat; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
