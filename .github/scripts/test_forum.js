@@ -1469,8 +1469,10 @@ const testPusherLeaderCoordination = async browser => {
             'scratch/parallel_image_2.jpg',
             'scratch/parallel_image_3.jpg'
         ];
-        fs.copyFileSync(attachmentFixture, attachmentFixtures[1]);
-        fs.copyFileSync(attachmentFixture, attachmentFixtures[2]);
+        // Keep the parallel-upload fixtures distinct so WebUploader's duplicate
+        // suppression does not discard the whole batch as repeated content.
+        fs.writeFileSync(attachmentFixtures[1], Buffer.concat([sourceBytes, Buffer.from([0x31])]));
+        fs.writeFileSync(attachmentFixtures[2], Buffer.concat([sourceBytes, Buffer.from([0x32])]));
         const editorTarget = await page.evaluate(() => {
             const iframe = Array.from(document.querySelectorAll('iframe[id$="_iframe"]')).find(node => {
                 const style = getComputedStyle(node);
