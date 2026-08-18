@@ -112,9 +112,10 @@ if($post) {
 	];
 }
 foreach($editlogs as $editlog) {
+	$editor = $editlog['username'] !== '' ? ' - '.lang('template', 'post_revision_editor').': '.$editlog['username'] : '';
 	$versions[] = [
 		'id' => (int)$editlog['editid'],
-		'label' => dgmdate($editlog['dateline']).' - '.($editlog['action'] == 'delete' ? lang('template', 'delete') : lang('template', 'edit')),
+		'label' => dgmdate($editlog['dateline']).' - '.($editlog['action'] == 'delete' ? lang('template', 'delete') : lang('template', 'edit')).$editor,
 		'dateline' => (int)$editlog['dateline'],
 		'subject' => $editlog['old_subject'],
 		'message' => $editlog['old_message'],
