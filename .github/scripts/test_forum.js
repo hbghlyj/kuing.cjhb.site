@@ -1456,9 +1456,13 @@ const testPusherLeaderCoordination = async browser => {
         );
 
         const attachmentSource = 'static/image/smiley/BQ2/alu1.jpg';
+        const parallelSource2 = 'static/image/mobile/images/pic_bg.jpg';
+        const parallelSource3 = 'static/image/mobile/preview.png';
         const attachmentFixture = 'scratch/one_megabyte_image.jpg';
         const oneMegabyte = 1024 * 1024;
         assert.ok(fs.existsSync(attachmentSource), `Assertion Error: Attachment fixture is missing: ${attachmentSource}`);
+        assert.ok(fs.existsSync(parallelSource2), `Assertion Error: Parallel attachment fixture is missing: ${parallelSource2}`);
+        assert.ok(fs.existsSync(parallelSource3), `Assertion Error: Parallel attachment fixture is missing: ${parallelSource3}`);
         fs.mkdirSync('scratch', { recursive: true });
         const sourceBytes = fs.readFileSync(attachmentSource);
         assert.ok(sourceBytes.length < oneMegabyte, 'Assertion Error: Attachment source fixture is unexpectedly larger than 1 MiB.');
@@ -1467,12 +1471,12 @@ const testPusherLeaderCoordination = async browser => {
         const attachmentFixtures = [
             attachmentFixture,
             'scratch/parallel_image_2.jpg',
-            'scratch/parallel_image_3.jpg'
+            'scratch/parallel_image_3.png'
         ];
-        // Keep the parallel-upload fixtures distinct so WebUploader's duplicate
-        // suppression does not discard the whole batch as repeated content.
-        fs.writeFileSync(attachmentFixtures[1], Buffer.concat([sourceBytes, Buffer.from([0x31])]));
-        fs.writeFileSync(attachmentFixtures[2], Buffer.concat([sourceBytes, Buffer.from([0x32])]));
+        // Use different real images so WebUploader's duplicate suppression does
+        // not discard the parallel batch based on a shared content prefix.
+        fs.copyFileSync(parallelSource2, attachmentFixtures[1]);
+        fs.copyFileSync(parallelSource3, attachmentFixtures[2]);
         const editorTarget = await page.evaluate(() => {
             const iframe = Array.from(document.querySelectorAll('iframe[id$="_iframe"]')).find(node => {
                 const style = getComputedStyle(node);
