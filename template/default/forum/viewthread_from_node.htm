@@ -64,15 +64,8 @@
 <script reload="1">
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
-	<!--{if empty($_G['setting']['lazyload'])}-->
-		<!--{if !$post['imagelistthumb']}-->
-			attachimgshow($post[pid]);
-		<!--{else}-->
-			attachimgshow($post[pid], 1);
-		<!--{/if}-->
-	<!--{/if}-->
 	<!--{if $post['imagelistthumb']}-->
-		attachimglstshow($post['pid'], <!--{echo intval($_G['setting']['lazyload'])}-->, 0, '{$_G[setting][showexif]}');
+		attachimglstshow($post['pid'], 0, '{$_G[setting][showexif]}');
 	<!--{/if}-->
 </script>
 <!--{/if}-->

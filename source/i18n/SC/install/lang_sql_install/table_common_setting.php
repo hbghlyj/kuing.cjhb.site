@@ -917,9 +917,6 @@ $data = [[
     'skey' => 'jswizard',
     'svalue' => '',
   ],[
-    'skey' => 'lazyload',
-    'svalue' => '0',
-  ],[
     'skey' => 'leftsideopen',
     'svalue' => '0',
   ],[

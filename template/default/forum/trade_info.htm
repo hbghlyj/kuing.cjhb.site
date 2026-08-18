@@ -192,9 +192,6 @@
 	var aimgcount = new Array();
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
-	<!--{if empty($_G['setting']['lazyload'])}-->
-		attachimgshow($post[pid]);
-	<!--{/if}-->
 </script>
 <!--{/if}-->
 <!--{if !$_G[inajax] && $post[comment]}-->
@@ -263,10 +260,5 @@
 	</div>
 	</div>
 
-	<!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
-		<script>
-		new lazyload();
-		</script>
-	<!--{/if}-->
 <!--{/if}-->
 <!--{template common/footer}-->

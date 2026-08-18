@@ -41,18 +41,8 @@ body,table {font-size: {$_G['style']['fontsize']}; font-family: {$_G['style']['f
 	<script reload="1">
 		aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 		attachimggroup($post['pid']);
-		<!--{if empty($_G['setting']['lazyload'])}-->
-			<!--{if !$post['imagelistthumb']}-->
-				attachimgshow($post[pid]);
-			<!--{else}-->
-				attachimgshow($post[pid], 1);
-			<!--{/if}-->
-		<!--{/if}-->
 		<!--{if $post['imagelistthumb']}-->
-			attachimglstshow($post['pid'], <!--{echo intval($_G['setting']['lazyload']), 0, 0}-->);
-		<!--{/if}-->
-		<!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
-			new lazyload();
+			attachimglstshow($post['pid'], 0, '');
 		<!--{/if}-->
 	</script>
 	<!--{/if}-->

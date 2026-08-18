@@ -40,6 +40,9 @@ const stubPusher = async targetContext => {
 };
 
 const assertPusherMetadataOrder = () => {
+	const chatWidgetSource = fs.readFileSync('chat/PusherChatWidget.js', 'utf8');
+	assert.match(chatWidgetSource, /img\.loading\s*=\s*'lazy'/, 'Assertion Error: Pusher chat message images do not use native lazy loading.');
+	assert.match(chatWidgetSource, /img\.decoding\s*=\s*'async'/, 'Assertion Error: Pusher chat message images do not use asynchronous decoding.');
     const templateFiles = fs.readdirSync('template', { recursive: true })
         .filter(file => /\.(?:htm|php)$/.test(file));
     for(const file of templateFiles) {
@@ -1742,6 +1745,9 @@ const testPusherLeaderCoordination = async browser => {
         assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
         assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
         assert.strictEqual(await postImg.getAttribute('width'), '64', 'Assertion Error: Attached image display width was not rendered.');
+        const renderedImageSrc = await postImg.getAttribute('src');
+        assert.ok(renderedImageSrc && !/\/none\.gif(?:[?#]|$)/i.test(renderedImageSrc), `Assertion Error: Attached image remained on the placeholder source: ${renderedImageSrc}`);
+        assert.strictEqual(await postImg.getAttribute('loading'), 'lazy', 'Assertion Error: Attached image did not use native lazy loading.');
         const imageSize = await postImg.evaluate(img => ({ width: img.naturalWidth, height: img.naturalHeight }));
         assert.ok(imageSize.width > 0 && imageSize.height > 0, `Assertion Error: Attached image did not load (${imageSize.width}x${imageSize.height}).`);
 

@@ -1736,8 +1736,6 @@ $lang =
 	'setting_serveropti_delayviewcount_comment' => '延遲更新附件的瀏覽量，可明顯降低訪問量很大的站點的伺服器負擔，建議開啓本功能',
 	'setting_serveropti_nocacheheaders' => '<span class="spectitle">禁止瀏覽器緩衝</span>',
 	'setting_serveropti_nocacheheaders_comment' => '禁止瀏覽器對站點頁面進行緩衝，可用於解決極個別瀏覽器內容刷新不正常的問題。注意: 本功能會加重伺服器負擔',
-	'setting_serveropti_lazyload' => '開啓圖片延時加載',
-	'setting_serveropti_lazyload_comment' => '當開啓後，頁面中的圖片在瀏覽器的當前窗口時再加載，可明顯降低訪問量很大的站點的伺服器負擔，建議開啓本功能',
 	'setting_serveropti_blockmaxaggregationitem' => '<span class="spectitle">參與模組聚合數據條數</span>',
 	'setting_serveropti_blockmaxaggregationitem_comment' => '此值影響模組聚合時MYSQL檢索數據的條數，設定太大將嚴重影響MYSQL的性能，設定太小將會影響模組聚合結果數據的理想程度。0爲關閉此功能',
 	'setting_serveropti_blockcachetimerange' => '模組更新時間區間',

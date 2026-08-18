@@ -186,7 +186,7 @@ function attachwidth($width) {
 	if($_G['setting']['imagemaxwidth'] && $width) {
 		return 'class="mw100 zoom"';
 	} else {
-		return 'thumbImg="1"';
+		return 'onload="thumbImg(this)"';
 	}
 }
 

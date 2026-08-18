@@ -69,13 +69,6 @@ class optimizer_setting {
 				'description' => $lang['optimizer_setting_jspath_desc'],
 				'optimizerdesc' => $lang['optimizer_setting_jspath_optimize_desc'],
 			],
-			'lazyload' => [
-				'initvalue' => '0',
-				'optimizedvalue' => '1',
-				'title' => $lang['optimizer_setting_lazyload'],
-				'description' => $lang['optimizer_setting_lazyload_desc'],
-				'optimizerdesc' => $lang['optimizer_setting_lazyload_optimize_desc'],
-			],
 			'sessionclose' => [
 				'initvalue' => '0',
 				'optimizedvalue' => '1',

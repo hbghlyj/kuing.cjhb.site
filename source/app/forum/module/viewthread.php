@@ -1109,7 +1109,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 			}
 		}
 		// 结束json编辑器的处理
-		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], ($post['htmlon'] || $htmlon_jsonContent) & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'] || $htmlon_jsonContent, ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], getglobal('setting/lazyload'), $post['dbdateline'], $post['first'], (!empty($post['content']) && $post['content'] != '{}') & 1);
+		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], ($post['htmlon'] || $htmlon_jsonContent) & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'] || $htmlon_jsonContent, ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], 0, $post['dbdateline'], $post['first'], (!empty($post['content']) && $post['content'] != '{}') & 1);
 		if($post['first']) {
 			$_G['relatedlinks'] = '';
 			$relatedtype = !$_G['forum_thread']['isgroup'] ? 'forum' : 'group';

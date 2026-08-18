@@ -188,16 +188,16 @@ function imagelist($attach, $firstpost = 0) {
 						<!--{/eval}-->
 						{$guestviewthumbcss}
 						<div class="guestviewthumb">
-							<img id="aimg_$attach[aid]" class="guestviewthumb_cur" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="showWindow('login', 'member.php?mod=logging&action=login'+'&referer='+encodeURIComponent(location))" onerror="javascript:if(this.getAttribute('makefile')){this.src=this.getAttribute('makefile'); this.removeAttribute('makefile');}" file="$thumbpath" makefile="$makefile" alt="$attach[imgalt]" title="$attach[imgalt]">
+							<img id="aimg_$attach[aid]" class="guestviewthumb_cur" aid="$attach[aid]" src="$thumbpath" loading="lazy" decoding="async" onclick="showWindow('login', 'member.php?mod=logging&action=login'+'&referer='+encodeURIComponent(location))" onerror="javascript:if(this.getAttribute('makefile')){this.src=this.getAttribute('makefile'); this.removeAttribute('makefile');}" makefile="$makefile" alt="$attach[imgalt]" title="$attach[imgalt]">
 							<br>
 							<a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href+'&referer='+encodeURIComponent(location));">{lang guestviewthumb}</a>
 						</div>
 					<!--{elseif !$attach['price'] || $attach['payed']}-->
 						<div class="mbn savephotop">
 						<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
-							<a href="javascript:;"><img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]"></a>
+							<a href="javascript:;"><img id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" loading="lazy" decoding="async" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]"></a>
 						<!--{else}-->
-								<img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]">
+								<img id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" loading="lazy" decoding="async" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]">
 						<!--{/if}-->
 						</div>
 					<!--{/if}-->
@@ -208,7 +208,7 @@ function imagelist($attach, $firstpost = 0) {
 			<!--{if !$attach['price'] || $attach['payed']}-->
 				<dd>
 					<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
-					<img src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" alt="$attach[imgalt]" title="$attach[imgalt]">
+					<img src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" loading="lazy" decoding="async" alt="$attach[imgalt]" title="$attach[imgalt]">
 				</dd>
 			<!--{/if}-->
 			</dl>
@@ -251,16 +251,16 @@ function attachinpost($attach, $post) {
 					{$guestviewthumbcss}
 					<div class="guestviewthumb">
 						<div style="margin: 0 auto;">
-							<img id="aimg_$attach[aid]" class="guestviewthumb_cur" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="showWindow('login', 'member.php?mod=logging&action=login'+'&referer='+encodeURIComponent(location))" onerror="javascript:if(this.getAttribute('makefile')){this.src=this.getAttribute('makefile'); this.removeAttribute('makefile');}" file="$thumbpath" makefile="$makefile" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]">
+							<img id="aimg_$attach[aid]" class="guestviewthumb_cur" aid="$attach[aid]" src="$thumbpath" loading="lazy" decoding="async" onclick="showWindow('login', 'member.php?mod=logging&action=login'+'&referer='+encodeURIComponent(location))" onerror="javascript:if(this.getAttribute('makefile')){this.src=this.getAttribute('makefile'); this.removeAttribute('makefile');}" makefile="$makefile" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]">
 							<br>
 							<a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href+'&referer='+encodeURIComponent(location));">{lang guestviewthumb}</a>
 						</div>
 					</div>
 				<!--{else}-->
 					<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
-						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} style="cursor:pointer" id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" inpost="1" $displaywidthcode{if (!$_G['setting']['hideattachtips'] || ($firstpost && $_G['fid'] && $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $attach['uid']))) && $_GET['from'] != 'preview'} onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"{/if}>
+						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} style="cursor:pointer" id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" loading="lazy" decoding="async" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" inpost="1" $displaywidthcode{if (!$_G['setting']['hideattachtips'] || ($firstpost && $_G['fid'] && $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $attach['uid']))) && $_GET['from'] != 'preview'} onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"{/if}>
 					<!--{else}-->
-						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode $displaywidthcode inpost="1"{if (!$_G['setting']['hideattachtips'] || ($firstpost && $_G['fid'] && $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $attach['uid']))) && $_GET['from'] != 'preview'} onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"{/if}>
+						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" loading="lazy" decoding="async" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode $displaywidthcode inpost="1"{if (!$_G['setting']['hideattachtips'] || ($firstpost && $_G['fid'] && $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $attach['uid']))) && $_GET['from'] != 'preview'} onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"{/if}>
 					<!--{/if}-->
 				<!--{/if}-->
 			<div class="tip tip_4 aimg_tip" id="aimg_$attach[aid]_menu" style="position: absolute; display: none" disautofocus="true">

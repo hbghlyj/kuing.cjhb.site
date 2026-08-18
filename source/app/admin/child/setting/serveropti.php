@@ -98,7 +98,6 @@ if(submitcheck('settingsubmit')) {
 				<li'.($tcsspath['cache'] ? ' class="checked"' : '').'><input class="radio" type="radio" name="settingnew[csspathv]" value="data/cache/" '.$tcsspath['cache'].'> '.$lang['setting_serveropti_csspath_cache'].'</li>
 				<li'.($tcsspath['custom'] ? ' class="checked"' : '').'><input class="radio" type="radio" name="settingnew[csspathv]" value="" '.$tcsspath['custom'].'> '.$lang['setting_serveropti_csspath_custom'].' <input type="text" class="txt" style="width: 150px" name="settingnew[csspathcustom]" value="'.$setting['csspathv'].'" size="6"></li></ul>'
 	);
-	showsetting('setting_serveropti_lazyload', 'settingnew[lazyload]', $setting['lazyload'], 'radio');
 	showsetting('setting_serveropti_blockmaxaggregationitem', 'settingnew[blockmaxaggregationitem]', $setting['blockmaxaggregationitem'], 'text');
 	$setting['blockcachetimerange'] = empty($setting['blockcachetimerange']) ? ['0', '23'] : explode(',', $setting['blockcachetimerange']);
 	$blockcachetimerange = range(0, 23);

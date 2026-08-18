@@ -1103,8 +1103,6 @@ class discuz_application extends discuz_base {
 		}
 		setglobal('gzipcompress', 0);
 
-		$this->var['setting']['lazyload'] = 0;
-
 		if('utf-8' != CHARSET) {
 			if(strtolower($_SERVER['REQUEST_METHOD']) === 'post') {
 				foreach($_POST as $pk => $pv) {

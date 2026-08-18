@@ -350,17 +350,16 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	if(!$bbcodeoff) {
-		$attrsrc = !IS_ROBOT && $lazyload ? 'file' : 'src';
 		if(str_contains($msglower, '[/img]')) {
 			$message = preg_replace_callback(
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode, &$code_arr) {
+				function($matches) use ($allowimgcode, $pid, $allowbbcode, &$code_arr) {
 					if(intval($allowimgcode)) {
-						$extra = intval($lazyload) ? 'lazyloadthumb="1"' : '';
+						$extra = '';
 						if(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') || str_starts_with($matches[1], '/asy/?code=')) {
 							$extra .= ($extra ? ' ' : '').'data-tikz-code="'.rawurlencode((string)array_shift($code_arr)).'"';
 						}
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), $extra);
+						return parseimg(0, 0, $matches[1], intval($pid), $extra);
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -368,9 +367,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			);
 			$message = preg_replace_callback(
 				"/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
+				function($matches) use ($allowimgcode, $pid, $allowbbcode) {
 					if(intval($allowimgcode)) {
-						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid), intval($lazyload) ? 'lazyloadthumb="1"' : '');
+						return parseimg($matches[1], $matches[2], $matches[3], intval($pid));
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[3], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[3], '')) : bbcodeurl($matches[3], '{url}'));
 				},
@@ -792,7 +791,7 @@ function parseflv($url, $width = 0, $height = 0) {
 	}
 }
 
-function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
+function parseimg($width, $height, $src, $pid, $extra = '') {
 	global $_G, $aimgs;
 	static $styleoutput = null;
 	if($_G['setting']['domainwhitelist_affectimg']) {
@@ -813,7 +812,6 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 			$extra = 'onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer"';
 		}
 	}
-	$attrsrc = !IS_ROBOT && $lazyload ? 'file' : 'src';
 	$rimg_id = random(5);
 	$aimgs[$pid][] = $rimg_id;
 	$guestviewthumb = !empty($_G['setting']['guestviewthumb']['flag']) && empty($_G['uid']);
@@ -823,14 +821,14 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 			$img .= guestviewthumbstyle();
 			$styleoutput = true;
 		}
-		$img .= '<div class="guestviewthumb"><img id="aimg_'.$rimg_id.'" class="guestviewthumb_cur" onclick="showWindow(\'login\', \'{loginurl}\'+\'&referer=\'+encodeURIComponent(location))" '.$attrsrc.'="{url}" border="0" alt="">
+		$img .= '<div class="guestviewthumb"><img id="aimg_'.$rimg_id.'" class="guestviewthumb_cur" onclick="showWindow(\'login\', \'{loginurl}\'+\'&referer=\'+encodeURIComponent(location))" src="{url}" loading="lazy" decoding="async" border="0" alt="">
 				<br><a href="{loginurl}" onclick="showWindow(\'login\', this.href+\'&referer=\'+encodeURIComponent(location));">'.lang('forum/template', 'guestviewthumb').'</a></div>';
 
 	} else {
 		if(defined('IN_MOBILE') || defined('IN_RESTFUL')) {
-			$img = '<img'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" border="0" alt="" />';
+			$img = '<img'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" loading="lazy" decoding="async" border="0" alt="">';
 		} else {
-			$img = '<img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '').'border="0" alt="" />';
+			$img = '<img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" loading="lazy" decoding="async" '.($extra ? $extra.' ' : '').'border="0" alt="">';
 		}
 	}
 	$code = bbcodeurl($src, $img);

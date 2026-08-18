@@ -778,6 +778,8 @@
             if(/\.(?:jpe?g|png|gif|bmp|svg|webp)$/i.test(parsed.pathname)){
               const img = document.createElement('img');
               img.src = parsed.href;
+              img.loading = 'lazy';
+              img.decoding = 'async';
               textEl.append(img);
             } else {
               const a = document.createElement('a');

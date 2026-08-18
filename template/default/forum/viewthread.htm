@@ -379,12 +379,6 @@ $_G['forum_tagscript']
 <!--{/loop}-->
 <!--{/if}-->
 
-<!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
-	<script>
-	new lazyload();
-	</script>
-<!--{/if}-->
-
 <!--{if !IS_ROBOT && $_G['setting']['threadmaxpages'] > 1}-->
 	<script>document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=viewthread&tid=$_G[tid]{$multipageparam}', $page);}</script>
 <!--{/if}-->

@@ -1630,8 +1630,6 @@ $lang = array
 	'setting_serveropti_delayviewcount_comment' => '延迟更新附件的浏览量，可明显降低访问量很大的站点的服务器负担，建议开启本功能',
 	'setting_serveropti_nocacheheaders' => '<span class="spectitle">禁止浏览器缓冲</span>',
 	'setting_serveropti_nocacheheaders_comment' => '禁止浏览器对站点页面进行缓冲，可用于解决极个别浏览器内容刷新不正常的问题。注意: 本功能会加重服务器负担',
-	'setting_serveropti_lazyload' => '开启图片延时加载',
-	'setting_serveropti_lazyload_comment' => '当开启后，页面中的图片在浏览器的当前窗口时再加载，可明显降低访问量很大的站点的服务器负担，建议开启本功能',
 	'setting_serveropti_blockmaxaggregationitem' => '<span class="spectitle">参与模块聚合数据条数</span>',
 	'setting_serveropti_blockmaxaggregationitem_comment' => '此值影响模块聚合时MYSQL检索数据的条数，设置太大将严重影响MYSQL的性能，设置太小将会影响模块聚合结果数据的理想程度。0为关闭此功能',
 	'setting_serveropti_blockcachetimerange' => '模块更新时间区间',
