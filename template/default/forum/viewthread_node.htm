@@ -123,8 +123,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 		</div>
 	</td>
 	<!--{/if}-->
-	<td class="plc"<!--{if $close_leftinfo}--> style="width:100%"<!--{/if}-->>
-		$post[lastpostanchor]
+	<td class="plc"$post[lastpostid]<!--{if $close_leftinfo}--> style="width:100%"<!--{/if}-->>
 		<div class="pi">
 			<!--{if !IS_ROBOT}-->
 				<!--{if !$postcount && !$_G['forum_thread']['archiveid'] && $post['first'] }-->

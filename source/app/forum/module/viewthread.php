@@ -947,7 +947,7 @@ function viewthread_updateviews($tableid) {
 function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 	global $_G, $rushreply;
 
-	$post['lastpostanchor'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? '<a id="lastpost" name="lastpost"></a>' : '';
+	$post['lastpostid'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? ' id="lastpost"' : '';
 
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {
