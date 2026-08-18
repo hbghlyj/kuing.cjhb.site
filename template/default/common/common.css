@@ -1847,8 +1847,8 @@ Last Modify:	Pony
 	Explain:		模拟 <input type="file" />，注意不要让 button 太宽
 	Last Modify:	Pony
 */
-.filebtn { position: relative; margin: 0 auto; width: 60px; overflow: hidden; }
-	.filebtn .pf { position: absolute; right: 0; height: 23px; opacity: 0; }
+.filebtn { position: relative; margin: 0 auto; min-width: 60px; width: max-content; overflow: visible; }
+	.filebtn .pf { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
 /* 上传弹出层 */
 .upfile { width: 220px; }
