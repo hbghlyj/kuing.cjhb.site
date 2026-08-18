@@ -72,7 +72,6 @@ $lang = [
 	'keyword_faq' => '關鍵字爲“<span class="xi1">$keyword</span>”的幫助',
 	'open' => '展開',
 	'search' => '搜尋',
-	'networkerror' => '網絡出現問題，請稍後再試',
 	'close' => '關閉',
 	'focus_hottopics' => '站長推薦',
 	'focus_show' => '查看',

@@ -151,6 +151,7 @@ $lang = [
 	'admincp_tab_newWindow' => 'Open in New Window',
 	'admincp_tab_refresh' => 'Refresh',
 	'ajax_inner_error' => 'Internal error, cannot display this content',
+	'networkerror' => 'Network error, please try again later',
 	'at_notice' => 'Mention a friend to notify them about this post',
 	'attach_del_error' => 'Sorry, the deletion operation failed, please refresh the page and try again.',
 	'attach_ext_error' => 'Sorry, uploading attachments with such extensions is not supported',
