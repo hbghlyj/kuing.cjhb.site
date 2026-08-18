@@ -38,19 +38,19 @@ if(!submitcheck('mergesubmit', 1)) {
 	if($source == $target) {
 		cpmsg('members_sameness', '', 'error');
 	}
-	$member = table_common_member::t()->fetch_by_username($source, 1);
-	if(!$member || $member['adminid'] == 1 || $member['groupid'] == 1 || native_user_isprotected($member)) {
+	$sourcememberinfo = table_common_member::t()->fetch_by_username($source, 1);
+	if(!$sourcememberinfo || $sourcememberinfo['adminid'] == 1 || $sourcememberinfo['groupid'] == 1 || native_user_isprotected($sourcememberinfo)) {
 		cpmsg('members_dont_contain_admin_merge', '', 'error');
 	}
-	$suid = intval($member['uid']);
-	$sourcemember = $member['username'];
+	$suid = intval($sourcememberinfo['uid']);
+	$sourcemember = $sourcememberinfo['username'];
 
-	$member = table_common_member::t()->fetch_by_username($target, 1);
-	if(!$member || !$suid) {
+	$targetmemberinfo = table_common_member::t()->fetch_by_username($target, 1);
+	if(!$targetmemberinfo || !$suid) {
 		cpmsg('members_merge_invalid', '', 'error');
 	}
-	$tuid = intval($member['uid']);
-	$targetmember = $member['username'];
+	$tuid = intval($targetmemberinfo['uid']);
+	$targetmember = $targetmemberinfo['username'];
 
 	if(!submitcheck('confirmed')) {
 
@@ -113,6 +113,10 @@ if(!submitcheck('mergesubmit', 1)) {
 		}
 		if($set) {
 			DB::query('UPDATE %t SET '.implode(',', $set).' WHERE uid=%d', ['common_member_count', $tuid]);
+		}
+
+		if(empty($targetmemberinfo['avatarstatus']) && !empty($sourcememberinfo['avatarstatus'])) {
+			native_user_transferavatar($suid, $tuid);
 		}
 
 		require_once libfile('function/delete');

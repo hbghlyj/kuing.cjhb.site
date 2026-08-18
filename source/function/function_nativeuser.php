@@ -236,6 +236,39 @@ function native_user_deleteavatar($uid) {
 	}
 }
 
+function native_user_transferavatar($sourceuid, $targetuid) {
+	$sourceuid = dintval($sourceuid);
+	$targetuid = dintval($targetuid);
+	if(!$sourceuid || !$targetuid || $sourceuid == $targetuid) {
+		return false;
+	}
+
+	$transferred = false;
+	foreach(['big', 'middle', 'small'] as $size) {
+		foreach(['real', ''] as $type) {
+			$sourcepath = native_user_avatar_path($sourceuid, $size, $type);
+			$targetpath = native_user_avatar_path($targetuid, $size, $type);
+			$sourcefile = DISCUZ_ROOT.'./data/avatar/'.$sourcepath;
+			$targetfile = DISCUZ_ROOT.'./data/avatar/'.$targetpath;
+			if(!is_file($sourcefile) || is_file($targetfile)) {
+				continue;
+			}
+			dmkdir(dirname($targetfile));
+			if(copy($sourcefile, $targetfile)) {
+				$transferred = true;
+				if(getglobal('setting/ftp/on') || getglobal('setting/oss/status')) {
+					ftpcmd('upload', 'avatar/'.$targetpath);
+				}
+			}
+		}
+	}
+
+	if($transferred) {
+		table_common_member::t()->update($targetuid, ['avatarstatus' => 1]);
+	}
+	return $transferred;
+}
+
 function native_user_checkname($username, $censor = true) {
 	$rawusername = trim($username);
 	$username = trim(stripslashes($username));
