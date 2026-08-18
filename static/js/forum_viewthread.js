@@ -1081,13 +1081,14 @@ function initJumpCallout() {
 	callout.style.display = '';
 }
 window.initJumpCallout = initJumpCallout;
+window.addEventListener('hashchange', initJumpCallout);
 
 if (document.readyState === 'loading') {
 	document.addEventListener('DOMContentLoaded', () => {
-		initViewthreadEnhancements(document);
 		initJumpCallout();
+		initViewthreadEnhancements(document);
 	});
 } else {
-	initViewthreadEnhancements(document);
 	initJumpCallout();
+	initViewthreadEnhancements(document);
 }
