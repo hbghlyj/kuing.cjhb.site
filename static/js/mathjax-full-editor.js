@@ -32,6 +32,9 @@ function escapeMathHtml(value) {
 }
 
 function getMathDialogValue(value) {
+	if (value.slice(0, 2) === '\\[' && value.slice(-2) === '\\]') {
+		return { equation: value.slice(2, -2), wrap: 'display' };
+	}
 	var display = /^\$\$([\s\S]*)\$\$$/.exec(value);
 	if (display) return { equation: display[1], wrap: 'display' };
 	var inline = /^\$([^$][\s\S]*?)\$$/.exec(value);
