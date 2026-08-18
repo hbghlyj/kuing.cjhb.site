@@ -346,16 +346,21 @@ const testPusherLeaderCoordination = async browser => {
         );
     };
     const openPmFromNotice = async (targetPage, targetUid) => {
+        await targetPage.goto('http://127.0.0.1:8080/forum.php');
+        await targetPage.waitForLoadState('domcontentloaded');
         const beforePromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
         const [beforePrompt, beforePm] = beforePromptState.split('\t').map(value => parseInt(value || '0', 10));
         assert.ok(beforePrompt > 0, 'Assertion Error: Test user did not have an unread notification before opening the notice menu.');
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown)');
         let pmLink;
         if(await x5Notice.count()) {
-            const initialDot = x5Notice.locator('.notice-icon > .dot');
-            const initialUiPm = await initialDot.count()
-                ? parseInt(await initialDot.getAttribute('data-newpm') || '0', 10) || 0
-                : 0;
+            const noticeBadge = x5Notice.locator('.notice-icon > .dot:not(.dot-pm)');
+            await noticeBadge.waitFor({ state: 'visible', timeout: 10000 });
+            assert.strictEqual(
+                (await noticeBadge.textContent()).trim(),
+                String(beforePrompt > 99 ? 99 : beforePrompt),
+                'Assertion Error: X5 bell badge must show notice unread (newprompt) only, not newprompt+newpm.'
+            );
             const noticeResponse = targetPage.waitForResponse(response =>
                 response.url().includes('forum.php?mod=ajax&action=markAsRead') &&
                 response.request().method() === 'GET'
@@ -366,13 +371,13 @@ const testPusherLeaderCoordination = async browser => {
             const noticeItems = targetPage.locator('#myprompt_menu li');
             await noticeItems.first().waitFor({ state: 'visible', timeout: 10000 });
             assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
+            await targetPage.waitForFunction(expectedPm => {
+                const noticeDot = document.querySelector('.header-notice .notice-icon > .dot:not(.dot-pm)');
+                const pmPip = document.querySelector('.header-notice .notice-icon > .dot-pm, .header-notice .notice-item .dot');
+                return !noticeDot && (expectedPm > 0 ? !!pmPip : true);
+            }, beforePm, { timeout: 10000 });
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
             pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
-            await targetPage.waitForFunction(expectedPm => {
-                const dot = document.querySelector('.header-notice .notice-icon > .dot');
-                if(!dot) return expectedPm === 0;
-                return dot.textContent.trim() === String(expectedPm > 99 ? 99 : expectedPm);
-            }, initialUiPm, { timeout: 10000 });
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
@@ -385,12 +390,19 @@ const testPusherLeaderCoordination = async browser => {
             assert.ok(response.ok(), `Assertion Error: Notice request failed with HTTP ${response.status()}.`);
             await targetPage.locator('#myprompt_menu').waitFor({ state: 'visible', timeout: 10000 });
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
-            pmLink = targetPage.locator('#myprompt_menu a#pm_ntc');
+            pmLink = targetPage.locator('#myprompt_menu a#pm_ntc, #pm_ntc');
             assert.strictEqual(
                 await noticeLink.evaluate(element => !element.classList.contains('new') && !/\(\s*\d+\s*\)/.test(element.textContent)),
                 true,
                 'Assertion Error: Default notice control still displayed an unread notification badge.'
             );
+            if(beforePm > 0) {
+                assert.match(
+                    (await targetPage.locator('#pm_ntc').getAttribute('class')) || '',
+                    /\bnew\b/,
+                    'Assertion Error: After markAsRead the default PM control must keep unread private-message state; leftover newpm is not notice unread.'
+                );
+            }
         }
         const afterPromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
         const [afterPrompt, afterPm] = afterPromptState.split('\t').map(value => parseInt(value || '0', 10));
@@ -1469,14 +1481,14 @@ const testPusherLeaderCoordination = async browser => {
         fs.writeFileSync(attachmentFixture, Buffer.concat([sourceBytes, Buffer.alloc(oneMegabyte - sourceBytes.length)]));
         assert.strictEqual(fs.statSync(attachmentFixture).size, oneMegabyte, 'Assertion Error: Generated image fixture is not exactly 1 MiB.');
         const attachmentFixtures = [
-            attachmentFixture,
             'scratch/parallel_image_2.jpg',
-            'scratch/parallel_image_3.png'
+            'scratch/parallel_image_3.png',
+            attachmentFixture
         ];
         // Use different real images so WebUploader's duplicate suppression does
         // not discard the parallel batch based on a shared content prefix.
-        fs.copyFileSync(parallelSource2, attachmentFixtures[1]);
-        fs.copyFileSync(parallelSource3, attachmentFixtures[2]);
+        fs.copyFileSync(parallelSource2, attachmentFixtures[0]);
+        fs.copyFileSync(parallelSource3, attachmentFixtures[1]);
         const editorTarget = await page.evaluate(() => {
             const iframe = Array.from(document.querySelectorAll('iframe[id$="_iframe"]')).find(node => {
                 const style = getComputedStyle(node);
@@ -1601,7 +1613,15 @@ const testPusherLeaderCoordination = async browser => {
         // Paste/drop already exercises two concurrent uploads above. The native
         // picker now verifies the exact 1 MiB fixture within the remaining post
         // attachment quota.
-        const nativeUploadFixtures = attachmentFixtures.slice(0, 1);
+        const nativeUploadFixtures = [attachmentFixture];
+        const uploadMaxBytes = await page.evaluate(() => {
+            if(!window.imgUpload || !imgUpload.settings) return 0;
+            return (Number(imgUpload.settings.file_size_limit) || 0) * 1024;
+        });
+        assert.ok(
+            uploadMaxBytes === 0 || fs.statSync(attachmentFixture).size <= uploadMaxBytes,
+            `Assertion Error: 1 MiB fixture exceeds the configured image upload size limit (${uploadMaxBytes} bytes).`
+        );
         const uploadResponses = [];
         let finishParallelUploadWait;
         const parallelUploadWait = new Promise((resolve, reject) => {
@@ -1635,7 +1655,8 @@ const testPusherLeaderCoordination = async browser => {
             nativeUploadFixtures.length,
             { timeout: 10000 }
         );
-        const aid = await page.locator('#imgattachlist input[name$="[displaywidth]"]').last().evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        const aid = execSync(`sudo mysql -u root ultrax -N -s -e \"SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' AND filesize='${oneMegabyte}' ORDER BY aid DESC LIMIT 1;\"`).toString().trim();
+        assert.match(aid, /^\d+$/, 'Assertion Error: 1 MiB unused attachment was not created.');
         console.log("Discovered attachment AID:", aid);
         const displayWidthInput = page.locator(`#imgattachlist input[name="attachnew[${aid}][displaywidth]"]`);
         assert.strictEqual(await displayWidthInput.count(), 1, 'Assertion Error: Image attachment display-width control did not render.');
@@ -1706,9 +1727,13 @@ const testPusherLeaderCoordination = async browser => {
         assert.strictEqual(attachmentIndex, `${attachTid}:${attachTid.slice(-1)}`, `Assertion Error: Attachment index was not bound to thread ${attachTid}. Found: ${attachmentIndex}`);
         assert.strictEqual(unusedAttachment, '0', `Assertion Error: Attachment ${aid} remained in pre_forum_attachment_unused.`);
 
-        const storedAttachmentInfo = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(filesize, CHAR(9), attachment) FROM pre_forum_attachment_${attachTableId} WHERE aid='${aid}' AND tid='${attachTid}' LIMIT 1;"`).toString().trim();
-        const [storedAttachmentSize, storedAttachmentFile] = storedAttachmentInfo.split('\t');
-        assert.strictEqual(Number(storedAttachmentSize), oneMegabyte, `Assertion Error: Database attachment size did not preserve 1 MiB. Stored: ${storedAttachmentSize}`);
+        const storedAttachmentInfo = execSync(`sudo mysql -u root ultrax -N -s -e \"SELECT CONCAT(filesize, ' ', attachment) FROM pre_forum_attachment_${attachTableId} WHERE aid='${aid}' AND tid='${attachTid}' LIMIT 1;\"`).toString().trim();
+        const storedAttachmentMatch = storedAttachmentInfo.match(/^(\d+)\s+(\S+)/);
+        assert.ok(storedAttachmentMatch, `Assertion Error: Database attachment size record was unreadable. Stored: ${storedAttachmentInfo}`);
+        const storedAttachmentSize = Number(storedAttachmentMatch[1]);
+        const storedAttachmentFile = storedAttachmentMatch[2];
+        assert.strictEqual(storedAttachmentSize, oneMegabyte, `Assertion Error: Database attachment size did not preserve 1 MiB. Stored: ${storedAttachmentInfo}`);
+
         const storedAttachmentPath = path.join('data/attachment/forum', storedAttachmentFile);
         assert.strictEqual(fs.statSync(storedAttachmentPath).size, oneMegabyte, `Assertion Error: Stored attachment file did not preserve 1 MiB: ${storedAttachmentPath}`);
 

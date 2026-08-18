@@ -24,9 +24,11 @@
 	<div class="header-notice">
 		<div class="notice-icon">
 			<i class="dzicon noticeicon"></i>
-			<!--{if $_G['member']['newprompt'] || $_G['member']['newpm']}-->
-			{eval $newprompt = $_G['member']['newprompt'] + $_G['member']['newpm'];}
-			<span class="dot" data-newpm="{if $_G['member']['newpm']}$_G['member']['newpm']{else}0{/if}">{if $newprompt >99}99{else}$newprompt{/if}</span>
+			<!--{if $_G['member']['newprompt']}-->
+			{eval $noticecount = intval($_G['member']['newprompt']);}
+			<span class="dot">{if $noticecount > 99}99{else}$noticecount{/if}</span>
+			<!--{elseif $_G['member']['newpm']}-->
+			<span class="dot dot-pm" title="{lang pm_center}"></span>
 			<!--{/if}-->
 		</div>
 
@@ -155,12 +157,17 @@ document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-c
 						emptyItem.textContent = noticeMenu.dataset.emptyLabel;
 						noticeMenu.appendChild(emptyItem);
 					}
-					var dot = element.querySelector('.notice-icon > .dot');
-					var newPm = dot ? parseInt(dot.dataset.newpm || '0', 10) : 0;
-					if(dot && newPm) {
-						dot.textContent = newPm > 99 ? '99' : newPm;
-					} else if(dot) {
-						dot.remove();
+					var icon = element.querySelector('.notice-icon');
+					var noticeDot = icon && icon.querySelector('.dot:not(.dot-pm)');
+					var hasUnreadPm = !!(element.querySelector('.notice-item .dot') || (icon && icon.querySelector('.dot-pm')));
+					if(noticeDot) {
+						noticeDot.remove();
+					}
+					if(hasUnreadPm && icon && !icon.querySelector('.dot-pm')) {
+						var pmPip = document.createElement('span');
+						pmPip.className = 'dot dot-pm';
+						pmPip.title = '{lang pm_center}';
+						icon.appendChild(pmPip);
 					}
 				});
 			});
