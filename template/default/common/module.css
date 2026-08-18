@@ -218,7 +218,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.quote::after {content:'\201D';font-family:'Times New Roman',Times,serif !important;font-size:40px !important;color:#B2B7F2 !important;font-weight:bold;line-height:0;margin:10px 0;flex-shrink:0;display:block;align-self:flex-end}
 		.m_c .quote { width: 585px; }
 		.blockcode { overflow: hidden; margin: 10px 0; padding: 5px 10px; background: #F7F7F7; color: {MIDTEXT}; }
-			.blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; margin: 0; white-space: pre-wrap; word-break: break-word; }
+			.blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; font-size: 12px; line-height: 1.8em; margin: 0; white-space: pre-wrap; word-break: break-word; }
 /** end **/
 
 /** forum::modcp,misc::stat **/
@@ -1082,7 +1082,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	.blockcode em { font-style: normal; font-size: 0; line-height: 0; cursor: pointer; user-select: none; }
 		.blockcode em svg { width: 15px; height: 15px; display: inline-block; vertical-align: middle; }
 	.pl .blockcode { position: relative; padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
-		.pl .blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
+		.pl .blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',monospace; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
 		.pl .blockcode em { margin-left: 0; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: #999; background: rgba(255,255,255,.9); border: 1px solid #DDD; border-radius: 6px; opacity: 0; transition: opacity .2s ease; }
 		.pl .blockcode em svg { width: 15px; height: 15px; display: block; }
 		.pl .blockcode:hover em { opacity: 1; }
@@ -1253,7 +1253,7 @@ a.editlog:hover { color: #333; }
 .mw100{ max-width:100%; height:auto; }
 #fwin_dialog:has(.tikz-dialog) .fwin { width: min(calc(100vw - 24px), 560px); }
 .tikz-dialog { box-sizing: border-box; }
-.tikzta { box-sizing: border-box; width: 100%; height: 300px; font-size: 14px; padding: 6px; resize: vertical; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif; color: #444; background: #F7F7F7; }
+.tikzta { box-sizing: border-box; width: 100%; height: 300px; font-size: 14px; padding: 6px; resize: vertical; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; color: #444; background: #F7F7F7; }
 .jiaz { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #EDEDED; border-top: 2px solid #429296; animation: dzrotate 1.2s infinite linear; }
 .tupian { display: inline-block; position: relative; min-width: 100px; min-height: 100px; font-size: 16px; color: black; }
 .tupian .jiaz { position: absolute; margin: auto; left: 0; right: 0; top: 0; bottom: 0; }

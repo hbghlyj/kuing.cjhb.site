@@ -22,6 +22,6 @@ div.quote { margin: 10px 0; padding: 0; overflow: visible; display: flex; color:
 	div.quote::after { content: '\201D'; font-family: 'Times New Roman', Times, serif; font-size: 40px; color: #B2B7F2; font-weight: bold; line-height: 0; margin: 10px 0; flex-shrink: 0; display: block; align-self: flex-end; }
 	div.quote blockquote { margin: 0; padding: 0; background: none; line-height: 1.6; zoom: 1; display: block; }
 div.blockcode { margin: 10px 0; padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
-	div.blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
+	div.blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',monospace; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
 .float td { border: 0; padding: 0; }
 img { max-width:400px; }

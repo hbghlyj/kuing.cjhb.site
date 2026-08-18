@@ -119,6 +119,7 @@ img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
 html, body {font-size:12px;line-height:1.5;color:var(--dz-FC-333);min-height:100%;font-family:"Noto Serif"}
 input, select, textarea, button {font-size:14px;line-height:1.5;outline:none}
+input, textarea {font:1em / 1.5 Monaco, Consolas, 'Lucida Console', 'Courier New', monospace;}
 body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {margin:0;padding:0}
 body {background-color:var(--dz-BG-body)}
 table {empty-cells:show;border-collapse:collapse}
@@ -1284,7 +1285,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pi .message table td {overflow-wrap: anywhere;}
 
 .plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 10px; font-size:12px; border-radius:var(--dz-radius-sm); background: var(--dz-BG-5); color: var(--dz-FC-666); }
-.plc .pi .message .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; margin: 0; }
+.plc .pi .message .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; margin: 0; }
 .plc .pi .message .blockcode { position: relative; }
 .plc .pi .message .blockcode em { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 0; line-height: 0; color: #666; background: rgba(255,255,255,.9); border: 1px solid var(--dz-BOR-ed); border-radius: 6px; cursor: pointer; user-select: none; }
 .plc .pi .message .blockcode em svg { width: 15px; height: 15px; display: block; }
