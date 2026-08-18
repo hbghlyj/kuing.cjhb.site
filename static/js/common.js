@@ -1020,8 +1020,8 @@ function setMenuPosition(showid, menuid, pos) {
 		if (menuObj.scrolly) mt -= scrollTop;
 		menuObj.style.position = 'fixed';
 	}
-	if (ml) menuObj.style.left = ml + 'px';
-	if (mt) menuObj.style.top = mt + 'px';
+	if (!isNaN(ml)) menuObj.style.left = ml + 'px';
+	if (!isNaN(mt)) menuObj.style.top = mt + 'px';
 
 	if (menuObj.style.clip && !BROWSER.opera) {
 		menuObj.style.clip = 'rect(auto, auto, auto, auto)';
