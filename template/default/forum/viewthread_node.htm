@@ -20,7 +20,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 </div>
 <table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <tr>
-	$post[lastpostanchor]
 	<!--{if !$close_leftinfo}-->
 	<td class="pls" rowspan="2">
 		<div id="favatar$post[pid]" class="pls cl favatar">
@@ -125,6 +124,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 	</td>
 	<!--{/if}-->
 	<td class="plc"<!--{if $close_leftinfo}--> style="width:100%"<!--{/if}-->>
+		$post[lastpostanchor]
 		<div class="pi">
 			<!--{if !IS_ROBOT}-->
 				<!--{if !$postcount && !$_G['forum_thread']['archiveid'] && $post['first'] }-->
