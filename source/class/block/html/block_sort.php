@@ -65,7 +65,6 @@ class block_sort extends commonblock_html {
 					['replies', 'sortlist_orderby_replies'],
 					['views', 'sortlist_orderby_views'],
 					['heats', 'sortlist_orderby_heats'],
-					['recommends', 'sortlist_orderby_recommends'],
 				],
 				'default' => 'lastpost'
 			],
@@ -137,7 +136,7 @@ class block_sort extends commonblock_html {
 		$items = !empty($parameter['showitems']) ? intval($parameter['showitems']) : 10;
 		$digest = $parameter['digest'] ?? 0;
 		$stick = $parameter['stick'] ?? 0;
-		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'heats', 'recommends']) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'heats']) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
 		$lastpost = isset($parameter['lastpost']) ? intval($parameter['lastpost']) : 0;
 		$recommend = !empty($parameter['recommend']) ? 1 : 0;
 		$sortid = isset($parameter['sortids']) ? intval($parameter['sortids']) : '';

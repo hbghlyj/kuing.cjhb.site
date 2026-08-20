@@ -85,19 +85,12 @@ if(submitcheck('settingsubmit')) {
 	/*search*/
 
 	$setting['heatthread'] = dunserialize($setting['heatthread']);
-	$setting['recommendthread'] = dunserialize($setting['recommendthread']);
 	$setting['allowpostcomment'] = dunserialize($setting['allowpostcomment']);
 	$count = count(explode(',', $setting['heatthread']['iconlevels']));
 	$heatthreadicons = '';
 	for($i = 0; $i < $count; $i++) {
 		$heatthreadicons .= '<img src="static/image/common/hot_'.($i + 1).'.gif"> ';
 	}
-	$count = count(explode(',', $setting['recommendthread']['iconlevels']));
-	$recommendicons = '';
-	for($i = 0; $i < $count; $i++) {
-		$recommendicons .= '<img src="static/image/common/recommend_'.($i + 1).'.gif"> ';
-	}
-
 	$setting['commentitem'] = explode("\t", $setting['commentitem']);
 	foreach($setting['commentitem'] as $k => $v) {
 		$tmp = explode(chr(0).chr(0).chr(0), $v);
@@ -111,18 +104,6 @@ if(submitcheck('settingsubmit')) {
 	showtableheader('', 'nobottom', 'id="heatthread"'.($_GET['anchor'] != 'heatthread' ? ' style="display: none"' : ''));
 	showsetting('setting_functions_heatthread_period', 'settingnew[heatthread][period]', $setting['heatthread']['period'], 'text');
 	showsetting('setting_functions_heatthread_iconlevels', '', '', '<input name="settingnew[heatthread][iconlevels]" class="txt" type="text" value="'.$setting['heatthread']['iconlevels'].'"><br>'.$heatthreadicons);
-	showtablefooter();
-	/*search*/
-
-	/*search={"setting_functions":"action=setting&operation=functions","setting_functions_recommend":"action=setting&operation=functions&anchor=recommend"}*/
-	showtips('setting_functions_recommend_tips', 'recommend_tips', $_GET['anchor'] == 'recommend');
-	showtableheader('', 'nobottom', 'id="recommend"'.($_GET['anchor'] != 'recommend' ? ' style="display: none"' : ''));
-	showsetting('setting_functions_recommend_status', 'settingnew[recommendthread][status]', $setting['recommendthread']['status'], 'radio', 0, 1);
-	showsetting('setting_functions_recommend_addtext', 'settingnew[recommendthread][addtext]', $setting['recommendthread']['addtext'], 'text');
-	showsetting('setting_functions_recommend_subtracttext', 'settingnew[recommendthread][subtracttext]', $setting['recommendthread']['subtracttext'], 'text');
-	showsetting('setting_functions_recommend_daycount', 'settingnew[recommendthread][daycount]', intval($setting['recommendthread']['daycount']), 'text');
-	showsetting('setting_functions_recommend_ownthread', 'settingnew[recommendthread][ownthread]', $setting['recommendthread']['ownthread'], 'radio');
-	showsetting('setting_functions_recommend_iconlevels', '', '', '<input name="settingnew[recommendthread][iconlevels]" class="txt" type="text" value="'.$setting['recommendthread']['iconlevels'].'"><br>'.$recommendicons);
 	showtablefooter();
 	/*search*/
 
@@ -151,6 +132,7 @@ if(submitcheck('settingsubmit')) {
 	/*search={"setting_functions":"action=setting&operation=functions","setting_functions_threadexp":"action=setting&operation=functions&anchor=threadexp"}*/
 	showtableheader('', 'nobottom', 'id="threadexp"'.($_GET['anchor'] != 'threadexp' ? ' style="display: none"' : ''));
 	showsetting('setting_functions_threadexp_repliesrank', 'settingnew[repliesrank]', $setting['repliesrank'], 'radio');
+	showsetting('setting_functions_threadexp_postreviewdaycount', 'settingnew[postreviewdaycount]', $setting['postreviewdaycount'] ?? 0, 'text');
 	showsetting('setting_functions_threadexp_blacklist', 'settingnew[threadblacklist]', $setting['threadblacklist'], 'radio');
 	showsetting('setting_functions_threadexp_hotreplies', 'settingnew[threadhotreplies]', $setting['threadhotreplies'], 'text');
 	showsetting('setting_functions_threadexp_filter', 'settingnew[threadfilternum]', $setting['threadfilternum'], 'text');

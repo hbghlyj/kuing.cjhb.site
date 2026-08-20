@@ -90,7 +90,6 @@ class block_groupthread extends discuz_block {
 					['replies', 'groupthread_orderby_replies'],
 					['views', 'groupthread_orderby_views'],
 					['heats', 'groupthread_orderby_heats'],
-					['recommends', 'groupthread_orderby_recommends'],
 				],
 				'default' => 'lastpost'
 			],
@@ -181,7 +180,6 @@ class block_groupthread extends discuz_block {
 			'replies' => ['name' => lang('blockclass', 'blockclass_groupthread_field_replies'), 'formtype' => 'text', 'datatype' => 'int'],
 			'views' => ['name' => lang('blockclass', 'blockclass_groupthread_field_views'), 'formtype' => 'text', 'datatype' => 'int'],
 			'heats' => ['name' => lang('blockclass', 'blockclass_groupthread_field_heats'), 'formtype' => 'text', 'datatype' => 'int'],
-			'recommends' => ['name' => lang('blockclass', 'blockclass_groupthread_field_recommends'), 'formtype' => 'text', 'datatype' => 'int'],
 			'groupname' => ['name' => lang('blockclass', 'blockclass_groupthread_field_groupname'), 'formtype' => 'text', 'datatype' => 'string'],
 			'groupurl' => ['name' => lang('blockclass', 'blockclass_groupthread_field_groupurl'), 'formtype' => 'text', 'datatype' => 'string'],
 		];
@@ -256,7 +254,7 @@ class block_groupthread extends discuz_block {
 		$rewardstatus = isset($parameter['rewardstatus']) ? intval($parameter['rewardstatus']) : 0;
 		$titlelength = !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 		$summarylength = !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$orderby = in_array($parameter['orderby'], ['dateline', 'replies', 'views', 'threads', 'heats', 'recommends']) ? $parameter['orderby'] : 'lastpost';
+		$orderby = in_array($parameter['orderby'], ['dateline', 'replies', 'views', 'threads', 'heats']) ? $parameter['orderby'] : 'lastpost';
 		$picrequired = !empty($parameter['picrequired']) ? 1 : 0;
 		$gviewperm = isset($parameter['gviewperm']) ? intval($parameter['gviewperm']) : -1;
 		$highlight = !empty($parameter['highlight']) ? 1 : 0;
@@ -374,7 +372,6 @@ class block_groupthread extends discuz_block {
 					'replies' => $data['replies'],
 					'views' => $data['views'],
 					'heats' => $data['heats'],
-					'recommends' => $data['recommends'],
 					'groupname' => empty($groups[$data['fid']]['name']) ? $data['groupname'] : $groups[$data['fid']]['name'],
 					'groupurl' => 'forum.php?mod=group&fid='.$data['fid'],
 				]

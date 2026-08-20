@@ -77,9 +77,6 @@
 								<!--{/if}-->
 								<!--{if $thread['digest'] > 0 && $filter != 'digest'}--><span class="kmico kmjing">{lang thread_digest}</span><!--{/if}-->
 								<!--{if $thread['displayorder'] == 0}-->
-									<!--{if $thread['recommendicon'] && $filter != 'recommend'}-->
-										<span class="kmico kmding" title="{lang thread_recommend} $thread['recommends']">{lang thread_recommend_icon}</span>
-									<!--{/if}-->
 								<!--{/if}-->
 								<!--{if $_G['basescript'] != 'group' && CURMODULE != 'group' && $thread['moved']}-->
 									<span class="kmico kmding">{lang thread_moved}</span><!--{eval $thread['tid']=$thread['closed'];}-->

@@ -210,7 +210,6 @@ function recommendupdate($fid, &$modrecommend, $force = '', $position = 0) {
 		$orderby = 'dateline';
 
 		$dateline = $modrecommend['dateline'] ? (TIMESTAMP - $modrecommend['dateline'] * 3600) : null;
-		$recommends = null;
 		switch($modrecommend['orderby']) {
 			case '':
 			case '1':
@@ -226,8 +225,7 @@ function recommendupdate($fid, &$modrecommend, $force = '', $position = 0) {
 				$orderby = 'digest';
 				break;
 			case '5':
-				$orderby = 'recommends';
-				$recommends = 0;
+				$orderby = 'lastpost';
 				break;
 			case '6':
 				$orderby = 'heats';
@@ -236,7 +234,7 @@ function recommendupdate($fid, &$modrecommend, $force = '', $position = 0) {
 
 		$i = 0;
 		$addthread = $addimg = $recommendlist = $recommendimagelist = $tids = [];
-		foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($fid, 0, $dateline, $recommends, 0, $num, $orderby) as $thread) {
+		foreach(table_forum_thread::t()->fetch_all_by_fid_displayorder($fid, 0, $dateline, 0, $num, $orderby) as $thread) {
 			$recommendlist[$thread['tid']] = $thread;
 			$tids[] = $thread['tid'];
 			if(!$modedtids || !in_array($thread['tid'], $modedtids)) {

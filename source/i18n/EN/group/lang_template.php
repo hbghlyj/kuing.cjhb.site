@@ -81,7 +81,6 @@ $lang = array (
 	'thread'			=> 'Threads',//'帖子',
 	'thread_digest'			=> 'Digests',//'精华',
 	'thread_moved'			=> 'Moved',//'移动',
-	'thread_recommend'		=> 'Recommend Value: ',//'评价指数',
 	'time'				=> 'Time',//'时间',
 	'delete'			=> 'Delete',//'删除',
 	'displayorder'			=> 'Display Order',//'顺序',

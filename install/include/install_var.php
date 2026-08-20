@@ -217,16 +217,6 @@ $serialize_sql_setting = array(
 			2 => '板凳',
 			3 => '地板',
 		),
-	'recommendthread' =>
-		array(
-			'status' => '0',
-			'addtext' => '支持',
-			'subtracttext' => '反对',
-			'defaultshow' => '1',
-			'daycount' => '0',
-			'ownthread' => '0',
-			'iconlevels' => '50,100,200',
-		),
 	'seotitle' =>
 		array(
 			'portal' => '门户',

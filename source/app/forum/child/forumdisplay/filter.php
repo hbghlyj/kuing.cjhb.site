@@ -47,9 +47,6 @@ if(!empty($setting['special'])) {
 if(!empty($setting['heats'])) {
 	$filterarr['heats'] = $setting['heats'];
 }
-if(!empty($setting['recommends'])) {
-	$filterarr['recommends'] = $setting['recommends'];
-}
 if(!empty($setting['dateline'])) {
 	$filterarr['starttime'] = dgmdate(TIMESTAMP - $setting['dateline']);
 }
@@ -88,9 +85,6 @@ if(!empty($setting['order'])) {
 			break;
 		case 4:
 			$field = 'heats';
-			break;
-		case 5:
-			$field = 'recommends';
 			break;
 	}
 	$order .= "$field DESC";

@@ -395,12 +395,6 @@ $lang = [
 	'debate_umpire_nofound_winner' => '抱歉，您沒有填寫獲勝方',
 	'debate_umpire_nofound_point' => '抱歉，您沒填寫您的觀點',
 	'debate_umpire_comment_succeed' => '評判成功 ',
-	'no_privilege_recommend' => '抱歉，您目前沒有權限評價此主題，<a href="home.php?mod=spacecp&ac=usergroup" target="_blank">點擊這裡查看權限</a>',
-	'recommend_self_disallow' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>您不能評價自己的帖子',
-	'recommend_duplicate' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>您已評價過本主題',
-	'recommend_outoftimes' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>今日評價機會已用完',
-	'recommend_daycount_succeed' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span><br>您今天還能評價 {daycount} 次',
-	'recommend_succeed' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
 	'thread_poll_voter_isnull' => '暫時還沒有人蔘與投票，不能添加標籤。',
 	'thread_activityapply_isnull' => '暫時還沒有人蔘加活動，不能添加標籤。',
 
@@ -1108,8 +1102,8 @@ $lang = [
 	'portal_category_has_no_folder_name' => '抱歉，文章所屬的頻道沒有設定目錄名稱',
 	'noreply_replynum_error' => '對不起，你已經達到本主題的回帖上限。',
 	'author_not_uploadpic' => '樓主暫時沒有上傳圖片',
-	'noreply_yourself_error' => '您不能對自己的回帖進行投票',
-	'noreply_voted_error' => '您已經對此回帖投過票了',
+	'postreview_yourself_error' => '您不能對自己的帖子進行投票',
+	'postreview_outoftimes' => '抱歉，您在 24 小時內的帖子投票次數已用完',
 
 	'payment_order_no_exist' => '訂單不存在或已過期',
 	'payment_type_no_exist' => '請選擇支付渠道',

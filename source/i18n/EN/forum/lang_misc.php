@@ -59,7 +59,6 @@ $lang = array
 	'perms_maxsigsize'		=> 'Max signature length',//'最大签名长度',
 	'perms_allowsigbbcode'		=> 'Use BBCode in signature',//'签名中使用编辑器代码',
 	'perms_allowsigimgcode'		=> 'Use [img] code in signature',//'签名中使用 [img] 代码',
-	'perms_allowrecommend'		=> 'Thread rating influence',//'主题评价影响值',
 	'perms_allowcommentpost'	=> 'Rate posts',//'允许参与点评',
 	'perms_allowmediacode'		=> 'Use multimedia code',//'允许使用多媒体代码',
 	'perms_allowgetattach'		=> 'Download attachments',//'下载附件',

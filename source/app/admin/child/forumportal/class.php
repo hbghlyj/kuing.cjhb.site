@@ -138,7 +138,6 @@ class fp {
 			[5, cplang('thread_debate')],
 		]], $setting['special'], 'mselect');
 		showsetting('forumportal_heats', 's[heats]', $setting['heats'] ?? 0, 'text');
-		showsetting('forumportal_recommends', 's[recommends]', $setting['recommends'] ?? 0, 'text');
 		showsetting('forumportal_dateline', ['s[dateline]', [
 			[0, cplang('forumportal_time_nolimit')],
 			[3600, cplang('forumportal_time_hour')],
@@ -165,7 +164,6 @@ class fp {
 			[2, cplang('forumportal_replies')],
 			[3, cplang('forumportal_views')],
 			[4, cplang('forumportal_heads')],
-			[5, cplang('forumportal_recommends')],
 		]], $setting['order'] ?? 0, 'mradio');
 		showsubmit('submit');
 		/*search*/

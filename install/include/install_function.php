@@ -1070,6 +1070,65 @@ function show_db_install($upgrade = false) {
 	<?php
 }
 
+function migrate_legacy_thread_recommend_aggregates($db, $tablepre) {
+	$threadTable = str_replace('`', '``', $tablepre.'forum_thread');
+	$requiredColumns = ['recommend_add', 'recommend_sub', 'posttableid'];
+	$availableColumns = [];
+
+	foreach($requiredColumns as $column) {
+		$query = $db->query("SHOW COLUMNS FROM `{$threadTable}` WHERE `Field` = '{$column}'", 'SILENT');
+		if($query === false) {
+			return false;
+		}
+		$availableColumns[$column] = $db->num_rows($query) > 0;
+		$db->free_result($query);
+	}
+
+	if(!$availableColumns['recommend_add'] && !$availableColumns['recommend_sub']) {
+		return true;
+	}
+	if(!$availableColumns['recommend_add'] || !$availableColumns['recommend_sub'] || !$availableColumns['posttableid']) {
+		return false;
+	}
+
+	$postTableIds = [];
+	$query = $db->query(
+		"SELECT DISTINCT posttableid FROM `{$threadTable}` WHERE recommend_add > 0 OR recommend_sub > 0",
+		'SILENT'
+	);
+	if($query === false) {
+		return false;
+	}
+	while($row = $db->fetch_array($query)) {
+		$postTableIds[] = max(0, intval($row['posttableid']));
+	}
+	$db->free_result($query);
+
+	$hotreplyTable = str_replace('`', '``', $tablepre.'forum_hotreply_number');
+	foreach(array_unique($postTableIds) as $postTableId) {
+		$postTable = str_replace('`', '``', $tablepre.'forum_post'.($postTableId ? '_'.$postTableId : ''));
+		$sql = "INSERT INTO `{$hotreplyTable}` (pid, tid, support, `against`, total)
+			SELECT p.pid,
+				t.tid,
+				GREATEST(t.recommend_add, 0),
+				GREATEST(t.recommend_sub, 0),
+				GREATEST(t.recommend_add, 0) + GREATEST(t.recommend_sub, 0)
+			FROM `{$threadTable}` AS t
+			INNER JOIN `{$postTable}` AS p ON p.tid = t.tid AND p.first = 1
+			WHERE t.posttableid = {$postTableId}
+				AND (t.recommend_add > 0 OR t.recommend_sub > 0)
+			ON DUPLICATE KEY UPDATE
+				support = GREATEST(support, VALUES(support)),
+				`against` = GREATEST(`against`, VALUES(`against`)),
+				total = GREATEST(total, GREATEST(support, VALUES(support)) + GREATEST(`against`, VALUES(`against`)))";
+		if($db->query($sql, 'SILENT') === false) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 function runquery($sql, $upgrade = false) {
 	global $lang, $tablepre, $db;
 

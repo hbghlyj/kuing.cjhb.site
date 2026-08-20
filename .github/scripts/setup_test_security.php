@@ -104,21 +104,13 @@ C::t('common_setting')->update('commentnumber', '5');
 C::t('common_setting')->update('allowpostcomment', [1]);
 C::t('common_setting')->update('commentfirstpost', '1');
 C::t('common_setting')->update('commentpostself', '1');
-C::t('common_setting')->update('recommendthread', [
-	'status' => '1',
-	'addtext' => 'Recommend',
-	'subtracttext' => 'Oppose',
-	'defaultshow' => '1',
-	'daycount' => '5',
-	'ownthread' => '1',
-	'allow' => '1',
-]);
 C::t('common_setting')->update('repliesrank', '1');
+C::t('common_setting')->update('postreviewdaycount', '5');
+C::t('common_setting')->update('threadhotreplies', '10');
 foreach([1, 7, 10] as $groupId) {
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
 		'allowcstatus' => '1',
-		'allowrecommend' => '1',
 		'allowpostattach' => '1',
 		'allowpostimage' => '1',
 		'allowpostactivity' => '1',
@@ -235,6 +227,9 @@ $expect(($setting['jspath'] ?? '') === 'data/cache/', 'jspath');
 $expect((int)($setting['floodctrl'] ?? -1) === 0, 'floodctrl');
 $expect((int)($setting['pmstatus'] ?? 0) === 1, 'pmstatus');
 $expect((int)($setting['commentnumber'] ?? 0) === 5, 'commentnumber');
+$expect((int)($setting['repliesrank'] ?? 0) === 1, 'repliesrank');
+$expect((int)($setting['postreviewdaycount'] ?? 0) === 5, 'postreviewdaycount');
+$expect((int)($setting['threadhotreplies'] ?? 0) === 10, 'threadhotreplies');
 $expect(is_array($setting['allowpostcomment'] ?? null)
 	&& in_array(1, $setting['allowpostcomment'], true), 'allowpostcomment');
 $expect(!empty($setting['commentfirstpost']), 'commentfirstpost');
@@ -250,7 +245,6 @@ foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");
 	$expect(!empty($group['disablepostctrl']), "usergroup_{$groupId}.disablepostctrl");
-	$expect(!empty($group['allowrecommend']), "usergroup_{$groupId}.allowrecommend");
 	$expect(!empty($group['allowpostattach']), "usergroup_{$groupId}.allowpostattach");
 	$expect(!empty($group['allowpostimage']), "usergroup_{$groupId}.allowpostimage");
 	$expect(!empty($group['allowposttag']), "usergroup_{$groupId}.allowposttag");

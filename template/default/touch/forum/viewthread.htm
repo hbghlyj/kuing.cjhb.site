@@ -295,20 +295,13 @@
 			<!--{if $post['invisible'] == 0}-->
 				<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><li><a href="forum.php?mod=misc&action=comment&tid={$post['tid']}&pid={$post['pid']}&extra={$_GET['extra']}&page={$page}{if $_G['forum_thread']['special'] == 127}&special={$specialextra}{/if}" class="dialog"><i class="dm-chat-t"></i>{lang comments}</a></li><!--{/if}-->
 			<!--{/if}-->
-			<!--{if $_G['uid'] && !$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
+			<!--{if $_G['uid'] && !$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['repliesrank'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
 				<li><a href="forum.php?mod=misc&action=postreview&do=support&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog replyadd{if $post['postreview']['supported']} active{/if}"><i class="dm-c-up"></i>{lang support_reply} <span id="review_support_{$post['pid']}"{if !$post['postreview']['support']} style="display:none"{/if}>{$post['postreview']['support']}</span></a></li>
 				<li><a href="forum.php?mod=misc&action=postreview&do=against&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog replysubtract{if $post['postreview']['opposed']} active{/if}"><i class="dm-c-down"></i>{lang against_reply} <span id="review_against_{$post['pid']}"{if !$post['postreview']['against']} style="display:none"{/if}>{$post['postreview']['against']}</span></a></li>
 			<!--{/if}-->
 			<!--{if $post['first']}-->
 				<!--{if $_G['uid'] == $post['authorid']}-->
 				<li><a href="javascript:;" onclick="bumpthread()"><i></i><i class="dm-c-up"></i>{lang bump}</a></li>
-				<!--{elseif $_G['group']['allowrecommend'] && !empty($_G['setting']['recommendthread']['status'])}-->
-					<!--{if !empty($_G['setting']['recommendthread']['addtext'])}-->
-					<li><a href="forum.php?mod=misc&action=recommend&do=add&tid={$_G['tid']}&hash={FORMHASH}" class="dialog"><i></i><i class="dm-c-up"></i>{$_G['setting']['recommendthread']['addtext']}<span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>{$_G['forum_thread']['recommend_add']}</span></a></li>
-					<!--{/if}-->
-					<!--{if !empty($_G['setting']['recommendthread']['subtracttext'])}-->
-					<li><a href="forum.php?mod=misc&action=recommend&do=subtract&tid={$_G['tid']}&hash={FORMHASH}" class="dialog"><i></i><i class="dm-c-down"></i>{$_G['setting']['recommendthread']['subtracttext']}<span id="recommendv_subtract"{if !$_G['forum_thread']['recommend_sub']} style="display:none"{/if}>{$_G['forum_thread']['recommend_sub']}</span></a></li>
-					<!--{/if}-->
 				<!--{/if}-->
 			<!--{/if}-->
 			<!--{if $_G['forum_thread']['special'] == 3 && ($_G['forum']['ismoderator'] && (!$_G['setting']['rewardexpiration'] || $_G['setting']['rewardexpiration'] > 0 && ($_G[timestamp] - $_G['forum_thread']['dateline']) / 86400 > $_G['setting']['rewardexpiration']) || $_G['forum_thread']['authorid'] == $_G['uid']) && $post['authorid'] != $_G['forum_thread']['authorid'] && $post['first'] == 0 && $_G['uid'] != $post['authorid'] && $_G['forum_thread']['price'] > 0}-->

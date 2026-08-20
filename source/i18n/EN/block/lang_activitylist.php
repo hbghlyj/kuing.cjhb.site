@@ -71,7 +71,6 @@ $lang = array
 	'activitylist_orderby_replies' => '按回复数倒序排序',
 	'activitylist_orderby_views' => '按浏览次数倒序排序',
 	'activitylist_orderby_heats' => '按热度倒序排序',
-	'activitylist_orderby_recommends' => '按主题评价倒序排序',
 	'activitylist_orderby_hourviews' => '按指定时间内浏览次数倒序排序',
 	'activitylist_orderby_todayviews' => '按当天浏览次数倒序排序',
 	'activitylist_orderby_weekviews' => '按本周浏览次数倒序排序',

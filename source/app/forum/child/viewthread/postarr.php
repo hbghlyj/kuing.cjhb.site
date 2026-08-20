@@ -109,7 +109,7 @@ $tagnames = $hotpostarr = $hotpids = $member_blackList = [];
 
 $remainhots = ($_G['page'] == 1 && !$rushreply && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
 if($remainhots) {
-	$hotpids = array_keys(table_forum_hotreply_number::t()->fetch_all_by_tid_total($_G['tid'], 10));
+	$hotpids = array_keys(table_forum_hotreply_number::t()->fetch_all_by_tid_total($_G['tid'], 10, $_G['forum_firstpid']));
 	$remainhots = $remainhots - count($hotpids);
 }
 

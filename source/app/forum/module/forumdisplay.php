@@ -318,7 +318,7 @@ $filteradd = $sortoptionurl = $sp = '';
 $sorturladdarray = $selectadd = [];
 $forumdisplayadd = ['orderby' => ''];
 $specialtype = ['poll' => 1, 'trade' => 2, 'reward' => 3, 'activity' => 4, 'debate' => 5];
-$filterfield = ['digest', 'recommend', 'sortall', 'typeid', 'sortid', 'dateline', 'page', 'orderby', 'specialtype', 'author', 'view', 'reply', 'lastpost', 'heat', 'hot', 'recommends', 'heats'];
+$filterfield = ['digest', 'sortall', 'typeid', 'sortid', 'dateline', 'page', 'orderby', 'specialtype', 'author', 'view', 'reply', 'lastpost', 'heat', 'hot', 'heats'];
 
 foreach($filterfield as $v) {
 	$forumdisplayadd[$v] = '';
@@ -359,8 +359,6 @@ if($filter && $filter != 'hot') {
 					if(in_array($field, $filterfield)) {
 						if($field == 'digest') {
 							$filterarr['digest'] = 1;
-						} elseif($field == 'recommend') {
-							$filterarr['recommends'] = intval($_G['setting']['recommendthread']['iconlevels'][0]);
 						} elseif($field == 'specialtype') {
 							$filterarr['special'] = $specialtype[$value];
 							$filterarr['specialthread'] = 1;
@@ -397,10 +395,12 @@ if($filter && $filter != 'hot') {
 	$simplestyle = true;
 }
 
-if(!empty($_GET['orderby']) && empty($_G['setting']['closeforumorderby']) && in_array($_GET['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'recommends', 'heats'])) {
+$allowedOrderFields = ['lastpost', 'dateline', 'replies', 'views', 'heats'];
+if(!empty($_GET['orderby']) && empty($_G['setting']['closeforumorderby']) && in_array($_GET['orderby'], $allowedOrderFields)) {
 	$forumdisplayadd['orderby'] .= '&orderby='.$_GET['orderby'];
 } else {
-	$_GET['orderby'] = $_G['cache']['forums'][$_G['fid']]['orderby'] ?? 'lastpost';
+	$defaultOrderField = $_G['cache']['forums'][$_G['fid']]['orderby'] ?? 'lastpost';
+	$_GET['orderby'] = in_array($defaultOrderField, $allowedOrderFields) ? $defaultOrderField : 'lastpost';
 }
 
 $_GET['ascdesc'] = $_G['cache']['forums'][$_G['fid']]['ascdesc'] ?? 'DESC';
@@ -647,16 +647,6 @@ foreach($threadlist as $thread) {
 		$thread['highlight'] .= '"';
 	} else {
 		$thread['highlight'] = '';
-	}
-
-	$thread['recommendicon'] = '';
-	if(!empty($_G['setting']['recommendthread']['status']) && $thread['recommends']) {
-		foreach($_G['setting']['recommendthread']['iconlevels'] as $k => $i) {
-			if($thread['recommends'] > $i) {
-				$thread['recommendicon'] = $k + 1;
-				break;
-			}
-		}
 	}
 
 	$thread['moved'] = $thread['heatlevel'] = $thread['new'] = 0;

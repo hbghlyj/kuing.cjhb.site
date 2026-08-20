@@ -59,7 +59,6 @@ $lang =
 	'perms_maxsigsize' => '最大簽名長度',
 	'perms_allowsigbbcode' => '簽名中使用編輯器代碼',
 	'perms_allowsigimgcode' => '簽名中使用 [img] 代碼',
-	'perms_allowrecommend' => '主題評價影響值',
 	'perms_allowcommentpost' => '允許參與點評',
 	'perms_allowmediacode' => '允許使用多媒體代碼',
 	'perms_allowgetattach' => '下載附件',

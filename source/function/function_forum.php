@@ -583,7 +583,6 @@ function loadforum($fid = null, $tid = null) {
 						$groupuserinfo = table_forum_groupuser::t()->fetch_userinfo($_G['uid'], $fid);
 						$_G['isgroupuser'] = $groupuserinfo['level'];
 						if($_G['isgroupuser'] <= 0 && empty($forum['ismoderator'])) {
-							$_G['group']['allowrecommend'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowrecommend'] = 0;
 							$_G['group']['allowcommentpost'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowcommentpost'] = 0;
 							$_G['group']['allowcommentitem'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowcommentitem'] = 0;
 							$_G['group']['allowvote'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowvote'] = 0;

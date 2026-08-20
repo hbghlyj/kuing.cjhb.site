@@ -350,24 +350,6 @@ function succeedhandle_postappend(locationhref, message, param) {
 	hideWindow('postappend');
 }
 
-function recommendupdate(n) {
-	var objv = n > 0 ? $('recommendv_add') : $('recommendv_subtract');
-	if(objv) {
-		objv.style.display = '';
-		objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) + 1;
-	}
-	setTimeout(function () {
-		var count = $('recommentc');
-		var panel = $('recommentv');
-		if(count) {
-			count.innerHTML = parseInt(count.innerHTML) + n;
-		}
-		if(panel) {
-			panel.style.display = 'none';
-		}
-	}, 1000);
-}
-
 function postreviewupdate(pid, n, username) {
 	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
 	var action = objv.parentNode;

@@ -18,15 +18,6 @@ $settings = array(
 		0 => $lang['init_postno0'], 1 => $lang['init_postno1'], 2 => $lang['init_postno2'], 3 => $lang['init_postno3']
 	),
 
-	'recommendthread' => array(
-		'status' => '1',
-		'addtext' => $lang['init_support'],
-		'subtracttext' => $lang['init_opposition'],
-		'defaultshow' => '1',
-		'daycount' => '0',
-		'ownthread' => '0',
-		'iconlevels' => '0,100,200',
-	),
 
 	'tasktypes' => array(
 		'gift' => array(

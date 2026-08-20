@@ -462,7 +462,6 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 				[1, cplang('forums_edit_extend_order_starttime')],
 				[2, cplang('forums_edit_extend_order_replies')],
 				[3, cplang('forums_edit_extend_order_views')],
-				[4, cplang('forums_edit_extend_order_recommends')],
 				[5, cplang('forums_edit_extend_order_heats')]
 			]], $forum['defaultorderfield'], 'mradio');
 			showsetting('forums_edit_extend_defaultorder', ['defaultordernew', [
@@ -497,7 +496,6 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 				[2, cplang('forums_edit_extend_recommend_orderby_views')],
 				[3, cplang('forums_edit_extend_recommend_orderby_replies')],
 				[4, cplang('forums_edit_extend_recommend_orderby_digest')],
-				[5, cplang('forums_edit_extend_recommend_orderby_recommend')],
 				[6, cplang('forums_edit_extend_recommend_orderby_heats')],
 			]], $forum['modrecommend']['orderby'], 'mradio');
 			showsetting('forums_edit_extend_recommend_num', 'modrecommendnew[num]', $forum['modrecommend']['num'], 'text');

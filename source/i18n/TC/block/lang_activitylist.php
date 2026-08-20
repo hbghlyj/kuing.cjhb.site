@@ -70,7 +70,6 @@ $lang =
 	'activitylist_orderby_replies' => '按回覆數倒序排序',
 	'activitylist_orderby_views' => '按瀏覽次數倒序排序',
 	'activitylist_orderby_heats' => '按熱度倒序排序',
-	'activitylist_orderby_recommends' => '按主題評價倒序排序',
 	'activitylist_orderby_hourviews' => '按指定時間內瀏覽次數倒序排序',
 	'activitylist_orderby_todayviews' => '按當天瀏覽次數倒序排序',
 	'activitylist_orderby_weekviews' => '按本週瀏覽次數倒序排序',
