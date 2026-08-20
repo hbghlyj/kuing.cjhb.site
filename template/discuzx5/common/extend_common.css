@@ -1260,8 +1260,12 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 	white-space: nowrap;
 	text-align: right;
 }
+/* No explicit grid-column here: rows may hold more than one td (e.g. the
+   login/register submit rows carry a second td with an info icon). Explicit
+   placement would stack them all on column 2, and the later td's box then
+   intercepts clicks on the button underneath. Auto-placement assigns the
+   first td to column 2 and any following td to column 3. */
 .rfm td:not(.tipcol) {
-	grid-column: 2;
 	grid-row: 1;
 	min-width: 0;
 }
@@ -1319,11 +1323,12 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 @media screen and (max-width: 760px) {
 	.rfm { width: 100%; --rfm-field-w: 100%; }
 	.rfm tr { grid-template-columns: 1fr; }
+	/* Stack cells in DOM order; explicit rows would overlap when a row
+	   carries two td cells (e.g. the submit rows). */
 	.rfm th,
 	.rfm td:not(.tipcol),
-	.rfm td.tipcol { grid-column: 1; }
-	.rfm th { grid-row: 1; text-align: left; }
-	.rfm td:not(.tipcol) { grid-row: 2; }
-	.rfm td.tipcol { grid-row: 3; padding-top: 4px; }
+	.rfm td.tipcol { grid-column: 1; grid-row: auto; }
+	.rfm th { text-align: left; }
+	.rfm td.tipcol { padding-top: 4px; }
 }
 
