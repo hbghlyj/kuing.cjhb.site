@@ -149,6 +149,7 @@ $lang = [
 	'visitmsg_5' => '好漂亮的空間啊',
 	'visitmsg_6' => '最近在忙什麼呢',
 	'experience' => '經驗',
+	'karma' => '威望',
 	'you_chance_pre_week' => '本週期內，您還有 $rule[\'cyclenum\'] 次機會',
 	'enter_password' => '您需要正確輸入密碼後才能繼續查看：',
 	'password_authentication' => '密碼驗證',

@@ -326,7 +326,7 @@ $data = [[
     'svalue' => 'min(extcredits1,max(10,extcredits2))',
   ],[
     'skey' => 'creditsformulaexp',
-    'svalue' => '<u>{credits_CREDITS}</u>=min(<u>EXP</u>,max(10,<u>Karma</u>))',
+    'svalue' => '<u>{credits_CREDITS}</u>=min(<u>經驗</u>,max(10,<u>威望</u>))',
   ],[
     'skey' => 'creditsnotify',
     'svalue' => '',

@@ -148,6 +148,7 @@ $lang = array (
 	'visitmsg_5'			=> 'Ah, what the beautiful space',//'好漂亮的空间啊',
 	'visitmsg_6'			=> 'What are you up do',//'最近在忙什么呢',
 	'experience'			=> 'Experience',//'经验',
+	'karma'			=> 'Karma',
 	'you_chance_pre_week'		=> 'At his week you have $rule[cyclenum] chances',//'本周期内，您还有 $rule[cyclenum] 次机会',
 	'enter_password'		=> 'You have to enter the correct password to continue to view:',//'您需要正确输入密码后才能继续查看：',
 	'password_authentication'	=> 'Password authentication',//'密码验证',
