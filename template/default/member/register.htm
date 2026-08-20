@@ -145,8 +145,8 @@
 							<div class="rfm">
 								<table>
 									<tr>
-										<th><!--{if $_G['setting']['regverify']}--><span class="rq">*</span><!--{/if}--><label for="{$this->setting['reginput']['email']}">{lang email}:</label></th>
-										<td><input type="email" id="{$this->setting['reginput']['email']}" name="" size="25" class="px" value="$hash[0]" {if $_G['setting']['regverify']}required{/if} /><br><em id="emailmore">&nbsp;</em></td>
+										<th><span class="rq">*</span><label for="{$this->setting['reginput']['email']}">{lang email}:</label></th>
+										<td><input type="email" id="{$this->setting['reginput']['email']}" name="" size="25" class="px" value="$hash[0]" required /><br><em id="emailmore">&nbsp;</em></td>
 										<td class="tipcol"><i id="tip_{$this->setting['reginput']['email']}" class="p_tip">{lang register_email_tips}</i><kbd id="chk_{$this->setting['reginput']['email']}" class="p_chk"></kbd></td>
 									</tr>
 								</table>
