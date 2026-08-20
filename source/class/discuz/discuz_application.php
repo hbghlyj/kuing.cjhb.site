@@ -443,13 +443,15 @@ class discuz_application extends discuz_base {
 		static $check = ['CONTENT-TRANSFER-ENCODING'];
 		$formhashchecked = false;
 
-		if(isset($_GET['formhash']) && $_GET['formhash'] !== formhash()) {
+	if(isset($_GET['formhash']) && $_GET['formhash'] !== formhash()) {
 			if(defined('CURMODULE') && constant('CURMODULE') == 'logging' && isset($_GET['action']) && $_GET['action'] == 'logout') {
-				header('HTTP/1.1 302 Found');// 修复多次点击退出时偶发“您当前的访问请求当中含有非法字符，已经被系统拒绝”的Bug
+				header('HTTP/1.1 302 Found');// 修复多次点击退出时偶发"您当前的访问请求当中含有非法字符，已经被系统拒绝"的Bug
 				header('Location: index.php');
 				exit();
 			} else {
-				system_error('request_tainting');
+				header('HTTP/1.1 302 Found');
+				header('Location: index.php');
+				exit();
 			}
 		}
 		if((isset($_GET['formhash']) && $_GET['formhash'] === formhash()) || (isset($_POST['formhash']) && $_POST['formhash'] === formhash())) {
