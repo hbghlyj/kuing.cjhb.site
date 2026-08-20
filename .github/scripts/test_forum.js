@@ -612,7 +612,32 @@ const testPusherLeaderCoordination = async browser => {
         await page.goto('http://127.0.0.1:8080/forum.php');
         await page.waitForLoadState('networkidle');
         assert.strictEqual(await page.locator('#ct').count(), 1, 'Assertion Error: Desktop forum index content container did not render.');
-        assert.ok(await page.locator('#category_grid, .fl').count() > 0, 'Assertion Error: Desktop forum index did not render a forum list.');
+        const layout = await page.locator('#ct.wp').evaluate(element => ({
+            width: Math.round(element.getBoundingClientRect().width),
+            wide: document.body.classList.contains('dz_wide')
+        }));
+        const allowWidthAuto = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT svalue FROM pre_common_setting WHERE skey='allowwidthauto';\"").toString().trim();
+        assert.strictEqual(
+            layout.wide,
+            allowWidthAuto === '1',
+            `Assertion Error: Desktop forum index wide-mode class did not match allowwidthauto=${allowWidthAuto}.`
+        );
+        if (layout.wide) {
+            assert.strictEqual(layout.width, 1200, `Assertion Error: Wide desktop forum index .wp width was ${layout.width}px, expected 1200px.`);
+        } else {
+            assert.ok(
+                layout.width > 0 && layout.width <= 960,
+                `Assertion Error: Narrow desktop forum index .wp width was ${layout.width}px, expected at most 960px.`
+            );
+        }
+        const forumGrids = await page.locator('#forum-index-boards .fl_grid').evaluateAll(grids => grids.map(grid => ({
+            columns: getComputedStyle(grid).gridTemplateColumns.split(/\s+/).filter(Boolean).length,
+            cards: grid.querySelectorAll(':scope > .fl_g').length
+        })));
+        assert.ok(
+            forumGrids.some(grid => grid.columns >= 2 && grid.cards > 1),
+            'Assertion Error: Desktop forum index did not render the expected multi-column forum list.'
+        );
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
