@@ -682,6 +682,15 @@ a.editlog:focus {color:var(--dz-BG-color);border-color:var(--dz-BG-color);}
 .jump_c {padding:100px 15px;background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed);border-bottom:1px solid var(--dz-BOR-ed);margin-top:10px;font-size:15px}
 .jump_c p {line-height:26px}
 .jump_c p .grey {color:var(--dz-FC-999)}
+/* Credit-change notifications are created by the shared common.js/common_extra.js
+   path in #ntcwin. Keep the touch version responsive instead of inheriting an
+   unstyled, transparent desktop-only .pc_inner. */
+#ntcwin .pc_inner {box-sizing:border-box;width:min(300px,calc(100vw - 30px));min-width:0;min-height:48px;height:auto;padding:12px 15px;background:var(--dz-FC-a);background-image:none;border:0;border-radius:var(--dz-radius-md);box-shadow:var(--dz-shadow-lg);color:var(--dz-FC-fff);line-height:24px;text-align:center;white-space:normal}
+#ntcwin .pc_inner i {margin:0 4px;color:var(--dz-FC-fff);font-size:13px;font-style:normal}
+#ntcwin .pc_inner span {display:inline-block;margin-right:5px;color:var(--dz-FC-fff);font-size:14px;font-weight:normal;white-space:nowrap}
+#ntcwin .pc_inner span a {color:var(--dz-FC-fff)}
+#ntcwin .pc_inner span em {margin:0 4px;color:var(--dz-FC-fff);font-size:16px;font-style:normal}
+#ntcwin .pc_inner span em.desc {color:var(--dz-FC-fff)}
 .tip {width:300px;margin:auto;text-align:center;background-color:var(--dz-BG-0);border:1px solid var(--dz-BOR-ed);border-radius:var(--dz-radius-lg)}
 .tip .tit {font-weight: bold;}
 .tip dt {padding:25px 20px;line-height:30px;font-size:14px}
