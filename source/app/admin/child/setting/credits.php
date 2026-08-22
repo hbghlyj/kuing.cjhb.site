@@ -52,10 +52,22 @@ if(submitcheck('settingsubmit')) {
 				if($value['available'] && !$value['title']) {
 					cpmsg('setting_credits_title_invalid', '', 'error');
 				}
-				$extcreditsarray[$key] =
+					$rawTitle = $value['title'] ?? '';
+					$titlemap = [];
+					if(is_array($rawTitle)) {
+						foreach(['EN', 'SC', 'TC'] as $locale) {
+							$titlemap[$locale] = dhtmlspecialchars(trim($rawTitle[$locale] ?? ''));
+						}
+					} else {
+						$titlemap = array_fill_keys(['EN', 'SC', 'TC'], dhtmlspecialchars(trim($rawTitle)));
+					}
+					if($value['available'] && count(array_filter($titlemap)) < 3) {
+						cpmsg('setting_credits_title_invalid', '', 'error');
+					}
+					$extcreditsarray[$key] =
 					[
 						'img' => dhtmlspecialchars($value['img']),
-						'title' => dhtmlspecialchars($value['title']),
+						'title' => $titlemap,
 						'unit' => dhtmlspecialchars($value['unit']),
 						'ratio' => ($value['ratio'] > 0 ? (float)$value['ratio'] : 0),
 						'available' => $value['available'],
@@ -80,7 +92,7 @@ if(submitcheck('settingsubmit')) {
 		$settingnew['creditsformulaexp'] = $settingnew['creditsformula'];
 		foreach(['digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'blogs', 'albums', 'polls', 'sharings', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'] as $var) {
 			if($extcreditsarray[$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var)]['available']) {
-				$replacement = $extcreditsarray[$creditsid]['title'];
+				$replacement = extcredit_title($extcreditsarray[$creditsid]['title']);
 			} else {
 				$replacement = '{credits_'.strtoupper($var).'}';
 			}
@@ -129,6 +141,7 @@ if(submitcheck('settingsubmit')) {
 	/*search={"setting_credits":"action=setting&operation=credits","setting_credits_base":"action=setting&operation=credits&anchor=base"}*/
 	$setting['extcredits'] = dunserialize($setting['extcredits']);
 	$setting['initcredits'] = explode(',', $setting['initcredits']);
+	$creditlocales = ['EN', 'SC', 'TC'];
 	$extcreditsbtn = '';
 	for($i = 1; $i <= 8; $i++) {
 		$extcredittitle = $_G['setting']['extcredits'][$i]['title'] ? $_G['setting']['extcredits'][$i]['title'] : cplang('setting_credits_formula_extcredits').$i;
@@ -152,7 +165,13 @@ if(submitcheck('settingsubmit')) {
 			$creditsetting[8] = '<td class="td23">'.cplang('credits_import').'</td>';
 		}
 		$title[] = "<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[extcredits][$i][available]\" value=\"1\" ".($setting['extcredits'][$i]['available'] ? 'checked' : '').">extcredits$i";
-		$creditsetting[0] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[extcredits][$i][title]\" value=\"{$setting['extcredits'][$i]['title']}\"></td>";
+		$legacyTitle = is_array($setting['extcredits'][$i]['title']) ? '' : $setting['extcredits'][$i]['title'];
+		$creditTitles = is_array($setting['extcredits'][$i]['title']) ? $setting['extcredits'][$i]['title'] : array_fill_keys($creditlocales, $legacyTitle);
+		$titleInputs = [];
+		foreach($creditlocales as $locale) {
+			$titleInputs[] = $locale.': <input type="text" class="txt" name="settingnew[extcredits]['.$i.'][title]['.$locale.']" value="'.dhtmlspecialchars($creditTitles[$locale] ?? '').'">';
+		}
+		$creditsetting[0] .= '<td class="td32">'.implode('<br>', $titleInputs).'</td>';
 		$creditsetting[2] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" style=\"margin-right:0\" name=\"settingnew[extcredits][$i][img]\" value=\"{$setting['extcredits'][$i]['img']}\">".($setting['extcredits'][$i]['img'] ? ' <img src="'.$setting['extcredits'][$i]['img'].'" class="vmiddle">' : '').'</td>';
 		$creditsetting[3] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[extcredits][$i][unit]\" value=\"{$setting['extcredits'][$i]['unit']}\"></td>";
 		$creditsetting[4] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" name=\"settingnew[initcredits][$i]\" value=\"".intval($setting['initcredits'][$i])."\"></td>";
@@ -236,7 +255,7 @@ EOF;
 	for($si = 0; $si < 14; $si++) {
 		$_G['setting']['creditstrans'][$si] = '';
 		for($i = 0; $i <= 8; $i++) {
-			$_G['setting']['creditstrans'][$si] .= '<option value="'.$i.'" '.($i == $setting['creditstrans'][$si] ? 'selected' : '').'>'.($i ? 'extcredits'.$i.($setting['extcredits'][$i]['title'] ? '('.$setting['extcredits'][$i]['title'].')' : '') : ($si > 0 ? ($si != 11 ? $lang['setting_credits_trans_used'] : $lang['setting_credits_trans_credits']) : $lang['none'])).'</option>';
+		$_G['setting']['creditstrans'][$si] .= '<option value="'.$i.'" '.($i == $setting['creditstrans'][$si] ? 'selected' : '').'>'.($i ? 'extcredits'.$i.($setting['extcredits'][$i]['title'] ? '('.extcredit_title($setting['extcredits'][$i]['title']).')' : '') : ($si > 0 ? ($si != 11 ? $lang['setting_credits_trans_used'] : $lang['setting_credits_trans_credits']) : $lang['none'])).'</option>';
 		}
 	}
 	showsetting('setting_credits_trans', '', '', '<select onchange="if(this.value > 0) {$(\'creditstransextra\').style.display = \'\';} else {$(\'creditstransextra\').style.display = \'none\';}" name="settingnew[creditstrans][0]">'.$_G['setting']['creditstrans'][0].'</select>');

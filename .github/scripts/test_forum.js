@@ -796,9 +796,9 @@ const testPusherLeaderCoordination = async browser => {
 
         assert.match(currentUrl, new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), `Assertion Error: Normal user posting did not redirect to the created thread (tid ${tidOutput}).`);
         assert.ok(postContent.includes(standardSubject), 'Assertion Error: Created thread subject was not rendered after submission.');
-        const creditLabels = await page.evaluate(() => window.creditlabels || '');
-        assert.match(creditLabels, /1\|Experience(?:,|$)/, 'Assertion Error: Credit prompt did not expose the localized Experience label.');
-        assert.match(creditLabels, /2\|Karma(?:,|$)/, 'Assertion Error: Credit prompt did not expose the localized Karma label.');
+		const creditNotice = await page.evaluate(() => window.creditnotice || '');
+		assert.match(creditNotice, /1\|Experience(?:\||,|$)/, 'Assertion Error: Credit prompt did not expose the localized Experience label.');
+		assert.match(creditNotice, /2\|Karma(?:\||,|$)/, 'Assertion Error: Credit prompt did not expose the localized Karma label.');
         const creditPrompt = page.locator('#creditpromptdiv');
         await creditPrompt.waitFor({ state: 'visible', timeout: 5000 });
         const creditPromptText = (await creditPrompt.textContent()).trim();
