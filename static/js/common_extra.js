@@ -1053,11 +1053,18 @@ function _showCreditPrompt() {
 		return;
 	}
 	var creditnames = creditnotice.split(',');
+	var localizedCreditNames = {};
+	if(typeof creditlabels === 'string' && creditlabels) {
+		creditlabels.split(',').forEach(function(label) {
+			var parts = label.split('|');
+			if(parts.length > 1) localizedCreditNames[parts[0]] = parts[1];
+		});
+	}
 	var creditinfo = [];
 	var e;
 	for(var i = 0; i < creditnames.length; i++) {
 		e = creditnames[i].split('|');
-		creditinfo[e[0]] = [e[1], e[2]];
+		creditinfo[e[0]] = [localizedCreditNames[e[0]] || e[1], e[2]];
 	}
 	creditShow(creditinfo, notice, basev, 0, 1, creditrule);
 }

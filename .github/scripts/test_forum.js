@@ -796,13 +796,13 @@ const testPusherLeaderCoordination = async browser => {
 
         assert.match(currentUrl, new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), `Assertion Error: Normal user posting did not redirect to the created thread (tid ${tidOutput}).`);
         assert.ok(postContent.includes(standardSubject), 'Assertion Error: Created thread subject was not rendered after submission.');
-        const creditNames = await page.evaluate(() => window.creditnotice || '');
-        assert.match(creditNames, /1\|EXP\|/, 'Assertion Error: Credit prompt metadata did not localize extcredits1 as EXP.');
-        assert.match(creditNames, /2\|Karma\|/, 'Assertion Error: Credit prompt metadata did not localize extcredits2 as Karma.');
+        const creditLabels = await page.evaluate(() => window.creditlabels || '');
+        assert.match(creditLabels, /1\|Experience(?:,|$)/, 'Assertion Error: Credit prompt did not expose the localized Experience label.');
+        assert.match(creditLabels, /2\|Karma(?:,|$)/, 'Assertion Error: Credit prompt did not expose the localized Karma label.');
         const creditPrompt = page.locator('#creditpromptdiv');
         await creditPrompt.waitFor({ state: 'visible', timeout: 5000 });
         const creditPromptText = (await creditPrompt.textContent()).trim();
-        assert.ok(creditPromptText.includes('EXP'), 'Assertion Error: Credit update prompt did not show EXP.');
+        assert.ok(creditPromptText.includes('Experience'), 'Assertion Error: Credit update prompt did not show Experience.');
         assert.ok(!creditPromptText.includes('|'), 'Assertion Error: Credit update prompt exposed internal credit-name separators.');
         report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
