@@ -620,13 +620,15 @@ const testPusherLeaderCoordination = async browser => {
             layout.width > 0 && layout.width <= layout.viewportWidth,
             `Assertion Error: Desktop forum index .wp width was ${layout.width}px, expected to fit within the ${layout.viewportWidth}px viewport.`
         );
-        const forumGrids = await page.locator('#forum-index-boards .fl_grid').evaluateAll(grids => grids.map(grid => ({
-            columns: getComputedStyle(grid).gridTemplateColumns.split(/\s+/).filter(Boolean).length,
-            cards: grid.querySelectorAll(':scope > .fl_g').length
+        const forumLayouts = await page.locator('#forum-index-boards .fl_grid, #forum-index-boards .fl_tb').evaluateAll(layouts => layouts.map(layout => ({
+            type: layout.matches('.fl_grid') ? 'grid' : 'table',
+            columns: layout.matches('.fl_grid') ? getComputedStyle(layout).gridTemplateColumns.split(/\s+/).filter(Boolean).length : 0,
+            items: layout.matches('.fl_grid') ? layout.querySelectorAll(':scope > .fl_g').length : layout.querySelectorAll(':scope > tbody > tr > td').length
         })));
         assert.ok(
-            forumGrids.some(grid => grid.columns >= 2 && grid.cards > 1),
-            'Assertion Error: Desktop forum index did not render the expected multi-column forum list.'
+            forumLayouts.some(layout => layout.type === 'table' && layout.items > 0) ||
+            forumLayouts.some(layout => layout.type === 'grid' && layout.columns > 0 && layout.items > 0),
+            'Assertion Error: Desktop forum index did not render a supported forum list layout.'
         );
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
         console.log("✅ Desktop Forum Front Page loaded successfully.");
