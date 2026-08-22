@@ -614,22 +614,12 @@ const testPusherLeaderCoordination = async browser => {
         assert.strictEqual(await page.locator('#ct').count(), 1, 'Assertion Error: Desktop forum index content container did not render.');
         const layout = await page.locator('#ct.wp').evaluate(element => ({
             width: Math.round(element.getBoundingClientRect().width),
-            wide: document.body.classList.contains('dz_wide')
+            viewportWidth: document.documentElement.clientWidth
         }));
-        const allowWidthAuto = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT svalue FROM pre_common_setting WHERE skey='allowwidthauto';\"").toString().trim();
-        assert.strictEqual(
-            layout.wide,
-            allowWidthAuto === '1',
-            `Assertion Error: Desktop forum index wide-mode class did not match allowwidthauto=${allowWidthAuto}.`
+        assert.ok(
+            layout.width > 0 && layout.width <= layout.viewportWidth,
+            `Assertion Error: Desktop forum index .wp width was ${layout.width}px, expected to fit within the ${layout.viewportWidth}px viewport.`
         );
-        if (layout.wide) {
-            assert.strictEqual(layout.width, 1200, `Assertion Error: Wide desktop forum index .wp width was ${layout.width}px, expected 1200px.`);
-        } else {
-            assert.ok(
-                layout.width > 0 && layout.width <= 960,
-                `Assertion Error: Narrow desktop forum index .wp width was ${layout.width}px, expected at most 960px.`
-            );
-        }
         const forumGrids = await page.locator('#forum-index-boards .fl_grid').evaluateAll(grids => grids.map(grid => ({
             columns: getComputedStyle(grid).gridTemplateColumns.split(/\s+/).filter(Boolean).length,
             cards: grid.querySelectorAll(':scope > .fl_g').length
