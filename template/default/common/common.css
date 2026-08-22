@@ -91,6 +91,7 @@ Last Modify:	Pony
 	body { {BGCODE}; }
 	textarea { resize: vertical; }
 	body, button, select { font: {FONTSIZE} Verdana,system-ui; color: {TABLETEXT}; }
+	iframe { font: inherit; }
 	input, textarea { font: 1em / 1.5 Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; color: {TABLETEXT}; }
 	* { overflow-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
