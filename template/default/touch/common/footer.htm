@@ -136,7 +136,7 @@
 	<script src="/chat/PusherForumMetadata.js?{VERHASH}"></script>
 	<!--{if $_G['basescript'] == 'forum' && $_GET['mod'] == 'find'}-->
 		<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet">
-		<style>.pusher-chat-widget ul.activity-stream{max-height: calc(100dvh - 136px);}</style>
+		<style>.pusher-chat-widget{position:fixed;left:0;right:0;bottom:60px;z-index:99998;margin:0;}.pusher-chat-widget ul.activity-stream{max-height:calc(100dvh - 136px);}</style>
 		<script src="/chat/pusher.min.js"></script>
 		<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 	<!--{/if}-->
