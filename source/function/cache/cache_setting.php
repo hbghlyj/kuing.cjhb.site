@@ -38,9 +38,6 @@ function build_cache_setting() {
 			if(is_array($setting['svalue'] = dunserialize($setting['svalue']))) {
 				foreach($setting['svalue'] as $key => $value) {
 					if($value['available']) {
-						if(is_array($value['title'])) {
-							$setting['svalue'][$key]['title'] = extcredit_title($value['title']);
-						}
 						unset($setting['svalue'][$key]['available']);
 					} else {
 						unset($setting['svalue'][$key]);
@@ -100,19 +97,6 @@ function build_cache_setting() {
 		}
 		$_G['setting'][$setting['skey']] = $data[$setting['skey']] = $setting['svalue'];
 	}
-	if(!empty($data['creditsformula'])) {
-		$data['creditsformulaexp'] = $data['creditsformula'];
-		foreach(['digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'blogs', 'albums', 'polls', 'sharings', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'] as $var) {
-			$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
-			$replacement = isset($data['extcredits'][$creditsid])
-				? $data['extcredits'][$creditsid]['title']
-				: lang('spacecp', 'credits_formula_'.$var);
-			$data['creditsformulaexp'] = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $data['creditsformulaexp']);
-		}
-		$data['creditsformulaexp'] = addslashes('<u>{credits_CREDITS}</u>='.$data['creditsformulaexp']);
-		$_G['setting']['creditsformulaexp'] = $data['creditsformulaexp'];
-	}
-
 	$usergroup = table_common_usergroup::t()->fetch_by_credits($data['initcredits']);
 	$data['newusergroupid'] = $usergroup['groupid'];
 	$data['buyusergroupexists'] = table_common_usergroup::t()->buyusergroup_exists();
@@ -310,9 +294,7 @@ function build_cache_setting() {
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
 			$credit['allowexchangeout'] && $allowexchangeout = TRUE;
 		}
-		$data['creditnotice'] && $data['creditnames'][] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
 	}
-	$data['creditnames'] = $data['creditnotice'] ? @implode(',', $data['creditnames']) : '';
 
 	$creditstranssi = explode(',', $data['creditstrans']);
 	$data['creditstrans'] = $creditstranssi[0];
@@ -363,9 +345,8 @@ function build_cache_setting() {
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
 			$credit['allowexchangeout'] && $allowexchangeout = TRUE;
 		}
-		$data['creditnotice'] && $data['creditnames'][] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
 	}
-	$data['creditnames'] = $data['creditnotice'] ? @implode(',', $data['creditnames']) : '';
+	$data['creditnames'] = '';
 
 	$creditstranssi = explode(',', $data['creditstrans']);
 	$data['creditstrans'] = $creditstranssi[0];

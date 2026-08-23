@@ -169,7 +169,8 @@ if(submitcheck('settingsubmit')) {
 		$creditTitles = is_array($setting['extcredits'][$i]['title']) ? $setting['extcredits'][$i]['title'] : array_fill_keys($creditlocales, $legacyTitle);
 		$titleInputs = [];
 		foreach($creditlocales as $locale) {
-			$titleInputs[] = $locale.': <input type="text" class="txt" name="settingnew[extcredits]['.$i.'][title]['.$locale.']" value="'.dhtmlspecialchars($creditTitles[$locale] ?? '').'">';
+			$titleValue = htmlspecialchars_decode((string)($creditTitles[$locale] ?? ''), ENT_QUOTES);
+			$titleInputs[] = $locale.': <input type="text" class="txt" name="settingnew[extcredits]['.$i.'][title]['.$locale.']" value="'.dhtmlspecialchars($titleValue).'">';
 		}
 		$creditsetting[0] .= '<td class="td32">'.implode('<br>', $titleInputs).'</td>';
 		$creditsetting[2] .= "<td class=\"td32\"><input type=\"text\" class=\"txt\" style=\"margin-right:0\" name=\"settingnew[extcredits][$i][img]\" value=\"{$setting['extcredits'][$i]['img']}\">".($setting['extcredits'][$i]['img'] ? ' <img src="'.$setting['extcredits'][$i]['img'].'" class="vmiddle">' : '').'</td>';
