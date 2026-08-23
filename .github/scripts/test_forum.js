@@ -88,11 +88,13 @@ const testPusherLeaderCoordination = async browser => {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
     });
-    await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
     await stubPusher(pusherContext);
     // Exercise heartbeat failover deterministically; Web Locks cannot be stolen
     // from a live but frozen browsing context.
-    await pusherContext.addInitScript(() => { window.KK_PUSHER_FORCE_FALLBACK = true; });
+    await pusherContext.addInitScript(() => {
+        window.KK_PUSHER_FORCE_FALLBACK = true;
+        window.localStorage.setItem('kuing.chat.collapsed', 'true');
+    });
     const pusherPages = await Promise.all([pusherContext.newPage(), pusherContext.newPage(), pusherContext.newPage()]);
     await Promise.all(pusherPages.map(page => page.addInitScript(isolatePusherChannel)));
     try {

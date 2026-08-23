@@ -1,5 +1,28 @@
 (() => {
   const isMobile = typeof popup == 'object';
+  const CHAT_COLLAPSED_STORAGE_KEY = 'kuing.chat.collapsed';
+  const CHAT_LEGACY_COOKIE_PATHS = ['/forum.php', '/member.php', '/connect.php', '/misc.php', '/home.php'];
+  function readChatCollapsedPreference(){
+    try {
+      let value = localStorage.getItem(CHAT_COLLAPSED_STORAGE_KEY);
+      if(value === null){
+        const legacy = document.cookie.match(/(?:^|;\s*)isCollapsed=([^;]*)/);
+        if(legacy){
+          value = legacy[1] === 'true' ? 'true' : 'false';
+          localStorage.setItem(CHAT_COLLAPSED_STORAGE_KEY, value);
+          CHAT_LEGACY_COOKIE_PATHS.forEach(path => {
+            document.cookie = 'isCollapsed=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + path;
+          });
+        }
+      }
+      return value === 'true';
+    } catch(e) {
+      return false;
+    }
+  }
+  function saveChatCollapsedPreference(collapsed){
+    try { localStorage.setItem(CHAT_COLLAPSED_STORAGE_KEY, collapsed ? 'true' : 'false'); } catch(e) {}
+  }
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
   function typesetNodes(targets){
     if(typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function'){
@@ -317,7 +340,8 @@
       this.#messageInputEl = this.#widget.querySelector('textarea');
       this.#messagesEl = this.#widget.querySelector('ul');
       this.#loadMoreButton = this.#widget.querySelector('.pusher-chat-widget-load-more');
-      this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*=\s*([^;]*).*$)|^.*$/, '$1') == 'true';
+      this.isCollapsed = !this.settings.forceOpen && readChatCollapsedPreference();
+      if(this.settings.forceOpen) saveChatCollapsedPreference(false);
       if(isMobile) this.isCollapsed = false;
       this.#chatChannel = this.#pusher.subscribe(this.settings.channelName);
       this.#pusher.connection.bind('connected', () => {
@@ -440,13 +464,6 @@
           }
         });
       }
-      if(document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*\=\s*([^;]*).*$)|^.*$/, '$1')==''){
-        document.cookie='isCollapsed=true; path=/forum.php';
-        document.cookie='isCollapsed=true; path=/member.php';
-        document.cookie='isCollapsed=true; path=/connect.php';
-        document.cookie='isCollapsed=true; path=/misc.php';
-        document.cookie='isCollapsed=true; path=/home.php';
-      }
       if(this.isCollapsed){
         setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), false);
         setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), false);
@@ -455,7 +472,7 @@
           this.#widget.querySelector('.pusher-chat-widget-header').addEventListener('click', () => {
             setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), true);
             setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), true);
-            document.cookie = 'isCollapsed=false; path=' + location.pathname;
+            saveChatCollapsedPreference(false);
             this.isCollapsed = false;
             this.#widget.querySelector('.toggle-icon').innerHTML = '<path d="M7 10l5 5 5-5z"/>';
             this.#init();
@@ -481,7 +498,7 @@
           this.isCollapsed = !this.isCollapsed;
           setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), !this.isCollapsed);
           setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), !this.isCollapsed);
-          document.cookie = 'isCollapsed=' + this.isCollapsed + '; path=' + location.pathname;
+          saveChatCollapsedPreference(this.isCollapsed);
           this.#widget.querySelector('.toggle-icon').innerHTML = this.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>';
         });
       }
@@ -944,7 +961,7 @@
       return desc;
     }
   }
-  const startPusherChat = () => new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body});
+  const startPusherChat = (forceOpen = false) => new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body, forceOpen});
   if(Number(window.discuz_uid || 0) > 0) {
     startPusherChat();
   } else {
@@ -955,7 +972,7 @@
     document.body.appendChild(wakeup);
     wakeup.addEventListener('click', () => {
       wakeup.remove();
-      startPusherChat();
+      startPusherChat(true);
     }, {once: true});
   }
 })();
