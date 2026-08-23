@@ -38,9 +38,6 @@ function build_cache_setting() {
 			if(is_array($setting['svalue'] = dunserialize($setting['svalue']))) {
 				foreach($setting['svalue'] as $key => $value) {
 					if($value['available']) {
-						if(is_array($value['title'])) {
-							$setting['svalue'][$key]['title'] = extcredit_title($value['title']);
-						}
 						unset($setting['svalue'][$key]['available']);
 					} else {
 						unset($setting['svalue'][$key]);
