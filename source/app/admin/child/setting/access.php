@@ -107,7 +107,7 @@ if(submitcheck('settingsubmit')) {
 	$buycredits = $rewardcredits = '';
 	for($i = 0; $i <= 8; $i++) {
 		if($setting['extcredits'][$i]['available']) {
-			$extcredit = 'extcredits'.$i.' ('.$setting['extcredits'][$i]['title'].')';
+			$extcredit = 'extcredits'.$i.' ('.extcredit_title($setting['extcredits'][$i]['title']).')';
 			$buycredits .= '<option value="'.$i.'" '.($i == intval($setting['inviteconfig']['invitecredit']) ? 'selected' : '').'>'.($i ? $extcredit : $lang['none']).'</option>';
 			$rewardcredits .= '<option value="'.$i.'" '.($i == intval($setting['inviteconfig']['inviterewardcredit']) ? 'selected' : '').'>'.($i ? $extcredit : $lang['none']).'</option>';
 		}

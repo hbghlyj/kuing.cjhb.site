@@ -124,7 +124,7 @@ $serialize_sql_setting = array(
 			1 =>
 				array(
 					'img' => '',
-					'title' => 'EXP',
+					'title' => array('EN' => 'Experience', 'SC' => '经验', 'TC' => '經驗'),
 					'unit' => '',
 					'ratio' => 0,
 					'available' => '1',
@@ -135,7 +135,7 @@ $serialize_sql_setting = array(
 			2 =>
 				array(
 					'img' => '',
-					'title' => 'Karma',
+					'title' => array('EN' => 'Karma', 'SC' => '威望', 'TC' => '威望'),
 					'unit' => '',
 					'ratio' => 0,
 					'available' => '1',

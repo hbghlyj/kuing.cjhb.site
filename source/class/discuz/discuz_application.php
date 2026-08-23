@@ -832,6 +832,29 @@ class discuz_application extends discuz_base {
 				?: array_key_first($this->var['setting']['i18n']);
 		}
 		$this->var['i18n'] = $requested;
+		if(!empty($this->var['setting']['extcredits'])) {
+			foreach($this->var['setting']['extcredits'] as &$extcredit) {
+				$extcredit['title_i18n'] = $extcredit['title'];
+				$extcredit['title'] = extcredit_title($extcredit['title']);
+			}
+			unset($extcredit);
+		}
+		if(!empty($this->var['setting']['creditsformula'])) {
+			$creditsformulaexp = $this->var['setting']['creditsformula'];
+			foreach(['digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'blogs', 'albums', 'polls', 'sharings', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'] as $var) {
+				$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
+				$replacement = isset($this->var['setting']['extcredits'][$creditsid])
+					? $this->var['setting']['extcredits'][$creditsid]['title']
+					: lang('spacecp', 'credits_formula_'.$var);
+				$creditsformulaexp = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $creditsformulaexp);
+			}
+			$this->var['setting']['creditsformulaexp'] = addslashes('<u>{credits_CREDITS}</u>='.$creditsformulaexp);
+		}
+		$creditnames = [];
+		foreach((array)$this->var['setting']['extcredits'] as $id => $credit) {
+			$creditnames[] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
+		}
+		$this->var['setting']['creditnames'] = !empty($this->var['setting']['creditnotice']) ? implode(',', $creditnames) : '';
 		foreach(['bbname', 'sitename'] as $settingName) {
 			if(isset($this->var['setting'][$settingName])) {
 				$this->var['setting'][$settingName.'_i18n'] = i18n::decodeValue($this->var['setting'][$settingName]);

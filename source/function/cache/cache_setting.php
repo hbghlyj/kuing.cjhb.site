@@ -97,7 +97,6 @@ function build_cache_setting() {
 		}
 		$_G['setting'][$setting['skey']] = $data[$setting['skey']] = $setting['svalue'];
 	}
-
 	$usergroup = table_common_usergroup::t()->fetch_by_credits($data['initcredits']);
 	$data['newusergroupid'] = $usergroup['groupid'];
 	$data['buyusergroupexists'] = table_common_usergroup::t()->buyusergroup_exists();
@@ -295,9 +294,7 @@ function build_cache_setting() {
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
 			$credit['allowexchangeout'] && $allowexchangeout = TRUE;
 		}
-		$data['creditnotice'] && $data['creditnames'][] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
 	}
-	$data['creditnames'] = $data['creditnotice'] ? @implode(',', $data['creditnames']) : '';
 
 	$creditstranssi = explode(',', $data['creditstrans']);
 	$data['creditstrans'] = $creditstranssi[0];
@@ -348,9 +345,8 @@ function build_cache_setting() {
 			$credit['allowexchangein'] && $allowexchangein = TRUE;
 			$credit['allowexchangeout'] && $allowexchangeout = TRUE;
 		}
-		$data['creditnotice'] && $data['creditnames'][] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
 	}
-	$data['creditnames'] = $data['creditnotice'] ? @implode(',', $data['creditnames']) : '';
+	$data['creditnames'] = '';
 
 	$creditstranssi = explode(',', $data['creditstrans']);
 	$data['creditstrans'] = $creditstranssi[0];

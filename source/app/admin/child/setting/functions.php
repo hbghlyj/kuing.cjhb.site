@@ -239,7 +239,7 @@ if(submitcheck('settingsubmit')) {
 	$_G['setting']['creditstrans'] = [];
 	$setting['extcredits'] = dunserialize($setting['extcredits']);
 	for($i = 0; $i <= 8; $i++) {
-		$_G['setting']['creditstrans'] .= '<option value="'.$i.'" '.($i == $setting['activitycredit'] ? 'selected' : '').'>'.($i ? 'extcredits'.$i.($setting['extcredits'][$i]['title'] ? '('.$setting['extcredits'][$i]['title'].')' : '') : $lang['none']).'</option>';
+		$_G['setting']['creditstrans'] .= '<option value="'.$i.'" '.($i == $setting['activitycredit'] ? 'selected' : '').'>'.($i ? 'extcredits'.$i.($setting['extcredits'][$i]['title'] ? '('.extcredit_title($setting['extcredits'][$i]['title']).')' : '') : $lang['none']).'</option>';
 	}
 	showsetting('setting_functions_activity_credit', '', '', '<select name="settingnew[activitycredit]">'.$_G['setting']['creditstrans'].'</select>');
 	showsetting('setting_functions_activity_pp', 'settingnew[activitypp]', $setting['activitypp'], 'text');

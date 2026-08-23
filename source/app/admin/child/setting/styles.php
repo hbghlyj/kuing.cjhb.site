@@ -393,7 +393,7 @@ if(submitcheck('settingsubmit')) {
 	$extcredits = dunserialize($setting['extcredits']);
 	foreach($extcredits as $creditid => $extcredit) {
 		if($extcredit['title']) {
-			$settingsAttribute[] = ['extcredits'.$creditid, $extcredit['title']];
+			$settingsAttribute[] = ['extcredits'.$creditid, extcredit_title($extcredit['title'])];
 		}
 	}
 

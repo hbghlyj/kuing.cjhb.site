@@ -2875,6 +2875,14 @@ function currentlang() {
 	return preg_match('/^\w+$/', $lang) ? $lang : 'SC';
 }
 
+function extcredit_title($titles) {
+	if(!is_array($titles)) {
+		return $titles;
+	}
+	$locale = currentlang();
+	return $titles[$locale] ?? $titles['EN'] ?? $titles['SC'] ?? reset($titles) ?? '';
+}
+
 function lang_attr() {
 	$map = ['SC' => 'zh-CN', 'TC' => 'zh-TW', 'EN' => 'en'];
 	return $map[currentlang()] ?? currentlang();
