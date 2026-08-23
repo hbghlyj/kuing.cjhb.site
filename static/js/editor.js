@@ -1176,6 +1176,7 @@ function applyFormat(cmd, dialog, argument) {
 	}
 	if(wysiwyg) {
 		editdoc.execCommand(cmd, (isUndefined(dialog) ? false : dialog), (isUndefined(argument) ? true : argument));
+		normalizeWysiwygFonts();
 		return;
 	}
 	switch(cmd) {
@@ -1206,6 +1207,29 @@ function applyFormat(cmd, dialog, argument) {
 		case 'backcolor':
 			wrapTags('backcolor', argument);
 			break;
+	}
+}
+
+function normalizeWysiwygFonts() {
+	var fonts = editdoc.body.getElementsByTagName('font');
+	var sizes = {1:'x-small', 2:'small', 3:'medium', 4:'large', 5:'x-large', 6:'xx-large', 7:'xxx-large'};
+	for(var i = fonts.length - 1; i >= 0; i--) {
+		var font = fonts[i];
+		var span = editdoc.createElement('span');
+		span.style.cssText = font.getAttribute('style') || '';
+		if(font.getAttribute('color')) {
+			span.style.color = font.getAttribute('color');
+		}
+		if(font.getAttribute('face')) {
+			span.style.fontFamily = font.getAttribute('face');
+		}
+		if(font.getAttribute('size')) {
+			span.style.fontSize = sizes[font.getAttribute('size')] || font.getAttribute('size');
+		}
+		while(font.firstChild) {
+			span.appendChild(font.firstChild);
+		}
+		font.parentNode.replaceChild(span, font);
 	}
 }
 
