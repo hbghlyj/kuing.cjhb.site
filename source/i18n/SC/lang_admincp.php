@@ -2154,8 +2154,6 @@ $lang =
 	'setting_credits_trans9_comment' => '设置积分转账时使用的积分',
 	'setting_credits_trans10' => '回帖奖励使用的积分',
 	'setting_credits_trans10_comment' => '当用户发帖时可以设置的回帖奖励所使用的积分',
-	'setting_credits_trans11' => '抢楼帖积分限制',
-	'setting_credits_trans11_comment' => '参与抢楼帖积分限制时使用的积分',
 	'setting_credits_trans12' => '创建圈子消耗积分',
 	'setting_credits_trans12_comment' => '创建圈子时要消耗的积分',
 	'setting_credits_trans13' => '用户更名使用的积分',
@@ -4583,8 +4581,6 @@ $lang =
 	'usergroups_edit_special_debate_comment' => '选择“是”允许在论坛发布辩论主题',
 	'usergroups_edit_special_allowthreadplugin' => '允许发布扩展特殊主题',
 	'usergroups_edit_special_allowthreadplugin_comment' => '设置是否允许发表扩展的特殊主题',
-	'usergroups_edit_special_rushreply' => '允许发表抢楼帖',
-	'usergroups_edit_special_rushreply_comment' => '抢楼帖不允许用户删除回帖',
 
 	'usergroups_edit_post' => '帖子相关',
 	'usergroups_edit_post_new' => '允许发新话题',
@@ -4907,7 +4903,6 @@ $lang =
 	'threads_postposition' => '帖子优化',
 	'threads_postposition_tips' => '<li>本功能主要用于优化回复数量较多的主题在显示时候的性能，通常情况下，当帖子回复数量超过5000或者预计此帖的回复数量将会在5000 以上的时候，您可以将该主题加入优化队列</li>
 					<li>当主题进入优化队列后，我们不建议对该主题的某个帖子进行删除操作，如果该内容确实违规，我们建议您屏蔽它即可</li>
-					<li>当您发起抢楼活动的时候，系统会自动将抢楼的主题放入优化队列。您也可以在这里将任意一个回复较多的主题放入优化队列</li>
 				',
 
 	'threads_postposition_replies' => '指定回复数大于',
@@ -6433,7 +6428,6 @@ URL转换绝对网址：<pre>
 	'project_option_group_allowsendpm' => '允许发送短消息',
 	'project_option_group_allowrecommend' => '允许用户推荐主题',
 	'project_option_group_allowposturl' => '是否允许发站外URL',
-	'project_option_group_allowpostrushreply' => '允许发表抢楼帖',
 	'project_option_group_maxfriendnum' => '最多好友数',
 	'project_option_group_maxspacesize' => '空间大小',
 	'project_option_group_allowcomment' => '发表留言/评论',

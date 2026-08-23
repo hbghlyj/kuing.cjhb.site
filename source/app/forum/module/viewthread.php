@@ -20,10 +20,6 @@ $thread = &$_G['forum_thread'];
 $forum = &$_G['forum'];
 $_G['forum']['extra'] = empty($_G['forum']['extra']) ? [] : dunserialize($_G['forum']['extra']);
 
-if(!empty($_GET['checkrush']) && preg_match('/[^0-9_]/', $_GET['checkrush'])) {
-	$_GET['checkrush'] = '';
-}
-
 if(!$_G['forum_thread'] || !$_G['forum']) {
 	header('HTTP/1.1 404 Not Found');
 	showmessage('thread_nonexistence');
@@ -280,8 +276,6 @@ if(!empty($_GET['emailcopy'])) {
 
 $usemagic = ['user' => [], 'thread' => []];
 
-$rushreply = getstatus($_G['forum_thread']['status'], 3);
-
 $incollection = getstatus($_G['forum_thread']['status'], 9);
 
 $_G['forum_threadpay'] = FALSE;
@@ -298,32 +292,6 @@ if($_G['forum_thread']['price'] > 0 && $_G['forum_thread']['special'] == 0) {
 			}
 		}
 	}
-}
-
-if($rushreply) {
-	$rewardfloor = '';
-	$rushresult = $rewardfloorarr = $rewardfloorarray = [];
-	$rushresult = table_forum_threadrush::t()->fetch($_G['tid']);
-	if($rushresult['creditlimit'] == -996) {
-		$rushresult['creditlimit'] = '';
-	}
-	if((TIMESTAMP < $rushresult['starttimefrom'] || ($rushresult['starttimeto'] && TIMESTAMP > $rushresult['starttimeto']) || ($rushresult['stopfloor'] && $_G['forum_thread']['replies'] + 1 >= $rushresult['stopfloor'])) && $_G['forum_thread']['closed'] == 0) {
-		table_forum_thread::t()->update($_G['tid'], ['closed' => 1]);
-	} elseif(($rushresult['starttimefrom'] && TIMESTAMP > $rushresult['starttimefrom']) && $_G['forum_thread']['closed'] == 1) {
-		if(($rushresult['starttimeto'] && TIMESTAMP < $rushresult['starttimeto'] || !$rushresult['starttimeto']) && ($rushresult['stopfloor'] && $_G['forum_thread']['replies'] + 1 < $rushresult['stopfloor'] || !$rushresult['stopfloor'])) {
-			table_forum_thread::t()->update($_G['tid'], ['closed' => 0]);
-		}
-	}
-	if($rushresult['starttimefrom'] > TIMESTAMP) {
-		$rushresult['timer'] = $rushresult['starttimefrom'] - TIMESTAMP;
-		$rushresult['timertype'] = 'start';
-	} elseif($rushresult['starttimeto'] > TIMESTAMP) {
-		$rushresult['timer'] = $rushresult['starttimeto'] - TIMESTAMP;
-		$rushresult['timertype'] = 'end';
-	}
-	$rushresult['starttimefrom'] = $rushresult['starttimefrom'] ? dgmdate($rushresult['starttimefrom']) : '';
-	$rushresult['starttimeto'] = $rushresult['starttimeto'] ? dgmdate($rushresult['starttimeto']) : '';
-	$rushresult['creditlimit_title'] = $_G['setting']['creditstransextra'][11] ? $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][11]]['title'] : lang('forum/misc', 'credit_total');
 }
 
 if($_G['forum_thread']['replycredit'] > 0) {
@@ -441,7 +409,7 @@ $postarr = [];
 $maxposition = 0;
 if(empty($_GET['viewpid'])) {
 	if(!in_array($_G['forum_thread']['special'], [2, 3, 5])) {
-		$disablepos = !$rushreply && table_forum_threaddisablepos::t()->fetch($_G['tid']) ? 1 : 0;
+		$disablepos = table_forum_threaddisablepos::t()->fetch($_G['tid']) ? 1 : 0;
 		if(!$disablepos) {
 			if($_G['forum_thread']['maxposition']) {
 				$maxposition = $_G['forum_thread']['maxposition'];
@@ -466,42 +434,6 @@ if(empty($_GET['viewpid'])) {
 		}
 		$stickcount = count($sticklist);
 	}
-	if($rushreply) {
-		$rushids = $rushpids = $rushpositionlist = $preg = $arr = [];
-		$str = ',,';
-		$preg_str = rushreply_rule($rushresult);
-		if($_GET['checkrush']) {
-			$maxposition = 0;
-			for($i = 1; $i <= $_G['forum_thread']['replies'] + 1; $i++) {
-				$str = $str.$i.',,';
-			}
-			preg_match_all($preg_str, $str, $arr);
-			$arr = $arr[0];
-			foreach($arr as $var) {
-				$var = str_replace(',', '', $var);
-				$rushids[$var] = $var;
-			}
-			$temp_reply = $_G['forum_thread']['replies'];
-			$_G['forum_thread']['replies'] = $countrushpost = max(0, count($rushids) - 1);
-			$countrushpost = max(0, count($rushids));
-			$rushids = array_slice($rushids, ($page - 1) * $_G['ppp'], $_G['ppp']);
-			foreach(table_forum_post::t()->fetch_all_by_tid_position($posttableid, $_G['tid'], $rushids) as $post) {
-				$postarr[$post['position']] = $post;
-			}
-		} else {
-			for($i = ($page - 1) * $_G['ppp'] + 1; $i <= $page * $_G['ppp']; $i++) {
-				$str = $str.$i.',,';
-			}
-			preg_match_all($preg_str, $str, $arr);
-			$arr = $arr[0];
-			foreach($arr as $var) {
-				$var = str_replace(',', '', $var);
-				$rushids[$var] = $var;
-			}
-			$_G['forum_thread']['replies'] = $_G['forum_thread']['replies'] - 1;
-		}
-	}
-
 	if(!empty($_GET['authorid'])) {
 		$maxposition = 0;
 		$_G['forum_thread']['replies'] = table_forum_post::t()->count_by_tid_invisible_authorid($_G['tid'], $_GET['authorid']);
@@ -551,7 +483,6 @@ if(empty($_GET['viewpid'])) {
 		(isset($_GET['highlight']) ? '&highlight='.rawurlencode($_GET['highlight']) : '').
 		(!empty($_GET['authorid']) ? '&authorid='.$_GET['authorid'] : '').
 		(!empty($_GET['from']) ? '&from='.$_GET['from'] : '').
-		(!empty($_GET['checkrush']) ? '&checkrush='.$_GET['checkrush'] : '').
 		(!empty($_GET['modthreadkey']) ? '&modthreadkey='.rawurlencode($_GET['modthreadkey']) : '').
 		$specialextra;
 	$multipage = multi($_G['forum_thread']['replies'] + 1, $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
@@ -690,16 +621,13 @@ require_once childfile('postlist');
 if($_G['forum_thread']['special'] > 0 && (empty($_GET['viewpid']) || $_GET['viewpid'] == $_G['forum_firstpid'])) {
 	require_once childfile('special');
 }
+
 if(empty($_GET['authorid']) && empty($postlist)) {
-	if($rushreply) {
+	$replies = table_forum_post::t()->count_visiblepost_by_tid($_G['tid']);
+	$replies = intval($replies) - 1;
+	if($_G['forum_thread']['replies'] != $replies && $replies > 0) {
+		table_forum_thread::t()->update($_G['tid'], ['replies' => $replies], false, false, $archiveid);
 		dheader("Location: forum.php?mod=redirect&tid={$_G['tid']}&goto=lastpost");
-	} else {
-		$replies = table_forum_post::t()->count_visiblepost_by_tid($_G['tid']);
-		$replies = intval($replies) - 1;
-		if($_G['forum_thread']['replies'] != $replies && $replies > 0) {
-			table_forum_thread::t()->update($_G['tid'], ['replies' => $replies], false, false, $archiveid);
-			dheader("Location: forum.php?mod=redirect&tid={$_G['tid']}&goto=lastpost");
-		}
 	}
 }
 
@@ -890,14 +818,6 @@ if(empty($_GET['viewpid'])) {
 	} else {
 		$post['number'] = table_forum_post::t()->count_by_tid_dateline($posttableid, $post['tid'], $post['dbdateline']);
 	}
-	if($rushreply) {
-		$post['number'] = $post['position'];
-		$preg_str = rushreply_rule($rewardfloorarr);
-		preg_match_all($preg_str, ',,'.$post['number'].',,', $arr);
-		if($post['number'] == str_replace(',', '', $arr['0']['0'])) {
-			$post['rewardfloor'] = 1;
-		}
-	}
 	include template('common/header_ajax');
 	hookscriptoutput('viewthread');
 	$postcount = 0;
@@ -945,7 +865,7 @@ function viewthread_updateviews($tableid) {
 }
 
 function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
-	global $_G, $rushreply;
+	global $_G;
 
 	$post['lastpostid'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? ' id="lastpost"' : '';
 
@@ -973,7 +893,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		$post['number'] = -1;
 	}
 
-	if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
+	if(!$_G['forum_thread']['special'] && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
 		$post['isWater'] = true;
 		if($_G['setting']['hidefilteredpost'] && !$_G['forum']['noforumhidewater']) {
 			$post['inblacklist'] = true;
@@ -1367,39 +1287,6 @@ function remaintime($time) {
 	$time -= $minutes * 60;
 	$seconds = $time;
 	return [(int)$days, (int)$hours, (int)$minutes, (int)$seconds];
-}
-
-function rushreply_rule() {
-	global $rushresult;
-	if(!empty($rushresult['rewardfloor'])) {
-		$rushresult['rewardfloor'] = preg_replace('/\*+/', '*', $rushresult['rewardfloor']);
-		$rewardfloorarr = explode(',', $rushresult['rewardfloor']);
-		if($rewardfloorarr) {
-			foreach($rewardfloorarr as $var) {
-				$var = trim($var);
-				if(strlen($var) > 1) {
-					$var = str_replace('*', '[^,]?[\d]*', $var);
-				} else {
-					$var = str_replace('*', '\d+', $var);
-				}
-				$preg[] = "(,$var,)";
-			}
-			$preg = is_array($preg) ? $preg : [$preg];
-			$preg_str = '/'.implode('|', $preg).'/';
-		}
-	}
-	return $preg_str;
-}
-
-function checkrushreply($post) {
-	global $_G, $rushids;
-	if($_GET['authorid']) {
-		return $post;
-	}
-	if(in_array($post['number'], $rushids)) {
-		$post['rewardfloor'] = 1;
-	}
-	return $post;
 }
 
 function parseindex($nodes, $pid) {

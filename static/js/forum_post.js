@@ -812,8 +812,6 @@ function extraCheck(op) {
 		$('extra_readperm_chk').className = $('readperm').value !== '' ? 'a' : '';
 	} else if(op == 2 && $('price')) {
 		$('extra_price_chk').className = $('price').value > 0 ? 'a' : '';
-	} else if(op == 3 && $('rushreply')) {
-		$('extra_rushreplyset_chk').className = $('rushreply').checked ? 'a' : '';
 	} else if(op == 4 && $('tags')) {
 		$('extra_tag_chk').className = $('tags').value !== '' ? 'a' : '';
 	} else if(op == 5 && $('cronpublish')) {

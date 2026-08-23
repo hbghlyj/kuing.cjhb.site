@@ -442,7 +442,6 @@ function guide_procthread($thread) {
 	} else {
 		$thread['id'] = 'normalthread_'.$thread['tid'];
 	}
-	$thread['rushreply'] = getstatus($thread['status'], 3);
 	return $thread;
 }
 

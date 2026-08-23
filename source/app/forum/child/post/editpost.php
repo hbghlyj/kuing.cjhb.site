@@ -41,9 +41,6 @@ if($special == 5) {
 	}
 }
 
-$rushreply = getstatus($thread['status'], 3);
-
-
 if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 	if($replycredit_rule = table_forum_replycredit::t()->fetch($_G['tid'])) {
 		if($thread['replycredit']) {
@@ -87,16 +84,6 @@ if(!$editsubmit) {
 			}
 			$postinfo['tag'] = implode(',', $threadtag_array);
 		}
-		if($rushreply) {
-			$postinfo['rush'] = table_forum_threadrush::t()->fetch($_G['tid']);
-			if($postinfo['rush']['creditlimit'] == -996) {
-				$postinfo['rush']['creditlimit'] = '';
-			}
-			$postinfo['rush']['stopfloor'] = $postinfo['rush']['stopfloor'] ? $postinfo['rush']['stopfloor'] : '';
-			$postinfo['rush']['starttimefrom'] = $postinfo['rush']['starttimefrom'] ? dgmdate($postinfo['rush']['starttimefrom'], 'Y-m-d H:i') : '';
-			$postinfo['rush']['starttimeto'] = $postinfo['rush']['starttimeto'] ? dgmdate($postinfo['rush']['starttimeto'], 'Y-m-d H:i') : '';
-		}
-
 		if($special == 127) {
 			$sppos = strpos($postinfo['message'], chr(0).chr(0).chr(0));
 			$specialextra = substr($postinfo['message'], $sppos + 3);
@@ -406,9 +393,6 @@ if(!$editsubmit) {
 			if($_G['group']['allowreplycredit']) {
 				$modpost->attach_before_method('editpost', ['class' => 'forum\extend_thread_replycredit', 'method' => 'before_editpost']);
 			}
-			if($rushreply) {
-				$modpost->attach_before_method('editpost', ['class' => 'forum\extend_thread_rushreply', 'method' => 'before_editpost']);
-			}
 			$modpost->attach_after_method('editpost', ['class' => 'forum\extend_thread_follow', 'method' => 'after_editpost']);
 		}
 
@@ -516,9 +500,6 @@ if(!$editsubmit) {
 
 		if($thread['special'] == 3) {
 			$modpost->attach_before_method('deletepost', ['class' => 'forum\extend_thread_reward', 'method' => 'before_deletepost']);
-		}
-		if($rushreply) {
-			$modpost->attach_before_method('deletepost', ['class' => 'forum\extend_thread_rushreply', 'method' => 'before_deletepost']);
 		}
 		if($thread['replycredit'] && $isfirstpost) {
 			$modpost->attach_before_method('deletepost', ['class' => 'forum\extend_thread_replycredit', 'method' => 'before_deletepost']);

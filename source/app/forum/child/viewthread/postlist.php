@@ -78,13 +78,6 @@ if($_G['allblocked']) {
 	$_G['blockedpids'] = [];
 }
 
-if($postlist && !empty($rushids)) {
-	foreach($postlist as $pid => $post) {
-		$post['number'] = $post['position'];
-		$postlist[$pid] = checkrushreply($post);
-	}
-}
-
 if($_G['setting']['repliesrank'] && $postlist) {
 	$hotreply = table_forum_hotreply_number::t()->fetch_all_by_pids(array_keys($postlist));
 	if($hotreply) {

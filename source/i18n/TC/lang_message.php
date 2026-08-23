@@ -164,7 +164,6 @@ $lang = [
 	'debate_position_nofound' => '抱歉，發表辯論主題需要輸入正方和反方觀點',
 	'debate_endtime_invalid' => '抱歉，您設定辯論的結束時間小於當前時間',
 	'debate_umpire_invalid' => '抱歉，您指定的裁判 (<b>{umpire}</b>) 不存在或者被刪除',
-	'post_rushreply_timewrong' => '抱歉，搶樓時間範圍設定錯誤',
 	'post_newthread_mod_succeed' => '新主題需要審覈，您的帖子通過審覈後才能顯示{coverimg}',
 	'post_newthread_succeed' => '非常感謝，您的主題已發佈，現在將轉入主題頁，請稍候……<br><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 點擊這裡轉入主題列表 ]</a>{coverimg}',
 	'submitcheck_error' => '抱歉，您的提交有誤',
@@ -670,7 +669,6 @@ $lang = [
 	'post_edit_thread_ban_del' => '抱歉，編輯帖子時不允許刪除帖子',
 	'post_edit_reward_already_reply' => '抱歉，您不能刪除已經有回覆的懸賞',
 	'post_edit_reward_nopermission' => '抱歉，懸賞已結束，無法退還積分',
-	'post_edit_delete_rushreply_nopermission' => '抱歉，搶樓帖不能刪除',
 	'auditstatuson_succeed' => '審覈成功，點擊查看該帖',
 	'audit_edit_succeed' => '編輯成功，點擊關閉本頁',
 	'edit_newthread_mod_succeed' => '編輯後的主題需要審覈，請等待審覈通過',
@@ -679,7 +677,6 @@ $lang = [
 
 	'post_forum_newreply_nopermission' => '抱歉，本版塊只有特定用戶組可以回覆',
 	'comment_add_succeed' => '帖子點評成功 ',
-	'post_rushreply_creditlimit' => '抱歉，您的 {creditlimit_title} 不足，本搶樓帖限制最小 {creditlimit_title} 爲 {creditlimit}',
 	'trade_newreply_nopermission' => '抱歉，只有已開放的商品主題可以回覆',
 	'post_reply_succeed' => '非常感謝，回覆發佈成功，現在將轉入主題頁，請稍候……<br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 點擊這裡轉入主題列表 ]</a>',
 	'trade_add_succeed' => '非常感謝，您的商品已經發布，現在將轉入主題頁，請稍候……<br><a href="forum.php?mod=post&action=reply&fid={fid}&tid={tid}&addtrade=yes">[ 繼續添加商品請點擊這裡 ]</a><br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 點擊這裡轉入主題列表 ]</a>',

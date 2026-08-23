@@ -163,10 +163,6 @@ class cells_threadlist {
 				}
 				$authorids[$thread['authorid']] = $thread['authorid'];
 				$thread['mobile'] = base_convert(getstatus($thread['status'], 13).getstatus($thread['status'], 12).getstatus($thread['status'], 11), 2, 10);
-				$thread['rushreply'] = getstatus($thread['status'], 3);
-				if($thread['rushreply']) {
-					$rushtids[$thread['tid']] = $thread['tid'];
-				}
 				$threadids[$threadindex] = $thread['tid'];
 				$_G['forum_threadlist'][$threadindex] = $thread;
 				$rIndex[$thread['tid']] = $threadindex;
@@ -188,21 +184,6 @@ class cells_threadlist {
 				unset($_G['forum']);
 			}
 
-			if($rushtids) {
-				$rushinfo = table_forum_threadrush::t()->fetch_all($rushtids);
-				foreach($rushinfo as $tid => $info) {
-					if($info['starttimefrom'] > TIMESTAMP) {
-						$info['timer'] = $info['starttimefrom'] - TIMESTAMP;
-						$info['timertype'] = 'start';
-					} elseif($info['starttimeto'] > TIMESTAMP) {
-						$info['timer'] = $info['starttimeto'] - TIMESTAMP;
-						$info['timertype'] = 'end';
-					} else {
-						$info = '';
-					}
-					$rushinfo[$tid] = $info;
-				}
-			}
 
 			if(!empty($grouptids)) {
 				$groupfids = [];

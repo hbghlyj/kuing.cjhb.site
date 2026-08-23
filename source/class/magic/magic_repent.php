@@ -116,9 +116,6 @@ class magic_repent {
 		if($post['authorid'] != $_G['uid']) {
 			showmessage(lang('magic/repent', 'repent_info_user_noperm'));
 		}
-		if(getstatus($post['status'], 3)) {
-			showmessage(lang('magic/repent', 'repent_do_not_rushreply'));
-		}
 	}
 
 }

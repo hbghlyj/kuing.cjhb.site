@@ -86,7 +86,7 @@
 							<!--{if $_G['forum']['ismoderator']}-->
 								<!--{if $_G['group']['allowwarnpost']}--><a href="javascript:;" onclick="modaction('warn')">{lang modmenu_warn}</a><span class="pipe">|</span><!--{/if}-->
 								<!--{if $_G['group']['allowbanpost']}--><a href="javascript:;" onclick="modaction('banpost')">{lang modmenu_banpost}</a><span class="pipe">|</span><!--{/if}-->
-								<!--{if $_G['group']['allowdelpost'] && !$rushreply}--><a href="javascript:;" onclick="modaction('delpost')">{lang modmenu_deletepost}</a><span class="pipe">|</span><!--{/if}-->
+								<!--{if $_G['group']['allowdelpost']}--><a href="javascript:;" onclick="modaction('delpost')">{lang modmenu_deletepost}</a><span class="pipe">|</span><!--{/if}-->
 							<!--{/if}-->
 							<!--{if $_G['forum']['ismoderator'] && $_G['group']['allowstickreply'] || $_G['forum_thread']['authorid'] == $_G['uid']}--><a href="javascript:;" onclick="modaction('stickreply')">{lang modmenu_stickpost}</a><span class="pipe">|</span><!--{/if}-->
 							<!--{if $_G['forum_thread']['pushedaid'] && $allowpostarticle}--><a href="javascript:;" onclick="modaction('pushplus', '', 'aid=$_G[forum_thread][pushedaid]', 'portal.php?mod=portalcp&ac=article&op=pushplus')">{lang modmenu_pushplus}</a><span class="pipe">|</span><!--{/if}-->
@@ -222,7 +222,7 @@
 			</td>
 		</tr>
 	</table>
-	<!--{if $_G['forum_thread']['replycredit'] > 0 || $rushreply}-->
+	<!--{if $_G['forum_thread']['replycredit'] > 0}-->
 	<div id="pl_top">
 		<table class="cp0">
 			<tr class="ad">
@@ -247,56 +247,8 @@
 						{lang thread_replycredit_tips1} {lang thread_replycredit_tips2}<!--{if $_G['forum_thread']['replycredit_rule'][random] > 0}--><span class="xg1">{lang thread_replycredit_tips3}</span><!--{/if}-->
 					</td>
 				</tr>
-				<!--{if $rushreply}-->
-				<tr class="ad">
-					<td class="pls"></td>
-					<td class="plc"></td>
-				</tr>
-				<!--{/if}-->
 		<!--{/if}-->
 
-		<!--{if $rushreply}-->
-			<tr>
-				<!--{if !$close_leftinfo}-->
-				<td class="pls vm ptm">
-					<strong>{lang rushreply}</strong>
-				</td>
-				<td class="plc ptm pbm xi1">
-				<!--{else}-->
-				<td class="plc ptm pbm xi1" colspan="2">
-					<span class="tbox rushrep">{lang rushreply}</span>
-				<!--{/if}-->
-					<!--{if $rushresult[rewardfloor]}-->
-						<span class="y">
-						<!--{if $_G['uid'] == $_G['thread']['authorid'] || $_G['forum']['ismoderator']}--><a href="javascript:;" onclick="showWindow('membernum', 'forum.php?mod=ajax&action=get_rushreply_membernum&tid=$_G[tid]')" class="y pn xi2"><span>{lang thread_rushreply_statnum}</span></a><!--{/if}-->
-						<!--{if !$_GET['checkrush']}-->
-								<a href="forum.php?mod=viewthread&tid=$post[tid]&checkrush=1" rel="nofollow" class="y pn xi2"><span>{lang rushreply_view}</span></a>
-						<!--{/if}-->
-						</span>
-					<!--{/if}-->
-					<!--{if $rushresult[creditlimit] == ''}-->
-						{lang thread_rushreply}&nbsp;
-					<!--{else}-->
-						{lang thread_rushreply_limit} &nbsp;
-					<!--{/if}-->
-					<!--{if $rushresult['timer']}-->
-					<span id="rushtimer_$thread[tid]"> {lang havemore_special} <span id="rushtimer_body_$thread[tid]"></span> <script language="javascript">settimer($rushresult['timer'], 'rushtimer_body_$thread[tid]');</script>{if $rushresult['timertype'] == 'start'} {lang header_start} {else} {lang over} {/if} {lang right_special}</span>
-					<!--{/if}-->
-					<!--{if $rushresult[stopfloor]}-->
-						{lang thread_rushreply_end}$rushresult[stopfloor]&nbsp;
-					<!--{/if}-->
-					<!--{if $rushresult[rewardfloor]}-->
-						{lang thread_rushreply_floor}: $rushresult[rewardfloor]&nbsp;
-					<!--{/if}-->
-					<!--{if $rushresult[rewardfloor] && $_GET['checkrush']}-->
-						<p class="ptn">
-							<!--{if $countrushpost}-->[<strong>$countrushpost</strong>]{lang thread_rushreply_rewardnum}<!--{else}--> {lang thread_rushreply_noreward} <!--{/if}-->&nbsp;&nbsp;
-							<a href="forum.php?mod=viewthread&tid=$_G[tid]" class="xi2">{lang thread_rushreply_check_back}</a>
-						</p>
-					<!--{/if}-->
-				</td>
-			</tr>
-		<!--{/if}-->
 		</table>
 	</div>
 	<!--{/if}-->
@@ -315,9 +267,6 @@
 	</table>
 	<!--{eval $postcount = 0;}-->
 	<!--{loop $postlist $post}-->
-		<!--{if $rushreply && $_GET['checkrush'] && $post['rewardfloor'] != 1}-->
-			<!--{eval continue;}-->
-		<!--{/if}-->
 		<div id="post_$post[pid]" {if $_G['blockedpids'] && $post['inblacklist']}style="display:none;"{/if}>
 			<!--{subtemplate forum/viewthread_node}-->
 		</div>

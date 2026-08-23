@@ -352,7 +352,6 @@ EOF;
 		showsetting('usergroups_edit_special_trade_max', 'maxtradepricenew', $group['maxtradeprice'], 'text');
 		showsetting('usergroups_edit_special_trade_stick', 'tradesticknew', $group['tradestick'], 'text');
 		showsetting('usergroups_edit_special_debate', 'allowpostdebatenew', $group['allowpostdebate'], 'radio');
-		showsetting('usergroups_edit_special_rushreply', 'allowpostrushreplynew', $group['allowpostrushreply'], 'radio');
 		$threadpluginselect = [];
 		if(is_array($_G['setting']['threadplugins'])) foreach($_G['setting']['threadplugins'] as $tpid => $data) {
 			$threadpluginselect[] = [$tpid, $data['name']];
@@ -842,7 +841,6 @@ EOF;
 			'maxattachnum' => $maxattachnumnew,
 			'allowposturl' => $_GET['allowposturlnew'],
 			'allowrecommend' => $allowrecommendnew,
-			'allowpostrushreply' => $_GET['allowpostrushreplynew'],
 			'maxfriendnum' => $_GET['maxfriendnumnew'],
 			'seccode' => $_GET['seccodenew'],
 			'forcesecques' => $_GET['forcesecquesnew'],
