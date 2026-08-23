@@ -159,16 +159,21 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			if(++$nest > 4) break;
 		}
 
+		$message = preg_replace_callback('/\[size=(\d{1,2})\]/i', function($matches) {
+			$sizes = [1 => 'x-small', 2 => 'small', 3 => 'medium', 4 => 'large', 5 => 'x-large', 6 => 'xx-large', 7 => 'xxx-large'];
+			return isset($sizes[(int)$matches[1]]) ? '[size='.$sizes[(int)$matches[1]].']' : $matches[0];
+		}, $message);
+
 		$message = str_replace([
 			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[hr]', '[/p]', '[/float]', '[indent]', '[/indent]'
 		], [
-			'</font>', '</font>', '</font>', '</font>', '</div>', '<hr class="l">', '</p>', '</span>', '<blockquote>', '</blockquote>'
+			'</span>', '</span>', '</span>', '</span>', '</div>', '<hr class="l">', '</p>', '</span>', '<blockquote>', '</blockquote>'
 		], preg_replace([
 			'/\[color=([#\w]+?)\]/i',
 			'/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
 			'/\[backcolor=([#\w]+?)\]/i',
 			'/\[backcolor=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
-			'/\[size=(\d{1,2}?)\]/i',
+			'/\[size=(x-small|small|medium|large|x-large|xx-large|xxx-large)\]/i',
 			'/\[size=(\d{1,2}(\.\d{1,5})?(px|pt)+?)\]/i',
 			'/\[size=(\d+(\.\d+)?(px|pt)+?)\]/i',
 			'/\[font=([^\[\<]+?)\]/i',
@@ -178,14 +183,14 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			'/\[float=right\]/i'
 
 		], [
-			"<font color=\"\\1\">",
-			"<font style=\"color:\\1\">",
-			"<font style=\"background-color:\\1\">",
-			"<font style=\"background-color:\\1\">",
-			"<font size=\"\\1\">",
-			"<font style=\"font-size:\\1\">",
-			'<font>',
-			"<font face=\"\\1\">",
+			"<span style=\"color:\\1\">",
+			"<span style=\"color:\\1\">",
+			"<span style=\"background-color:\\1\">",
+			"<span style=\"background-color:\\1\">",
+			"<span style=\"font-size:\\1\">",
+			"<span style=\"font-size:\\1\">",
+			'<span>',
+			"<span style=\"font-family:\\1\">",
 			"<div align=\"\\1\">",
 			"<p style=\"line-height:\\1px;text-indent:\\2em;text-align:\\3\">",
 			"<span style=\"float:left;margin-right:5px\">",

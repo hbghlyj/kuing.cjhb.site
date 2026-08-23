@@ -16,9 +16,9 @@ foreach(table_home_notification::t()->fetch_all_by_uid($_G['uid'], -1, '', 0, 5,
 		echo '<li>'.end($matches[1]), $notice['new'] ? '&delnotice='.$notice['id'] : '', '"',
 			$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '',
 			end($matches[2]),
-			'<font', $notice['new'] ? ' color="#F26C4F"' : '', ' face="dzicon"></font> ', $stripped, '</a></li>';
+			'<span style="font-family:dzicon'.($notice['new'] ? ';color:#F26C4F' : '').'"></span> ', $stripped, '</a></li>';
 	} else {
-		echo '<li><a><font', $notice['new'] ? ' color="#F26C4F"' : '', ' face="dzicon"></font> ', $stripped, '</a></li>';
+			echo '<li><a><span style="font-family:dzicon'.($notice['new'] ? ';color:#F26C4F' : '').'"></span> ', $stripped, '</a></li>';
 	}
 }
 table_common_member::t()->update($_G['uid'], ['newprompt' => 0]);

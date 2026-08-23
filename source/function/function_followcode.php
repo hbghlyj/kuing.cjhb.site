@@ -195,7 +195,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 		}
 		followcode_callback_highlightword_21($highlightarray, 1);
 		$message = preg_replace_callback('/(^|>)([^<]+)(?=<|$)/sU', 'followcode_callback_highlightword_21', $message);
-		$message = preg_replace('/<highlight>(.*)<\/highlight>/siU', "<strong><font color=\"#FF0000\">\\1</font></strong>", $message);
+		$message = preg_replace('/<highlight>(.*)<\/highlight>/siU', "<strong><span style=\"color:#FF0000\">\\1</span></strong>", $message);
 		if($sppos !== FALSE) {
 			$message = $message.chr(0).chr(0).chr(0).$specialextra;
 		}

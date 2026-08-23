@@ -108,10 +108,13 @@ function bbcode2html(str) {
 			return addCSS;
 		});
 		str = str.replace(/\[color=([\w#\(\),\.\s]+?)\]/ig, '<span style="color: $1">');
-		str = str.replace(/\[backcolor=([\w#\(\),\.\s]+?)\]/ig, '<font style="background-color:$1">');
-		str = str.replace(/\[size=(\d+?)\]/ig, '<font size="$1">');
-		str = str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]/ig, '<font style="font-size: $1">');
-		str = str.replace(/\[font=([^\[\<\=]+?)\]/ig, '<font face="$1">');
+		str = str.replace(/\[backcolor=([\w#\(\),\.\s]+?)\]/ig, '<span style="background-color:$1">');
+		str = str.replace(/\[size=(\d+|x-small|small|medium|large|x-large|xx-large|xxx-large)\]/ig, function($1, $2) {
+			var sizes = {1:'x-small', 2:'small', 3:'medium', 4:'large', 5:'x-large', 6:'xx-large', 7:'xxx-large'};
+			return '<span style="font-size:' + (sizes[$2] || $2) + '">';
+		});
+		str = str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]/ig, '<span style="font-size: $1">');
+		str = str.replace(/\[font=([^\[\<\=]+?)\]/ig, '<span style="font-family:$1">');
 		str = str.replace(/\[align=([^\[\<\=]+?)\]/ig, '<div align="$1">');
 		str = str.replace(/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/ig, '<p style="line-height: $1px; text-indent: $2em; text-align: $3;">');
 		str = str.replace(/\[float=left\]/ig, '<br style="clear: both"><span style="float: left; margin-right: 5px;">');
@@ -134,7 +137,7 @@ function bbcode2html(str) {
 			'\\\[\\\/color\\\]', '\\\[\\\/backcolor\\\]', '\\\[\\\/size\\\]', '\\\[\\\/font\\\]', '\\\[\\\/align\\\]', '\\\[\\\/p\\\]', '\\\[hr\\\]', '\\\[list\\\]', '\\\[list=1\\\]', '\\\[list=a\\\]',
 			'\\\[list=A\\\]', '\\s?\\\[\\\*\\\]', '\\\[\\\/list\\\]', '\\\[indent\\\]', '\\\[\\\/indent\\\]', '\\\[\\\/float\\\]'
 			], [
-			'</span>', '</font>', '</font>', '</font>', '</div>', '</p>', '<hr class="l" />', '<ul>', '<ul type=1 class="litype_1">', '<ul type=a class="litype_2">',
+			'</span>', '</span>', '</span>', '</span>', '</div>', '</p>', '<hr class="l" />', '<ul>', '<ul type=1 class="litype_1">', '<ul type=a class="litype_2">',
 			'<ul type=A class="litype_3">', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
 			], str, 'g');
 	}
@@ -642,7 +645,7 @@ function parsestyle(tagoptions, prepend, append) {
 		['u', false, 'text-decoration:\\s*(underline);?'],
 		['s', false, 'text-decoration:\\s*(line-through);?']
 	];
-	var sizealias = {'x-small':1,'small':2,'medium':3,'large':4,'x-large':5,'xx-large':6,'-webkit-xxx-large':7};
+	var sizealias = {'x-small':1,'small':2,'medium':3,'large':4,'x-large':5,'xx-large':6,'xxx-large':7};
 	var style = getoptionvalue('style', tagoptions);
 	style = style
 		.replace(/&quot;|&#0*34;|&#x0*22;/ig, '"')

@@ -196,10 +196,10 @@ class table_forum_postcomment extends discuz_table {
 	}
 
 	public function format_postcomment($comment) {
-		$comment = preg_replace('/\[color=([#\w]+?)\]/i', "<font color=\"\\1\">", $comment);
+		$comment = preg_replace('/\[color=([#\w]+?)\]/i', "<span style=\"color:\\1\">", $comment);
 		$comment = str_replace(
 			["\t", '   ', '  ', '[b]', '[/b]', '[/color]'],
-			['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '<b>', '</b>', '</font>'],
+			['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '<b>', '</b>', '</span>'],
 			$comment
 		);
 		return preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.*?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', nl2br($comment));
