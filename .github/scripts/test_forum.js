@@ -98,6 +98,8 @@ const testPusherLeaderCoordination = async browser => {
     try {
         await Promise.all(pusherPages.map(page => page.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' })));
         await Promise.all(pusherPages.map(page => page.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 })));
+        assert.deepStrictEqual(await Promise.all(pusherPages.map(pusherCount)), [0, 0, 0], 'Assertion Error: Guest pages opened Pusher connections before chat was awakened.');
+        await pusherPages[0].getByRole('button', { name: 'Open chat' }).click();
         const firstLeader = await waitForSingleLeader(pusherPages, 'Three simultaneous tabs');
         const remainingPages = pusherPages.filter(page => page !== firstLeader);
 
