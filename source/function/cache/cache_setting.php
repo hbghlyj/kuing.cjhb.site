@@ -103,7 +103,9 @@ function build_cache_setting() {
 			$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
 			$replacement = isset($data['extcredits'][$creditsid])
 				? $data['extcredits'][$creditsid]['title']
-				: lang('spacecp', 'credits_formula_'.$var);
+				: (str_starts_with($var, 'extcredits')
+					? lang('spacecp', 'credits_formula_extcredits').$creditsid
+					: lang('spacecp', 'credits_formula_'.$var));
 			$data['creditsformulaexp'] = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $data['creditsformulaexp']);
 		}
 		$data['creditsformulaexp'] = addslashes('<u>{credits_CREDITS}</u>='.$data['creditsformulaexp']);

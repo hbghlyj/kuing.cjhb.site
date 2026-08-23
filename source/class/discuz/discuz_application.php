@@ -845,7 +845,9 @@ class discuz_application extends discuz_base {
 				$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
 				$replacement = isset($this->var['setting']['extcredits'][$creditsid])
 					? $this->var['setting']['extcredits'][$creditsid]['title']
-					: lang('spacecp', 'credits_formula_'.$var);
+					: (str_starts_with($var, 'extcredits')
+						? lang('spacecp', 'credits_formula_extcredits').$creditsid
+						: lang('spacecp', 'credits_formula_'.$var));
 				$creditsformulaexp = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $creditsformulaexp);
 			}
 			$this->var['setting']['creditsformulaexp'] = addslashes('<u>{credits_CREDITS}</u>='.$creditsformulaexp);

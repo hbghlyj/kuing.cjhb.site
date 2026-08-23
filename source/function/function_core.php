@@ -2889,7 +2889,9 @@ function usergroup_creditsformulaexp($formula, $groupid) {
 		$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
 		$replacement = isset($_G['setting']['extcredits'][$creditsid])
 			? $_G['setting']['extcredits'][$creditsid]['title']
-			: lang('spacecp', 'credits_formula_'.$var);
+			: (str_starts_with($var, 'extcredits')
+				? lang('spacecp', 'credits_formula_extcredits').$creditsid
+				: lang('spacecp', 'credits_formula_'.$var));
 		$display = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $display);
 	}
 	$groupName = $_G['setting']['upgroup_name'][$groupid] ?? '';
