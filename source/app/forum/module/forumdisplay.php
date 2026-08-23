@@ -579,7 +579,7 @@ $_G['ppp'] = $_G['forum']['threadcaches'] && !$_G['uid'] ? $_G['setting']['postp
 $page = $_G['page'];
 $todaytime = strtotime(dgmdate(TIMESTAMP, 'Ymd'));
 
-$verify = $verifyuids = $authorids = $grouptids = $rushtids = [];
+$verify = $verifyuids = $authorids = $grouptids = [];
 
 $thide = !empty($_G['cookie']['thide']) ? explode('|', $_G['cookie']['thide']) : [];
 $_G['showrows'] = $_G['hiddenexists'] = 0;
@@ -720,10 +720,6 @@ foreach($threadlist as $thread) {
 	}
 	$authorids[$thread['authorid']] = $thread['authorid'];
 	$thread['mobile'] = base_convert(getstatus($thread['status'], 13).getstatus($thread['status'], 12).getstatus($thread['status'], 11), 2, 10);
-	$thread['rushreply'] = getstatus($thread['status'], 3);
-	if($thread['rushreply']) {
-		$rushtids[$thread['tid']] = $thread['tid'];
-	}
 	$thread['taglist'] = array();
 	if(!empty($thread['tags'])) {
 		foreach(explode("\t", $thread['tags']) as $var) {
@@ -745,21 +741,6 @@ foreach(recent_use_tag($_G['fid']) as $tagid => $tagname) {
 
 $_G['hiddenexists'] = !$_G['forum']['ismoderator'] && $_G['hiddenexists'] && $_G['showrows'] >= $_G['hiddenexists'];
 
-if($rushtids) {
-	$rushinfo = table_forum_threadrush::t()->fetch_all($rushtids);
-	foreach($rushinfo as $tid => $info) {
-		if($info['starttimefrom'] > TIMESTAMP) {
-			$info['timer'] = $info['starttimefrom'] - TIMESTAMP;
-			$info['timertype'] = 'start';
-		} elseif($info['starttimeto'] > TIMESTAMP) {
-			$info['timer'] = $info['starttimeto'] - TIMESTAMP;
-			$info['timertype'] = 'end';
-		} else {
-			$info = '';
-		}
-		$rushinfo[$tid] = $info;
-	}
-}
 if(!empty($threadids)) {
 	$indexlist = array_flip($threadids);
 	foreach(table_forum_threadaddviews::t()->fetch_all($threadids) as $tidkey => $value) {

@@ -54,7 +54,6 @@
 									{if $thread['special'] == 3}{lang thread_reward}{lang forum_threads}{/if}
 									{if $thread['special'] == 4}{lang thread_activity}{lang forum_threads}{/if}
 									{if $thread['special'] == 5}{lang thread_debate}{lang forum_threads}{/if}
-									{if $thread['rushreply']}{lang rushreply}{lang forum_threads}{/if}
 									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}">
 								<!--{if $thread['folder'] == 'lock'}-->
 									<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico">
@@ -68,9 +67,6 @@
 									<img src="{STYLEIMGDIR}/svg/dz_ico_activitysmall.svg" alt="{lang thread_activity}" class="kmimgico">
 								<!--{elseif $thread['special'] == 5}-->
 									<img src="{STYLEIMGDIR}/svg/dz_ico_debatesmall.svg" alt="{lang thread_debate}" class="kmimgico">
-								<!--{/if}-->
-								<!--{if $thread['rushreply']}-->
-									<img src="{STYLEIMGDIR}/svg/dz_ico_rushreply_s.svg" alt="{lang rushreply}" class="kmimgico">
 								<!--{/if}-->
 								<!--{if in_array($thread['displayorder'], array(1, 2, 3, 4))}-->
 									<span class="kmico kmding">{lang thread_stick}</span>

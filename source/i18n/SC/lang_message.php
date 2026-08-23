@@ -164,7 +164,6 @@ $lang = [
 	'debate_position_nofound' => '抱歉，发表辩论主题需要输入正方和反方观点',
 	'debate_endtime_invalid' => '抱歉，您设置辩论的结束时间小于当前时间',
 	'debate_umpire_invalid' => '抱歉，您指定的裁判 (<b>{umpire}</b>) 不存在或者被删除',
-	'post_rushreply_timewrong' => '抱歉，抢楼时间范围设置错误',
 	'post_newthread_mod_succeed' => '新主题需要审核，您的帖子通过审核后才能显示{coverimg}',
 	'post_newthread_succeed' => '非常感谢，您的主题已发布，现在将转入主题页，请稍候……<br><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>{coverimg}',
 	'submitcheck_error' => '抱歉，您的提交有误',
@@ -670,7 +669,6 @@ $lang = [
 	'post_edit_thread_ban_del' => '抱歉，编辑帖子时不允许删除帖子',
 	'post_edit_reward_already_reply' => '抱歉，您不能删除已经有回复的悬赏',
 	'post_edit_reward_nopermission' => '抱歉，悬赏已结束，无法退还积分',
-	'post_edit_delete_rushreply_nopermission' => '抱歉，抢楼帖不能删除',
 	'auditstatuson_succeed' => '审核成功，点击查看该帖',
 	'audit_edit_succeed' => '编辑成功，点击关闭本页',
 	'edit_newthread_mod_succeed' => '编辑后的主题需要审核，请等待审核通过',
@@ -679,7 +677,6 @@ $lang = [
 
 	'post_forum_newreply_nopermission' => '抱歉，本版块只有特定用户组可以回复',
 	'comment_add_succeed' => '帖子点评成功 ',
-	'post_rushreply_creditlimit' => '抱歉，您的 {creditlimit_title} 不足，本抢楼帖限制最小 {creditlimit_title} 为 {creditlimit}',
 	'trade_newreply_nopermission' => '抱歉，只有已开放的商品主题可以回复',
 	'post_reply_succeed' => '非常感谢，回复发布成功，现在将转入主题页，请稍候……<br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>',
 	'trade_add_succeed' => '非常感谢，您的商品已经发布，现在将转入主题页，请稍候……<br><a href="forum.php?mod=post&action=reply&fid={fid}&tid={tid}&addtrade=yes">[ 继续添加商品请点击这里 ]</a><br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>',

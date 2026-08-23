@@ -16,9 +16,6 @@
 					<label id="extra_replycredit_b" onclick="showExtra('extra_replycredit')"><span id="extra_replycredit_chk">{lang replycredit}</span></label>
 				<!--{/if}-->
 			<!--{/if}-->
-			<!--{if ($_GET[action] == 'newthread' && $_G['group']['allowpostrushreply'] && $special != 2) || ($_GET[action] == 'edit' && getstatus($thread['status'], 3))}-->
-				<label id="extra_rushreplyset_b" onclick="showExtra('extra_rushreplyset')"><span id="extra_rushreplyset_chk">{lang rushreply_thread}</span></label>
-			<!--{/if}-->
 			<!--{if $_G['group']['maxprice'] && !$special}-->
 				<label id="extra_price_b" onclick="showExtra('extra_price')"><span id="extra_price_chk">{lang thread_pricepay}</span></label>
 			<!--{/if}-->
@@ -98,46 +95,6 @@
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->
 
-			<!--{if ($_GET[action] == 'newthread' && $_G['group']['allowpostrushreply'] && $special != 2) || ($_GET[action] == 'edit' && getstatus($thread['status'], 3))}-->
-				<div class="exfm cl" id="extra_rushreplyset_c" style="display: none;">
-					<div class="sinf sppoll z">
-						<dl>
-							<dt><span style="width: 4em">&nbsp;</span></dt>
-							<dd><label for="rushreply"><input type="checkbox" name="rushreply" id="rushreply" class="pc vm" value="1" {if $_GET[action] == 'edit' && getstatus($thread['status'], 3)}disabled="disabled" checked="checked"{/if} onclick="extraCheck(3)"> {lang rushreply_change}</label></dd>
-							<dt><label>{lang rushreply_time}</label></dt>
-							<dd>
-								<div>
-									<input type="text" name="rushreplyfrom" id="rushreplyfrom" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="{$postinfo[rush][starttimefrom] or ''}" onkeyup="$('rushreply').checked = true;"><span> ~ </span><input type="text" onclick="showcalendar(event, this, true)" autocomplete="off" id="rushreplyto" name="rushreplyto" class="px" value="{$postinfo[rush][starttimeto] or ''}" onkeyup="$('rushreply').checked = true;">
-								</div>
-							</dd>
-							<dt><label>{lang rushreply_rewardfloor}</label></dt>
-							<dd>
-								<input type="text" name="rewardfloor" id="rewardfloor" class="px oinf" value="{$postinfo[rush][rewardfloor] or ''}" onkeyup="$('rushreply').checked = true;">
-								<p class="xg1">{lang rushreply_rewardfloor_comment}</p>
-							</dd>
-						</dl>
-					</div>
-					<div class="sadd z">
-						<dl>
-							<dt>&nbsp;</dt>
-							<dd>&nbsp;</dd>
-							<dt><label for="replylimit">{lang stopfloor}: </label></dt>
-							<dd>
-								<input type="text" name="replylimit" id="replylimit" class="px" autocomplete="off" value="{$postinfo[rush][replylimit] or ''}" onkeyup="$('rushreply').checked = true;"> <span class="xg1">{lang replylimit}</span>
-							</dd>
-							<dt><label for="stopfloor">{lang rushreply_end}</label></dt>
-							<dd>
-								<input type="text" name="stopfloor" id="stopfloor" class="px" autocomplete="off" value="{$postinfo[rush][stopfloor] or ''}" onkeyup="$('rushreply').checked = true;">
-							</dd>
-							<dt><label for="creditlimit"><!--{if !empty($_G['setting']['creditstransextra'][11])}-->{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][11]][title]}<!--{else}-->{lang credits}<!--{/if}-->{lang min_limit}:</label></dt>
-							<dd>
-								<input type="text" name="creditlimit" id="creditlimit" class="px" autocomplete="off" value="{$postinfo[rush][creditlimit] or ''}" onkeyup="$('rushreply').checked = true;">
-								<p class="xg1"><!--{if !empty($_G['setting']['creditstransextra'][11])}-->({$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][11]][title]})<!--{else}-->{lang total_credits}<!--{/if}-->{lang post_rushreply_credit}</p>
-							</dd>
-						</dl>
-					</div>
-				</div>
-			<!--{/if}-->
 			<!--{if $_G['group']['allowsetpublishdate'] && ($_GET[action] == 'newthread' || ($_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))}-->
 				<div class="exfm cl" id="extra_pubdate_c" style="display: none;">
 					<label><input type="checkbox" name="cronpublish" onclick="if(this.checked) {$('cronpublishdate').click();doane(event,false);};extraCheck(5);hidenFollowBtn(this.checked);" id="cronpublish" value="true" class="pc"{if $cronpublish} checked="checked"{/if}>{lang post_timer}</label>

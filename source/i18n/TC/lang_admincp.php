@@ -2156,8 +2156,6 @@ $lang =
 	'setting_credits_trans9_comment' => '設定積分轉賬時使用的積分',
 	'setting_credits_trans10' => '回帖獎勵使用的積分',
 	'setting_credits_trans10_comment' => '當用戶發帖時可以設定的回帖獎勵所使用的積分',
-	'setting_credits_trans11' => '搶樓帖積分限制',
-	'setting_credits_trans11_comment' => '參與搶樓帖積分限制時使用的積分',
 	'setting_credits_trans12' => '創建圈子消耗積分',
 	'setting_credits_trans12_comment' => '創建圈子時要消耗的積分',
 	'setting_credits_trans13' => '用戶更名使用的積分',
@@ -4586,8 +4584,6 @@ $lang =
 	'usergroups_edit_special_debate_comment' => '選擇“是”允許在論壇發佈辯論主題',
 	'usergroups_edit_special_allowthreadplugin' => '允許發佈擴展特殊主題',
 	'usergroups_edit_special_allowthreadplugin_comment' => '設定是否允許發表擴展的特殊主題',
-	'usergroups_edit_special_rushreply' => '允許發表搶樓帖',
-	'usergroups_edit_special_rushreply_comment' => '搶樓帖不允許用戶刪除回帖',
 
 	'usergroups_edit_post' => '帖子相關',
 	'usergroups_edit_post_new' => '允許發新話題',
@@ -4910,7 +4906,6 @@ $lang =
 	'threads_postposition' => '帖子優化',
 	'threads_postposition_tips' => '<li>本功能主要用於優化回覆數量較多的主題在顯示時候的性能，通常情況下，當帖子回覆數量超過5000或者預計此帖的回覆數量將會在5000 以上的時候，您可以將該主題加入優化隊列</li>
 					<li>當主題進入優化隊列後，我們不建議對該主題的某個帖子進行刪除操作，如果該內容確實違規，我們建議您屏蔽它即可</li>
-					<li>當您發起搶樓活動的時候，系統會自動將搶樓的主題放入優化隊列。您也可以在這裏將任意一個回覆較多的主題放入優化隊列</li>
 				',
 
 	'threads_postposition_replies' => '指定回覆數大於',
@@ -6437,7 +6432,6 @@ URL轉換絕對網址：<pre>
 	'project_option_group_allowsendpm' => '允許發送短訊',
 	'project_option_group_allowrecommend' => '允許用戶推薦主題',
 	'project_option_group_allowposturl' => '是否允許發站外URL',
-	'project_option_group_allowpostrushreply' => '允許發表搶樓帖',
 	'project_option_group_maxfriendnum' => '最多好友數',
 	'project_option_group_maxspacesize' => '空間大小',
 	'project_option_group_allowcomment' => '發表留言/評論',

@@ -281,11 +281,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	// 结束处理json编辑器内容中的图片、视频等附件
 
 
-	if(getgpc('rushreply')) {
-		$bfmethods[] = ['class' => 'forum\extend_thread_rushreply', 'method' => 'before_newthread'];
-		$afmethods[] = ['class' => 'forum\extend_thread_rushreply', 'method' => 'after_newthread'];
-	}
-
 	$bfmethods[] = ['class' => 'forum\extend_thread_replycredit', 'method' => 'before_newthread'];
 	$afmethods[] = ['class' => 'forum\extend_thread_replycredit', 'method' => 'after_newthread'];
 
