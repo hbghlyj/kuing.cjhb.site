@@ -1657,7 +1657,7 @@ Last Modify:	Pony
 
 .blr { width: 580px; margin: 20px auto 30px; }
 	.m_c .blr { margin: 0 auto; }
-.lgfm { font: {FONTSIZE} Verdana,system-ui,sans-serif; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
+	.lgfm { font: {FONTSIZE} Verdana,system-ui; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
 	.rgs { margin-bottom: 10px; }
 	.lgfm label, .lgfm p, .reginfo { clear: both; display: block; margin-bottom: 10px; line-height: 22px; }
 		/* 自定义的注册信息 */
