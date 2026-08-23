@@ -2876,11 +2876,22 @@ function currentlang() {
 }
 
 function extcredit_title($titles) {
-	if(!is_array($titles)) {
-		return $titles;
-	}
 	$locale = currentlang();
-	return $titles[$locale] ?? $titles['EN'] ?? $titles['SC'] ?? reset($titles) ?? '';
+	$legacyTitles = [
+		'EXP' => ['EN' => 'Experience', 'SC' => '经验', 'TC' => '經驗'],
+		'Karma' => ['EN' => 'Karma', 'SC' => '威望', 'TC' => '威望'],
+	];
+
+	if(!is_array($titles)) {
+		return $legacyTitles[$titles][$locale] ?? $titles;
+	}
+
+	$title = $titles[$locale] ?? $titles['EN'] ?? $titles['SC'] ?? reset($titles) ?? '';
+	$values = array_values($titles);
+	if($values && count(array_unique($values)) === 1 && isset($legacyTitles[$values[0]][$locale])) {
+		return $legacyTitles[$values[0]][$locale];
+	}
+	return $title;
 }
 
 function lang_attr() {
