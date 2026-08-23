@@ -97,6 +97,18 @@ function build_cache_setting() {
 		}
 		$_G['setting'][$setting['skey']] = $data[$setting['skey']] = $setting['svalue'];
 	}
+	if(!empty($data['creditsformula'])) {
+		$data['creditsformulaexp'] = $data['creditsformula'];
+		foreach(['digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'blogs', 'albums', 'polls', 'sharings', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'] as $var) {
+			$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
+			$replacement = isset($data['extcredits'][$creditsid])
+				? $data['extcredits'][$creditsid]['title']
+				: lang('spacecp', 'credits_formula_'.$var);
+			$data['creditsformulaexp'] = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $data['creditsformulaexp']);
+		}
+		$data['creditsformulaexp'] = addslashes('<u>{credits_CREDITS}</u>='.$data['creditsformulaexp']);
+		$_G['setting']['creditsformulaexp'] = $data['creditsformulaexp'];
+	}
 	$usergroup = table_common_usergroup::t()->fetch_by_credits($data['initcredits']);
 	$data['newusergroupid'] = $usergroup['groupid'];
 	$data['buyusergroupexists'] = table_common_usergroup::t()->buyusergroup_exists();

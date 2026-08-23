@@ -944,5 +944,18 @@
       return desc;
     }
   }
-  new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body});
+  const startPusherChat = () => new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body});
+  if(Number(window.discuz_uid || 0) > 0) {
+    startPusherChat();
+  } else {
+    const wakeup = document.createElement('button');
+    wakeup.type = 'button';
+    wakeup.className = 'pusher-chat-widget-wakeup';
+    wakeup.textContent = $L('chat_wake');
+    document.body.appendChild(wakeup);
+    wakeup.addEventListener('click', () => {
+      wakeup.remove();
+      startPusherChat();
+    }, {once: true});
+  }
 })();

@@ -36,6 +36,7 @@ $lang = [
 	'chat_missed_error' => 'Error fetching missed messages: {1}',
 	'chat_network_error' => 'Network error: {1}',
 	'chat_network_unavailable' => 'Please check your network connection',
+	'chat_wake' => 'Open chat',
 	'chat_new_reply_message' => 'There is a new reply in this thread. Jump to it now? Choose Cancel to stay on this page.',
 	'chat_new_reply_title' => 'New reply',
 	'chat_post_edited' => 'Post has been edited',

@@ -440,7 +440,7 @@ if(in_array($do, ['buy', 'exit'])) {
 	$upgroupid = $_G['cache']['usergroup_'.$group['groupid']]['upgroupid'];
 	if($_G['cache']['usergroup_'.$group['groupid']]['grouptype'] == 'special' && !empty($upgroupid) && $_G['cache']['usergroup_'.$upgroupid]['creditsformula']) {
 		$creditstype = $_G['setting']['upgroup_name'][$upgroupid];
-		$upgroup_creditsformulaexp = strip_tags($_G['cache']['usergroup_'.$upgroupid]['creditsformulaexp']);
+		$upgroup_creditsformulaexp = strip_tags(usergroup_creditsformulaexp($_G['cache']['usergroup_'.$upgroupid]['creditsformula'], $upgroupid));
 	}
 
 	$upgroup_credits = 0;

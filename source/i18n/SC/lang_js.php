@@ -39,6 +39,7 @@ $lang = [
 	'chat_missed_error' => '获取遗漏消息失败：{1}',
 	'chat_network_error' => '网络错误：{1}',
 	'chat_network_unavailable' => '请检查网络连接',
+	'chat_wake' => '打开聊天',
 	'chat_new_reply_message' => '本主题有新回复，是否跳转到最新回复？选择取消将留在当前页面。',
 	'chat_new_reply_title' => '新回复提醒',
 	'chat_post_edited' => '帖子已被编辑',

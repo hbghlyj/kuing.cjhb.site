@@ -428,6 +428,28 @@ if($method == 'show_license') {
 		$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedLogSetting}' WHERE skey='log'");
 	}
 
+	$extcreditsRow = [];
+	$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='extcredits'", $extcreditsRow);
+	$extcredits = !empty($extcreditsRow['svalue']) ? @unserialize($extcreditsRow['svalue']) : [];
+	$creditTitleMaps = [
+		'EXP' => ['EN' => 'Experience', 'SC' => '经验', 'TC' => '經驗'],
+		'Karma' => ['EN' => 'Karma', 'SC' => '威望', 'TC' => '威望'],
+	];
+	if(is_array($extcredits)) {
+		$changed = false;
+		foreach($extcredits as &$extcredit) {
+			if(is_array($extcredit) && is_string($extcredit['title'] ?? null) && isset($creditTitleMaps[$extcredit['title']])) {
+				$extcredit['title'] = $creditTitleMaps[$extcredit['title']];
+				$changed = true;
+			}
+		}
+		unset($extcredit);
+		if($changed) {
+			$serializedExtcredits = $db->escape_string(serialize($extcredits));
+			$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedExtcredits}' WHERE skey='extcredits'");
+		}
+	}
+
 	sleep(2);
 
 	rundatasql('lang_'.$upgrade_sqlfile, true);
