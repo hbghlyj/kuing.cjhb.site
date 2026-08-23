@@ -1,21 +1,9 @@
 (() => {
   const isMobile = typeof popup == 'object';
   const CHAT_COLLAPSED_STORAGE_KEY = 'kuing.chat.collapsed';
-  const CHAT_LEGACY_COOKIE_PATHS = ['/forum.php', '/member.php', '/connect.php', '/misc.php', '/home.php'];
   function readChatCollapsedPreference(){
     try {
-      let value = localStorage.getItem(CHAT_COLLAPSED_STORAGE_KEY);
-      if(value === null){
-        const legacy = document.cookie.match(/(?:^|;\s*)isCollapsed=([^;]*)/);
-        if(legacy){
-          value = legacy[1] === 'true' ? 'true' : 'false';
-          localStorage.setItem(CHAT_COLLAPSED_STORAGE_KEY, value);
-          CHAT_LEGACY_COOKIE_PATHS.forEach(path => {
-            document.cookie = 'isCollapsed=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + path;
-          });
-        }
-      }
-      return value === 'true';
+      return localStorage.getItem(CHAT_COLLAPSED_STORAGE_KEY) === 'true';
     } catch(e) {
       return false;
     }
