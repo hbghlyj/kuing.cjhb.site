@@ -38,11 +38,6 @@ if(empty($thread)) {
 if(empty($pid)) {
 
 	if($postno) {
-		if(getstatus($thread['status'], 3)) {
-			$rowarr = table_forum_post::t()->fetch_all_by_tid_position($thread['posttableid'], $ptid, $postno);
-			$pid = $rowarr[0]['pid'];
-		}
-
 		if($pid) {
 			$post = table_forum_post::t()->fetch_post($thread['posttableid'], $pid);
 			if($post['invisible'] != 0) {

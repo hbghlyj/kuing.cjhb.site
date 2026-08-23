@@ -39,10 +39,6 @@ if($maxposition) {
 	$pagebydesc = false;
 }
 
-if(getgpc('checkrush') && $rushreply) {
-	$_G['forum_thread']['replies'] = $temp_reply;
-}
-
 if(!$maxposition && empty($postarr)) {
 
 	if(empty($_GET['viewpid'])) {
@@ -93,7 +89,7 @@ if(!empty($isdel_post)) {
 		$postarr[$id] = $post;
 		$updatedisablepos = true;
 	}
-	if($updatedisablepos && !$rushreply) {
+	if($updatedisablepos) {
 		table_forum_threaddisablepos::t()->insert(['tid' => $_G['tid']], false, true);
 		dheader('Location:'.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$_G['tid'].($_G['forum_auditstatuson'] ? '&modthreadkey='.$_GET['modthreadkey'] : '').($_G['page'] > 1 ? '&page='.$_G['page'] : ''));
 	}
@@ -107,7 +103,7 @@ foreach($postarr as $post) {
 }
 $tagnames = $hotpostarr = $hotpids = $member_blackList = [];
 
-$remainhots = ($_G['page'] == 1 && !$rushreply && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
+$remainhots = ($_G['page'] == 1 && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
 if($remainhots) {
 	$hotpids = array_keys(table_forum_hotreply_number::t()->fetch_all_by_tid_total($_G['tid'], 10));
 	$remainhots = $remainhots - count($hotpids);

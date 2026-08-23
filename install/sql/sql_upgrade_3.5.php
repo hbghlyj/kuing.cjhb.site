@@ -12,6 +12,15 @@ WHERE identifier = 'archiver' OR url = 'archiver/';
 DELETE FROM pre_common_cron
 WHERE filename = 'cron_promotion_hourly.php';
 
+UPDATE pre_forum_thread
+SET status = status & ~4
+WHERE status & 4;
+
+DROP TABLE IF EXISTS pre_forum_threadrush;
+
+ALTER TABLE pre_common_usergroup_field
+	DROP COLUMN allowpostrushreply;
+
 DELETE taskvar
 FROM pre_common_taskvar AS taskvar
 INNER JOIN pre_common_task AS task ON task.taskid = taskvar.taskid

@@ -20,7 +20,7 @@ class extend_thread_filter extends extend_thread_base {
 	private $curFilterCheck = -1;
 
 	private function _check_post_length($message, $length) {
-		if(($this->param['special'] ?? 0) || ($this->thread['special'] ?? 0) || getstatus($this->thread['status'] ?? 0, 3) || !$length) {
+		if(($this->param['special'] ?? 0) || ($this->thread['special'] ?? 0) || !$length) {
 			return 0;
 		}
 		require_once libfile('function/discuzcode');

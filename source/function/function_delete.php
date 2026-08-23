@@ -544,7 +544,6 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 	foreach($tagcounts as $tagid => $count) {
 		table_common_tag::t()->increase($tagid, ['related_count' => -$count]);
 	}
-	table_forum_threadrush::t()->delete($arrtids);
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['deletethread']) {
 		hookscript('deletethread', 'global', 'funcs', ['param' => $hookparam, 'step' => 'delete'], 'deletethread');
 	}

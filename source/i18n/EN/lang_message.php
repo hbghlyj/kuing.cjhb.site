@@ -150,7 +150,6 @@ $lang = array (
 	'debate_position_nofound'	=> 'Sorry, Published debate thread need to enter the square and anti-squre point of view.',//'对不起，发表辩论主题需要输入正方和反方观点，请返回修改。',
 	'debate_endtime_invalid'	=> 'Sorry, You set the end of the debate time is less than the current time.',//'对不起，您设置辩论的结束时间小于当前时间，请返回修改。',
 	'debate_umpire_invalid'		=> 'Sorry, Specified umpire (<b>{umpire}</b>) does not exist or has been deleted.',//'对不起，你指定的裁判 (<b>{umpire}</b>) 不存在或者被删除，请返回修改。',
-	'post_rushreply_timewrong'	=> 'Sorry, grab level time range setting error',//'抱歉，抢楼时间范围设置错误',
 	'post_newthread_mod_succeed'	=> 'Your thread need to be moderated, it will be displayed when verified by moderator {coverimg}.',//'新主题需要审核，您的帖子通过审核后才能显示{coverimg}',
 	'post_newthread_succeed'	=> 'Thanks, Your thread has been published, now redirecting to the thread page.<br><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[click here to see thread list]</a>{coverimg}',//'非常感谢，您的主题已发布，现在将转入主题页，请稍候……<br><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>{coverimg}',
 	'post_subject_duplicate'	=> 'Subject title already exists, please do not post repeatedly',
@@ -643,7 +642,6 @@ $lang = array (
 	'post_edit_thread_ban_del'		=> 'Sorry, you can not delete the post when editing.',//'对不起，编辑帖子时不允许删除帖子，请返回。',
 	'post_edit_reward_already_reply'	=> 'Sorry, you can not delete reward that contains replies.',//'对不起，您不能删除已经有回复的悬赏，请返回。',
 	'post_edit_reward_nopermission'		=> 'Sorry, the reward is over and can not return the points.',//'对不起，悬赏已经结束，无法退还积分，请返回。',
-	'post_edit_delete_rushreply_nopermission'	=> 'Sorry, rush thread can not be deleted',//'对不起，抢楼贴是不能删除的，请返回',
 	'auditstatuson_succeed'			=> 'Audit success, click to view this post.',//'审核成功，点击查看该帖。',
 	'audit_edit_succeed'			=> '<a href="javascript:if(opener)opener.location.reload();window.close();">Edit successfully, click to close.</a>',//'<a href="javascript:if(opener)opener.location.reload();window.close();">编辑成功， 点击关闭本页。</a>',
 	'edit_newthread_mod_succeed'		=> 'Your thread needs moderation after edited, it will be displayed when pass the moderation.',//'管理员设置了对编辑后的主题进行审核，您的帖子通过审核后才会显示。',
@@ -652,7 +650,6 @@ $lang = array (
 
 	'post_forum_newreply_nopermission'	=> 'Sorry, only special user groups can reply.',//'对不起，本版块只有特定用户组可以回复，请返回。',
 	'comment_add_succeed'			=> 'Add comment successfully',//'帖子点评已成功发布',
-	'post_rushreply_creditlimit'		=> 'Sorry, your {creditlimit_title} insufficient. For grab the floor you must have {creditlimit_title} at least {creditlimit}',//'抱歉，您的 {creditlimit_title} 不足，本抢楼帖限制最小 {creditlimit_title} 为 {creditlimit}',
 	'trade_newreply_nopermission'		=> 'Sorry, you can reply only for open products.',//'对不起，只有已开放的商品主题可以回复，请返回。',
 	'post_reply_succeed'			=> 'Thanks, Your reply has been published, now redirect you to the thread content page.<br><a href="forum.php?mod=forumdisplay&fid={fid}">[click here to thread list]</a>',//'非常感谢，您的回复已经发布，现在将转入主题页。<br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 需要转入主题列表请点击这里 ]</a>',
 	'trade_add_succeed'			=> 'Thanks, your product has been published and will now turn to commodities subject page.<br><a href="forum.php?mod=post&action=reply&fid={fid}&tid={tid}&addtrade=yes">[ Click here to continue to add products ]</a><br><a href="forum.php?mod=forumdisplay&fid={fid}">[ For go into a list of topics, please click here ]</a>',//'非常感谢，您的商品已经发布，现在将转入商品主题页。<br><a href="forum.php?mod=post&action=reply&fid={fid}&tid={tid}&addtrade=yes">[ 继续添加商品请点击这里 ]</a><br><a href="forum.php?mod=forumdisplay&fid={fid}">[ 需要转入主题列表请点击这里 ]</a>',

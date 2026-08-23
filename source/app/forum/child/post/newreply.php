@@ -154,18 +154,6 @@ if($special == 127) {
 	$sppos = strrpos($postinfo['message'], chr(0).chr(0).chr(0));
 	$specialextra = substr($postinfo['message'], $sppos + 3);
 }
-if(getstatus($thread['status'], 3)) {
-	$rushinfo = table_forum_threadrush::t()->fetch($_G['tid']);
-	if($rushinfo['creditlimit'] != -996) {
-		$checkcreditsvalue = $_G['setting']['creditstransextra'][11] ? getuserprofile('extcredits'.$_G['setting']['creditstransextra'][11]) : $_G['member']['credits'];
-		if($checkcreditsvalue < $rushinfo['creditlimit']) {
-			$creditlimit_title = $_G['setting']['creditstransextra'][11] ? $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][11]]['title'] : lang('forum/misc', 'credit_total');
-			showmessage('post_rushreply_creditlimit', '', ['creditlimit_title' => $creditlimit_title, 'creditlimit' => $rushinfo['creditlimit']]);
-		}
-	}
-
-}
-
 if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$has_attention = $_G['uid'] ? (table_forum_threadattention::t()->fetch_by_tid_uid($_G['tid'], $_G['uid']) ? 1 : 0) : 0;
@@ -449,7 +437,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$attentionon = getgpc('attention_add') ? 1 : 0;
 	$attentionoff = getgpc('attention_remove') ? 1 : 0;
-	$bfmethods[] = ['class' => 'forum\extend_thread_rushreply', 'method' => 'before_newreply'];
 	if($_G['group']['allowat']) {
 		$bfmethods[] = ['class' => 'forum\extend_thread_allowat', 'method' => 'before_newreply'];
 	}
@@ -463,7 +450,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 
-	$afmethods[] = ['class' => 'forum\extend_thread_rushreply', 'method' => 'after_newreply'];
 
 
 	$afmethods[] = ['class' => 'forum\extend_thread_comment', 'method' => 'after_newreply'];

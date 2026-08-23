@@ -10,12 +10,6 @@ $thread[typehtml] $thread[sorthtml]
 <!--{/if}-->
 <a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a>
 <!--{if $_G['setting']['threadhidethreshold'] && $thread['hidden'] >= $_G['setting']['threadhidethreshold']}--><span class="xg1">{lang hidden}</span>&nbsp;<!--{/if}-->
-<!--{if $thread['rushreply']}-->
-<span class="tbox rushrep">{lang rushreply}</span>
-<!--{if $rushinfo[$thread[tid]]}-->
-<span id="rushtimer_$thread[tid]"> {lang havemore_special} <span id="rushtimer_body_$thread[tid]"></span> <script language="javascript">settimer($rushinfo[$thread[tid]]['timer'], 'rushtimer_body_$thread[tid]');</script>{if $rushinfo[$thread[tid]]['timertype'] == 'start'} {lang header_start} {else} {lang over} {/if} {lang right_special}</span>
-<!--{/if}-->
-<!--{/if}-->
 <!--{if $thread['readperm']}--> - [{lang readperm} <span class="xw1">$thread[readperm]</span>]<!--{/if}-->
 <!--{if $thread['price'] > 0}-->
 <!--{if $thread['special'] == '3'}-->

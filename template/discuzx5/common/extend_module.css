@@ -262,8 +262,8 @@ details > div {
 .imgf .px {padding:2px 5px;height:20px;line-height:20px}
 .sinf .px, .sadd .px {width:122px}
 .spmf3 .px {width:70px}
-.sinf #uncertainstarttime .px, #extra_rushreplyset_c .sinf .px {width:116px}
-.sinf #uncertainstarttime span, #extra_rushreplyset_c .sinf span {margin:0 2px 0 1px}
+.sinf #uncertainstarttime .px {width:116px}
+.sinf #uncertainstarttime span {margin:0 2px 0 1px}
 .sinf a.d {margin-top:13px}
 #postbox dd.hasd input {width:124px !important}
 #activitynumber {width:84px !important}

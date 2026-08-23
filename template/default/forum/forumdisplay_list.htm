@@ -161,12 +161,6 @@
 										<!--{/if}-->
                                                                         <a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a>
 										<!--{if $_G['setting']['threadhidethreshold'] && $thread['hidden'] >= $_G['setting']['threadhidethreshold']}--><span class="xg1">{lang hidden}</span>&nbsp;<!--{/if}-->
-										<!--{if $thread['rushreply']}-->
-											<span class="tbox rushrep">{lang rushreply}</span>
-											<!--{if $rushinfo[$thread[tid]]}-->
-											<span id="rushtimer_$thread[tid]"> {lang havemore_special} <span id="rushtimer_body_$thread[tid]"></span> <script language="javascript">settimer($rushinfo[$thread[tid]]['timer'], 'rushtimer_body_$thread[tid]');</script>{if $rushinfo[$thread[tid]]['timertype'] == 'start'} {lang header_start} {else} {lang over} {/if} {lang right_special}</span>
-											<!--{/if}-->
-										<!--{/if}-->
 										<!--{if $stemplate && $sortid}-->$stemplate[$sortid][$thread[tid]]<!--{/if}-->
 										<!--{if $thread['readperm']}--> - [{lang readperm} <span class="xw1">$thread[readperm]</span>]<!--{/if}-->
 										<!--{if $thread['price'] > 0}-->

@@ -1813,7 +1813,6 @@ CREATE TABLE pre_common_usergroup_field
 	maxattachnum           smallint(6)           NOT NULL DEFAULT '0',
 	allowposturl           tinyint(1)            NOT NULL DEFAULT '3',
 	allowrecommend         tinyint(3) unsigned   NOT NULL DEFAULT '1',
-	allowpostrushreply     tinyint(1)            NOT NULL DEFAULT '0',
 	maxfriendnum           smallint(6) unsigned  NOT NULL DEFAULT '0',
 	maxspacesize           int(10) unsigned      NOT NULL DEFAULT '0',
 	allowcomment           tinyint(1)            NOT NULL DEFAULT '0',
@@ -3391,19 +3390,6 @@ CREATE TABLE pre_forum_threadprofile_group
 	gid  mediumint(8)          NOT NULL,
 	tpid mediumint(8) unsigned NOT NULL,
 	PRIMARY KEY (gid)
-) ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS pre_forum_threadrush;
-CREATE TABLE pre_forum_threadrush
-(
-	tid           int(10) unsigned      NOT NULL DEFAULT '0',
-	stopfloor     mediumint(8) unsigned NOT NULL DEFAULT '0',
-	starttimefrom int(10) unsigned      NOT NULL DEFAULT '0',
-	starttimeto   int(10) unsigned      NOT NULL DEFAULT '0',
-	rewardfloor   text                  NOT NULL,
-	creditlimit   int(10)               NOT NULL DEFAULT '-996',
-	replylimit    smallint(6)           NOT NULL DEFAULT '0',
-	PRIMARY KEY (tid)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_threadtype;
