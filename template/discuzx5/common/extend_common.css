@@ -342,6 +342,7 @@ form[action*="ac=privacy&op="] .tfm caption h2.ptw {padding-top:0px !important}
 .bm_h .y a {color:var(--dz-fc)}
 .bm {background:var(--dz-bgf);border-color:var(--dz-borderb);}
 .bm_c {padding:15px 20px 20px}
+.forum-banner {display:block;max-width:100%;height:auto}
 
 
 /* 头部开始 */
