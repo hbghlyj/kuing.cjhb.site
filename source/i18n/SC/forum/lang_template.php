@@ -322,6 +322,7 @@ $lang = [
 	'emailpost_reply_copy_email_footer' => '您收到本回复副本，因为您通过邮件创建了该主题。回复本邮件即可回复本帖。',
 	'their' => '所属分类',
 	'threads_all' => '全部主题',
+	'return_forumdisplay' => '返回列表',
 	'viewed_threads' => '浏览过的帖子',
 	'viewed_forums' => '浏览过的版块',
 	'click_to_show_reason' => '点击查看原因',

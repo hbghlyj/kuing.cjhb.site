@@ -42,6 +42,7 @@ $threadtable_info = !empty($_G['cache']['threadtable_info']) ? $_G['cache']['thr
 $archiveid = $thread['threadtableid'];
 $thread['is_archived'] = (bool)$archiveid;
 $thread['archiveid'] = $archiveid;
+$archiveparam = $archiveid ? '&amp;archiveid='.intval($archiveid) : '';
 $forum['threadtableid'] = $archiveid;
 $threadtable = $thread['threadtable'];
 $posttableid = $thread['posttableid'];
@@ -112,12 +113,12 @@ if($_GET['from'] == 'portal') {
 	_checkviewgroup();
 	$nav = get_groupnav($_G['forum']);
 	$navigation = ' <em>&rsaquo;</em> <a href="group.php">'.$_G['setting']['navs'][3]['navname'].'</a> '.$nav['nav'];
-	$upnavlink = 'forum.php?mod=forumdisplay&amp;fid='.$_G['fid'].($_GET['extra'] && !IS_ROBOT ? '&amp;'.$_GET['extra'] : '');
+	$upnavlink = 'forum.php?mod=forumdisplay&amp;fid='.$_G['fid'].$archiveparam.($_GET['extra'] && !IS_ROBOT ? '&amp;'.$_GET['extra'] : '');
 	$_G['grouptypeid'] = $_G['forum']['fup'];
 
 } else {
 	$navigation = '';
-	$upnavlink = 'forum.php?mod=forumdisplay&amp;fid='.$_G['fid'].(getgpc('extra') && !IS_ROBOT ? '&amp;'.$_GET['extra'] : '');
+	$upnavlink = 'forum.php?mod=forumdisplay&amp;fid='.$_G['fid'].$archiveparam.(getgpc('extra') && !IS_ROBOT ? '&amp;'.$_GET['extra'] : '');
 
 	if($_G['forum']['type'] == 'sub') {
 		$fup = $_G['cache']['forums'][$_G['forum']['fup']]['fup'];
