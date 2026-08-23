@@ -92,7 +92,7 @@ if($_GET['op'] == 'base') {
 		$upgroup_credits = (new credit())->countcredit_usergroup($_G['uid'], $upgroupid);
 		loadcache('usergroup_'.$upgroupid);
 		if($_G['cache']['usergroup_'.$upgroupid]['creditsformula'] && !empty($_G['setting']['upgroup_name'][$upgroupid])) {
-			$upgroup_creditsformulaexp = $_G['cache']['usergroup_'.$upgroupid]['creditsformulaexp'];
+			$upgroup_creditsformulaexp = usergroup_creditsformulaexp($_G['cache']['usergroup_'.$upgroupid]['creditsformula'], $upgroupid);
 			$upgroup_name = $_G['setting']['upgroup_name'][$upgroupid];
 		}
 	}

@@ -2894,6 +2894,20 @@ function extcredit_title($titles) {
 	return $title;
 }
 
+function usergroup_creditsformulaexp($formula, $groupid) {
+	global $_G;
+	$display = $formula;
+	foreach(['digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'blogs', 'albums', 'polls', 'sharings', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'] as $var) {
+		$creditsid = preg_replace('/^extcredits(\d{1})$/', "\\1", $var);
+		$replacement = isset($_G['setting']['extcredits'][$creditsid])
+			? $_G['setting']['extcredits'][$creditsid]['title']
+			: lang('spacecp', 'credits_formula_'.$var);
+		$display = str_replace('$member[\''.$var.'\']', '<u>'.$replacement.'</u>', $display);
+	}
+	$groupName = $_G['setting']['upgroup_name'][$groupid] ?? '';
+	return addslashes('<u>'.$groupName.lang('spacecp', 'credits_formula_credits').'</u>='.$display);
+}
+
 function lang_attr() {
 	$map = ['SC' => 'zh-CN', 'TC' => 'zh-TW', 'EN' => 'en'];
 	return $map[currentlang()] ?? currentlang();
