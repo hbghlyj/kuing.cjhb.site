@@ -1441,7 +1441,7 @@ const testPusherLeaderCoordination = async browser => {
         await page.locator('body').waitFor({ state: 'visible' });
         const otherProfileBody = await page.textContent('body');
         assert.ok(otherProfileBody.includes('admin'), 'Assertion Error: Desktop other user profile page did not load.');
-        assert.ok(otherProfileBody.includes('EXP'), 'Assertion Error: Profile did not label extcredits1 as EXP.');
+        assert.ok(otherProfileBody.includes('Experience'), 'Assertion Error: Profile did not label extcredits1 as Experience.');
         assert.ok(otherProfileBody.includes('Karma'), 'Assertion Error: Profile did not label extcredits2 as Karma.');
         await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
 
