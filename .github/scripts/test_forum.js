@@ -851,6 +851,8 @@ const testPusherLeaderCoordination = async browser => {
             await solveSecurityQuestion(page, replyForm);
             const replyBtn = replyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
+            const expBeforeReply = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT extcredits1 FROM pre_common_member_count WHERE uid='${userUid}';"`).toString().trim(), 10);
+            const replyCreditLogsBefore = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log l INNER JOIN pre_common_credit_rule r ON r.rid=l.relatedid WHERE l.uid='${userUid}' AND l.operation='RUL' AND l.extcredits1 > 0 AND r.action='reply';"`).toString().trim(), 10);
             const [replyResponse] = await Promise.all([
                 page.waitForResponse(response =>
                     response.request().method() === 'POST' &&
@@ -871,7 +873,11 @@ const testPusherLeaderCoordination = async browser => {
             console.log("Checking if reply exists in DB...");
             const replyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0;"`).toString().trim();
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
-            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
+            const expAfterReply = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT extcredits1 FROM pre_common_member_count WHERE uid='${userUid}';"`).toString().trim(), 10);
+            const replyCreditLogsAfter = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log l INNER JOIN pre_common_credit_rule r ON r.rid=l.relatedid WHERE l.uid='${userUid}' AND l.operation='RUL' AND l.extcredits1 > 0 AND r.action='reply';"`).toString().trim(), 10);
+            assert.strictEqual(expAfterReply, expBeforeReply + 1, 'Assertion Error: Reply did not increment Experience by the configured +1.');
+            assert.strictEqual(replyCreditLogsAfter, replyCreditLogsBefore + 1, 'Assertion Error: Reply Experience credit was not logged exactly once.');
+            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n- **Experience Credit**: +1 and credit log verified\n\n';
 
             console.log("Testing deleted reply revision restore...");
             const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
