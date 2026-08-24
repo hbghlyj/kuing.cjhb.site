@@ -877,7 +877,12 @@ const testPusherLeaderCoordination = async browser => {
             const replyCreditLogsAfter = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log l INNER JOIN pre_common_credit_rule r ON r.rid=l.relatedid WHERE l.uid='${userUid}' AND l.operation='RUL' AND l.extcredits1 > 0 AND r.action='reply';"`).toString().trim(), 10);
             assert.strictEqual(expAfterReply, expBeforeReply + 1, 'Assertion Error: Reply did not increment Experience by the configured +1.');
             assert.strictEqual(replyCreditLogsAfter, replyCreditLogsBefore + 1, 'Assertion Error: Reply Experience credit was not logged exactly once.');
-            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n- **Experience Credit**: +1 and credit log verified\n\n';
+            await page.goto(`http://127.0.0.1:8080/home.php?mod=spacecp&ac=credit&op=log&optype=RUL`);
+            await page.waitForLoadState('networkidle');
+            const replyCreditLogRows = page.locator('table.dt tr').filter({ has: page.locator('a[href*="optype=RUL"]') });
+            assert.ok(await replyCreditLogRows.count() >= 1, 'Assertion Error: Reply Experience credit was not rendered in the credit log page.');
+            assert.match(await replyCreditLogRows.first().innerText(), /\+1/, 'Assertion Error: Rendered reply credit log did not show the +1 Experience change.');
+            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n- **Experience Credit**: +1, database log verified, and credit-log page verified\n\n';
 
             console.log("Testing deleted reply revision restore...");
             const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
