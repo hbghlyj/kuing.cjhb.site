@@ -33,10 +33,9 @@ if(!submitcheck('optimizesubmit')) {
 	foreach($tablearray as $tp) {
 		$query = DB::query("SHOW TABLE STATUS LIKE '$tp%'", 'SILENT');
 		while($table = DB::fetch($query)) {
-			if($table['Data_free'] && $table[$tabletype] == 'MyISAM') {
-				$checked = $table[$tabletype] == 'MyISAM' ? 'checked' : 'disabled';
+			if($table['Data_free']) {
 				showtablerow('', '', [
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"optimizetables[]\" value=\"{$table['Name']}\" $checked>",
+					"<input class=\"checkbox\" type=\"checkbox\" name=\"optimizetables[]\" value=\"{$table['Name']}\" checked=\"checked\">",
 					$table['Name'],
 					$table[$tabletype],
 					$table['Rows'],
@@ -61,8 +60,8 @@ if(!submitcheck('optimizesubmit')) {
 	foreach($tablearray as $tp) {
 		$query = DB::query("SHOW TABLE STATUS LIKE '$tp%'", 'SILENT');
 		while($table = DB::fetch($query)) {
-			if($table['Data_free'] && $table[$tabletype] == 'MyISAM') {
-				$optimizeinput = "<input class=\"checkbox\" type=\"checkbox\" name=\"optimizetables[]\" value=\"{$table['Name']}\" $checked>";
+			if($table['Data_free']) {
+				$optimizeinput = "<input class=\"checkbox\" type=\"checkbox\" name=\"optimizetables[]\" value=\"{$table['Name']}\" checked=\"checked\">";
 				if(is_array($_GET['optimizetables']) && in_array($table['Name'], $_GET['optimizetables'])) {
 					DB::query("OPTIMIZE TABLE {$table['Name']}");
 					$table['Data_free'] = 0;
@@ -86,4 +85,3 @@ if(!submitcheck('optimizesubmit')) {
 
 showtablefooter();
 showformfooter();
-	

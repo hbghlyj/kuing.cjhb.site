@@ -114,7 +114,6 @@ $lang = [
 
 	'forceinstall' => '强制安装',
 	'dbinfo_forceinstall_invalid' => '当前数据库当中已经含有同样表前缀的数据表，您可以修改“表名前缀”来避免删除旧的数据，或者选择强制安装。强制安装会删除旧数据，且无法恢复',
-	'dbinfo_myisam2innodb_invalid' => 'InnoDB性能不佳，安装超时失败的，可以尝试这种方式强制安装',
 
 	'click_to_back' => '点击返回上一步',
 	'adminemail' => '系统信箱 Email',
@@ -125,7 +124,6 @@ $lang = [
 	'dbpw_comment' => '您的数据库密码',
 	'tablepre_comment' => '同一数据库运行多个论坛时，请修改前缀',
 	'forceinstall_check_label' => '我要删除数据，强制安装 !!!',
-	'myisam2innodb_check_label' => '以MyISAM方式安装，再转换为InnoDB',
 	'initdbresult_succ' => '数据库表创建完成',
 	'initdbdataresult_succ' => '数据库数据初始化完成',
 	'initdbinnodbresult_succ' => 'InnoDB数据表转换完成',

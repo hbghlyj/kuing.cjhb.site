@@ -650,7 +650,7 @@ EOT;
 
 function createtable($sql, $dbver) {
 	$type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $sql));
-	$type = in_array($type, array('INNODB', 'MYISAM', 'HEAP', 'MEMORY')) ? $type : 'INNODB';
+	$type = in_array($type, array('HEAP', 'MEMORY')) ? $type : 'INNODB';
 	return preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $sql).
 		" ENGINE=$type DEFAULT CHARSET=".DBCHARSET.
 		(DBCHARSET === 'utf8mb4' ? " COLLATE=utf8mb4_unicode_ci" : "");
@@ -965,9 +965,9 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 
 function show_db_install($upgrade = false) {
 	if(VIEW_OFF) return;
-	global $dbhost, $dbuser, $dbpw, $dbname, $tablepre, $username, $password, $email, $uid, $myisam2innodb, $_config;
+	global $dbhost, $dbuser, $dbpw, $dbname, $tablepre, $username, $password, $email, $uid, $_config;
 	$succlang = 'initdbdataresult_succ';
-	$allinfo = base64_encode(serialize(compact('dbhost', 'dbuser', 'dbpw', 'dbname', 'tablepre', 'username', 'password', 'email', 'uid', 'myisam2innodb')));
+	$allinfo = base64_encode(serialize(compact('dbhost', 'dbuser', 'dbpw', 'dbname', 'tablepre', 'username', 'password', 'email', 'uid')));
 	?>
 
 	<div class="box">
