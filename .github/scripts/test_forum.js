@@ -1322,6 +1322,64 @@ const testPusherLeaderCoordination = async browser => {
 
             await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await adminPage.waitForLoadState('networkidle');
+
+            // Exercise the text-selection quote path used by the sshare dialog.
+            // A rendered line break must become one newline in the BBCode quote,
+            // not literal <br> markup or a duplicated blank line.
+            const selectedQuotePost = adminPage.locator(`#postmessage_${quotePid}`);
+            assert.strictEqual(await selectedQuotePost.count(), 1, 'Assertion Error: Post content for selected-text quote did not render.');
+            await selectedQuotePost.evaluate(node => {
+                const firstLine = document.createTextNode('Selected quote line one');
+                const secondLine = document.createTextNode('Selected quote line two');
+                const lineBreak = document.createElement('br');
+                // nl2br() renders a break followed by the source newline: <br>\n.
+                const renderedSourceNewline = document.createTextNode('\n');
+                node.replaceChildren(firstLine, lineBreak, renderedSourceNewline, secondLine);
+                const range = document.createRange();
+                range.setStart(firstLine, 0);
+                range.setEnd(secondLine, secondLine.length);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+            });
+            const selectedQuoteButton = adminPage.locator('.sshare.is-active button');
+            await selectedQuoteButton.waitFor({ state: 'visible' });
+            await selectedQuoteButton.click();
+            const selectedQuoteForm = adminPage.locator('#fwin_reply form:visible');
+            await selectedQuoteForm.waitFor({ state: 'visible' });
+            const selectedQuoteSource = await selectedQuoteForm.locator('input[name="noticetrimstr"]').inputValue();
+            assert.ok(!/<br\s*\/?\s*>/i.test(selectedQuoteSource), 'Assertion Error: Selected-text quote inserted literal HTML br markup.');
+            assert.ok(selectedQuoteSource.includes('Selected quote line one\nSelected quote line two'), 'Assertion Error: Selected-text quote did not preserve one newline between lines.');
+            assert.ok(!selectedQuoteSource.includes('Selected quote line one\n\nSelected quote line two'), 'Assertion Error: Selected-text quote duplicated a line break.');
+
+            const selectedQuoteReply = 'Selected quote reply body.';
+            await fillPostEditor(selectedQuoteReply, adminPage, selectedQuoteForm);
+            await solveSecurityQuestion(adminPage, selectedQuoteForm);
+            const selectedQuoteSubmit = selectedQuoteForm.locator('#postsubmit, button[name="replysubmit"]');
+            assert.strictEqual(await selectedQuoteSubmit.count(), 1, 'Assertion Error: Selected-text quote submit button did not render.');
+            const [selectedQuoteResponse] = await Promise.all([
+                adminPage.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('forum.php?mod=post')
+                ),
+                selectedQuoteSubmit.click()
+            ]);
+            assert.ok(
+                selectedQuoteResponse.ok() || (selectedQuoteResponse.status() >= 300 && selectedQuoteResponse.status() < 400),
+                `Assertion Error: Selected-text quote POST failed with HTTP ${selectedQuoteResponse.status()}.`
+            );
+            await adminPage.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
+
+            const selectedQuotePid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%${selectedQuoteReply}%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            assert.match(selectedQuotePid, /^\d+$/, 'Assertion Error: Submitted selected-text quote was not found in the database.');
+            const selectedQuoteMessageB64 = execSync(`sudo mysql --raw -u root ultrax -N -s -e "SELECT TO_BASE64(message) FROM pre_forum_post WHERE pid='${selectedQuotePid}';"`).toString().trim();
+            const selectedQuoteMessage = Buffer.from(selectedQuoteMessageB64, 'base64').toString('utf8');
+            assert.ok(selectedQuoteMessage.includes('Selected quote line one\nSelected quote line two'), 'Assertion Error: Stored selected-text quote did not preserve one newline between lines.');
+            assert.ok(!selectedQuoteMessage.includes('Selected quote line one\n\nSelected quote line two'), 'Assertion Error: Stored selected-text quote duplicated a line break.');
+            assert.ok(selectedQuoteMessage.includes(`[/quote]\n${selectedQuoteReply}`), 'Assertion Error: Stored selected-text quote did not separate the reply body from the quote.');
+
+            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
             const adminQuoteLink = adminPage.locator(`a.fastre[href*="repquote=${quotePid}"]`);
             assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
             await adminQuoteLink.click();
