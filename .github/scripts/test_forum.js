@@ -262,6 +262,12 @@ const testPusherLeaderCoordination = async browser => {
         const quoteSource = existingSource || (await hiddenQuote.count() ? await hiddenQuote.inputValue() : '');
         assert.match(quoteSource, /\[quote(?:=[^\]]+)?\][\s\S]*\[\/quote\]/i, 'Assertion Error: Quote action did not insert BBCode quote markup.');
         assert.ok(quoteSource.includes(quotedText), 'Assertion Error: Quote BBCode did not preserve the quoted post text.');
+        if(await hiddenQuote.count()) {
+            assert.ok(
+                !(await textEditor.inputValue()).includes(quotedText),
+                'Assertion Error: Quoted content was copied into the editable reply message instead of noticetrimstr.'
+            );
+        }
         await textEditor.fill(existingSource ? `${existingSource}\n${message}` : message);
     };
     const solveSecurityQuestion = async (targetPage = page, root = targetPage) => {
