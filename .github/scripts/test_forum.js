@@ -634,6 +634,18 @@ const testPusherLeaderCoordination = async browser => {
             forumLayouts.some(layout => layout.type === 'grid' && layout.columns > 0 && layout.items > 0),
             'Assertion Error: Desktop forum index did not render a supported forum list layout.'
         );
+        const footerTimeMatchesBrowserLocale = await page.locator('#footer_time_now').evaluate(element => {
+            const timestamp = Number(element.getAttribute('data-timestamp'));
+            const formatted = new Intl.DateTimeFormat(undefined, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            }).format(new Date(timestamp * 1000));
+            return Number.isFinite(timestamp) && element.textContent.trim() === formatted;
+        });
+        assert.ok(footerTimeMatchesBrowserLocale, 'Assertion Error: Footer time did not use the browser local format.');
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';

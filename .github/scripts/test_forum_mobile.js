@@ -56,6 +56,18 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
         const footerLocaleLinks = page.locator('.footer-locales a[href^="misc.php?mod=i18n&key="]');
         assert.strictEqual(await footerLocaleLinks.count(), 3, 'Assertion Error: Touch footer locale switcher did not render all three locales.');
+        const mobileFooterTimeMatchesBrowserLocale = await page.locator('#footer_time_now').evaluate(element => {
+            const timestamp = Number(element.getAttribute('data-timestamp'));
+            const formatted = new Intl.DateTimeFormat(undefined, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            }).format(new Date(timestamp * 1000));
+            return Number.isFinite(timestamp) && element.textContent.trim() === formatted;
+        });
+        assert.ok(mobileFooterTimeMatchesBrowserLocale, 'Assertion Error: Touch footer time did not use the browser local format.');
 
         const registrationForm = page.locator('#registerform');
         // reginput can rename the DOM id and name; the first text field is the username.

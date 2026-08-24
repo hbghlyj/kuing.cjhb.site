@@ -117,7 +117,7 @@
 								<!--{hook/global_footerlink}-->
 					</div>
 				</div>
-				<p class="xs0">{lang time_now}</p>
+				<p class="xs0"><time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time></p>
 			</div>
 			<div id="frt">
 				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
@@ -153,6 +153,7 @@
 		</div>
 	</div>
 <!--{/if}-->
+<script src="/static/js/footer_local_time.js?{VERHASH}"></script>
 
 <div class="dz_rnav" id="dz_rnav">
 
