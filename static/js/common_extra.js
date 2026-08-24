@@ -1039,6 +1039,12 @@ function _showTip(ctrlobj) {
 		div.innerHTML = '<div class="tip_horn"></div><div class="tip_c">' + ctrlobj.getAttribute('tip') + '</div>';
 		$('append_parent').appendChild(div);
 	}
+	if(!ctrlobj.tipDismissBound) {
+		ctrlobj.tipDismissBound = true;
+		_attachEvent(ctrlobj, 'mouseleave', function() {
+			hideMenu(ctrlobj.id + '_menu', 'prompt');
+		});
+	}
 	hideMenu('', 'prompt');
 	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
 }
