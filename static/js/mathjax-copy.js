@@ -13,16 +13,28 @@ function mjxReplaceWithTex(fragment) {
   return fragment;
 }
 
-// Extract rendered text so <br> and block boundaries remain line breaks.
-function fragmentToPlainText(fragment) {
-  // nl2br() emits a source newline after every <br>. innerText would count
-  // both nodes as line breaks, so discard only that formatting whitespace.
+// nl2br() emits a source newline immediately after each <br>. Remove only
+// that paired formatting newline; additional newlines are meaningful content.
+function normalizeNl2brSourceNewlines(fragment) {
   fragment.querySelectorAll('br').forEach((lineBreak) => {
-    const sourceWhitespace = lineBreak.nextSibling;
-    if (sourceWhitespace && sourceWhitespace.nodeType === Node.TEXT_NODE && /^\s*$/.test(sourceWhitespace.nodeValue || '')) {
-      sourceWhitespace.remove();
+    const sourceText = lineBreak.nextSibling;
+    if (!sourceText || sourceText.nodeType !== Node.TEXT_NODE) {
+      return;
+    }
+    const match = (sourceText.nodeValue || '').match(/^[ \t]*\r?\n/);
+    if (!match) {
+      return;
+    }
+    sourceText.nodeValue = sourceText.nodeValue.slice(match[0].length);
+    if (!sourceText.nodeValue) {
+      sourceText.remove();
     }
   });
+  return fragment;
+}
+
+// Extract rendered text so <br> and block boundaries remain line breaks.
+function fragmentToPlainText(fragment) {
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;left:-100000px;top:0;width:max-content;';
   wrapper.appendChild(fragment);
@@ -66,7 +78,7 @@ function cloneRangeWithMathJaxSource(range) {
 
 // Public serializer used by copy handling and selected-fragment quoting.
 function rangeToPlainTextWithMathJax(range) {
-  return fragmentToPlainText(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range)));
+  return fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range))));
 }
 
 // Global copy handler to modify behavior on/within mjx-container elements.
@@ -90,7 +102,7 @@ document.addEventListener('copy', function (event) {
   // Preserve usual HTML copy/paste behavior.
   clipboardData.setData('text/html', htmlContents);
   // Rewrite plain-text version, replacing rendered math with its raw TeX source.
-  clipboardData.setData('text/plain', fragmentToPlainText(mjxReplaceWithTex(fragment)));
+  clipboardData.setData('text/plain', fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(fragment))));
   // Prevent normal copy handling.
   event.preventDefault();
 });
