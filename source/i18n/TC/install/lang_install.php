@@ -114,7 +114,6 @@ $lang = [
 
 	'forceinstall' => '強制安裝',
 	'dbinfo_forceinstall_invalid' => '當前數據庫當中已經含有同樣表前綴的數據表，您可以修改“表名前綴”來避免刪除舊的數據，或者選擇強制安裝。強制安裝會刪除舊數據，且無法恢復',
-	'dbinfo_myisam2innodb_invalid' => 'InnoDB性能不佳，安裝超時失敗的，可以嘗試這種方式強制安裝',
 
 	'click_to_back' => '點擊返回上一步',
 	'adminemail' => '系統信箱 Email',
@@ -125,7 +124,6 @@ $lang = [
 	'dbpw_comment' => '您的數據庫密碼',
 	'tablepre_comment' => '同一數據庫運行多個論壇時，請修改前綴',
 	'forceinstall_check_label' => '我要刪除數據，強制安裝 !!!',
-	'myisam2innodb_check_label' => '以MyISAM方式安裝，再轉換爲InnoDB',
 	'initdbresult_succ' => '數據庫表創建完成',
 	'initdbdataresult_succ' => '數據庫數據初始化完成',
 	'initdbinnodbresult_succ' => 'InnoDB數據錶轉換完成',

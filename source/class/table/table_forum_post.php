@@ -697,18 +697,8 @@ class table_forum_post extends discuz_table {
 		return memory('incex', $key, 1, 0, '');
 	}
 
-	/*
-	 * 在InnoDB的情况下，要保证每个tid下，position是从1开始，并且每次加1，这样与MyISAM的语义相同
-	 * 在非InnoDB的时候(MyISAM)，直接插入
-	 */
 	public function insert_post($tableid, $data, $return_insert_id = false, $replace = false, $silent = false) {
 		$data = $this->normalize_text_fields($data);
-		if(strtolower(getglobal('config/db/common/engine')) !== 'innodb') { // 如果不是innodb，则是原来myisam，position是按tid自增的
-			if($this->has_nullable_json_null($data)) {
-				return $this->insert_post_with_nullable_json(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
-			}
-			return DB::insert(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
-		}
 		$tablename = self::get_tablename($tableid);
 
 		// 是否使用内存处理position, redis和memcache都可以

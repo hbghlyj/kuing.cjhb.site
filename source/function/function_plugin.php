@@ -282,8 +282,7 @@ function runquery($sql) {
 
 function createtable($sql, $dbcharset) {
 	$type = strtoupper(preg_replace('/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU', "\\2", $sql));
-	$defaultengine = strtolower(getglobal('config/db/common/engine')) !== 'innodb' ? 'MyISAM' : 'InnoDB';
-	$type = in_array($type, ['INNODB', 'MYISAM', 'HEAP', 'MEMORY']) ? $type : $defaultengine;
+	$type = in_array($type, ['HEAP', 'MEMORY']) ? $type : 'INNODB';
 	return preg_replace('/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU', "\\1", $sql)." ENGINE=$type DEFAULT CHARSET=".getglobal('config/db/1/dbcharset').(getglobal('config/db/1/dbcharset') === 'utf8mb4' ? ' COLLATE=utf8mb4_unicode_ci' : '');
 }
 
@@ -294,7 +293,6 @@ function updatetable($sql) {
 		'dbcharset' => $_G['config']['db']['1']['dbcharset'],
 		'charset' => $_G['config']['output']['charset'],
 		'tablepre' => $_G['config']['db']['1']['tablepre'],
-		'engine' => $_G['config']['db']['common']['engine']
 	];
 
 	preg_match_all('/CREATE\s+TABLE.+?pre\_(.+?)\s*\((.+?)\)\s*(ENGINE|TYPE)\s*=\s*(\w+)/is', $sql, $matches);
@@ -314,8 +312,7 @@ function updatetable($sql) {
 			if($maths[3] == 'MEMORY' || $maths[3] == 'HEAP') {
 				$type = ' ENGINE=MEMORY'.(empty($config['dbcharset']) ? '' : " DEFAULT CHARSET={$config['dbcharset']}");
 			} else {
-				$engine = $config['engine'] !== 'innodb' ? 'MyISAM' : 'InnoDB';
-				$type = ' ENGINE='.$engine.(empty($config['dbcharset']) ? '' : " DEFAULT CHARSET={$config['dbcharset']}");
+				$type = ' ENGINE=InnoDB'.(empty($config['dbcharset']) ? '' : " DEFAULT CHARSET={$config['dbcharset']}");
 			}
 			$usql = $maths[1].$type;
 
