@@ -1370,6 +1370,10 @@ const testPusherLeaderCoordination = async browser => {
                 `Assertion Error: Selected-text quote POST failed with HTTP ${selectedQuoteResponse.status()}.`
             );
             await adminPage.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
+            // The float-window submit fires one more JS redirect to the new
+            // reply anchor (page=N#pidM); let it win (or time out) so it cannot
+            // interrupt the explicit reload below.
+            await adminPage.waitForURL(/page=\d+#pid\d+/, { timeout: 5000 }).catch(() => {});
 
             const selectedQuotePid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%${selectedQuoteReply}%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
             assert.match(selectedQuotePid, /^\d+$/, 'Assertion Error: Submitted selected-text quote was not found in the database.');
@@ -1379,7 +1383,12 @@ const testPusherLeaderCoordination = async browser => {
             assert.ok(!selectedQuoteMessage.includes('Selected quote line one\n\nSelected quote line two'), 'Assertion Error: Stored selected-text quote duplicated a line break.');
             assert.ok(selectedQuoteMessage.includes(`[/quote]\n${selectedQuoteReply}`), 'Assertion Error: Stored selected-text quote did not separate the reply body from the quote.');
 
-            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
+            try {
+                await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
+            } catch (e) {
+                // A late redirect can interrupt the navigation; retry once.
+                await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
+            }
             const adminQuoteLink = adminPage.locator(`a.fastre[href*="repquote=${quotePid}"]`);
             assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
             await adminQuoteLink.click();

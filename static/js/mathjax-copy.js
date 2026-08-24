@@ -13,6 +13,20 @@ function mjxReplaceWithTex(fragment) {
   return fragment;
 }
 
+// Drop the source newline that nl2br() emits after each <br> ("<br />\n") so a
+// rendered line break contributes exactly one newline in innerText. Newer
+// Chromium (151+) preserves whitespace runs containing newlines, which would
+// otherwise turn every nl2br line break into two.
+function dropNl2brSourceNewlines(fragment) {
+  fragment.querySelectorAll('br').forEach((br) => {
+    const next = br.nextSibling;
+    if (next && next.nodeType === Node.TEXT_NODE && !next.textContent.trim()) {
+      next.remove();
+    }
+  });
+  return fragment;
+}
+
 // Extract rendered text so <br> and block boundaries remain line breaks.
 function fragmentToPlainText(fragment) {
   const wrapper = document.createElement('div');
@@ -58,7 +72,7 @@ function cloneRangeWithMathJaxSource(range) {
 
 // Public serializer used by copy handling and selected-fragment quoting.
 function rangeToPlainTextWithMathJax(range) {
-  return fragmentToPlainText(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range)));
+  return fragmentToPlainText(dropNl2brSourceNewlines(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range))));
 }
 
 // Global copy handler to modify behavior on/within mjx-container elements.
@@ -82,7 +96,7 @@ document.addEventListener('copy', function (event) {
   // Preserve usual HTML copy/paste behavior.
   clipboardData.setData('text/html', htmlContents);
   // Rewrite plain-text version, replacing rendered math with its raw TeX source.
-  clipboardData.setData('text/plain', fragmentToPlainText(mjxReplaceWithTex(fragment)));
+  clipboardData.setData('text/plain', fragmentToPlainText(dropNl2brSourceNewlines(mjxReplaceWithTex(fragment))));
   // Prevent normal copy handling.
   event.preventDefault();
 });
