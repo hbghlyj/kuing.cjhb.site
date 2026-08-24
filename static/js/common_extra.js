@@ -1047,6 +1047,9 @@ function _showTip(ctrlobj) {
 	}
 	hideMenu('', 'prompt');
 	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
+	if(!ctrlobj.matches(':hover')) {
+		hideMenu(menuid, 'prompt');
+	}
 }
 
 function _showCreditPrompt() {
