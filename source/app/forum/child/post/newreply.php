@@ -166,7 +166,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 	$language = lang('forum/misc');
-	$noticetrimstr = '';
+	$noticeauthor = $noticetrimstr = '';
 	if(isset($_GET['repquote']) && $_GET['repquote'] = intval($_GET['repquote'])) {
 		$thaquote = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $_GET['repquote']);
 		if(!($thaquote && ($thaquote['invisible'] == 0 || $thaquote['authorid'] == $_G['uid'] && $thaquote['invisible'] == -2))) {
@@ -216,6 +216,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			$post_reply_quote = lang('forum/misc', 'post_reply_quote', ['author' => $thaquote['author'], 'time' => $time]);
 			$message = "[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid={$_GET['repquote']}&ptid={$_G['tid']}][color=#999]{$post_reply_quote}[/color][/url][/size]\n{$message}[/quote]";
 			$quotemessage = discuzcode($message, 0, 0);
+			$noticeauthor = dhtmlspecialchars(authcode('q|'.$thaquote['authorid'], 'ENCODE'));
 			$noticetrimstr = dhtmlspecialchars($message);
 			$message = '';
 		}
@@ -238,6 +239,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			$thapost['author'] = '[color=Olive]'.$thapost['author'].'[/color]';
 		}
 		$quotemessage = discuzcode($message, 0, 0);
+		$noticeauthor = dhtmlspecialchars(authcode('r|'.$thapost['authorid'], 'ENCODE'));
 		$noticetrimstr = dhtmlspecialchars($message);
 		$message = '';
 		$reppid = $_GET['reppost'];
@@ -389,6 +391,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'parseurloff' => getgpc('parseurloff'),
 		'isanonymous' => getgpc('isanonymous'),
 		'noticetrimstr' => getgpc('noticetrimstr'),
+		'noticeauthor' => getgpc('noticeauthor'),
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
 		'repid' => getgpc('repid'),

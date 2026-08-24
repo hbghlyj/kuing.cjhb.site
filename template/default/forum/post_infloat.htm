@@ -26,6 +26,7 @@
 			<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 			<!--{/if}-->
 			<!--{elseif $_GET[action] == 'reply'}-->
+			<input type="hidden" name="noticeauthor" value="$noticeauthor">
 			<input type="hidden" name="noticetrimstr" value="$noticetrimstr">
 			<!--{if !empty($reppid)}-->
 			<input type="hidden" name="repid" value="{echo dhtmlspecialchars((string)$reppid)}">
