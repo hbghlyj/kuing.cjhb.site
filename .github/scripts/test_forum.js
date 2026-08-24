@@ -1332,7 +1332,9 @@ const testPusherLeaderCoordination = async browser => {
                 const firstLine = document.createTextNode('Selected quote line one');
                 const secondLine = document.createTextNode('Selected quote line two');
                 const lineBreak = document.createElement('br');
-                node.replaceChildren(firstLine, lineBreak, secondLine);
+                // nl2br() renders a break followed by the source newline: <br>\n.
+                const renderedSourceNewline = document.createTextNode('\n');
+                node.replaceChildren(firstLine, lineBreak, renderedSourceNewline, secondLine);
                 const range = document.createRange();
                 range.setStart(firstLine, 0);
                 range.setEnd(secondLine, secondLine.length);
