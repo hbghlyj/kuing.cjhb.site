@@ -27,7 +27,7 @@ class extend_thread_comment extends extend_thread_base {
 			$this->param['modnewreplies'] = 0;
 		}
 		$pinvisible = $parameters['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
-		$replypost = !empty($_GET['reppid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($_GET['reppid'])) : [];
+		$replypost = !empty($parameters['repid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($parameters['repid'])) : [];
 		// ✅ GOOD: HTML-escape and censor comment text before inserting into database to prevent Stored XSS
 		$postcomment = is_array($this->setting['allowpostcomment']) &&
 			in_array(2, $this->setting['allowpostcomment']) &&
@@ -43,7 +43,7 @@ class extend_thread_comment extends extend_thread_base {
 	public function after_newreply() {
 		if(!$this->param['isanonymous'] && !$this->param['modnewreplies']) {
 			if($this->postcomment) {
-				$rpid = intval($_GET['reppid']);
+				$rpid = intval($this->param['repid']);
 				if($rpost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $rpid)) {
 					if(!$rpost['first']) {
 						$cid = table_forum_postcomment::t()->insert([

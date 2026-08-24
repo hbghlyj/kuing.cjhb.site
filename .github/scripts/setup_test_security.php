@@ -286,14 +286,21 @@ if($seedThread && $seedReply) {
 		'noticetrimstr' => '',
 		'from' => '',
 	];
-	$_GET['reppid'] = (int)$seedReply['pid'];
-	$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => '<script>alert("xss")</script>']);
+	$seedReplyPid = (int)$seedReply['pid'];
+	$commentExtend->before_newreply([
+		'modnewreplies' => 0,
+		'message' => '<script>alert("xss")</script>',
+		'repid' => $seedReplyPid,
+	]);
 	$prop = new ReflectionProperty($commentExtend, 'postcomment');
 	$expect($prop->getValue($commentExtend) === '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;', 'extend_thread_comment XSS sanitization');
 	$commentExtend->param['message'] = str_repeat('&', 200);
-	$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => str_repeat('&', 200)]);
+	$commentExtend->before_newreply([
+		'modnewreplies' => 0,
+		'message' => str_repeat('&', 200),
+		'repid' => $seedReplyPid,
+	]);
 	$expect($prop->getValue($commentExtend) === '', 'extend_thread_comment overflow protection');
-	unset($_GET['reppid']);
 }
 
 if($failures) {
