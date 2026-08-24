@@ -138,7 +138,7 @@ if($_GET['op'] == 'base') {
 		);
 
 		include isset($_REQUEST['inajax']) ? template('common/header_ajax') : template('common/header');
-		echo '<script type="text/javascript" reload="1">window.location.href = \''.$pay_url.'\';</script>';
+		echo '<script reload="1">window.location.href = \''.$pay_url.'\';</script>';
 		include isset($_REQUEST['inajax']) ? template('common/footer_ajax') : template('common/footer');
 		dexit();
 	} elseif(submitcheck('addfundscardsubmit')) {
@@ -158,7 +158,7 @@ if($_GET['op'] == 'base') {
 			showmessage('memcp_credits_card_msg_cardid_incorrect', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
 		if(!($card = table_common_card::t()->fetch($_POST['cardid']))) {
-			showmessage('memcp_credits_card_msg_card_unfined', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true, 'extrajs' => '<script type="text/javascript">updateseccode("'.$_GET['sechash'].'");</script>']);
+			showmessage('memcp_credits_card_msg_card_unfined', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true, 'extrajs' => '<script>updateseccode("'.$_GET['sechash'].'");</script>']);
 		} else {
 			if($card['status'] == 2) {
 				showmessage('memcp_credits_card_msg_used', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);

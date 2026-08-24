@@ -155,7 +155,7 @@ if($attachs) {
 		$string = str_replace("\n", '<br>', $string);
 		$string = str_replace(["\r", "\n", "\r\n"], '', addcslashes($string, '/"\\\''));
 		print <<<EOF
-		<script type="text/javascript">
+		<script>
 			var f = parent.window.frames["uchome-ifrHtmlEditor"].window.frames["HtmlEditor"];
 			f.document.body.innerHTML = '$string';
 		</script>

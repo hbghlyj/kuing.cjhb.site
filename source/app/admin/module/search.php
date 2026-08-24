@@ -88,7 +88,7 @@ if($_GET['searchsubmit'] && $keywords) {
 
 function hlkws($kws) {
 	echo <<<EOF
-<script type="text/JavaScript">
+<script>
 _attachEvent(window, 'load', function () {
 EOF;
 	foreach($kws as $kw) {

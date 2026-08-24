@@ -164,7 +164,7 @@ if($operation != 'setting') {
 }
 
 echo <<<EOD
-<script type="text/javascript">
+<script>
 function togglelog(k) {
 	var logobj = $('log_'+k);
 	if(logobj.style.display == 'none') {
@@ -250,7 +250,7 @@ if($operation != 'setting') {
 	echo '<input type="hidden" name="logbatchsubmit" value="yes">';
 	echo '<input type="hidden" name="deleteallfiltered" id="deleteallfiltered" value="">';
 	echo '</form>';
-	echo '<script type="text/javascript">initLogBatchDelete();</script>';
+	echo '<script>initLogBatchDelete();</script>';
 	showtableheader('', 'fixpadding');
 	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="toggleLogFilterDelete(this)" form="logbatchform"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform">', $multipage);
 	showtablefooter();
@@ -339,7 +339,7 @@ function get_log_files($logdir = '', $action = 'action') {
 showtablefooter();
 
 echo <<<EOD
-<script type="text/javascript">
+<script>
 function togglecplog(k) {
 	var cplogobj = $('cplog_'+k);
 	if(cplogobj.style.display == 'none') {

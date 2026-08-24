@@ -36,5 +36,5 @@ if(!in_array($_GET['tid'], $thide)) {
 	$thide[] = $_GET['tid'];
 }
 dsetcookie('thide', implode('|', $thide), 2592000);
-showmessage('thread_hidden_success', dreferer(), [], ['showdialog' => true, 'closetime' => true, 'extrajs' => '<script type="text/javascript" reload="1">$(\'normalthread_'.$_GET['tid'].'\').style.display = \'none\'</script>']);
+showmessage('thread_hidden_success', dreferer(), [], ['showdialog' => true, 'closetime' => true, 'extrajs' => '<script reload="1">$(\'normalthread_'.$_GET['tid'].'\').style.display = \'none\'</script>']);
 

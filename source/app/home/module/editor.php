@@ -21,8 +21,8 @@ if(empty($_GET['op'])) {
 		<meta charset="<?php echo $_GET['charset']; ?>"/>
 		<meta name="renderer" content="webkit">
 		<title>Editor</title>
-		<script type="text/javascript" src="<?php echo STATICURL; ?>js/common.js"></script>
-		<script type="text/javascript" src="<?php echo STATICURL; ?>js/home.js"></script>
+		<script src="<?php echo STATICURL; ?>js/common.js"></script>
+		<script src="<?php echo STATICURL; ?>js/home.js"></script>
 		<script language="javascript" src="<?php echo STATICURL; ?>image/editor/editor_base.js"></script>
 		<style>
 			html, body {

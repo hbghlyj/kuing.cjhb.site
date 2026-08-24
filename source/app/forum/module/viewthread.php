@@ -1013,13 +1013,13 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 						$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
 					}
 					if($_GET['cp'] != 'all' && !str_contains($post['message'], '[/index]') && empty($_GET['threadindex']) && !$messageindex) {
-						$_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><script type="text/javascript" reload="1">show_threadpage('.$post['pid'].', '.$cp.', '.count($messagearray).', '.($_GET['from'] == 'preview' ? '1' : '0').', '.json_encode(isset($_GET['modthreadkey']) ? (string)$_GET['modthreadkey'] : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT).');</script>';
+						$_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><script reload="1">show_threadpage('.$post['pid'].', '.$cp.', '.count($messagearray).', '.($_GET['from'] == 'preview' ? '1' : '0').', '.json_encode(isset($_GET['modthreadkey']) ? (string)$_GET['modthreadkey'] : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT).');</script>';
 					}
 				}
 			}
 		}
 		if(!empty($_GET['threadindex'])) {
-			$_G['forum_posthtml']['header'][$post['pid']] .= '<div id="threadindex"></div><script type="text/javascript" reload="1">show_threadindex(0, '.($_GET['from'] == 'preview' ? '1' : '0').');</script>';
+			$_G['forum_posthtml']['header'][$post['pid']] .= '<div id="threadindex"></div><script reload="1">show_threadindex(0, '.($_GET['from'] == 'preview' ? '1' : '0').');</script>';
 		}
 		// 开始json编辑器的处理
 		$htmlon_jsonContent = false;
@@ -1085,7 +1085,7 @@ function viewthread_loadcache() {
 				$gzip = $_G['gzipcompress'] ? ', Gzip On' : '';
 				$debuginfo .= ', Processed in '.sprintf('%0.6f', microtime(TRUE) - $start_time).' second(s)'.$gzip;
 			}
-			echo '<script type="text/javascript">$("debuginfo") ? $("debuginfo").innerHTML = "'.$debuginfo.'." : "";</script></body></html>';
+			echo '<script>$("debuginfo") ? $("debuginfo").innerHTML = "'.$debuginfo.'." : "";</script></body></html>';
 			ob_end_flush();
 			exit();
 		}
@@ -1295,7 +1295,7 @@ function parseindex($nodes, $pid) {
 	$nodes = dhtmlspecialchars($nodes);
 	$nodes = preg_replace('/(\**?)\[#(\d+)\](.+?)[\r\n]/', "<a page=\"\\2\" sub=\"\\1\">\\3</a>", $nodes);
 	$nodes = preg_replace('/(\**?)\[#(\d+),(\d+)\](.+?)[\r\n]/', "<a tid=\"\\2\" pid=\"\\3\" sub=\"\\1\">\\4</a>", $nodes);
-	$_G['forum_posthtml']['header'][$pid] .= '<div id="threadindex">'.$nodes.'</div><script type="text/javascript" reload="1">show_threadindex('.$pid.', '.($_GET['from'] == 'preview' ? '1' : '0').')</script>';
+	$_G['forum_posthtml']['header'][$pid] .= '<div id="threadindex">'.$nodes.'</div><script reload="1">show_threadindex('.$pid.', '.($_GET['from'] == 'preview' ? '1' : '0').')</script>';
 	return '';
 }
 

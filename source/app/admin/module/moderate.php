@@ -75,7 +75,7 @@ if($operation == 'members') {
 
 	$adminscript = ADMINSCRIPT;
 	echo <<<EOT
-<script type="text/JavaScript">
+<script>
 	var cookiepre = "{$_G['config']['cookie']['cookiepre']}";
         function mod_fast_tid(obj, operation, value, fid, tid, page) {
             obj.href = '{$adminscript}?action=moderate&operation=' + operation +
@@ -290,7 +290,7 @@ echo '<iframe name="fasthandle" style="display: none;"></iframe>';
 
 function callback_js($id) {
 	$js = <<<EOT
-<script type="text/javascript">
+<script>
 	mod_remove_row('$id');
 </script>
 EOT;

@@ -53,7 +53,7 @@ if($op == 'add') {
 		showmessage('thread_attention_repeat');
 	}
 	table_forum_threadattention::t()->insert_attention($tid, $_G['uid']);
-	$extrajs = '<script type="text/javascript">var fa=$("k_attention");if(fa){fa.classList.add("active");fa.href=fa.href.replace(/op=add/,"op=del");}</script>';
+	$extrajs = '<script>var fa=$("k_attention");if(fa){fa.classList.add("active");fa.href=fa.href.replace(/op=add/,"op=del");}</script>';
 	showmessage('thread_attention_add_succeed', dreferer(), ['tid' => $tid, 'uid' => $_G['uid']], ['showdialog' => true, 'closetime' => true, 'extrajs' => $extrajs]);
 } elseif($op == 'del') {
 	if($_GET['hash'] != FORMHASH) {
@@ -63,7 +63,7 @@ if($op == 'add') {
 	if(!$affectedrows) {
 		showmessage('thread_attention_does_not_exist');
 	}
-	$extrajs = '<script type="text/javascript">var fa=$("k_attention");if(fa){fa.classList.remove("active");fa.href=fa.href.replace(/op=del/,"op=add");}</script>';
+	$extrajs = '<script>var fa=$("k_attention");if(fa){fa.classList.remove("active");fa.href=fa.href.replace(/op=del/,"op=add");}</script>';
 	showmessage('thread_attention_remove_succeed', dreferer(), ['tid' => $tid], ['showdialog' => true, 'closetime' => true, 'extrajs' => $extrajs]);
 } else {
 	showmessage('undefined_action');

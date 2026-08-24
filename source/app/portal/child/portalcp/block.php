@@ -684,7 +684,7 @@ if($op == 'block') {
 
 			if($_GET['showrecommendtip']) {
 				showmessage('do_success', dreferer('portal.php'), [], ['showdialog' => true, 'closetime' => true, 'extrajs' =>
-					'<script type="text/javascript" reload="1">
+					'<script reload="1">
 					window.location.reload();
 					</script>']);
 			} else {
