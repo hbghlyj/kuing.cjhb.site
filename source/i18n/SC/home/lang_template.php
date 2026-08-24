@@ -1590,4 +1590,5 @@ $lang = [
 
 	'modify_avatar' => '上传头像',
 	'backfileselect' => '返回选择',
+	'credit_log_retention' => '超过 180 天的记录会自动清理。',
 ];

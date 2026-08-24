@@ -1563,5 +1563,6 @@ $lang = array (
 	'action_account_security_verify_email' => 'Verify Security Email',
 	'action_account_security_verify_password' => 'Verify Account Password',
 	'action_account_security_verify_appeal' => 'Appeal',
+	'credit_log_retention' => 'Records older than 180 days are automatically removed.',//'超过 180 天的记录会自动清理。',
 
 );
