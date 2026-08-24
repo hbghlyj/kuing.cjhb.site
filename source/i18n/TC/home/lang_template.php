@@ -936,6 +936,7 @@ $lang = [
 	'setting_avatar_message' => '如果您還沒有設定自己的頭像，系統會顯示爲預設頭像，您需要自己上傳一張新照片來作爲自己的個人頭像 ',
 	'setting_my_new_avatar' => '設定我的新頭像',
 	'setting_my_new_avatar_message' => '請選擇一個新照片進行上傳編輯。<br>頭像保存後，您可能需要刷新一下本頁面(按F5鍵)，才能查看最新的頭像效果 ',
+	'avatar_advanced_upload' => '動畫頭像進階上傳',
 	'auto_keyword' => '自動獲取',
 	'cancel_stick_blog' => '取消置頂日誌',
 	'change_default_settings' => '更改預設配置',

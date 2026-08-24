@@ -39,6 +39,10 @@
 				</table>
 				<input type="hidden" name="formhash" value="{FORMHASH}">
 			</form>
+			<details id="avatar-advanced-upload" class="mtm">
+				<summary>{lang avatar_advanced_upload}</summary>
+				<div id="avatar-advanced-upload-content"></div>
+			</details>
 			<!--{hook/spacecp_avatar_bottom}-->
 		</div>
 	</div>
@@ -94,7 +98,7 @@ const avatarsDefine = [
 	{name:'小头像',code:'small',maxWidth:48,maxHeight:48,blob:null},
 ];
 
-const insertPlace = avatarform.parentNode;
+const insertPlace = document.getElementById('avatar-advanced-upload-content');
 
 // HTML5版本才会有的几个提交按钮
 const ipt_avatarArr = [
