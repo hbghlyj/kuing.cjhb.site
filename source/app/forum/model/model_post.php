@@ -221,7 +221,7 @@ class model_post extends discuz_model {
 			]]];
 		}
 
-		if(!$replyauthorid && $this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && !$this->param['isanonymous']) {
+		if(!$replyauthorid && $this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
 			$notice_funcs[] = $this->emailReplyCopyNotice() ?: ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],
