@@ -510,14 +510,13 @@ const assertPusherMetadataOrder = () => {
         await page.waitForLoadState('networkidle');
 
         const avatarFixture = 'static/image/smiley/BQ2/alu1.jpg';
-        const avatarInputs = page.locator('.choose-file');
-        assert.strictEqual(await avatarInputs.count(), 3, 'Assertion Error: HTML5 avatar controls did not render.');
+        const avatarInput = page.locator('#avatarfile');
+        assert.strictEqual(await avatarInput.count(), 1, 'Assertion Error: Standard avatar upload control did not render.');
         assert.ok(fs.existsSync(avatarFixture), 'Assertion Error: Avatar fixture is missing.');
-        for(let i = 0; i < 3; i++) {
-            await avatarInputs.nth(i).setInputFiles(avatarFixture);
-        }
-        const avatarSubmit = page.locator('.submit-btn');
-        assert.strictEqual(await avatarSubmit.count(), 1, 'Assertion Error: Avatar submit control did not render.');
+        await avatarInput.setInputFiles(avatarFixture);
+        await page.locator('#avataradjuster').waitFor({state: 'visible'});
+        const avatarSubmit = page.locator('#avconfirm');
+        assert.strictEqual(await avatarSubmit.count(), 1, 'Assertion Error: Standard avatar submit control did not render.');
         const [avatarResponse] = await Promise.all([
             page.waitForResponse(response =>
                 response.request().method() === 'POST' &&
