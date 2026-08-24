@@ -15,6 +15,14 @@ function mjxReplaceWithTex(fragment) {
 
 // Extract rendered text so <br> and block boundaries remain line breaks.
 function fragmentToPlainText(fragment) {
+  // nl2br() emits a source newline after every <br>. innerText would count
+  // both nodes as line breaks, so discard only that formatting whitespace.
+  fragment.querySelectorAll('br').forEach((lineBreak) => {
+    const sourceWhitespace = lineBreak.nextSibling;
+    if (sourceWhitespace && sourceWhitespace.nodeType === Node.TEXT_NODE && /^\s*$/.test(sourceWhitespace.nodeValue || '')) {
+      sourceWhitespace.remove();
+    }
+  });
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;left:-100000px;top:0;width:max-content;';
   wrapper.appendChild(fragment);
