@@ -1322,6 +1322,36 @@ const testPusherLeaderCoordination = async browser => {
 
             await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await adminPage.waitForLoadState('networkidle');
+
+            // Exercise the text-selection quote path used by the sshare dialog.
+            // A rendered line break must become one newline in the BBCode quote,
+            // not literal <br> markup or a duplicated blank line.
+            const selectedQuotePost = adminPage.locator(`#postmessage_${quotePid}`);
+            assert.strictEqual(await selectedQuotePost.count(), 1, 'Assertion Error: Post content for selected-text quote did not render.');
+            await selectedQuotePost.evaluate(node => {
+                const firstLine = document.createTextNode('Selected quote line one');
+                const secondLine = document.createTextNode('Selected quote line two');
+                const lineBreak = document.createElement('br');
+                node.replaceChildren(firstLine, lineBreak, secondLine);
+                const range = document.createRange();
+                range.setStart(firstLine, 0);
+                range.setEnd(secondLine, secondLine.length);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+            });
+            const selectedQuoteButton = adminPage.locator('.sshare.is-active button');
+            await selectedQuoteButton.waitFor({ state: 'visible' });
+            await selectedQuoteButton.click();
+            const selectedQuoteForm = adminPage.locator('#fwin_reply form:visible');
+            await selectedQuoteForm.waitFor({ state: 'visible' });
+            const selectedQuoteSource = await selectedQuoteForm.locator('input[name="noticetrimstr"]').inputValue();
+            assert.ok(!/<br\s*\/?\s*>/i.test(selectedQuoteSource), 'Assertion Error: Selected-text quote inserted literal HTML br markup.');
+            assert.ok(selectedQuoteSource.includes('Selected quote line one\nSelected quote line two'), 'Assertion Error: Selected-text quote did not preserve one newline between lines.');
+            assert.ok(!selectedQuoteSource.includes('Selected quote line one\n\nSelected quote line two'), 'Assertion Error: Selected-text quote duplicated a line break.');
+            await adminPage.locator('#fwin_reply .flbc:visible').click();
+
             const adminQuoteLink = adminPage.locator(`a.fastre[href*="repquote=${quotePid}"]`);
             assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
             await adminQuoteLink.click();
