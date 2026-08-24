@@ -559,7 +559,7 @@ function getblockhtml($blockname, $parameters = []) {
 				$view = ($_G['adminid'] == 1 && $_G['setting']['allowquickviewprofile']) ? '&view=admin' : '';
 				$querystring = "home.php?mod=space&uid=$uid&do=index&op=getmusiclist&hash=$authcode$view&t=".TIMESTAMP;
 				$height = (empty($parameters['config']['height']) && $parameters['config']['height'] !== 0) ? 200 : $parameters['config']['height'];
-				$html = "<script type=\"text/javascript\">appendstyle(STATICURL + 'js/player/aplayer.min.css');appendscript(STATICURL + 'js/player/aplayer.min.js');spaceMusicPlayer('$querystring', '$height');</script>";
+				$html = "<script>appendstyle(STATICURL + 'js/player/aplayer.min.css');appendscript(STATICURL + 'js/player/aplayer.min.js');spaceMusicPlayer('$querystring', '$height');</script>";
 			} else {
 				$html = lang('space', 'music_no_content');
 			}

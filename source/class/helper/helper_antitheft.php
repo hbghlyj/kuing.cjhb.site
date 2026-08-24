@@ -67,7 +67,7 @@ class helper_antitheft {
 	}
 
 	protected static function make_js($url) {
-		$js = '<script type="text/javascript">';
+		$js = '<script>';
 		$varname = [];
 		$codes = [];
 		$window = '_'.random(5);
