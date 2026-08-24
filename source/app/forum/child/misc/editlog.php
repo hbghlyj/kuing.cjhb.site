@@ -38,7 +38,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 		if(!$thread || !$member || $thread['displayorder'] < 0) {
 			showmessage('post_revision_not_found');
 		}
-		$position = table_forum_post::t()->fetch_maxposition_by_tid('tid:'.$thread['tid'], $thread['tid']) + 1;
 		$content = $revision['old_content'] !== '' ? $revision['old_content'] : null;
 		table_forum_post::t()->insert_post('tid:'.$thread['tid'], [
 			'pid' => $pid,
@@ -62,15 +61,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 			'status' => 0,
 			'comment' => 0,
 			'replycredit' => 0,
-			'position' => $position,
 			'bestanswer' => 0,
 		]);
+		$maxposition = table_forum_post::t()->fetch_maxposition_by_tid('tid:'.$thread['tid'], $thread['tid']);
 		table_forum_thread::t()->increase($thread['tid'], [
 			'replies' => 1,
 		]);
 		table_forum_thread::t()->update($thread['tid'], [
 			'lastpost' => TIMESTAMP,
 			'lastposter' => $member['username'],
+			'maxposition' => $maxposition,
 		]);
 		table_forum_forum::t()->update_forum_counter($thread['fid'], 0, 1);
 		if($revision['attachments_saved']) {
