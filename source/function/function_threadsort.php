@@ -15,7 +15,7 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 
 	if(in_array($option['type'], ['number', 'text', 'email', 'calendar', 'image', 'url', 'range', 'upload', 'range'])) {
 		if($option['type'] == 'calendar') {
-			$showoption[$option['identifier']]['value'] = '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" style="width:'.$option['inputsize'].'px;" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" onclick="showcalendar(event, this, false)" '.$optionvalue['unchangeable'].' class="px">';
+			$showoption[$option['identifier']]['value'] = '<script src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" style="width:'.$option['inputsize'].'px;" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" onclick="showcalendar(event, this, false)" '.$optionvalue['unchangeable'].' class="px">';
 		} elseif($option['type'] == 'image') {
 			$showoption[$option['identifier']]['value'] = '<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatesortattach(aid, url, \'data/attachment/forum\', \''.$option['identifier'].'\')})"><span>'.($optionvalue['value'] ? lang('forum/misc', 'sort_update') : lang('forum/misc', 'sort_upload')).'</span></button>
 				<input type="hidden" name="typeoption['.$option['identifier'].'][aid]" id="sortaid_'.$option['identifier'].'" value="'.$optionvalue['value']['aid'].'">'.
@@ -51,7 +51,7 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 				$showoption[$option['identifier']]['value'] .= '</select></span>';
 			} else {
 				foreach($optionvalue['value'] as $selectedkey => $selectedvalue) {
-					$showoption[$option['identifier']]['value'] = '<span id="select_'.$option['identifier'].'"><script type="text/javascript">changeselectthreadsort(\''.$selectedkey.'\', '.$optionid.');</script></span>';
+					$showoption[$option['identifier']]['value'] = '<span id="select_'.$option['identifier'].'"><script>changeselectthreadsort(\''.$selectedkey.'\', '.$optionid.');</script></span>';
 				}
 			}
 		} elseif($option['type'] == 'radio') {

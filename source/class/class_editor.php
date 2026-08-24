@@ -402,13 +402,13 @@ EOF;
 			// 音频类型，高度使用固定值66
 			// 如果有缩略图，将其传递给 detectPlayer 函数
 			$thumbParam = $thumbnail ? addslashes($thumbnail) : '';
-			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media" style="margin-left: auto;margin-right: auto;"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66", "'.$thumbParam.'");</script></ignore_js_op>';
+			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media" style="margin-left: auto;margin-right: auto;"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script>detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66", "'.$thumbParam.'");</script></ignore_js_op>';
 		} else if(in_array($type, $video)) {
 			// 视频类型，计算适当的高度
 			$height = intval($width * 0.75); // 保持4:3的宽高比
 			// 如果有缩略图，将其传递给 detectPlayer 函数
 			$thumbParam = $thumbnail ? addslashes($thumbnail) : '';
-			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media" style="margin-left: auto;margin-right: auto;"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'", "'.$thumbParam.'");</script></ignore_js_op>';
+			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media" style="margin-left: auto;margin-right: auto;"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script>detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'", "'.$thumbParam.'");</script></ignore_js_op>';
 		} else {
 			// 未知类型，返回链接
 			return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
@@ -494,7 +494,7 @@ EOF;
 
 		$path = $this->static . $filename . '?' . getglobal('style/verhash');
 
-		return '<script type="text/javascript" src="' . $path . '"></script>';
+		return '<script src="' . $path . '"></script>';
 	}
 
 	private function _cssfile($m, $value = null) {

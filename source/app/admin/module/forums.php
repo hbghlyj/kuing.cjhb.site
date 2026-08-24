@@ -90,7 +90,7 @@ function showforum(&$forum, $type = '', $last = '', $toggle = false, $more = fal
 		} elseif($last == 'addchildboard') {
 			$return = '</tbody><tr><td></td><td colspan="4"><div class="lastboard"><a href="###" onclick="addrow(this, 2, '.$forum['fid'].')" class="addtr">'.cplang('forums_admin_add_sub').'</a></div></td><td>&nbsp;</td></tr>';
 		} elseif($last == 'lastchildboard' && $type) {
-			$return = '<script type="text/JavaScript">$(\'cb_'.$type.'\').className = \'lastchildboard\';</script>';
+			$return = '<script>$(\'cb_'.$type.'\').className = \'lastchildboard\';</script>';
 		} elseif($last == 'last') {
 			$return = '</tbody><tr><td></td><td colspan="4"><div><a href="###" onclick="addrow(this, 0)" class="addtr">'.cplang('forums_admin_add_category').'</a></div></td>'.
 				'<td class="bold"><a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=forums&operation=edit&multi=\' + getmultiids());return false;">'.cplang('multiedit').'</a></td>'.

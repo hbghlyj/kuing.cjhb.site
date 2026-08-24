@@ -2030,7 +2030,7 @@ $data = [[
 [/loop]
 </ul>
 </div>
-<script type="text/javascript">
+<script>
 runslideshow();
 </script>',
       'footer' => '',
@@ -2079,7 +2079,7 @@ runslideshow();
 </dl>
 [/loop]
 </div>
-<script type="text/javascript">
+<script>
 runslideshow();
 </script>',
       'footer' => '',
@@ -2873,7 +2873,7 @@ runslideshow();
 [/loop]
 </ul>
 </div>
-<script type="text/javascript">
+<script>
 runslideshow();
 </script>',
       'footer' => '',
@@ -3124,7 +3124,7 @@ runslideshow();
 [/loop]
 </ul>
 </div>
-<script type="text/javascript">
+<script>
 runslideshow();
 </script>',
       'footer' => '',
@@ -4788,7 +4788,7 @@ runslideshow();
 [/loop]
 </ul>
 </div>
-<script type="text/javascript">
+<script>
 runslideshow();
 </script>',
       'footer' => '',

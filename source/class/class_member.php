@@ -23,7 +23,7 @@ class logging_ctl {
 			return;
 		}
 		$auth = authcode($_GET['username']."\t".$_GET['password']."\t".($questionexist ? 1 : 0), 'ENCODE');
-		$js = '<script type="text/javascript">showWindow(\'login\', \'member.php?mod=logging&action=login&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()).(!empty($_GET['cookietime']) ? '&cookietime=1' : '').'\')</script>';
+		$js = '<script>showWindow(\'login\', \'member.php?mod=logging&action=login&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()).(!empty($_GET['cookietime']) ? '&cookietime=1' : '').'\')</script>';
 		showmessage('location_login', '', ['type' => 1], ['extrajs' => $js]);
 	}
 
@@ -188,7 +188,7 @@ class logging_ctl {
 						if(defined('IN_MOBILE')) {
 							showmessage('login_seccheck2', $location);
 						} else {
-							$js = '<script type="text/javascript">location.href=\''.$location.'\'</script>';
+							$js = '<script>location.href=\''.$location.'\'</script>';
 							showmessage('login_seccheck2', '', ['type' => 1], ['extrajs' => $js]);
 						}
 					}
@@ -619,7 +619,7 @@ class register_ctl {
 					$showid = !in_array($field['fieldid'], ['birthyear', 'birthmonth']) ? $field['fieldid'] : 'birthday';
 					showmessage($field['title'].lang('message', 'profile_illegal'), '', [], [
 						'showid' => 'chk_'.$showid,
-						'extrajs' => $field['title'].lang('message', 'profile_illegal').($field['formtype'] == 'text' ? '<script type="text/javascript">'.
+						'extrajs' => $field['title'].lang('message', 'profile_illegal').($field['formtype'] == 'text' ? '<script>'.
 								'$(\'registerform\').'.$field['fieldid'].'.className = \'px er\';'.
 								'$(\'registerform\').'.$field['fieldid'].'.onblur = function () { if(this.value != \'\') {this.className = \'px\';$(\'chk_'.$showid.'\').innerHTML = \'\';}}'.
 								'</script>' : '')
@@ -838,7 +838,7 @@ class register_ctl {
 			$href = str_replace("'", "\'", $url_forward);
 			$extra = [
 				'showid' => 'succeedmessage',
-				'extrajs' => '<script type="text/javascript">'.
+				'extrajs' => '<script>'.
 					'setTimeout("window.location.href =\''.$href.'\';", '.$refreshtime.');'.
 					'if($(\'succeedmessage_href\'))$(\'succeedmessage_href\').href = \''.$href.'\';'.
 					'if($(\'main_message\'))$(\'main_message\').style.display = \'none\';'.

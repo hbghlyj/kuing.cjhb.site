@@ -321,7 +321,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	$loginParam = defined('IN_MOBILE') ? ['login' => 1] : [
 		'login' => 1,
 		'showmsg' => false,
-		'extrajs' => '<script type="text/javascript" reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$_G['tid'].'\'));</script>',
+		'extrajs' => '<script reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$_G['tid'].'\'));</script>',
 	];
 
 	$_G['forum']['allowreply'] = $_G['forum']['allowreply'] ?? '';

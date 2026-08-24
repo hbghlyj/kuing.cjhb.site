@@ -39,7 +39,7 @@ if(submitcheck('buysubmit')) {
 		);
 
 		include isset($_REQUEST['inajax']) ? template('common/header_ajax') : template('common/header');
-		echo '<form id="payform" action="'.$requesturl.'" method="post"></form><script type="text/javascript" reload="1">document.getElementById(\'payform\').submit();</script>';
+		echo '<form id="payform" action="'.$requesturl.'" method="post"></form><script reload="1">document.getElementById(\'payform\').submit();</script>';
 		include isset($_REQUEST['inajax']) ? template('common/footer_ajax') : template('common/footer');
 		dexit();
 	} else {

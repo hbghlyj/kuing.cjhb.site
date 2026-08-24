@@ -339,7 +339,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 					$message = preg_replace('/\[hide\]\s*(.*?)\s*\[\/hide\]/is', tpl_hide_reply(), $message);
 				} else {
 					$message = preg_replace('/\[hide\](.*?)\[\/hide\]/is', tpl_hide_reply_hidden(), $message);
-					$message = '<script type="text/javascript">replyreload += \',\' + '.$pid.';</script>'.$message;
+					$message = '<script>replyreload += \',\' + '.$pid.';</script>'.$message;
 				}
 			}
 			if(str_contains($msglower, '[hide=')) {
@@ -674,7 +674,7 @@ function parseaudio($url, $width = 400) {
 		return restfulplugin::discuzcode('audio', $url);
 	}
 	$randomid = random(3);
-	return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66");</script></ignore_js_op>';
+	return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script>detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66");</script></ignore_js_op>';
 }
 
 function parsemedia($params, $url) {
@@ -715,7 +715,7 @@ function parsemedia($params, $url) {
 				return restfulplugin::discuzcode('video', $url, $width, $height);
 			}
 			$randomid = random(3);
-			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'");</script></ignore_js_op>';
+			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script>detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'");</script></ignore_js_op>';
 		} else {
 			return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
 		}

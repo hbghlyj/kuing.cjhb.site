@@ -70,7 +70,7 @@ function showgroup(&$forum, $type = '', $last = '') {
 		if($last == 'lastboard') {
 			$return = '<tr><td></td><td colspan="3"><div class="lastboard"><a href="###" onclick="addrow(this, 1, '.$forum['fid'].')" class="addtr">'.cplang('groups_type_sub_new').'</a></div></td></tr>';
 		} elseif($last == 'lastchildboard' && $type) {
-			$return = '<script type="text/JavaScript">$(\'cb_'.$type.'\').className = \'lastchildboard\';</script>';
+			$return = '<script>$(\'cb_'.$type.'\').className = \'lastchildboard\';</script>';
 		} elseif($last == 'last') {
 			$return = '<tr><td colspan="3"><div><a href="###" onclick="addrow(this, 0)" class="addtr">'.cplang('groups_type_level_1_add').'</a></div></td></tr>';
 		}
@@ -96,7 +96,7 @@ function searchgroups($submit) {
 
 	/*search={"nav_group_manage":"action=group&operation=manage"}*/
 	showtagheader('div', 'searchgroups', !$submit);
-	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
+	echo '<script src="'.STATICURL.'js/calendar.js"></script>';
 	showformheader('group&operation=manage');
 	showtableheader();
 	showsetting('groups_manage_name', 'srchname', $srchname, 'text');

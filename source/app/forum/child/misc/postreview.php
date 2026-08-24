@@ -55,14 +55,14 @@ if($vote) {
 		table_forum_hotreply_member::t()->delete_by_uid_pid($_G['uid'], $post['pid']);
 		$applyKarma($post['authorid'], -$authorKarma($typeid));
 		$applyKarma($_G['uid'], -$voterKarma($typeid));
-		showmessage('follow_cancel_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
+		showmessage('follow_cancel_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script>postreviewcancel('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
 	}
 	table_forum_hotreply_number::t()->adjust_num($post['pid'], $oldtype, -1);
 	table_forum_hotreply_number::t()->adjust_num($post['pid'], $typeid, 1);
 	table_forum_hotreply_member::t()->update_attitude($post['pid'], $_G['uid'], $typeid, $_G['timestamp']);
 	$applyKarma($post['authorid'], $authorKarma($typeid) - $authorKarma($oldtype));
 	$applyKarma($_G['uid'], $voterKarma($typeid) - $voterKarma($oldtype));
-	showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$oldtype.', '.$username.');postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
+	showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script>postreviewcancel('.$post['pid'].', '.$oldtype.', '.$username.');postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
 }
 
 $votecount = table_forum_hotreply_member::t()->count_by_uid_dateline($_G['uid'], $_G['timestamp'] - 86400);
@@ -102,4 +102,4 @@ notification_add($post['authorid'], 'post', 'postreview_'.$_GET['do'], [
 
 $hotreply[$_GET['do']]++;
 
-showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
+showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script>postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);

@@ -300,7 +300,7 @@ if($operation == 'list') {
 						$sign = $sign_arr['sign'];
 						$url = 'home.php?mod=spacecp&ac=account&op=verify&method=bindmobile&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 						if(!checkmobile()) {
-							$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("bindmobile", "'.$url.'", "get", 0);</script>';
+							$js = '<script>hideWindow("'.$handlekey.'");showWindow("bindmobile", "'.$url.'", "get", 0);</script>';
 							showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 						} else {
 							showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -328,7 +328,7 @@ if($operation == 'list') {
 						$sign = $sign_arr['sign'];
 						$url = 'home.php?mod=spacecp&ac=account&op=verify&method=bindmobile&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 						if(!checkmobile()) {
-							$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("bindmobile", "'.$url.'", "get", 0);</script>';
+							$js = '<script>hideWindow("'.$handlekey.'");showWindow("bindmobile", "'.$url.'", "get", 0);</script>';
 							showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 						} else {
 							showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -430,7 +430,7 @@ function bindmobile($secprofile) {
 	]);
 
 	if(!checkmobile()) {
-		$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+		$js = '<script>setTimeout("location.reload();", 1500)</script>';
 		showmessage('account_bind_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 	} else {
 		showmessage('account_bind_success', 'home.php?mod=spacecp&ac=account');
@@ -463,7 +463,7 @@ function unbindmobile($secprofile) {
 	table_common_member_account::t()->delete_by_uid($_G['uid'], account::aType_phone);
 
 	if(!checkmobile()) {
-		$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+		$js = '<script>setTimeout("location.reload();", 1500)</script>';
 		showmessage('account_unbind_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 	} else {
 		showmessage('account_unbind_success', 'home.php?mod=spacecp&ac=account');
@@ -520,7 +520,7 @@ function chgpassword($param, $tmp_load = false) {
 		}
 		table_common_member::t()->update($_G['uid'], $data);
 		if(!checkmobile()) {
-			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+			$js = '<script>setTimeout("location.reload();", 1500)</script>';
 			showmessage('account_change_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 		} else {
 			showmessage('account_change_success', 'home.php?mod=spacecp&ac=account');
@@ -538,7 +538,7 @@ function chgpassword($param, $tmp_load = false) {
 		} else {
 			$url = 'home.php?mod=spacecp&ac=account&op=verify&method=chgpassword&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 			if(!checkmobile()) {
-				$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("chgpassword", "'.$url.'", "get", 0);</script>';
+				$js = '<script>hideWindow("'.$handlekey.'");showWindow("chgpassword", "'.$url.'", "get", 0);</script>';
 				showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 			} else {
 				showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -581,7 +581,7 @@ function chgemail($param, $tmp_load = false) {
 			'emailstatus' => 0,
 		]);
 		if(!checkmobile()) {
-			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+			$js = '<script>setTimeout("location.reload();", 1500)</script>';
 			showmessage('account_change_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 		} else {
 			showmessage('account_change_success', 'home.php?mod=spacecp&ac=account');
@@ -599,7 +599,7 @@ function chgemail($param, $tmp_load = false) {
 		} else {
 			$url = 'home.php?mod=spacecp&ac=account&op=verify&method=chgemail&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 			if(!checkmobile()) {
-				$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("chgemail", "'.$url.'", "get", 0);</script>';
+				$js = '<script>hideWindow("'.$handlekey.'");showWindow("chgemail", "'.$url.'", "get", 0);</script>';
 				showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 			} else {
 				showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -640,7 +640,7 @@ function bindemail($email) {
 		'emailstatus' => 1,
 	]);
 	if(!checkmobile()) {
-		$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+		$js = '<script>setTimeout("location.reload();", 1500)</script>';
 		showmessage('account_change_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 	} else {
 		showmessage('account_change_success', 'home.php?mod=spacecp&ac=account');
@@ -665,7 +665,7 @@ function chgusername($param, $tmp_load = false) {
 			showmessage('members_chgusername_check_failed');
 		}
 		if(!checkmobile()) {
-			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+			$js = '<script>setTimeout("location.reload();", 1500)</script>';
 			showmessage('account_change_username_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 		} else {
 			showmessage('account_change_username_success', 'home.php?mod=spacecp&ac=account');
@@ -684,7 +684,7 @@ function chgusername($param, $tmp_load = false) {
 		} else {
 			$url = 'home.php?mod=spacecp&ac=account&op=verify&method=chgusername&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 			if(!checkmobile()) {
-				$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("chgusername", "'.$url.'", "get", 0);</script>';
+				$js = '<script>hideWindow("'.$handlekey.'");showWindow("chgusername", "'.$url.'", "get", 0);</script>';
 				showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 			} else {
 				showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -721,7 +721,7 @@ function chgquestion($param, $tmp_load = false) {
 		}
 
 		if(!checkmobile()) {
-			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+			$js = '<script>setTimeout("location.reload();", 1500)</script>';
 			showmessage('account_change_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 		} else {
 			showmessage('account_change_success', 'home.php?mod=spacecp&ac=account');
@@ -739,7 +739,7 @@ function chgquestion($param, $tmp_load = false) {
 		} else {
 			$url = 'home.php?mod=spacecp&ac=account&op=verify&method=chgquestion&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 			if(!checkmobile()) {
-				$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("chgquestion", "'.$url.'", "get", 0);</script>';
+				$js = '<script>hideWindow("'.$handlekey.'");showWindow("chgquestion", "'.$url.'", "get", 0);</script>';
 				showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 			} else {
 				showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);
@@ -777,7 +777,7 @@ function freeze($param, $tmp_load = false) {
 		}
 
 		if(!checkmobile()) {
-			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';
+			$js = '<script>setTimeout("location.reload();", 1500)</script>';
 			showmessage('account_freeze_reason_success', '', [], ['showdialog' => 1, 'extrajs' => $js]);
 		} else {
 			showmessage('account_freeze_reason_success', 'home.php?mod=spacecp&ac=account');
@@ -797,7 +797,7 @@ function freeze($param, $tmp_load = false) {
 		} else {
 			$url = 'home.php?mod=spacecp&ac=account&op=verify&method=freeze&formhash='.FORMHASH.'&idstring='.$idstring.'&sign='.$sign;
 			if(!checkmobile()) {
-				$js = '<script type="text/javascript">hideWindow("'.$handlekey.'");showWindow("freeze", "'.$url.'", "get", 0);</script>';
+				$js = '<script>hideWindow("'.$handlekey.'");showWindow("freeze", "'.$url.'", "get", 0);</script>';
 				showmessage('account_verify_success', '', [], ['alert' => 'right', 'showdialog' => count(dunserialize($_G['setting']['security_verify'])) ? 1 : 0, 'extrajs' => $js]);
 			} else {
 				showmessage('account_verify_success', $url, [], ['alert' => 'right', 'locationtime' => 0.1]);

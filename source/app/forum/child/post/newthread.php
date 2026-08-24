@@ -117,7 +117,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	$loginParam = defined('IN_MOBILE') ? ['login' => 1] : [
 		'login' => 1,
 		'showmsg' => false,
-		'extrajs' => '<script type="text/javascript" reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=forumdisplay&fid='.$_G['fid'].'\'));</script>',
+		'extrajs' => '<script reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=forumdisplay&fid='.$_G['fid'].'\'));</script>',
 	];
 
 	if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {

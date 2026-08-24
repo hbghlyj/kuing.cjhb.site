@@ -204,7 +204,7 @@ function shownav($header = '', $menu = '', $nav = '', $plaintext = false) {
 	}
 	$addtomenu = "&nbsp;&nbsp;<a target=\"main\" class=\"custommenu_addto\" title=\"".cplang('custommenu_addto')."\" href=\"".ADMINSCRIPT."?action=misc&operation=custommenu&do=add&title=".rawurlencode($ctitle)."&url=".rawurlencode(cpurl())."\">[+]</a>";
 	$dtitle = str_replace("'", "\'", cplang('admincp_title').' - '.str_replace('&nbsp;&raquo;&nbsp;', ' - ', $title));
-	echo '<script type="text/JavaScript">parent.document.title = \''.$dtitle.'\';if(parent.$(\'admincpnav\')) parent.$(\'admincpnav\').innerHTML=\''.$title.$addtomenu.'\';</script>';
+	echo '<script>parent.document.title = \''.$dtitle.'\';if(parent.$(\'admincpnav\')) parent.$(\'admincpnav\').innerHTML=\''.$title.$addtomenu.'\';</script>';
 }
 
 function currentmenuid($parent = false) {
@@ -306,7 +306,7 @@ function showmenu($key, $menus, $return = 0) {
 function updatemenu($key) {
 	require appfile('module/menu', 'admin');
 	$s = showmenu($key, $menu[$key], 1);
-	echo '<script type="text/JavaScript">if(parent.$(\'menu_'.$key.'\')) {
+	echo '<script>if(parent.$(\'menu_'.$key.'\')) {
 		parent.$(\'menu_'.$key.'\').innerHTML = \''.str_replace("'", "\'", $s).'\';parent.reloadmenu(\'nav ul #menu_plugin a\');
 	}</script>';
 }
@@ -374,13 +374,13 @@ function cpmsg($message, $url = '', $type = 'error', $values = [], $extra = '', 
 			"<br>$message$extra<br>".
 			"<p class=\"margintop\"><input type=\"submit\" class=\"btn\" name=\"confirmed\" value=\"".cplang('ok')."\"> &nbsp; \n".
 			($cancelurl ? "<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"location.href='$cancelurl'\">" :
-				"<script type=\"text/javascript\">".
+				"<script>".
 				"if(history.length > 1) document.write('<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"history.go(-1);\">');".
 				'</script>').
 			'</p></form><br>';
 	} elseif($type == 'loadingform') {
 		$message = "<form method=\"post\" action=\"$url\" id=\"loadingform\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\"><br>$message$extra<div class=\"loading-wrap\" style=\"width: 100%\"><div class=\"loading-inner\"></div></div><br>".
-			'<p class="marginbot"><a href="###" onclick="$(\'loadingform\').submit();" class="lightlink">'.cplang('message_redirect').'</a></p></form><br><script type="text/JavaScript">setTimeout("$(\'loadingform\').submit();", 2000);</script>';
+			'<p class="marginbot"><a href="###" onclick="$(\'loadingform\').submit();" class="lightlink">'.cplang('message_redirect').'</a></p></form><br><script>setTimeout("$(\'loadingform\').submit();", 2000);</script>';
 	} else {
 		$message .= $extra.($type == 'loading' ? '<div class="loading-wrap"><div class="loading-inner"></div></div><br>' : '');
 		if($url) {
@@ -389,11 +389,11 @@ function cpmsg($message, $url = '', $type = 'error', $values = [], $extra = '', 
 			} else {
 				$message .= '<p class="marginbot"><a href="'.$url.'" class="lightlink">'.cplang($type == 'download' ? 'message_download' : 'message_redirect').'</a></p>';
 				$timeout = $type != 'loading' ? 3000 : 1000;
-				$message .= "<script type=\"text/JavaScript\">setTimeout(\"redirect('$url');\", $timeout);</script>";
+				$message .= "<script>setTimeout(\"redirect('$url');\", $timeout);</script>";
 			}
 		} elseif($type != 'succeed') {
 			$message .= '<p class="marginbot">'.
-				"<script type=\"text/javascript\">".
+				"<script>".
 				"if(history.length > 1) document.write('<a href=\"javascript:history.go(-1);\" class=\"lightlink\">".cplang('message_return')."</a>');".
 				'</script>'.
 				'</p>';
@@ -527,7 +527,7 @@ function showsubmenuanchors($title, $menus = [], $right = '') {
 		return;
 	}
 	echo <<<EOT
-<script type="text/JavaScript">var currentAnchor = '{$GLOBALS['anchor']}';</script>
+<script>var currentAnchor = '{$GLOBALS['anchor']}';</script>
 EOT;
 	$s = '<div class="itemtitle"><div class="titlerow"><h3>'.cplang($title).'</h3>'.$right.'</div>';
 	$s .= '<ul class="tab1" id="submenu">';
@@ -552,7 +552,7 @@ EOT;
 	$s .= '</ul>';
 	$s .= '</div>';
 	echo !empty($menus) ? '<div class="floattop">'.$s.'</div><div class="floattopempty"></div>' : $s;
-	echo '<script type="text/JavaScript">_attachEvent(window, \'load\', function() { if(location.hash.indexOf(\'#anchor_\') === 0) { showanchor($(\'nav_\' + location.hash.substring(8))); } }, document);</script>';
+	echo '<script>_attachEvent(window, \'load\', function() { if(location.hash.indexOf(\'#anchor_\') === 0) { showanchor($(\'nav_\' + location.hash.substring(8))); } }, document);</script>';
 	echo '</div><div class="cpcontainer">';
 }
 
@@ -645,7 +645,7 @@ function showmultititle($nofloat = 0) {
 		} else {
 			$rows = '<div class="multileft">&nbsp;</div>'.$rows;
 			echo '<div id="multititle" class="tbm" style="width:'.($i * 300 + 370).'px;display:none">'.$rows.'</div>';
-			echo '<script type="text/javascript">floatbottom(\'multititle\');</script>';
+			echo '<script>floatbottom(\'multititle\');</script>';
 		}
 	}
 }
@@ -840,7 +840,7 @@ function showsetting($setname, $varname, $value, $type = 'radio', $disabled = ''
 		$s .= '<input name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="'.$type.'" class="txt" '.$check['disabled'].' '.$extra.'>';
 	} elseif($type == 'htmltext') {
 		$id = 'html'.random(2);
-		$s .= '<div id="'.$id.'">'.$value.'</div><input id="'.$id.'_v" name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="hidden"><script type="text/javascript">sethtml(\''.$id.'\')</script>';
+		$s .= '<div id="'.$id.'">'.$value.'</div><input id="'.$id.'_v" name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="hidden"><script>sethtml(\''.$id.'\')</script>';
 	} elseif($type == 'file') {
 		$s .= '<input name="'.$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.'>';
 	} elseif($type == 'filetext') {
@@ -1147,7 +1147,7 @@ function showsubmit($name = '', $value = 'submit', $before = '', $after = '', $f
 	$str = $after ? $str.(($before && $before != 'del') || $name ? ' &nbsp;' : '').$after : $str;
 	$str .= '</div></td>';
 	$str .= '</tr>';
-	echo $str.($name && $entersubmit ? '<script type="text/JavaScript">_attachEvent(document.documentElement, \'keydown\', function (e) { entersubmit(e, \''.$name.'_'.$random.'\'); });</script>' : '');
+	echo $str.($name && $entersubmit ? '<script>_attachEvent(document.documentElement, \'keydown\', function (e) { entersubmit(e, \''.$name.'_'.$random.'\'); });</script>' : '');
 }
 
 function showtagfooter($tagname) {
@@ -1177,14 +1177,14 @@ function showboxfooter($nobody = 0) {
 function showformfooter() {
 	global $_G;
 	if(!empty($_G['setting_JS'])) {
-		echo '<script type="text/JavaScript">'.$_G['setting_JS'].'</script>';
+		echo '<script>'.$_G['setting_JS'].'</script>';
 	}
 
 	updatesession();
 
 	echo '</form>'."\n";
 	if($scrolltop = intval(getgpc('scrolltop'))) {
-		echo '<script type="text/JavaScript">_attachEvent(window, \'load\', function () { scroll(0,'.$scrolltop.') }, document);</script>';
+		echo '<script>_attachEvent(window, \'load\', function () { scroll(0,'.$scrolltop.') }, document);</script>';
 	}
 }
 
@@ -1201,7 +1201,7 @@ function cpfooter() {
 	echo "\n</div>";
 	if(!empty($_GET['highlight'])) {
 		$kws = explode(' ', $_GET['highlight']);
-		echo '<script type="text/JavaScript">';
+		echo '<script>';
 		foreach($kws as $kw) {
 			$kw = addslashes($kw);
 			echo 'parsetag(\''.dhtmlspecialchars($kw, ENT_QUOTES).'\');';

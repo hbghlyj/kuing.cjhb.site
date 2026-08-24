@@ -594,7 +594,7 @@ class template {
 
 	function stripscriptamp($s, $extra) {
 		$s = str_replace('&amp;', '&', $s);
-		return "<script src=\"$s\" type=\"text/javascript\"$extra></script>";
+		return "<script src=\"$s\"$extra></script>";
 	}
 
 	function stripblock($var, $s) {

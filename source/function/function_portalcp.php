@@ -324,7 +324,7 @@ function getframehtml($data = []) {
 				}
 			}
 			$html .= '<div id="'.$fattr['name'].'_content" class="tb-c"></div>';
-			$html .= '<script type="text/javascript">initTab("'.$fattr['name'].'","'.$switchtype.'");</script>';
+			$html .= '<script>initTab("'.$fattr['name'].'","'.$switchtype.'");</script>';
 			$html .= '</div>';
 		} elseif($flag == 'block') {
 			$battr = $content['attr'];
