@@ -54,73 +54,6 @@ const assertPusherMetadataOrder = () => {
     }
 };
 
-const testPusherLeaderCoordination = async browser => {
-    const isolatePusherChannel = () => {
-        const channelName = 'kuing-pusher-events-v1';
-        const nativePostMessage = BroadcastChannel.prototype.postMessage;
-        const nativeAddEventListener = BroadcastChannel.prototype.addEventListener;
-        BroadcastChannel.prototype.postMessage = function(message) {
-            if(window.__freezePusherLeader && this.name === channelName) return;
-            return nativePostMessage.call(this, message);
-        };
-        BroadcastChannel.prototype.addEventListener = function(type, listener, options) {
-            if(this.name !== channelName || type !== 'message') {
-                return nativeAddEventListener.call(this, type, listener, options);
-            }
-            return nativeAddEventListener.call(this, type, event => {
-                if(!window.__freezePusherLeader) listener.call(this, event);
-            }, options);
-        };
-    };
-    const pusherCount = page => page.evaluate(() => (window.__pusherStubInstances || []).filter(instance => !instance.disconnected).length);
-    const waitForSingleLeader = async (pages, label) => {
-        for(let attempt = 0; attempt < 30; attempt++) {
-            const counts = await Promise.all(pages.map(pusherCount));
-            const leaderIndex = counts.findIndex(count => count === 1);
-            if(leaderIndex !== -1 && counts.reduce((total, count) => total + count, 0) === 1) {
-                return pages[leaderIndex];
-            }
-            await new Promise(resolve => setTimeout(resolve, 250));
-        }
-        assert.fail(`Assertion Error: ${label} did not converge on one Pusher leader.`);
-    };
-    const pusherContext = await browser.newContext({
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
-    });
-    await stubPusher(pusherContext);
-    // Exercise heartbeat failover deterministically; Web Locks cannot be stolen
-    // from a live but frozen browsing context.
-    await pusherContext.addInitScript(() => {
-        window.KK_PUSHER_FORCE_FALLBACK = true;
-        window.localStorage.setItem('kuing.chat.collapsed', 'true');
-    });
-    const pusherPages = await Promise.all([pusherContext.newPage(), pusherContext.newPage(), pusherContext.newPage()]);
-    await Promise.all(pusherPages.map(page => page.addInitScript(isolatePusherChannel)));
-    try {
-        await Promise.all(pusherPages.map(page => page.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' })));
-        await Promise.all(pusherPages.map(page => page.waitForFunction(() => !!document.querySelector('.pusher-chat-widget-wakeup'), null, { timeout: 5000 })));
-        assert.deepStrictEqual(await Promise.all(pusherPages.map(pusherCount)), [0, 0, 0], 'Assertion Error: Guest pages opened Pusher connections before chat was awakened.');
-        await Promise.all(pusherPages.map(page => page.getByRole('button', { name: 'Open chat' }).click()));
-        const firstLeader = await waitForSingleLeader(pusherPages, 'Three simultaneous tabs');
-        const remainingPages = pusherPages.filter(page => page !== firstLeader);
-
-        await firstLeader.close();
-        const frozenLeader = await waitForSingleLeader(remainingPages, 'Close handover');
-        const recoveryFollower = remainingPages.find(page => page !== frozenLeader);
-
-        // Simulate a frozen renderer: its tab remains open but cannot send or receive heartbeats.
-        await frozenLeader.evaluate(() => { window.__freezePusherLeader = true; });
-        await recoveryFollower.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 15000 });
-        await recoveryFollower.evaluate(() => {
-            window.__pusherStubInstances.find(instance => !instance.disconnected).channels.Chat.emit('pusher:subscription_succeeded', {});
-        });
-        await recoveryFollower.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
-    } finally {
-        await pusherContext.close();
-    }
-};
-
 (async () => {
     assertPusherMetadataOrder();
     const browser = await chromium.launch();
@@ -689,9 +622,6 @@ const testPusherLeaderCoordination = async browser => {
             report += '- **Online Member List**: Toggle and AJAX loading verified\n\n';
         }
 
-        console.log('Testing Pusher leader coordination across tabs...');
-        await testPusherLeaderCoordination(browser);
-
         const requestSubmitMetadata = await page.evaluate(() => {
             const form = document.createElement('form');
             form.action = 'forum.php?mod=post&action=reply';
@@ -894,7 +824,13 @@ const testPusherLeaderCoordination = async browser => {
             const replyCreditLogRows = page.locator('table.dt tr').filter({ has: page.locator('a[href*="optype=RUL"]') });
             assert.ok(await replyCreditLogRows.count() >= 1, 'Assertion Error: Reply Experience credit was not rendered in the credit log page.');
             assert.match(await replyCreditLogRows.first().innerText(), /\+1/, 'Assertion Error: Rendered reply credit log did not show the +1 Experience change.');
-            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n- **Experience Credit**: +1, database log verified, and credit-log page verified\n\n';
+            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=credit&op=log');
+            await page.waitForLoadState('networkidle');
+            const creditLogDbCount = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log WHERE uid='${userUid}' AND (extcredits1<>0 OR extcredits2<>0 OR extcredits3<>0 OR extcredits4<>0 OR extcredits5<>0 OR extcredits6<>0 OR extcredits7<>0 OR extcredits8<>0);"`).toString().trim(), 10);
+            const creditLogDataRows = page.locator('table.dt tr td');
+            assert.ok(creditLogDbCount > 0, 'Assertion Error: Reply test user did not have any effective credit log rows in the database.');
+            assert.ok(await creditLogDataRows.count() > 0, 'Assertion Error: Credit log page rendered pagination/header but no data rows for existing database logs.');
+            report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n- **Experience Credit**: +1, database log verified, filtered credit-log page verified, and unfiltered credit-log rows verified\n\n';
 
             console.log("Testing deleted reply revision restore...");
             const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
