@@ -33,7 +33,6 @@
     <input type="hidden" id="mobileeditor" name="mobileeditor" value="0">
     <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}"><!--{/if}-->
     <!--{if $_GET['action'] == 'reply'}-->
-    <input type="hidden" name="noticeauthor" value="$noticeauthor">
     <input type="hidden" name="noticetrimstr" value="$noticetrimstr">
     <!--{if $reppid}-->
     <input type="hidden" name="repid" value="{echo dhtmlspecialchars((string)$reppid)}">
