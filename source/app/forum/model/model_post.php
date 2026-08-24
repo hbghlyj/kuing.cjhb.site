@@ -202,7 +202,26 @@ class model_post extends discuz_model {
 		useractionlog($this->member['uid'], 'pid');
 
 		$notice_funcs = [];
-		if($this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
+		$replypost = !empty($this->param['repid'])
+			? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($this->param['repid']))
+			: [];
+		$replyauthorid = !empty($replypost) && ($replypost['invisible'] == 0 || ($replypost['authorid'] == $this->member['uid'] && $replypost['invisible'] == -2))
+			? $replypost['authorid']
+			: 0;
+		if($replyauthorid && $replyauthorid != $this->member['uid'] && !$this->param['isanonymous']) {
+			$notice_funcs[] = ['notification_add', [$replyauthorid, 'post', 'reppost_noticeauthor', [
+				'tid' => $this->thread['tid'],
+				'subject' => $this->thread['subject'],
+				'fid' => $this->forum['fid'],
+				'pid' => $this->pid,
+				'from_uid' => $this->member['uid'],
+				'from_id' => $this->pid,
+				'from_idtype' => 'quote',
+				'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
+			]]];
+		}
+
+		if(!$replyauthorid && $this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
 			$notice_funcs[] = $this->emailReplyCopyNotice() ?: ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],
