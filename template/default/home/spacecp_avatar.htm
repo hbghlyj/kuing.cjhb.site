@@ -329,11 +329,12 @@ tipsDiv.className = 'tips-bar';
 let quote = null,code = null;
 quote = tipsDiv.appendChild(document.createElement('div'));
 quote.className = 'quote';
-quote.appendChild(document.createTextNode('如果您的头像是动画，您需要自行裁剪，然后上传三种尺寸的头像到上面。推荐使用 '));
-const a = quote.appendChild(document.createElement('a'))
+const blockquote = quote.appendChild(document.createElement('blockquote'));
+blockquote.appendChild(document.createTextNode('如果您的头像是动画，您需要自行裁剪，然后上传三种尺寸的头像到上面。推荐使用 '));
+const a = blockquote.appendChild(document.createElement('a'))
 a.href = 'https://ezgif.com/resize';
 a.appendChild(document.createTextNode('https://ezgif.com/'));
-quote.appendChild(a);
+blockquote.appendChild(a);
 
 //将UI插入
 insertPlace.appendChild(fragment);
