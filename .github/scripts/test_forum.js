@@ -1419,6 +1419,9 @@ const testPusherLeaderCoordination = async browser => {
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
+			const adminReplyPidForRelationship = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+			const adminReplyRelationship = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT repid FROM pre_forum_post WHERE pid='${adminReplyPidForRelationship}';"`).toString().trim();
+			assert.strictEqual(adminReplyRelationship, quotePid, 'Assertion Error: Admin quote reply did not preserve the replied-to post relationship.');
 
             console.log("Posting postcomment via UI and testing type=postcomment page...");
             const postCommentText = 'Test postcomment content text.';

@@ -69,7 +69,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash',
 			'timestamp', 'modstatus',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'pusher_tab_id',
+			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'contentType', 'contentEditor', 'repid', 'pusher_tab_id',
 		];
 		foreach($varname as $name) {
 			if($name === 'modstatus' && isset($this->param[$name]) && isset($parameters[$name])) {

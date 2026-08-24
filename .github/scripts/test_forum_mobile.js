@@ -858,6 +858,12 @@ const { reportCiFailure } = require('./report_ci_failure');
             '1',
             'Assertion Error: Normal user quote reply to admin was not stored.'
         );
+		const userQuoteReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='${uid}' AND message LIKE '%${userQuoteReplyText}%' ORDER BY pid DESC LIMIT 1`);
+		assert.strictEqual(
+			dbScalar(`SELECT repid FROM pre_forum_post WHERE pid='${userQuoteReplyPid}'`),
+			adminReplyPidNonImg,
+			'Assertion Error: Mobile quote reply did not preserve the replied-to post relationship.'
+		);
 
         console.log('Testing mobile PM center page...');
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
