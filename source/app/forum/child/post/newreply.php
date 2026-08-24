@@ -391,7 +391,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'noticetrimstr' => getgpc('noticetrimstr'),
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
-		'repid' => getgpc('reppid'),
+		'repid' => getgpc('repid'),
 		'pusher_tab_id' => getgpc('pusher_tab_id'),
 	];
 

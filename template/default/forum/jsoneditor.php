@@ -35,12 +35,7 @@
     <!--{if $_GET['action'] == 'reply'}-->
     <input type="hidden" name="noticetrimstr" value="$noticetrimstr">
     <!--{if $reppid}-->
-    <input type="hidden" name="reppid" value="$reppid">
-    <!--{/if}-->
-    <!--{if $_GET['reppost']}-->
-    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}">
-    <!--{elseif $_GET['repquote']}-->
-    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}">
+    <input type="hidden" name="repid" value="{echo dhtmlspecialchars((string)$reppid)}">
     <!--{/if}-->
     <!--{/if}-->
     <!--{if $_GET[action] == 'edit'}-->
