@@ -1039,7 +1039,6 @@ function _showTip(ctrlobj) {
 		div.innerHTML = '<div class="tip_horn"></div><div class="tip_c">' + ctrlobj.getAttribute('tip') + '</div>';
 		$('append_parent').appendChild(div);
 	}
-	$(ctrlobj.id).onmouseout = function () { hideMenu('', 'prompt'); };
 	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
 }
 
