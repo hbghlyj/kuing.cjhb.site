@@ -1034,7 +1034,7 @@ function _showTip(ctrlobj) {
 	if(!$(menuid)) {
 		var div = document.createElement('div');
 		div.id = ctrlobj.id + '_menu';
-		div.className = 'tip tip_4';
+		div.className = 'tip tip_4 tip_info';
 		div.style.display = 'none';
 		div.innerHTML = '<div class="tip_horn"></div><div class="tip_c">' + ctrlobj.getAttribute('tip') + '</div>';
 		$('append_parent').appendChild(div);
