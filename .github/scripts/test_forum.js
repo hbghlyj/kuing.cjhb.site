@@ -1427,6 +1427,8 @@ const testPusherLeaderCoordination = async browser => {
             const postCommentText = 'Test postcomment content text.';
             const adminReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
             assert.ok(adminReplyPid, 'Assertion Error: Admin reply post ID was not found.');
+            const quoteNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_home_notification WHERE uid='${userUid}' AND authorid=1 AND type='post' AND from_id='${adminReplyPid}' AND from_idtype='quote';"`).toString().trim();
+            assert.strictEqual(quoteNoticeCheck, '1', 'Assertion Error: Quoted post author did not receive the quote-reply notification.');
 
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
