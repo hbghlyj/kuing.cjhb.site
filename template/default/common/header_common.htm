@@ -5,7 +5,7 @@
 	<meta name="renderer" content="webkit">
 	<title><!--{if !empty($navtitle)}-->$navtitle<!--{/if}--><!--{if empty($nobbname)}--> - $_G['setting']['bbname']<!--{/if}--></title>
 	$_G['setting']['seohead']
-<!--{subtemplate common/header_mathjax}-->
+<!--{if !IS_ROBOT}--><!--{subtemplate common/header_mathjax}--><!--{/if}-->
 
 	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}">
 	<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}">
