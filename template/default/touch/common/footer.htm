@@ -51,6 +51,7 @@
 	</script>
 	<!--{/if}-->
 	<p class="xs0" style="text-align:center;margin:8px 0;">
+		<time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time>
 		<span id="debuginfo">
 		<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
 			<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
@@ -63,6 +64,7 @@
 		<p class="xs0">{lang copyright}</p>
 	</div>
 </div>
+<script src="/static/js/footer_local_time.js?{VERHASH}"></script>
 <!--{/if}-->
 <!--{if !$nofooter}-->
 <div class="foot_height"></div>

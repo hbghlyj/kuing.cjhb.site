@@ -46,7 +46,7 @@
 				<!--{hook/global_footerlink}-->
 				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
 			</p>
-			<p class="xs0">{lang time_now}</p>
+			<p class="xs0"><time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time></p>
 		</div>
 		<div id="frt">
 			<p>{cells common/footer/copyright}</p>
@@ -82,6 +82,7 @@
 <!--{eval updatesession();}-->
 	</div>
 <!--{/if}-->
+<script src="/static/js/footer_local_time.js?{VERHASH}"></script>
 <script>
 function new_showTopLink() {
 	var ft = $('ft');
