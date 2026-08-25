@@ -1706,6 +1706,7 @@ const assertPusherMetadataOrder = () => {
         assert.match(aid, /^\d+$/, 'Assertion Error: 1 MiB unused attachment was not created.');
         console.log("Discovered attachment AID:", aid);
         const displayWidthInput = page.locator(`#imgattachlist input[name="attachnew[${aid}][displaywidth]"]`);
+        await displayWidthInput.waitFor({ state: 'attached', timeout: 10000 });
         assert.strictEqual(await displayWidthInput.count(), 1, 'Assertion Error: Image attachment display-width control did not render.');
         await displayWidthInput.fill('64');
 
