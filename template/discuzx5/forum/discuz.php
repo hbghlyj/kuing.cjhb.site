@@ -40,7 +40,8 @@
 	<div class="mn">
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
-		<div id="forum-index-tabs" role="tablist">
+		<div class="bm forum-index-shell">
+		<div id="forum-index-tabs" class="bm_h" role="tablist">
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
@@ -51,8 +52,7 @@
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
 						<div class="subjectbox">
-							<h4 class="bm_h"><span class="tit_subject"></span>{lang collection_lastthread}</h4>
-					        <ul class="bm_c category_newlist">
+				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['newthread'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
@@ -64,8 +64,7 @@
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="top">
 						<div class="replaybox">
-							<h4 class="bm_h"><span class="tit_replay"></span>{lang show_newthreads}</h4>
-					        <ul class="bm_c category_newlist">
+				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['newreply'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
@@ -77,8 +76,7 @@
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="hot">
 						<div class="hottiebox">
-							<h4 class="bm_h"><span class="tit_hottie"></span>{lang hot_thread}</h4>
-					        <ul class="bm_c category_newlist">
+				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['hot'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
@@ -373,6 +371,9 @@
 			<!--{ad/intercat/bm a_c/$cat[fid]}-->
 		<!--{/loop}-->
 		</div>
+		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
+		</div>
+		<!--{/if}-->
 		<script>
 		(function() {
 			var tabs = document.getElementById('forum-index-tabs');
