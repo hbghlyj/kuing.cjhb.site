@@ -224,6 +224,7 @@ $lang = array (
 	'forum_lastpost'		=> 'Last post',//'最后发表',
 	'forum_moderators'		=> 'Moderators',//'版主',
 	'forum_myfav'			=> 'My Favorite Boards',//'我收藏的版块',
+	'my_forums'			=> 'My forums',
 	'forum_posts'			=> 'Posts',//'帖数',
 	'forum_subforums'		=> 'Sub-Boards',//'子版块',
 	'forum_threads'			=> 'Threads',//'主题',

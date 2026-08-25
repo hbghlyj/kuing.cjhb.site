@@ -46,6 +46,7 @@
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
 			<button type="button" data-index-tab="boards" role="tab" aria-selected="true" class="a">{lang forumlist}</button>
+			<!--{if !empty($collectiondata['follows']) || !empty($forum_favlist)}--><button type="button" data-index-tab="myforums" role="tab" aria-selected="false">{lang my_forums}</button><!--{/if}-->
 		</div>
 		<div id="forum-index-grid-panel" hidden>
 			<div id="category_grid" class="bm bmw">
@@ -116,7 +117,7 @@
 		<!--{/if}-->
 
 		<!--{hook/index_catlist_top}-->
-		<div class="fl bm">
+		<div id="forum-index-myforums" class="fl bm"<!--{if !empty($_G['setting']['grid']['showgrid'])}--> hidden<!--{/if}-->>
 			<!--{if !empty($collectiondata['follows'])}-->
 
 			<!--{eval $forumscount = count($collectiondata['follows']);}-->
@@ -274,6 +275,7 @@
 			</div>
 			<!--{ad/intercat/bm a_c/-1}-->
 		<!--{/if}-->
+		</div>
 		<div id="forum-index-boards" class="forum-index-boards">
 		<!--{loop $catlist $key $cat}-->
 			<!--{hook/index_catlist $cat['fid']}-->
@@ -380,6 +382,7 @@
 			if(!tabs) return;
 			var grid = document.getElementById('forum-index-grid-panel');
 			var boards = document.getElementById('forum-index-boards');
+			var myforums = document.getElementById('forum-index-myforums');
 			var buttons = tabs.getElementsByTagName('button');
 			var cells = grid.querySelectorAll('[data-index-tab]');
 			function selectTab(tab) {
@@ -389,7 +392,8 @@
 					buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
 				}
 				boards.hidden = tab != 'boards';
-				grid.hidden = tab == 'boards';
+				myforums.hidden = tab != 'myforums';
+				grid.hidden = tab == 'boards' || tab == 'myforums';
 				for(var k = 0; k < cells.length; k++) {
 					cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
 				}

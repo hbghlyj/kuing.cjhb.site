@@ -222,6 +222,7 @@ $lang = [
 	'forum_lastpost' => '最后发表',
 	'forum_moderators' => '版主',
 	'forum_myfav' => '我收藏的版块',
+	'my_forums' => '我的版块',
 	'forum_posts' => '帖数',
 	'forum_subforums' => '子版块',
 	'forum_threads' => '主题',
