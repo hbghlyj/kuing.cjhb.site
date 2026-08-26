@@ -232,6 +232,12 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not preserve the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('input[name="app"]').count(), 0, 'Assertion Error: AdminCP log form incorrectly selected the application shell.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
+        const logBatchForm = page.locator('#logbatchform');
+        assert.strictEqual(await logBatchForm.count(), 1, 'Assertion Error: AdminCP log batch form did not render.');
+        const logBatchAction = await logBatchForm.getAttribute('action');
+        assert.ok(logBatchAction && /(?:^|[?&])action=logs(?:&|$)/.test(logBatchAction), 'Assertion Error: AdminCP log batch form did not target the logs action.');
+        assert.ok(logBatchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logBatchAction), 'Assertion Error: AdminCP log batch form did not preserve the operation-log view.');
+        assert.ok(logBatchAction && !/(?:^|[?&])frames=/.test(logBatchAction), 'Assertion Error: AdminCP log batch form incorrectly targeted the AdminCP shell.');
 
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 6. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';

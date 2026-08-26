@@ -42,7 +42,8 @@ if(!$filelog) {
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
-$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$logquery = "action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$urlbase = ADMINSCRIPT.'?'.$logquery;
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
@@ -65,7 +66,7 @@ if(submitcheck('logbatchsubmit', true)) {
 			cpmsg(table_common_log::t()->last_error(), '', 'error');
 		}
 	}
-	cpmsg('logs_delete_succeed', $urlbase.'&page='.$page, 'succeed');
+	cpmsg('logs_delete_succeed', $logquery.'&page='.$page, 'succeed');
 }
 
 $logs = [];
