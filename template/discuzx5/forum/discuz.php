@@ -536,12 +536,14 @@
 		<div class="bm lk">
 			<div id="category_lk" class="bm_c ptm">
 				<!--{loop $_G['cache']['forumlinks'] $catid $cat}-->
+				<!--{if is_array($cat)}-->
 				<details class="lk_cat"<!--{if $catid == 1}--> open<!--{/if}-->>
 					<summary class="lk_cat_hd"><span class="lk_cat_name"><!--{eval echo lang('forum/template', 'friendlink_group'.$catid);}--></span><span class="lk_cat_count">($cat[count])</span></summary>
-					<!--{if $cat[content]}--><ul class="m mbn cl">$cat[content]</ul><!--{/if}-->
-					<!--{if $cat[logo]}--><div class="mbn cl">$cat[logo]</div><!--{/if}-->
-					<!--{if $cat[text]}--><ul class="x mbm cl">$cat[text]</ul><!--{/if}-->
+					<!--{if is_string($cat[content]) && $cat[content]}--><ul class="m mbn cl">$cat[content]</ul><!--{/if}-->
+					<!--{if is_string($cat[logo]) && $cat[logo]}--><div class="mbn cl">$cat[logo]</div><!--{/if}-->
+					<!--{if is_string($cat[text]) && $cat[text]}--><ul class="x mbm cl">$cat[text]</ul><!--{/if}-->
 				</details>
+				<!--{/if}-->
 				<!--{/loop}-->
 			</div>
 		</div>
