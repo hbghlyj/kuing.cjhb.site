@@ -226,9 +226,10 @@ const { reportCiFailure } = require('./report_ci_failure');
         const logSearchForm = page.locator('#logsearchform');
         assert.strictEqual(await logSearchForm.count(), 1, 'Assertion Error: AdminCP operation-log search form did not render.');
         const logSearchAction = await logSearchForm.getAttribute('action');
-        assert.ok(logSearchAction && /(?:^|[?&])action=logs(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not target the logs action.');
-        assert.ok(logSearchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not render the operation-log view.');
+        assert.ok(logSearchAction && /(?:^|[?&])admin\.php(?:[?#]|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not target admin.php.');
         assert.ok(!logSearchAction || !/(?:^|[?&])frames=/.test(logSearchAction), 'Assertion Error: AdminCP log form incorrectly targeted the AdminCP shell.');
+        assert.strictEqual(await logSearchForm.locator('input[name="action"][value="logs"]').count(), 1, 'Assertion Error: AdminCP log form did not preserve the logs action.');
+        assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not preserve the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('input[name="app"]').count(), 0, 'Assertion Error: AdminCP log form incorrectly selected the application shell.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
 
