@@ -42,8 +42,7 @@ if(!$filelog) {
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
-$framequery = !empty($_GET['frames']) ? '&frames=yes' : '';
-$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp$framequery".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
@@ -149,13 +148,10 @@ showsubmenu('nav_logs', $menu, $sel);
 $filters = '';
 if($operation != 'setting') {
 	$keywordhtml = dhtmlspecialchars($keyword);
-	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).$framequery.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
+	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
 	showtableheader('', 'fixpadding');
 	echo '<input type="hidden" name="app" value="admin">';
 	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars(PLATFORM).'">';
-	if($framequery) {
-		echo '<input type="hidden" name="frames" value="yes">';
-	}
 	echo '<input type="hidden" name="lpp" value="'.$lpp.'">';
 	echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'">';
 	showtablerow('', [], [
