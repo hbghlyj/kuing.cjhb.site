@@ -229,6 +229,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(logSearchAction && /(?:^|[?&])action=logs(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not target the logs action.');
         assert.ok(logSearchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logSearchAction), 'Assertion Error: AdminCP log form did not render the operation-log view.');
         assert.ok(!logSearchAction || !/(?:^|[?&])frames=/.test(logSearchAction), 'Assertion Error: AdminCP log form incorrectly targeted the AdminCP shell.');
+        assert.strictEqual(await logSearchForm.locator('input[name="app"]').count(), 0, 'Assertion Error: AdminCP log form incorrectly selected the application shell.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
 
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
