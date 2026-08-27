@@ -1003,7 +1003,6 @@ Last Modify:	Pony
 				#visitedforums_menu li, #recentthreads_menu li { display: block; float: none; }
 				#visitedforums_menu td, #recentthreads_menu td { padding: 5px 10px; vertical-align: top; }
 				#visitedforums_menu a, #recentthreads_menu a { white-space: normal !important; display: inline-block; overflow: hidden; height: 1.5em; }
-			#v_forums, #v_threads { width: 120px; }
 			#mu { position: relative; z-index: 1; }
 				#mu ul { background: #f8f8f8; line-height: 22px; z-index: 2; font-size: 12px; }
 					#mu li { float: left; height: 32px }
