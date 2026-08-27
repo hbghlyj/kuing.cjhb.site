@@ -76,7 +76,7 @@
 
 		<div id="hd">
 		<div class="wp">
-			<span class="pg" id="recentthreads_wrap" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
+			<span class="pg" id="recentthreads_wrap" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'43'})">{lang viewed_threads}</a></span>
 			<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display:none">
 				<ul id="v_threads"></ul>
 			</div>
@@ -109,7 +109,7 @@
 			<!--{if $_G['setting']['visitedforums']}-->
 				<!--{eval require_once libfile('function/forumlist'); empty($_G['cache']['forums']) && loadcache('forums'); $visitedforumsmenu = visitedforums();}-->
 				<!--{if $visitedforumsmenu}-->
-				<span class="pg"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</a></span>
+				<span class="pg"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'43'})">{lang viewed_forums}</a></span>
 				<div id="visitedforums_menu" class="p_pop h_pop navs_menu" style="display: none;">
 					<ul id="v_forums">
 						$visitedforumsmenu
