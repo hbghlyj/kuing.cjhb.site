@@ -2106,6 +2106,27 @@ const assertPusherMetadataOrder = () => {
             const afterReRender = await page.frameLocator('#e_iframe').locator('.math-editor-rendered').count();
             assert.strictEqual(afterReRender, 2, `Assertion Error: Re-rendering wrapped existing math ${afterReRender} times instead of once.`);
 
+            // Backspace after a display formula must remove the following empty line
+            // on the first press instead of consuming the invisible math caret.
+            const displayFormula = await page.frameLocator('#e_iframe').locator('.math-editor-rendered').filter({ has: page.frameLocator('#e_iframe').locator('mjx-container[display="true"]') }).first().count();
+            assert.strictEqual(displayFormula, 1, 'Assertion Error: Display formula was not available for the Backspace regression test.');
+            await page.evaluate(() => {
+                const frame = document.querySelector('#e_iframe');
+                const doc = frame.contentDocument;
+                const formula = Array.from(doc.querySelectorAll('.math-editor-rendered')).find(node => node.querySelector('mjx-container[display="true"]'));
+                window.ensureMathEditorCarets(formula);
+                const emptyLine = doc.createElement('div');
+                emptyLine.id = 'math-backspace-empty-line';
+                emptyLine.innerHTML = '<br>';
+                formula.parentNode.insertBefore(emptyLine, formula.nextSibling.nextSibling);
+                window.placeMathEditorCaret(formula, true);
+            });
+            await page.frameLocator('#e_iframe').locator('body').press('Backspace');
+            const displayLineAfterBackspace = await page.frameLocator('#e_iframe').locator('.math-editor-rendered').filter({ has: page.frameLocator('#e_iframe').locator('mjx-container[display="true"]') }).first().count();
+            const emptyLinesAfterBackspace = await page.frameLocator('#e_iframe').locator('#math-backspace-empty-line').count();
+            assert.strictEqual(displayLineAfterBackspace, 1, 'Assertion Error: Backspace removed the display formula instead of the following empty line.');
+            assert.strictEqual(emptyLinesAfterBackspace, 0, 'Assertion Error: Backspace did not remove the empty line after the display formula.');
+
             // Round trip: source mode must recover the original TeX, then WYSIWYG re-renders exactly once.
             await page.locator('#e_code_btn').click();
             const sourceAfterRoundTrip = await page.inputValue('#e_textarea');
