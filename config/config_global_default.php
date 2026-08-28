@@ -24,11 +24,13 @@ $_config = array();
  * $_config['db']['1']['pconnect'] = '0';// 是否持续连接
  * $_config['db']['1']['dbname'] = 'x1';// 数据库
  * $_config['db']['1']['tablepre'] = 'pre_';// 表名前缀
+ * $_config['db']['1']['dsn'] = 'mysql:host=localhost;dbname=x1';// DSN配置（PDO）
  *
  * $_config['db']['2']['dbhost'] = 'localhost';
  * ...
  *
  */
+$_config['db']['driver'] = ''; // 空(默认)/mysqli/pdo
 $_config['db'][1]['dbhost']  		= '127.0.0.1';
 $_config['db'][1]['dbuser']  		= 'root';
 $_config['db'][1]['dbpw'] 	 	= '';
