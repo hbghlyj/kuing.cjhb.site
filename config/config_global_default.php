@@ -212,10 +212,6 @@ $_config['remote']['appkey'] = md5($_config['security']['authkey']);
 // 远程调用: 开启外部 cron 任务. 系统内部不再执行cron, cron任务由外部程序激活
 $_config['remote']['cron'] = 0;
 
-// $_GET|$_POST的兼容处理，0为关闭，1为开启；开启后即可使用$_G['gp_xx'](xx为变量名，$_GET和$_POST集合的所有变量名)，值为已经addslashes()处理过
-// 考虑到安全风险，自X3.5版本起本开关恢复默认值为0的设定，后续版本可能取消此功能，请各位开发人员注意
-$_config['input']['compatible'] = 0;
-
 /**
  * IP获取扩展
  * 考虑到不同的CDN服务供应商提供的判断CDN源IP的策略不同，您可以定义自己服务供应商的IP获取扩展。
