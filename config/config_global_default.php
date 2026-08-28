@@ -101,11 +101,6 @@ $_config['memory']['redis']['pconnect'] = 1;
 $_config['memory']['redis']['timeout'] = 0;
 $_config['memory']['redis']['requirepass'] = '';
 $_config['memory']['redis']['db'] = 0;				//这里可以填写0到15的数字，每个站点使用不同的db
-/**
- * 此配置现在已经取消，默认对array使用php serializer进行编码保存，其它数据直接原样保存 
- */
-// $_config['memory']['redis']['serializer'] = 1;
-
 $_config['memory']['memcache']['server'] = '';			// memcache 服务器地址
 $_config['memory']['memcache']['port'] = 11211;			// memcache 服务器端口
 $_config['memory']['memcache']['pconnect'] = 1;			// memcache 是否长久连接
@@ -160,7 +155,6 @@ $_config['security']['urlxssdefend']		= true;		// 自身 URL XSS 防御
 $_config['security']['attackevasive']		= 0;		// CC 攻击防御 1|2|4|8
 $_config['security']['onlyremoteaddr']		= 1;		// 用户IP地址获取方式 0=信任HTTP_CLIENT_IP、HTTP_X_FORWARDED_FOR(默认) 1=只信任 REMOTE_ADDR(推荐)
 								// 考虑到防止IP撞库攻击、IP限制策略失效的风险，建议您设置为1。使用CDN的用户可以配置ipgetter选项
-								// 安全提示：由于UCenter、UC_Client独立性原因，您需要单独在两个应用内定义常量，从而开启功能
 
 $_config['security']['useipban']			= 1;		// 是否开启允许/禁止IP功能，高负载站点可以将此功能疏解至HTTP Server/CDN/SLB/WAF上，降低服务器压力
 $_config['security']['querysafe']['status']	= 1;		// 是否开启SQL安全检测，可自动预防SQL注入攻击
@@ -221,7 +215,6 @@ $_config['remote']['cron'] = 0;
  * 系统提供dnslist(IP反解析域名白名单)、serverlist(IP地址白名单，支持CIDR)、header扩展，具体请参考扩展文件。
  * 性能提示：自带的两款工具由于依赖RDNS、CIDR判定等操作，对系统效率有较大影响，建议大流量站点使用HTTP Server
  * 或CDN/SLB/WAF上的IP黑白名单等逻辑实现CDN IP地址白名单，随后使用header扩展指定服务商提供的IP头的方式实现。
- * 安全提示：由于UCenter、UC_Client独立性及扩展性原因，您需要单独修改相关文件的相关业务逻辑，从而实现此类功能。
  * $_config['ipgetter']下除setting外均可用作自定义IP获取模型设置选项，也欢迎大家PR自己的扩展IP获取模型。
  * 扩展IP获取模型的设置，请使用格式：
  * 		$_config['ipgetter']['IP获取扩展名称']['设置项名称'] = '值';
