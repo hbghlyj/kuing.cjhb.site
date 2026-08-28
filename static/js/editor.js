@@ -731,6 +731,26 @@ function replaceWysiwygBlock(block, replacement) {
 	}
 }
 
+function isDisplayMathEditorEquation(node) {
+	return node && node.nodeType === 1 && node.classList && node.classList.contains('math-editor-rendered') && node.querySelector('mjx-container[display="true"]');
+}
+
+function previousWysiwygSibling(node) {
+	var sibling = node.previousSibling;
+	while(sibling && ((sibling.nodeType === 3 && !sibling.nodeValue.replace(/\s/g, '')) || (sibling.nodeType === 1 && sibling.hasAttribute('data-math-caret')))) {
+		sibling = sibling.previousSibling;
+	}
+	return sibling;
+}
+
+function nextWysiwygSibling(node) {
+	var sibling = node.nextSibling;
+	while(sibling && ((sibling.nodeType === 3 && !sibling.nodeValue.replace(/\s/g, '')) || (sibling.nodeType === 1 && sibling.hasAttribute('data-math-caret')))) {
+		sibling = sibling.nextSibling;
+	}
+	return sibling;
+}
+
 function keyDownNormalizeBlockMerge(event) {
 	if(!wysiwyg || event.keyCode !== 8 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) {
 		return;
@@ -742,11 +762,26 @@ function keyDownNormalizeBlockMerge(event) {
 	var range = sel.getRangeAt(0);
 	var block = getWysiwygBlock(range.startContainer);
 	if(!block) {
+		var caret = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentNode;
+		var formula = caret && caret.nodeType === 1 && caret.hasAttribute('data-math-caret') ? previousWysiwygSibling(caret) : null;
+		var following = caret && caret.nodeType === 1 && caret.hasAttribute('data-math-caret') ? nextWysiwygSibling(caret) : null;
+		if(isDisplayMathEditorEquation(formula) && following && (following.tagName === 'BR' || (getWysiwygBlock(following) === following && isBlockEmptyish(following)))) {
+			doane(event);
+			following.parentNode.removeChild(following);
+			if(typeof placeMathEditorCaret === 'function') {
+				placeMathEditorCaret(formula, true);
+			}
+		}
 		return;
 	}
-	var prev = block.previousSibling;
-	while(prev && prev.nodeType === 3 && !prev.nodeValue.replace(/\s/g, '')) {
-		prev = prev.previousSibling;
+	var prev = previousWysiwygSibling(block);
+	if(isDisplayMathEditorEquation(prev) && isBlockEmptyish(block) && isCaretAtBlockStart(range, block)) {
+		doane(event);
+		block.parentNode.removeChild(block);
+		if(typeof placeMathEditorCaret === 'function') {
+			placeMathEditorCaret(prev, true);
+		}
+		return;
 	}
 	if(prev && prev.nodeType === 1 && WYSIWYG_HEADING_RE.test(prev.tagName) && isBlockEmptyish(prev) && isCaretAtBlockStart(range, block)) {
 		doane(event);
