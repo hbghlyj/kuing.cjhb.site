@@ -335,6 +335,7 @@ $lang = [
 	'credits_formula_doings' => '记录数',
 	'credits_formula_polls' => '投票数',
 	'credits_formula_sharings' => '分享数',
+	'credits_formula_extcredits' => '自定义积分',
 
 ];
 

@@ -334,6 +334,19 @@ $lang = array(
 						<span class="xi1">New E-mail ({newemail}) wait for validation ...</span><br>
 						The system has sent a verification email to you, please check your mailbox for activate this e-mail.<br>
 						If you did not receive the verification message, you can replace a mailbox, or <a href="home.php?mod=spacecp&ac=profile&op=password&resend=1" class="xi2">Re-send the verification message</a>',
+	'credits_formula_credits'	=> 'Credits',
+	'credits_formula_extcredits'	=> 'Custom credits',
+	'credits_formula_digestposts'	=> 'Digest posts',
+	'credits_formula_posts'		=> 'Posts',
+	'credits_formula_threads'	=> 'Threads',
+	'credits_formula_replies'	=> 'Replies',
+	'credits_formula_oltime'		=> 'Online time (hours)',
+	'credits_formula_blogs'		=> 'Blogs',
+	'credits_formula_friends'	=> 'Friends',
+	'credits_formula_albums'	=> 'Albums',
+	'credits_formula_doings'	=> 'Doings',
+	'credits_formula_polls'		=> 'Polls',
+	'credits_formula_sharings'	=> 'Shares',
 	'qq_dialog'		=> 'Start QQ chat',//'发起QQ聊天',
 
 );
