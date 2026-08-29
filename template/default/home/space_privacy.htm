@@ -52,15 +52,15 @@
 								<!--{if $space[adminid] > 0}--><li>{lang management_team}: <span>{$space[admingroup][grouptitle]}</span> {$space[admingroup][icon]}</li><!--{/if}-->
 								<li>{lang usergroup}: <span>{$space[group][grouptitle]}</span> {$space[group][icon]}</li>
 								<!--{if $space[extgroupids]}--><li>{lang group_expiry_type_ext}: $space[extgroupids]</li><!--{/if}-->
-								<li>{lang regdate}: $space[regdate]</li>
-								<li>{lang last_visit}: $space[lastvisit]</li>
+								<li>{lang regdate}: <time data-local-timestamp="$space[dbregdate]">$space[regdate]</time></li>
+								<li>{lang last_visit}: <time data-local-timestamp="$space[dblastvisit]">$space[lastvisit]</time></li>
 								<!--{if $_G[uid] == $space[uid] || $_G[group][allowviewip]}-->
 								<li>{lang register_ip}: $space[regip] - $space[regip_loc]</li>
 								<li>{lang last_visit_ip}: $space[lastip] - $space[lastip_loc]</li>
 								<!--{/if}-->
-								<li>{lang last_activity_time}: $space[lastactivity]</li>
-								<li>{lang last_post_time}: $space[lastpost]</li>
-								<li>{lang last_send_email}: $space[lastsendmail]</li>
+								<li>{lang last_activity_time}: <time data-local-timestamp="$space[dblastactivity]">$space[lastactivity]</time></li>
+								<li>{lang last_post_time}: <time data-local-timestamp="$space[dblastpost]">$space[lastpost]</time></li>
+								<li>{lang last_send_email}: <time data-local-timestamp="$space[dblastsendmail]">$space[lastsendmail]</time></li>
 							</ul>
 						</div>
 

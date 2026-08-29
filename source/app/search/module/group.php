@@ -104,6 +104,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$group['icon'] = get_groupimg($group['icon'], 'icon');
 			$group['name'] = search_message_safestr($group['name']);
 			$group['description'] = search_message_safestr($group['description']);
+				$group['dbdateline'] = $group['dateline'];
 				$group['dateline'] = dgmdate($group['dateline'], 'u');
 				$grouplist[] = $group;
 			}

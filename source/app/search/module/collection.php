@@ -64,6 +64,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$maxcollection = $nowcollection = 0;
 		$query = table_forum_collection::t()->fetch_all(explode(',', $index['ids']), $orderby, $ascdesc, $start_limit, $_G['tpp']);
 		foreach($query as $value) {
+			$value['dblastupdate'] = $value['lastupdate'];
 			$value['lastupdate'] = dgmdate($value['lastupdate']);
 			$value['shortdesc'] = cutstr(strip_tags(discuzcode($value['desc'])), 50);
 			$value['name'] = search_message_safestr($value['name']);

@@ -10,7 +10,7 @@
 			<!--{loop $collectionlist $key $value}-->
 			<dl class="xld xld_a z" style="width: 350px;">
 				<dt><a href="forum.php?mod=collection&action=view&ctid=$value[ctid]" target="_blank">$value[name]</a></dt>
-				<dd>{lang threads}: $value[threadnum], {lang comment}: $value[commentnum], {lang subscribe}: $value[follownum], {lang lastupdate}: $value[lastupdate]</dd>
+				<dd>{lang threads}: $value[threadnum], {lang comment}: $value[commentnum], {lang subscribe}: $value[follownum], {lang lastupdate}: <time data-local-timestamp="$value[dblastupdate]">$value[lastupdate]</time></dd>
 				<dd>$value[desc]&nbsp;</dd>
 			</dl>
 			<!--{/loop}-->

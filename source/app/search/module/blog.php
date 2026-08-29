@@ -76,6 +76,7 @@ if(!submitcheck('searchsubmit', 1)) {
 					$value['message'] = getstr($value['message'], 255, 0, 0, 0, -1);
 				}
 			$value['subject'] = search_message_safestr($value['subject']);
+				$value['dbdateline'] = $value['dateline'];
 				$value['dateline'] = dgmdate($value['dateline']);
 				$value['pic'] = pic_cover_get($value['pic'], $value['picflag']);
 				$bloglist[] = $value;

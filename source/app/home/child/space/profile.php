@@ -48,6 +48,11 @@ if($space['extgroupids']) {
 	$space['extgroupids'] = implode(',', $newgroup);
 }
 
+$space['dbregdate'] = $space['regdate'];
+$space['dblastvisit'] = $space['lastvisit'];
+$space['dblastactivity'] = $space['lastactivity'];
+$space['dblastpost'] = $space['lastpost'];
+$space['dblastsendmail'] = $space['lastsendmail'];
 $space['regdate'] = dgmdate($space['regdate']);
 if($space['lastvisit']) $space['lastvisit'] = dgmdate($space['lastvisit']);
 if($space['lastactivity']) {

@@ -161,15 +161,15 @@
 	</ul>
 	<ul id="pbbs" class="pf_l">
 		<!--{if $space[oltime] && !$_G['setting']['sessionclose']}--><li><em>{lang online_time}</em>$space[oltime] {lang hours}</li><!--{/if}-->
-		<li><em>{lang regdate}</em>$space[regdate]</li>
-		<li><em>{lang last_visit}</em>$space[lastvisit]</li>
+		<li><em>{lang regdate}</em><time data-local-timestamp="$space[dbregdate]">$space[regdate]</time></li>
+		<li><em>{lang last_visit}</em><time data-local-timestamp="$space[dblastvisit]">$space[lastvisit]</time></li>
 		<!--{if $_G[uid] == $space[uid] || !empty($_G[group][allowviewip])}-->
 		<li><em>{lang register_ip}</em>$space[regip]:$space[regport] - $space[regip_loc]</li>
 		<li><em>{lang last_visit_ip}</em>$space[lastip]:$space[port] - $space[lastip_loc]</li>
 		<!--{/if}-->
-		<!--{if $space[lastactivity]}--><li><em>{lang last_activity_time}</em>$space[lastactivity]</li><!--{/if}-->
-		<!--{if $space[lastpost]}--><li><em>{lang last_post_time}</em>$space[lastpost]</li><!--{/if}-->
-		<!--{if $space[lastsendmail]}--><li><em>{lang last_send_email}</em>$space[lastsendmail]</li><!--{/if}-->
+		<!--{if $space[lastactivity]}--><li><em>{lang last_activity_time}</em><time data-local-timestamp="$space[dblastactivity]">$space[lastactivity]</time></li><!--{/if}-->
+		<!--{if $space[lastpost]}--><li><em>{lang last_post_time}</em><time data-local-timestamp="$space[dblastpost]">$space[lastpost]</time></li><!--{/if}-->
+		<!--{if $space[lastsendmail]}--><li><em>{lang last_send_email}</em><time data-local-timestamp="$space[dblastsendmail]">$space[lastsendmail]</time></li><!--{/if}-->
 	</ul>
 </div>
 <!--{if $clist}-->

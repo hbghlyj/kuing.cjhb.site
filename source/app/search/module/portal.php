@@ -63,6 +63,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$articlelist = [];
 		$query = table_portal_article_title::t()->fetch_all_for_search(explode(',', $index['ids']), $orderby, $ascdesc, $start_limit, $_G['tpp']);
 		foreach($query as $article) {
+			$article['dbdateline'] = $article['dateline'];
 			$article['dateline'] = dgmdate($article['dateline']);
 			$article['pic'] = $article['pic'] ? pic_get($article['pic'], '', $article['thumb'], $article['remote'], 1, 1) : '';
 			$article['title'] = search_message_safestr($article['title']);

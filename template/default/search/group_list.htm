@@ -13,7 +13,7 @@
 					<dd class="m"><a href="forum.php?mod=group&fid=$group[fid]" target="_blank"><img src="$group[icon]" alt=""></a></dd>
 					<dt><a href="forum.php?mod=group&fid=$group[fid]" target="_blank">$group[name]</a><!--{if $group['gviewperm'] == 1}-->({lang public})<!--{/if}--></dt>
 					<dd>{lang member}: $group[membernum], {lang threads}: $group[threads]</dd>
-					<dd>{lang credits}: $group[commoncredits], {lang creating_time}: $group[dateline]</dd>
+					<dd>{lang credits}: $group[commoncredits], {lang creating_time}: <time data-local-timestamp="$group[dbdateline]">$group[dateline]</time></dd>
 				</dl>
 			<!--{/loop}-->
 		</div>
@@ -27,7 +27,7 @@
 					<dd class="m"><a href="forum.php?mod=group&fid=$group[fid]" target="_blank"><img src="$group[icon]" alt=""></a></dd>
 					<dt><a href="forum.php?mod=group&fid=$group[fid]" target="_blank">$group[name]</a><!--{if $group['gviewperm'] == 1}-->({lang public})<!--{/if}--></dt>
 					<dd>{lang member}: $group[membernum], {lang threads}: $group[threads]</dd>
-					<dd>{lang credits}: $group[commoncredits], {lang creating_time}: $group[dateline]</dd>
+					<dd>{lang credits}: $group[commoncredits], {lang creating_time}: <time data-local-timestamp="$group[dbdateline]">$group[dateline]</time></dd>
 				</dl>
 			<!--{/loop}-->
 		</div>
