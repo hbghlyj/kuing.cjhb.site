@@ -662,7 +662,8 @@ $lang = array (
 
   'moderate_doings_succeed' => '审核操作成功，共 {validates} 个记录被通过，{ignores} 个记录被忽略，{deletes} 个记录被删除',
 
-  'members_search_noresults' => '没有找到符合条件的会员',
+	'members_search_noresults' => '没有找到符合条件的会员',
+	'members_pm_delete_succeed' => 'Deleted {number} private message conversation(s).',
 
   'moderate_pictures_succeed' => '审核操作成功，共 {validates} 个图片被通过，{ignores} 个图片被忽略，{deletes} 个图片被删除',
 

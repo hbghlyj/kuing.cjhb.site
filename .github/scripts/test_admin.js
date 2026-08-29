@@ -136,6 +136,36 @@ const { reportCiFailure } = require('./report_ci_failure');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 3. Admin Panel UI\n- **Status**: Checked\n\n';
 
+        console.log('Checking AdminCP private-message management...');
+        const pmTargetUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT m.uid FROM pre_common_member m WHERE m.uid <> 1 AND (m.newpm & 1)=0 AND NOT EXISTS (SELECT 1 FROM pre_common_pm_member pm INNER JOIN pre_common_pm_thread pt ON pt.plid=pm.plid WHERE pm.uid=m.uid AND pm.isnew=1 AND pt.pmtype=1) ORDER BY m.uid LIMIT 1;\"").toString().trim();
+        assert.match(pmTargetUid, /^\d+$/, 'Assertion Error: AdminCP PM test could not find a member without unread private messages.');
+        const pmTargetNewpm = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newpm FROM pre_common_member WHERE uid=${pmTargetUid};"`).toString().trim();
+        const pmSubject = `Admin PM fixture ${Date.now()}`;
+        const pmMessage = 'Private-message management cleanup fixture.';
+        const pmPlid = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_common_pm_thread (authorid,pmtype,subject,members,min_max,dateline,lastdateline,lastauthorid,lastsummary) VALUES (1,1,'${pmSubject}',2,CONCAT('1_',${pmTargetUid}),UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'${pmMessage}'); SELECT LAST_INSERT_ID();"`).toString().trim();
+        assert.match(pmPlid, /^\d+$/, 'Assertion Error: AdminCP PM test could not create a private-message thread.');
+        const pmId = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_common_pm_message (plid,authorid,message,dateline) VALUES (${pmPlid},1,'${pmMessage}',UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();"`).toString().trim();
+        assert.match(pmId, /^\d+$/, 'Assertion Error: AdminCP PM test could not create a private-message row.');
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_pm_member (plid,uid,isnew,pmnum,lastupdate,lastdateline) VALUES (${pmPlid},1,0,1,UNIX_TIMESTAMP(),UNIX_TIMESTAMP()),(${pmPlid},${pmTargetUid},1,1,0,UNIX_TIMESTAMP()); INSERT INTO pre_common_pm_message_status (pmid,uid) VALUES (${pmId},1); UPDATE pre_common_member SET newpm=(newpm | 1) WHERE uid=${pmTargetUid};"`);
+        await page.goto(`http://127.0.0.1:8080/admin.php?action=members&operation=pm&uid=${pmTargetUid}`);
+        await page.waitForLoadState('networkidle');
+        const pmForm = page.locator('form[name="pmform"]');
+        assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: AdminCP private-message management form did not render.');
+        const pmCheckbox = pmForm.locator(`input[name="deleteplid[]"][value="${pmPlid}"]`);
+        assert.strictEqual(await pmCheckbox.count(), 1, 'Assertion Error: Seeded private-message conversation did not render in AdminCP.');
+        await pmCheckbox.check();
+        page.once('dialog', dialog => dialog.accept());
+        const [pmDeleteResponse] = await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=members&operation=pm')),
+            pmForm.locator('input[name="pmsubmit"]').click(),
+        ]);
+        assert.ok(pmDeleteResponse.ok() || (pmDeleteResponse.status() >= 300 && pmDeleteResponse.status() < 400), `Assertion Error: AdminCP PM deletion POST failed with HTTP ${pmDeleteResponse.status()}.`);
+        const pmRowsAfterDelete = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT (SELECT COUNT(*) FROM pre_common_pm_thread WHERE plid=${pmPlid}) + (SELECT COUNT(*) FROM pre_common_pm_member WHERE plid=${pmPlid}) + (SELECT COUNT(*) FROM pre_common_pm_message WHERE plid=${pmPlid}) + (SELECT COUNT(*) FROM pre_common_pm_message_status WHERE pmid=${pmId});"`).toString().trim();
+        assert.strictEqual(pmRowsAfterDelete, '0', 'Assertion Error: AdminCP PM deletion left conversation records behind.');
+        const pmTargetNewpmAfterDelete = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newpm FROM pre_common_member WHERE uid=${pmTargetUid};"`).toString().trim();
+        assert.strictEqual(pmTargetNewpmAfterDelete, pmTargetNewpm, 'Assertion Error: AdminCP PM deletion did not clear the recipient private-message notification state.');
+        report += '### 4. AdminCP Private Message Management\n- **Status**: Checked\n- **Conversation deletion and unread state**: Verified\n\n';
+
         console.log("Checking localized forum name fields...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=forums&operation=edit&fid=2');
         await page.waitForLoadState('networkidle');
@@ -149,7 +179,7 @@ const { reportCiFailure } = require('./report_ci_failure');
                 `Assertion Error: AdminCP ${locale} forum name field did not show the stored translation.`
             );
         }
-        report += '### 4. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
+        report += '### 5. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
 
         console.log("Checking AdminCP tag rename...");
         const tagRenameSuffix = Date.now().toString();

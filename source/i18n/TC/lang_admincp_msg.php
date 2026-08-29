@@ -671,6 +671,7 @@ $lang = [
 	'moderate_doings_succeed' => '審覈操作成功，共 {validates} 個記錄被通過，{ignores} 個記錄被忽略，{deletes} 個記錄被刪除',
 
 	'members_search_noresults' => '沒有找到符合條件的會員',
+	'members_pm_delete_succeed' => '已刪除 {number} 個私訊會話。',
 
 	'moderate_pictures_succeed' => '審覈操作成功，共 {validates} 個圖片被通過，{ignores} 個圖片被忽略，{deletes} 個圖片被刪除',
 

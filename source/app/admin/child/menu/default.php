@@ -93,6 +93,7 @@ class menu_default {
 			['menu_members_ipban', 'members_ipban'],
 			['menu_members_credits', 'members_reward'],
 			['menu_members_merge', 'members_merge', 0, 'isfounder'],
+			['menu_members_pm', 'members_pm', 0, 'isfounder'],
 			['menu_follow', 'specialuser_follow'],
 			['menu_defaultuser', 'specialuser_defaultuser'],
 			['menu_members_verify_profile', 'verify_verify'],

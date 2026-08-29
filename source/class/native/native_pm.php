@@ -336,6 +336,42 @@ class native_pm {
 		DB::query('DELETE FROM %t WHERE uid IN (%n)', [self::BLACKLIST, $uids]);
 	}
 
+	// Administrative deletion removes a complete conversation for every participant.
+	public static function deleteThreadsByAdmin($plids) {
+		$plids = dintval((array)$plids, true);
+		if(!$plids) {
+			return 0;
+		}
+
+		$plids = array_keys(DB::fetch_all('SELECT plid FROM %t WHERE plid IN (%n)', [self::THREAD, $plids], 'plid'));
+		if(!$plids) {
+			return 0;
+		}
+
+		$uids = array_keys(DB::fetch_all('SELECT DISTINCT uid FROM %t WHERE plid IN (%n)', [self::MEMBER, $plids], 'uid'));
+		$pmids = array_keys(DB::fetch_all('SELECT pmid FROM %t WHERE plid IN (%n)', [self::MESSAGE, $plids], 'pmid'));
+
+		DB::query('START TRANSACTION');
+		if($pmids) {
+			DB::query('DELETE FROM %t WHERE pmid IN (%n)', [self::MESSAGE_STATUS, $pmids]);
+		}
+		DB::query('DELETE FROM %t WHERE plid IN (%n)', [self::MEMBER, $plids]);
+		DB::query('DELETE FROM %t WHERE plid IN (%n)', [self::MESSAGE, $plids]);
+		DB::query('DELETE FROM %t WHERE plid IN (%n)', [self::THREAD, $plids]);
+		DB::query('COMMIT');
+
+		foreach($uids as $uid) {
+			$member = table_common_member::t()->fetch($uid);
+			if(!$member) {
+				continue;
+			}
+			$hasnewpm = DB::result_first('SELECT 1 FROM %t m INNER JOIN %t t ON t.plid=m.plid WHERE m.uid=%d AND m.isnew=1 AND t.pmtype=1 LIMIT 1', [self::MEMBER, self::THREAD, $uid]);
+			table_common_member::t()->update($uid, ['newpm' => setstatus(1, $hasnewpm ? 1 : 0, $member['newpm'])]);
+		}
+
+		return count($plids);
+	}
+
 	public static function chatMembers($uid, $plid) {
 		$members = DB::fetch_all('SELECT uid FROM %t WHERE plid=%d', [self::MEMBER, intval($plid)], 'uid');
 		if(!isset($members[intval($uid)])) return 0;
