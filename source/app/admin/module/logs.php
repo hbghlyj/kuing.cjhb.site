@@ -42,14 +42,15 @@ if(!$filelog) {
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
-$logquery = "action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$editorUsername = $filelog && isset($_GET['username']) ? trim((string)$_GET['username']) : '';
+$logquery = "action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').($editorUsername !== '' ? '&username='.rawurlencode($editorUsername) : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 $urlbase = ADMINSCRIPT.'?'.$logquery;
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
 	if($filelog) {
 		if(!empty($_POST['deleteallfiltered'])) {
-			$deleted = table_forum_editlog::t()->delete_by_keyword($keyword);
+			$deleted = table_forum_editlog::t()->delete_by_keyword($keyword, $editorUsername);
 		} elseif($deleteids) {
 			$deleted = table_forum_editlog::t()->delete_by_ids($deleteids);
 		}
@@ -156,10 +157,11 @@ if($operation != 'setting') {
 	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars(PLATFORM).'">';
 	echo '<input type="hidden" name="lpp" value="'.$lpp.'">';
 	echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'">';
+	echo '<input type="hidden" name="username" value="'.dhtmlspecialchars($editorUsername).'">';
 	showtablerow('', [], [
 		'Keyword',
 		'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'">',
-		'<input type="submit" class="btn" value="'.$lang['search'].'">'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
+		'<input type="submit" class="btn" value="'.$lang['search'].'">'.($editorUsername !== '' ? ' <span class="xg1">'.cplang('username').': '.dhtmlspecialchars($editorUsername).'</span>' : '').(($keyword !== '' || $editorUsername !== '') ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
 	]);
 	showtablefooter();
 	echo '</form>';

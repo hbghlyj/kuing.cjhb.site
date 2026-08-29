@@ -167,6 +167,33 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(pmTargetNewpmAfterDelete, pmTargetNewpm, 'Assertion Error: AdminCP PM deletion did not clear the recipient private-message notification state.');
         report += '### 4. AdminCP Private Message Management\n- **Status**: Checked\n- **Conversation deletion and unread state**: Verified\n\n';
 
+        console.log('Checking AdminCP post edit-history username filtering...');
+        const editLogSuffix = Date.now().toString();
+        const editLogUsername = `editlog_user_${editLogSuffix}`;
+        const editLogOtherUsername = `editlog_other_${editLogSuffix}`;
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_editlog (tid,pid,authorid,uid,username,dateline,action,old_subject,old_message,old_content) VALUES (0,0,1,1,'${editLogUsername}',UNIX_TIMESTAMP(),'edit','Admin edit-log fixture','Matching editor fixture',''),(0,0,1,1,'${editLogOtherUsername}',UNIX_TIMESTAMP(),'edit','Admin edit-log fixture','Non-matching editor fixture','');"`);
+        await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=editlog');
+        await page.waitForLoadState('networkidle');
+        const editLogUserLink = page.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogUsername)}"]`);
+        assert.strictEqual(await editLogUserLink.count(), 1, 'Assertion Error: Post edit-history username did not link to an exact username query.');
+        await Promise.all([
+            page.waitForURL(url => url.searchParams.get('username') === editLogUsername),
+            editLogUserLink.click(),
+        ]);
+        assert.strictEqual(await page.locator('tr', { hasText: editLogUsername }).count(), 1, 'Assertion Error: Exact post edit-history username filter did not render the matching row.');
+        assert.strictEqual(await page.locator('tr', { hasText: editLogOtherUsername }).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
+        await page.locator('#chkall').check();
+        page.once('dialog', dialog => dialog.accept());
+        const [editLogDeleteResponse] = await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=logs&operation=editlog')),
+            page.locator('#logbatchform input[type="submit"]').click(),
+        ]);
+        assert.ok(editLogDeleteResponse.ok() || (editLogDeleteResponse.status() >= 300 && editLogDeleteResponse.status() < 400), `Assertion Error: AdminCP edit-log deletion POST failed with HTTP ${editLogDeleteResponse.status()}.`);
+        const editLogCounts = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogUsername}'), (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogOtherUsername}');"`).toString().trim();
+        assert.strictEqual(editLogCounts, '0\t1', 'Assertion Error: AdminCP edit-log select-all did not delete exactly the username-filtered rows.');
+        execSync(`sudo mysql -u root ultrax -e "DELETE FROM pre_forum_editlog WHERE username='${editLogOtherUsername}';"`);
+        report += '### 5. AdminCP Post Edit-History Username Filter\n- **Status**: Checked\n- **Exact filter and matching bulk deletion**: Verified\n\n';
+
         console.log("Checking localized forum name fields...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=forums&operation=edit&fid=2');
         await page.waitForLoadState('networkidle');
@@ -180,7 +207,7 @@ const { reportCiFailure } = require('./report_ci_failure');
                 `Assertion Error: AdminCP ${locale} forum name field did not show the stored translation.`
             );
         }
-        report += '### 5. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
+        report += '### 6. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
 
         console.log("Checking AdminCP tag rename...");
         const tagRenameSuffix = Date.now().toString();
@@ -248,7 +275,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         const retainedDoingTagItem = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_tagitem WHERE tagid=${tagId} AND itemid=${taggedDoid} AND idtype='doid';"`).toString().trim();
         assert.strictEqual(retainedDoingTagItem, '1', 'Assertion Error: AdminCP tag rename did not preserve the doing tag association.');
         execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET tags=REPLACE(tags, '${tagId},${newTagName}', '') WHERE tid=${taggedTid}; UPDATE pre_forum_thread SET tags=REPLACE(tags, '${tagId},${decoyTagName}', '') WHERE tid=${decoyTid}; DELETE FROM pre_home_doing WHERE doid=${taggedDoid}; DELETE FROM pre_common_tagitem WHERE tagid=${tagId}; DELETE FROM pre_common_tag WHERE tagid=${tagId};"`);
-        report += '### 5. AdminCP Tag Rename\n- **Status**: Checked\n- **Tag ID Preserved**: Yes\n- **Thread and Doing References Updated**: Yes\n\n';
+        report += '### 7. AdminCP Tag Rename\n- **Status**: Checked\n- **Tag ID Preserved**: Yes\n- **Thread and Doing References Updated**: Yes\n\n';
 
         console.log("Checking Admin Panel Logs Page...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=cp');
@@ -271,7 +298,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(logBatchAction && !/(?:^|[?&])frames=/.test(logBatchAction), 'Assertion Error: AdminCP log batch form incorrectly targeted the AdminCP shell.');
 
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
-        report += '### 6. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
+        report += '### 8. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 
         console.log("Checking renamed uploader operations...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
@@ -318,7 +345,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             `Assertion Error: JSON editor upload endpoint should reject uploads in plain mode: ${JSON.stringify(jsonEditorUpload)}`
         );
 
-        report += '### 7. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
+        report += '### 9. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);

@@ -53,14 +53,8 @@ class table_forum_editlog extends discuz_table {
 		return $result;
 	}
 
-	public function count_for_admin($keyword = '') {
-		$where = '';
-		$params = [$this->_table];
-		if($keyword !== '') {
-			$like = '%'.$keyword.'%';
-			$where = ' WHERE username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s';
-			$params = array_merge($params, [$like, $like, $like, $like]);
-		}
+	public function count_for_admin($keyword = '', $username = '') {
+		[$where, $params] = $this->get_admin_conditions($keyword, $username);
 		return DB::result_first('SELECT COUNT(*) FROM %t'.$where, $params);
 	}
 
@@ -77,27 +71,30 @@ class table_forum_editlog extends discuz_table {
 		return $this->delete_with_attachments($ids);
 	}
 
-	public function delete_by_keyword($keyword = '') {
-		$where = '';
-		$params = [$this->_table];
-		if($keyword !== '') {
-			$like = '%'.$keyword.'%';
-			$where = ' WHERE username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s';
-			$params = array_merge($params, [$like, $like, $like, $like]);
-		}
+	public function delete_by_keyword($keyword = '', $username = '') {
+		[$where, $params] = $this->get_admin_conditions($keyword, $username);
 		$rows = DB::fetch_all('SELECT editid FROM %t'.$where, $params);
 		return $this->delete_with_attachments(array_column($rows, 'editid'));
 	}
 
-	public function fetch_all_for_admin($keyword = '', $start = 0, $limit = 20) {
-		$where = '';
+	public function fetch_all_for_admin($keyword = '', $username = '', $start = 0, $limit = 20) {
+		[$where, $params] = $this->get_admin_conditions($keyword, $username);
+		return DB::fetch_all('SELECT * FROM %t'.$where.' ORDER BY dateline DESC, editid DESC '.DB::limit($start, $limit), $params);
+	}
+
+	private function get_admin_conditions($keyword, $username) {
+		$where = [];
 		$params = [$this->_table];
+		if($username !== '') {
+			$where[] = 'username=%s';
+			$params[] = $username;
+		}
 		if($keyword !== '') {
 			$like = '%'.$keyword.'%';
-			$where = ' WHERE username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s';
+			$where[] = '(username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s)';
 			$params = array_merge($params, [$like, $like, $like, $like]);
 		}
-		return DB::fetch_all('SELECT * FROM %t'.$where.' ORDER BY dateline DESC, editid DESC '.DB::limit($start, $limit), $params);
+		return [$where ? ' WHERE '.implode(' AND ', $where) : '', $params];
 	}
 
 	private function delete_with_attachments(array $editids) {

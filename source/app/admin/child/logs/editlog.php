@@ -10,8 +10,8 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$num = table_forum_editlog::t()->count_for_admin($keyword);
-$logs = table_forum_editlog::t()->fetch_all_for_admin($keyword, $start, $lpp);
+$num = table_forum_editlog::t()->count_for_admin($keyword, $editorUsername);
+$logs = table_forum_editlog::t()->fetch_all_for_admin($keyword, $editorUsername, $start, $lpp);
 $authornames = table_common_member::t()->fetch_all_username_by_uid(array_column($logs, 'authorid'));
 $multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
 
@@ -36,11 +36,12 @@ foreach($logs as $data) {
 	$oldsubject = dhtmlspecialchars($data['old_subject']);
 	$oldmessage = dhtmlspecialchars($data['old_message']);
 	$oldcontent = dhtmlspecialchars($data['old_content']);
+	$editor = $data['username'] !== '' ? '<a href="'.ADMINSCRIPT.'?action=logs&operation=editlog&lpp='.$lpp.'&username='.rawurlencode($data['username']).'">'.dhtmlspecialchars($data['username']).'</a>' : '-';
 	showtablerow('', [], [
 		$data['editid'],
 		dgmdate($data['dateline']),
 		dhtmlspecialchars($authornames[$data['authorid']] ?? ('UID '.$data['authorid'])),
-		dhtmlspecialchars($data['username']),
+		$editor,
 		$action,
 		$target,
 		$oldsubject,
