@@ -153,7 +153,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: AdminCP private-message management form did not render.');
         const pmCheckbox = pmForm.locator(`input[name="deleteplid[]"][value="${pmPlid}"]`);
         assert.strictEqual(await pmCheckbox.count(), 1, 'Assertion Error: Seeded private-message conversation did not render in AdminCP.');
-        await pmCheckbox.check();
+        await pmForm.locator('input[name="chkall"]').check();
+        assert.ok(await pmCheckbox.isChecked(), 'Assertion Error: AdminCP PM select-all control did not select the seeded conversation.');
         page.once('dialog', dialog => dialog.accept());
         const [pmDeleteResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=members&operation=pm')),

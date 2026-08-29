@@ -56,7 +56,7 @@ showhiddenfields(['uid' => $uid > 0 ? $uid : '', 'username' => $username, 'page'
 showtableheader('members_pm', 'fixpadding');
 showsubmit('pmsubmit', 'delete', '', '', $multipage, true, "onclick=\"return confirm('".cplang('members_pm_delete_confirm')."');\"");
 showtablerow('class="header"', ['', 'class="td24"', 'class="td25"', '', '', 'class="td23"'], [
-	'<input type="checkbox" class="checkbox" onclick="checkAll(\'value\', this.form, \'deleteplid\')">',
+	'<input type="checkbox" class="checkbox" name="chkall" onclick="checkAll(\'prefix\', this.form, \'deleteplid\')">',
 	cplang('members_pm_type'), cplang('members_pm_members'), cplang('members_pm_subject'), cplang('members_pm_summary'), cplang('members_pm_messages'),
 ]);
 foreach($threads as $thread) {
