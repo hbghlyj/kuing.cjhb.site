@@ -155,7 +155,7 @@
 						<!--{if $_G['uid'] && $post['authorid'] == $_G['uid']}-->
 							<em class="mgl"><a class="dialog" href="forum.php?mod=misc&action=postdelete&tid=$post['tid']&pid=$post['pid']&extra=$_GET['extra']&page=$page&infloat=yes&handlekey=postdelete$post['pid']"><i class="fico-delete" aria-hidden="true"></i>{lang delete}</a></em>
 						<!--{/if}-->
-					$post['dateline']
+					<time data-local-timestamp="$post['dbdateline']">$post['dateline']</time>
 					<!--{if $post['allowvieweditlog']}--><a class="editlog dialog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg></a><!--{/if}-->
 				</li>
 				<!--{if !$post['first'] && $_G['forum_thread']['special'] == 5}-->
@@ -275,7 +275,7 @@
 							</li>
 							<li class="mtime">
 								<em class="mgl"><!--{if $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}--><a href="forum.php?mod=topicadmin&action=delcomment&fid={$_G['fid']}&tid={$_G['tid']}&moderate[]={$_G['tid']}&topiclist[]={$comment['id']}&page={$_G['page']}" class="dialog">{lang delete}</a><!--{/if}--></em>
-								{lang poston} <!--{date($comment['dateline'], 'u')}-->
+								{lang poston} <time data-local-timestamp="$comment['dateline']"><!--{date($comment['dateline'], 'u')}--></time>
 							</li>
 							<li class="mtxt mt5">$comment['comment']</li>
 						</ul>

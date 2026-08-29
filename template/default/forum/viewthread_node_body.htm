@@ -190,7 +190,7 @@
 						<a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&repquote=$comment[rpid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" class="xi2" onclick="showWindow('reply', this.href)">{lang reply}</a>
 					<!--{/if}-->
 					<span class="xg1">
-						{lang poston} <!--{date($comment['dateline'], 'u')}-->
+						{lang poston} <time data-local-timestamp="$comment['dateline']"><!--{date($comment['dateline'], 'u')}--></time>
 						<!--{if $comment[authorid]==$_G['uid']}-->&nbsp;<a href="javascript:;" onclick="delcomment($comment[id],$comment[pid])">{lang delete}</a><!--{elseif $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}-->&nbsp;<a href="javascript:;" onclick="modaction('delcomment', $comment[id])">{lang delete}</a><!--{/if}-->
 					</span>
 				</div>

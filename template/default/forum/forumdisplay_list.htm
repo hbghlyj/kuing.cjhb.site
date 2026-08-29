@@ -230,12 +230,12 @@
 											$_G[setting][anonymoustext]
 										<!--{/if}-->
 										</cite>
-										<em><span{if $thread['istoday']} class="xi1"{/if}>$thread[dateline]</span></em>
+										<em><span{if $thread['istoday']} class="xi1"{/if}><time data-local-timestamp="$thread[dbdateline]">$thread[dateline]</time></span></em>
 									</td>
 									<td class="num"><a href="forum.php?mod=viewthread&tid=$thread[tid]{if $extra != 'page%3D1'}&extra=$extra{/if}" class="xi2">$thread[allreplies]</a><em><!--{if $thread['isgroup'] != 1}-->$thread[views]<!--{else}-->{$groupnames[$thread[tid]][views]}<!--{/if}--></em></td>
 									<td class="by lastp">
 										<cite><!--{if $thread['lastposter']}--><a href="{if $thread[digest] != -2}home.php?mod=space&username=$thread[lastposterenc]{else}forum.php?mod=viewthread&tid=$thread[tid]&page={echo max(1, $thread[pages]);}{/if}" c="1">$thread[lastposter]</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
-										<em><a href="{if $thread[digest] != -2}forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost{$highlight or ''}#lastpost{else}forum.php?mod=viewthread&tid=$thread[tid]&page={echo max(1, $thread[pages]);}{/if}">$thread[lastpost]</a></em>
+										<em><a href="{if $thread[digest] != -2}forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost{$highlight or ''}#lastpost{else}forum.php?mod=viewthread&tid=$thread[tid]&page={echo max(1, $thread[pages]);}{/if}"><time data-local-timestamp="$thread[dblastpost]">$thread[lastpost]</time></a></em>
 									</td>
 								</tr>
 							</tbody>

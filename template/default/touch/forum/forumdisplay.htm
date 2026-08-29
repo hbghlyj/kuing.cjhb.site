@@ -119,7 +119,7 @@
 								{$_G['setting']['anonymoustext']}
 							<!--{/if}-->
 						</h3>
-						<span class="mtime">{$thread['dateline']}</span>
+						<span class="mtime"><time data-local-timestamp="{$thread['dbdateline']}">{$thread['dateline']}</time></span>
 					</div>
 				</div>
 				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra">
