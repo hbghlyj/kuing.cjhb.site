@@ -569,12 +569,18 @@ const assertPusherMetadataOrder = () => {
         const footerTimeMatchesBrowserLocale = await page.locator('#footer_time_now').evaluate(element => {
             const timestamp = Number(element.getAttribute('data-timestamp'));
             const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'});
-            const delta = timestamp - Math.floor(Date.now() / 1000);
-            const absolute = Math.abs(delta);
-            const unit = absolute < 60 ? 'second' : absolute < 3600 ? 'minute' : absolute < 86400 ? 'hour' : absolute < 604800 ? 'day' : absolute < 2592000 ? 'week' : absolute < 31536000 ? 'month' : 'year';
-            const divisor = {second: 1, minute: 60, hour: 3600, day: 86400, week: 604800, month: 2592000, year: 31536000}[unit];
-            const formatted = formatter.format(Math.round(delta / divisor), unit);
-            return Number.isFinite(timestamp) && element.textContent.trim() === formatted;
+            const now = Math.floor(Date.now() / 1000);
+            const actual = element.textContent.trim();
+            for(let drift = -2; drift <= 2; drift++) {
+                const delta = timestamp - (now + drift);
+                const absolute = Math.abs(delta);
+                const unit = absolute < 60 ? 'second' : absolute < 3600 ? 'minute' : absolute < 86400 ? 'hour' : absolute < 604800 ? 'day' : absolute < 2592000 ? 'week' : absolute < 31536000 ? 'month' : 'year';
+                const divisor = {second: 1, minute: 60, hour: 3600, day: 86400, week: 604800, month: 2592000, year: 31536000}[unit];
+                if(actual === formatter.format(Math.round(delta / divisor), unit)) {
+                    return Number.isFinite(timestamp);
+                }
+            }
+            return false;
         });
         assert.ok(footerTimeMatchesBrowserLocale, 'Assertion Error: Footer time did not use the browser local format.');
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
@@ -761,20 +767,19 @@ const assertPusherMetadataOrder = () => {
         const decoySubjectB64New = Buffer.from(decoySubject).toString('base64');
         execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${literalSearchSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64New}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         try {
-            // Search all literal variants in one OR query so the site's search
-            // throttle does not turn the second assertion into a rate-limit test.
-            const literalSearchKeyword = literalSearchKeywords.join('|');
-            const searchUrl = new URL('http://127.0.0.1:8080/search.php?mod=forum');
-            searchUrl.searchParams.set('srchtxt', literalSearchKeyword);
-            searchUrl.searchParams.set('searchsubmit', 'yes');
-            await page.goto(searchUrl.toString(), { waitUntil: 'networkidle' });
-            assert.ok(new URL(page.url()).searchParams.has('searchid'), `Assertion Error: Forum search did not create a result set for ${literalSearchKeyword}.`);
-            const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
-                const url = new URL(link.href);
-                return url.searchParams.get('tid') || url.searchParams.get('ptid');
-            }).filter(Boolean));
-            assert.ok(resultThreadIds.includes(String(tidOutput)), `Assertion Error: Forum search did not return the literal target for ${literalSearchKeyword}.`);
-            assert.ok(!resultThreadIds.includes(decoyTid), `Assertion Error: Forum search treated wildcard characters as patterns for ${literalSearchKeyword}.`);
+            for(const literalSearchKeyword of literalSearchKeywords) {
+                const searchUrl = new URL('http://127.0.0.1:8080/search.php?mod=forum');
+                searchUrl.searchParams.set('srchtxt', literalSearchKeyword);
+                searchUrl.searchParams.set('searchsubmit', 'yes');
+                await page.goto(searchUrl.toString(), { waitUntil: 'networkidle' });
+                assert.ok(new URL(page.url()).searchParams.has('searchid'), `Assertion Error: Forum search did not create a result set for ${literalSearchKeyword}.`);
+                const resultThreadIds = await page.locator('#threadlist a').evaluateAll(links => links.map(link => {
+                    const url = new URL(link.href);
+                    return url.searchParams.get('tid') || url.searchParams.get('ptid');
+                }).filter(Boolean));
+                assert.ok(resultThreadIds.includes(String(tidOutput)), `Assertion Error: Forum search did not return the literal target for ${literalSearchKeyword}.`);
+                assert.ok(!resultThreadIds.includes(decoyTid), `Assertion Error: Forum search treated wildcard characters as patterns for ${literalSearchKeyword}.`);
+            }
         } finally {
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         }

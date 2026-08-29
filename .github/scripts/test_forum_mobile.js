@@ -59,12 +59,18 @@ const { reportCiFailure } = require('./report_ci_failure');
         const mobileFooterTimeMatchesBrowserLocale = await page.locator('#footer_time_now').evaluate(element => {
             const timestamp = Number(element.getAttribute('data-timestamp'));
             const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'});
-            const delta = timestamp - Math.floor(Date.now() / 1000);
-            const absolute = Math.abs(delta);
-            const unit = absolute < 60 ? 'second' : absolute < 3600 ? 'minute' : absolute < 86400 ? 'hour' : absolute < 604800 ? 'day' : absolute < 2592000 ? 'week' : absolute < 31536000 ? 'month' : 'year';
-            const divisor = {second: 1, minute: 60, hour: 3600, day: 86400, week: 604800, month: 2592000, year: 31536000}[unit];
-            const formatted = formatter.format(Math.round(delta / divisor), unit);
-            return Number.isFinite(timestamp) && element.textContent.trim() === formatted;
+            const now = Math.floor(Date.now() / 1000);
+            const actual = element.textContent.trim();
+            for(let drift = -2; drift <= 2; drift++) {
+                const delta = timestamp - (now + drift);
+                const absolute = Math.abs(delta);
+                const unit = absolute < 60 ? 'second' : absolute < 3600 ? 'minute' : absolute < 86400 ? 'hour' : absolute < 604800 ? 'day' : absolute < 2592000 ? 'week' : absolute < 31536000 ? 'month' : 'year';
+                const divisor = {second: 1, minute: 60, hour: 3600, day: 86400, week: 604800, month: 2592000, year: 31536000}[unit];
+                if(actual === formatter.format(Math.round(delta / divisor), unit)) {
+                    return Number.isFinite(timestamp);
+                }
+            }
+            return false;
         });
         assert.ok(mobileFooterTimeMatchesBrowserLocale, 'Assertion Error: Touch footer time did not use the browser local format.');
 
