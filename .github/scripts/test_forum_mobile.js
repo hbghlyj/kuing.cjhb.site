@@ -58,13 +58,12 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await footerLocaleLinks.count(), 3, 'Assertion Error: Touch footer locale switcher did not render all three locales.');
         const mobileFooterTimeMatchesBrowserLocale = await page.locator('#footer_time_now').evaluate(element => {
             const timestamp = Number(element.getAttribute('data-timestamp'));
-            const formatted = new Intl.DateTimeFormat(undefined, {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-            }).format(new Date(timestamp * 1000));
+            const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'});
+            const delta = timestamp - Math.floor(Date.now() / 1000);
+            const absolute = Math.abs(delta);
+            const unit = absolute < 60 ? 'second' : absolute < 3600 ? 'minute' : absolute < 86400 ? 'hour' : absolute < 604800 ? 'day' : absolute < 2592000 ? 'week' : absolute < 31536000 ? 'month' : 'year';
+            const divisor = {second: 1, minute: 60, hour: 3600, day: 86400, week: 604800, month: 2592000, year: 31536000}[unit];
+            const formatted = formatter.format(Math.round(delta / divisor), unit);
             return Number.isFinite(timestamp) && element.textContent.trim() === formatted;
         });
         assert.ok(mobileFooterTimeMatchesBrowserLocale, 'Assertion Error: Touch footer time did not use the browser local format.');
