@@ -180,8 +180,8 @@ const { reportCiFailure } = require('./report_ci_failure');
             page.waitForURL(url => url.searchParams.get('username') === editLogUsername),
             editLogUserLink.click(),
         ]);
-        assert.strictEqual(await page.locator('tr', { hasText: editLogUsername }).count(), 1, 'Assertion Error: Exact post edit-history username filter did not render the matching row.');
-        assert.strictEqual(await page.locator('tr', { hasText: editLogOtherUsername }).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
+        assert.strictEqual(await editLogUserLink.count(), 1, 'Assertion Error: Exact post edit-history username filter did not render the matching row.');
+        assert.strictEqual(await page.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogOtherUsername)}"]`).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
         await page.locator('#chkall').check();
         page.once('dialog', dialog => dialog.accept());
         const [editLogDeleteResponse] = await Promise.all([
