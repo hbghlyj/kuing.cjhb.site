@@ -174,14 +174,15 @@ const { reportCiFailure } = require('./report_ci_failure');
         execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_editlog (tid,pid,authorid,uid,username,dateline,action,old_subject,old_message,old_content) VALUES (0,0,1,1,'${editLogUsername}',UNIX_TIMESTAMP(),'edit','Admin edit-log fixture','Matching editor fixture',''),(0,0,1,1,'${editLogOtherUsername}',UNIX_TIMESTAMP(),'edit','Admin edit-log fixture','Non-matching editor fixture','');"`);
         await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=editlog');
         await page.waitForLoadState('networkidle');
-        const editLogUserLink = page.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogUsername)}"]`);
+        const editLogResultRows = page.locator('tr:has(td[data-log-batch="1"])');
+        const editLogUserLink = editLogResultRows.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogUsername)}"]`);
         assert.strictEqual(await editLogUserLink.count(), 1, 'Assertion Error: Post edit-history username did not link to an exact username query.');
         await Promise.all([
             page.waitForURL(url => url.searchParams.get('username') === editLogUsername),
             editLogUserLink.click(),
         ]);
         assert.strictEqual(await editLogUserLink.count(), 1, 'Assertion Error: Exact post edit-history username filter did not render the matching row.');
-        assert.strictEqual(await page.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogOtherUsername)}"]`).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
+        assert.strictEqual(await editLogResultRows.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogOtherUsername)}"]`).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
         await page.locator('#chkall').check();
         page.once('dialog', dialog => dialog.accept());
         const [editLogDeleteResponse] = await Promise.all([
