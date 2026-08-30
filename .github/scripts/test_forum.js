@@ -922,6 +922,16 @@ const assertPusherMetadataOrder = () => {
             await page.waitForLoadState('networkidle');
             const advancedForm = page.locator('#postform');
             assert.strictEqual(await advancedForm.count(), 1, 'Assertion Error: Full advanced editor form did not render.');
+            const pastedAlignment = await page.evaluate(() => ({
+                div: html2bbcode('<div align="left">Default left alignment</div>'),
+                paragraph: html2bbcode('<p style="text-align: left;">Another default-left paragraph</p>'),
+                centered: html2bbcode('<p style="text-align: center;">Centered paragraph</p>'),
+                indented: html2bbcode('<p style="text-indent: 2em; text-align: left;">Indented paragraph</p>')
+            }));
+            assert.ok(!pastedAlignment.div.includes('[align=left]'), 'Assertion Error: Explicit left alignment on a pasted div produced redundant BBCode.');
+            assert.ok(!pastedAlignment.paragraph.includes('[align=left]'), 'Assertion Error: Explicit left alignment on a pasted paragraph produced redundant BBCode.');
+            assert.strictEqual(pastedAlignment.centered, '[align=center]Centered paragraph[/align]', 'Assertion Error: Pasted center alignment was not preserved.');
+            assert.strictEqual(pastedAlignment.indented, '[align=null, 2, left]Indented paragraph[/align]', 'Assertion Error: Pasted paragraph indentation was not preserved.');
             await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
             await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
             await solveSecurityQuestion(page, advancedForm);

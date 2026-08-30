@@ -270,10 +270,11 @@ function dstag(options, text, tagname) {
 	var append = pend['append'];
 	if(in_array(tagname, ['div', 'p'])) {
 		align = getoptionvalue('align', options);
-		if(in_array(align, ['left', 'center', 'right'])) {
+		if(in_array(align, ['center', 'right'])) {
 			prepend = '[align=' + align + ']' + prepend;
 			append += '[/align]';
 		} else {
+			// Left alignment is the editor default; pasted markup often states it explicitly.
 			append += '\n';
 		}
 	}
@@ -314,8 +315,10 @@ function ptag(options, text, tagname) {
 	align = in_array(align, ['left', 'center', 'right']) ? align : 'left';
 	style = getoptionvalue('style', options);
 	style = preg_replace(['line-height\\s?:\\s?(\\d{1,3})px', 'text-indent\\s?:\\s?(\\d{1,3})em', 'text-align\\s?:\\s?(left|center|right)'], '', style);
+	style = style.replace(/^[\s;]+|[\s;]+$/g, '');
 	if(lineHeight === null && textIndent === null) {
-		return '[align=' + align + ']' + (style ? '<span style="' + style + '">' : '') + text + (style ? '</span>' : '') + '[/align]';
+		var content = (style ? '<span style="' + style + '">' : '') + text + (style ? '</span>' : '');
+		return align === 'left' ? content + '\n' : '[align=' + align + ']' + content + '[/align]';
 	} else {
 		return '[align=' + lineHeight + ', ' + textIndent + ', ' + align + ']' + (style ? '<span style="' + style + '">' : '') + text + (style ? '</span>' : '') + '[/align]';
 	}
