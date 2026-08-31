@@ -879,7 +879,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	.code_bg {background: url({IMGDIR}/code_bg.png) no-repeat 0 0; display:inline-block; padding:4px; margin:10px 20px; }
 
 /* 帖子正文区块 */
-	.pcb { clear: left; margin-right: 130px; }
+	.pcb { clear: left; }
 		.pcb h1, .pcb h2 { margin: 8px 0; font-size: 1.17em; }
 			.pcb h1 a { font-weight: normal; }
 			.pcb h2 em { float: right; font-size: 12px; font-weight: normal; }
