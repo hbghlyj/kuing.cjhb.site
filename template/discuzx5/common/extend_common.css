@@ -436,13 +436,9 @@ img{border:none;}
 .header-searcher{position:relative;display:inline-block;margin-right: 1rem;}
 .header-searcher .searcher-wrap{position:relative}
 .header-searcher .algolia-search-box-wrapper{position:relative}
-.header-searcher .search-input,
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{padding-left:12px !important;height:32px !important;font-size:14px !important}
-.header-searcher .search-input::placeholder,
+.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{padding-left:12px !important;height:32px !important}
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input::placeholder{color:var(--dz-fb)}
-.header-searcher .search-input:hover,
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:hover{border:1px solid #888}
-.header-searcher .search-input:focus,
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:focus{border:1px solid #888;background-color:var(--dz-ff);outline:none}
 .header-searcher #algolia-search-box:empty{display:block;width:0;height:0;padding:0;border:none;background:none;box-shadow:none}
 .header-searcher .ais-SearchBox-form{display:block;position:relative}
@@ -467,13 +463,13 @@ img{border:none;}
 .ais-ClearRefinements-button{width:30px;height:30px;display:flex;justify-content:center;align-items:center}
 
 @media screen and (max-width: 1366px){
-    .header-searcher .search-input, .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
+    .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
         width: 160px;
     }
     .header-indexsearcher{margin-left: 107px;}
 }
 @media screen  and (min-width:960px) and  (max-width: 1440px){
-    .header-searcher .search-input, .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
+    .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
         width: 180px;
     }
     .header-indexsearcher{margin-left: 107px;}
