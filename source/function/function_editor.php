@@ -99,7 +99,7 @@ function fonttag($fontoptions, $text) {
 }
 
 function getoptionvalue($option, $text) {
-	preg_match("/$option(\s+?)?\=(\s+?)?[\"']?(.+?)([\"']|$|>)/is", $text, $matches);
+	preg_match("/(?:^|\s)".preg_quote($option, '/')."(\s+?)?\=(\s+?)?[\"']?(.+?)([\"']|$|>)/is", $text, $matches);
 	return isset($matches[3]) ? trim($matches[3]) : '';
 }
 

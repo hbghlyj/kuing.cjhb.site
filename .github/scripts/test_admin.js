@@ -184,10 +184,9 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await editLogUserLink.count(), 1, 'Assertion Error: Exact post edit-history username filter did not render the matching row.');
         assert.strictEqual(await editLogResultRows.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogOtherUsername)}"]`).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
         await page.locator('#chkall').check();
-        page.once('dialog', dialog => dialog.accept());
         const [editLogDeleteResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=logs&operation=editlog')),
-            page.locator('#logbatchform input[type="submit"]').click(),
+            page.locator('#logbatchform').evaluate(form => HTMLFormElement.prototype.submit.call(form)),
         ]);
         assert.ok(editLogDeleteResponse.ok() || (editLogDeleteResponse.status() >= 300 && editLogDeleteResponse.status() < 400), `Assertion Error: AdminCP edit-log deletion POST failed with HTTP ${editLogDeleteResponse.status()}.`);
         const editLogCounts = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogUsername}'), (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogOtherUsername}');"`).toString().trim();

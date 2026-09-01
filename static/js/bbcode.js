@@ -380,7 +380,7 @@ function fonttag(fontoptions, text) {
 }
 
 function getoptionvalue(option, text) {
-	re = new RegExp(option + "(\\s+?)?=(\\s+?)?[\"']?(.+?)([\"']|$|>)", "ig");
+	re = new RegExp("(?:^|\\s)" + option + "(\\s+?)?=(\\s+?)?[\"']?(.+?)([\"']|$|>)", "ig");
 	var matches = re.exec(text);
 	if(matches != null) {
 		return trim(matches[3]);
