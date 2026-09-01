@@ -932,11 +932,34 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!pastedAlignment.paragraph.includes('[align=left]'), 'Assertion Error: Explicit left alignment on a pasted paragraph produced redundant BBCode.');
             assert.strictEqual(pastedAlignment.centered, '[align=center]Centered paragraph[/align]', 'Assertion Error: Pasted center alignment was not preserved.');
             assert.strictEqual(pastedAlignment.indented, '[align=null, 2, left]Indented paragraph[/align]', 'Assertion Error: Pasted paragraph indentation was not preserved.');
-            const pastedFontFormatting = await page.evaluate(() => html2bbcode(stripPastedFontFormatting('<p style="font-family: Times New Roman"><font face="Courier New" color="#f00">Typeface-free pasted text</font></p>')));
-            assert.ok(!pastedFontFormatting.includes('[font='), 'Assertion Error: Pasted typeface formatting produced a non-semantic font BBCode tag.');
-            assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
-            const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
-            assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
+            await page.evaluate(() => switchEditor(1));
+            await advancedForm.locator('iframe[id$="_iframe"]:visible').waitFor();
+            const pastedFormatting = await page.evaluate(() => {
+                const iframe = Array.from(document.querySelectorAll('iframe[id$="_iframe"]')).find(node => node.offsetParent !== null);
+                if(!iframe || !iframe.contentDocument || !iframe.contentWindow) {
+                    throw new Error('No visible WYSIWYG editor iframe was available for the paste event test.');
+                }
+                const editorDocument = iframe.contentDocument;
+                const editorWindow = iframe.contentWindow;
+                editorDocument.body.innerHTML = '';
+                editorDocument.body.focus();
+                const range = editorDocument.createRange();
+                range.selectNodeContents(editorDocument.body);
+                range.collapse(false);
+                const selection = editorWindow.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                const clipboardData = new DataTransfer();
+                clipboardData.setData('text/html', '<p style="font-family: Times New Roman"><font face="Courier New" color="#f00">Typeface-free pasted text</font></p><span style="font-size: 0.75rem">Rem sized text</span>');
+                const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData });
+                const cancelled = !editorDocument.body.dispatchEvent(event);
+                return { cancelled, bbcode: getEditorBbcodeContents() };
+            });
+            assert.ok(pastedFormatting.cancelled, 'Assertion Error: HTML paste event was not cancelled for sanitized insertion.');
+            assert.ok(!pastedFormatting.bbcode.includes('[font='), 'Assertion Error: Pasted typeface formatting produced a non-semantic font BBCode tag.');
+            assert.ok(pastedFormatting.bbcode.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
+            assert.ok(!pastedFormatting.bbcode.includes('[size=0.75]'), 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
+            assert.ok(pastedFormatting.bbcode.includes('Rem sized text'), 'Assertion Error: HTML paste discarded text with an unsupported rem font size.');
             await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
             await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
             await solveSecurityQuestion(page, advancedForm);
