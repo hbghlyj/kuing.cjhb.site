@@ -10,16 +10,7 @@
 					} else if (window.sessionStorage) {
 						sessionStorage.setItem('Discuz_' + name, data);
 					}
-				} catch (e) {
-					if (BROWSER.ie) {
-						if (data.length < 54889) {
-							with (document.documentElement) {
-								setAttribute("value", data);
-								save('Discuz_' + name);
-							}
-						}
-					}
-				}
+				} catch (e) {}
 				setcookie('clearUserdata', '', -1);
 			}
 			function loadUserdata(name) {
@@ -27,11 +18,6 @@
 					return localStorage.getItem('Discuz_' + name);
 				} else if (window.sessionStorage) {
 					return sessionStorage.getItem('Discuz_' + name);
-				} else if (BROWSER.ie) {
-					with (document.documentElement) {
-						load('Discuz_' + name);
-						return getAttribute("value");
-					}
 				}
 			}
 			function updateavatar() {

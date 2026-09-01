@@ -2076,6 +2076,24 @@ const assertPusherMetadataOrder = () => {
             // Force this forum's editor to open directly in WYSIWYG mode.
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=1 WHERE fid='${forumFid}';"`);
 
+            // WYSIWYG must use editing capabilities rather than the removed legacy
+            // user-agent detector, and begin without an empty paragraph placeholder.
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
+            await page.waitForLoadState('domcontentloaded');
+            const freshWysiwygState = await page.evaluate(() => {
+                const frame = document.querySelector('#e_iframe');
+                return {
+                    mode: wysiwyg,
+                    supports: supportsWysiwygEditor(),
+                    legacyDetector: typeof BROWSER,
+                    bodyHtml: frame && frame.contentDocument && frame.contentDocument.body.innerHTML
+                };
+            });
+            assert.strictEqual(freshWysiwygState.supports, true, 'Assertion Error: Chromium did not expose the required WYSIWYG editing capabilities.');
+            assert.strictEqual(freshWysiwygState.legacyDetector, 'undefined', 'Assertion Error: Legacy BROWSER user-agent detector is still present.');
+            assert.strictEqual(freshWysiwygState.mode, 1, 'Assertion Error: Capability-supported browser did not open the editor in WYSIWYG mode.');
+            assert.strictEqual(freshWysiwygState.bodyHtml, '', 'Assertion Error: Fresh WYSIWYG editor retained an empty paragraph placeholder.');
+
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`);
             await page.waitForLoadState('domcontentloaded');
 

@@ -271,7 +271,7 @@ function fastpostappendreply() {
 	if($('fastpostmessage')) {
 		$('fastpostmessage').value = '';
 	} else {
-		editdoc.body.innerHTML = BROWSER.firefox ? '<br />' : '';
+		editdoc.body.innerHTML = '';
 	}
 	if($('subject')) {
 		$('subject').value = '';

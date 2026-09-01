@@ -30,7 +30,6 @@ function checkuserexists(username, objname) {
 		return;
 	}
 	var x = new Ajax();
-	username = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username;
 	x.get('forum.php?mod=ajax&inajax=1&action=checkuserexists&username=' + username, function(s){
 		var obj = $(objname);
 		obj.innerHTML = s;

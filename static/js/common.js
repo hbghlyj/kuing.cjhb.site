@@ -73,23 +73,6 @@ function _detachEvent(obj, evt, func, eventobj) {
 	}
 }
 
-function browserVersion(types) {
-	var other = 1;
-	for (i in types) {
-		var v = types[i] ? types[i] : i;
-		if (USERAGENT.indexOf(v) != -1) {
-			var re = new RegExp(v + '(\\/|\\s|:)([\\d\\.]+)', 'ig');
-			var matches = re.exec(USERAGENT);
-			var ver = matches != null ? matches[2] : 0;
-			other = ver !== 0 && v != 'mozilla' ? 0 : other;
-		} else {
-			var ver = 0;
-		}
-		eval('BROWSER.' + i + '= ver');
-	}
-	BROWSER.other = other;
-}
-
 function getEvent() {
 	if (document.all) return window.event;
 	func = getEvent.caller;
@@ -497,7 +480,7 @@ function appendscript(src, text, reload, charset, recall) {
 	var scriptNode = document.createElement("script");
 	scriptNode.type = "text/javascript";
 	scriptNode.id = id;
-	scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
+	scriptNode.charset = charset || document.characterSet || document.charset || 'UTF-8';
 	try {
 		if (src) {
 			scriptNode.src = src;
@@ -803,11 +786,7 @@ function showMenu(v) {
 
 	if (maxh && menuObj.scrollHeight > maxh) {
 		menuObj.style.height = maxh + 'px';
-		if (BROWSER.opera) {
-			menuObj.style.overflow = 'auto';
-		} else {
-			menuObj.style.overflowY = 'auto';
-		}
+		menuObj.style.overflowY = 'auto';
 	}
 
 	if (!duration) {
@@ -1023,7 +1002,7 @@ function setMenuPosition(showid, menuid, pos) {
 	if (!isNaN(ml)) menuObj.style.left = ml + 'px';
 	if (!isNaN(mt)) menuObj.style.top = mt + 'px';
 
-	if (menuObj.style.clip && !BROWSER.opera) {
+	if (menuObj.style.clip) {
 		menuObj.style.clip = 'rect(auto, auto, auto, auto)';
 	}
 }
@@ -1382,14 +1361,6 @@ function hideWindow(k, all, clear) {
 function simulateSelect(selectId, widthvalue) {
 	var selectObj = $(selectId);
 	if (!selectObj) return;
-	if (BROWSER.other) {
-		if (selectObj.getAttribute('change')) {
-			selectObj.onchange = function () {
-				eval(selectObj.getAttribute('change'));
-			}
-		}
-		return;
-	}
 	var widthvalue = widthvalue ? widthvalue : 70;
 	var defaultopt = selectObj.options[0] ? selectObj.options[0].innerHTML : '';
 	var defaultv = '';
@@ -2379,26 +2350,6 @@ function albumWinCallback(obj, value, name) {
 	}
 }
 
-var BROWSER = {};
-var USERAGENT = navigator.userAgent.toLowerCase();
-browserVersion({
-	'ie': 'msie',
-	'trident': '',
-	'firefox': '',
-	'chrome': '',
-	'opera': '',
-	'safari': '',
-	'mozilla': '',
-	'webkit': '',
-	'maxthon': '',
-	'qq': 'qqbrowser',
-	'rv': 'rv'
-});
-if (BROWSER.safari || BROWSER.rv) {
-	BROWSER.firefox = true;
-}
-BROWSER.opera = BROWSER.opera ? opera.version() : 0;
-
 var CSSLOADED = [];
 var JSLOADED = [];
 var JSMENU = [];
@@ -2430,66 +2381,6 @@ var HTML5PLAYER = [];
 HTML5PLAYER['apload'] = 0;
 HTML5PLAYER['dpload'] = 0;
 HTML5PLAYER['flvload'] = 0;
-
-if (BROWSER.firefox && window.HTMLElement) {
-	HTMLElement.prototype.__defineGetter__("innerText", function () {
-		var anyString = "";
-		var childS = this.childNodes;
-		for (var i = 0; i < childS.length; i++) {
-			if (childS[i].nodeType == 1) {
-				anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
-			} else if (childS[i].nodeType == 3) {
-				anyString += childS[i].nodeValue;
-			}
-		}
-		return anyString;
-	});
-	HTMLElement.prototype.__defineSetter__("innerText", function (sText) {
-		this.textContent = sText;
-	});
-	HTMLElement.prototype.__defineSetter__('outerHTML', function (sHTML) {
-		var r = this.ownerDocument.createRange();
-		r.setStartBefore(this);
-		var df = r.createContextualFragment(sHTML);
-		this.parentNode.replaceChild(df, this);
-		return sHTML;
-	});
-
-	HTMLElement.prototype.__defineGetter__('outerHTML', function () {
-		var attr;
-		var attrs = this.attributes;
-		var str = '<' + this.tagName.toLowerCase();
-		for (var i = 0; i < attrs.length; i++) {
-			attr = attrs[i];
-			if (attr.specified)
-				str += ' ' + attr.name + '="' + attr.value + '"';
-		}
-		if (!this.canHaveChildren) {
-			return str + '>';
-		}
-		return str + '>' + this.innerHTML + '</' + this.tagName.toLowerCase() + '>';
-	});
-
-	HTMLElement.prototype.__defineGetter__('canHaveChildren', function () {
-		switch (this.tagName.toLowerCase()) {
-			case 'area':
-			case 'base':
-			case 'basefont':
-			case 'col':
-			case 'frame':
-			case 'hr':
-			case 'img':
-			case 'br':
-			case 'input':
-			case 'isindex':
-			case 'link':
-			case 'meta':
-			case 'param':
-				return false;
-		}
-		return true;
-	});
-}
 
 if (typeof IN_ADMINCP == 'undefined') {
 	if (creditnotice != '' && getcookie('creditnotice')) {

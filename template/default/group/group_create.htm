@@ -89,7 +89,7 @@
 <script>
 	function checkgroupname() {
 		var groupname = trim($('name').value);
-		ajaxget('forum.php?mod=ajax&forumcheck=1&infloat=creategroup&handlekey=creategroup&action=checkgroupname&groupname=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(groupname) : groupname), 'groupnamecheck');
+		ajaxget('forum.php?mod=ajax&forumcheck=1&infloat=creategroup&handlekey=creategroup&action=checkgroupname&groupname=' + groupname, 'groupnamecheck');
 	}
 	function checkCategory(){
 		var groupcategory = trim($('fup').value);

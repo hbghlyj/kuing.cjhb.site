@@ -964,16 +964,6 @@ function setCopy(text, msg) {
 		if (msg) {
 			popup.open(msg, 'alert');
 		}
-	} else if (BROWSER.ie) {
-		var r = clipboardData.setData('Text', text);
-		if (r) {
-			success = true;
-			if (msg) {
-				popup.open(msg, 'alert');
-			}
-		} else {
-			popup.open($L('copy_failed2'), 'alert');
-		}
 	} else {
 		popup.open($L('copy_failed2'), 'alert');
 	}

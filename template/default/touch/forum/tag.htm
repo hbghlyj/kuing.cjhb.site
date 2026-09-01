@@ -17,7 +17,6 @@ function tagset() {
 	var tagsEl = $('tags') || getID('tags');
 	var tags = tagsEl ? tagsEl.value : '';
 	var tid = getID('tid').value;
-	tags = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(tags) : tags;
 	var url = 'forum.php?mod=misc&action=retag&inajax=1&tags='+encodeURIComponent(tags)+'&tid='+tid+'&formhash={FORMHASH}';
 	var x = new Ajax();
 	x.getJSON(url, function(s){

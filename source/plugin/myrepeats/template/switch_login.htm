@@ -61,11 +61,7 @@ function initinput_login() {
 	}
 	simulateSelect('loginquestionid_myrepeats');
 }
-if(BROWSER.ie && BROWSER.ie < 7) {
-	setTimeout('initinput_login()', 500);
-} else {
-	initinput_login();
-}
+initinput_login();
 </script>
 
 <!--{if empty($_GET['infloat'])}-->

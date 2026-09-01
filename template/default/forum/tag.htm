@@ -26,8 +26,7 @@
 	function tagset() {
 		var tags = $('tags').value;
 		var tid = $('tid').value;
-		tags = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(tags) : tags;
-		var url = 'forum.php?mod=misc&action=retag&inajax=1&tags='+encodeURIComponent(tags)+'&tid='+tid+'&formhash={FORMHASH}';
+	var url = 'forum.php?mod=misc&action=retag&inajax=1&tags='+encodeURIComponent(tags)+'&tid='+tid+'&formhash={FORMHASH}';
 		var x = new Ajax();
 		x.getJSON(url, function(s){
 			if(s && s.status == 'success') {

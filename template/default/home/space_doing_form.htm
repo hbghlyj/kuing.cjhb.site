@@ -12,9 +12,7 @@ function handlePrompt(type) {
 				showFace('message', 'message', msgstr);
 			}
 		}
-		if(BROWSER.firefox || BROWSER.chrome) {
-			showFace('message', 'message', msgstr);
-		}
+		showFace('message', 'message', msgstr);
 	} else {
 		if(msgObj.value == ''){
 			msgObj.value = msgstr;

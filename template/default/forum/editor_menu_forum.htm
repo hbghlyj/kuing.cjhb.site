@@ -387,9 +387,7 @@
 		$('unusednum_img').innerHTML = parseInt(<!--{echo is_array($imgattachs['unused']) ? count($imgattachs['unused']) : 0}-->);
 	<!--{/if}-->
 	setCaretAtEnd();
-	if(BROWSER.ie >= 5 || BROWSER.firefox >= '2') {
-		_attachEvent(window, 'beforeunload', unloadAutoSave);
-	}
+	_attachEvent(window, 'beforeunload', unloadAutoSave);
 	<!--{if !empty($_GET['cedit']) && $_GET['cedit'] == 'yes'}-->
 		loadData(1);
 		var visualBtn = $(editorid + '_visual_btn');

@@ -362,10 +362,8 @@
 				oTextarea.focus();
 			}
 		} else if(oSubject && (new URL(document.location)).searchParams.get('action')!='edit') {
-			if(BROWSER.chrome) {
-				sLen = oSubject.value.length;
-				oSubject.setSelectionRange(sLen, sLen);
-			}
+			sLen = oSubject.value.length;
+			oSubject.setSelectionRange(sLen, sLen);
 			oSubject.focus();
 		}
 	})();

@@ -11,9 +11,14 @@ EXTRAFUNC['mouseup'] = [];
 EXTRAFUNC['showEditorMenu'] = [];
 var EXTRASELECTION = '', EXTRASEL = null;
 
+function supportsWysiwygEditor() {
+	var probe = document.createElement('div');
+	return 'contentEditable' in probe && typeof document.createRange == 'function' && typeof window.getSelection == 'function';
+}
+
 function newEditor(mode, initialtext, sourcebbcode) {
 	wysiwyg = parseInt(mode);
-	if(!(BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9 || BROWSER.rv))) {
+	if(!supportsWysiwygEditor()) {
 		allowswitcheditor = wysiwyg = 0;
 	}
 	if(!allowswitcheditor) {
@@ -66,7 +71,7 @@ function initEditor() {
 				buttons[i].innerHTML = !simplodemode ? $L('simple_mode') : $L('advance_mode');
 				buttons[i].onclick = function(e) {editorsimple();doane();}
 			} else {
-				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip(BROWSER.ie ? window.event.srcElement.title : e.target.title);});
+				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip((e.target || window.event.srcElement).title);});
 				if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'url') {
 					buttons[i].onclick = function(e) {discuzcode('url');doane();};
 				} else {
@@ -79,8 +84,7 @@ function initEditor() {
 		}
 	}
 	initWysiwygSourceBufferInvalidators();
-	setUnselectable($(editorid + '_controls'));
-	if(editorcontroltop === false && (BROWSER.ie && BROWSER.ie > 6 || !BROWSER.ie)) {
+	if(editorcontroltop === false) {
 		seteditorcontrolpos();
 		var obj = wysiwyg ? editwin.document.body.parentNode : $(editorid + '_textarea');
 		editorcontrolwidth = $(editorid + '_controls').clientWidth - 8;
@@ -139,7 +143,7 @@ function initesbar() {
 			if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'fullswitcher') {
 			} else if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'simple') {
 			} else {
-				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip(BROWSER.ie ? window.event.srcElement.title : e.target.title);});
+				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip((e.target || window.event.srcElement).title);});
 				if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'url') {
 					buttons[i].onclick = function(e) {discuzcode('url');doane();};
 				} else {
@@ -835,15 +839,7 @@ function keyBackspace() {
 	if(!wysiwyg) {
 		return;
 	}
-	if(BROWSER.ie && editdoc.selection && editdoc.selection.createRange) {
-		sel = editdoc.selection.createRange();
-		sel.moveStart('character', -1);
-		sel.moveEnd('character', 0);
-		sel.select();
-		editdoc.selection.clear();
-	} else {
-		editdoc.execCommand('delete', false, true);
-	}
+	editdoc.execCommand('delete', false, true);
 }
 
 function keyMenu(code, func) {
@@ -957,9 +953,6 @@ function keyMenu(code, func) {
 
 function checkFocus() {
 	if(wysiwyg) {
-		if(BROWSER.rv) {
-			return;
-		}
 		try {
 			editwin.document.body.focus();
 		} catch(e) {
@@ -975,22 +968,9 @@ function checklength(theform) {
 	showDialog($L('length_tip_1', [mb_strlen(message)]) + (postmaxchars != 0 ? $L('length_tip_2', [postminchars, postmaxchars]) : ''), 'notice', $L('length_check'));
 }
 
-function setUnselectable(obj) {
-	if(BROWSER.ie && BROWSER.ie > 4 && typeof obj.tagName != 'undefined') {
-		if(obj.hasChildNodes()) {
-			for(var i = 0; i < obj.childNodes.length; i++) {
-				setUnselectable(obj.childNodes[i]);
-			}
-		}
-		if(obj.tagName != 'INPUT') {
-			obj.unselectable = 'on';
-		}
-	}
-}
-
 function writeEditorContents(text) {
 	if(wysiwyg) {
-		if(initialized && !(BROWSER.firefox && BROWSER.firefox >= '3' || BROWSER.opera)) {
+		if(initialized) {
 			editdoc.body.innerHTML = text;
 		} else {
 			var editorHtmlLang = document.documentElement ? document.documentElement.lang : '';
@@ -1005,24 +985,14 @@ function writeEditorContents(text) {
 			editdoc.open('text/html', 'replace');
 			editdoc.write(text);
 			editdoc.close();
-			if(!BROWSER.ie) {
-				var scriptNode = document.createElement("script");
-				scriptNode.type = "text/javascript";
-				scriptNode.text = 'window.onerror = function() { return true; }';
-				editdoc.getElementById('editorheader').appendChild(scriptNode);
-			}
+			var scriptNode = document.createElement("script");
+			scriptNode.text = 'window.onerror = function() { return true; }';
+			editdoc.getElementById('editorheader').appendChild(scriptNode);
 			editdoc.body.contentEditable = true;
 			editdoc.body.spellcheck = false;
 			initialized = true;
-			if(BROWSER.safari) {
-				editdoc.onclick = safariSel;
-			}
-		}
-		if(BROWSER.ie && BROWSER.ie <= 8) {
-			checkpostbg = /<style[^>]+name="editorpostbg"[^>]*>body{background-image:url\("([^\[\<\r\n;'\"\?\(\)]+?)"\);}<\/style>/ig;
-			var matches = checkpostbg.exec(text);
-			if(matches != null) {
-				editdoc.body.innerHTML += '<style type="text/css" name="editorpostbg">body{background-image:url("'+matches[1]+'");}</style>';
+			if(editwin.getSelection && editdoc.createRange) {
+				editdoc.onclick = selectEditorMedia;
 			}
 		}
 	} else {
@@ -1033,7 +1003,7 @@ function writeEditorContents(text) {
 
 }
 
-function safariSel(e) {
+function selectEditorMedia(e) {
 	e = e.target;
 	if(e.tagName.match(/(img|embed)/i)) {
 		var sel = editwin.getSelection(),rng= editdoc.createRange(true);
@@ -1095,11 +1065,6 @@ function setEditorStyle() {
 		textobj.style.display = 'none';
 		editbox.style.display = '';
 		editbox.className = textobj.className;
-		if(BROWSER.ie) {
-			editdoc.body.style.border = '0px';
-			editdoc.body.addBehavior('#default#userData');
-			try{$('subject').focus();} catch(e) {editwin.focus();}
-		}
 		if($(editorid + '_iframe')) {
 			$(editorid + '_iframe').style.height = $(editorid + '_iframe').contentWindow.document.body.style.height = editorcurrentheight + 'px';
 		}
@@ -1108,11 +1073,6 @@ function setEditorStyle() {
 		if(iframe) {
 			textobj.style.display = '';
 			iframe.style.display = 'none';
-		}
-		if(BROWSER.ie) {
-			try{
-				$('subject').focus();
-			} catch(e) {}
 		}
 	}
 	if($('at_menu')) {
@@ -1127,7 +1087,7 @@ function setEditorStyle() {
 }
 
 function setEditorEvents() {
-	if(BROWSER.firefox || BROWSER.opera) {
+	if(editdoc.addEventListener && editwin.addEventListener) {
 		editdoc.addEventListener('mouseup', function(e) {mouseUp(e)}, true);
 		editdoc.addEventListener('keyup', function(e) {keyUp(e)}, true);
 		editwin.addEventListener('keydown', function(e) {keyDown(e)}, true);
@@ -1393,13 +1353,8 @@ function discuzcode(cmd, arg) {
 			insertText(opentag + closetag, opentag.length, closetag.length);
 
 			while(listvalue = prompt($L('li_notice'), '')) {
-				if(BROWSER.opera > 8) {
-					listvalue = '\n' + '[*]' + listvalue;
-					insertText(listvalue, strlen(listvalue) + 1, 0);
-				} else {
-					listvalue = '[*]' + listvalue + '\n';
-					insertText(listvalue, strlen(listvalue), 0);
-				}
+				listvalue = '[*]' + listvalue + '\n';
+				insertText(listvalue, strlen(listvalue), 0);
 			}
 		}
 	} else if(!wysiwyg && cmd == 'unlink') {
@@ -1450,7 +1405,7 @@ function discuzcode(cmd, arg) {
 		editorform.action = oldAction;
 		editorform.target = "";
 	} else {
-		var formatcmd = cmd == 'backcolor' && !BROWSER.ie ? 'hilitecolor' : cmd;
+		var formatcmd = cmd == 'backcolor' ? 'hilitecolor' : cmd;
 		try {
 			var ret = applyFormat(formatcmd, false, (isUndefined(arg) ? true : arg));
 		} catch(e) {
@@ -1502,7 +1457,7 @@ function setContext(cmd) {
 	} catch(e) {
 		fs = null;
 	}
-	if(fs == '' && !BROWSER.ie && window.getComputedStyle) {
+	if(fs == '' && window.getComputedStyle) {
 		fs = editdoc.body.style.fontFamily;
 	} else if(fs == null) {
 		fs = '';
@@ -1813,7 +1768,7 @@ function showEditorMenu(tag, params) {
 	for(var i = 0; i < objs.length; i++) {
 		_attachEvent(objs[i], 'keydown', function(e) {
 			e = e ? e : event;
-			obj = BROWSER.ie ? event.srcElement : e.target;
+			obj = e.target || window.event.srcElement;
 			if((obj.type == 'text' && e.keyCode == 13) || (obj.type == 'textarea' && e.ctrlKey && e.keyCode == 13)) {
 				if($(ctrlid + '_submit') && tag != 'image') $(ctrlid + '_submit').click();
 				doane(e);
@@ -1848,17 +1803,13 @@ function showEditorMenu(tag, params) {
 					var isCodeTag = 1 ;
 					opentag = '<div class="blockcode"><pre>';
 					closetag = '</pre></div><br />';
-					if(!BROWSER.ie) {
-						selection = selection ? selection : '\n';
-					}
+					selection = selection ? selection : '\n';
 				}
 			case 'quote':
 				if(wysiwyg && tag == 'quote') {
 					opentag = '<div class="quote"><blockquote>';
 					closetag = '</blockquote></div><br />';
-					if(!BROWSER.ie) {
-						selection = selection ? selection : '\n';
-					}
+					selection = selection ? selection : '\n';
 				}
 			case 'hide':
 			case 'free':
@@ -2028,17 +1979,7 @@ function showEditorMenu(tag, params) {
 }
 
 function autoTypeset() {
-	var sel;
-	if(BROWSER.ie) {
-		if(wysiwyg) {
-			if(editdoc.selection && editdoc.selection.createRange) {
-				sel = editdoc.selection.createRange();
-			}
-		} else if(document.selection && document.selection.createRange) {
-			sel = document.selection.createRange();
-		}
-	}
-	var selection = sel ? (wysiwyg ? sel.htmlText.replace(/<\/?p>/ig, '<br />') : sel.text) : getSel();
+	var selection = getSel();
 	selection = trim(selection);
 	selection = wysiwyg ? selection.replace(/<br( \/)?>(<br( \/)?>)+/ig, '</p>\n<p style="line-height: 30px; text-indent: 2em;">') : selection.replace(/\n\n+/g, '[/p]\n[p=30, 2, left]');
 	opentag = wysiwyg ? '<p style="line-height: 30px; text-indent: 2em;">' : '[p=30, 2, left]';
@@ -2171,7 +2112,7 @@ function insertText(text, movestart, moveend, select, sel) {
 }
 
 function insertBlockTag(text, movestart, moveend, select, sel) {
-	if(wysiwyg && (BROWSER.chrome || BROWSER.safari) && /<div\s[^>]*class\s*=\s*["'](blockcode|quote)["']/i.test(text)) {
+	if(wysiwyg && /<div\s[^>]*class\s*=\s*["'](blockcode|quote)["']/i.test(text)) {
 		var breaktag = '<div><br /></div>';
 		insertText(breaktag + text, movestart + strlen(breaktag), moveend, select, sel);
 		var block = editdoc.body.querySelector('.blockcode, .quote');
@@ -2387,18 +2328,12 @@ function showHrBox(ctrlid, boxtype) {
 	if(typeof postimg_type == 'undefined') {
 		var scriptNode = document.createElement("script");
 		scriptNode.type = "text/javascript";
-		scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
+		scriptNode.charset = charset || document.characterSet || document.charset || 'UTF-8';
 		scriptNode.src = JSPATH + 'common_postimg.js?' + VERHASH;
 		$('append_parent').appendChild(scriptNode);
-		if(BROWSER.ie) {
-			scriptNode.onreadystatechange = function() {
-				_initHrBox(ctrlid, boxtype);
-			};
-		} else {
-			scriptNode.onload = function() {
-				_initHrBox(ctrlid, boxtype);
-			};
-		}
+		scriptNode.onload = function() {
+			_initHrBox(ctrlid, boxtype);
+		};
 	} else {
 		_initHrBox(ctrlid, boxtype);
 	}
@@ -2456,7 +2391,7 @@ function insertPostBackground(img) {
 	if(img != '0.gif') {
 		code = '[postbg]'+img+'[/postbg]';
 		if(wysiwyg) {
-			postbgElement = !BROWSER.ie ? editdoc.getElementsByName('editorpostbg') : editdoc.getElementsByTagName('style');
+			postbgElement = editdoc.getElementsByName('editorpostbg');
 			for(var i = 0; i < postbgElement.length; i++) {
 				postbgElement[i].parentNode.removeChild(postbgElement[i]);
 			}
@@ -2467,7 +2402,7 @@ function insertPostBackground(img) {
 		}
 	} else {
 		if(wysiwyg) {
-			postbgElement = !BROWSER.ie ? editdoc.getElementsByName('editorpostbg') : editdoc.getElementsByTagName('style');
+			postbgElement = editdoc.getElementsByName('editorpostbg');
 			for(var i = 0; i < postbgElement.length; i++) {
 				postbgElement[i].parentNode.removeChild(postbgElement[i]);
 			}

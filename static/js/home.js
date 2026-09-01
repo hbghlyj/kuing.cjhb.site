@@ -473,7 +473,7 @@ function showFace(showid, target, dropstr) {
 
 			var scriptNode = document.createElement("script");
 			scriptNode.type = "text/javascript";
-			scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
+			scriptNode.charset = charset || document.characterSet || document.charset || 'UTF-8';
 			scriptNode.src = JSPATH + 'common_smilies_var.js?' + VERHASH;
 
 			scriptNode.onload = function() {

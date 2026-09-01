@@ -106,15 +106,7 @@
 					scriptNode.id = 'friendselector_js';
 					scriptNode.type = "text/javascript";
 					scriptNode.src = '{$_G[setting][jspath]}home_friendselector.js?{VERHASH}';
-					if(BROWSER.ie) {
-						scriptNode.onreadystatechange = function () {
-							if(scriptNode.readyState == 'loaded' || scriptNode.readyState == 'complete') {
-								selector();
-							}
-						}
-					} else {
-						scriptNode.onload = selector;
-					}
+					scriptNode.onload = selector;
 					$('append_parent').appendChild(scriptNode);
 				}
 			</script>

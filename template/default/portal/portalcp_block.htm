@@ -577,8 +577,8 @@
 		</div>
 	</form>
 	<script reload="1">
-		if (typeof ctitlepb_frame == 'object' && !BROWSER.ie) {delete ctitlepb_frame;}
-		if (typeof csummarypb_frame == 'object' && !BROWSER.ie) {delete csummarypb_frame;}
+		if (typeof ctitlepb_frame == 'object') {delete ctitlepb_frame;}
+		if (typeof csummarypb_frame == 'object') {delete csummarypb_frame;}
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			<!--{if $_GET[itemfrom]=='ajax'}-->
 			showWindow('$_GET[handlekey]', 'portal.php?mod=portalcp&ac=block&op=data<!--{if $_GET[from]}-->&from=$_GET[from]<!--{/if}-->&bid='+values['bid'], 'get' ,0);

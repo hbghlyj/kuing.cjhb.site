@@ -14,9 +14,6 @@ var atKeywords = null, keyMenuObj = null,atResult = [];
 var curatli = 0, atliclass = '', atsubmitid = '', atkeypress = 0;
 
 function extrafunc_atMenu() {
-	if(BROWSER.opera) {
-		return;
-	}
 	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
 		keyMenu('@', atMenu);
 		ctlent_enable[13] = 0;
@@ -29,9 +26,6 @@ function extrafunc_atMenu() {
 }
 
 function extrafunc_atMenuKeyUp() {
-	if(BROWSER.opera) {
-		return;
-	}
 	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit') && !atkeypress) {
 		keyBackspace();
 		keyMenu('@', atMenu);

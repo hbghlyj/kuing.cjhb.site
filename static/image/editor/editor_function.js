@@ -13,14 +13,9 @@ function edit_save() {
 	if(status == 'code') {
 		$('uchome-ttHtmlEditor').value = p.document.getElementById('sourceEditor').value;
 	} else if(status == 'text') {
-		if(BROWSER.ie) {
-			obj.document.body.innerText = p.document.getElementById('dvtext').value;
-			$('uchome-ttHtmlEditor').value = obj.document.body.innerHTML;
-		} else {
-			obj.document.body.textContent = p.document.getElementById('dvtext').value;
-			var sOutText = obj.document.body.innerHTML;
-			$('uchome-ttHtmlEditor').value = sOutText.replace(/\r\n|\n/g,"<br>");
-		}
+		obj.document.body.textContent = p.document.getElementById('dvtext').value;
+		var sOutText = obj.document.body.innerHTML;
+		$('uchome-ttHtmlEditor').value = sOutText.replace(/\r\n|\n/g,"<br>");
 	} else {
 		$('uchome-ttHtmlEditor').value = obj.document.body.innerHTML;
 	}
@@ -77,14 +72,7 @@ function edit_insert(html) {
 		return;
 	}
 	obj.focus();
-	if(BROWSER.ie){
-		var f = obj.document.selection.createRange();
-		f.pasteHTML(html);
-		f.collapse(false);
-		f.select();
-	} else {
-		obj.document.execCommand('insertHTML', false, html);
-	}
+	obj.document.execCommand('insertHTML', false, html);
 }
 
 function insertImage(image, url, width, height) {

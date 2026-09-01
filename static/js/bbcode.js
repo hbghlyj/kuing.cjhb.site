@@ -594,7 +594,7 @@ function imgtag(attributes) {
 }
 
 function listtag(listoptions, text, tagname) {
-	text = text.replace(/<li>(([\s\S](?!<\/li))*?)(?=<\/?ol|<\/?ul|<li|\[list|\[\/list)/ig, '<li>$1</li>') + (BROWSER.opera ? '</li>' : '');
+	text = text.replace(/<li>(([\s\S](?!<\/li))*?)(?=<\/?ol|<\/?ul|<li|\[list|\[\/list)/ig, '<li>$1</li>');
 	text = recursion('li', text, 'litag');
 	var opentag = '[list]';
 	var listtype = fetchoptionvalue('type=', listoptions);

@@ -223,7 +223,7 @@ function _appendscript(src, text, reload, charset) {
 	var scriptNode = document.createElement("script");
 	scriptNode.type = "text/javascript";
 	scriptNode.id = id;
-	scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
+	scriptNode.charset = charset || document.characterSet || document.charset || 'UTF-8';
 	try {
 		if(src) {
 			scriptNode.src = src;

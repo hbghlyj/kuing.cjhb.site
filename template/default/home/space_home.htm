@@ -565,10 +565,6 @@
 	function showEditAvt(id) {
 		$(id).style.display = $(id).style.display == '' ? 'block' : '';
 	}
-	if($('edit_avt') && BROWSER.ie && BROWSER.ie == 6) {
-		_attachEvent($('edit_avt'), 'mouseover', function () { showEditAvt('edit_avt_tar'); });
-		_attachEvent($('edit_avt'), 'mouseout', function () { showEditAvt('edit_avt_tar'); });
-	}
 </script>
 
 <!--{template common/footer}-->
