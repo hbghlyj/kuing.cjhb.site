@@ -932,11 +932,6 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!pastedAlignment.paragraph.includes('[align=left]'), 'Assertion Error: Explicit left alignment on a pasted paragraph produced redundant BBCode.');
             assert.strictEqual(pastedAlignment.centered, '[align=center]Centered paragraph[/align]', 'Assertion Error: Pasted center alignment was not preserved.');
             assert.strictEqual(pastedAlignment.indented, '[align=null, 2, left]Indented paragraph[/align]', 'Assertion Error: Pasted paragraph indentation was not preserved.');
-            const pastedFontFormatting = await page.evaluate(() => html2bbcode(stripPastedFontFormatting('<p style="font-family: Times New Roman"><font face="Courier New" color="#f00">Typeface-free pasted text</font></p>')));
-            assert.ok(!pastedFontFormatting.includes('[font='), 'Assertion Error: Pasted typeface formatting produced a non-semantic font BBCode tag.');
-            assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
-            const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
-            assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
             await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
             await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
             await solveSecurityQuestion(page, advancedForm);

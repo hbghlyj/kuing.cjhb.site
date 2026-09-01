@@ -187,7 +187,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         page.once('dialog', dialog => dialog.accept());
         const [editLogDeleteResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=logs&operation=editlog')),
-            page.locator('#logbatchform input[type="submit"]').click(),
+            page.locator('input[type="submit"][form="logbatchform"]').click(),
         ]);
         assert.ok(editLogDeleteResponse.ok() || (editLogDeleteResponse.status() >= 300 && editLogDeleteResponse.status() < 400), `Assertion Error: AdminCP edit-log deletion POST failed with HTTP ${editLogDeleteResponse.status()}.`);
         const editLogCounts = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogUsername}'), (SELECT COUNT(*) FROM pre_forum_editlog WHERE username='${editLogOtherUsername}');"`).toString().trim();
