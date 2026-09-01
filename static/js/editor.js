@@ -990,9 +990,6 @@ function setUnselectable(obj) {
 
 function writeEditorContents(text) {
 	if(wysiwyg) {
-		if(text == '' && (BROWSER.firefox || BROWSER.opera)) {
-			text = '<p></p>';
-		}
 		if(initialized && !(BROWSER.firefox && BROWSER.firefox >= '3' || BROWSER.opera)) {
 			editdoc.body.innerHTML = text;
 		} else {
