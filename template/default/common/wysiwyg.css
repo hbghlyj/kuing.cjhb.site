@@ -15,7 +15,7 @@ a { color: {HIGHLIGHTLINK}; }
 	a img { border: none; }
 hr.l { height: 1px; border: none; background: {COMMONBORDER}; color: {COMMONBORDER}; }
 table { empty-cells: show; border-collapse: collapse; }
-table td { padding: 4px; border: 1px solid {COMMONBORDER}; }
+table td, table th { padding: 4px; border: 1px solid {COMMONBORDER}; }
 th { font-weight: normal; }
 .t_table th { font-weight: bold; border-bottom-width: 2px; }
 div.quote { margin: 10px 0; padding: 0; overflow: visible; display: flex; color: #666; }

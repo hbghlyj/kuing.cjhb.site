@@ -641,7 +641,7 @@ function parsestyle(tagoptions, prepend, append) {
 		['color', true, '(^|[;\\s])color:\\s*([^;]+);?', 2],
 		['backcolor', true, '(^|[;\\s])background-color:\\s*([^;]+);?', 2],
 		['font', true, 'font-family:\\s*([^;]+);?', 1],
-		['size', true, 'font-size:\\s*(\\d+(\\.\\d+)?(px|pt|in|cm|mm|pc|em|ex|%|));?', 1],
+		['size', true, 'font-size:\\s*(\\d+(\\.\\d+)?(px|pt|in|cm|mm|pc|em|ex|%));?', 1],
 		['size', true, 'font-size:\\s*(x\\-small|small|medium|large|x\\-large|xx\\-large|\\-webkit\\-xxx\\-large);?', 1, 'size'],
 		['b', false, 'font-weight:\\s*(bold);?'],
 		['i', false, 'font-style:\\s*(italic);?'],

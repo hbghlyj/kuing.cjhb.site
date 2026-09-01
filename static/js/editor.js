@@ -454,10 +454,29 @@ function sanitizePaste(event) {
 		div.innerHTML = html;
 		var body = div.getElementsByTagName('body')[0];
 		var fragment = body ? body.innerHTML : div.innerHTML;
+		fragment = stripPastedFontFormatting(fragment);
 		insertText(bbcode2html(html2bbcode(fragment)), 0, 0);
 	} catch(e) {
 		insertText(html.replace(/<[\/\!]*?[^<>]*?>/ig, ''), 0, 0);
 	}
+}
+
+function stripPastedFontFormatting(html) {
+	var container = document.createElement('div');
+	container.innerHTML = html;
+	var elements = container.getElementsByTagName('*');
+	for(var i = 0; i < elements.length; i++) {
+		var element = elements[i];
+		// Typeface choice is presentation-only. Keep other font attributes such as color and size.
+		element.removeAttribute('face');
+		if(element.style) {
+			element.style.removeProperty('font-family');
+			if(!element.getAttribute('style')) {
+				element.removeAttribute('style');
+			}
+		}
+	}
+	return container.innerHTML;
 }
 
 var editorUploadSeq = 0;

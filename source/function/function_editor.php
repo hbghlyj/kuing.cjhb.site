@@ -250,7 +250,7 @@ function parsestyle($tagoptions, &$prependtags, &$appendtags) {
 		['tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(right);?', 'match' => 1],
 		['tag' => 'color', 'option' => TRUE, 'regex' => '(?<![a-z0-9-])color:\s*([^;]+);?', 'match' => 1],
 		['tag' => 'font', 'option' => TRUE, 'regex' => 'font-family:\s*([^;]+);?', 'match' => 1],
-		['tag' => 'size', 'option' => TRUE, 'regex' => 'font-size:\s*(\d+(\.\d+)?(px|pt|in|cm|mm|pc|em|ex|%|));?', 'match' => 1],
+		['tag' => 'size', 'option' => TRUE, 'regex' => 'font-size:\s*(\d+(\.\d+)?(px|pt|in|cm|mm|pc|em|ex|%));?', 'match' => 1],
 		['tag' => 'b', 'option' => FALSE, 'regex' => 'font-weight:\s*(bold);?'],
 		['tag' => 'i', 'option' => FALSE, 'regex' => 'font-style:\s*(italic);?'],
 		['tag' => 'u', 'option' => FALSE, 'regex' => 'text-decoration:\s*(underline);?']
