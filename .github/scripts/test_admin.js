@@ -185,7 +185,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await editLogResultRows.locator(`a[href*="operation=editlog"][href*="username=${encodeURIComponent(editLogOtherUsername)}"]`).count(), 0, 'Assertion Error: Exact post edit-history username filter rendered another editor\'s row.');
         await page.locator('#chkall').check();
         const [editLogDeleteResponse] = await Promise.all([
-            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('admin.php?action=logs&operation=editlog')),
+            page.waitForNavigation({waitUntil: 'networkidle'}),
             page.locator('#logbatchform').evaluate(form => HTMLFormElement.prototype.submit.call(form)),
         ]);
         assert.ok(editLogDeleteResponse.ok() || (editLogDeleteResponse.status() >= 300 && editLogDeleteResponse.status() < 400), `Assertion Error: AdminCP edit-log deletion POST failed with HTTP ${editLogDeleteResponse.status()}.`);
