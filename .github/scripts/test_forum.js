@@ -774,6 +774,23 @@ const assertPusherMetadataOrder = () => {
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${originalSubjectB64}') USING utf8mb4) WHERE tid=${tidOutput} AND first=1; UPDATE pre_forum_thread SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid}; UPDATE pre_forum_post SET subject=CONVERT(FROM_BASE64('${decoySubjectB64}') USING utf8mb4) WHERE tid=${decoyTid} AND first=1;"`);
         }
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        const postTimeUsesRelativeFormat = await page.locator('.pi .authi time[data-local-timestamp]').first().evaluate(element => {
+            const timestamp = Number(element.getAttribute('data-local-timestamp'));
+            const delta = timestamp - Math.floor(Date.now() / 1000);
+            const ranges = [
+                [60, 1, 'second'],
+                [3600, 60, 'minute'],
+                [86400, 3600, 'hour'],
+                [604800, 86400, 'day'],
+                [2592000, 604800, 'week'],
+                [31536000, 2592000, 'month'],
+                [Infinity, 31536000, 'year']
+            ];
+            const range = ranges.find(item => Math.abs(delta) < item[0]);
+            const expected = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'}).format(Math.round(delta / range[1]), range[2]);
+            return element.textContent.trim() === expected;
+        });
+        assert.ok(postTimeUsesRelativeFormat, 'Assertion Error: Viewthread post time did not use the browser relative-time format.');
 
         // Reply to Thread
             console.log("Attempting to reply to thread...");
