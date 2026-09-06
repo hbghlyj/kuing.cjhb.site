@@ -39,6 +39,32 @@ const stubPusher = async targetContext => {
     }));
 };
 
+const emitStubbedPusherEvent = async (targetContext, event, data) => {
+    const deadline = Date.now() + 10000;
+    while(Date.now() < deadline) {
+        for(const targetPage of targetContext.pages()) {
+            if(targetPage.isClosed()) continue;
+            const emitted = await targetPage.evaluate(({ event, data }) => {
+                const instance = window.__pusherStubInstances?.find(candidate => candidate.channels?.Chat);
+                if(!instance) return false;
+                instance.channels.Chat.emit(event, data);
+                return true;
+            }, { event, data }).catch(() => false);
+            if(emitted) return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    throw new Error(`Assertion Error: No stubbed Pusher Chat channel was available for ${event}.`);
+};
+
+const assertObserverDocumentUnchanged = async observerPage => {
+    assert.strictEqual(
+        await observerPage.evaluate(() => window.__forumRealtimeObserver),
+        true,
+        'Assertion Error: Forum real-time observer reloaded while processing a Pusher event.'
+    );
+};
+
 const assertPusherMetadataOrder = () => {
 	const chatWidgetSource = fs.readFileSync('chat/PusherChatWidget.js', 'utf8');
 	assert.match(chatWidgetSource, /img\.loading\s*=\s*'lazy'/, 'Assertion Error: Pusher chat message images do not use native lazy loading.');
@@ -797,6 +823,29 @@ const assertPusherMetadataOrder = () => {
         });
         assert.ok(postTimeUsesRelativeFormat, 'Assertion Error: Viewthread post time did not use the browser relative-time format.');
 
+        const realtimeObserver = await context.newPage();
+        await realtimeObserver.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
+        await realtimeObserver.evaluate(() => { window.__forumRealtimeObserver = true; });
+        const realtimeChatMessageTime = `${Date.now()}-${testRunId}`;
+        const realtimeChatText = `Real-time chat message ${testRunId}`;
+        await emitStubbedPusherEvent(context, 'chat_message', {
+            message_time: realtimeChatMessageTime,
+            published: new Date().toISOString(),
+            body: realtimeChatText,
+            actor: { id: 1, displayName: 'admin', image: '' }
+        });
+        await realtimeObserver.waitForFunction(
+            ({ messageTime, message }) => document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`)?.innerText.includes(message),
+            { messageTime: realtimeChatMessageTime, message: realtimeChatText }
+        );
+        await assertObserverDocumentUnchanged(realtimeObserver);
+        await emitStubbedPusherEvent(context, 'chat_delete', { message_time: realtimeChatMessageTime });
+        await realtimeObserver.waitForFunction(
+            messageTime => !document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`),
+            realtimeChatMessageTime
+        );
+        await assertObserverDocumentUnchanged(realtimeObserver);
+
         // Reply to Thread
             console.log("Attempting to reply to thread...");
             const desktopReplyBtn = page.locator('#post_reply');
@@ -830,6 +879,11 @@ const assertPusherMetadataOrder = () => {
             console.log("Checking if reply exists in DB...");
             const replyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0;"`).toString().trim();
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
+            const realtimeReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            await emitStubbedPusherEvent(context, 'newreply', { tid: tidOutput, pid: realtimeReplyPid, page: 1, uid: userUid });
+            await realtimeObserver.waitForFunction(pid => document.getElementById(`post_${pid}`), realtimeReplyPid);
+            assert.ok((await realtimeObserver.locator(`#post_${realtimeReplyPid}`).textContent()).includes('Reply text from unprivileged account.'), 'Assertion Error: newreply Pusher event did not append the reply to the open observer page.');
+            await assertObserverDocumentUnchanged(realtimeObserver);
             const expAfterReply = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT extcredits1 FROM pre_common_member_count WHERE uid='${userUid}';"`).toString().trim(), 10);
             const replyCreditLogsAfter = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log l INNER JOIN pre_common_credit_rule r ON r.rid=l.relatedid WHERE l.uid='${userUid}' AND l.operation='RUL' AND l.extcredits1 > 0 AND r.action='reply';"`).toString().trim(), 10);
             assert.strictEqual(expAfterReply, expBeforeReply + 1, 'Assertion Error: Reply did not increment Experience by the configured +1.');
@@ -871,6 +925,10 @@ const assertPusherMetadataOrder = () => {
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
             assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');
+            await emitStubbedPusherEvent(context, 'deletepost', { tid: tidOutput, pid: deletableReplyPid });
+            await realtimeObserver.waitForFunction(pid => !document.getElementById(`pid${pid}`), deletableReplyPid);
+            assert.ok(!(await realtimeObserver.locator('body').innerText()).includes('Reply text from unprivileged account.'), 'Assertion Error: deletepost Pusher event left deleted reply content in the open observer page.');
+            await assertObserverDocumentUnchanged(realtimeObserver);
             const deleteLogId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT editid FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account.' ORDER BY editid DESC LIMIT 1;"`).toString().trim();
             assert.match(deleteLogId, /^\d+$/, 'Assertion Error: Deleted reply did not create a deletion revision.');
 
@@ -928,6 +986,12 @@ const assertPusherMetadataOrder = () => {
 
             const firstFloorCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${firstFloorPid}' AND comment='${firstFloorCommentText}';"`).toString().trim();
             assert.strictEqual(firstFloorCommentDbCheck, '1', 'Assertion Error: First floor comment was not created in database.');
+            await emitStubbedPusherEvent(context, 'commentadd', { tid: tidOutput, pid: firstFloorPid });
+            await realtimeObserver.waitForFunction(
+                ({ pid, comment }) => document.getElementById(`comment_${pid}`)?.innerText.includes(comment),
+                { pid: firstFloorPid, comment: firstFloorCommentText }
+            );
+            await assertObserverDocumentUnchanged(realtimeObserver);
 
             // Navigate back to viewthread to verify and screenshot
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
@@ -1022,6 +1086,14 @@ const assertPusherMetadataOrder = () => {
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='${editedStandardSubject}';"`).toString().trim();
                 assert.strictEqual(editDbCheck, '1', 'Assertion Error: Edited thread title was not updated in database.');
+                await emitStubbedPusherEvent(context, 'editpost', { tid: tidOutput, pid: pidOutput, subject: editedStandardSubject, uid: userUid });
+                await realtimeObserver.waitForFunction(
+                    ({ pid, subject, message }) => document.getElementById('thread_subject')?.innerText.includes(subject)
+                        && document.getElementById(`post_${pid}`)?.innerText.includes(message),
+                    { pid: pidOutput, subject: editedStandardSubject, message: 'Edited body text from unprivileged account.' }
+                );
+                await assertObserverDocumentUnchanged(realtimeObserver);
+                await realtimeObserver.close();
                 await page.reload({ waitUntil: 'networkidle' });
                 const editedThreadBody = await page.textContent('body');
                 assert.ok(editedThreadBody.includes(editedStandardSubject), 'Assertion Error: Edited thread title was not rendered after reload.');
