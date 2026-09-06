@@ -1612,7 +1612,7 @@ function showEditorMenu(tag, params) {
 				}
 				if(linknode) {
 					linkhref = linknode.getAttribute('href', 2) ? linknode.getAttribute('href', 2) : '';
-					linktext = linknode.innerHTML;
+					linktext = linknode.textContent;
 					try {
 						if(editdoc.body.createTextRange) {
 							sel = editdoc.body.createTextRange();
@@ -1626,7 +1626,7 @@ function showEditorMenu(tag, params) {
 							wsel2.addRange(wrange);
 							sel = wrange;
 						}
-						selection = linknode.innerHTML;
+						selection = linknode.textContent;
 					} catch(e) {}
 				}
 			} else if(!isUndefined(editdoc.selectionStart)) {
