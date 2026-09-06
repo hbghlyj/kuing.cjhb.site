@@ -422,7 +422,6 @@
           }
         });
         this.#chatChannel.bind('commentadd', data => {
-          if(isOriginatingForumTab(data)) return;
           data.pid = Number(data.pid);
           data.tid = Number(data.tid);
           if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;

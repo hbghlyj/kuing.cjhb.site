@@ -65,6 +65,27 @@ const assertObserverDocumentUnchanged = async observerPage => {
     );
 };
 
+const resetPusherAjaxCallCounter = async targetPage => {
+    await targetPage.evaluate(() => {
+        if(!window.__pusherAjaxOriginal) {
+            window.__pusherAjaxOriginal = window.ajaxget;
+            window.ajaxget = function() {
+                window.__pusherAjaxCalls++;
+                return window.__pusherAjaxOriginal.apply(this, arguments);
+            };
+        }
+        window.__pusherAjaxCalls = 0;
+    });
+};
+
+const assertOriginatingTabIgnoredForumEvent = async targetPage => {
+    assert.strictEqual(
+        await targetPage.evaluate(() => window.__pusherAjaxCalls),
+        0,
+        'Assertion Error: Originating forum tab processed its own echoed Pusher event.'
+    );
+};
+
 const assertPusherMetadataOrder = () => {
 	const chatWidgetSource = fs.readFileSync('chat/PusherChatWidget.js', 'utf8');
 	assert.match(chatWidgetSource, /img\.loading\s*=\s*'lazy'/, 'Assertion Error: Pusher chat message images do not use native lazy loading.');
@@ -826,6 +847,8 @@ const assertPusherMetadataOrder = () => {
         const realtimeObserver = await context.newPage();
         await realtimeObserver.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`, { waitUntil: 'networkidle' });
         await realtimeObserver.evaluate(() => { window.__forumRealtimeObserver = true; });
+        const forumOriginTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+        assert.ok(forumOriginTabId, 'Assertion Error: Originating forum page did not provide a Pusher tab token.');
         const realtimeChatMessageTime = `${Date.now()}-${testRunId}`;
         const realtimeChatText = `Real-time chat message ${testRunId}`;
         await emitStubbedPusherEvent(context, 'chat_message', {
@@ -838,9 +861,17 @@ const assertPusherMetadataOrder = () => {
             ({ messageTime, message }) => document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`)?.innerText.includes(message),
             { messageTime: realtimeChatMessageTime, message: realtimeChatText }
         );
+        await page.waitForFunction(
+            ({ messageTime, message }) => document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`)?.innerText.includes(message),
+            { messageTime: realtimeChatMessageTime, message: realtimeChatText }
+        );
         await assertObserverDocumentUnchanged(realtimeObserver);
         await emitStubbedPusherEvent(context, 'chat_delete', { message_time: realtimeChatMessageTime });
         await realtimeObserver.waitForFunction(
+            messageTime => !document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`),
+            realtimeChatMessageTime
+        );
+        await page.waitForFunction(
             messageTime => !document.querySelector(`.pusher-chat-widget li.message-item[data-message-time="${CSS.escape(messageTime)}"]`),
             realtimeChatMessageTime
         );
@@ -880,9 +911,12 @@ const assertPusherMetadataOrder = () => {
             const replyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0;"`).toString().trim();
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
             const realtimeReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
-            await emitStubbedPusherEvent(context, 'newreply', { tid: tidOutput, pid: realtimeReplyPid, page: 1, uid: userUid });
+            await resetPusherAjaxCallCounter(page);
+            await emitStubbedPusherEvent(context, 'newreply', { tid: tidOutput, pid: realtimeReplyPid, page: 1, uid: userUid, origin_tab_id: forumOriginTabId });
             await realtimeObserver.waitForFunction(pid => document.getElementById(`post_${pid}`), realtimeReplyPid);
             assert.ok((await realtimeObserver.locator(`#post_${realtimeReplyPid}`).textContent()).includes('Reply text from unprivileged account.'), 'Assertion Error: newreply Pusher event did not append the reply to the open observer page.');
+            assert.strictEqual(await page.locator(`#post_${realtimeReplyPid}`).count(), 1, 'Assertion Error: Originating tab duplicated its own reply after the Pusher echo.');
+            await assertOriginatingTabIgnoredForumEvent(page);
             await assertObserverDocumentUnchanged(realtimeObserver);
             const expAfterReply = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT extcredits1 FROM pre_common_member_count WHERE uid='${userUid}';"`).toString().trim(), 10);
             const replyCreditLogsAfter = parseInt(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_credit_log l INNER JOIN pre_common_credit_rule r ON r.rid=l.relatedid WHERE l.uid='${userUid}' AND l.operation='RUL' AND l.extcredits1 > 0 AND r.action='reply';"`).toString().trim(), 10);
@@ -925,7 +959,7 @@ const assertPusherMetadataOrder = () => {
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
             assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');
-            await emitStubbedPusherEvent(context, 'deletepost', { tid: tidOutput, pid: deletableReplyPid });
+            await emitStubbedPusherEvent(context, 'deletepost', { tid: tidOutput, pid: deletableReplyPid, origin_tab_id: forumOriginTabId });
             await realtimeObserver.waitForFunction(pid => !document.getElementById(`pid${pid}`), deletableReplyPid);
             assert.ok(!(await realtimeObserver.locator('body').innerText()).includes('Reply text from unprivileged account.'), 'Assertion Error: deletepost Pusher event left deleted reply content in the open observer page.');
             await assertObserverDocumentUnchanged(realtimeObserver);
@@ -963,6 +997,8 @@ const assertPusherMetadataOrder = () => {
 
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
+            const commentOriginTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+            assert.ok(commentOriginTabId, 'Assertion Error: Comment form page did not provide a Pusher tab token.');
 
             const firstFloorCommentBtn = page.locator(`a.cmmnt[href*="pid=${firstFloorPid}"]`);
             assert.strictEqual(await firstFloorCommentBtn.count(), 1, 'Assertion Error: Comment control did not render for the first floor post.');
@@ -986,11 +1022,17 @@ const assertPusherMetadataOrder = () => {
 
             const firstFloorCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${firstFloorPid}' AND comment='${firstFloorCommentText}';"`).toString().trim();
             assert.strictEqual(firstFloorCommentDbCheck, '1', 'Assertion Error: First floor comment was not created in database.');
-            await emitStubbedPusherEvent(context, 'commentadd', { tid: tidOutput, pid: firstFloorPid });
+            await resetPusherAjaxCallCounter(page);
+            await emitStubbedPusherEvent(context, 'commentadd', { tid: tidOutput, pid: firstFloorPid, origin_tab_id: commentOriginTabId });
             await realtimeObserver.waitForFunction(
                 ({ pid, comment }) => document.getElementById(`comment_${pid}`)?.innerText.includes(comment),
                 { pid: firstFloorPid, comment: firstFloorCommentText }
             );
+            await page.waitForFunction(
+                ({ pid, comment }) => document.getElementById(`comment_${pid}`)?.innerText.includes(comment),
+                { pid: firstFloorPid, comment: firstFloorCommentText }
+            );
+            assert.strictEqual(await page.evaluate(() => window.__pusherAjaxCalls), 1, 'Assertion Error: Originating tab did not refresh its comments exactly once after the Pusher echo.');
             await assertObserverDocumentUnchanged(realtimeObserver);
 
             // Navigate back to viewthread to verify and screenshot
@@ -1086,12 +1128,15 @@ const assertPusherMetadataOrder = () => {
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='${editedStandardSubject}';"`).toString().trim();
                 assert.strictEqual(editDbCheck, '1', 'Assertion Error: Edited thread title was not updated in database.');
-                await emitStubbedPusherEvent(context, 'editpost', { tid: tidOutput, pid: pidOutput, subject: editedStandardSubject, uid: userUid });
+                await resetPusherAjaxCallCounter(page);
+                const editOriginTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+                await emitStubbedPusherEvent(context, 'editpost', { tid: tidOutput, pid: pidOutput, subject: editedStandardSubject, uid: userUid, origin_tab_id: editOriginTabId });
                 await realtimeObserver.waitForFunction(
                     ({ pid, subject, message }) => document.getElementById('thread_subject')?.innerText.includes(subject)
                         && document.getElementById(`post_${pid}`)?.innerText.includes(message),
                     { pid: pidOutput, subject: editedStandardSubject, message: 'Edited body text from unprivileged account.' }
                 );
+                await assertOriginatingTabIgnoredForumEvent(page);
                 await assertObserverDocumentUnchanged(realtimeObserver);
                 await realtimeObserver.close();
                 await page.reload({ waitUntil: 'networkidle' });
