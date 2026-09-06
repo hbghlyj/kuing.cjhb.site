@@ -776,7 +776,6 @@ const assertPusherMetadataOrder = () => {
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         const postTimeUsesRelativeFormat = await page.locator('.pi .authi time[data-local-timestamp]').first().evaluate(element => {
             const timestamp = Number(element.getAttribute('data-local-timestamp'));
-            const delta = timestamp - Math.floor(Date.now() / 1000);
             const ranges = [
                 [60, 1, 'second'],
                 [3600, 60, 'minute'],
@@ -786,9 +785,14 @@ const assertPusherMetadataOrder = () => {
                 [31536000, 2592000, 'month'],
                 [Infinity, 31536000, 'year']
             ];
-            const range = ranges.find(item => Math.abs(delta) < item[0]);
-            const expected = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'}).format(Math.round(delta / range[1]), range[2]);
-            return element.textContent.trim() === expected;
+            const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'});
+            const now = Math.floor(Date.now() / 1000);
+            const expected = [-2, -1, 0, 1, 2].map(offset => {
+                const delta = timestamp - now + offset;
+                const range = ranges.find(item => Math.abs(delta) < item[0]);
+                return formatter.format(Math.round(delta / range[1]), range[2]);
+            });
+            return expected.includes(element.textContent.trim());
         });
         assert.ok(postTimeUsesRelativeFormat, 'Assertion Error: Viewthread post time did not use the browser relative-time format.');
 
