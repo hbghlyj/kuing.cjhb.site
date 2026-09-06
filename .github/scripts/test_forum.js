@@ -747,7 +747,8 @@ const assertPusherMetadataOrder = () => {
 
         const literalSearchKeywords = ['literal-ci%_marker', 'literal-ci\\%_marker', 'literal-ci*marker'];
         const literalSearchSubject = `${standardSubject} ${literalSearchKeywords.join(' ')}`;
-        const decoyTid = '4';
+        const decoyTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE tid <> ${tidOutput} ORDER BY tid ASC LIMIT 1;"`).toString().trim();
+        assert.match(decoyTid, /^\d+$/, 'Assertion Error: Forum search wildcard fixture could not find a decoy thread.');
         const decoySubjectB64 = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT TO_BASE64(subject) FROM pre_forum_thread WHERE tid=${decoyTid};"`).toString().trim();
         assert.ok(decoySubjectB64, 'Assertion Error: Forum search wildcard fixture could not find its decoy thread.');
         const decoySubject = 'literal-ciXabcYmarker literal-ci%Xmarker';
