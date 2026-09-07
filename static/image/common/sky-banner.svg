@@ -107,7 +107,7 @@
   <!-- Sky Base -->
   <rect width="3000" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Left Side: Distant Cloud (Cloud 4 - partially out of bound on the left) -->
+  <!-- Left Side: Distant Cloud (Cloud 4 - a bit out of bound on the left) -->
   <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(-545, -240)">
     <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
     <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
@@ -122,8 +122,8 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
   </g>
 
-  <!-- Right Side: Main Cloud (Cloud 2) -->
-  <g mask="url(#smoothBaseMask)" transform="translate(1500, 65)">
+  <!-- Right Side: Main Cloud (Cloud 2 - moved right together) -->
+  <g mask="url(#smoothBaseMask)" transform="translate(1695, 65)">
     <!-- Sub-base atmospheric shadow -->
     <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
     <!-- Core Volume Body -->
@@ -133,8 +133,8 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.85"/>
   </g>
 
-  <!-- Right Side: Smaller Cloud (Cloud 3) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(2650, -170)">
+  <!-- Right Side: Smaller Cloud (Cloud 3 - moved right together, a bit out of bound) -->
+  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(2845, -170)">
     <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
     <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
     <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
