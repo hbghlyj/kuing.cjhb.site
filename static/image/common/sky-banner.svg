@@ -107,14 +107,14 @@
   <!-- Sky Base -->
   <rect width="2400" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Left Side: Distant Cloud -->
-  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(-70, -180)">
-    <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
-    <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
-    <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
+  <!-- Left Side: Distant Cloud (Cloud 4) -->
+  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(-530, -240)">
+    <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
+    <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
+    <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
   </g>
 
-  <!-- Left Side: Main Cloud -->
+  <!-- Left Side: Main Cloud (Cloud 1) -->
   <g mask="url(#smoothBaseMask)" transform="translate(60, 0)">
     <use href="#cloud-1-path" fill="#82a9db" transform="translate(4, 18)" filter="url(#softUnderbelly)" opacity="0.75"/>
     <use href="#cloud-1-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
@@ -122,7 +122,7 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
   </g>
 
-  <!-- Right Side: Main Cloud -->
+  <!-- Right Side: Main Cloud (Cloud 2) -->
   <g mask="url(#smoothBaseMask)" transform="translate(950, 0)">
     <!-- Sub-base atmospheric shadow -->
     <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
@@ -133,10 +133,10 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.85"/>
   </g>
 
-  <!-- Right Side: Smaller Cloud at Far Right Edge -->
-  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(1700, -230)">
-    <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
-    <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
-    <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
+  <!-- Right Side: Smaller Cloud at Far Right Edge (Cloud 3) -->
+  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(2175, -165)">
+    <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
+    <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
+    <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
   </g>
 </svg>
