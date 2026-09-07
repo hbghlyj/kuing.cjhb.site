@@ -596,9 +596,12 @@ function loadforum($fid = null, $tid = null) {
 			if(!empty($forum['fields'])) {
 				$forum['fields'] = json_decode($forum['fields'], true);
 			}
-		} else {
+		} elseif(empty($fid)) {
+			// No forum was requested; keep the portal/index fallback.
 			$fid = 0;
 		}
+		// Otherwise preserve the requested $fid so callers report
+		// forum_nonexistence instead of falling back to the portal.
 	}
 
 	$_G['fid'] = $fid;
