@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="100%" height="100%" shape-rendering="geometricPrecision">
+  <defs>
+    <style>
+      .icon-lens {
+        fill: none;
+        stroke: #2B2D42;
+        stroke-width: 1.4;
+      }
+      .icon-handle {
+        fill: none;
+        stroke: #2B2D42;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+
+  <!-- Magnifying Glass Lens -->
+  <circle class="icon-lens" cx="5.5" cy="5.5" r="3.5" />
+
+  <!-- Magnifying Glass Handle -->
+  <path class="icon-handle" d="M8.2 8.2 L12.8 12.8" />
+</svg>
