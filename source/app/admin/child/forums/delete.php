@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(FORMHASH != $_GET['formhash']) {
 	cpmsg('undefined_action');
 }
@@ -33,6 +32,12 @@ if($_GET['ajax']) {
 	deletedomain($fid, 'forum');
 	deletedomain($fid, 'subarea');
 	if($currow + $pp > $total) {
+		$forum = table_forum_forum::t()->fetch_info_by_fid($fid);
+		if(!empty($forum['banner']) && empty(parse_url($forum['banner'], PHP_URL_HOST))) {
+			$banner = str_replace(['..', '//'], ['', '/'], $forum['banner']);
+			@unlink($_G['setting']['attachdir'].'common/'.$banner);
+			ftpcmd('delete', 'common/'.$banner);
+		}
 		table_forum_forum::t()->delete_by_fid($fid);
 		table_common_nav::t()->delete_by_type_identifier(5, $fid);
 		table_home_favorite::t()->delete_by_id_idtype($fid, 'fid');
