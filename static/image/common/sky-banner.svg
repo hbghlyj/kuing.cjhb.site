@@ -107,7 +107,7 @@
   <!-- Sky Base -->
   <rect width="2400" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Left Side: Distant Cloud (moved further up and detached from main cloud) -->
+  <!-- Left Side: Distant Cloud -->
   <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(-70, -180)">
     <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
     <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
@@ -122,15 +122,8 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
   </g>
 
-  <!-- Right Side: Distant Cloud (moved further up and detached from main cloud) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(1130, -230)">
-    <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
-    <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
-    <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
-  </g>
-
   <!-- Right Side: Main Cloud -->
-  <g mask="url(#smoothBaseMask)" transform="translate(1200, 0)">
+  <g mask="url(#smoothBaseMask)" transform="translate(950, 0)">
     <!-- Sub-base atmospheric shadow -->
     <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
     <!-- Core Volume Body -->
@@ -138,5 +131,12 @@
     <!-- Inner Volumetric Highlight -->
     <path d="M 770,220 C 820,165 890,165 935,175 C 980,185 1015,225 995,255 C 950,265 880,240 825,250 Z" 
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.85"/>
+  </g>
+
+  <!-- Right Side: Smaller Cloud at Far Right Edge -->
+  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(1700, -230)">
+    <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
+    <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
+    <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
   </g>
 </svg>
