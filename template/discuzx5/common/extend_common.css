@@ -496,7 +496,7 @@ img{border:none;}
 .header-client .client-content .client-text{text-align:center;font-size:12px;font-weight:normal;color:#494b4d;margin-top:5px;letter-spacing:4px}
 
 /* */
-.header-message .message-icon{position:relative;width:24px;height:24px;padding:6px;line-height:24px;text-align:center;color:var(--dz-fc)}
+.header-message .message-icon{position:relative;width:24px;height:24px;padding:6px;line-height:24px;text-align:center}
 .header-message .message-icon:hover{background:var(--dz-bgfglass);border-radius:50%}
 .header-message .message-icon svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .header-message .message-icon .dot{position:absolute;top:2px;right:0;width:8px;height:8px;border-radius:50%;background:#f35}
