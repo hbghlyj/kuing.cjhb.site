@@ -122,8 +122,8 @@
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
   </g>
 
-  <!-- Right Side: Main Cloud (Cloud 2) -->
-  <g mask="url(#smoothBaseMask)" transform="translate(950, 0)">
+  <!-- Right Side: Main Cloud (Cloud 2, moved right and down) -->
+  <g mask="url(#smoothBaseMask)" transform="translate(1050, 65)">
     <!-- Sub-base atmospheric shadow -->
     <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
     <!-- Core Volume Body -->
@@ -134,7 +134,7 @@
   </g>
 
   <!-- Right Side: Smaller Cloud at Far Right Edge (Cloud 3) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(2175, -165)">
+  <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(2190, -170)">
     <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
     <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
     <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
