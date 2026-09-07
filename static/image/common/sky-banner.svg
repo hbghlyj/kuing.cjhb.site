@@ -107,15 +107,15 @@
   <!-- Sky Base -->
   <rect width="3000" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Left Side: Distant Cloud (Cloud 4 - brought back into view) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(-460, -240)">
+  <!-- Left Side: Distant Cloud (Cloud 4 - partially out of bound on the left) -->
+  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(-545, -240)">
     <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
     <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
     <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
   </g>
 
   <!-- Left Side: Main Cloud (Cloud 1) -->
-  <g mask="url(#smoothBaseMask)" transform="translate(130, 0)">
+  <g mask="url(#smoothBaseMask)" transform="translate(60, 0)">
     <use href="#cloud-1-path" fill="#82a9db" transform="translate(4, 18)" filter="url(#softUnderbelly)" opacity="0.75"/>
     <use href="#cloud-1-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
     <path d="M 230,235 C 270,160 360,150 410,175 C 455,195 490,225 470,270 C 420,275 350,240 280,260 Z" 
