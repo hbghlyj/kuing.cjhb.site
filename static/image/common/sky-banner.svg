@@ -1,15 +1,14 @@
-<svg viewBox="0 0 1600 260" preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Sky Gradient -->
     <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%"   stop-color="#2d82e3"/>
-      <stop offset="35%"  stop-color="#5ca0ee"/>
-      <stop offset="65%"  stop-color="#92cbf8"/>
-      <stop offset="85%"  stop-color="#d2ecfd"/>
-      <stop offset="100%" stop-color="#ffffff"/>
+      <stop offset="50%"  stop-color="#5ca0ee"/>
+      <stop offset="85%"  stop-color="#90c8f8"/>
+      <stop offset="100%" stop-color="#bce4fb"/>
     </linearGradient>
 
-    <!-- Cloud Volume Shading -->
+    <!-- Cloud Volume Shading (Sun overhead-left, ambient sky reflection below) -->
     <linearGradient id="cloudVolumeGrad" x1="0.2" y1="0" x2="0.1" y2="1">
       <stop offset="0%"   stop-color="#ffffff"/>
       <stop offset="40%"  stop-color="#f5f8fd"/>
@@ -21,19 +20,21 @@
     <!-- Edge Softening / Base Blend Mask -->
     <linearGradient id="cloudBaseFade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="58%"  stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="80%"  stop-color="#ffffff" stop-opacity="0.8"/>
-      <stop offset="92%"  stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="68%"  stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="88%"  stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="96%"  stop-color="#ffffff" stop-opacity="0.35"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
 
     <mask id="smoothBaseMask">
-      <rect width="1600" height="260" fill="url(#cloudBaseFade)"/>
+      <rect width="1200" height="600" fill="url(#cloudBaseFade)"/>
     </mask>
 
-    <!-- Organic Mass Filter -->
+    <!-- Organic Mass Filter: Blurs primitives into a unified blob first, then displaces billows -->
     <filter id="cohesiveBillows" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <!-- Unify component shapes so internal disc seams disappear -->
       <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="cohesiveShape"/>
+      <!-- Generate multi-scale turbulence -->
       <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="44" result="fineNoise"/>
       <feDisplacementMap in="cohesiveShape" in2="fineNoise" scale="36" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
       <feGaussianBlur in="displaced" stdDeviation="1.2"/>
@@ -46,20 +47,13 @@
       <feDisplacementMap in="blur" in2="noise" scale="32" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
 
-    <!-- Distant Cloud Filter -->
+    <!-- Distant Cloud Filter (Tighter billows, softer edge) -->
     <filter id="distantBillows" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="base"/>
       <feTurbulence type="fractalNoise" baseFrequency="0.024" numOctaves="4" seed="29" result="noise"/>
       <feDisplacementMap in="base" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G"/>
       <feGaussianBlur stdDeviation="1"/>
     </filter>
-
-    <!-- Bottom White Fade to guarantee seamless transition -->
-    <linearGradient id="bottomWhiteFade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
-      <stop offset="70%"  stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
-    </linearGradient>
 
     <!-- Unified Cloud 1 Silhouette (Foreground Center-Left) -->
     <path id="cloud-1-path" d="
@@ -110,48 +104,41 @@
   </defs>
 
   <!-- Sky Base -->
-  <rect width="1600" height="260" fill="url(#skyGrad)"/>
+  <rect width="1200" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Clouds Layer: Spaced out across wide header banner -->
-
-  <!-- 1. Far Left Distant Cloud (Cloud 3) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(70, 75) scale(0.52) translate(-5, -335)">
+  <!-- Distant Cloud Left -->
+  <g mask="url(#smoothBaseMask)" opacity="0.9">
     <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
     <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
     <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
   </g>
 
-  <!-- 2. Left Main Cumulus Cloud (Cloud 1) -->
-  <g mask="url(#smoothBaseMask)" transform="translate(210, 38) scale(0.52) translate(-120, -140)">
-    <use href="#cloud-1-path" fill="#82a9db" transform="translate(4, 18)" filter="url(#softUnderbelly)" opacity="0.75"/>
-    <use href="#cloud-1-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
-    <path d="M 230,235 C 270,160 360,150 410,175 C 455,195 490,225 470,270 C 420,275 350,240 280,260 Z" 
-          fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
-  </g>
-
-  <!-- 3. Center Distant Cloud (Cloud 4) - Spaced out with plenty of sky on both sides -->
-  <g mask="url(#smoothBaseMask)" opacity="0.8" transform="translate(760, 95) scale(0.55) translate(-500, -415)">
+  <!-- Distant Cloud Center -->
+  <g mask="url(#smoothBaseMask)" opacity="0.85">
     <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
     <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
     <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
   </g>
 
-  <!-- 4. Right Main Cumulus Cloud (Cloud 2) -->
-  <g mask="url(#smoothBaseMask)" transform="translate(1120, 32) scale(0.50) translate(-680, -140)">
+  <!-- Main Cloud Right -->
+  <g mask="url(#smoothBaseMask)">
+    <!-- Sub-base atmospheric shadow -->
     <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
+    <!-- Core Volume Body -->
     <use href="#cloud-2-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
+    <!-- Inner Volumetric Highlight -->
     <path d="M 770,220 C 820,165 890,165 935,175 C 980,185 1015,225 995,255 C 950,265 880,240 825,250 Z" 
           fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.85"/>
   </g>
 
-  <!-- 5. Far Right Distant Cloud (Cloud 3) -->
-  <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(1440, 70) scale(0.50) translate(-5, -335)">
-    <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
-    <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
-    <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
+  <!-- Main Cloud Center-Left -->
+  <g mask="url(#smoothBaseMask)">
+    <!-- Sub-base atmospheric shadow -->
+    <use href="#cloud-1-path" fill="#82a9db" transform="translate(4, 18)" filter="url(#softUnderbelly)" opacity="0.75"/>
+    <!-- Core Volume Body -->
+    <use href="#cloud-1-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
+    <!-- Inner Volumetric Highlight -->
+    <path d="M 230,235 C 270,160 360,150 410,175 C 455,195 490,225 470,270 C 420,275 350,240 280,260 Z" 
+          fill="#ffffff" filter="url(#cohesiveBillows)" opacity="0.9"/>
   </g>
-
-  <!-- Seamless White Bottom Fade into Page Content -->
-  <rect y="190" width="1600" height="70" fill="url(#bottomWhiteFade)"/>
-  <rect y="259" width="1600" height="1" fill="#ffffff"/>
 </svg>
