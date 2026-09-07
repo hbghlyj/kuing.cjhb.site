@@ -419,7 +419,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
 	.fl_grid { display: grid; grid-template-columns: repeat(var(--forumcolumns), minmax(0, 1fr)); gap: 16px; }
-		.fl_grid > .fl_g {display:grid;grid-template-columns:auto minmax(0,1fr) auto;padding:16px;border:1px solid #eaeaea;border-radius:12px;transition:all 0.3s cubic-bezier(0.25,0.8,0.25,1);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+		.fl_grid > .fl_g {display:grid;grid-template-columns:auto minmax(0,1fr) auto;padding:16px;border-radius:12px;transition:all 0.3s cubic-bezier(0.25,0.8,0.25,1);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
 .fl_grid > .fl_g:hover {border-color:#e0e0e0;transform:translateY(-4px);box-shadow:0 10px 20px rgba(0,0,0,0.08)}
 		.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
 		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; }

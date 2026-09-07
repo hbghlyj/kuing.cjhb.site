@@ -40,7 +40,6 @@
 	<div class="mn">
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
-		<div class="bm forum-index-shell">
 		<div id="forum-index-tabs" class="bm_h" role="tablist">
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
@@ -276,10 +275,9 @@
 			<!--{ad/intercat/bm a_c/-1}-->
 		<!--{/if}-->
 		</div>
-		<div id="forum-index-boards" class="forum-index-boards">
 		<!--{loop $catlist $key $cat}-->
 			<!--{hook/index_catlist $cat['fid']}-->
-			<div class="bm bmw {if $cat['forumcolumns']} flg{/if} cl">
+			<div class="bm bmw {if $cat['forumcolumns']} flg{/if} cl" data-forum-index-board>
 				<div class="bm_h cl">
 					<span class="o">
 						<em id="category_$cat[fid]_img" class="tg{$cat[collapseicon]}" title="{lang spread}" onclick="toggle_collapse('category_$cat[fid]');"></em>
@@ -372,16 +370,12 @@
 			</div>
 			<!--{ad/intercat/bm a_c/$cat[fid]}-->
 		<!--{/loop}-->
-		</div>
-		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
-		</div>
-		<!--{/if}-->
 		<script>
 		(function() {
 			var tabs = document.getElementById('forum-index-tabs');
 			if(!tabs) return;
 			var grid = document.getElementById('forum-index-grid-panel');
-			var boards = document.getElementById('forum-index-boards');
+			var boardPanels = document.querySelectorAll('[data-forum-index-board]');
 			var myforums = document.getElementById('forum-index-myforums');
 			var buttons = tabs.getElementsByTagName('button');
 			var cells = grid.querySelectorAll('[data-index-tab]');
@@ -391,7 +385,9 @@
 					buttons[j].className = buttons[j].className.replace(/\s*a/g, '') + (active ? ' a' : '');
 					buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
 				}
-				boards.hidden = tab != 'boards';
+				for(var m = 0; m < boardPanels.length; m++) {
+					boardPanels[m].hidden = tab != 'boards';
+				}
 				myforums.hidden = tab != 'myforums';
 				grid.hidden = tab == 'boards' || tab == 'myforums';
 				for(var k = 0; k < cells.length; k++) {
