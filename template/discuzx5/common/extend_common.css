@@ -507,6 +507,7 @@ img{border:none;}
 .header-notice:hover .notice-dropdown, .header-notice:focus-within .notice-dropdown, .header-notice.open .notice-dropdown{display:block}
 .header-notice .notice-icon{position:relative;width:24px;height:24px;cursor:pointer;padding:6px;line-height: 24px;text-align: center;}
 .header-notice .notice-icon:hover, .header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
+.header-notice .notice-icon svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:var(--dz-fc);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .header-notice .notice-icon .dot{position:absolute;top:0;right: -6px;min-width:16px;height:16px;line-height: 16px; border-radius:8px;background:#f35;text-align: center;color: var(--dz-ff);padding: 0 5px;}
 .header-notice .notice-content{padding:5px 0;background:var(--dz-bgf);border-radius:4px;box-shadow:0 8px 20px 0 rgba(28,54,108,.05),0 4px 12px 0 rgba(28,54,108,.08);min-width: 120px;}
 .header-notice .notice-list{list-style:none;margin:0;padding:0;}
@@ -515,7 +516,6 @@ img{border:none;}
 .header-notice .notice-content .num{display:none;color:#ffb300;font-size:12px;}
 .header-notice .notice-content .notice-empty{padding:12px 20px;color:var(--dz-fc);font-size:14px;line-height:20px;text-align:center;white-space:nowrap}
 .header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fc);}
-.header-notice .notice-icon .noticeicon:before{content: "\f145";}
 .header-notice .notice-icon .myrepeats:before{content: "\f113";}
 /* i18n */
 .header-i18n .poptip-popper .poptip-arrow{right: 22px;}

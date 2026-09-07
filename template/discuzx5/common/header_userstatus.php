@@ -31,7 +31,7 @@
 	<!--{/if}-->
 	<div class="header-notice">
 		<div class="notice-icon">
-			<i class="dzicon noticeicon"></i>
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
 			<!--{if $_G['member']['newprompt']}-->
 			{eval $noticecount = intval($_G['member']['newprompt']);}
 			<span class="dot">{if $noticecount > 99}99{else}$noticecount{/if}</span>
