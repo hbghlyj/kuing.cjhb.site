@@ -60,7 +60,7 @@
 			<div id="category_grid">
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
-						<div class="subjectbox">
+						<div class="bm">
 				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['newthread'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
@@ -72,7 +72,7 @@
 				         </div>
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="top">
-						<div class="replaybox">
+						<div class="bm">
 				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['newreply'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
@@ -84,7 +84,7 @@
 				         </div>
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="hot">
-						<div class="hottiebox">
+						<div class="bm">
 				        <ul class="bm_c category_newlist">
 					        	<!--{loop $grids['hot'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
