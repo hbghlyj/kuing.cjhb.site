@@ -28,7 +28,7 @@ $lang =
 	'post_banned' => '**** Author is banned or deleted, content automatically hidden ****',
 	'post_single_banned' => '**** This post is banned ****',
 	'message_ishidden_hiddenreplies' => 'This post is only visible to the author',
-	'post_reply_quote' => '{author} posted on {time}',
+	'post_reply_quote' => '{author} posted at {time}',
 	'post_edit' => "[i=s] This post was last edited by {editor} on {edittime} [/i]\n\n",
 	'post_edit_regexp' => '/^\[i=s\] This post was last edited by .*? on .*? edited \[\/i\][\r\n][\r\n]/s',
 	'post_edithtml' => '[i=s] This post was last edited by {editor} on {edittime} [/i]<br /><br />',
