@@ -2331,7 +2331,6 @@ $lang =
 	'setting_sec_seccode_type_comment' => '設定驗證碼的類型。中文圖片驗證碼需要您的主機支持 FreeType 庫<br><br>驗證碼預覽',
 	'setting_sec_seccode_type_image' => '英文圖片驗證碼',
 	'setting_sec_seccode_type_chnfont' => '中文圖片驗證碼',
-	'setting_sec_seccode_type_wav' => '語音驗證碼',
 	'setting_sec_seccode_type_bitmap' => '位圖驗證碼',
 	'setting_sec_seccode_animator' => 'GIF 動畫',
 	'setting_sec_seccode_animator_comment' => '選擇“是”驗證碼將顯示成 GIF 動畫方式，選擇“否”驗證碼將顯示成靜態圖片方式',

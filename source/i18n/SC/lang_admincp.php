@@ -2329,7 +2329,6 @@ $lang =
 	'setting_sec_seccode_type_comment' => '设置验证码的类型。中文图片验证码需要您的主机支持 FreeType 库<br><br>验证码预览',
 	'setting_sec_seccode_type_image' => '英文图片验证码',
 	'setting_sec_seccode_type_chnfont' => '中文图片验证码',
-	'setting_sec_seccode_type_wav' => '语音验证码',
 	'setting_sec_seccode_type_bitmap' => '位图验证码',
 	'setting_sec_seccode_animator' => 'GIF 动画',
 	'setting_sec_seccode_animator_comment' => '选择“是”验证码将显示成 GIF 动画方式，选择“否”验证码将显示成静态图片方式',
