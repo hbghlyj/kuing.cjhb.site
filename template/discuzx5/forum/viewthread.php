@@ -29,7 +29,7 @@
 </div>
 
 <div id="ct" class="wp cl">
-	<div id="pgt" class="pgs mbm cl {if $modmenu['thread']}pbm bbs{/if}">
+	<div id="pgt" class="pgs mbm cl">
 		<div class="pgt">$multipage</div>
 		<span class="y pg"><a href="javascript:bumpthread();" title="{lang bump}"><font color="#888" face="dzicon"></font>{lang bump}</a></span>
 		<!--{if $_G['forum']['threadsorts'] && $_G['forum']['threadsorts']['templatelist']}-->
@@ -41,6 +41,9 @@
 		<!--{/if}-->
 		<!--{if $allowpostreply && !$_G['forum_thread']['archiveid']}-->
 			<a id="post_reply" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang postreply}</a>
+		<!--{/if}-->
+		<!--{if $modmenu['thread']}-->
+			<a id="modmenutop" href="javascript:;" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'modmenu_menu'})" class="pgsbtn showmenu modmenu_btn">{lang mod_option_subject}</a>
 		<!--{/if}-->
 		<!--{hook/viewthread_postbutton_top}-->
 	</div>
@@ -106,36 +109,36 @@
 <!--{/if}-->
 
 <!--{if $modmenu['thread']}-->
-	<div id="modmenu" class="pbm">
+	<ul class="p_pop modmenu_popup" id="modmenu_menu" style="display: none">
 		<!--{eval $modopt=0;}-->
 		<!--{if $_G['forum']['ismoderator']}-->
-			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(3, 'delete')">{lang modmenu_deletethread}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowstickthread'] && ($_G['forum_thread']['displayorder'] <= 3 || $_G['adminid'] == 1) && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(1, 'stick')">{lang modmenu_stickthread}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowhighlightthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(1, 'highlight')">{lang modmenu_highlight}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowdigestthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(1, 'digest')">{lang modmenu_digestpost}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowrecommendthread'] && !empty($_G['forum']['modrecommend']['open']) && $_G['forum']['modrecommend']['sort'] != 1 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(1, 'recommend')">{lang modmenu_recommend}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowclosethread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(4)"><!--{if !$_G['forum_thread']['closed']}-->{lang modmenu_switch_off}<!--{else}-->{lang modmenu_switch_on}<!--{/if}--></a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowmovethread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(2, 'move')">{lang modmenu_move}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowedittypethread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(2, 'type')">{lang modmenu_type}</a><span class="pipe">|</span><!--{/if}-->
+			<!--{if $_G['group']['allowstickthread'] && ($_G['forum_thread']['displayorder'] <= 3 || $_G['adminid'] == 1) && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(1, 'stick');hideMenu()">{lang modmenu_stickthread}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowhighlightthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(1, 'highlight');hideMenu()">{lang modmenu_highlight}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowdigestthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(1, 'digest');hideMenu()">{lang modmenu_digestpost}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowrecommendthread'] && !empty($_G['forum']['modrecommend']['open']) && $_G['forum']['modrecommend']['sort'] != 1 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(1, 'recommend');hideMenu()">{lang modmenu_recommend}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowclosethread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(4);hideMenu()"><!--{if !$_G['forum_thread']['closed']}-->{lang modmenu_switch_off}<!--{else}-->{lang modmenu_switch_on}<!--{/if}--></a></li><!--{/if}-->
+			<!--{if $_G['group']['allowmovethread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(2, 'move');hideMenu()">{lang modmenu_move}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowedittypethread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modthreads(2, 'type');hideMenu()">{lang modmenu_type}</a></li><!--{/if}-->
 			<!--{if !$_G['forum_thread']['special'] && !$_G['forum_thread']['is_archived']}-->
-				<!--{if $_G['group']['allowcopythread'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('copy')">{lang modmenu_copy}</a><span class="pipe">|</span><!--{/if}-->
-				<!--{if $_G['group']['allowmergethread'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('merge')">{lang modmenu_merge}</a><span class="pipe">|</span><!--{/if}-->
-				<!--{if $_G['group']['allowrefund'] && $_G['forum_thread']['price'] > 0}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('refund')">{lang modmenu_restore}</a><span class="pipe">|</span><!--{/if}-->
+				<!--{if $_G['group']['allowcopythread'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('copy');hideMenu()">{lang modmenu_copy}</a></li><!--{/if}-->
+				<!--{if $_G['group']['allowmergethread'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('merge');hideMenu()">{lang modmenu_merge}</a></li><!--{/if}-->
+				<!--{if $_G['group']['allowrefund'] && $_G['forum_thread']['price'] > 0}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('refund');hideMenu()">{lang modmenu_restore}</a></li><!--{/if}-->
 			<!--{/if}-->
-			<!--{if $_G['group']['allowsplitthread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('split')">{lang modmenu_split}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['group']['allowrepairthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('repair')">{lang modmenu_repair}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['forum_thread']['is_archived'] && $_G['adminid'] == 1}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('restore', '', 'archiveid={$_G[forum_thread][archiveid]}')">{lang modmenu_archive}</a><span class="pipe">|</span><!--{/if}-->
+			<!--{if $_G['group']['allowsplitthread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('split');hideMenu()">{lang modmenu_split}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowrepairthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('repair');hideMenu()">{lang modmenu_repair}</a></li><!--{/if}-->
+			<!--{if $_G['forum_thread']['is_archived'] && $_G['adminid'] == 1}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('restore', '', 'archiveid={$_G[forum_thread][archiveid]}');hideMenu()">{lang modmenu_archive}</a></li><!--{/if}-->
 			<!--{if $_G['forum_firstpid']}-->
-				<!--{if $_G['group']['allowwarnpost']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('warn', '$_G[forum_firstpid]')">{lang modmenu_warn}</a><span class="pipe">|</span><!--{/if}-->
-				<!--{if $_G['group']['allowbanpost']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('banpost', '$_G[forum_firstpid]')">{lang modmenu_banthread}</a><span class="pipe">|</span><!--{/if}-->
+				<!--{if $_G['group']['allowwarnpost']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('warn', '$_G[forum_firstpid]');hideMenu()">{lang modmenu_warn}</a></li><!--{/if}-->
+				<!--{if $_G['group']['allowbanpost']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('banpost', '$_G[forum_firstpid]');hideMenu()">{lang modmenu_banthread}</a></li><!--{/if}-->
 			<!--{/if}-->
-			<!--{if $_G['group']['allowremovereward'] && $_G['forum_thread']['special'] == 3 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modaction('removereward')">{lang modmenu_removereward}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}--><a href="javascript:;" onclick="modthreads(5, 'recommend_group');return false;">{lang modmenu_grouprecommend}</a><span class="pipe">|</span><!--{/if}-->
-			<!--{if !empty($_G['group']['allowretag'])}--><a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0)">{lang post_tag}</a><span class="pipe">|</span><!--{/if}-->
+			<!--{if $_G['group']['allowremovereward'] && $_G['forum_thread']['special'] == 3 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++}--><li><a href="javascript:;" onclick="modaction('removereward');hideMenu()">{lang modmenu_removereward}</a></li><!--{/if}-->
+			<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}--><li><a href="javascript:;" onclick="modthreads(5, 'recommend_group');hideMenu();return false;">{lang modmenu_grouprecommend}</a></li><!--{/if}-->
+			<!--{if !empty($_G['group']['allowretag'])}--><li><a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0);hideMenu()">{lang post_tag}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++}--><li class="modmenu_del"><a href="javascript:;" onclick="modthreads(3, 'delete');hideMenu()">{lang modmenu_deletethread}</a></li><!--{/if}-->
 		<!--{/if}-->
-		<!--{if $allowpusharticle && $allowpostarticle}--><!--{eval $modopt++}--><a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']">{lang modmenu_pusharticle}</a><span class="pipe">|</span><!--{/if}-->
+		<!--{if $allowpusharticle && $allowpostarticle}--><!--{eval $modopt++}--><li><a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']">{lang modmenu_pusharticle}</a></li><!--{/if}-->
 		<!--{hook/viewthread_modoption}-->
-	</div>
+	</ul>
 <!--{/if}-->
 
 <!--{hook/viewthread_beginline}-->
@@ -280,14 +283,6 @@
 	<!--{/if}-->
 </div>
 
-<!--{if $modmenu['thread']}-->
-	<div id="modmenu2" class="mbm pbm bbs">
-	<script>
-		$('modmenu').lastChild.style.visibility = 'hidden';
-		document.write($('modmenu').innerHTML);
-	</script>
-	</div>
-<!--{/if}-->
 
 <form method="post" autocomplete="off" name="modactions" id="modactions">
 	<input type="hidden" name="formhash" value="{FORMHASH}">
@@ -312,6 +307,9 @@ $_G['forum_tagscript']
 	<!--{/if}-->
 	<!--{if $allowpostreply && !$_G['forum_thread']['archiveid']}-->
 		<a id="post_replytmp" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang postreply}</a>
+	<!--{/if}-->
+	<!--{if $modmenu['thread']}-->
+		<a id="modmenubtm" href="javascript:;" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'modmenu_menu'})" class="pgsbtn showmenu modmenu_btn">{lang mod_option_subject}</a>
 	<!--{/if}-->
 </div>
 

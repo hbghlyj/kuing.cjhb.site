@@ -858,6 +858,15 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .pgbtn a {letter-spacing:0}
 a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' stroke='white' stroke-width='.45' viewBox='0 0 24 24'%3E%3Cpath d='M12 6a.75.75 0 0 1 .75.75v4.5h4.5a.75.75 0 0 1 0 1.5h-4.5v4.5a.75.75 0 0 1-1.5 0v-4.5h-4.5a.75.75 0 0 1 0-1.5h4.5v-4.5A.75.75 0 0 1 12 6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
 a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='9 14 4 9 9 4'/%3E%3Cpath d='M20 20v-7a4 4 0 0 0-4-4H4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
+.pgsbtn.modmenu_btn {padding-left:32px;padding-right:16px;background:var(--dz-btnbg);color:var(--dz-btntxt) !important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
+.pgsbtn.modmenu_btn:hover {opacity:0.85;background-color:var(--dz-btnbg);color:var(--dz-btntxt) !important}
+.pgsbtn.modmenu_btn.showmenu::after {color:var(--dz-btntxt) !important}
+.modmenu_popup {display:grid;grid-template-columns:repeat(2,minmax(96px,1fr));gap:3px 6px;min-width:210px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m,6px);background:var(--dz-bgf);z-index:301}
+.modmenu_popup li {display:block;margin:0;padding:0}
+.modmenu_popup a {display:block;padding:7px 12px;font-size:13px;border-radius:4px;text-align:center;color:var(--dz-fc,#333);white-space:nowrap;transition:background-color .15s ease,color .15s ease}
+.modmenu_popup a:hover {background-color:var(--dz-btnbga);color:var(--dz-btntxta) !important}
+.modmenu_popup li.modmenu_del a {color:#e53935}
+.modmenu_popup li.modmenu_del a:hover {background-color:#e53935;color:#fff !important}
 .pgs {margin-top:10px !important}
 .pg, .pgb {line-height:30px;overflow:visible}
 .pg a, .pg strong, .pgb a, .pg label {border:1px solid var(--dz-borderb);margin-left:6px;min-width:14px;height:30px;line-height:30px;text-align:center;display:inline;border-radius:var(--dz-radius-s);background-color:var(--dz-bgf);color:var(--dz-fa)}
