@@ -124,14 +124,6 @@
         <circle cx="171" cy="59" r="13" fill="#fff" opacity="0.48" filter="url(#softGlow)"/>
       </g>
 
-      <!-- Sharp whimsical star accents -->
-      <g fill="#fff" aria-hidden="true">
-        <path d="M942 48 L948 68 L968 74 L948 80 L942 101 L936 80 L916 74 L936 68 Z" opacity="0.82" filter="url(#softGlow)"/>
-        <path d="M1055 90 L1059 104 L1074 109 L1059 114 L1055 129 L1050 114 L1036 109 L1050 104 Z" opacity="0.64"/>
-        <path d="M1149 48 L1152 59 L1164 63 L1152 67 L1149 79 L1145 67 L1134 63 L1145 59 Z" opacity="0.88"/>
-        <path d="M1228 112 L1231 121 L1240 124 L1231 127 L1228 137 L1225 127 L1216 124 L1225 121 Z" opacity="0.52"/>
-      </g>
-
       <!-- Distant transparent vapor ribbons -->
       <g filter="url(#wispyOrganic)" opacity="0.46" aria-hidden="true">
         <path d="M505 294 C660 235 815 279 950 244 C1085 208 1190 190 1390 236 C1240 245 1110 286 930 302 C760 318 636 317 505 294Z" fill="url(#cloudLight)"/>
