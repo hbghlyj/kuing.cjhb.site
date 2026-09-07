@@ -603,7 +603,7 @@ const assertPusherMetadataOrder = () => {
             layout.width > 0 && layout.width <= layout.viewportWidth,
             `Assertion Error: Desktop forum index .wp width was ${layout.width}px, expected to fit within the ${layout.viewportWidth}px viewport.`
         );
-        const forumLayouts = await page.locator('#forum-index-boards .fl_grid, #forum-index-boards .fl_tb').evaluateAll(layouts => layouts.map(layout => ({
+        const forumLayouts = await page.locator('[data-forum-index-board] .fl_grid, [data-forum-index-board] .fl_tb').evaluateAll(layouts => layouts.map(layout => ({
             type: layout.matches('.fl_grid') ? 'grid' : 'table',
             columns: layout.matches('.fl_grid') ? getComputedStyle(layout).gridTemplateColumns.split(/\s+/).filter(Boolean).length : 0,
             items: layout.matches('.fl_grid') ? layout.querySelectorAll(':scope > .fl_g').length : layout.querySelectorAll(':scope > tbody > tr > td').length
