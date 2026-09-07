@@ -29,12 +29,6 @@ $lang =
 	'post_single_banned' => '**** This post is banned ****',
 	'message_ishidden_hiddenreplies' => 'This post is only visible to the author',
 	'post_reply_quote' => '{author} posted at {time}',
-	'post_edit' => "[i=s] This post was last edited by {editor} on {edittime} [/i]\n\n",
-	'post_edit_regexp' => '/^\[i=s\] This post was last edited by .*? on .*? edited \[\/i\][\r\n][\r\n]/s',
-	'post_edithtml' => '[i=s] This post was last edited by {editor} on {edittime} [/i]<br /><br />',
-	'post_edithtml_regexp' => '/^\[i=s\] This post was last edited by .*? on .*? edited \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
-	'post_editnobbcode' => "[ This post was last edited by {editor} on {edittime} ]\n\n",
-	'post_editnobbcode_regexp' => '/^\[ This post was last edited by .*? on .*? edited \][\r\n][\r\n]/s',
 	'post_reply' => 'Reply',
 	'post_thread' => '\'s posts',
 
