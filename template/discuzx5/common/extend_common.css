@@ -1331,6 +1331,9 @@ a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-i
    ~520px wide: a 10em label + 280px field leaves the tip column ~76px, so
    links like "Create new account" wrap one word per line. Stack the label
    and tip rows inside float windows, same as the <=760px viewport layout. */
+.fwin:has([id^="fwin_content"] .rfm),
+#fwin_login .fwin,
+#fwin_register .fwin { width: min(calc(100vw - 32px), 440px); }
 .fwin [id^="fwin_content"] .rfm,
 .rfm.rfm-stacked { --rfm-field-w: 100%; width: 100%; }
 .fwin [id^="fwin_content"] .rfm tr,
