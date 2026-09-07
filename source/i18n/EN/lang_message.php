@@ -1068,8 +1068,8 @@ $lang = array (
 	'members_chgusername_name_badword' => 'The username contains prohibited words.',
 	'members_chgusername_name_exists' => 'The username is already in use.',
 	'members_chgusername_check_failed' => 'Username validation failed.',
-	'forumportal_no_setting'	=> 'Forum portal homepage is not configured.',//'聚合首页未设置',
-	'forumportal_page_not_found'	=> 'Page not found.',//'页面不存在',
+	'forumportal_no_setting'	=> 'Aggregation homepage not set',//'聚合首页未设置',
+	'forumportal_page_not_found'	=> 'Page does not exist',//'页面不存在',
 
 );
 
