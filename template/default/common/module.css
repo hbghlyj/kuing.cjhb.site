@@ -93,7 +93,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.heatl { padding-left: 15px; margin-left: 384px; border-left: 1px solid #DDD; }
 
 /* 论坛首页四格 by Alice */
-	#category_grid { padding:0; font-size:14px; }
 	#forum-index-tabs { display:flex; height:50px; padding:0; border-bottom:1px solid rgb(238,238,238); box-sizing:border-box; }
 	div#forum-index-tabs button { height:100%; display:flex; align-items:center; padding:0px 20px; margin:0px; color:rgb(85,85,85); font-weight:normal; background:none; border:none; cursor:pointer; position:relative; }
 	div#forum-index-tabs button.a { color:rgb(0,102,255); font-weight:bold; }
@@ -101,7 +100,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	#category_grid td[hidden] { display:none !important; }
 	#category_grid td[data-index-tab] { width:100%; border:0; }
 		#category_grid table { width:100%; table-layout:fixed; }
-		.category_l1, .category_l2, .category_l3, .category_l4 { line-height:25px; overflow:hidden; }
 		.category_newlist { margin:0; list-style:none; }
 			.category_newlist li::before { content: attr(n, "\2022"); margin: 0 4px 0 0; color: #BBB; }
 /** end **/
