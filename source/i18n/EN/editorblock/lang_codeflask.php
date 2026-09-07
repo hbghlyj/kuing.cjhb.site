@@ -11,6 +11,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'name' => 'Code Block',
-	'description' => 'Code Block',
+	'name' => 'Code',
+	'description' => 'Code block',
 ];

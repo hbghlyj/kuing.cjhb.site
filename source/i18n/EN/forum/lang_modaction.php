@@ -1,91 +1,97 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_modaction.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 
-	'EDT'	=> 'Edit',//'编辑',
+	'EDT' => 'Edit',
 
-	'DEL'	=> 'Delete',//'删除',
-	'DLP'	=> 'Delete reply',//'删除回复',
-	'DCM'	=> 'Delete comment',//'删除点评',
-	'PRN'	=> 'Prune posts',//'批量删帖',
-	'UDL'	=> 'Undelete',//'反删除',
+	'DEL' => 'Delete',
+	'DLP' => 'Delete Reply',
+	'DCM' => 'Delete Comment',
+	'PRN' => 'Mass Delete Posts',
+	'UDL' => 'Undelete',
 
-	'DIG'	=> 'Digest',//'加入精华',
-	'UDG'	=> 'Undigest',//'解除精华',
-	'EDI'	=> 'Limit digest',//'限时精华',
-	'UED'	=> 'Unlimit digest',//'解除限时精华',
+	'DIG' => 'Add Digest',
+	'UDG' => 'Remove Digest',
+	'EDI' => 'Timed Digest',
+	'UED' => 'Remove Timed Digest',
 
-	'CLS'	=> 'Close',//'关闭',
-	'OPN'	=> 'Open',//'打开',
-	'ECL'	=> 'Limit Close',//'限时关闭',
-	'UEC'	=> 'Unlimit close',//'解除限时关闭',
-	'EOP'	=> 'Limit open',//'限时打开',
-	'UEO'	=> 'Unlimit open',//'解除限时打开',
+	'CLS' => 'Disable',
+	'OPN' => 'Open',
+	'ECL' => 'Timed Close',
+	'UEC' => 'Remove Timed Close',
+	'EOP' => 'Timed Open',
+	'UEO' => 'Remove Timed Open',
 
-	'STK'	=> 'Stick',//'置顶',
-	'UST'	=> 'Unstick',//'解除置顶',
-	'EST'	=> 'Stick Time Limited',//'限时置顶',
-	'UES'	=> 'UnStick Time Limited',//'解除限时置顶',
+	'STK' => 'Sticky',
+	'UST' => 'Unsticky',
+	'EST' => 'Timed Sticky',
+	'UES' => 'Remove Timed Sticky',
 
-	'SPL'	=> 'Split',//'分割',
-	'MRG'	=> 'Merge',//'合并',
+	'SPL' => 'Split',
+	'MRG' => 'Merge',
 
-	'HLT'	=> 'Highlight',//'设置高亮',
-	'UHL'	=> 'Unhighlight',//'解除高亮',
-	'EHL'	=> 'Time-limited Highlight',//'限时高亮',
-	'UEH'	=> 'Remove time-limited Highlight',//'解除限时高亮',
+	'HLT' => 'Set Highlight',
+	'UHL' => 'Remove Highlight',
+	'EHL' => 'Timed Highlight',
+	'UEH' => 'Remove Timed Highlight',
 
-	'BMP'	=> 'Bump',//'提升',
-	'DWN'	=> 'Down',//'下沉',
+	'BMP' => 'Bump',
+	'DWN' => 'Sink',
 
-	'MOV'	=> 'Move',//'移动',
-	'CPY'	=> 'Copy',//'复制',
-	'TYP'	=> 'Type',//'分类',
+	'MOV' => 'Move',
+	'CPY' => 'Copy',
+	'TYP' => 'Category',
 
-	'RFD'	=> 'Refund',//'强制退款',
+	'RFD' => 'Force Refund',
 
-	'MOD'	=> 'Moderate',//'审核通过',
+	'MOD' => 'Approve',
+	'MDS' => 'Reject',
 
-	'ABL'	=> 'Add Blog',//'加入文集',
-	'RBL'	=> 'Remove Blog',//'移除文集',
+	'ABL' => 'Add to Collection',
+	'RBL' => 'Remove from Collection',
 
-	'PTS'	=> 'Push to stack',//'推送主题',
-	'RFS'	=> 'Restore from stack',//'解除推送',
-	'RMR'	=> 'Remove reward',//'取消悬赏',
-	'BNP'	=> 'Ban post',//'屏蔽帖子',
-	'UBN'	=> 'Unban post',//'解除屏蔽',
+	'PTS' => 'Push Thread',
+	'RFS' => 'Remove Push',
+	'RMR' => 'Remove Reward',
+	'BNP' => 'Ban Posts',
+	'UBN' => 'Unban Post',
 
-	'REC'	=> 'Recommend',//'推荐',
-	'URE'	=> 'Unrecommend',//'解除推荐',
+	'REC' => 'Recommended',
+	'URE' => 'Unrecommend',
 
-	'WRN'	=> 'Warn',//'警告',
-	'UWN'	=> 'Unwarn',//'解除警告',
+	'WRN' => 'Warn',
+	'UWN' => 'Remove Warning',
 
+	'SPA' => 'Add Stamp',
+	'SPD' => 'Remove Stamp',
 
+	'SLA' => 'Add Icon',
+	'SLD' => 'Remove Icon',
 
-	'REG'	=> 'Recommend Group',//'群组推荐',
+	'REG' => 'Group Recommend',
 
-	'PTA'	=> 'Push to Articles',//'生成文章',
+	'PTA' => 'Generate Article',
 
-	'MAG'	=> 'Magic',//'道具',
+	'MAG' => 'Magic Item',
 
-	'REB'	=> 'Get promotion',//'推送',
+	'REB' => 'Push',
+
+	'LIV' => 'Live',
+	'LIC' => 'Cancel Live',
 
 	'TAG'	=> 'Modify tags',
 	'SRE'	=> 'Stick reply',
 	'USR'	=> 'Unstick reply',
-
-);
+	];
 

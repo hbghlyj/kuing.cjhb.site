@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Columns',
-	'description' => 'Multi-column Layout Block',
+	'description' => 'Multi-column block, natively supported, no configuration available, and does not support nested columns itself',
 ];

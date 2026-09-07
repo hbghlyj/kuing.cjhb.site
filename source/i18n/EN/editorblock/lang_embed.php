@@ -11,6 +11,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'name' => 'Embed',
-	'description' => 'Embed Website / Video / Audio',
+	'name' => 'Media Embed',
+	'description' => 'Supports embedding external media resources. Paste a video page link in a paragraph and it will be automatically converted to an iframe embed. Multi-column usage is not supported. Parsing rules can be customized in the configuration file. Currently supports: Bilibili, Youku, Tencent Video',
 ];

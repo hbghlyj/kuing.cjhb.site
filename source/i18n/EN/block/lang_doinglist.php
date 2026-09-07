@@ -1,28 +1,26 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_doinglist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'doinglist_uids' => '用户UID',
-	'doinglist_uids_comment' => '填入指定用户的ID(uid)，多个用户之间用逗号(,)分隔',
-	'doinglist_startrow' => '起始数据行数',
-	'doinglist_startrow_comment' => '如需设定起始的数据行数，请输入具体数值，0 为从第一行开始，以此类推',
-	'doinglist_titlelength' => '记录长度',
-	'doinglist_titlelength_comment' => '指定记录的最大长度，设置为0则支持表情图片',
-	'doinglist_orderby' => '动态排序方式',
-	'doinglist_orderby_comment' => '设置以哪一字段或方式对动态进行排序',
-	'doinglist_orderby_dateline' => '按发布时间倒序',
-	'doinglist_orderby_replynum' => '按回复数倒序'
-);
+$lang =
+	[
+	'doinglist_uids' => 'User UIDs',
+	'doinglist_uids_comment' => 'Enter the IDs (uid) of specified users, separated by comma (,)',
+	'doinglist_startrow' => 'Start Data Row',
+	'doinglist_startrow_comment' => 'If you need to set the starting data row, please enter a specific value. 0 means starting from the first row, and so on',
+	'doinglist_titlelength' => 'Record Length',
+	'doinglist_titlelength_comment' => 'Specify the maximum length of the record. Set to 0 to support emoji images',
+	'doinglist_orderby' => 'Feed Sorting Method',
+	'doinglist_orderby_comment' => 'Set by which field or method to sort feeds',
+	'doinglist_orderby_dateline' => 'Sort by publication time in descending order',
+	'doinglist_orderby_replynum' => 'Sort by replies in descending order'
+	];
 
-?>

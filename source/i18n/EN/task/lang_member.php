@@ -1,33 +1,31 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_member.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'member_name'				=> 'Member task',//'会员类任务',
-	'member_desc'				=> 'Activate forum atmosphere by guide members to use forum functions like Add friends, Add favorites and Use magics.',//'收藏主题、使用道具、添加漫游应用，此类任务用来鼓励和引导会员使用论坛的某个功能，活跃论坛的氛围',
-	'member_complete_var_act'		=> 'Action',//'动作',
-	'member_complete_var_act_favorite'	=> 'Add thread to favorites',//'收藏主题',
-	'member_complete_var_act_magic'		=> 'Use magic',//'使用道具',
-	'member_complete_var_act_userapp'	=> 'Add application',//'添加漫游应用',
-	'member_complete_var_num'		=> 'Minimum number of times to perform action',//'执行动作次数下限',
-	'member_complete_var_num_comment'	=> 'Members need to perform the appropriate action at least this number of times',//'会员需要执行相应动作的最少次数',
-	'member_complete_var_time'		=> 'Time limit (hours)',//'时间限制(小时)',
-	'member_complete_var_time_comment'	=> 'Set the time restrictions to comlete the task. If a member can not complete the task in this time range, the task marked as failed and no award given. Set to 0 or leave blank for no limits.',//'设置会员从申请任务到完成任务的时间限制，会员在此时间内未能完成任务则不能领取奖励并标记任务失败，0 或留空为不限制',
+$lang =
+	[
+	'member_name' => 'Member Tasks',
+	'member_desc' => 'Such tasks are used to encourage and guide members to use certain forum features, liven up the forum atmosphere, such as favoriting threads, using magic items, etc.',
+	'member_complete_var_act' => 'Action',
+	'member_complete_var_act_favorite' => 'Favorite Thread',
+	'member_complete_var_act_magic' => 'Use Magic Item',
+	'member_complete_var_act_userapp' => 'Add roaming apps',
+	'member_complete_var_num' => 'Minimum Action Count',
+	'member_complete_var_num_comment' => 'The minimum number of times members need to perform the corresponding action',
+	'member_complete_var_time' => 'Time Limit (hours)',
+	'member_complete_var_time_comment' => 'Set the time limit for members from applying to completing the task. If members fail to complete the task within this time, they cannot claim the reward and the task is marked as failed. 0 or leave blank for no limit',
 
-	'task_complete_time_start'		=> 'Task completion start time',//'从申请任务开始计时，',
-	'task_complete_time_limit'		=> '{value} hours',//'{value} 小时内，',
-	'task_complete_act_favorite'		=> 'Added to favorites {value} threads.',//'收藏 {value} 个主题',
-	'task_complete_act_magic'		=> 'Used magic {value} times.<br>You can post threads, blogs, images, or use magics',//'使用 {value} 次道具。<br>您可以在帖子页面、日志页面、图片页面等使用道具',
-	'task_complete_act_userapp'		=> 'Added {value} applications',//'添加 {value} 个漫游应用',
-);
+	'task_complete_time_start' => 'Timing starts from applying for the task,',
+	'task_complete_time_limit' => 'within {value} hours,',
+	'task_complete_act_favorite' => 'Favorite {value} threads',
+	'task_complete_act_magic' => 'Use magic items {value} times.<br />You can use magic items on post pages, blog pages, picture pages, etc.',
+	];
 

@@ -1,39 +1,37 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_piclist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'piclist_picids' => '指定图片',
-	'piclist_picids_comment' => '填入指定图片的ID(picid)，多个图片之间用逗号(,)分隔',
-	'piclist_aids' => '相册ID',
-	'piclist_aids_comment' => '填入指定相册的ID(aid)，多个相册之间用逗号(,)分隔',
-	'piclist_uids' => '用户UID',
-	'piclist_uids_comment' => '填入指定用户的ID(uid)，多个用户之间用逗号(,)分隔',
-	'piclist_startrow' => '起始数据行数',
-	'piclist_startrow_comment' => '如需设定起始的数据行数，请输入具体数值，0 为从第一行开始，以此类推',
-	'piclist_hours' => '时间范围',
-	'piclist_hours_nolimit' => '不限制',
-	'piclist_hours_hour' => '1小时内',
-	'piclist_hours_day' => '24小时内',
-	'piclist_hours_week' => '7天内',
-	'piclist_hours_month' => '1月内',
-	'piclist_hours_year' => '1年内',
-	'piclist_titlelength' => '标题长度',
-	'piclist_titlelength' => '指定图片标题最大长度',
-	'piclist_orderby' => '图片排序方式',
-	'piclist_orderby_comment' => '设置以哪一字段或方式对图片进行排序',
-	'piclist_orderby_dateline' => '按发布时间倒序',
-	'piclist_orderby_hot' => '按热度倒序'
-);
+$lang =
+	[
+	'piclist_picids' => 'Specified Pictures',
+	'piclist_picids_comment' => 'Enter the IDs (picid) of specified pictures. Multiple pictures separated by comma (,)',
+	'piclist_aids' => 'Album IDs',
+	'piclist_aids_comment' => 'Enter the IDs (aid) of specified albums, separated by comma (,)',
+	'piclist_uids' => 'User UIDs',
+	'piclist_uids_comment' => 'Enter the IDs (uid) of specified users, separated by comma (,)',
+	'piclist_startrow' => 'Start Data Row',
+	'piclist_startrow_comment' => 'If you need to set the starting data row, please enter a specific value. 0 means starting from the first row, and so on',
+	'piclist_hours' => 'Time Range',
+	'piclist_hours_nolimit' => 'No limit',
+	'piclist_hours_hour' => 'Within 1 hour',
+	'piclist_hours_day' => 'Within 24 hours',
+	'piclist_hours_week' => 'Within 7 days',
+	'piclist_hours_month' => 'Within 1 month',
+	'piclist_hours_year' => 'Within 1 year',
+	'piclist_titlelength' => 'Title Length',
+	'piclist_titlelength_comment' => 'Specify the maximum length of picture title',
+	'piclist_orderby' => 'Image Sorting Method',
+	'piclist_orderby_comment' => 'Set by which field or method to sort images',
+	'piclist_orderby_dateline' => 'Sort by publication time in descending order',
+	'piclist_orderby_hot' => 'Sort by popularity in descending order'
+	];
 
-?>

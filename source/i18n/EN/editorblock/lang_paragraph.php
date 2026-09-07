@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * [Discuz!] (C)2001-2099 Discuz! Team
@@ -11,6 +11,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'name' => 'Paragraph (Enhanced)',
-	'description' => 'Enhanced paragraph block. When enabled, it automatically overrides the default paragraph block and supports switching to other blocks via configurable Markdown shortcuts.',
+	'name' => 'Text Paragraph (Enhanced)',
+	'description' => 'Text paragraph (enhanced) content block. When enabled, it will automatically override the default text paragraph block. Supports configuring input with specified Markdown markers to switch to specified blocks',
 ];

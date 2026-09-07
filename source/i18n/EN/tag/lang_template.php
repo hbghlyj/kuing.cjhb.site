@@ -1,30 +1,40 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_template.php by Valery Votintsev, codersclub.org
- *
- *      This file is automatically generate
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
-$lang = array (
+if(!defined('IN_DISCUZ')) {
+	exit('Access Denied');
+}
+
+$lang = [
+	'no_tag' => 'No tags yet',
 	'tag' => 'Tag',
-	'no_tag'		=> 'Have no any tags',//'还没有任何标签',
-	'blog_read'		=> 'Views',//'次阅读',
-	'blog_replay'		=> 'Replies',//'个评论',
-	'empty_tags'		=> 'Tag not exists. You can continue to search or <a href="misc.php?mod=tag" title="Back to tag page">Back to tag page</a>',//'没有此标签，您可以继续搜索或者<a href="misc.php?mod=tag" title="返回标签首页">返回标签首页</a>',
-	'forum'			=> 'Board',//'版块',
-	'hot'			=> 'Hot',//'热度',
-	'lastpost'		=> 'Last Post',//'最后发表',
-	'no_content'		=> 'No related threads',//'没有相关帖子',
-	'personal_category'	=> 'Personal category',//'个人分类',
-	'related_blog'		=> 'Related blogs',//'相关日志',
-	'related_thread'	=> 'Related threads',//'相关帖子',
-	'replies'		=> 'Replies<em>Views</em>',//'回复/查看',
+	'blog_read' => 'reads',
+	'blog_replay' => 'comments',
+	'empty_tags' => 'No such tag, you can continue searching or <a href="misc.php?mod=tag" title="Return to tag homepage">return to tag homepage</a>',
+	'forum' => 'Forum',
+	'hot' => 'Hot Score',
+	'lastpost' => 'Last Post',
+	'no_content' => 'No Related Content',
+	'personal_category' => 'Personal Category',
+	'related_nums' => 'Related Data Count',
+	'related_article' => 'Related Articles',
+	'related_blog' => 'Related Blogs',
+	'related_thread' => 'Related Posts',
+	'related_doing' => 'Related Doings',
+	'replies' => 'Replies/Views',
+	'price' => 'Price',
+	'attach_img' => 'Image Attachment',
+	'attachment' => 'Attachment',
+	'thread_digest' => 'Digest',
+	'none_tag' => 'No Related Tags',
+	'tag_search' => 'Search results show up to 50, click result link to insert tag directly',
 	'sortby_related_count_desc' => 'Sort by post count',
 	'sortby_hot_desc'	=> 'Sort by hot',
 	'sortby_time_desc'	=> 'Sort by time',
-);
+	];
 

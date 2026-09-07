@@ -1,20 +1,19 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_money.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'money_name'	=> 'Money card',//'金钱卡',
-	'money_desc'	=> 'Can get some money',//'可以随机获得特定积分',
-	'money_info'	=> 'Get a random amount of money: the random number in range from 1 to 150% of the purchase price',//'获得的钱币数目规则：大于1且小于购买价格150%的随机数',
-);
+$lang =
+	[
+	'money_name' => 'Money Card',
+	'money_desc' => 'Can randomly obtain specific credits',
+	'money_info' => 'Rules for the amount of coins obtained: a random number greater than 1 and less than 150% of the purchase price',
+	];
 

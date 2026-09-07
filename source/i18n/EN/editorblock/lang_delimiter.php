@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Delimiter',
-	'description' => 'Delimiter Block',
+	'description' => 'Delimiter',
 ];

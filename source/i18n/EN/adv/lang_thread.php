@@ -1,32 +1,30 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_thread.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'thread_name' => '论坛/群组 帖内广告',
-	'thread_desc' => '展现方式: 帖内广告显示于帖子内容的上方、下方或右方，帖子内容的上方和下方通常使用文字的形式，帖子内容右方通常使用图片的形式。当前页面有多个帖内广告时，系统会从中抽取与每页帖数相等的条目进行随机显示。您可以在 全局设置中的其他设置中修改每帖显示的广告数量。<br>价值分析: 由于帖子是论坛最核心的组成部分，嵌入帖子内容内部的帖内广告，便可在用户浏览帖子内容时自然的被接受，加上随机播放的特性，适合于特定内容的有效推广，也可用于论坛自身的宣传和公告之用。建议设置多条帖内广告以实现广告内容的差异化，从而吸引更多访问者的注意力。',
-	'thread_fids' => '投放版块',
-	'thread_fids_comment' => '设置广告投放的论坛版块，当广告投放范围中包含“论坛”时有效',
-	'thread_groups' => '投放群组分类',
-	'thread_groups_comment' => '设置广告投放的群组分类，当广告投放范围中包含“群组”时有效',
-	'thread_position' => '投放位置',
-	'thread_position_comment' => '帖子内容上方和下方的广告适合使用文字形式，而帖子右侧广告适合使用图片 形式，也可以同时显示多条文字广告',
-	'thread_position_bottom' => '帖子下方',
-	'thread_position_top' => '帖子上方',
-	'thread_position_right' => '帖子右侧',
-	'thread_pnumber' => '广告显示楼层',
-	'thread_pnumber_comment' => '选项 #1 #2 #3 ... 表示帖子楼层，可以按住 CTRL 多选',
-	'thread_pnumber_all' => '全部',
-);
+$lang =
+	[
+	'thread_name' => 'Forum/Groups In-thread Ad',
+	'thread_desc' => 'Display Mode: In-thread ads are displayed above, below or to the right of the post content. Ads above and below the post content usually use text form, and ads to the right of the post content usually use image form. When there are multiple in-thread ads on the current page, the system will randomly select the same number of entries as the number of posts per page for display. You can modify the number of ads displayed per post in other settings in the global settings.<br />Value Analysis: Because threads are the core component of forums, in-thread ads embedded within the post content can be naturally accepted when users browse the post content. Combined with the feature of random display, they are suitable for effective promotion of specific content, and can also be used for the forum\'s own promotion and announcements. It is recommended to set multiple in-thread ads to achieve differentiation of ad content, thereby attracting more visitors\' attention.',
+	'thread_fids' => 'Target Forums',
+	'thread_fids_comment' => 'Set the forum boards for ad placement, effective when the ad scope includes "Forum"',
+	'thread_groups' => 'Target Group Categories',
+	'thread_groups_comment' => 'Set the group categories for ad placement, effective when the ad scope includes "Groups"',
+	'thread_position' => 'Placement Position',
+	'thread_position_comment' => 'Ads above and below the post content are suitable for text form, while ads on the right side of the post are suitable for image or Flash form. Multiple text ads can also be displayed at the same time',
+	'thread_position_bottom' => 'Below Post',
+	'thread_position_top' => 'Above Post',
+	'thread_position_right' => 'Right Side of Post',
+	'thread_pnumber' => 'Ad Display Floors',
+	'thread_pnumber_comment' => 'Options #1 #2 #3 ... represent post floors. You can hold CTRL to select multiple',
+	'thread_pnumber_all' => 'All',
+	];
 
-?>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * [Discuz!] (C)2001-2099 Discuz! Team
@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Image',
-	'description' => 'Image Block',
+	'description' => 'Image block',
 ];

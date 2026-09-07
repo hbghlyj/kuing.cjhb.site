@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Checklist',
-	'description' => 'Checklist Block',
+	'description' => 'Used to add checklist blocks.',
 ];

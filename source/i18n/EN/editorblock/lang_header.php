@@ -11,6 +11,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'name' => 'Heading',
-	'description' => 'Heading Block',
+	'name' => 'Header',
+	'description' => 'Used to add heading blocks, such as h1, h2, h3, etc.',
 ];

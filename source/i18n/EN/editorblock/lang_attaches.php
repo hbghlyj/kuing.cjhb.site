@@ -11,6 +11,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
-	'name' => 'Attachments',
-	'description' => 'Attachments Block',
+	'name' => 'Attachment',
+	'description' => 'Attachment upload block',
 ];

@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Audio',
-	'description' => 'Audio Block',
+	'description' => 'Audio block',
 ];

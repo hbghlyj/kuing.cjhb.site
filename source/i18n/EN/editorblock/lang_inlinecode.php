@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * [Discuz!] (C)2001-2099 Discuz! Team

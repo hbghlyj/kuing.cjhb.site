@@ -1,25 +1,24 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_invite.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'invite_message'	=> '<p style="color:red;">Wow, you have already invited {count} friends!</p><br>',//'<p style="color:red;">哇，厉害！您现在已经邀请了 {count} 个好友，请继续努力！</p><br>',
-	'invite_guide'		=> '<strong>Follow the instructions to complete this task:</strong>
-				<ul class="task">
-				<li>Open in a new window <a href="home.php?mod=spacecp&ac=invite" target="_blank">Invite friends page</a>;</li>
-				<li>Invite your friends to join us. Use Email or any instant messenger to send the invitation link to your friends;</li>
-				<li>You have to invite 10 friends to complete the task.</li>
-				</ul>',
+$lang =
+	[
+	'invite_message' => '<p style="color:red;">Wow, great! You have invited {count} friends now, keep up the good work!</p><br>',
+	'invite_guide' => '<strong>Please follow the instructions below to complete this task:</strong>
+		<ul class="task">
+		<li>Open the <a href="home.php?mod=spacecp&ac=invite" target="_blank">friend invitation page</a> in a new window</li>
+		<li>Use IM tools like QQ, MSN, or send emails to tell your friends the invitation link, invite them to join</li>
+		<li>You need to invite 10 friends to complete</li>
+		</ul>',
 
-);
+	];
 

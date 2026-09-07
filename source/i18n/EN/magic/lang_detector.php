@@ -1,21 +1,20 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_detector.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'detector_name'	=> 'Detector',//'探测器',
-	'detector_desc'	=> 'Detection of Red envelope buried by members',//'探测埋了红包的会员空间',
-	'detector_num'	=> 'Maximum number of detected members',//'最大探测数',
-	'detector_info'	=> 'Detect (up to {num}) members buried a Red envelope',//'探测(最多 {num} 个)埋了红包的会员空间',
-);
+$lang =
+	[
+	'detector_name' => 'Detector',
+	'detector_desc' => 'Detect member spaces where red packets are buried',
+	'detector_num' => 'Maximum detection count',
+	'detector_info' => 'Detect (up to {num}) member spaces where red packets are buried',
+	];
 

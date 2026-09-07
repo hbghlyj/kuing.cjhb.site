@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Clear Formatting',
-	'description' => 'Clear Formatting',
+	'description' => 'Used to clear text formatting',
 ];

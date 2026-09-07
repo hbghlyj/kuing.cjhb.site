@@ -1,28 +1,26 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_articlelist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'articlelist_name' => '门户 文章列表广告',
-	'articlelist_desc' => '展现方式: 文章广告显示于频道文章分类的文章列表页面，分为顶部、底部 2 个投放位置。',
-	'articlelist_position' => '投放位置',
-	'articlelist_position_comment' => '分为 4 个位置，上下各有 2 个紧邻的显示位置',
-	'articlelist_position_up1' => '顶部(上)',
-	'articlelist_position_up2' => '顶部(下)',
-	'articlelist_position_down1' => '底部(上)',
-	'articlelist_position_down2' => '底部(下)',
-	'articlelist_category' => '投放频道分类',
-	'articlelist_category_comment' => '设置广告投放的频道分类',
-);
+$lang =
+	[
+	'articlelist_name' => 'Portal Article List Ad',
+	'articlelist_desc' => 'Display Mode: Article ads are displayed on the article list page of channel article categories, divided into 2 placement positions: top and bottom.',
+	'articlelist_position' => 'Placement Position',
+	'articlelist_position_comment' => 'Divided into 4 positions, with 2 adjacent display positions at the top and bottom respectively',
+	'articlelist_position_up1' => 'Top (Upper)',
+	'articlelist_position_up2' => 'Top (Lower)',
+	'articlelist_position_down1' => 'Bottom (Upper)',
+	'articlelist_position_down2' => 'Bottom (Lower)',
+	'articlelist_category' => 'Target Channel Category',
+	'articlelist_category_comment' => 'Set the channel category for ad placement',
+	];
 
-?>

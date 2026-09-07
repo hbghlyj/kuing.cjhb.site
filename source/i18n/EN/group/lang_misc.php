@@ -1,22 +1,21 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *     $Id: lang_misc.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'group_normal_member'		=> 'Set as ordinary members',//'设为普通成员',
-	'group_goaway'			=> 'Kick out from the group',//'踢出群组',
-	'group_demise_message_title'	=> "The group {forum} successfully transferred to you",//"把{$_G[setting][navs][3][navname]}{forum}成功转让给你了。",
-	'group_demise_message_body'	=> "The group {forum} successfully transferred to you. [url={siteurl}forum.php?mod=group&fid={fid}]Click here to view the group[/url]",//"我的{$_G[setting][navs][3][navname]}{forum}成功转让给你了，[url={siteurl}forum.php?mod=group&fid={fid}]点这里查看{$_G[setting][navs][3][navname]}[/url]",
-	'group_join'			=> 'Join the group &quot;{groupname}&quot;',//'加入{groupname}群组',
-);
+$lang =
+	[
+	'group_normal_member' => 'Set as Normal Member',
+	'group_goaway' => 'Kick out of Group',
+	'group_demise_message_title' => 'The group {forum} has been successfully transferred to you.',
+	'group_demise_message_body' => 'My group {forum} has been successfully transferred to you. [url={siteurl}forum.php?mod=group&fid={fid}]Click here to view the group[/url]',
+	'group_join' => 'Join {groupname} Group',
+	];
 

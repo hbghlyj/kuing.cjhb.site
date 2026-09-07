@@ -1,43 +1,41 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_bloglist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'bloglist_blogids' => '指定日志',
-	'bloglist_blogids_comment' => '填入指定日志的ID(blogid)，多个日志之间用逗号(,)分隔',
-	'bloglist_uids' => '作者UID',
-	'bloglist_uids_comment' => '填入指定用户的ID(uid)，多个用户之间用逗号(,)分隔',
-	'bloglist_catid' => '指定分类',
-	'bloglist_catid_comment' => '选择日志所属的系统日志分类，可多选',
-	'bloglist_startrow' => '起始数据行数',
-	'bloglist_startrow_comment' => '如需设定起始的数据行数，请输入具体数值，0 为从第一行开始，以此类推',
-	'bloglist_titlelength' => '标题长度',
-	'bloglist_summarylength' => '简介长度',
-	'bloglist_picrequired' => '过滤无封面日志',
-	'bloglist_picrequired_comment' => '是否过滤没有封面图片的日志',
-	'bloglist_hours' => '时间范围',
-	'bloglist_hours_nolimit' => '不限制',
-	'bloglist_hours_hour' => '1小时内',
-	'bloglist_hours_day' => '24小时内',
-	'bloglist_hours_week' => '7天内',
-	'bloglist_hours_month' => '1月内',
-	'bloglist_hours_year' => '1年内',
-	'bloglist_orderby' => '日志排序方式',
-	'bloglist_orderby_comment' => '设置以哪一字段或方式对日志进行排序',
-	'bloglist_orderby_dateline' => '按发布时间倒序',
-	'bloglist_orderby_viewnum' => '按查看数倒序',
-	'bloglist_orderby_replynum' => '按回复数倒序',
-	'bloglist_orderby_hot' => '按热度倒序'
-);
+$lang =
+	[
+	'bloglist_blogids' => 'Specified Blogs',
+	'bloglist_blogids_comment' => 'Enter the IDs (blogid) of specified blogs, separated by comma (,)',
+	'bloglist_uids' => 'Author UIDs',
+	'bloglist_uids_comment' => 'Enter the IDs (uid) of specified users, separated by comma (,)',
+	'bloglist_catid' => 'Specified Category',
+	'bloglist_catid_comment' => 'Select the system blog category that the blog belongs to, multiple selection available',
+	'bloglist_startrow' => 'Start Data Row',
+	'bloglist_startrow_comment' => 'If you need to set the starting data row, please enter a specific value. 0 means starting from the first row, and so on',
+	'bloglist_titlelength' => 'Title Length',
+	'bloglist_summarylength' => 'Summary Length',
+	'bloglist_picrequired' => 'Filter Blogs Without Cover',
+	'bloglist_picrequired_comment' => 'Whether to filter blogs without cover image',
+	'bloglist_hours' => 'Time Range',
+	'bloglist_hours_nolimit' => 'No limit',
+	'bloglist_hours_hour' => 'Within 1 hour',
+	'bloglist_hours_day' => 'Within 24 hours',
+	'bloglist_hours_week' => 'Within 7 days',
+	'bloglist_hours_month' => 'Within 1 month',
+	'bloglist_hours_year' => 'Within 1 year',
+	'bloglist_orderby' => 'Blog Sorting Method',
+	'bloglist_orderby_comment' => 'Set by which field or method to sort blogs',
+	'bloglist_orderby_dateline' => 'Sort by publication time in descending order',
+	'bloglist_orderby_viewnum' => 'Sort by views in descending order',
+	'bloglist_orderby_replynum' => 'Sort by replies in descending order',
+	'bloglist_orderby_hot' => 'Sort by popularity in descending order'
+	];
 
-?>

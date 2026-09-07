@@ -1,25 +1,23 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_custom.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'custom_name' => '自定义广告',
-	'custom_desc' => '通过在模版、HTML 文件中添加广告代码，可以在站点的任意页面添加广告。适用于懂得简单 HTML 知识的站长。<br><br>
-		<a href="javascript:;" onclick="prompt(\'请复制(CTRL+C)以下内容并添加到模板中，添加此广告位\', \'<!--{ad/custom_'.$_GET['customid'].'}-->\')" />内部调用</a>&nbsp;
-		<a href="javascript:;" onclick="prompt(\'请复制(CTRL+C)以下内容并添加到 HTML 文件中，添加此广告位\', \'&lt;script type=\\\'text/javascript\\\' src=\\\''.$_G['siteurl'].'api.php?mod=ad&adid=custom_'.$_GET['customid'].'\\\'&gt;&lt;/script&gt;\')" />外部调用</a>',
-	'custom_id_notfound' => '自定义广告不存在',
-	'custom_codelink' => '内部调用',
-	'custom_text' => '自定义广告',
-);
+$lang =
+	[
+	'custom_name' => 'Custom Ad',
+	'custom_desc' => 'By adding ad code in templates and HTML files, you can add ads to any page of the site. Suitable for webmasters who know basic HTML knowledge.<br /><br />
+                <a href="javascript:;" onclick="prompt(\'Please copy (CTRL+C) the following content and add it to the template to add this ad position\', \'<!--{ad/custom_'.$_GET['customid'].'}-->\')" />Internal Call</a>&nbsp;
+                <a href="javascript:;" onclick="prompt(\'Please copy (CTRL+C) the following content and add it to the HTML file to add this ad position\', \'&lt;script type=\\\'text/javascript\\\' src=\\\''.$_G['siteurl'].'api.php?mod=ad&adid=custom_'.$_GET['customid'].'\\\'&gt;&lt;/script&gt;\')" />External Call</a>',
+	'custom_id_notfound' => 'Custom ad not found',
+	'custom_codelink' => 'Internal Call',
+	'custom_text' => 'Custom Ad',
+	];
 
-?>

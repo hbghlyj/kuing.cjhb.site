@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Text Color',
-	'description' => 'Text Color',
+	'description' => 'Text color enhancement',
 ];

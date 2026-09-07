@@ -1,34 +1,32 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_topiclist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'topiclist_topicids' => '指定专题',
-	'topiclist_topicids_comment' => '填入指定专题的ID(topicid)，多个专题之间用逗号(,)分隔',
-	'topiclist_uids' => '创建者UID',
-	'topiclist_uids_comment' => '填入指定专题创建者的ID(uid)，多个用户之间用逗号(,)分隔',
-	'topiclist_startrow' => '起始数据行数',
-	'topiclist_startrow_comment' => '如需设定起始的数据行数，请输入具体数值，0 为从第一行开始，以此类推',
-	'topiclist_titlelength' => '标题长度',
-	'topiclist_titlelength_comment' => '指定专题标题最大长度',
-	'topiclist_summarylength' => '介绍长度',
-	'topiclist_summarylength_comment' => '指定专题介绍最大长度',
-	'topiclist_picrequired' => '过滤无封面专题',
-	'topiclist_picrequired_comment' => '是否过滤没有封面图片的专题',
-	'topiclist_orderby' => '专题排序方式',
-	'topiclist_orderby_comment' => '设置以哪一字段或方式对专题进行排序',
-	'topiclist_orderby_dateline' => '按发布时间倒序',
-	'topiclist_orderby_viewnum' => '按查看数倒序',
-);
+$lang =
+	[
+	'topiclist_topicids' => 'Specified Topics',
+	'topiclist_topicids_comment' => 'Enter the IDs (topicid) of specified topics. Multiple topics separated by comma (,)',
+	'topiclist_uids' => 'Creator UIDs',
+	'topiclist_uids_comment' => 'Enter the IDs (uid) of specified topic creators. Multiple users separated by comma (,)',
+	'topiclist_startrow' => 'Start Data Row',
+	'topiclist_startrow_comment' => 'If you need to set the starting data row, please enter a specific value. 0 means starting from the first row, and so on',
+	'topiclist_titlelength' => 'Title Length',
+	'topiclist_titlelength_comment' => 'Specify the maximum length of topic title',
+	'topiclist_summarylength' => 'Description Length',
+	'topiclist_summarylength_comment' => 'Specify the maximum length of topic introduction',
+	'topiclist_picrequired' => 'Filter Topics Without Cover',
+	'topiclist_picrequired_comment' => 'Whether to filter topics without cover images',
+	'topiclist_orderby' => 'Topic Sorting Method',
+	'topiclist_orderby_comment' => 'Set by which field or method to sort topics',
+	'topiclist_orderby_dateline' => 'Sort by publication time in descending order',
+	'topiclist_orderby_viewnum' => 'Sort by views in descending order',
+	];
 
-?>

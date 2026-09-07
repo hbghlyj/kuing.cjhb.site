@@ -12,5 +12,5 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'name' => 'Emoji',
-	'description' => 'Emoji Picker',
+	'description' => 'Emoji',
 ];

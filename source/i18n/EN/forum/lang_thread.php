@@ -1,24 +1,23 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_thread.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array (
-	'forum_archive' => 'Archive',//'存档',
-	'source' => 'Source',//'来源',
+$lang = [
+	'forum_archive' => 'Archive',
+	'source' => 'Source',
 
-	't_question' => '?',
-	't_comma' => ',',
-	't_exclamatory' => '!',
-	't_period' => '.',
-	't_suspension' => '...',
+	't_question' => '？',
+	't_comma' => '，',
+	't_exclamatory' => '！',
+	't_period' => '。',
+	't_suspension' => '…',
 
-);
+];

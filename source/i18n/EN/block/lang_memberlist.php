@@ -1,65 +1,64 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_memberlist.php 28353 2012-02-28 06:57:02Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'memberlist_uids' => '用户UID',
-	'memberlist_uids_comment' => '指定用户UID，多个UID之间用 ,分割',
-	'memberlist_special' => '特殊会员',
-	'memberlist_special_nolimit' => '不限',
-	'memberlist_special_hot' => '推荐关注',
-	'memberlist_gender' => '性别',
-	'memberlist_gender_nolimit' => '不限',
-	'memberlist_gender_male' => '男',
-	'memberlist_gender_female' => '女',
-	'memberlist_residecity' => '居住城市',
-	'memberlist_birthcity' => '出生城市',
-	'memberlist_avatarstatus' => '过滤无头像用户',
-	'memberlist_emailstatus' => '通过邮件认证',
-	'memberlist_verifystatus' => '已通过的认证',
-	'memberlist_special_default' => '推荐好友',
-	'memberlist_startrow' => '起始数据行数',
-	'memberlist_startrow_comment' => '如需设定起始的数据行数，请输入具体数值，0 为从第一行开始，以此类推',
-	'memberlist_groupid' => '用户组',
-	'memberlist_groupid_comment' => '指定用户组',
-	'memberlist_items' => '显示数据条数',
-	'memberlist_items_comment' => '设置一次显示的用户条目数，请设置为大于 0 的整数',
-	'memberlist_orderby' => '用户排序方式',
-	'memberlist_orderby_comment' => '设置以哪一字段或方式对用户进行排序',
-	'memberlist_orderby_credits' => '按总积分倒序',
-	'memberlist_orderby_extcredits' => '按指定扩展积分倒序',
-	'memberlist_orderby_posts' => '按发帖数倒序',
-	'memberlist_orderby_blogs' => '按日志数倒序',
-	'memberlist_orderby_albums' => '按相册数倒序',
-	'memberlist_orderby_doings' => '按记录数倒序',
-	'memberlist_orderby_sharings' => '按分享数倒序',
-	'memberlist_orderby_show' => '按竞价排行排序',
-	'memberlist_orderby_special' => '按推荐优先级排序',
-	'memberlist_orderby_threads' => '按主题数倒序',
-	'memberlist_orderby_digestposts' => '按精华帖数倒序',
-	'memberlist_orderby_regdate' => '按注册日期倒序',
-	'memberlist_orderby_todayposts' => '按今日发帖数倒序',
-	'memberlist_lastpost' => '最后发帖时间',
-	'memberlist_lastpost_nolimit' => '不限制',
-	'memberlist_lastpost_hour' => '最近1小时',
-	'memberlist_lastpost_day' => '最近1天',
-	'memberlist_lastpost_week' => '最近一周',
-	'memberlist_lastpost_month' => '最近一月',
-	'memberlist_orderby_extcreditselect' => '扩展积分',
-	'memberlist_orderby_extcreditselect_comment' => '按指定扩展积分倒序排序的积分值',
-	'memberlist_orderby_hours' => '按小时内发帖数倒序',
-	'memberlist_orderby_hours_comment' => '指定时间内发帖数倒序排序的时间值',
-	'memberlist_yes' => '是',
-);
+$lang =
+	[
+	'memberlist_uids' => 'User UIDs',
+	'memberlist_uids_comment' => 'Specify user UIDs. Multiple UIDs separated by comma',
+	'memberlist_special' => 'Special Members',
+	'memberlist_special_nolimit' => 'Unlimited',
+	'memberlist_special_hot' => 'Recommended Follow',
+	'memberlist_gender' => 'Gender',
+	'memberlist_gender_nolimit' => 'Unlimited',
+	'memberlist_gender_male' => 'Male',
+	'memberlist_gender_female' => 'Female',
+	'memberlist_residecity' => 'Residence City',
+	'memberlist_birthcity' => 'Birth City',
+	'memberlist_avatarstatus' => 'Filter Users Without Avatar',
+	'memberlist_emailstatus' => 'Email Verified',
+	'memberlist_secmobilestatus' => 'Secure Mobile Verified',
+	'memberlist_verifystatus' => 'Verified Certifications',
+	'memberlist_special_default' => 'Recommended Friends',
+	'memberlist_startrow' => 'Start Data Row',
+	'memberlist_startrow_comment' => 'If you need to set the starting data row, please enter a specific value. 0 means starting from the first row, and so on',
+	'memberlist_groupid' => 'User Group',
+	'memberlist_groupid_comment' => 'Specify user groups',
+	'memberlist_items' => 'Display Data Count',
+	'memberlist_items_comment' => 'Set the number of user items displayed at one time. Please set it to an integer greater than 0',
+	'memberlist_orderby' => 'User Sorting Method',
+	'memberlist_orderby_comment' => 'Set by which field or method to sort users',
+	'memberlist_orderby_credits' => 'Sort by total credits in descending order',
+	'memberlist_orderby_extcredits' => 'Sort by specified extended credits in descending order',
+	'memberlist_orderby_posts' => 'Sort by post count in descending order',
+	'memberlist_orderby_blogs' => 'Sort by blog count in descending order',
+	'memberlist_orderby_albums' => 'Sort by album count in descending order',
+	'memberlist_orderby_doings' => 'Sort by doing count in descending order',
+	'memberlist_orderby_sharings' => 'Sort by sharing count in descending order',
+	'memberlist_orderby_show' => 'Sort by bid ranking',
+	'memberlist_orderby_special' => 'Sort by recommendation priority',
+	'memberlist_orderby_threads' => 'Sort by thread count in descending order',
+	'memberlist_orderby_digestposts' => 'Sort by digest post count in descending order',
+	'memberlist_orderby_regdate' => 'Sort by registration date in descending order',
+	'memberlist_orderby_todayposts' => 'Sort by today\'s posts in descending order',
+	'memberlist_lastpost' => 'Last Post Time',
+	'memberlist_lastpost_nolimit' => 'No limit',
+	'memberlist_lastpost_hour' => 'Last 1 hour',
+	'memberlist_lastpost_day' => 'Last 1 Day',
+	'memberlist_lastpost_week' => 'Last Week',
+	'memberlist_lastpost_month' => 'Last Month',
+	'memberlist_orderby_extcreditselect' => 'Extended Credits',
+	'memberlist_orderby_extcreditselect_comment' => 'Credit value for sorting by specified extended credits in descending order',
+	'memberlist_orderby_hours' => 'Sort by post count within hours in descending order',
+	'memberlist_orderby_hours_comment' => 'Time value for sorting by post count within specified time in descending order',
+	'memberlist_yes' => 'Yes',
+	];
 
-?>

@@ -1,20 +1,19 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_call.php by Valery Votintsev, codersclub.org
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'call_name'	=> 'Call Card',//'点名卡',
-	'call_desc'	=> 'Send notification to your friends to come see your blog',//'发通知给自己的好友，让他们来查看自己的日志',
-	'call_info'	=> 'Send notification to your friends to come see your blog',//'发通知给自己的好友，让他们来查看自己的日志',
-);
+$lang =
+	[
+	'call_name' => 'Mention Card',
+	'call_desc' => 'Send notifications to your friends to let them view your blog',
+	'call_info' => 'Send notifications to your friends to let them view your blog',
+	];
 
