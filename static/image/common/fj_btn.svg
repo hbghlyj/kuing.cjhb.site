@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="color: #2F5C92;">
+  <!-- Smooth Escalator Stroke -->
+  <path d="M 1,14.5 L 4,14.5 L 12,3.5 L 15,3.5" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+
+  <!-- Head (shifted left to x=6.8, down to y=2.0) -->
+  <circle cx="6.8" cy="2" r="1.1" fill="currentColor" />
+
+  <!-- Body (elongated from y=4.2 down to y=11.2 to touch the lower slope) -->
+  <line x1="6.8" y1="4.2" x2="6.8" y2="11.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+</svg>
