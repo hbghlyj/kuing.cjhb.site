@@ -1098,8 +1098,9 @@ Last Modify:	Pony
 		.bm { border: 1px solid {COMMONBORDER}; background: {WRAPBG}; }
 			.bm_c { padding: 10px; }
 		.drag {}
-		.bm_h .o { float: right; width: 30px; }
+		.bm_h .o { position: relative; float: right; width: 30px; height: 100%; }
 			.bm_h .o img, .bm_h .o em { float: right; margin-top: 8px; cursor: pointer; font-family: dzicon; color: #CCC; font-size: 26px; line-height: 16px; }
+			.bm_h .o em.tg_yes, .bm_h .o em.tg_no { position: absolute; top: 50%; right: 0; margin-top: 0; transform: translateY(-50%); }
 			.tg_yes:before, .tg_no:before { content: ""; display: inline-block; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; }
 			.tg_yes:before { transform: rotate(45deg); }
 			.tg_no:before { color: inherit; transform: rotate(225deg); }

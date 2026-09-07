@@ -335,8 +335,8 @@ form[action*="ac=privacy&op="] .tfm caption h2.ptw {padding-top:0px !important}
 .bmw .bm_h a, .bm_h h3 a, .bm_h h2 a, .bm_h h1 a {color:var(--dz-fa)}
 .bmw .bm_h a:hover, .bm_h h3 a:hover, .bm_h h2 a:hover, .bm_h h1 a:hover {color:var(--dz-ahover)}
 .bm_h .o {float:right;position:relative;z-index:2}
-.bm_h .o img, .bm_h .o em {margin-top:20px;background:none}
-.bm_h .o em {font-size:26px}
+.bm_h .o img {margin-top:20px;background:none}
+.bm_h .o em {margin-top:0;background:none;font-size:26px}
 .bm_h .o em.tg_no::before {color:var(--dz-fc)}
 .bm_h .y {position:relative;z-index:10}
 .bm_h .y a {color:var(--dz-fc)}
