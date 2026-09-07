@@ -43,7 +43,7 @@
 
 
 
-body { background-color: #fff; background-image: url({STATICURL}image/common/sky-banner.svg?{VERHASH}); background-repeat: no-repeat; background-position: top center; background-size: 100% auto; background-attachment: fixed; }
+body { background-color: #fff; background-image: url({STATICURL}image/common/sky-banner.svg?{VERHASH}); background-repeat: no-repeat; background-position: top center; background-size: 100% auto; }
 input, textarea {font:1em/1.5 Monaco, Consolas, 'Lucida Console', 'Courier New', monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
