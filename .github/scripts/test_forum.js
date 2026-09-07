@@ -341,7 +341,7 @@ const assertPusherMetadataOrder = () => {
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown)');
         let pmLink;
         if(await x5Notice.count()) {
-            const noticeBadge = x5Notice.locator('.notice-icon > .dot:not(.dot-pm)');
+            const noticeBadge = x5Notice.locator('.notice-icon > .dot');
             await noticeBadge.waitFor({ state: 'visible', timeout: 10000 });
             assert.strictEqual(
                 (await noticeBadge.textContent()).trim(),
@@ -359,12 +359,12 @@ const assertPusherMetadataOrder = () => {
             await noticeItems.first().waitFor({ state: 'visible', timeout: 10000 });
             assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
             await targetPage.waitForFunction(expectedPm => {
-                const noticeDot = document.querySelector('.header-notice .notice-icon > .dot:not(.dot-pm)');
-                const pmPip = document.querySelector('.header-notice .notice-icon > .dot-pm, .header-notice .notice-item .dot');
+                const noticeDot = document.querySelector('.header-notice .notice-icon > .dot');
+                const pmPip = document.querySelector('.header-message .message-icon > .dot');
                 return !noticeDot && (expectedPm > 0 ? !!pmPip : true);
             }, beforePm, { timeout: 10000 });
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
-            pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
+            pmLink = targetPage.locator('.header-message a[href*="home.php?mod=space&do=pm"]');
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');

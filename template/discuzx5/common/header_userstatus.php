@@ -21,23 +21,26 @@
 		</a></div>
 	</div>
 	<!--{/if}-->
+	<!--{if !empty($_G['setting']['pmstatus'])}-->
+	<div class="header-message">
+		<a class="message-icon" href="home.php?mod=space&do=pm" title="{lang pm_center}" aria-label="{lang pm_center}">
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 5.5h17v13h-17zM4 6l8 7 8-7"/></svg>
+			<!--{if $_G['member']['newpm']}--><span class="dot"></span><!--{/if}-->
+		</a>
+	</div>
+	<!--{/if}-->
 	<div class="header-notice">
 		<div class="notice-icon">
 			<i class="dzicon noticeicon"></i>
 			<!--{if $_G['member']['newprompt']}-->
 			{eval $noticecount = intval($_G['member']['newprompt']);}
 			<span class="dot">{if $noticecount > 99}99{else}$noticecount{/if}</span>
-			<!--{elseif $_G['member']['newpm']}-->
-			<span class="dot dot-pm" title="{lang pm_center}"></span>
 			<!--{/if}-->
 		</div>
 
 		<div class="notice-dropdown poptip-popper">
 			<div class="poptip-arrow"></div>
 			<div class="notice-content">
-				<!--{if !empty($_G['setting']['pmstatus'])}-->
-				<a class="notice-item" href="home.php?mod=space&do=pm">{lang pm_center}{if $_G[member][newpm]}<span class="dot"></span>{/if}</a>
-				<!--{/if}-->
 				<ul id="myprompt_menu" class="notice-list" data-empty-label="{lang no_unread_notifications}"></ul>
 			</div>
 		</div>
@@ -158,16 +161,9 @@ document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-c
 						noticeMenu.appendChild(emptyItem);
 					}
 					var icon = element.querySelector('.notice-icon');
-					var noticeDot = icon && icon.querySelector('.dot:not(.dot-pm)');
-					var hasUnreadPm = !!(element.querySelector('.notice-item .dot') || (icon && icon.querySelector('.dot-pm')));
+					var noticeDot = icon && icon.querySelector('.dot');
 					if(noticeDot) {
 						noticeDot.remove();
-					}
-					if(hasUnreadPm && icon && !icon.querySelector('.dot-pm')) {
-						var pmPip = document.createElement('span');
-						pmPip.className = 'dot dot-pm';
-						pmPip.title = '{lang pm_center}';
-						icon.appendChild(pmPip);
 					}
 				});
 			});
