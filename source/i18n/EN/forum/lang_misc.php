@@ -12,7 +12,6 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	'discuz_lang' => 'misc',
 	'contact' => 'Contact:',
 	'anonymous' => 'Anonymous',
 	'anonymoususer' => 'Anonymous User',
@@ -29,20 +28,14 @@ $lang =
 	'post_single_banned' => '**** This post is banned ****',
 	'message_ishidden_hiddenreplies' => 'This post is only visible to the author',
 	'post_reply_quote' => '{author} posted at {time}',
-	'post_reply' => 'Reply',
-	'post_thread' => '\'s posts',
 
 	'price' => 'Price',
 	'pay_view' => 'Records',
 	'attachment_buy' => 'Buy',
 
-	'post_trade_yuan' => 'Yuan',
-	'post_trade_seller' => 'Seller',
 	'post_trade_name' => 'Goods Name',
 	'post_trade_price' => 'Goods Price',
-	'post_trade_quality' => 'Goods Condition',
 	'post_trade_locus' => 'Location',
-	'post_trade_transport_type' => 'Shipping Method',
 	'post_trade_transport_seller' => 'Seller Pays Shipping',
 	'post_trade_transport_buyer' => 'Buyer Pays Shipping',
 	'post_trade_transport_mail' => 'Regular Mail',
@@ -50,28 +43,13 @@ $lang =
 	'post_trade_transport_virtual' => 'Virtual Item or No Shipping Required',
 	'post_trade_transport_physical' => 'Buyer pays directly to logistics company after receiving goods',
 	'post_trade_locus' => 'Location',
-	'post_trade_description' => 'Goods Description',
-	'post_trade_pm_subject' => '[Bargain]',
-	'post_trade_pm_buynum' => 'Purchase Quantity',
-	'post_trade_pm_wishprice' => 'My expected price is',
-	'post_trade_pm_reason' => 'My reason for bargaining is',
 	'postappend_content' => 'Additional Content',
 	'payment_unit' => 'Yuan',
 
-	'attach' => 'Attachment',
-	'attach_pay' => 'Paid Attachment',
-	'attach_credits_policy' => 'View Credit Policy',
 	'attach_img' => 'Image Attachment',
-	'attach_readperm' => 'Read Permission',
-	'attach_img_zoom' => 'Click to view full image in new window\nCTRL+mouse wheel to zoom in or out',
-	'attach_img_thumb' => 'Click to view full image in new window',
-	'attach_downloads' => 'Downloads',
 
 	'post_trade_transport' => 'Shipping Fee',
 	'post_trade_transport_mail' => 'Regular Mail',
-	'post_trade_quality' => 'Goods Condition',
-	'post_trade_quality_new' => 'Brand New',
-	'post_trade_quality_secondhand' => 'Used',
 
 	'trade_unstart' => '<font color="gray">Inactive Transaction</font>',
 	'trade_waitbuyerpay' => 'Waiting for buyer to pay',
@@ -109,14 +87,12 @@ $lang =
 
 	'credit_payment' => 'Credit Recharge',
 	'credit_forum_payment' => 'Forum Credit Recharge',
-	'credit_forum_royalty' => 'Transaction Fee',
 
 	'credit_total' => 'Total Credits',
 
 	'invite_payment' => 'Purchase Invitation Code',
 	'invite_forum_payment' => 'Purchase Invitation Code',
 	'invite_forum_payment_unit' => 'pieces',
-	'invite_forum_royalty' => 'Transaction Fee',
 
 	'formulaperm_regdate' => 'Registration Date',
 	'formulaperm_regday' => 'Registration Days',
@@ -128,14 +104,12 @@ $lang =
 	'formulaperm_posts' => 'Post Count',
 	'formulaperm_threads' => 'Thread Count',
 	'formulaperm_oltime' => 'Online Time (hours)',
-	'formulaperm_pageviews' => 'Page Views',
 	'formulaperm_and' => 'and',
 	'formulaperm_or' => 'or',
 	'formulaperm_extcredits' => 'Custom Credits',
 
 	'login_normal_mode' => 'Online',
 	'login_switch_invisible_mode' => 'Switch Online Status',
-	'login_switch_normal_mode' => 'Go Online',
 	'login_invisible_mode' => 'Invisible',
 
 	'eccredit_explain' => 'Explanation',
@@ -152,16 +126,7 @@ $lang =
 
 	'modcp_logs_action_login' => 'Login',
 
-	'uch_selectalbum' => 'Please select album',
-	'uch_noalbum' => 'Sorry, you don\'t have an album yet, ',
 	'click_here' => 'Click here',
-	'uch_createalbum' => 'create your own album!',
-
-	'pm_from' => 'Sender',
-	'pm_to' => 'Recipient',
-	'pm_date' => 'Date',
-
-	'share_message' => 'Hello! I saw this thread on {$_G[\'setting\'][\'bbname\']} and found it very valuable, so I\'m specially recommending it to you.\n\n$thread[\'subject\']\nURL [url={$threadurl}]{$threadurl}[/url]\n\nHope you like it',
 
 	'week_0' => 'Sunday',
 	'week_1' => 'Monday',
@@ -172,8 +137,6 @@ $lang =
 	'week_6' => 'Saturday',
 
 	'y_m_d' => 'Y-m-d',
-
-	'notice_actor' => 'and $actorcount others',
 
 	'perms_allowvisit' => 'Visit Forum',
 	'perms_readaccess' => 'Read Permission',
@@ -269,12 +232,8 @@ $lang =
 	'perms_maximagesize' => 'Max Single Image Size',
 	'perms_allowmediacode' => 'Allow Using Media Code',
 
-	'join_topic' => 'Join Topic',
-	'join_poll' => 'Vote in Polls',
 	'buy_trade' => 'Buy Goods',
-	'join_reward' => 'Join Reward',
 	'join_activity' => 'Join Activity',
-	'join_debate' => 'Join Debate',
 	'at_invite' => '@My Friends',
 
 	'lower' => 'Lower than',
@@ -286,28 +245,9 @@ $lang =
 	'crime_postreason' => '{reason} &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="xi2">View Details</a>',
 	'crime_reason' => '{reason}',
 
-	'connectguest_message_search' => ['Not logged in', 'Log in first'],
-	'connectguest_message_replace' => ['Not yet <a href="member.php?mod=connect" class="xi2">completed your account info</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bound an existing account</a> ', 'First <a href="member.php?mod=connect" class="xi2">complete your account info</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bind an existing account</a> '],
-	'connectguest_message_mobile_search' => ['Not logged in', 'Log in first'],
-	'connectguest_message_mobile_replace' => 'Complete profile or bind existing account on desktop version, ',
-
 	'avatar' => 'Avatar',
-	'signature' => 'Signature',
 	'custom_title' => 'Custom Title',
 
-	'forum_guide' => 'Guide',
-
-	'patch_site_have' => 'Your site has',
-	'patch_is_fixed' => 'security vulnerabilities, already fixed',
-	'patch_need_fix' => 'security vulnerabilities, please fix as soon as possible',
-	'patch_fixed_status' => 'Fixed',
-	'patch_unfix_status' => 'Unfixed',
-	'patch_fix_failed_status' => 'Fix Failed',
-	'patch_fix_right_now' => 'Fix Now',
-	'patch_view_fix_detail' => 'View Details',
-	'patch_name' => 'Vulnerability Name',
-	'patch_dateline' => 'Release Date',
-	'patch_status' => 'Current Status',
 	'patch_close' => 'Disable',
 
 	'plugin_title' => 'Plugin Update Reminder',
@@ -316,10 +256,7 @@ $lang =
 
 	'seccode' => 'Verification Code',
 	'seccode_update' => 'Refresh',
-	'seccode_player' => '<span style="padding:2px"><img border="0" style="vertical-align:middle" src="'.STATICURL.'image/common/seccodeplayer.gif" /> <a href="javascript:;" id="seccodeplay_{idhash}">Play Verification Code</a></span>',
 	'secqaa' => 'Security Question',
-
-	'mobileoem_creditrule' => 'Mobile Forum Check-in',
 
 	];
 

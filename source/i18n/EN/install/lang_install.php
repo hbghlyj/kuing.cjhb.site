@@ -116,7 +116,6 @@ $lang = [
 
 	'forceinstall' => 'Force Installation',
 	'dbinfo_forceinstall_invalid' => 'The current database already contains tables with the same table prefix. You can modify the "table prefix" to avoid deleting old data, or choose force installation. Force installation will delete old data and cannot be recovered',
-	'dbinfo_myisam2innodb_invalid' => 'If InnoDB performance is poor and installation times out, you can try this method to force installation',
 
 	'click_to_back' => 'Click to return to previous step',
 	'adminemail' => 'System Email',
@@ -127,7 +126,6 @@ $lang = [
 	'dbpw_comment' => 'Your database password',
 	'tablepre_comment' => 'When running multiple forums on the same database, please modify the prefix',
 	'forceinstall_check_label' => 'I want to delete data, force installation !!!',
-	'myisam2innodb_check_label' => 'Install with MyISAM, then convert to InnoDB',
 	'initdbresult_succ' => 'Database table creation completed',
 	'initdbdataresult_succ' => 'Database data initialization completed',
 	'initdbinnodbresult_succ' => 'InnoDB table conversion completed',
@@ -258,7 +256,6 @@ $lang = [
 	'init_link' => 'Discuz! Official Forum',
 	'init_link_note' => 'Provides the latest Discuz! product news, software downloads and technical discussions',
 
-	'init_promotion_task' => 'Website Promotion Task',
 	'init_gift_task' => 'Red Packet Task',
 	'init_avatar_task' => 'Avatar Task',
 

@@ -167,7 +167,6 @@ $lang =
 	'title_memcp_poke' => 'Poke',
 	'title_memcp_comment' => 'Comment',
 	'title_memcp_eccredit' => 'Credit Rating',
-	'title_memcp_promotion' => 'Visit Promotion',
 	'title_task' => 'Task',
 	'title_login' => 'Login',
 	'title_getpasswd' => 'Forgot Password',

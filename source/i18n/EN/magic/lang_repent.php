@@ -20,6 +20,5 @@ $lang =
 	'repent_succeed' => 'The post has been deleted',
 	'repent_info_noperm' => 'Sorry, this magic item is not allowed in the forum where this thread is located',
 	'repent_info_user_noperm' => 'Sorry, you can only delete your own posts',
-	'repent_do_not_rushreply' => 'Cannot use this magic item in floor grabbing threads',
 	];
 
