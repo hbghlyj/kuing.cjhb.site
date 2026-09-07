@@ -502,7 +502,7 @@ img{border:none;}
 .header-notice .notice-icon:hover,
 .header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
 .header-message .message-icon svg,
-.header-notice .notice-icon svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:var(--dz-fc);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.header-notice .notice-icon svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:var(--dz-fb);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .header-message .message-icon .dot,
 .header-notice .notice-icon .dot{position:absolute;top:0;right:-6px;min-width:16px;height:16px;line-height:16px;border-radius:8px;background:#f35;text-align:center;color:var(--dz-ff);padding:0 5px}
 .header-message .message-icon .dot:empty{top:2px;right:0;width:8px;height:8px;min-width:8px;padding:0}
@@ -518,7 +518,7 @@ img{border:none;}
 .header-notice .notice-content .num{display:none;color:#ffb300;font-size:12px;}
 .header-notice .notice-content .notice-empty{padding:12px 20px;color:var(--dz-fc);font-size:14px;line-height:20px;text-align:center;white-space:nowrap}
 .header-message .message-icon .dzicon,
-.header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fc);}
+.header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fb);}
 .header-notice .notice-icon .myrepeats:before{content: "\f113";}
 /* i18n */
 .header-i18n .poptip-popper .poptip-arrow{right: 22px;}
