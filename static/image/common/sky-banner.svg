@@ -83,7 +83,7 @@
       C 800,380 765,380 740,370 Z
     "/>
 
-    <!-- Distant Far Left Silhouette -->
+    <!-- Distant Left Silhouette -->
     <path id="cloud-3-path" d="
       M 30,470
       C 5,460 5,430 25,410
@@ -92,6 +92,16 @@
       C 175,360 195,385 185,415
       C 200,440 185,470 155,470 Z
     "/>
+
+    <!-- Distant Low Silhouette -->
+    <path id="cloud-4-path" d="
+      M 530,510
+      C 505,505 500,480 520,465
+      C 520,445 545,430 565,435
+      C 580,415 615,415 630,430
+      C 655,435 670,455 660,480
+      C 670,500 655,515 635,515 Z
+    "/>
   </defs>
 
   <!-- Sky Base -->
@@ -99,14 +109,14 @@
 
   <!-- Left Cloud Formation (Moved sideways to left edge) -->
   <g transform="translate(-80, 0)">
-    <!-- Distant Cloud Left -->
+    <!-- Distant Cloud Left (Cloud 3) -->
     <g mask="url(#smoothBaseMask)" opacity="0.9">
       <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
       <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
       <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
     </g>
 
-    <!-- Main Cloud Left -->
+    <!-- Main Cloud Left (Cloud 1) -->
     <g mask="url(#smoothBaseMask)">
       <use href="#cloud-1-path" fill="#82a9db" transform="translate(4, 18)" filter="url(#softUnderbelly)" opacity="0.75"/>
       <use href="#cloud-1-path" fill="url(#cloudVolumeGrad)" filter="url(#cohesiveBillows)"/>
@@ -115,8 +125,16 @@
     </g>
   </g>
 
-  <!-- Right Cloud Formation (Moved sideways to right edge; center left completely clear) -->
+  <!-- Right Cloud Formation (Moved sideways to right edge; center completely clear) -->
   <g transform="translate(480, 0)">
+    <!-- Distant Cloud Right (Cloud 4 moved to right side alongside Cloud 2) -->
+    <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(200, 0)">
+      <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
+      <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
+      <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
+    </g>
+
+    <!-- Main Cloud Right (Cloud 2) -->
     <g mask="url(#smoothBaseMask)">
       <!-- Sub-base atmospheric shadow -->
       <use href="#cloud-2-path" fill="#7fa6d8" transform="translate(2, 16)" filter="url(#softUnderbelly)" opacity="0.7"/>
