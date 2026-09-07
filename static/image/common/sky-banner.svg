@@ -109,8 +109,8 @@
 
   <!-- Left Cloud Formation (Positioned at far left) -->
   <g transform="translate(-50, 0)">
-    <!-- Distant Cloud Left (Cloud 3) -->
-    <g mask="url(#smoothBaseMask)" opacity="0.9">
+    <!-- Distant Cloud Left (Cloud 3, moved up) -->
+    <g mask="url(#smoothBaseMask)" opacity="0.9" transform="translate(0, -90)">
       <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
       <use href="#cloud-3-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
       <use href="#cloud-3-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.4" transform="scale(0.96) translate(5, 5)"/>
@@ -127,8 +127,8 @@
 
   <!-- Right Cloud Formation (Positioned at far right on wider 2400px canvas) -->
   <g transform="translate(1200, 0)">
-    <!-- Distant Cloud Right (Cloud 4) -->
-    <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(120, 0)">
+    <!-- Distant Cloud Right (Cloud 4, moved up) -->
+    <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(120, -120)">
       <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
       <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
       <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
