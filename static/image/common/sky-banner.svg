@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 2400 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Sky Gradient -->
     <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
@@ -28,7 +28,7 @@
     </linearGradient>
 
     <mask id="smoothBaseMask">
-      <rect width="1600" height="600" fill="url(#cloudBaseFade)"/>
+      <rect width="2400" height="600" fill="url(#cloudBaseFade)"/>
     </mask>
 
     <!-- Organic Mass Filter: Blurs primitives into a unified blob first, then displaces billows -->
@@ -105,10 +105,10 @@
   </defs>
 
   <!-- Sky Base -->
-  <rect width="1600" height="600" fill="url(#skyGrad)"/>
+  <rect width="2400" height="600" fill="url(#skyGrad)"/>
 
-  <!-- Left Cloud Formation (Moved sideways to left edge) -->
-  <g transform="translate(-80, 0)">
+  <!-- Left Cloud Formation (Positioned at far left) -->
+  <g transform="translate(-50, 0)">
     <!-- Distant Cloud Left (Cloud 3) -->
     <g mask="url(#smoothBaseMask)" opacity="0.9">
       <use href="#cloud-3-path" fill="#88aedc" transform="translate(0, 8)" filter="url(#softUnderbelly)" opacity="0.6"/>
@@ -125,10 +125,10 @@
     </g>
   </g>
 
-  <!-- Right Cloud Formation (Moved sideways to right edge; center completely clear) -->
-  <g transform="translate(480, 0)">
-    <!-- Distant Cloud Right (Cloud 4 moved to right side alongside Cloud 2) -->
-    <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(200, 0)">
+  <!-- Right Cloud Formation (Positioned at far right on wider 2400px canvas) -->
+  <g transform="translate(1200, 0)">
+    <!-- Distant Cloud Right (Cloud 4) -->
+    <g mask="url(#smoothBaseMask)" opacity="0.85" transform="translate(120, 0)">
       <use href="#cloud-4-path" fill="#8cb2df" transform="translate(0, 6)" filter="url(#softUnderbelly)" opacity="0.55"/>
       <use href="#cloud-4-path" fill="url(#cloudVolumeGrad)" filter="url(#distantBillows)"/>
       <use href="#cloud-4-path" fill="#ffffff" filter="url(#distantBillows)" opacity="0.35" transform="scale(0.96) translate(18, 12)"/>
