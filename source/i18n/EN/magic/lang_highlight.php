@@ -22,8 +22,8 @@ $lang =
 	'highlight_color' => 'Color',
 	'highlight_info_nonexistence_tid' => 'Please specify the post to highlight',
 	'highlight_info_nonexistence_blogid' => 'Please specify the blog to highlight',
-	'highlight_succeed_tid' => 'The post you operated on has been highlighted',
-	'highlight_succeed_blogid' => 'The blog you operated on has been highlighted',
+	'highlight_succeed_tid' => 'The post has been highlighted',
+	'highlight_succeed_blogid' => 'The blog has been highlighted',
 	'highlight_info_noperm' => 'Sorry, this magic item is not allowed in the forum where this thread is located',
 	'highlight_info_notype' => 'Parameter error, no operation type specified.',
 

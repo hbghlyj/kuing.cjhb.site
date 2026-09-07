@@ -17,7 +17,7 @@ $lang =
 	'bump_desc' => 'Can bump up a thread',
 	'bump_info' => 'Bump up the specified thread, please enter the thread ID',
 	'bump_info_nonexistence' => 'Please specify the thread to bump up',
-	'bump_succeed' => 'The thread you operated on has been bumped up',
+	'bump_succeed' => 'The thread has been bumped up',
 	'bump_info_noperm' => 'Sorry, this magic item is not allowed in the forum where this thread is located',
 
 	'bump_notification' => 'Your thread {subject} was used {magicname} by {actor}, <a href="forum.php?mod=viewthread&tid={tid}">go check it out!</a>',

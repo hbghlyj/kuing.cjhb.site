@@ -19,7 +19,7 @@ $lang =
 	'stick_forum' => 'Forums allowed to use this magic item',
 	'stick_info' => 'Stick the specified thread for {expiration} hours, please enter the thread ID',
 	'stick_info_nonexistence' => 'Please specify the thread to stick',
-	'stick_succeed' => 'The thread you operated on has been stuck',
+	'stick_succeed' => 'The thread has been pinned',
 	'stick_info_noperm' => 'Sorry, this magic item is not allowed in the forum where this thread is located',
 
 	'stick_notification' => 'Your thread {subject} was used {magicname} by {actor}, <a href="forum.php?mod=viewthread&tid={tid}">go check it out!</a>',
