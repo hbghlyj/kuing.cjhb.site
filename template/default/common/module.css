@@ -100,7 +100,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	#category_grid td[hidden] { display:none !important; }
 	#category_grid td[data-index-tab] { width:100%; border:0; }
 		#category_grid table { width:100%; table-layout:fixed; }
-		.category_newlist { margin:0; list-style:none; }
 			.category_newlist li::before { content: attr(n, "\2022"); margin: 0 4px 0 0; color: #BBB; }
 /** end **/
 
