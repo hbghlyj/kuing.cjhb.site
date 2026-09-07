@@ -12,10 +12,11 @@ if(!defined('IN_DISCUZ')) {
 
 foreach(table_home_notification::t()->fetch_all_by_uid($_G['uid'], -1, '', 0, 5, '') as $notice) {
 	$stripped = strip_tags($notice['note'], '<div><blockquote>');
-	if(preg_match_all('/(<a href="[^"]*")([^>]*>)/', $notice['note'], $matches)) {
-		echo '<li>'.end($matches[1]), $notice['new'] ? '&delnotice='.$notice['id'] : '', '"',
+	if(preg_match('/<a href="([^"]*)"([^>]*)>/', $notice['note'], $m)) {
+		$href = $m[1].($notice['new'] ? (str_contains($m[1], '?') ? '&' : '?').'delnotice='.$notice['id'] : '');
+		echo '<li><a href="'.$href.'"',
 			$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '',
-			end($matches[2]),
+			$m[2], '>',
 			'<span style="font-family:dzicon'.($notice['new'] ? ';color:#F26C4F' : '').'"></span> ', $stripped, '</a></li>';
 	} else {
 			echo '<li><a><span style="font-family:dzicon'.($notice['new'] ? ';color:#F26C4F' : '').'"></span> ', $stripped, '</a></li>';

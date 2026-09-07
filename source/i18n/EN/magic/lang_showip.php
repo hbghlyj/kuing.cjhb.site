@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	'showip_name' => 'Peek Card',
+	'showip_name' => 'IP Peek Card',
 	'showip_desc' => 'Can view the IP of a specified user',
 	'showip_targetuser' => 'Whose IP do you want to view',
 	'showip_info_nonexistence' => 'Please enter the username',

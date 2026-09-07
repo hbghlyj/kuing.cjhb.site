@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	'updateline_name' => 'Lifebuoy',
+	'updateline_name' => 'Change Update Time',
 	'updateline_desc' => 'Update the publication time of your blog to the current time',
 	'updateline_info' => 'Update the publication time of your blog to the current time',
 	];

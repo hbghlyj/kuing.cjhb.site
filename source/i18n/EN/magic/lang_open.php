@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	'open_name' => 'Noise Card',
+	'open_name' => 'Open Thread Card',
 	'open_desc' => 'Can open a thread and allow replies',
 	'open_forum' => 'Forums allowed to use this magic item',
 	'open_info' => 'Open the specified thread, please enter the thread ID',

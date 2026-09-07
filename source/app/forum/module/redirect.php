@@ -14,6 +14,10 @@ foreach(['pid', 'ptid', 'authorid', 'postno'] as $k) {
 	$$k = !empty($_GET[$k]) ? intval($_GET[$k]) : 0;
 }
 
+if(!empty($_GET['delnotice'])) {
+	table_home_notification::t()->delete_by_id_uid(intval($_GET['delnotice']), $_G['uid']);
+}
+
 if(empty($_GET['goto']) && $ptid) {
 	$_GET['goto'] = 'findpost';
 }
