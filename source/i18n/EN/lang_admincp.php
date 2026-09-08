@@ -2057,7 +2057,7 @@ China
 	'setting_editor_simplemode' => 'Editor Bar Style',
 	'setting_editor_simplemode_comment' => 'Set the default editor bar style',
 	'setting_editor_simplemode_1' => 'Advanced',
-	'setting_editor_simplemode_0' => 'Common',
+	'setting_editor_simplemode_0' => 'Simple',
 	'setting_editor_mode_discuzcode' => 'Plain Text Mode',
 	'setting_editor_mode_wysiwyg' => 'WYSIWYG Mode',
 	'setting_editor_mode_json' => 'JSON Editor Mode',
