@@ -332,15 +332,17 @@ const assertPusherMetadataOrder = () => {
             { timeout: 10000 }
         );
     };
-    const openPmFromNotice = async (targetPage, targetUid) => {
+    const openQuoteAndPmFromNotice = async (targetPage, targetUid, quoteReplyPid) => {
         await targetPage.goto('http://127.0.0.1:8080/forum.php');
         await targetPage.waitForLoadState('domcontentloaded');
         const beforePromptState = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT newprompt, newpm FROM pre_common_member WHERE uid='${targetUid}';"`).toString().trim();
         const [beforePrompt, beforePm] = beforePromptState.split('\t').map(value => parseInt(value || '0', 10));
         assert.ok(beforePrompt > 0, 'Assertion Error: Test user did not have an unread notification before opening the notice menu.');
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown)');
-        let pmLink;
+        let quoteLink;
+        let usesX5Header = false;
         if(await x5Notice.count()) {
+            usesX5Header = true;
             const noticeBadge = x5Notice.locator('.notice-icon > .dot');
             await noticeBadge.waitFor({ state: 'visible', timeout: 10000 });
             assert.strictEqual(
@@ -358,13 +360,13 @@ const assertPusherMetadataOrder = () => {
             const noticeItems = targetPage.locator('#myprompt_menu li');
             await noticeItems.first().waitFor({ state: 'visible', timeout: 10000 });
             assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
+            quoteLink = targetPage.locator(`#myprompt_menu a[href*="pid=${quoteReplyPid}"]`).first();
             await targetPage.waitForFunction(expectedPm => {
                 const noticeDot = document.querySelector('.header-notice .notice-icon > .dot');
                 const pmPip = document.querySelector('.header-message .message-icon > .dot');
                 return !noticeDot && (expectedPm > 0 ? !!pmPip : true);
             }, beforePm, { timeout: 10000 });
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
-            pmLink = targetPage.locator('.header-message a[href*="home.php?mod=space&do=pm"]');
         } else {
             const noticeLink = targetPage.locator('#myprompt');
             assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
@@ -376,8 +378,8 @@ const assertPusherMetadataOrder = () => {
             const response = await noticeResponse;
             assert.ok(response.ok(), `Assertion Error: Notice request failed with HTTP ${response.status()}.`);
             await targetPage.locator('#myprompt_menu').waitFor({ state: 'visible', timeout: 10000 });
+            quoteLink = targetPage.locator(`#myprompt_menu a[href*="pid=${quoteReplyPid}"]`).first();
             await targetPage.screenshot({ path: 'screenshot_desktop_notice_dropdown.png' });
-            pmLink = targetPage.locator('#myprompt_menu a#pm_ntc, #pm_ntc');
             assert.strictEqual(
                 await noticeLink.evaluate(element => !element.classList.contains('new') && !/\(\s*\d+\s*\)/.test(element.textContent)),
                 true,
@@ -395,6 +397,19 @@ const assertPusherMetadataOrder = () => {
         const [afterPrompt, afterPm] = afterPromptState.split('\t').map(value => parseInt(value || '0', 10));
         assert.strictEqual(afterPrompt, 0, 'Assertion Error: Opening the notice menu did not mark the notification as read.');
         assert.strictEqual(afterPm, beforePm, 'Assertion Error: Opening the notice menu unexpectedly changed the unread PM count.');
+        assert.strictEqual(await quoteLink.count(), 1, 'Assertion Error: Quote notification link did not render in the header notice menu.');
+        const [quotePage] = await Promise.all([
+            targetPage.waitForEvent('popup'),
+            quoteLink.click()
+        ]);
+        await quotePage.waitForLoadState('domcontentloaded');
+        await quotePage.locator(`#post_${quoteReplyPid}`).waitFor({ state: 'visible', timeout: 10000 });
+        await quotePage.screenshot({ path: 'screenshot_desktop_notice.png' });
+        await quotePage.close();
+
+        const pmLink = usesX5Header
+            ? targetPage.locator('.header-message a[href*="home.php?mod=space&do=pm"]')
+            : targetPage.locator('#pm_ntc');
         await pmLink.waitFor({ state: 'visible', timeout: 10000 });
         await Promise.all([
             targetPage.waitForURL(url => url.href.includes('home.php?mod=space&do=pm')),
@@ -1065,6 +1080,16 @@ const assertPusherMetadataOrder = () => {
             assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
             const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
             assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
+            const protectedLink = await page.evaluate(() => {
+                const html = '<a href="https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf">https://cims.nyu.edu/~tristanb/euler.pdf</a>';
+                return {
+                    bbcode: html2bbcode(html),
+                    html: bbcode2html(html2bbcode(html))
+                };
+            });
+            assert.strictEqual(protectedLink.bbcode, '[url=https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf]https://cims.nyu.edu/~tristanb/euler.pdf[/url]', 'Assertion Error: Pasted protected link was corrupted by bare-URL parsing.');
+            assert.ok(protectedLink.html.includes('href="https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf"'), 'Assertion Error: Pasted protected link lost its destination URL.');
+            assert.ok(protectedLink.html.includes('>https://cims.nyu.edu/~tristanb/euler.pdf</a>'), 'Assertion Error: Pasted protected link lost its visible URL.');
             await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
             await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
             await solveSecurityQuestion(page, advancedForm);
@@ -1517,17 +1542,17 @@ const assertPusherMetadataOrder = () => {
             );
             await adminContext.close();
 
-            // Verify the notice badge clears and the notification is persisted as read.
-            await openPmFromNotice(page, userUid);
-            const pmBody = await page.textContent('body');
-            assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
-            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **Header Notice Hover Dropdown**: Success\n- **Unread Badge Cleared**: Success\n- **Notification Read State**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_notice_dropdown.png`\n\n';
-
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
 			const adminReplyPidForRelationship = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
 			const adminReplyRelationship = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT repid FROM pre_forum_post WHERE pid='${adminReplyPidForRelationship}';"`).toString().trim();
 			assert.strictEqual(adminReplyRelationship, quotePid, 'Assertion Error: Admin quote reply did not preserve the replied-to post relationship.');
+
+            // Verify the notice badge clears and the notification is persisted as read.
+            await openQuoteAndPmFromNotice(page, userUid, adminReplyPidForRelationship);
+            const pmBody = await page.textContent('body');
+            assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
+            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **Header Notice Hover Dropdown**: Success\n- **Unread Badge Cleared**: Success\n- **Notification Read State**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_notice_dropdown.png`\n\n';
 
             console.log("Posting postcomment via UI and testing type=postcomment page...");
             const postCommentText = 'Test postcomment content text.';
@@ -1586,19 +1611,9 @@ const assertPusherMetadataOrder = () => {
                 'Assertion Error: view=me&type=postcomment page did not load correctly.'
             );
 
-            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
-            await page.waitForLoadState('domcontentloaded');
-            await page.screenshot({ path: 'screenshot_desktop_notice.png' });
-
             const noticeDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_home_notification WHERE uid='${userUid}';"`).toString().trim();
             assert.ok(parseInt(noticeDbCheck, 10) >= 1, 'Assertion Error: Notification record was not found in database.');
-
-            const noticeBody = await page.textContent('body');
-            assert.ok(
-                noticeBody.includes('Admin quote reply to user thread.'),
-                'Assertion Error: Desktop reply notification page did not render the exact admin reply notification.'
-            );
-            report += '### 4d. Desktop Reply Quote & Notification (do=notice)\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **Rendered Quote Screenshot**: `screenshot_desktop_quote_reply.png`\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
+            report += '### 4d. Desktop Reply Quote & Notification\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **Rendered Quote Screenshot**: `screenshot_desktop_quote_reply.png`\n- **DB Notification Check**: Passed\n- **Header Notification Click**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
 
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);

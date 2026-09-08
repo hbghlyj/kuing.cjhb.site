@@ -443,6 +443,15 @@ function html2bbcode(str) {
 		str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp|webp))/ig, '$1[img]$2[/img]');
 	}
 
+	// Convert anchors before parseurl() so URLs in attributes are not treated as visible text.
+	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
+		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, function($0, $1, $2, $3, $4) {
+			var anchor = $2.replace(/\[/g, '%5B').replace(/\]/g, '%5D');
+			return '[url=' + anchor + ']' + $4 + '[/url]';
+		});
+		str = recursion('a', str, 'atag');
+	}
+
 	if(!fetchCheckbox('parseurloff')) {
 		str = parseurl(str, 'bbcode', false);
 	}
@@ -498,10 +507,6 @@ function html2bbcode(str) {
 		str = str.replace(/<hr[^>]*>/ig, "[hr]");
 		str = str.replace(/<img[^>]+smilieid=(["']?)(\d+)(\1)[^>]*>/ig, function($1, $2, $3) {return smileycode($3);});
 		str = str.replace(/<img([^>]*src[^>]*)>/ig, function($1, $2) {return imgtag($2);});
-		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, function($0, $1, $2, $3, $4) {
-			var anchor = $2.replace(/\[/g, '%5B').replace(/\]/g, '%5D');
-			return '[url=' + anchor + ']' + $4 + '[/url]';
-		});
 		str = str.replace(/<div[^>]*quote[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[quote]$1[/quote]");
 		str = str.replace(/<div[^>]*blockcode[^>]*><pre[^>]*>([\s\S]*?)<\/pre><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
 		str = str.replace(/<code[^>]*>([\s\S]*?)<\/code>/ig, "`$1`");
@@ -512,7 +517,6 @@ function html2bbcode(str) {
 		str = recursion('em', str, 'simpletag', 'i');
 		str = recursion('u', str, 'simpletag', 'u');
 		str = recursion('strike', str, 'simpletag', 's');
-		str = recursion('a', str, 'atag');
 		str = recursion('font', str, 'fonttag');
 		str = recursion('blockquote', str, 'simpletag', 'indent');
 		str = recursion('ol', str, 'listtag');
