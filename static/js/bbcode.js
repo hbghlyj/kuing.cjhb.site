@@ -635,6 +635,9 @@ function isDefaultStyleAttr(type, value) {
 	if(type === 'color') {
 		return ['#066eff', '#066ff', '#0066ff', '#0000ee', '#0000ff', '#000000', '#000', '#333333', '#333', 'inherit', 'initial', 'rgb(6, 110, 255)', 'rgb(6,110,255)', 'rgb(0, 0, 238)', 'rgb(0,0,238)', 'rgb(0, 0, 255)', 'rgb(0,0,255)', 'rgb(0, 0, 0)', 'rgb(51, 51, 51)'].indexOf(val) !== -1;
 	}
+	if(type === 'backcolor') {
+		return ['#ffffff', '#fff', 'white', 'transparent', 'inherit', 'initial', 'rgb(255, 255, 255)', 'rgb(255,255,255)', 'rgba(0, 0, 0, 0)', 'rgba(0,0,0,0)'].indexOf(val) !== -1;
+	}
 	return false;
 }
 
@@ -664,6 +667,13 @@ function parsestyle(tagoptions, prepend, append) {
 		var g = parseInt($4).toString(16); if(g.length < 2) g = '0' + g;
 		var b = parseInt($5).toString(16); if(b.length < 2) b = '0' + b;
 		return $2 + "color:#" + r + g + b + $6;
+	});
+	re = /(^|[;\s])background-color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/ig;
+	style = style.replace(re, function($1, $2, $3, $4, $5, $6) {
+		var r = parseInt($3).toString(16); if(r.length < 2) r = '0' + r;
+		var g = parseInt($4).toString(16); if(g.length < 2) g = '0' + g;
+		var b = parseInt($5).toString(16); if(b.length < 2) b = '0' + b;
+		return $2 + "background-color:#" + r + g + b + $6;
 	});
 	var len = searchlist.length;
 	for(var i = 0; i < len; i++) {

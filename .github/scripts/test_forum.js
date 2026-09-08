@@ -1085,6 +1085,12 @@ const assertPusherMetadataOrder = () => {
                 return bbcode2html(html2bbcode(html));
             });
             assert.strictEqual(importantDefaultColor, 'was fully written by ChatGPT and passed Lean verification', 'Assertion Error: CSS !important produced malformed color BBCode during paste conversion.');
+            const pastedBackgroundColors = await page.evaluate(() => ({
+                defaultWhite: html2bbcode('<span style="background-color: rgb(255, 255, 255) !important;">Default background</span>'),
+                highlighted: html2bbcode('<span style="background-color: rgb(255, 255, 0);">Highlighted text</span>')
+            }));
+            assert.strictEqual(pastedBackgroundColors.defaultWhite, 'Default background', 'Assertion Error: Default white pasted background produced redundant backcolor BBCode.');
+            assert.strictEqual(pastedBackgroundColors.highlighted, '[backcolor=#ffff00]Highlighted text[/backcolor]', 'Assertion Error: Meaningful pasted background color was discarded.');
             const protectedLink = await page.evaluate(() => {
                 const html = '<a href="https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf">https://cims.nyu.edu/~tristanb/euler.pdf</a>';
                 return {
