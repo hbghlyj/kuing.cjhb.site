@@ -1100,10 +1100,10 @@ Last Modify:	Pony
 		.drag {}
 		.bm_h .o { position: relative; float: right; width: 30px; height: 100%; }
 			.bm_h .o img, .bm_h .o em { float: right; margin-top: 8px; cursor: pointer; font-family: dzicon; color: #CCC; font-size: 26px; line-height: 16px; }
-			.bm_h .o em.tg_yes, .bm_h .o em.tg_no { position: absolute; top: 50%; right: 0; margin-top: 0; transform: translateY(-50%); }
-			.tg_yes:before, .tg_no:before { content: ""; display: inline-block; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; }
-			.tg_yes:before { transform: rotate(45deg); }
-			.tg_no:before { color: inherit; transform: rotate(225deg); }
+			.bm_h .o em.tg_yes, .bm_h .o em.tg_no { position: absolute; top: 50%; right: 0; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin: 0; transform: translateY(-50%); }
+			.tg_yes:before, .tg_no:before { content: ""; display: block; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; }
+			.tg_yes:before { transform: rotate(45deg); margin-top: -3px; }
+			.tg_no:before { color: inherit; transform: rotate(225deg); margin-top: 3px; }
 		.bm_h .i { padding-left: 10px; }
 		.bm_h .pn { margin-top: 4px; }
 		.bm_h { padding: 0 10px; height: 31px; border-top: 1px solid #FFF; border-bottom: 1px solid {CONTENTSEPARATE}; background: {COMMONBG}; line-height: 31px; white-space: nowrap; overflow: hidden; }
