@@ -1080,6 +1080,11 @@ const assertPusherMetadataOrder = () => {
             assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
             const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
             assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
+            const importantDefaultColor = await page.evaluate(() => {
+                const html = '<span style="color: rgb(0, 0, 0) !important;">was fully written by ChatGPT and passed Lean verification</span>';
+                return bbcode2html(html2bbcode(html));
+            });
+            assert.strictEqual(importantDefaultColor, 'was fully written by ChatGPT and passed Lean verification', 'Assertion Error: CSS !important produced malformed color BBCode during paste conversion.');
             const protectedLink = await page.evaluate(() => {
                 const html = '<a href="https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf">https://cims.nyu.edu/~tristanb/euler.pdf</a>';
                 return {

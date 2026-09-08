@@ -656,7 +656,8 @@ function parsestyle(tagoptions, prepend, append) {
 	var style = getoptionvalue('style', tagoptions);
 	style = style
 		.replace(/&quot;|&#0*34;|&#x0*22;/ig, '"')
-		.replace(/&apos;|&#0*39;|&#x0*27;/ig, "'");
+		.replace(/&apos;|&#0*39;|&#x0*27;/ig, "'")
+		.replace(/\s*!important\b/ig, '');
 	re = /(^|[;\s])color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/ig;
 	style = style.replace(re, function($1, $2, $3, $4, $5, $6) {
 		var r = parseInt($3).toString(16); if(r.length < 2) r = '0' + r;
