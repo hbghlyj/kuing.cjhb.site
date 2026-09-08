@@ -1546,6 +1546,11 @@ function parseurl(str, mode, parsecode) {
 			return '[\tDISCUZ_CODE_' + DISCUZCODE['num'] + '\t]';
 		});
 	}
+	const bbcodeUrlMatches = [];
+	str = str.replace(/\[url(?:=[^\]\r\n]+)?\][\s\S]*?\[\/url\]/ig, function(match) {
+		bbcodeUrlMatches.push(match);
+		return '[DISCUZ_BBCODE_URL_' + (bbcodeUrlMatches.length - 1) + ']';
+	});
 
 	const hrefMatches = [];
 	str = str.replace(/\\href\{[^}]+\}\{[^}]*\}/g, function(match) {
@@ -1587,6 +1592,9 @@ function parseurl(str, mode, parsecode) {
 
 	str = str.replace(/\[DISCUZ_HREF_(\d+)\]/g, function(match, index) {
 		return hrefMatches[parseInt(index, 10)];
+	});
+	str = str.replace(/\[DISCUZ_BBCODE_URL_(\d+)\]/g, function(match, index) {
+		return bbcodeUrlMatches[parseInt(index, 10)];
 	});
 
 	if(parsecode) {
