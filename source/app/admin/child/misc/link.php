@@ -27,6 +27,7 @@ if(!submitcheck('linksubmit')) {
 				[1, '<input type="text" class="txt" name="newname[]" size="15">'],
 				[1, '<input type="text" class="txt" name="newurl[]" size="20">'],
 				[1, '<input type="text" class="txt" name="newdescription[]" size="30">', 'td26'],
+				[1, ''],
 				[1, '<input type="text" class="txt" name="newlogo[]" size="20">'],
 				[1, '<?php echo $groupselectnew; ?>']
 			]
@@ -41,7 +42,7 @@ if(!submitcheck('linksubmit')) {
 	/*search*/
 	showformheader('misc&operation=link');
 	showtableheader();
-	showsubtitle(['', 'display_order', 'misc_link_edit_name', 'misc_link_edit_url', 'misc_link_edit_description', 'misc_link_edit_logo', 'misc_link_group']);
+	showsubtitle(['', 'display_order', 'misc_link_edit_name', 'misc_link_edit_url', 'misc_link_edit_description', 'preview', 'misc_link_edit_logo', 'misc_link_group']);
 
 	$query = table_common_friendlink::t()->fetch_all_by_displayorder();
 	foreach($query as $forumlink) {
@@ -50,12 +51,15 @@ if(!submitcheck('linksubmit')) {
 			$grouptd .= '<option value="'.$i.'"'.($forumlink['type'] == $i ? ' selected="selected"' : '').'>'.cplang('misc_link_group'.$i).'</option>';
 		}
 		$grouptd .= '</select>';
-		showtablerow('', ['class="td25"', 'class="td28"', '', '', 'class="td26"'], [
+		$logo = $forumlink['logo'];
+		$logopreview = $logo ? '<img src="'.$logo.'" alt="" style="max-width: 100px; max-height: 50px">' : ' ';
+		showtablerow('', ['class="td25"', 'class="td28"', '', '', 'class="td26"', 'class="td25"'], [
 			'<input type="checkbox" class="checkbox" name="delete[]" value="'.$forumlink['id'].'">',
 			'<input type="text" class="txt" name="displayorder['.$forumlink['id'].']" value="'.$forumlink['displayorder'].'" size="3">',
 			'<input type="text" class="txt" name="name['.$forumlink['id'].']" value="'.$forumlink['name'].'" size="15">',
 			'<input type="text" class="txt" name="url['.$forumlink['id'].']" value="'.$forumlink['url'].'" size="20">',
 			'<input type="text" class="txt" name="description['.$forumlink['id'].']" value="'.$forumlink['description'].'" size="30">',
+			$logopreview,
 			'<input type="text" class="txt" name="logo['.$forumlink['id'].']" value="'.$forumlink['logo'].'" size="20">',
 			$grouptd,
 		]);
