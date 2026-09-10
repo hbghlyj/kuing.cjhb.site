@@ -243,9 +243,10 @@ details > div {
 .dz_post_input .dz_post_input {position:relative;z-index:30}
 .dz_post_input .kmtip {position:absolute;top:1px;right:15px;z-index:50;height:44px;line-height:44px;color:var(--dz-fd)}
 .dz_post_input #fastsmilies td {padding:4px 0 0 0}
-.pg_post .pbt.post-title-row {display:flex;align-items:flex-start;gap:12px}
+.pg_post .pbt.post-title-row {display:flex;align-items:flex-start;gap:12px;width:100%;min-width:0;box-sizing:border-box}
+.pg_post .pbt.post-title-row::after {display:none}
 .pg_post .pbt.post-title-row .ftid {flex:0 0 auto;margin-right:0}
-.pg_post .pbt .post-subject-wrap {float:none;clear:both;flex:1 1 auto;width:auto;min-width:0}
+.pg_post .pbt .post-subject-wrap {float:none;clear:both;flex:1 1 0;width:auto;min-width:0}
 .pg_post .post-subject-row {display:flex;flex-wrap:wrap;width:100%}
 .pg_post .post-subject-row #subject {box-sizing:border-box;flex:1 1 100%;width:100%;margin-right:0}
 .pg_post .post-subject-row #subjectchk {display:block;flex:0 0 100%;text-align:right}
