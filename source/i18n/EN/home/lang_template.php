@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'cancel' => 'Cancel',
-	'close' => 'Disable',
+	'close' => 'Close',
 	'create' => 'Created',
 	'submit' => 'Submit',
 	'accessory' => 'Attachment',

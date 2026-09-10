@@ -212,7 +212,7 @@ $lang =
 	'search' => 'Search',
 	'page' => 'Page {page}',
 
-	'close' => 'Disable',
+	'close' => 'Close',
 
 	'title_memcp_account' => 'Account Management',
 
