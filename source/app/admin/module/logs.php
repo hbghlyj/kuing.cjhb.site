@@ -285,8 +285,12 @@ if($operation != 'setting') {
 }
 
 function showdevice($id, $device, $colspan = 1) {
+	global $_G;
+	if(empty($_G['group']['allowviewip'])) {
+		return '';
+	}
 	return '<tbody id="log_'.$id.'" style="display:none; background-color: #cfd6dd;">'.
-		'<tr><td colspan="'.$colspan.'"><strong>ClientIP:</strong> '.$device['client_ip'].'</td></tr>'.
+		'<tr><td colspan="'.$colspan.'"><strong>ClientIP:</strong> '.admincp_ip_display($device['client_ip']).'</td></tr>'.
 		'<tr><td colspan="'.$colspan.'"><strong>Port:</strong> '.$device['client_port'].'</td></tr>'.
 		'<tr><td colspan="'.$colspan.'"><strong>Browser:</strong> '.$device['client_browser'].'</td></tr>'.
 		'<tr><td colspan="'.$colspan.'"><strong>Os:</strong> '.$device['client_os'].'</td></tr>'.

@@ -1869,6 +1869,18 @@ function siteftp_upload($readfile, $writefile) {
 	}
 }
 
+function admincp_ip_display($ip) {
+	$ip = trim((string)$ip);
+	if($ip === '') {
+		return '-';
+	}
+	if(!ip::validate_ip($ip)) {
+		return dhtmlspecialchars($ip);
+	}
+	$location = convertip($ip);
+	return dhtmlspecialchars($ip).($location ? ' - '.dhtmlspecialchars($location) : '');
+}
+
 function site_userinfo() {
 	if($auth = getglobal('auth', 'cookie')) {
 		$auth = daddslashes(explode("\t", authcode($auth, 'DECODE')));

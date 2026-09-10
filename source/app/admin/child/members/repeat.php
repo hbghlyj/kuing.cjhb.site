@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(empty($_GET['uid']) && empty($_GET['username']) && empty($_GET['ip'])) {
 
 	/*search={"nav_repeat":"action=members&operation=repeat"}*/
@@ -62,7 +61,7 @@ if(empty($_GET['uid']) && empty($_GET['username']) && empty($_GET['ip'])) {
 		}
 		$ips = !empty($ips) ? array_unique($ips) : ['unknown'];
 	}
-	$searchmember['username'] .= ' (IP '.implode(',', dhtmlspecialchars($ips)).')';
+	$searchmember['username'] .= ' (IP '.implode(', ', array_map('admincp_ip_display', $ips)).')';
 	$membernum = !empty($ips) && $ips[0] != 'unknown' ? table_common_member_status::t()->count_by_ip($ips) : table_common_member_status::t()->count();
 
 	$members = '';
@@ -127,4 +126,3 @@ if(empty($_GET['uid']) && empty($_GET['username']) && empty($_GET['ip'])) {
 	showformfooter();
 
 }
-	

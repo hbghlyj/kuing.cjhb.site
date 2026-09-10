@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!submitcheck('commentsubmit')) {
 
 	if($fromumanage) {
@@ -154,7 +153,7 @@ if(submitcheck('searchsubmit', 1)) {
 						"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$comment['cid']}\">",
 						$address,
 						"<a href=\"home.php?mod=space&uid={$comment['uid']}\" target=\"_blank\">{$comment['author']}</a>",
-						$comment['ip'],
+						admincp_ip_display($comment['ip']),
 						$comment['idtype'],
 						$comment['dateline']
 					], TRUE);
@@ -193,4 +192,3 @@ if(submitcheck('searchsubmit', 1)) {
 	showtagfooter('div');
 
 }
-	

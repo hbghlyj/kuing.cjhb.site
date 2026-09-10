@@ -52,7 +52,7 @@ if($do == 'index') {
 				$members[$row['adminUid']].'('.$row['adminUid'].')',
 				base64_decode($row['nickname']),
 				$row['lastLogin'] ? dgmdate($row['lastLogin']) : '',
-				$row['lastIp'],
+				admincp_ip_display($row['lastIp']),
 				$isfounder ?
 					"<label><input class=\"radio\" type=\"radio\" name=\"status[{$row['openid']}]\" value=\"1\"".($row['status'] == 1 ? ' checked' : '').">".cplang('qrcodelogin_status_1')."</label>".
 					"<label><input class=\"radio\" type=\"radio\" name=\"status[{$row['openid']}]\" value=\"0\"".(!$row['status'] ? ' checked' : '').">".cplang('qrcodelogin_status_0')."</label>".

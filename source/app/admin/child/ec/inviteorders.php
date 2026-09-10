@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!submitcheck('ordersubmit')) {
 	$start_limit = ($page - 1) * $_G['tpp'];
 	$orderurl = [
@@ -59,7 +58,7 @@ if(!submitcheck('ordersubmit')) {
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"validate[]\" value=\"{$order['orderid']}\" ".($order['status'] != 1 ? 'disabled' : '').'>',
 			"{$order['orderid']}<br>$orderid",
 			$order['orderstatus'],
-			"{$order['email']}<br>{$order['ip']}",
+			"{$order['email']}<br>".admincp_ip_display($order['ip']),
 			$order['amount'],
 			"{$lang['rmb']} {$order['price']} {$lang['rmb_yuan']}",
 			$order['submitdate'],
@@ -80,4 +79,3 @@ if(!submitcheck('ordersubmit')) {
 	}
 	cpmsg('orders_validate_succeed', "action=ec&operation=inviteorders&orderstatus={$_GET['orderstatus']}&orderid={$_GET['orderid']}&email={$_GET['email']}", 'succeed');
 }
-	

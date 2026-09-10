@@ -43,7 +43,7 @@ if(!$error) {
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$doing['doid']}\">",
 				"<a href=\"home.php?mod=space&uid={$doing['uid']}\" target=\"_blank\">{$doing['username']}</a>",
 				$doing['message'],
-				$doing['ip'],
+				admincp_ip_display($doing['ip']),
 				$doing['dateline']
 			], TRUE);
 		}
