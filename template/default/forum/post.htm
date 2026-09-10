@@ -67,14 +67,11 @@
 	<!--{/if}-->
 <!--{/block}-->
 
-<!--{if $_GET['action'] != 'newthread'}-->
-	<!--{eval $subjectcut = cutstr($thread['subject'], 30);}-->
-<!--{/if}-->
 <!--{block actionsubject}-->
 	<!--{if $_GET['action'] == 'reply'}-->
-		<em>&rsaquo;</em><a href="forum.php?mod=viewthread&tid=$thread[tid]">$subjectcut</a>
+		<em>&rsaquo;</em><a href="forum.php?mod=viewthread&tid=$thread[tid]">$thread[subject]</a>
 	<!--{elseif $_GET['action'] == 'edit'}-->
-		<em>&rsaquo;</em><a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$pid">$subjectcut</a>
+		<em>&rsaquo;</em><a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$pid">$thread[subject]</a>
 	<!--{/if}-->
 <!--{/block}-->
 
