@@ -145,7 +145,31 @@ if(!empty($_G['cache']['adminlog'])) {
 	$menu[] = [['menu' => 'nav_logs_plugin', 'submenu' => $_submenu]];
 }
 
-showsubmenu('nav_logs', $menu, $sel);
+$displaymenu = $menu;
+if($operation != 'setting') {
+	$logsettings = (array)($_G['setting']['log'] ?? []);
+	foreach($displaymenu as $key => &$menuitem) {
+		if(empty($menuitem[0]['submenu'])) {
+			continue;
+		}
+		$submenu = [];
+		foreach($menuitem[0]['submenu'] as $item) {
+			parse_str($item[1], $params);
+			$logtype = $params['operation'] ?? '';
+			if(str_contains($logtype, ':') || !empty($logsettings[$logtype])) {
+				$submenu[] = $item;
+			}
+		}
+		if($submenu) {
+			$menuitem[0]['submenu'] = $submenu;
+		} else {
+			unset($displaymenu[$key]);
+		}
+	}
+	unset($menuitem);
+}
+
+showsubmenu('nav_logs', $displaymenu, $sel);
 
 $filters = '';
 if($operation != 'setting') {
