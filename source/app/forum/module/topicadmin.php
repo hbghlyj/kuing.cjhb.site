@@ -24,8 +24,9 @@ $resultarray = $thread = [];
 
 $threadtableids = !empty($_G['cache']['threadtableids']) ? $_G['cache']['threadtableids'] : [];
 $specialperm = $_GET['action'] == 'stickreply' && $_G['thread']['authorid'] == $_G['uid'];
+$selfcommentdelete = $_GET['action'] == 'delcomment' && $_G['uid'];
 
-if(!$specialperm && (!$_G['uid'] || !$_G['forum']['ismoderator'])) {
+if(!$selfcommentdelete && !$specialperm && (!$_G['uid'] || !$_G['forum']['ismoderator'])) {
 	showmessage('admin_nopermission', NULL);
 }
 

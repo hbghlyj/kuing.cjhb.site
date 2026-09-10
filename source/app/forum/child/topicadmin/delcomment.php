@@ -77,8 +77,7 @@ if(!submitcheck('modsubmit')) {
 		'redirect' => "forum.php?mod=viewthread&tid={$_G['tid']}&page=$page",
 		'reasonpm' => ($sendreasonpm ? ['data' => [$postcomment], 'var' => 'post', 'item' => 'reason_delete_comment', 'notictype' => 'pcomment'] : []),
 		'reasonvar' => ['tid' => $thread['tid'], 'pid' => $postcomment['pid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason],
-		'modtids' => $_G['tid'],
-		'modpids' => $postcomment['pid'],
+		'modtids' => 0,
 		'modlog' => $thread
 	];
 
