@@ -1141,7 +1141,7 @@ Last Modify:	Pony
 		}
 		#pt > .y { flex: 0 0 auto; }
 		#pt .z a, #pt .z em, #pt .z span { float: left; }
-		#pt .z a { min-width: 0; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+		#pt .z a { min-width: 0; max-width: 50%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 		#pt .z em { width: 20px; height: 29px; text-align: center; color: #bdbdbd; }
 		.nvhm { width: 16px; font-family: dzicon; text-align: center; font-size: 16px; color: #C5D7E3; overflow: hidden; }
 			.nvhm:before { content: "\f103"; }
