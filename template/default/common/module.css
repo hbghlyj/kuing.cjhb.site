@@ -63,7 +63,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 /* ------------------------------------------------------------------------ 一些通用模块的样式 */
 
 /** forum::index **/
-#pt .y { width: 550px; height: 29px; overflow: hidden; }
+#pt .y { height: 29px; overflow: hidden; }
 #chart { margin-bottom: 5px; }
 	.chart { color: {LIGHTTEXT}; }
 		.chart:before { font-family: dzicon; content: "\f104"; display: inline-block; height: 16px; line-height: 16px; font-size: 18px; color: #4284CE; margin-right: 4px; }
