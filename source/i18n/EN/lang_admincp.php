@@ -3035,7 +3035,7 @@ China
 	'setting_uc_avatarmethod_1' => 'Use static mode to call avatars',
 	'setting_uc_avatarmethod_2' => 'Use browser loading mode to call avatars',
 	'setting_uc_dynavt' => 'Avatar Cache Mechanism',
-	'setting_uc_dynavt_comment' => 'Set user avatar cache mechanism, only effective in dynamic call mode. Can avoid the problem of not seeing updated avatar in time, but will increase some server pressure.',
+	'setting_uc_dynavt_comment' => 'Append the avatar file modification time to static avatar URLs so updated avatars appear immediately. More timestamps reduce browser and CDN cache reuse.',
 	'setting_uc_dynavt_0' => 'Automatic (completely handled by user browser, best performance)',
 	'setting_uc_dynavt_1' => 'User\'s own avatar with update timestamp, other avatars automatic',
 	'setting_uc_dynavt_2' => 'All with update timestamps (may increase server pressure)',
