@@ -34,6 +34,7 @@ function succeedhandle_$_GET['handlekey'](locationhref, message, values) {
 	}
 	hideWindow('$_GET['handlekey']');
 	showPrompt(null, null, message, 1500);
+	showCreditPrompt();
 }
 </script>
 <!--{/if}-->

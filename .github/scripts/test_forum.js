@@ -953,9 +953,14 @@ const assertPusherMetadataOrder = () => {
             console.log("Testing deleted reply revision restore...");
             const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
             assert.match(deletableReplyPid, /^\d+$/, 'Assertion Error: Reply for deletion test was not found.');
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=misc&action=postdelete&tid=${tidOutput}&pid=${deletableReplyPid}`);
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
-            const deleteForm = page.locator('#postdeleteform');
+            const viewthreadUrlBeforeDelete = page.url();
+            const deleteLink = page.locator(`a.removep[href*="pid=${deletableReplyPid}"]`);
+            assert.strictEqual(await deleteLink.count(), 1, 'Assertion Error: No-reload post deletion link did not render.');
+            await deleteLink.click();
+            const deleteForm = page.locator('#postdeleteform:visible');
+            await deleteForm.waitFor({ state: 'visible', timeout: 10000 });
             assert.strictEqual(await deleteForm.count(), 1, 'Assertion Error: Post deletion confirmation form did not render.');
             const deleteSubmit = deleteForm.locator('#postdeletesubmit');
             assert.strictEqual(await deleteSubmit.count(), 1, 'Assertion Error: Post deletion confirmation button did not render.');
@@ -970,7 +975,10 @@ const assertPusherMetadataOrder = () => {
             ]);
             const deleteRequestBody = deleteRequest.postData() || '';
             assert.ok(deleteRequestBody.includes('pusher_tab_id') && deleteRequestBody.includes(expectedDeletePusherTabId), 'Assertion Error: Post deletion request did not send the Pusher tab token to PHP.');
-            await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
+            const deleteCreditPrompt = page.locator('#creditpromptdiv');
+            await deleteCreditPrompt.waitFor({ state: 'visible', timeout: 10000 });
+            assert.match((await deleteCreditPrompt.innerText()).replace(/\s+/g, ' '), /Experience\s*-1/, 'Assertion Error: No-reload post deletion did not immediately show Experience -1.');
+            assert.strictEqual(page.url(), viewthreadUrlBeforeDelete, 'Assertion Error: Floating post deletion unexpectedly navigated or reloaded the page.');
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
             assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');

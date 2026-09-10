@@ -17,6 +17,7 @@ function succeedhandle_postdeleteform(locationhref, message, values) {
 		post.remove();
 	}
 	popup.open(message, 'alert');
+	showCreditPrompt();
 }
 </script>
 <!--{template common/footer}-->
