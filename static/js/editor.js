@@ -459,7 +459,20 @@ function sanitizePaste(event) {
 		var body = div.getElementsByTagName('body')[0];
 		var fragment = body ? body.innerHTML : div.innerHTML;
 		fragment = stripPastedFontFormatting(fragment);
-		insertText(bbcode2html(html2bbcode(fragment)), 0, 0);
+		var sanitized = bbcode2html(html2bbcode(fragment));
+		if(!/<[^>]+>/.test(sanitized)) {
+			var text = document.createElement('div');
+			text.innerHTML = sanitized;
+			var plainText = data.getData('text/plain') || text.textContent;
+			plainText = plainText
+				.replace(/^ +/, function(spaces) { return spaces.replace(/ /g, '\u00a0'); })
+				.replace(/ +$/, function(spaces) { return spaces.replace(/ /g, '\u00a0'); });
+			checkFocus();
+			if(editdoc.execCommand('insertText', false, plainText)) {
+				return;
+			}
+		}
+		insertText(sanitized, 0, 0);
 	} catch(e) {
 		insertText(html.replace(/<[\/\!]*?[^<>]*?>/ig, ''), 0, 0);
 	}

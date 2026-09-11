@@ -2161,6 +2161,56 @@ const assertPusherMetadataOrder = () => {
         await page.waitForLoadState('networkidle');
 
 		// Test that inline and display TeX formulas render in WYSIWYG and survive save, restore, and submission.
+		const sizedMathSource = String.raw`[size=2]Invariantly, the surjection sends $(\xi^0,\dots,\xi^N)$ to $\sum_s\xi^s\partial/\partial Z^s$ modulo the radial direction; its kernel is the line spanned by $(Z^0, \dots, Z^N) \in \mathcal{O}(1)^{\oplus (N+1)}$. This is the infinitesimal form of $\mathbb{CP}^N=(\mathbb{C}^{N+1}\setminus\{0\})/\mathbb{C}^\times$.[/size]`;
+		const sizedMathAfterPaste = sizedMathSource.replace('line spanned by', 'line spanned by the tautological section');
+		await page.fill('#e_textarea', sizedMathSource);
+		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const doc = document.querySelector('#e_iframe')?.contentDocument;
+			return doc && doc.querySelectorAll('.math-editor-rendered mjx-container').length === 4;
+		});
+		await page.evaluate(() => {
+			const frame = document.querySelector('#e_iframe');
+			const doc = frame.contentDocument;
+			const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+			let node;
+			while((node = walker.nextNode())) {
+				const offset = node.nodeValue.indexOf('line spanned by');
+				if(offset === -1) continue;
+				const range = doc.createRange();
+				range.setStart(node, offset + 'line spanned by'.length);
+				range.collapse(true);
+				const selection = frame.contentWindow.getSelection();
+				selection.removeAllRanges();
+				selection.addRange(range);
+				const clipboard = new DataTransfer();
+				clipboard.setData('text/plain', ' the tautological section');
+				clipboard.setData('text/html', ' the tautological section');
+				doc.body.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
+				return;
+			}
+			throw new Error('Sized math paste insertion point was not found.');
+		});
+		await page.locator('#e_code_btn').click();
+		assert.strictEqual(await page.inputValue('#e_textarea'), sizedMathAfterPaste, 'Assertion Error: Pasting inside a size run split it into adjacent redundant [size] tags.');
+		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const doc = document.querySelector('#e_iframe')?.contentDocument;
+			return doc && doc.querySelectorAll('.math-editor-rendered mjx-container').length === 4;
+		});
+		const sizedMathLayout = await page.evaluate(() => {
+			const doc = document.querySelector('#e_iframe').contentDocument;
+			return Array.from(doc.querySelectorAll('.math-editor-rendered')).map(formula => ({
+				parentTag: formula.parentElement.tagName,
+				parentSize: formula.parentElement.style.fontSize,
+				inheritedSize: doc.defaultView.getComputedStyle(formula).fontSize,
+				proseSize: doc.defaultView.getComputedStyle(formula.parentElement).fontSize
+			}));
+		});
+		assert.ok(sizedMathLayout.every(item => item.parentTag === 'SPAN' && item.parentSize === 'small'), `Assertion Error: A formula escaped its [size=2] formatting context (${JSON.stringify(sizedMathLayout)}).`);
+		assert.ok(sizedMathLayout.every(item => item.inheritedSize === item.proseSize), `Assertion Error: A formula did not inherit the surrounding prose size (${JSON.stringify(sizedMathLayout)}).`);
+		await page.locator('#e_code_btn').click();
+
 		const inlineMathSource = '$f$';
 		const displayMathSource = '$$A(p) = \\#\\{q \\in E : \\text{on}(q, p)\\}$$';
 		const mathContent = 'Inline ' + inlineMathSource + ' and display ' + displayMathSource + ' math';

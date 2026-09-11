@@ -532,8 +532,19 @@ function html2bbcode(str) {
 		str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
 	}
 	str = clearcode(str);
+	str = mergeAdjacentBbcodeOptionTags(str, 'size');
 
 	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str).trim();
+}
+
+function mergeAdjacentBbcodeOptionTags(str, tagname) {
+	var adjacent = new RegExp('\\[' + tagname + '=([^\\]\\r\\n]+)\\]([\\s\\S]*?)\\[\\/' + tagname + '\\]\\[' + tagname + '=\\1\\]', 'ig');
+	var previous;
+	do {
+		previous = str;
+		str = str.replace(adjacent, '[' + tagname + '=$1]$2');
+	} while(str !== previous);
+	return str;
 }
 
 function tablesimple(s, table, str) {
