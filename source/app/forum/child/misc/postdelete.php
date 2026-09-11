@@ -14,6 +14,9 @@ $post = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $_GET['pid']);
 if($post['authorid'] != $_G['uid']) {
 	showmessage('postdelete_only_yourself');
 }
+if(!$_G['setting']['editperdel']) {
+	showmessage('post_edit_thread_ban_del');
+}
 if(submitcheck('postdeletesubmit')) {
 	$url_forward = 'forum.php?mod=viewthread&tid=' .$post['tid'];
 	require_once libfile('function/delete');
@@ -21,7 +24,13 @@ if(submitcheck('postdeletesubmit')) {
 	$visible_count = table_forum_post::t()->count_visiblepost_by_tid($post['tid']);
 	$thread_deleted = false;
 
-	if($post['first'] && $visible_count <= 1) {
+	if($post['first'] && $_G['forum']['recyclebin']) {
+		deletethread([$post['tid']], true, true, true);
+		manage_addnotify('verifyrecycle', 1);
+		updateforumcount($post['fid']);
+		updatethreadcount($post['tid']);
+		$url_forward = 'forum.php?mod=forumdisplay&fid=' .$post['fid'];
+	} elseif($post['first'] && $visible_count <= 1) {
 		$thread_deleted = true;
 		deletethread([$post['tid']], true, true);
 		updateforumcount($post['fid']);
@@ -30,23 +39,28 @@ if(submitcheck('postdeletesubmit')) {
 		updatethreadcount($post['tid']);
 		$url_forward = 'forum.php?mod=forumdisplay&fid=' .$post['fid'];
 	} else {
-		require_once libfile('function/post');
-		$attachments = geteditlogattachments($post['tid'], $post['pid']);
-		createposteditlog($post, $_G['uid'], $_G['username'], 'delete', $attachments);
-		foreach($attachments as $attachment) {
-			$_G['editlog_preserve_attachment_aids'][$attachment['aid']] = true;
-		}
-		deletepost([$post['pid']], 'pid', true);
-		require_once libfile('function/pusher');
-		pusher_trigger_forum('deletepost', [
-			'tid' => $post['tid'],
-			'pid' => $post['pid'],
-			'uid' => $_G['uid']
-		], getgpc('pusher_tab_id'));
-		if($post['first']) {
-			$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$post['tid'], $post['tid'], 0, 0);
-			if($nextpost) {
-				table_forum_post::t()->update_post('tid:'.$post['tid'], $nextpost['pid'], ['first' => 1, 'subject' => $post['subject']]);
+		if($_G['forum']['recyclebin'] && !$post['first']) {
+			deletepost([$post['pid']], 'pid', true, false, true);
+			manage_addnotify('verifyrecyclepost', 1);
+		} else {
+			require_once libfile('function/post');
+			$attachments = geteditlogattachments($post['tid'], $post['pid']);
+			createposteditlog($post, $_G['uid'], $_G['username'], 'delete', $attachments);
+			foreach($attachments as $attachment) {
+				$_G['editlog_preserve_attachment_aids'][$attachment['aid']] = true;
+			}
+			deletepost([$post['pid']], 'pid', true);
+			require_once libfile('function/pusher');
+			pusher_trigger_forum('deletepost', [
+				'tid' => $post['tid'],
+				'pid' => $post['pid'],
+				'uid' => $_G['uid']
+			], getgpc('pusher_tab_id'));
+			if($post['first']) {
+				$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$post['tid'], $post['tid'], 0, 0);
+				if($nextpost) {
+					table_forum_post::t()->update_post('tid:'.$post['tid'], $nextpost['pid'], ['first' => 1, 'subject' => $post['subject']]);
+				}
 			}
 		}
 		updatethreadcount($post['tid']);

@@ -152,7 +152,7 @@
 						<!--{else}-->
 							<em class="mgl"><a href="forum.php?mod=post&action=edit&fid={$_G['fid']}&tid={$_G['tid']}&pid={$post['pid']}{if !empty($_GET['modthreadkey'])}&modthreadkey={echo dhtmlspecialchars((string)$_GET['modthreadkey'])}{/if}&page={$page}"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a></em>
 						<!--{/if}-->
-						<!--{if $_G['uid'] && $post['authorid'] == $_G['uid']}-->
+						<!--{if $_G['uid'] && $post['authorid'] == $_G['uid'] && $_G['setting']['editperdel']}-->
 							<em class="mgl"><a class="dialog" href="forum.php?mod=misc&action=postdelete&tid=$post['tid']&pid=$post['pid']&extra=$_GET['extra']&page=$page&infloat=yes&handlekey=postdelete$post['pid']"><i class="fico-delete" aria-hidden="true"></i>{lang delete}</a></em>
 						<!--{/if}-->
 					<time data-local-timestamp="$post['dbdateline']">$post['dateline']</time>
