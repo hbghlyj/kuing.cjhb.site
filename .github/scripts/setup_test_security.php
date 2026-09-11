@@ -100,6 +100,7 @@ C::t('common_setting')->update('regverify', '0');
 C::t('common_setting')->update('jspath', 'data/cache/');
 C::t('common_setting')->update('floodctrl', '0');
 C::t('common_setting')->update('editperdel', '1');
+DB::query('UPDATE '.DB::table('forum_forum').' SET recyclebin=0');
 C::t('common_setting')->update('pmstatus', '1');
 C::t('common_setting')->update('commentnumber', '5');
 C::t('common_setting')->update('allowpostcomment', [1]);
