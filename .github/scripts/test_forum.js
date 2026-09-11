@@ -2178,6 +2178,38 @@ const assertPusherMetadataOrder = () => {
 		await page.locator('#e_visual_btn').click();
 		await waitForMathRendered();
 
+		// A shared editor caret between adjacent display equations must not create
+		// a blank line that is absent after the editor-only caret is stripped.
+		const displayCaretLayout = await page.evaluate(() => {
+			const doc = document.querySelector('#e_iframe').contentDocument;
+			const fixture = doc.createElement('div');
+			fixture.style.position = 'absolute';
+			fixture.style.left = '-10000px';
+			function displayFormula() {
+				const rendered = doc.createElement('span');
+				rendered.className = 'math-editor-rendered';
+				const container = doc.createElement('mjx-container');
+				container.setAttribute('display', 'true');
+				rendered.appendChild(container);
+				return rendered;
+			}
+			const first = displayFormula();
+			const second = displayFormula();
+			fixture.append(first, second);
+			doc.body.appendChild(fixture);
+			window.ensureMathEditorCarets(first);
+			window.ensureMathEditorCarets(second);
+			const caret = first.nextSibling;
+			const result = {
+				shared: caret === second.previousSibling,
+				height: caret.getBoundingClientRect().height
+			};
+			fixture.remove();
+			return result;
+		});
+		assert.strictEqual(displayCaretLayout.shared, true, 'Assertion Error: Adjacent display equations did not share one editor caret.');
+		assert.strictEqual(displayCaretLayout.height, 0, `Assertion Error: The editor caret between display equations created a ${displayCaretLayout.height}px blank line.`);
+
 		// Idempotency: re-running the renderer must not nest or duplicate formulas.
 		await page.evaluate(() => window.renderMathEditorContent());
 		await waitForMathRendered();
