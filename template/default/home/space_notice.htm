@@ -81,7 +81,7 @@
 								</dd>
 								<dt>
 									<a class="d b" href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]&handlekey=noticeignore" id="a_note_$value[id]" onclick="showWindow('noticeignore', this.href, 'get', 0);" title="{lang shield}">{lang shield}</a>
-									<span class="xg1 xw0"><!--{date($value['dateline'], 'u')}--></span>
+									<span class="xg1 xw0"><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 								</dt>
 								<dd class="ntc_body" style="$value[style]">
 									$value[note]

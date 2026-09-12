@@ -99,7 +99,7 @@
 						<!--{template home/space_doing_li}-->
 					</dd>
 					<dd class="ptn xg1">
-						<span class="y"><!--{date($dv['dateline'], 'u')}--></span>
+						<span class="y"><time data-local-timestamp="$dv['dateline']"><!--{date($dv['dateline'], 'u')}--></time></span>
 						<!--{if helper_access::check_module('doing')}-->
 						<a href="javascript:;" onclick="docomment_form($doid, 0, '$key');">{lang reply}</a><span class="pipe">|</span>
 						<!--{/if}-->

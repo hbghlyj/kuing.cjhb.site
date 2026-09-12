@@ -6,7 +6,7 @@
 		<p>
 			$value['title_template']
 			<!--{if $value['new']}--><span style="color:red;">New</span> <!--{/if}-->
-			<span><!--{date($value['dateline'], 'u')}--></span>
+			<span><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 		</p>
 	</div>
 	<!--{if $value['image_1']}-->

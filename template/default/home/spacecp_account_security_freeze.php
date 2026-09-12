@@ -25,7 +25,7 @@
                     <tr>
                         <th><label for="freezereson">{lang action_account_security_type_freeze_submittime}:</label></th>
                         <td>
-                            {date($validate['submitdate'], 'u')}</span>
+                            <time data-local-timestamp="$validate['submitdate']">{date($validate['submitdate'], 'u')}</time></span>
                         </td>
                     </tr>
                     <tr>
@@ -39,7 +39,7 @@
                     <tr>
                         <th><label for="freezereson">{lang action_account_security_type_freeze_admin_remark}:</label></th>
                         <td>
-                            $validate[remark] <span class="xg1">{lang follow_post_by_time} {date($validate['moddate'], 'u')}</span>
+                            $validate[remark] <span class="xg1">{lang follow_post_by_time} <time data-local-timestamp="$validate['moddate']">{date($validate['moddate'], 'u')}</time></span>
                         </td>
                     </tr>
                     <!--{/if}-->

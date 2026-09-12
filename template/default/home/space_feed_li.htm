@@ -8,7 +8,7 @@
 		<!--{if $value[new]}-->
 		<span style="color:red;">New</span> 
 		<!--{/if}-->
-		<span class="xg1"><!--{date($value['dateline'], 'u')}--></span>
+		<span class="xg1"><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 
 		<!--{if empty($_G['home']['tpl'][hidden_menu])}-->
 		<!--{eval $_GET['key'] = $key = random(8);}-->

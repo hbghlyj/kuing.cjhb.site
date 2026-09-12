@@ -14,7 +14,7 @@
 					<!--{if $feed['uid'] == $_G['uid'] || $_G['adminid'] == 1}-->
 					<em class="mgl y"><a href="home.php?mod=spacecp&ac=follow&feedid=$feed['feedid']&op=delete" id="c_delete_$feed['feedid']" class="dialog color">{lang delete}</a></em>
 					<!--{/if}-->
-					<!--{eval echo dgmdate($feed['dateline'], 'u');}-->
+					<time data-local-timestamp="$feed['dateline']"><!--{eval echo dgmdate($feed['dateline'], 'u');}--></time>
 				</span>
 			</div>
 		</div>

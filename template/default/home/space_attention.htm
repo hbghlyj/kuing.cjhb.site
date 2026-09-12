@@ -34,7 +34,7 @@
 						<span class="xi1">{lang attention_new_replies}: $value[newreplies]</span>
 						<!--{/if}-->
 						<span class="xg1">$value[forumname]</span>
-						<span class="xg1 xw0"><!--{date($value['dateline'], 'u')}--></span>
+						<span class="xg1 xw0"><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 						<div class="xg1">{lang lastpost}: $value[lastposter] &middot; $value[lastpost]</div>
 					</li>
 					<!--{/loop}-->

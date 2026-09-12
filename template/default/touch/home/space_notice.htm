@@ -31,7 +31,7 @@
 			</div>
 			<div class="notice-list-info">
 				<div class="notice-list-meta">
-					<span class="notice-list-time"><!--{date($value['dateline'], 'u')}--></span>
+					<span class="notice-list-time"><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 					<a href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value['authorid']&type=$value['type']&handlekey=addfriendhk_{$value['authorid']}" id="a_note_$value['id']" class="dialog notice-list-shield">{lang shield}</a>
 				</div>
 				<div class="notice-list-body" style="$value['style']">$value['note']</div>

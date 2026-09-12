@@ -21,7 +21,7 @@
 			<!--{/if}-->
 			<div class="flw_author">
 			<a href="home.php?mod=space&uid=$feed[uid]" c="1" shref="home.php?mod=space&uid=$feed[uid]">$feed['username']</a>
-			<span class="xg1">&nbsp;<!--{eval echo dgmdate($feed['dateline'], 'u');}--></span>
+			<span class="xg1">&nbsp;<time data-local-timestamp="$feed['dateline']"><!--{eval echo dgmdate($feed['dateline'], 'u');}--></time></span>
 			</div>
 			<!--{if $feed['note']}-->
 			<div class="flw_quotenote xs2 pbw">

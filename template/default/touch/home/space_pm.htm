@@ -40,7 +40,7 @@
 						{lang chatpm_author}: $value['firstauthor']
 					<!--{/if}-->
 					</span>
-					<span class="pm-list-time"><!--{date($value['dateline'], 'u')}--></span>
+					<span class="pm-list-time"><time data-local-timestamp="$value['dateline']"><!--{date($value['dateline'], 'u')}--></time></span>
 				</div>
 				<div class="pm-list-preview"><!--{if $value['pmtype'] == 2}-->[{lang chatpm}]<!--{if $value['subject']}-->$value['subject']<!--{/if}--><!--{/if}--><!--{if $value['pmtype'] == 2 && $value['lastauthor']}-->$value['lastauthor'] : $value['message']<!--{else}-->$value['message']<!--{/if}--></div>
 			</div>
