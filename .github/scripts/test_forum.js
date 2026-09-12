@@ -2161,6 +2161,16 @@ const assertPusherMetadataOrder = () => {
         await page.waitForLoadState('networkidle');
 
 		// Test that inline and display TeX formulas render in WYSIWYG and survive save, restore, and submission.
+		const recentMathSymbols = await page.evaluate(() => {
+			localStorage.setItem('Discuz_math_symbol_recent', JSON.stringify(['\\alpha', '\\beta', '\\alpha', '\\not-a-symbol']));
+			return {
+				loaded: loadRecentMathSymbols(),
+				stored: JSON.parse(localStorage.getItem('Discuz_math_symbol_recent'))
+			};
+		});
+		assert.deepStrictEqual(recentMathSymbols.loaded, ['\\beta', '\\alpha'], 'Assertion Error: Recently used math symbols were not deduplicated in last-used order.');
+		assert.deepStrictEqual(recentMathSymbols.stored, recentMathSymbols.loaded, 'Assertion Error: Existing duplicate math-symbol history was not cleaned in localStorage.');
+
 		const sizedMathSource = String.raw`[size=2]Invariantly, the surjection sends $(\xi^0,\dots,\xi^N)$ to $\sum_s\xi^s\partial/\partial Z^s$ modulo the radial direction; its kernel is the line spanned by $(Z^0, \dots, Z^N) \in \mathcal{O}(1)^{\oplus (N+1)}$. This is the infinitesimal form of $\mathbb{CP}^N=(\mathbb{C}^{N+1}\setminus\{0\})/\mathbb{C}^\times$.[/size]`;
 		const sizedMathAfterPaste = sizedMathSource.replace('line spanned by', 'line spanned by the tautological section');
 		await page.fill('#e_textarea', sizedMathSource);

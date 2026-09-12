@@ -537,12 +537,26 @@ function getMathSymbolCatalog() {
 	return catalog;
 }
 
-function loadRecentMathSymbols() {
+function normalizeRecentMathSymbols(symbols) {
 	var catalog = getMathSymbolCatalog();
+	var normalized = [];
+	for (var i = 0; i < symbols.length; i++) {
+		var symbol = symbols[i];
+		if (typeof symbol !== 'string' || !catalog[symbol]) continue;
+		var existing = normalized.indexOf(symbol);
+		if (existing !== -1) normalized.splice(existing, 1);
+		normalized.push(symbol);
+	}
+	return normalized.slice(-mathSymbolRecentLimit);
+}
+
+function loadRecentMathSymbols() {
 	try {
 		var stored = JSON.parse(localStorage.getItem(mathSymbolRecentKey) || '[]');
 		if (!Array.isArray(stored)) return [];
-		return stored.filter(function(symbol) { return typeof symbol === 'string' && catalog[symbol]; }).slice(-mathSymbolRecentLimit);
+		var normalized = normalizeRecentMathSymbols(stored);
+		if (normalized.length !== stored.length) saveRecentMathSymbols(normalized);
+		return normalized;
 	} catch (error) {
 		return [];
 	}
@@ -621,8 +635,7 @@ function initMathSymbolPicker(container, equation, labels) {
 		toggle.setAttribute('aria-expanded', 'false');
 	};
 	var rememberSymbol = function(symbol) {
-		if (recentSymbols.length >= mathSymbolRecentLimit) recentSymbols.shift();
-		recentSymbols.push(symbol);
+		recentSymbols = normalizeRecentMathSymbols(recentSymbols.concat(symbol));
 		saveRecentMathSymbols(recentSymbols);
 		renderRecent();
 		closePicker();
