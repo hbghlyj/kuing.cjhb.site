@@ -54,6 +54,7 @@ function forum(&$forum) {
 	$forum['folder'] = ($thisforumlastvisit && $thisforumlastvisit[1] > $lastvisit ? $thisforumlastvisit[1] : $lastvisit) < $lastpost['dateline'] ? ' class="new"' : '';
 
 	if($lastpost['tid']) {
+		$lastpost['dbdateline'] = $lastpost['dateline'];
 		$lastpost['dateline'] = dgmdate($lastpost['dateline'], 'u');
 		$lastpost['authorusername'] = $lastpost['author'];
 		if($lastpost['author']) {

@@ -35,9 +35,9 @@
 								<a href="$forumurl" class="xi2">{lang url_link}</a>
 							<!--{elseif is_array($sub['lastpost'])}-->
 								<!--{if $_G['forum']['forumcolumns'] < 3}-->
-									<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($sub[lastpost][subject], 30)}--></a> <cite><span class="xs0">$sub[lastpost][dateline] </span><!--{if $sub['lastpost']['author']}-->$sub['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+									<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($sub[lastpost][subject], 30)}--></a> <cite><span class="xs0"><time data-local-timestamp="$sub[lastpost][dbdateline]">$sub[lastpost][dateline]</time> </span><!--{if $sub['lastpost']['author']}-->$sub['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 								<!--{else}-->
-									<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $sub[lastpost][dateline]</a>
+									<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: <time data-local-timestamp="$sub[lastpost][dbdateline]">$sub[lastpost][dateline]</time></a>
 								<!--{/if}-->
 							<!--{else}-->
 								{lang never}
@@ -66,7 +66,7 @@
 						<!--{if $sub['redirect']}-->
 							<a href="$forumurl" class="xi2">{lang url_link}</a>
 						<!--{elseif is_array($sub['lastpost'])}-->
-							<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$sub[lastpost][subject]</a> <cite><span class="xs0">$sub[lastpost][dateline] </span><!--{if $sub['lastpost']['author']}-->$sub['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+							<a href="forum.php?mod=redirect&tid=$sub[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$sub[lastpost][subject]</a> <cite><span class="xs0"><time data-local-timestamp="$sub[lastpost][dbdateline]">$sub[lastpost][dateline]</time> </span><!--{if $sub['lastpost']['author']}-->$sub['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 						<!--{else}-->
 							{lang never}
 						<!--{/if}-->

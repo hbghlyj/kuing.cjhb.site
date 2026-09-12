@@ -140,9 +140,9 @@
 										<dd>
 											<!--{if is_array($group['lastpost'])}-->
 												<!--{if $_G['forum']['forumcolumns'] < 3}-->
-												<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($group[lastpost][subject], 30)}--></a> <cite>$group[lastpost][dateline] <!--{if $group['lastpost']['author']}--><a href="home.php?mod=space&username={$group[lastpost][encode_author]}">{$group[lastpost][author]}</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+												<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($group[lastpost][subject], 30)}--></a> <cite><time data-local-timestamp="$group[lastpost][dbdateline]">$group[lastpost][dateline]</time> <!--{if $group['lastpost']['author']}--><a href="home.php?mod=space&username={$group[lastpost][encode_author]}">{$group[lastpost][author]}</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 												<!--{else}-->
-													<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$group[lastpost][dateline]</a>
+													<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><time data-local-timestamp="$group[lastpost][dbdateline]">$group[lastpost][dateline]</time></a>
 												<!--{/if}-->				<!--{else}-->
 											{lang never}
 											<!--{/if}-->
@@ -164,7 +164,7 @@
 									<td class="fl_by">
 										<div>
 											<!--{if is_array($group['lastpost'])}-->
-											<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$group[lastpost][subject]</a> <cite>$group[lastpost][dateline] <!--{if $group['lastpost']['author']}--><a href="home.php?mod=space&username={$group[lastpost][encode_author]}">{$group[lastpost][author]}</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+											<a href="forum.php?mod=redirect&tid=$group[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$group[lastpost][subject]</a> <cite><time data-local-timestamp="$group[lastpost][dbdateline]">$group[lastpost][dateline]</time> <!--{if $group['lastpost']['author']}--><a href="home.php?mod=space&username={$group[lastpost][encode_author]}">{$group[lastpost][author]}</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 											<!--{else}-->
 											{lang never}
 											<!--{/if}-->
