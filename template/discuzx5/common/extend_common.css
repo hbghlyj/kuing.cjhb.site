@@ -1355,6 +1355,14 @@ a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-i
 .password-toggle-field > .password-toggle:hover, .password-toggle-field > .password-toggle:focus { color: var(--dz-fa); }
 .password-toggle-field > .password-toggle { background: none; background-color: transparent; }
 .password-toggle-field > .password-toggle::before { content: ''; display: block; width: 16px; height: 16px; margin: 3px; background-color: currentColor; -webkit-mask: url({IMGDIR}/password-eye.svg) no-repeat center / contain; mask: url({IMGDIR}/password-eye.svg) no-repeat center / contain; }
+.member-login-page {align-items:flex-start;background:radial-gradient(circle at 20% 0, var(--dz-bgd), transparent 42%)}
+.member-login-page #main_message {margin:0}
+.member-login-card {border-color:var(--dz-borderb);border-radius:var(--dz-radius-xl);background:var(--dz-bgf);box-shadow:0 18px 50px rgba(28,54,108,.12)}
+.member-login-card > .bm_h {border:0;background:transparent}
+.member-login-card > .bm_h .y > a {border-color:var(--dz-borderb);color:var(--dz-alink) !important}
+.member-login-card > .bm_h .y > a:hover {border-color:var(--dz-color);color:var(--dz-color) !important}
+.member-login-form .rfm .px, .member-login-form .rfm select {height:42px;border-color:var(--dz-borderc);border-radius:var(--dz-radius-s);background:var(--dz-bgf)}
+.member-login-form .rfm.mbw .pn {height:42px;line-height:42px;border-radius:var(--dz-radius-s)}
 @media screen and (max-width: 760px) {
 	.rfm { width: 100%; --rfm-field-w: 100%; }
 	.rfm tr { grid-template-columns: 1fr; }

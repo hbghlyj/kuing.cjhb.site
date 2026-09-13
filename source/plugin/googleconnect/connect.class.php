@@ -19,9 +19,6 @@ class plugin_googleconnect {
 		<div class="g_id_signin"
 data-type="standard"
 data-shape="pill"
-data-theme="filled_blue"
-data-text="continue_with"
-data-size="large"
 data-logo_alignment="left"
      data-width="40">
 </div>';

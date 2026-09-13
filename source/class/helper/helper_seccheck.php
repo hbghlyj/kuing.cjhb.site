@@ -247,6 +247,9 @@ class helper_seccheck {
 		$seccheckrule = &$_G['setting']['seccodedata']['rule']['register'];
 		$rule = false;
 		if($seccheckrule['allow'] == 2) {
+			if(!empty($_G['clientip']) && table_common_regip::t()->fetch_by_ip_dateline($_G['clientip'], TIMESTAMP - 86400)) {
+				return $status;
+			}
 			if($seccheckrule['numlimit'] > 0) {
 				loadcache('seccodedata', true);
 				if($_G['cache']['seccodedata']['register']['show']) {

@@ -593,17 +593,11 @@ class register_ctl {
 				}
 			}
 
-			$setregip = null;
-			if($this->setting['regfloodctrl']) {
-				$regip = table_common_regip::t()->fetch_by_ip_dateline($_G['clientip'], $_G['timestamp'] - 86400);
-				if($regip) {
-					if($regip['count'] >= $this->setting['regfloodctrl']) {
-						showmessage('register_flood_ctrl', NULL, ['regfloodctrl' => $this->setting['regfloodctrl']]);
-					} else {
-						$setregip = 1;
-					}
-				} else {
-					$setregip = 2;
+			$regip = table_common_regip::t()->fetch_by_ip_dateline($_G['clientip'], $_G['timestamp'] - 86400);
+			$setregip = $regip ? 1 : 2;
+			if($this->setting['regfloodctrl'] && $regip) {
+				if($regip['count'] >= $this->setting['regfloodctrl']) {
+					showmessage('register_flood_ctrl', NULL, ['regfloodctrl' => $this->setting['regfloodctrl']]);
 				}
 			}
 
@@ -693,14 +687,6 @@ class register_ctl {
 				}
 			}
 
-			if($setregip !== null) {
-				if($setregip == 1) {
-					table_common_regip::t()->update_count_by_ip($_G['clientip']);
-				} else {
-					table_common_regip::t()->insert(['ip' => $_G['clientip'], 'count' => 1, 'dateline' => $_G['timestamp']]);
-				}
-			}
-
 			if($invite && $this->setting['inviteconfig']['invitegroupid']) {
 				$groupinfo['groupid'] = $this->setting['inviteconfig']['invitegroupid'];
 			}
@@ -710,6 +696,11 @@ class register_ctl {
 			$uid = native_user_create($username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
 			if($uid <= 0) {
 				showmessage('undefined_action');
+			}
+			if($setregip == 1) {
+				table_common_regip::t()->update_count_by_ip($_G['clientip']);
+			} else {
+				table_common_regip::t()->insert(['ip' => $_G['clientip'], 'count' => 1, 'dateline' => $_G['timestamp']]);
 			}
 			if($emailstatus) {
 				updatecreditbyaction('realemail', $uid);
@@ -733,11 +724,9 @@ class register_ctl {
 				require_once $this->extrafile;
 			}
 
-			if($this->setting['regctrl'] || $this->setting['regfloodctrl']) {
-				table_common_regip::t()->delete_by_dateline($_G['timestamp'] - ($this->setting['regctrl'] > 72 ? $this->setting['regctrl'] : 72) * 3600);
-				if($this->setting['regctrl']) {
-					table_common_regip::t()->insert(['ip' => $_G['clientip'], 'count' => -1, 'dateline' => $_G['timestamp']]);
-				}
+			table_common_regip::t()->delete_by_dateline($_G['timestamp'] - ($this->setting['regctrl'] > 72 ? $this->setting['regctrl'] : 72) * 3600);
+			if($this->setting['regctrl']) {
+				table_common_regip::t()->insert(['ip' => $_G['clientip'], 'count' => -1, 'dateline' => $_G['timestamp']]);
 			}
 
 			$regmessage = dhtmlspecialchars($_GET['regmessage']);

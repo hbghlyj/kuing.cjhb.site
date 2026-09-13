@@ -248,6 +248,21 @@ $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.custo
 $expect(count($secqaaCache) === 9, 'secqaa cache count');
 $expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
 $expect(!array_filter($secqaaCache, fn($question) => table_common_secquestion::localize_question(((array)$question)['question'] ?? '') !== '1+1=?'), 'secqaa questions');
+$originalClientIp = $_G['clientip'];
+$originalRegisterRule = $_G['setting']['seccodedata']['rule']['register'];
+$adaptiveCaptchaTestIp = '198.51.100.254';
+DB::delete('common_regip', DB::field('ip', $adaptiveCaptchaTestIp));
+$_G['clientip'] = $adaptiveCaptchaTestIp;
+$_G['setting']['seccodedata']['rule']['register'] = ['allow' => 2, 'numlimit' => 0, 'timelimit' => 3600];
+$expect(!helper_seccheck::rule_register(), 'first registration from IP does not require CAPTCHA');
+C::t('common_regip')->insert(['ip' => $adaptiveCaptchaTestIp, 'count' => 1, 'dateline' => TIMESTAMP - 86401]);
+$expect(!helper_seccheck::rule_register(), 'registration older than 24 hours does not require CAPTCHA');
+DB::delete('common_regip', DB::field('ip', $adaptiveCaptchaTestIp));
+C::t('common_regip')->insert(['ip' => $adaptiveCaptchaTestIp, 'count' => 1, 'dateline' => TIMESTAMP]);
+$expect(helper_seccheck::rule_register(), 'repeat registration from IP requires CAPTCHA');
+DB::delete('common_regip', DB::field('ip', $adaptiveCaptchaTestIp));
+$_G['clientip'] = $originalClientIp;
+$_G['setting']['seccodedata']['rule']['register'] = $originalRegisterRule;
 foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");

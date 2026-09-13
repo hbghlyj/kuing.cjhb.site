@@ -288,9 +288,6 @@ if($op === 'init') {
 	echo '<div class="g_id_signin"';
 	echo ' data-type="standard"';
 	echo ' data-shape="pill"';
-	echo ' data-theme="filled_blue"';
-	echo ' data-text="continue_with"';
-	echo ' data-size="large"';
 	echo ' data-logo_alignment="left"></div>';
 	echo '</div></div></div></div>';
 	include template('common/footer');

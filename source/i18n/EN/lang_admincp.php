@@ -2422,7 +2422,7 @@ China
 	'setting_sec_seccode_rule_min' => 'minutes',
 	'setting_sec_seccode_rule_hour' => 'Hours',
 	'setting_sec_seccode_rule_register' => 'Enable Verification Code on Registration',
-	'setting_sec_seccode_rule_register_comment' => 'Set the rules for enabling verification code during registration',
+	'setting_sec_seccode_rule_register_comment' => 'Smart mode requires CAPTCHA when the same IP has registered successfully within 24 hours or the site-wide registration threshold is reached.',
 	'setting_sec_seccode_rule_register_auto' => 'Smart Enable',
 	'setting_sec_seccode_rule_register_on' => 'Enable',
 	'setting_sec_seccode_rule_register_off' => 'Disabled',

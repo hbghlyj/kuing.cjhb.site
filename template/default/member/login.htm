@@ -2,7 +2,7 @@
 
 <!--{eval $loginhash = 'L'.random(4);}-->
 <!--{if empty($_GET['infloat'])}-->
-<div id="ct" class="ptm wp w cl">
+<div id="ct" class="ptm wp w cl member-login-page">
 	<div class="nfl" id="main_succeed" style="display: none">
 		<div class="f_c altw">
 			<div class="alert_right">
@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<div class="mn" id="main_message">
-		<div class="bm">
+		<div class="bm member-login-card">
 			<div class="bm_h bbs">
 				<span class="y">
 					<!--{hook/logging_side_top}-->
@@ -37,7 +37,7 @@
 			<span><!--{if !empty($_GET['infloat']) && !isset($_GET['frommessage'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET[handlekey]', 0, 1);" title="{lang close}"></a><!--{/if}--></span>
 		</h3>
 		<!--{hook/logging_top}-->
-		<form method="post" autocomplete="off" name="login" id="loginform_$loginhash" class="cl" onsubmit="pwdclear = 1;ajaxpost('loginform_$loginhash', 'returnmessage_$loginhash', 'returnmessage_$loginhash', 'onerror');return false;" action="member.php?mod=logging&action=login&loginsubmit=yes{if !empty($_GET['handlekey'])}&handlekey=$_GET[handlekey]{/if}{if isset($_GET['frommessage'])}&frommessage{/if}&loginhash=$loginhash">
+		<form method="post" autocomplete="off" name="login" id="loginform_$loginhash" class="cl{if empty($_GET['infloat'])} member-login-form{/if}" onsubmit="pwdclear = 1;ajaxpost('loginform_$loginhash', 'returnmessage_$loginhash', 'returnmessage_$loginhash', 'onerror');return false;" action="member.php?mod=logging&action=login&loginsubmit=yes{if !empty($_GET['handlekey'])}&handlekey=$_GET[handlekey]{/if}{if isset($_GET['frommessage'])}&frommessage{/if}&loginhash=$loginhash">
 			<div class="c cl">
 				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<input type="hidden" name="referer" value="{echo dreferer()}">
@@ -61,8 +61,8 @@
 				<div class="rfm">
 					<table>
 						<tr>
-							<th><label for="username_$loginhash">{lang login_id}:</label></th>
-							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username"></td>
+							<th class="member-login-label"><label for="username_$loginhash">{lang login_id}:</label></th>
+							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" placeholder="{lang login_id}"></td>
 							<td class="tipcol"><a href="member.php?mod={$_G[setting][regname]}">{lang connect_register_profile}</a></td>
 						</tr>
 					</table>
@@ -70,8 +70,8 @@
 				<div class="rfm">
 					<table>
 						<tr>
-							<th><label for="password3_$loginhash">{lang login_password}:</label></th>
-							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre"></td>
+							<th class="member-login-label"><label for="password3_$loginhash">{lang login_password}:</label></th>
+							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" placeholder="{lang login_password}"></td>
 							<td class="tipcol"><a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');" title="{lang getpassword}">{lang getpassword}</a></td>
 						</tr>
 					</table>
@@ -82,9 +82,9 @@
 				<div class="rfm">
 					<table>
 						<tr>
-							<th>{lang security_q}:</th>
+							<th class="member-login-label"><label for="loginquestionid_$loginhash">{lang security_q}:</label></th>
 							<td><select id="loginquestionid_$loginhash" width="213" name="questionid"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
-								<option value="0"><!--{if $questionexist && !$seccodecheck}-->{lang security_question_0}<!--{else}-->{lang security_question}<!--{/if}--></option>
+								<option value="0">{lang security_question_0}</option>
 								<option value="1">{lang security_question_1}</option>
 								<option value="2">{lang security_question_2}</option>
 								<option value="3">{lang security_question_3}</option>
@@ -99,8 +99,8 @@
 				<div class="rfm" id="loginanswer_row_$loginhash" {if !$questionexist || $seccodecheck} style="display:none"{/if}>
 					<table>
 						<tr>
-							<th>{lang security_a}:</th>
-							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre"></td>
+							<th class="member-login-label"><label for="loginanswer_$loginhash">{lang security_a}:</label></th>
+							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" placeholder="{lang security_a}"></td>
 						</tr>
 					</table>
 				</div>
@@ -155,23 +155,23 @@
 			<em id="returnmessage3_$loginhash">{lang getpassword}</em>
 			<span><!--{if !empty($_GET['infloat']) && !isset($_GET['frommessage'])}--><a href="javascript:;" class="flbc" onclick="hideWindow('login')" title="{lang close}">{lang close}</a><!--{/if}--></span>
 		</h3>
-		<form method="post" autocomplete="off" id="lostpwform_$loginhash" class="cl" onsubmit="ajaxpost('lostpwform_$loginhash', 'returnmessage3_$loginhash', 'returnmessage3_$loginhash', 'onerror');return false;" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes">
+		<form method="post" autocomplete="off" id="lostpwform_$loginhash" class="cl{if empty($_GET['infloat'])} member-login-form{/if}" onsubmit="ajaxpost('lostpwform_$loginhash', 'returnmessage3_$loginhash', 'returnmessage3_$loginhash', 'onerror');return false;" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes">
 			<div class="c cl">
 				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<input type="hidden" name="handlekey" value="lostpwform">
 				<div class="rfm">
 					<table>
 						<tr>
-							<th><span class="rq">*</span><label for="lostpw_email">{lang email}:</label></th>
-							<td><input type="text" name="email" id="lostpw_email" size="30" value=""  class="px p_fre"></td>
+							<th class="member-login-label"><span class="rq">*</span><label for="lostpw_email">{lang email}:</label></th>
+							<td><input type="text" name="email" id="lostpw_email" size="30" value="" class="px p_fre" placeholder="{lang email}"></td>
 						</tr>
 					</table>
 				</div>
 				<div class="rfm">
 					<table>
 						<tr>
-							<th><label for="lostpw_username">{lang username}:</label></th>
-							<td><input type="text" name="username" id="lostpw_username" size="30" value=""  class="px p_fre"></td>
+							<th class="member-login-label"><label for="lostpw_username">{lang username}:</label></th>
+							<td><input type="text" name="username" id="lostpw_username" size="30" value="" class="px p_fre" placeholder="{lang username}"></td>
 						</tr>
 					</table>
 				</div>
