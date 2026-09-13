@@ -56,8 +56,6 @@ a.xg1:hover, .xg1 a:hover {color:var(--dz-ahover) !important}
 .xg2 {color:var(--dz-fc)}
 .bm, .bn, .km_mbm {margin-bottom:15px}
 hr.da, .btda, .a_t td {border-color:var(--dz-borderb)}
-input::placeholder {color:var(--dz-fd)}
-textarea::placeholder {color:var(--dz-fc)}
 input:focus{border-color:var(--dz-color) !important;outline:none}
 body .km_pnbtn {background:var(--dz-btnbga);color:var(--dz-btntxta) !important}
 .km_label {margin-right:10px;line-height:34px}
@@ -436,7 +434,6 @@ img{border:none;}
 .header-searcher .searcher-wrap{position:relative}
 .header-searcher .algolia-search-box-wrapper{position:relative}
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{padding-left:12px !important;height:32px !important}
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input::placeholder{color:var(--dz-fb)}
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:hover{border:1px solid #888}
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:focus{border:1px solid #888;background-color:var(--dz-ff);outline:none}
 .header-searcher #algolia-search-box:empty{display:block;width:0;height:0;padding:0;border:none;background:none;box-shadow:none}
