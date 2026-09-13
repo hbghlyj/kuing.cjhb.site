@@ -55,46 +55,27 @@
 
 				<!--{if $invite}-->
 				<div class="rfm">
-					<table>
-						<tr>
-							<th>{lang register_from}</th>
-							<td><a href="home.php?mod=space&uid=$invite[uid]" target="_blank">$invite[username]</a></td>
-						</tr>
-					</table>
+					{lang register_from} <a href="home.php?mod=space&uid=$invite[uid]" target="_blank">$invite[username]</a>
 				</div>
 				<!--{/if}-->
 
 				<!--{if !$auth}-->
 				<div class="rfm">
-					<table>
-						<tr>
-							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" placeholder="{lang login_id}" aria-label="{lang login_id}"></td>
-						</tr>
-					</table>
+					<input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" placeholder="{lang login_id}" aria-label="{lang login_id}">
 				</div>
 				<div class="rfm">
-					<table>
-						<tr>
-							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" placeholder="{lang login_password}" aria-label="{lang login_password}"></td>
-						</tr>
-					</table>
+					<input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" placeholder="{lang login_password}" aria-label="{lang login_password}">
 				</div>
 				<!--{/if}-->
 
 			<!--{if empty($_GET['auth']) || $questionexist || $seccodecheck}-->
 			<!--{if !$questionexist}-->
 			<div class="rfm login-qa-reveal">
-				<table>
-					<tr>
-						<td><label><input type="checkbox" class="pc" onchange="document.querySelectorAll('#loginform_$loginhash .loginqa').forEach(function(el){el.classList.remove('loginqa')});"> {lang security_question}</label></td>
-					</tr>
-				</table>
+				<label><input type="checkbox" class="pc" onchange="var showQ=this.checked;['loginquestion_row_$loginhash','loginanswer_row_$loginhash'].forEach(function(id){var el=document.querySelector('#'+id);if(el){el.classList.toggle('loginqa',!showQ);}});">{lang security_question}</label>
 			</div>
 			<!--{/if}-->
-			<div class="rfm{if !$questionexist} loginqa{/if}">
-				<table>
-						<tr>
-							<td><select id="loginquestionid_$loginhash" width="213" name="questionid" aria-label="{lang security_q}"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
+			<div class="rfm{if !$questionexist} loginqa{/if}" id="loginquestion_row_$loginhash">
+				<select id="loginquestionid_$loginhash" width="213" name="questionid" aria-label="{lang security_q}"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
 								<option value="0">{lang security_question_0}</option>
 								<option value="1">{lang security_question_1}</option>
 								<option value="2">{lang security_question_2}</option>
@@ -103,16 +84,10 @@
 								<option value="5">{lang security_question_5}</option>
 								<option value="6">{lang security_question_6}</option>
 								<option value="7">{lang security_question_7}</option>
-							</select></td>
-						</tr>
-					</table>
+							</select>
 				</div>
 				<div class="rfm" id="loginanswer_row_$loginhash" {if !$questionexist || $seccodecheck} style="display:none"{/if}>
-					<table>
-						<tr>
-							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" placeholder="{lang security_a}" aria-label="{lang security_a}"></td>
-						</tr>
-					</table>
+					<input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" placeholder="{lang security_a}" aria-label="{lang security_a}">
 				</div>
 				<!--{/if}-->
 
@@ -124,24 +99,12 @@
 				<!--{hook/logging_input}-->
 
 				<div class="rfm {if !empty($_GET['infloat'])} bw0{/if}">
-					<table>
-						<tr>
-							<td><label for="cookietime_$loginhash"><input type="checkbox" class="pc" name="cookietime" id="cookietime_$loginhash" value="2592000" $cookietimecheck>{lang login_permanent}</label></td>
-						</tr>
-					</table>
+					<label for="cookietime_$loginhash"><input type="checkbox" class="pc" name="cookietime" id="cookietime_$loginhash" value="2592000" $cookietimecheck>{lang login_permanent}</label>
 				</div>
 
 				<div class="rfm mbw bw0">
-					<table width="100%">
-						<tr>
-							<td>
-								<button class="pn pnc" type="submit" name="loginsubmit" value="true"><strong>{lang login}</strong></button>
-							</td>
-							<td>
-								<a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');">{lang getpassword}</a>
-							</td>
-						</tr>
-					</table>
+					<button class="pn pnc" type="submit" name="loginsubmit" value="true"><strong>{lang login}</strong></button>
+					<a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');">{lang getpassword}</a>
 				</div>
 				<!--{if $this->setting['sitemessage'][login] && empty($_GET['infloat'])}-->
 				<div class="rfm bw0 login-forgot">
