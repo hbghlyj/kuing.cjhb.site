@@ -152,7 +152,11 @@ class discuz_upload {
 	 */
 	private static function sanitize_svg($target) {
 		$source = @file_get_contents($target);
-		if($source === false || preg_match('/<!DOCTYPE|<!ENTITY|<\\?(?!xml\\s+version\\s*=)/i', $source) || !class_exists('DOMDocument')) {
+		if($source === false || !class_exists('DOMDocument')) {
+			return false;
+		}
+		$source = preg_replace('/<!DOCTYPE(?:[^<>\[]|\[[^\]]*\])*>[\r\n]*/s', '', $source);
+		if($source === null || preg_match('/<!ENTITY|<\\?(?!xml\\s+version\\s*=)/i', $source)) {
 			return false;
 		}
 
