@@ -52,6 +52,9 @@
 	</div>
 	<div class="btn_login"><button value="true" name="submit" type="submit" class="formdialog pn">{lang login}</button></div>
 	</form>
+	<!--{if ($_G['isHTTPS'] && $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']) || (!empty($_G['setting']['githubconnect_allow']) && !empty($_G['setting']['githubconnect_clientid']) && !empty($_G['setting']['githubconnect_clientsecret'])) || (!empty($_G['setting']['xconnect_allow']) && !empty($_G['setting']['xconnect_clientid']) && !empty($_G['setting']['xconnect_clientsecret']))}-->
+	<div class="login-method-divider"><span>{lang login_or}</span></div>
+	<!--{/if}-->
 	<!--{if $_G['isHTTPS'] && $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']}-->
 		<script src="https://accounts.google.com/gsi/client" async></script>
 		<div id="g_id_onload"

@@ -78,11 +78,21 @@
 				</div>
 				<!--{/if}-->
 
-				<!--{if empty($_GET['auth']) || $questionexist || $seccodecheck}-->
-				<div class="rfm">
-					<table>
-						<tr>
-							<th class="member-login-label"><label for="loginquestionid_$loginhash">{lang security_q}:</label></th>
+			<!--{if empty($_GET['auth']) || $questionexist || $seccodecheck}-->
+			<!--{if !$questionexist}-->
+			<div class="rfm">
+				<table>
+					<tr>
+						<th></th>
+						<td><a href="javascript:;" onclick="document.querySelectorAll('#loginform_$loginhash .loginqa').forEach(function(el){el.classList.remove('loginqa')});this.closest('.rfm').style.display='none';">{lang security_question}</a></td>
+					</tr>
+				</table>
+			</div>
+			<!--{/if}-->
+			<div class="rfm{if !$questionexist} loginqa{/if}">
+				<table>
+					<tr>
+						<th class="member-login-label"><label for="loginquestionid_$loginhash">{lang security_q}:</label></th>
 							<td><select id="loginquestionid_$loginhash" width="213" name="questionid"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
 								<option value="0">{lang security_question_0}</option>
 								<option value="1">{lang security_question_1}</option>
