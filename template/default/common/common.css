@@ -1653,9 +1653,11 @@ Last Modify:	Pony
 
 /* Standalone member login: plain stacked rows; field labels live in placeholders */
 	#main_message [id^="layer_login_"] > .flb { display: none; }
-	.member-login-form .rfm { width: 100%; border: 0; margin-bottom: 10px; }
+	.member-login-form .rfm { border: 0; margin-bottom: 10px; }
+	.member-login-form > .c { max-width: 480px; margin: 0 auto; }
 	.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 	.member-login-form .rfm .px, .member-login-form .rfm .px.p_fre, .member-login-form .rfm select { box-sizing: border-box; width: 100% !important; }
+	.member-login-form .rfm .password-toggle-field { display: block; width: 100%; }
 	.member-login-form .rfm label { cursor: pointer; }
 	.member-login-form .rfm input.pc { width: 16px; height: 16px; margin: 0 7px 0 0; accent-color: {MENUBGCOLOR}; vertical-align: -3px; }
 	.member-login-form .rfm .pn + a { margin-left: 12px; }
