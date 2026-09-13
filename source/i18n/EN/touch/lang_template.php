@@ -140,7 +140,6 @@ $lang = [
 	'useqqconnectlogin' => 'Or use QQ Login',
 	'noregister' => 'Not registered yet?',
 	'registerinputtip' => 'Username: 3-15 characters',
-	'registerpassword2' => 'Confirm Password',
 	'registeremail' => 'Email',
 	'quickregister' => 'Register Now',
 	'quickregister_bindaccount' => 'Register an account and bind',

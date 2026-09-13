@@ -343,12 +343,10 @@ class register_ctl {
 
 		$reg_username = $reginput['username'] ?? null;
 		$reg_password = $reginput['password'] ?? null;
-		$reg_password2 = $reginput['password2'] ?? null;
 		$reg_email = $reginput['email'] ?? null;
 
 		$_GET['username'] = trim(isset($reg_username) && isset($_GET[$reg_username]) ? $_GET[$reg_username] : ($_GET['username'] ?? ''));
 		$_GET['password'] = isset($reg_password) && isset($_GET[$reg_password]) ? $_GET[$reg_password] : ($_GET['password'] ?? '');
-		$_GET['password2'] = isset($reg_password2) && isset($_GET[$reg_password2]) ? $_GET[$reg_password2] : ($_GET['password2'] ?? '');
 		$_GET['email'] = isset($reg_email) && isset($_GET[$reg_email]) ? $_GET[$reg_email] : ($_GET['email'] ?? '');
 
 		if($_G['uid']) {
@@ -555,10 +553,6 @@ class register_ctl {
 			}
 			$email = mb_strtolower(trim($email), 'UTF-8');
 			if(empty($this->setting['ignorepassword'])) {
-				if($_GET['password'] !== $_GET['password2']) {
-					showmessage('profile_passwd_notmatch');
-				}
-
 				if(!$_GET['password'] || $_GET['password'] != addslashes($_GET['password'])) {
 					showmessage('profile_passwd_illegal');
 				}

@@ -439,9 +439,16 @@ const assertPusherMetadataOrder = () => {
         await usernameInput.fill(username);
 
         const passwordInputs = registrationForm.locator('input[type="password"]');
-        assert.strictEqual(await passwordInputs.count(), 2, 'Assertion Error: Desktop registration password and confirmation fields did not render.');
-        await passwordInputs.nth(0).fill(password);
-        await passwordInputs.nth(1).fill(password);
+        assert.strictEqual(await passwordInputs.count(), 1, 'Assertion Error: Desktop registration should render one password field.');
+        const passwordInput = registrationForm.locator('.password-toggle-field input');
+        await passwordInput.fill(password);
+        const passwordToggle = registrationForm.locator('.password-toggle');
+        assert.strictEqual(await passwordToggle.count(), 1, 'Assertion Error: Desktop registration password visibility toggle did not render.');
+        await passwordToggle.click();
+        assert.strictEqual(await passwordInput.getAttribute('type'), 'text', 'Assertion Error: Desktop password toggle did not reveal the password.');
+        assert.strictEqual(await passwordInput.inputValue(), password, 'Assertion Error: Desktop password toggle changed the password value.');
+        await passwordToggle.click();
+        assert.strictEqual(await passwordInput.getAttribute('type'), 'password', 'Assertion Error: Desktop password toggle did not hide the password.');
         const emailInput = registrationForm.locator('input[name="email"], input[type="email"]');
         assert.strictEqual(await emailInput.count(), 1, 'Assertion Error: Desktop registration email field did not render.');
         await emailInput.fill(email);

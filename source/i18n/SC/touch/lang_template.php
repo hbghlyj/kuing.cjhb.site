@@ -145,7 +145,6 @@ $lang = [
 	'useqqconnectlogin' => '或使用QQ登录',
 	'noregister' => '还没有注册？',
 	'registerinputtip' => '用户名：3-15位',
-	'registerpassword2' => '确认密码',
 	'registeremail' => '邮箱',
 	'quickregister' => '立即注册',
 	'quickregister_bindaccount' => '注册一个账号，并绑定',

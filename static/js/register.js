@@ -50,10 +50,10 @@ function addFormEvent(formid, focus){
 	formNode[stmp[0]].onblur = function () {
 		checkusername(formNode[stmp[0]].id);
 	};
-	checkPwdComplexity(formNode[stmp[1]], formNode[stmp[2]]);
+	checkPwdComplexity(formNode[stmp[1]]);
 	try {
 		if(!ignoreEmail) {
-			addMailEvent(formNode[stmp[3]]);
+			addMailEvent(formNode[stmp[2]]);
 		}
 	} catch(e) {}
 
@@ -78,7 +78,7 @@ function checkPwdComplexity(firstObj, secondObj, modify) {
 		}else{
 			errormessage(firstObj.id, !modifypwd ? 'succeed' : '');
 		}
-		checkpassword(firstObj.id, secondObj.id);
+		checkpassword(firstObj.id, secondObj ? secondObj.id : '');
 	};
 	firstObj.onkeyup = function () {
 		if(pwlength == 0 || $(firstObj.id).value.length >= pwlength) {
@@ -87,12 +87,14 @@ function checkPwdComplexity(firstObj, secondObj, modify) {
 			errormessage(firstObj.id, '<span class="passlevel passlevel'+passlevel+'">' + $L('password_level') + ':'+passlevels[passlevel]+'</span>');
 		}
 	};
-	secondObj.onblur = function () {
-		if(secondObj.value == '') {
-			errormessage(secondObj.id, !modifypwd ? $L('password_repeat') : profileTips);
-		}
-		checkpassword(firstObj.id, secondObj.id);
-	};
+	if(secondObj) {
+		secondObj.onblur = function () {
+			if(secondObj.value == '') {
+				errormessage(secondObj.id, !modifypwd ? $L('password_repeat') : profileTips);
+			}
+			checkpassword(firstObj.id, secondObj.id);
+		};
+	}
 }
 
 function addMailEvent(mailObj) {
@@ -289,7 +291,7 @@ function checkusername(id) {
 }
 
 function checkpassword(id1, id2) {
-	if(!$(id1).value && !$(id2).value) {
+	if(!$(id1).value && (!id2 || !$(id2).value)) {
 		return;
 	}
 	if(pwlength > 0) {
@@ -327,6 +329,10 @@ function checkpassword(id1, id2) {
 			errormessage(id1, $L('password_weak', [strongpw_str.join(',')]));
 			return;
 		}
+	}
+	if(!id2) {
+		errormessage(id1, !modifypwd ? 'succeed' : '');
+		return;
 	}
 	errormessage(id2);
 	if($(id1).value != $(id2).value) {

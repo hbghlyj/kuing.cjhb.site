@@ -1426,7 +1426,6 @@ $data = [[
     [
       'username' => 'username',
       'password' => 'password',
-      'password2' => 'password2',
       'email' => 'email',
     ],
   ],[

@@ -17,9 +17,6 @@ if(submitcheck('settingsubmit')) {
 	if(!preg_match('/^[A-z]\w+?$/', $settingnew['reginput']['password'])) {
 		$settingnew['reginput']['password'] = 'password';
 	}
-	if(!preg_match('/^[A-z]\w+?$/', $settingnew['reginput']['password2'])) {
-		$settingnew['reginput']['password2'] = 'password2';
-	}
 	if(!preg_match('/^[A-z]\w+?$/', $settingnew['reginput']['email'])) {
 		$settingnew['reginput']['email'] = 'email';
 	}
@@ -75,7 +72,6 @@ if(submitcheck('settingsubmit')) {
 	showtableheader('setting_sec_reginput', 'nobottom', 'id="reginput"'.($_GET['anchor'] != 'reginput' ? ' style="display: none"' : ''));
 	showsetting('setting_sec_reginput_username', 'settingnew[reginput][username]', $setting['reginput']['username'], 'text');
 	showsetting('setting_sec_reginput_password', 'settingnew[reginput][password]', $setting['reginput']['password'], 'text');
-	showsetting('setting_sec_reginput_password2', 'settingnew[reginput][password2]', $setting['reginput']['password2'], 'text');
 	showsetting('setting_sec_reginput_email', 'settingnew[reginput][email]', $setting['reginput']['email'], 'text');
 	showtablefooter();
 	/*search*/

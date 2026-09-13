@@ -2485,8 +2485,6 @@ China
 	'setting_sec_reginput_username_comment' => 'Default is username, can only be a combination of letters and numbers, must start with a letter. Modified form names will make it harder for registration bots to work',
 	'setting_sec_reginput_password' => 'Password Form Settings',
 	'setting_sec_reginput_password_comment' => 'Default is password, can only be a combination of letters and numbers, must start with a letter. Modified form names will make it harder for registration bots to work',
-	'setting_sec_reginput_password2' => 'Confirm Password Form Settings',
-	'setting_sec_reginput_password2_comment' => 'Default is password2, can only be a combination of letters and numbers, must start with a letter. Modified form names will make it harder for registration bots to work',
 	'setting_sec_reginput_email' => 'Email Form Settings',
 	'setting_sec_reginput_email_comment' => 'Default is email, can only be a combination of letters and numbers, must start with a letter. Modified form names will make it harder for registration bots to work',
 	'setting_sec_postperiodtime' => 'Posting Time Period Restriction',

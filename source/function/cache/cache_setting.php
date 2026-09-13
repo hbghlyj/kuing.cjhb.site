@@ -461,15 +461,12 @@ function build_cache_setting() {
 		@unlink($cachedir.'/'.$tidmd5[0].'/'.$tidmd5[1].'/'.$tidmd5[2].'/0.htm');
 	}
 
-	$reginputbwords = ['username', 'password', 'password2', 'email'];
+	$reginputbwords = ['username', 'password', 'email'];
 	if(in_array($data['reginput']['username'], $reginputbwords) || !preg_match('/^[A-z]\w+?$/', $data['reginput']['username'])) {
 		$data['reginput']['username'] = random(6);
 	}
 	if(in_array($data['reginput']['password'], $reginputbwords) || !preg_match('/^[A-z]\w+?$/', $data['reginput']['password'])) {
 		$data['reginput']['password'] = random(6);
-	}
-	if(in_array($data['reginput']['password2'], $reginputbwords) || !preg_match('/^[A-z]\w+?$/', $data['reginput']['password2'])) {
-		$data['reginput']['password2'] = random(6);
 	}
 	if(in_array($data['reginput']['email'], $reginputbwords) || !preg_match('/^[A-z]\w+?$/', $data['reginput']['email'])) {
 		$data['reginput']['email'] = random(6);
