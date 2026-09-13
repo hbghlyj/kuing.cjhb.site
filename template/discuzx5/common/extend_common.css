@@ -147,7 +147,7 @@ textarea {padding:8px;line-height:20px}
 .p_opt .txtarea {border:1px solid var(--dz-borderc);border-radius:var(--dz-radius-s)}
 .px {line-height:34px}
 .pt {line-height:22px}
-.px, .pt, .ps, select, textarea {background:var(--dz-bgf);outline:none;font-size:14px;border-radius:var(--dz-radius-s);border-color:var(--dz-borderc);box-shadow:none}
+.px, .pt, .ps, select, textarea {background:var(--dz-bgf);outline:none;border-radius:var(--dz-radius-s);border-color:var(--dz-borderc);box-shadow:none}
 .er {border-color:var(--dz-ahot)}
 .ps, select {margin-right:5px;padding:0px 10px;min-height:34px;line-height:34px;min-width:90px}
 .dz_pg_portalcp .px, .dz_pg_portalcp select {margin-right:5px}
