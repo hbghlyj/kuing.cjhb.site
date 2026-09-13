@@ -75,6 +75,9 @@ if($operation == 'list') {
 	if(isset($third_login_bind_urls['plugin_googleconnect'])) {
 		$third_login_bind_urls['plugin_googleconnect'] = $_G['siteurl'].'connect.php?mod=login&op=init&referer='.rawurlencode($_G['siteurl'].'home.php?mod=spacecp&ac=account');
 	}
+	if(isset($third_login_bind_urls['plugin_xconnect'])) {
+		$third_login_bind_urls['plugin_xconnect'] = $_G['siteurl'].'plugin.php?id=xconnect:oauth&op=init&referer='.rawurlencode($_G['siteurl'].'home.php?mod=spacecp&ac=account');
+	}
 
 	if(defined('IN_RESTFUL')) {
 		$_G['setting']['security_verify'] = dunserialize($_G['setting']['security_verify']);

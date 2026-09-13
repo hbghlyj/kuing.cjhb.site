@@ -481,6 +481,7 @@ Last Modify:	Pony
 	a.pn { display: inline-block; height: 21px; line-height: 21px; color: {TABLETEXT} !important; }
 		a.pn:hover { text-decoration: none; }
 	a.pn.github-login { border-radius: 999px; }
+	a.pn.x-login { border-radius: 999px; }
 
 	.pnc, a.pnc { border-color: #06C; background-color: #06C; color: #FFF !important; }
 		.pnc:active { background: #0059b3; }
@@ -1642,6 +1643,10 @@ Last Modify:	Pony
 	}
 	.fwin .loginb button { margin-left: 11.3em; }
 	.nfl .f_c .loginb button { margin-left: 12em; }
+	.login-method-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: {LIGHTTEXT}; text-align: center; }
+		.login-method-divider::before, .login-method-divider::after { content: ""; flex: 1; border-top: 1px solid {COMMONBORDER}; }
+		.login-method-divider span { line-height: 1; }
+	.login-method-content { display: flex; justify-content: center; }
 
 /* Standalone member login */
 	.member-login-page { box-sizing: border-box; display: flex; justify-content: center; min-height: min(620px, calc(100vh - 190px)); padding: 48px 16px; }

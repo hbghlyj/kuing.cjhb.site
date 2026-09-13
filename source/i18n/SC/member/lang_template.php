@@ -29,6 +29,7 @@ $lang = [
 	'login_seccheck2' => '请输入验证码后继续登录',
 	'login_member' => '用户登录',
 	'login_method' => '快捷登录',
+	'login_or' => '或',
 	'login_permanent' => '自动登录',
 	'profile_renew' => '请补充下面的登录信息',
 	'register_from' => '推荐人',

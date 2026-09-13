@@ -88,6 +88,7 @@ jobs:
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
           DISCUZ_SEED_DATABASE=1 php .github/scripts/import_all_data.php
           php -d zend.assertions=1 -d assert.exception=1 .github/scripts/test_emailpost.php
+          php -d zend.assertions=1 -d assert.exception=1 .github/scripts/test_xconnect.php
 
           test "$(mysql ultrax -Nse "SHOW TABLES LIKE 'chat';")" = "chat"
           mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"

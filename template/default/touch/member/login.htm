@@ -74,6 +74,12 @@
 			<a href="plugin.php?id=githubconnect:oauth&op=init&referer={echo rawurlencode($githubconnect_mobile_referer);}" class="pn button github-login"><span class="github-login-text">{echo lang('plugin/githubconnect', 'githubconnect_login_button');}</span></a>
 		</div>
 	<!--{/if}-->
+	<!--{if !empty($_G['setting']['xconnect_allow']) && !empty($_G['setting']['xconnect_clientid']) && !empty($_G['setting']['xconnect_clientsecret'])}-->
+		<!--{eval $xconnect_mobile_referer = dreferer() ? dreferer() : 'forum.php';}-->
+		<div class="btn_login">
+			<a href="plugin.php?id=xconnect:oauth&op=init&referer={echo rawurlencode($xconnect_mobile_referer);}" class="pn button x-login"><span class="x-login-text">{echo lang('plugin/xconnect', 'xconnect_login_button');}</span></a>
+		</div>
+	<!--{/if}-->
 	<!--{if $_G['setting']['regstatus']}-->
 	<div class="reg_link"><a href="member.php?mod=logging&action=login&lostpasswd=yes&viewlostpw=1" class="y">{lang getpassword}</a><a href="member.php?mod={$_G['setting']['regname']}" class="reg_now">{lang noregister}</a></div>
 	<!--{/if}-->

@@ -29,6 +29,7 @@ $lang = [
 	'login_seccheck2' => 'Please enter the verification code before continuing to log in',
 	'login_member' => 'User Login',
 	'login_method' => 'Quick Login',
+	'login_or' => 'or',
 	'login_permanent' => 'Remember Me',
 	'profile_renew' => 'Please complete the following login information',
 	'register_from' => 'Recommender',

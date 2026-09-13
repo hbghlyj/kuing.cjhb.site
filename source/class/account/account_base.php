@@ -339,6 +339,9 @@ class account_base {
 			if($pluginid === 'googleconnect') {
 				return ['allow' => in_array('googleconnect', $_G['setting']['plugins']['available'] ?? []) && !empty($_G['setting']['connectappid'])];
 			}
+			if($pluginid === 'xconnect') {
+				return ['allow' => !empty($_G['setting']['xconnect_allow'])];
+			}
 			return !empty($_G['setting']['account_plugin_confs'][$pluginid]) ? $_G['setting']['account_plugin_confs'][$pluginid] : [];
 		} else {
 			return !empty($_G['setting'][$interface]) ? $_G['setting'][$interface] : [];
