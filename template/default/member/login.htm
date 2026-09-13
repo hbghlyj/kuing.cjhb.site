@@ -68,18 +68,14 @@
 				<div class="rfm">
 					<table>
 						<tr>
-							<th class="member-login-label"><label for="username_$loginhash">{lang login_id}:</label></th>
-							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" placeholder="{lang login_id}"></td>
-							<td class="tipcol"><a href="member.php?mod={$_G[setting][regname]}">{lang connect_register_profile}</a></td>
+							<td><input type="text" name="username" id="username_$loginhash" autocomplete="off" size="30" class="px p_fre" value="$username" placeholder="{lang login_id}" aria-label="{lang login_id}"></td>
 						</tr>
 					</table>
 				</div>
 				<div class="rfm">
 					<table>
 						<tr>
-							<th class="member-login-label"><label for="password3_$loginhash">{lang login_password}:</label></th>
-							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" placeholder="{lang login_password}"></td>
-							<td class="tipcol"><a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');" title="{lang getpassword}">{lang getpassword}</a></td>
+							<td><input type="password" id="password3_$loginhash" name="password" onfocus="clearpwd()" size="30" class="px p_fre" placeholder="{lang login_password}" aria-label="{lang login_password}"></td>
 						</tr>
 					</table>
 				</div>
@@ -98,9 +94,8 @@
 			<!--{/if}-->
 			<div class="rfm{if !$questionexist} loginqa{/if}">
 				<table>
-					<tr>
-						<th class="member-login-label"><label for="loginquestionid_$loginhash">{lang security_q}:</label></th>
-							<td><select id="loginquestionid_$loginhash" width="213" name="questionid"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
+						<tr>
+							<td><select id="loginquestionid_$loginhash" width="213" name="questionid" aria-label="{lang security_q}"{if !$questionexist || $seccodecheck} onchange="if($('loginquestionid_$loginhash').value > 0) {$('loginanswer_row_$loginhash').style.display='';} else {$('loginanswer_row_$loginhash').style.display='none';}"<!--{/if}-->>
 								<option value="0">{lang security_question_0}</option>
 								<option value="1">{lang security_question_1}</option>
 								<option value="2">{lang security_question_2}</option>
@@ -116,8 +111,7 @@
 				<div class="rfm" id="loginanswer_row_$loginhash" {if !$questionexist || $seccodecheck} style="display:none"{/if}>
 					<table>
 						<tr>
-							<th class="member-login-label"><label for="loginanswer_$loginhash">{lang security_a}:</label></th>
-							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" placeholder="{lang security_a}"></td>
+							<td><input type="text" name="answer" id="loginanswer_$loginhash" autocomplete="off" size="30" class="px p_fre" placeholder="{lang security_a}" aria-label="{lang security_a}"></td>
 						</tr>
 					</table>
 				</div>
@@ -147,10 +141,13 @@
 								<button class="pn pnc" type="submit" name="loginsubmit" value="true"><strong>{lang login}</strong></button>
 							</td>
 							<td>
-								<!--{if $this->setting['sitemessage'][login] && empty($_GET['infloat'])}--><a href="javascript:;" id="custominfo_login_$loginhash" class="y">&nbsp;<i class="fico-info fic4 fc-p" alt="{lang faq}" class="vm"></i></a><!--{/if}-->								
+								<!--{if $this->setting['sitemessage'][login] && empty($_GET['infloat'])}--><a href="javascript:;" id="custominfo_login_$loginhash" class="y">&nbsp;<i class="fico-info fic4 fc-p" alt="{lang faq}" class="vm"></i></a><!--{/if}-->
 							</td>
 						</tr>
 					</table>
+				</div>
+				<div class="rfm bw0 login-forgot">
+					<a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');">{lang getpassword}</a>
 				</div>
 
 		</div>

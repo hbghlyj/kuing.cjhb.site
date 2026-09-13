@@ -357,7 +357,6 @@ $lang = [
 	'password_security' => 'Password Security',
 	'increase' => 'Increase',
 	'friend_top' => 'Ranking',
-	'connect_register_profile' => 'Create New Account',
 	'connect_register_bind' => 'Existing Account',
 	'connect_member_login_tip' => 'Welcome to use QQ account to login to {$_G[\'setting\'][\'bbname\']}',
 	'connect_config_newpassword_comment' => 'You are currently using a QQ account bound to this site. You can set an independent password here. Only after setting an independent password can you use corresponding features that require entering a password',

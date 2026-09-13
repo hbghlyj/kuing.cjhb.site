@@ -385,7 +385,6 @@ $lang = [
 	'password_security' => '密碼安全',
 	'increase' => '增加',
 	'friend_top' => '排行榜',
-	'connect_register_profile' => '創建新賬號',
 	'connect_register_bind' => '已有本站賬號',
 	'connect_member_login_tip' => '歡迎使用QQ賬號登入  {$_G[\'setting\'][\'bbname\']}',
 	'connect_config_newpassword_comment' => '您目前使用的是QQ賬號綁定本站，您可以在這裡設定獨立密碼，只有設定了獨立密碼後本站需要填寫密碼的相應功能纔可使用',
