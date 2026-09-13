@@ -527,7 +527,7 @@ var mathSymbolCategories = [
 ];
 
 function getMathSymbolCatalog() {
-	var catalog = {};
+	var catalog = Object.create(null);
 	for (var i = 0; i < mathSymbolCategories.length; i++) {
 		for (var j = 0; j < mathSymbolCategories[i].symbols.length; j++) {
 			var symbol = mathSymbolCategories[i].symbols[j];

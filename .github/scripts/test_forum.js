@@ -2162,7 +2162,7 @@ const assertPusherMetadataOrder = () => {
 
 		// Test that inline and display TeX formulas render in WYSIWYG and survive save, restore, and submission.
 		const recentMathSymbols = await page.evaluate(() => {
-			localStorage.setItem('Discuz_math_symbol_recent', JSON.stringify(['\\alpha', '\\beta', '\\alpha', '\\not-a-symbol']));
+			localStorage.setItem('Discuz_math_symbol_recent', JSON.stringify(['\\alpha', 'constructor', '\\beta', '__proto__', '\\alpha', '\\not-a-symbol']));
 			return {
 				loaded: loadRecentMathSymbols(),
 				stored: JSON.parse(localStorage.getItem('Discuz_math_symbol_recent'))
