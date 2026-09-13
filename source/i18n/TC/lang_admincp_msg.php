@@ -568,6 +568,7 @@ $lang = [
 
 
 	'tag_admin_updated' => '標籤更新成功 ',
+	'tag_merge_nonexistence' => '目標標籤不存在，請先創建後再合併。',
 	'tag_rename_invalid' => '標籤名稱須為 2 至 35 個字元，且不能包含逗號',
 	'tag_rename_exists' => '該標籤名稱已存在，請使用合併操作',
 	'tag_rename_select_one' => '一次只能重新命名一個標籤',

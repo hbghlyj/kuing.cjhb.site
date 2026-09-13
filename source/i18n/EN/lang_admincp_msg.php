@@ -566,6 +566,7 @@ $lang = [
 
 
 	'tag_admin_updated' => 'Tag updated successfully ',
+	'tag_merge_nonexistence' => 'The target tag does not exist. Create it first, then merge.',
 
 	'tasks_setting_invalid' => 'Some task settings are unreasonable and cannot be enabled. Please reset',
 	'tasks_del_confirm' => 'Are you sure you want to delete the current task?',

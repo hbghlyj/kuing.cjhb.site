@@ -372,6 +372,9 @@ class tag {
 		if($newtag === '' || strpos($newtag, ',') !== false || $newtagLength < 2 || $newtagLength > 35 || !preg_match('/^[^\x00-\x1F\x7F,]+$/u', $newtag)) {
 			return 'tag_empty';
 		}
+		if(!table_common_tag::t()->get_bytagname($newtag, $idtype)) {
+			return 'tag_merge_nonexistence';
+		}
 		if($newtag !== '') {
 			$tidarray = $blogidarray = $articleidarray = [];
 			$newtaginfo = $this->add_tag($newtag, 0, $idtype, 1);
