@@ -47,7 +47,7 @@
 		<input type="hidden" name="frames" value="yes">
 		<input type="hidden" name="formhash" value="$formhash">
 		
-		{$_G['style']['boardlogo']}
+		<img src="{$_G['style']['boardimg']}" alt="{$_G['setting']['bbname']}" class="boardlogo" id="boardlogo" border="0">
 		<h3 style="margin-bottom: 30px;text-align: center;font-size: 20px;">$cptitle</h3>
 		<!--{if $uid}-->
 			<!--{if !$mustlogin}-->

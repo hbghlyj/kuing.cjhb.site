@@ -61,7 +61,7 @@
 		</div>
 		<!--{/if}-->
 		<!--{if empty($_G['config']['admincp']['qrcode_only'])}-->
-			{$_G['style']['boardlogo']}
+			<img src="{$_G['style']['boardimg']}" alt="{$_G['setting']['bbname']}" class="boardlogo" id="boardlogo" border="0">
 			<!--{if $uid}-->
 				<!--{if !$mustlogin}-->
 				<select name="admin_type" onchange="if(this.value > 0) { $('admin_username').value = '{$username}'; $('admin_username').readOnly = true; } else { $('admin_username').value = ''; $('admin_username').readOnly = false; $('admin_username').focus(); }">

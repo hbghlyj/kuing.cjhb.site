@@ -3,7 +3,7 @@
 
 <!--{if ($_G['setting']['mobile']['forum']['index'] && $_GET['forumlist'] != 1) || !$_G['setting']['mobile']['forum']['index']}-->
 <div class="header cl">
-	<div class="mzlogo"><a href="javascript:;">{$_G['style']['touchlogo']}</a></div>
+	<div class="mzlogo"><a href="javascript:;"><img src="{$_G['style']['touchimg']}" alt="{$_G['setting']['bbname']}" class="touchlogo" id="touchlogo" border="0"></a></div>
 	<div class="myss"><a href="search.php?mod=forum"><i class="dm-search"></i>{lang mobsearchtxt}</a></div>
 </div>
 <!--{else}-->

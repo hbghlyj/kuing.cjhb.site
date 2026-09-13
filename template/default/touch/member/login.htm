@@ -3,7 +3,7 @@
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div><h2></h2><div class="my"></div>
 </div>
-<div class="header_toplogo">{$_G['style']['touchlogo']}<p><!--{if !isset($_GET['viewlostpw'])}-->{lang login}<!--{else}-->{lang getpassword}<!--{/if}--></p></div>
+<div class="header_toplogo"><img src="{$_G['style']['touchimg']}" alt="{$_G['setting']['bbname']}" class="touchlogo" id="touchlogo" border="0"><p><!--{if !isset($_GET['viewlostpw'])}-->{lang login}<!--{else}-->{lang getpassword}<!--{/if}--></p></div>
 <!--{/if}-->
 <!--{hook/logging_top_mobile}-->
 <!--{eval $loginhash = 'L'.random(4);}-->

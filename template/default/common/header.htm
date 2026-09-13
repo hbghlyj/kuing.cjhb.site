@@ -100,7 +100,7 @@
 			<div class="wp">
 				<div class="cl">
 					<!--{eval $mnid = getcurrentnav();}-->
-					<h2 style="display:none;"><!--{if !isset($_G['setting']['navlogos'][$mnid])}--><a href="{if $_G['setting']['domain']['app']['default']}{$_G['scheme']}://{$_G['setting']['domain']['app']['default']}/{else}./{/if}" title="$_G['setting']['bbname']">{$_G['style']['boardlogo']}</a><!--{else}-->$_G['setting']['navlogos'][$mnid]<!--{/if}--></h2>
+					<h2 style="display:none;"><!--{if !isset($_G['setting']['navlogos'][$mnid])}--><a href="{if $_G['setting']['domain']['app']['default']}{$_G['scheme']}://{$_G['setting']['domain']['app']['default']}/{else}./{/if}" title="$_G['setting']['bbname']"><img src="{$_G['style']['boardimg']}" alt="{$_G['setting']['bbname']}" class="boardlogo" id="boardlogo" border="0"></a><!--{else}-->$_G['setting']['navlogos'][$mnid]<!--{/if}--></h2>
 					<!--{template common/header_userstatus}-->
 				</div>
 
