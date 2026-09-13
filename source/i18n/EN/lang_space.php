@@ -123,7 +123,7 @@ $lang = [
 							<input type="hidden" name="refer" value="home.php?mod=space&uid={uid}" />
 							<input type="hidden" name="id" value="{uid}" />
 							<input type="hidden" name="idtype" value="uid" />
-							<input type="hidden" name="commentsubmit" value="true" />':($_G['connectguest']?'<div class="pt hm">You need to <a href="member.php?mod=connect" class="xi2">complete account info</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bind existing account</a> before you can reply</div>':'<div class="pt hm">You need to log in to leave a message <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href)" class="xi2">Login</a> | <a href="member.php?mod='.$_G['setting']['regname'].'" class="xi2">'.$_G['setting']['reglinkname'].'</a></div>')).'
+							<input type="hidden" name="commentsubmit" value="true" />':($_G['connectguest']?'<div class="pt hm">You need to <a href="member.php?mod=connect" class="xi2">complete account info</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bind existing account</a> before you can reply</div>':'<div class="pt hm">You need to log in to leave a message <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href)" class="xi2">Login</a> | <a href="member.php?mod='.$_G['setting']['regname'].'" class="xi2">Register</a></div>')).'
 							<p class="ptn"><button '.($_G['uid']?'type="submit"':'type="button" onclick="showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes\')"').' name="commentsubmit_btn" value="true" id="commentsubmit_btn" class="pn"><strong>Message</strong></button></p>
 							<input type="hidden" name="handlekey" value="commentwall_{uid}" />
 							<span id="return_commentwall_{uid}"></span>

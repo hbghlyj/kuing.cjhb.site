@@ -69,7 +69,7 @@ $lang = [
 	'admin_banpost_confirm' => 'You are about to perform a ban operation',
 	'admin_delpost_confirm' => 'Are you sure you want to delete this reply?',
 	'admin_warn_confirm' => 'You are about to perform a warning operation',
-	'attach_nopermission_login' => 'You need to <a href="member.php?mod=logging&action=login">login</a> to download or view attachments. No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" title="Register account">{$_G[\'setting\'][\'reglinkname\']}</a>',
+	'attach_nopermission_login' => 'You need to <a href="member.php?mod=logging&action=login">login</a> to download or view attachments. No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" title="Register account">Register</a>',
 	'attachlist' => 'Attachment List',
 	'ban_member' => 'Ban',
 	'digest' => '<span class="xi1">Digest</span>',

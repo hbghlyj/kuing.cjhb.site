@@ -1154,7 +1154,7 @@ $lang = [
 	'warn_get' => 'Received Warning',
 	'admin_message_banned' => 'Note: <em>Author is banned or deleted, content automatically hidden. Only administrators or members with management permissions can view</em>',
 	'admin_message_single_banned' => 'Note: <em>This post is banned by administrator or moderator. Only administrators or members with management permissions can view</em>',
-	'attach_nopermission_login' => 'You need to <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">login</a> to download or view. No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" title="Register">{$_G[\'setting\'][\'reglinkname\']}</a>',
+	'attach_nopermission_login' => 'You need to <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">login</a> to download or view. No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" title="Register">Register</a>',
 	'guesttipsinthread_text' => 'Register now to make more friends, enjoy more features, and have fun in the community.',
 	'attach_nopermission_connect_fill_profile' => 'You need to <a href="member.php?mod=connect" class="xi2">complete account info</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bind existing account</a> before you can download or view',
 	'attach_nopermission_notice' => 'This post contains more resources',

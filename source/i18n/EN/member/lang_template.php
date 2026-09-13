@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'getpassword' => 'Forgot Password',
-	'login_guest' => 'No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">{$_G[\'setting\'][\'reglinkname\']}</a>',
+	'login_guest' => 'No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">Register</a>',
 	'new_password' => 'New Password',
 	'new_password_confirm' => 'Confirm Password',
 	'password_weak' => 'Password is too weak, it must contain',
@@ -39,7 +39,7 @@ $lang = [
 	'disagree' => 'Disagree',
 	'index_activation' => 'Your account needs to be activated',
 	'invite_code' => 'Invitation Code',
-	'login_inactive' => 'Cancel activation, <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">{$_G[\'setting\'][\'reglinkname\']}</a> now',
+	'login_inactive' => 'Cancel activation, <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">Register</a> now',
 	'login_now' => 'Already have an account? Login now',
 	'register_buyinvitecode' => 'Don\'t have an invitation code? Click here to get one',
 	'register_email_tips' => 'Enter a valid email address for account recovery.',

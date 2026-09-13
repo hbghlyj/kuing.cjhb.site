@@ -81,7 +81,7 @@ $lang = [
 	'login_switch_invisible_mode' => 'Switch Online Status',
 	'logout' => 'Logout',
 	'my_nav' => 'Quick Navigation',
-	'my_nav_login' => 'Please <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>Login</strong></a> to use quick navigation<br />No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" class="xi2 xw1">$_G[\'setting\'][\'reglinkname\']</a>',
+	'my_nav_login' => 'Please <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>Login</strong></a> to use quick navigation<br />No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}" class="xi2 xw1">Register</a>',
 	'open_diy' => 'Open DIY Panel',
 	'pm_center' => 'Private Messages',
 	'portal_block_manage' => 'Module Management',
