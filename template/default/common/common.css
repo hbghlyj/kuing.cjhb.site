@@ -1646,9 +1646,8 @@ Last Modify:	Pony
 	.login-method-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: {LIGHTTEXT}; text-align: center; }
 		.login-method-divider::before, .login-method-divider::after { content: ""; flex: 1; border-top: 1px solid {COMMONBORDER}; }
 		.login-method-divider span { line-height: 1; }
-	.login-method-content { display: flex; justify-content: flex-start; }
+	.login-method-content { display: flex; justify-content: center; }
 	.rfm.loginqa { display: none; }
-	.login-qa-reveal label { color: {LIGHTTEXT}; font-size: 14px; cursor: pointer; }
 	.login-forgot { text-align: right; }
 
 /* Standalone member login: plain stacked rows; field labels live in placeholders */
@@ -1658,7 +1657,7 @@ Last Modify:	Pony
 	.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 	.member-login-form .rfm .px, .member-login-form .rfm .px.p_fre, .member-login-form .rfm select { box-sizing: border-box; width: 100% !important; }
 	.member-login-form .rfm .password-toggle-field { display: block; width: 100%; }
-	.member-login-form .rfm label { cursor: pointer; }
+	.member-login-form .rfm label { cursor: pointer; color: {LIGHTTEXT}; font-size: 14px; }
 	.member-login-form .rfm input.pc { width: 16px; height: 16px; margin: 0 7px 0 0; accent-color: {MENUBGCOLOR}; vertical-align: -3px; }
 	.member-login-form .rfm .pn + a { margin-left: 12px; }
 

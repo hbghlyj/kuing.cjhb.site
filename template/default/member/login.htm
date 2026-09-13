@@ -70,7 +70,7 @@
 
 			<!--{if empty($_GET['auth']) || $questionexist || $seccodecheck}-->
 			<!--{if !$questionexist}-->
-			<div class="rfm login-qa-reveal">
+			<div class="rfm">
 				<label><input type="checkbox" class="pc" onchange="var showQ=this.checked;['loginquestion_row_$loginhash','loginanswer_row_$loginhash'].forEach(function(id){var el=document.querySelector('#'+id);if(el){el.classList.toggle('loginqa',!showQ);}});">{lang security_question}</label>
 			</div>
 			<!--{/if}-->
