@@ -915,12 +915,12 @@ div.todo>em { width: 25%; }
 
 
 .stat_box ul {width:calc(100% + 10px);overflow:hidden}
-.stat_box .statitem {float:left;width:calc(25% - 10px);margin:5px 10px 5px 0;padding:14px 16px 13px;line-height:22px;box-sizing:border-box;border-radius:10px;overflow:hidden;background:var(--admincp-bgc);position:relative;border:1px solid var(--admincp-borderd);transition:transform .2s ease, box-shadow .2s ease;}
+.stat_box .statitem {float:left;width:calc(25% - 10px);margin:5px 10px 5px 0;padding:14px 16px 13px;min-height:92px;line-height:22px;box-sizing:border-box;border-radius:10px;overflow:hidden;background:var(--admincp-bgc);position:relative;border:1px solid var(--admincp-borderd);transition:transform .2s ease, box-shadow .2s ease;}
 .stat_box .statitem:hover { transform:translateY(-2px); box-shadow:0 4px 14px rgba(0,0,0,.06); }
 .stat_box .statitem:after{content:"\e612";font-family: dzicon; font-size: 40px; position:absolute;top:20px;right:10px;bottom:0;opacity:0.1}
 .stat_box .statitem span {display:block;margin:15px 0 5px;min-height:22px;font-size:20px;font-weight:600;color:var(--admincp-color);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:30px;cursor:help;}
 .stat_box .statitem span a {color:inherit}
-.stat_box .statitem em {font-size:12px;float: right;margin-top: 40px;color:var(--admincp-fc);max-width:calc(100% - 30px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.stat_box .statitem em {font-size:12px;position:absolute;bottom:13px;right:16px;color:var(--admincp-fc);max-width:calc(100% - 30px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:20px;}
 .stat_box .ico01:after {content: "\e621"; }
 .stat_box .ico02:after {content: "\e7a7"; }
 .stat_box .ico03:after {content: "\e6d5"; }
