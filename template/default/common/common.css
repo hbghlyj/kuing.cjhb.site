@@ -1652,7 +1652,7 @@ Last Modify:	Pony
 	.login-forgot { text-align: right; }
 
 /* Standalone member login: labelless rows stack full-width; labels live in placeholders */
-	[id^="layer_login_"] > .flb { display: none; }
+	#main_message [id^="layer_login_"] > .flb { display: none; }
 	.member-login-form .rfm { width: 100%; border: 0; }
 	.member-login-form .rfm table, .member-login-form .rfm tbody { display: block; width: 100%; }
 	.member-login-form .rfm tr { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
