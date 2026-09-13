@@ -24,6 +24,7 @@ function build_cache_forumrecommend() {
 			$group['lastpost'] = count($group['lastpost']) != 4 ? $lastpost : $group['lastpost'];
 			list($lastpost['tid'], $lastpost['dateline'], $lastpost['author'], $lastpost['subject']) = $group['lastpost'];
 			if($lastpost['tid']) {
+				$lastpost['dbdateline'] = $lastpost['dateline'];
 				$lastpost['dateline'] = dgmdate($lastpost['dateline'], 'Y-m-d H:i:s');
 				if($lastpost['author']) {
 					$lastpost['encode_author'] = rawurlencode($lastpost['author']);

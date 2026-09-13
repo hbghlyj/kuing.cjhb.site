@@ -41,12 +41,13 @@
 				return;
 			}
 			var timestamp = Number(element.getAttribute('data-local-timestamp') || element.getAttribute('data-timestamp'));
-			if(isFinite(timestamp)) {
-				element.textContent = element.id === 'footer_time_now'
-					? dateFormatter.format(new Date(timestamp * 1000))
-					: formatRelativeTime(timestamp);
-				element.setAttribute('data-localized-timestamp', '1');
+			if(!timestamp || !isFinite(timestamp)) {
+				return;
 			}
+			element.textContent = element.id === 'footer_time_now'
+				? dateFormatter.format(new Date(timestamp * 1000))
+				: formatRelativeTime(timestamp);
+			element.setAttribute('data-localized-timestamp', '1');
 		});
 	}
 
