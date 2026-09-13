@@ -1067,6 +1067,7 @@ $lang = [
 	'login_question_empty' => 'Please select a security question and fill in the correct answer',
 	'login_question_invalid' => 'Sorry, the security question answer is filled in incorrectly',
 	'login_invalid' => 'Login failed, you can still try {loginperm} times',
+	'login_account_nonexistence' => 'No account found. Try another email or <a href="member.php?mod=register">sign up now</a>.',
 	'login_password_invalid' => 'Sorry, the password you entered is incorrect',
 	'register_disable' => 'Sorry, the site currently prohibits new user registration',
 	'register_disable_activation' => 'Sorry, the site currently prohibits activation',

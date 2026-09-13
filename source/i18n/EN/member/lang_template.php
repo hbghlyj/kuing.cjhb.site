@@ -48,7 +48,6 @@ $lang = [
 	'register_password_length_tips1' => 'Minimum length is',
 	'register_password_length_tips2' => ' characters',
 	'register_password_tips' => 'Please enter password',
-	'register_username_tips' => 'Username must be 3 to 15 characters',
 	'register_username_optional' => 'Optional — leave blank and a name like user123 will be assigned.',
 	'register_validate_email_tips' => 'Registration requires email verification. Please be sure to fill in the correct email address and check your email promptly after submission.<br />It may take a few minutes to receive the email. If you don\'t see it in your inbox, please check your spam folder.',
 	'rulemessage' => 'Site Terms of Service',

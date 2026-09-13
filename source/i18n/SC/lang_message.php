@@ -1054,6 +1054,7 @@ $lang = [
 	'login_question_empty' => '请选择安全提问以及填写正确的答案',
 	'login_question_invalid' => '抱歉，安全提问答案填写错误',
 	'login_invalid' => '登录失败，您还可以尝试 {loginperm} 次',
+	'login_account_nonexistence' => '找不到该账号。换个邮箱试试，或<a href="member.php?mod=register">立即注册</a>。',
 	'login_password_invalid' => '抱歉，您输入的密码有误',
 	'register_disable' => '抱歉，目前站点禁止新用户注册',
 	'phone_register_disable' => '您的手机号还未注册，请注册账号再登录',

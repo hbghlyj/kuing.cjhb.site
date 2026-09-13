@@ -45,7 +45,6 @@ $lang = [
 	'register_password_length_tips1' => '最小長度爲',
 	'register_password_length_tips2' => '個字符',
 	'register_password_tips' => '請填寫密碼',
-	'register_username_tips' => '用戶名由 3 到 15 個字符組成',
 	'register_username_optional' => '選填，留空將自動分配用戶名（如 user123）。',
 	'register_validate_email_tips' => '註冊需要驗證郵箱，請務必填寫正確的郵箱，提交後請及時查收郵件。<br>您可能需要等待幾分鐘才能收到郵件，如果收件箱沒有，請檢查一下垃圾郵件箱。',
 	'rulemessage' => '網站服務條款',

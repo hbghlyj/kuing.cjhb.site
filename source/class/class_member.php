@@ -272,7 +272,7 @@ class logging_ctl {
 
 				loginfailed($_GET['username']);
 				failedip();
-				$fmsg = $result['ucresult']['uid'] == '-3' ? (empty($_GET['questionid']) || $answer == '' ? 'login_question_empty' : 'login_question_invalid') : 'login_invalid';
+				$fmsg = $result['ucresult']['uid'] == '-3' ? (empty($_GET['questionid']) || $answer == '' ? 'login_question_empty' : 'login_question_invalid') : ($result['ucresult']['uid'] == '-1' ? 'login_account_nonexistence' : 'login_invalid');
 				if($_G['member_loginperm'] > 1) {
 					showmessage($fmsg, '', ['loginperm' => $_G['member_loginperm'] - 1]);
 				} elseif($_G['member_loginperm'] == -1) {
