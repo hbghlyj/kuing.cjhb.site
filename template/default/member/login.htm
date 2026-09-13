@@ -141,14 +141,16 @@
 								<button class="pn pnc" type="submit" name="loginsubmit" value="true"><strong>{lang login}</strong></button>
 							</td>
 							<td>
-								<!--{if $this->setting['sitemessage'][login] && empty($_GET['infloat'])}--><a href="javascript:;" id="custominfo_login_$loginhash" class="y">&nbsp;<i class="fico-info fic4 fc-p" alt="{lang faq}" class="vm"></i></a><!--{/if}-->
+								<a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');">{lang getpassword}</a>
 							</td>
 						</tr>
 					</table>
 				</div>
+				<!--{if $this->setting['sitemessage'][login] && empty($_GET['infloat'])}-->
 				<div class="rfm bw0 login-forgot">
-					<a href="javascript:;" onclick="display('layer_login_$loginhash');display('layer_lostpw_$loginhash');">{lang getpassword}</a>
+					<a href="javascript:;" id="custominfo_login_$loginhash">&nbsp;<i class="fico-info fic4 fc-p" alt="{lang faq}" class="vm"></i></a>
 				</div>
+				<!--{/if}-->
 
 		</div>
 	</form>
