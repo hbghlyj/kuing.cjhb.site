@@ -28,7 +28,6 @@ $lang = [
 	'login_guestmessage' => '您需要先登入才能繼續本操作',
 	'login_seccheck2' => '請輸入驗證碼後繼續登入',
 	'login_member' => '用戶登入',
-	'login_method' => '快捷登入',
 	'login_or' => '或',
 	'login_permanent' => '自動登入',
 	'profile_renew' => '請補充下面的登入資訊',

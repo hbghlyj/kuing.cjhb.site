@@ -212,14 +212,9 @@
 				</table>
 			</div>
 			<!--{if !empty($_G['setting']['pluginhooks']['register_logging_method'])}-->
-				<div class="rfm bw0 {if empty($_GET['infloat'])} mbw{/if}">
-					<hr class="l">
-					<table>
-						<tr>
-							<th>{lang login_method}:</th>
-							<td><!--{hook/register_logging_method}--></td>
-						</tr>
-					</table>
+				<div class="rfm bw0 login-methods {if empty($_GET['infloat'])} mbw{/if}">
+					<div class="login-method-divider"><span>{lang login_or}</span></div>
+					<div class="login-method-content"><!--{hook/register_logging_method}--></div>
 				</div>
 			<!--{/if}-->
 		</div>

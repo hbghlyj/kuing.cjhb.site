@@ -28,7 +28,6 @@ $lang = [
 	'login_guestmessage' => 'You need to log in first to continue this operation',
 	'login_seccheck2' => 'Please enter the verification code before continuing to log in',
 	'login_member' => 'User Login',
-	'login_method' => 'Quick Login',
 	'login_or' => 'or',
 	'login_permanent' => 'Stay signed in',
 	'profile_renew' => 'Please complete the following login information',
