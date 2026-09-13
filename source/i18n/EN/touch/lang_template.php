@@ -141,6 +141,7 @@ $lang = [
 	'noregister' => 'Not registered yet?',
 	'registerinputtip' => 'Username: 3-15 characters',
 	'login_or' => 'or',
+	'login_permanent' => 'Stay signed in for 30 days',
 	'register_username_optional' => 'optional',
 	'registeremail' => 'Email',
 	'quickregister' => 'Register Now',

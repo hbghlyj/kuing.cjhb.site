@@ -47,7 +47,6 @@
 	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}'>
 	<input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php<!--{/if}-->" />
 	<input type="hidden" name="fastloginfield" value="auto">
-	<input type="hidden" name="cookietime" value="2592000">
 	<!--{if $auth}-->
 		<input type="hidden" name="auth" value="$auth">
 	<!--{/if}-->
@@ -77,6 +76,7 @@
 			</li>
 			<li class="answerli" style="display:none;"><input type="text" name="answer" id="answer_{$loginhash}" class="px" placeholder="{lang security_a}"></li>
 		</ul>
+		<div class="login-permanent"><label><input type="checkbox" class="pc" name="cookietime" value="2592000" checked="checked"> {lang login_permanent}</label></div>
 		<!--{if $seccodecheck || $secqaacheck}-->
 		<!--{subtemplate common/seccheck}-->
 		<!--{/if}-->

@@ -263,6 +263,10 @@ class helper_seccheck {
 					}
 				}
 			}
+			if($rule) {
+				return $status && $rule;
+			}
+			return [false, $status];
 		} else {
 			$rule = $status;
 		}
@@ -394,6 +398,12 @@ class helper_seccheck {
 			return [];
 		}
 		global $_G;
+		if(is_array($v)) {
+			return [
+				!empty($v[0]) && !empty($_G['setting']['secqaa']['allowcode']),
+				!empty($v[1]) && !empty($_G['cache']['secqaa'])
+			];
+		}
 		return [
 			$v && !empty($_G['setting']['secqaa']['allowcode']),
 			$v && !empty($_G['cache']['secqaa'])

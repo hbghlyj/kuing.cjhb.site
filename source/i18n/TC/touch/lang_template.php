@@ -146,6 +146,7 @@ $lang = [
 	'noregister' => '還沒有註冊？',
 	'registerinputtip' => '用戶名：3-15位',
 	'login_or' => '或',
+	'login_permanent' => '保持登入30天',
 	'register_username_optional' => '選填',
 	'registeremail' => '郵箱',
 	'quickregister' => '立即註冊',
