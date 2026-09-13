@@ -452,6 +452,28 @@ function sanitizePaste(event) {
 	if(!html) {
 		return;
 	}
+	if(wysiwyg) {
+		try {
+			var pSel = editwin.getSelection();
+			if(pSel && pSel.rangeCount) {
+				var pCaret = pSel.getRangeAt(0).startContainer;
+				while(pCaret && pCaret !== editdoc.body) {
+					if(pCaret.nodeType === 1 && pCaret.classList && pCaret.classList.contains('blockcode')) {
+						var plainCode = data.getData('text/plain');
+						if(plainCode) {
+							event.preventDefault();
+							checkFocus();
+							if(!editdoc.execCommand('insertText', false, plainCode)) {
+								insertText(htmlspecialchars(plainCode), 0, 0);
+							}
+						}
+						return;
+					}
+					pCaret = pCaret.parentNode;
+				}
+			}
+		} catch(e) {}
+	}
 	event.preventDefault();
 	try {
 		var div = document.createElement('div');
