@@ -1262,7 +1262,7 @@ a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-i
 	display: grid;
 	grid-template-columns: var(--rfm-label-w) minmax(0, max-content) minmax(0, 1fr);
 	column-gap: 10px;
-	align-items: center;
+	align-items: start;
 }
 .rfm th {
 	grid-column: 1;

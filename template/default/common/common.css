@@ -1623,7 +1623,7 @@ Last Modify:	Pony
 		.rfm th { padding-right: 10px; text-align: right; }
 		.rfm .px { width: 220px; }
 		.rfm .p_tip { position: absolute; z-index: 2; display: none; padding-left: 10px; width: 390px; background: {WRAPBG}; color: {MIDTEXT}; font-style: normal; }
-		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: bold; font-family: Verdana,system-ui; }
+		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; }
 		.rfm #emailmore { position: absolute; }
 		.p_right { width: 30px; }
 		.p_right:after { content: "\f115"; font-family: dzicon; font-size: 16px; margin-left: 8px; color: #7CBE00; line-height: 16px; }
