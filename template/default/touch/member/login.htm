@@ -13,8 +13,7 @@
 <!--{/if}-->
 <!--{if !isset($_GET['viewlostpw'])}-->
 	<!--{if ($_G['isHTTPS'] && $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']) || (!empty($_G['setting']['githubconnect_allow']) && !empty($_G['setting']['githubconnect_clientid']) && !empty($_G['setting']['githubconnect_clientsecret'])) || (!empty($_G['setting']['xconnect_allow']) && !empty($_G['setting']['xconnect_clientid']) && !empty($_G['setting']['xconnect_clientsecret']))}-->
-	<div class="login-method-divider"><span>{lang login_or}</span></div>
-	<!--{/if}-->
+	<div class="login-method-content">
 	<!--{if $_G['isHTTPS'] && $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']}-->
 		<script src="https://accounts.google.com/gsi/client" async></script>
 		<div id="g_id_onload"
@@ -42,6 +41,9 @@
 		<div class="btn_login">
 			<a href="plugin.php?id=xconnect:oauth&op=init&referer={echo rawurlencode($xconnect_mobile_referer);}" class="pn button x-login"><span class="x-login-text">{echo lang('plugin/xconnect', 'xconnect_login_button');}</span></a>
 		</div>
+	<!--{/if}-->
+	</div>
+	<div class="login-method-divider"><span>{lang login_or}</span></div>
 	<!--{/if}-->
 	<form id="loginform" method="post" action="member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash">
 	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}'>

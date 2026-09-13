@@ -1648,8 +1648,7 @@ Last Modify:	Pony
 		.login-method-divider span { line-height: 1; }
 	.login-method-content { display: flex; justify-content: center; }
 	.rfm.loginqa { display: none; }
-	.login-qa-reveal a { color: {LIGHTTEXT}; font-size: 14px; }
-	.login-qa-reveal .qa-box { display: inline-block; width: 14px; height: 14px; border: 1px solid; border-radius: 2px; margin-right: 4px; vertical-align: -2px; }
+	.login-qa-reveal label { color: {LIGHTTEXT}; font-size: 14px; cursor: pointer; }
 	.login-forgot { text-align: right; }
 
 /* Standalone member login: labelless rows stack full-width; labels live in placeholders */

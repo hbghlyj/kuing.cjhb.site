@@ -1082,6 +1082,8 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .login-method-divider {display:flex;align-items:center;gap:12px;margin:7px 15px;color:var(--dz-FC-ccc);font-size:14px;text-align:center}
 .login-method-divider::before, .login-method-divider::after {content:"";flex:1;border-top:1px solid var(--dz-BOR-ed)}
 .login-method-divider span {line-height:1}
+.login-method-content {display:flex;flex-direction:column;align-items:center;gap:8px;margin:7px 15px 0}
+.login-method-content .btn_login {width:100%;padding:0}
 .login-permanent {padding:0 15px;font-size:14px}
 .login-permanent .pc {vertical-align:-2px}
 .btn_login .pn.github-login {display:flex;align-items:center;justify-content:center}

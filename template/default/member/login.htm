@@ -17,7 +17,7 @@
 			<div class="bm_h bbs">
 				<span class="y">
 					<!--{hook/logging_side_top}-->
-					<a href="member.php?mod={$_G[setting][regname]}" class="xi2">{lang login_guest}</a>
+					{lang login_guest}
 				</span>
 				<!--{if !$secchecklogin2}-->
 					<h3 class="xs2">{lang login}</h3>
@@ -86,7 +86,7 @@
 			<div class="rfm login-qa-reveal">
 				<table>
 					<tr>
-						<td><a href="javascript:;" onclick="document.querySelectorAll('#loginform_$loginhash .loginqa').forEach(function(el){el.classList.remove('loginqa')});this.closest('.rfm').style.display='none';"><span class="qa-box" aria-hidden="true"></span>{lang security_question}</a></td>
+						<td><label><input type="checkbox" class="pc" onchange="document.querySelectorAll('#loginform_$loginhash .loginqa').forEach(function(el){el.classList.remove('loginqa')});this.closest('.rfm').style.display='none';"> {lang security_question}</label></td>
 					</tr>
 				</table>
 			</div>

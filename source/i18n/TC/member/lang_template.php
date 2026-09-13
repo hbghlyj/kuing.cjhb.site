@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'getpassword' => '找回密碼',
-	'login_guest' => '沒有賬號？<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">註冊</a>',
+	'login_guest' => '<a href="member.php?mod={$_G[\'setting\'][\'regname\']}" class="xi2">沒有賬號？註冊</a>',
 	'new_password' => '新密碼',
 	'new_password_confirm' => '確認密碼',
 	'password_weak' => '密碼太弱，密碼中必須包含',

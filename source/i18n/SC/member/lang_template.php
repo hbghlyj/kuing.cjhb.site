@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'getpassword' => '找回密码',
-	'login_guest' => '没有账号？<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">注册</a>',
+	'login_guest' => '<a href="member.php?mod={$_G[\'setting\'][\'regname\']}" class="xi2">没有账号？注册</a>',
 	'new_password' => '新密码',
 	'new_password_confirm' => '确认密码',
 	'password_weak' => '密码太弱，密码中必须包含',

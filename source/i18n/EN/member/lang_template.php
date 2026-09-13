@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'getpassword' => 'Forgot Password',
-	'login_guest' => 'No account? <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">Register</a>',
+	'login_guest' => '<a href="member.php?mod={$_G[\'setting\'][\'regname\']}" class="xi2">No account? Register</a>',
 	'new_password' => 'New Password',
 	'new_password_confirm' => 'Confirm Password',
 	'password_weak' => 'Password is too weak, it must contain',
