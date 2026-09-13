@@ -1665,7 +1665,7 @@ Last Modify:	Pony
 				.member-login-form .rfm { width: 100%; border: 0; }
 				.member-login-form .rfm table, .member-login-form .rfm tbody { display: block; width: 100%; }
 				.member-login-form .rfm tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; width: 100%; }
-				.member-login-form .rfm th, .member-login-form .rfm td { box-sizing: border-box; display: block; width: auto; padding: 0; text-align: left; }
+				.member-login-form .rfm th, .member-login-form .rfm td { box-sizing: border-box; width: auto; padding: 0; text-align: left; }
 				.member-login-form .rfm th { grid-column: 1 / -1; grid-row: 1; padding: 10px 0 5px; font-weight: 600; line-height: 1.5; }
 				.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 				.member-login-form .rfm td:not(.tipcol) { grid-column: 1; grid-row: 2; line-height: 42px; }
