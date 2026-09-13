@@ -278,7 +278,7 @@ $lang = [
 	'open_forum_before_open_ggcf' => 'Please enable the forum function before enabling the group, guide, collection, and broadcast functions',
 	'portal_status_off' => 'Sorry, the portal function is not enabled yet',
 
-	'register_check_found' => 'Username is already taken, <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">log in</a> instead',
+	'register_check_found' => 'Username is already taken, <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">log in</a> instead',
 	'register_activation' => 'Username already exists',
 	'no_invitation_code' => 'Sorry, the invite code is empty, please fill it in. Registration is not allowed without an invite code',
 	'wrong_invitation_code' => 'Sorry, the invite code is incorrect, please re-enter. Registration is not allowed without an invite code',

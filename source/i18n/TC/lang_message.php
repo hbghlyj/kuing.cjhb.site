@@ -115,7 +115,7 @@ $lang = [
 	'search_closed' => '搜尋功能已關閉',
 	'collection_permission_deny' => '抱歉，該淘專輯不存在或沒有相應的權限',
 	'collection_edit_checkentire' => '請將內容填寫完整',
-	'collection_teamworkers_exceed' => '共同維護人數已達上限，不能再邀請或接受其他人蔘與維護',
+	'collection_teamworkers_exceed' => '共同維護人數已達上限，不能再邀請或接受其他人參與維護',
 	'no_privilege_guest' => '抱歉，遊客沒有權限進行此操作',
 	'forum_nonexistence' => '抱歉，指定的版塊不存在',
 	'ranklist_this_status_off' => '此排行功能已關閉',
@@ -282,11 +282,11 @@ $lang = [
 	'open_forum_before_open_ggcf' => '請先開啓論壇功能後再開啓圈子、導讀、淘帖、廣播功能',
 	'portal_status_off' => '抱歉，門戶功能尚未開啓',
 
-	'register_check_found' => '該用戶名已被佔用，<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">登入</a>',
+	'register_check_found' => '該用戶名已被佔用，<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">登入</a>',
 	'no_invitation_code' => '抱歉，邀請碼爲空請填寫，沒有邀請碼不允許註冊',
 	'wrong_invitation_code' => '抱歉，邀請碼錯誤，請重新填寫，沒有邀請碼不允許註冊',
 	'username_nonexistence' => '抱歉，指定用戶不存在或被凍結',
-	'thread_reshreply_membernum' => '共有 {membernum}人蔘與了本主題',
+	'thread_reshreply_membernum' => '共有 {membernum}人參與了本主題',
 	'group_name_oversize' => '抱歉，圈子名稱超過20個字節將被截斷',
 	'quickclear_need_operation' => '請選擇操作類型',
 	'quickclear_success' => '清理完成',
@@ -400,8 +400,8 @@ $lang = [
 	'recommend_outoftimes' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong><br>今日評價機會已用完',
 	'recommend_daycount_succeed' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span><br>您今天還能評價 {daycount} 次',
 	'recommend_succeed' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
-	'thread_poll_voter_isnull' => '暫時還沒有人蔘與投票，不能添加標籤。',
-	'thread_activityapply_isnull' => '暫時還沒有人蔘加活動，不能添加標籤。',
+	'thread_poll_voter_isnull' => '暫時還沒有人參與投票，不能添加標籤。',
+	'thread_activityapply_isnull' => '暫時還沒有人參加活動，不能添加標籤。',
 
 	'group_admin_enter_panel' => '請進入圈子管理頁面進行管理',
 

@@ -552,7 +552,8 @@ img{border:none;}
 .header-user.open .header-user-avatar{transform:scale(1.2);}
 .header-user .poptip-popper .poptip-arrow{right:16px;}
 .header-user-info{display:flex;align-items:center;}
-.header-user-info::after{display:none;margin-left:4px;width:12px;height:12px;content:'';}
+.header-user-info::after{display:block;width:7px;height:7px;margin-left:6px;border-right:1.5px solid var(--dz-fc);border-bottom:1.5px solid var(--dz-fc);content:'';transform:rotate(45deg);margin-top:-2px;transition:transform .2s,margin .2s;}
+.header-user.open .header-user-info::after{transform:rotate(225deg);margin-top:2px;}
 .header-user-name{margin-left:8px;font-size:14px;}
 .header-user-avatar{transition-duration:.4s;}
 .header-user-avatar img, .header-user-avatar .Avatar{width:32px;height:32px;border-radius:5px;}
