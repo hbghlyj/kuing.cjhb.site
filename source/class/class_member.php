@@ -519,6 +519,15 @@ class register_ctl {
 				showmessage('register_rules_agree');
 			}
 
+			$generatedUsername = false;
+			if($username === '') {
+				$tries = 0;
+				do {
+					$username = 'user'.TIMESTAMP.random(3, 1);
+					$tries++;
+				} while(member::checkExists($username) && $tries < 5);
+				$generatedUsername = true;
+			}
 			$usernamelen = dstrlen($username);
 			if($usernamelen < 3) {
 				showmessage('profile_username_tooshort');
@@ -690,6 +699,11 @@ class register_ctl {
 			$uid = native_user_create($username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
 			if($uid <= 0) {
 				showmessage('undefined_action');
+			}
+			if($generatedUsername) {
+				$username = 'user'.$uid;
+				table_common_member::t()->update_username($uid, $username);
+				$_G['username'] = $username;
 			}
 			if($setregip == 1) {
 				table_common_regip::t()->update_count_by_ip($_G['clientip']);

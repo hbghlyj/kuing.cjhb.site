@@ -26,7 +26,7 @@
 						<!--{/if}-->
 					</li>
 				<!--{/if}-->
-				<li class="mli"><input type="text" class="px" autocomplete="off" value="" name="{$_G['setting']['reginput']['username']}" placeholder="*{lang registerinputtip}" required fwin="login"></li>
+				<li class="mli"><input type="text" class="px" autocomplete="off" value="" name="{$_G['setting']['reginput']['username']}" placeholder="{lang registerinputtip} ({lang register_username_optional})" fwin="login"></li>
 				<li class="mli"><input type="password" class="px" value="" name="{$_G['setting']['reginput']['password']}" placeholder="*{lang login_password}" required fwin="login"></li>
 				<li class="mli"><input type="email" class="px" autocomplete="off" value="$hash[0]" name="{$_G['setting']['reginput']['email']}" placeholder="*{lang registeremail}" required fwin="login"></li>
 				<!--{if $_G['setting']['regverify'] == 2}-->

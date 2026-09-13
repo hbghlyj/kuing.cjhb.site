@@ -523,6 +523,33 @@ const assertPusherMetadataOrder = () => {
         const domContent = await page.textContent('body');
         assert.ok(domContent.includes(username), 'Assertion Error: Registered username was not rendered in the authenticated account page.');
 
+        console.log("Testing registration with blank username...");
+        const blankUsername = 'u' + timestamp + 'b';
+        const blankEmail = blankUsername + '@example.com';
+        const blankContext = await browser.newContext();
+        const blankPage = await blankContext.newPage();
+        await blankPage.goto('http://127.0.0.1:8080/member.php?mod=register');
+        await blankPage.waitForLoadState('domcontentloaded');
+        const blankForm = blankPage.locator('#registerform');
+        assert.strictEqual(await blankForm.count(), 1, 'Assertion Error: Blank-username registration form did not render.');
+        const blankUsernameInput = blankForm.locator('input[name="username"], input[type="text"]').first();
+        await blankUsernameInput.fill('');
+        assert.strictEqual(await blankUsernameInput.inputValue(), '', 'Assertion Error: Username field was not left blank.');
+        assert.strictEqual(await blankUsernameInput.getAttribute('required'), null, 'Assertion Error: Username field is still marked required.');
+        await blankForm.locator('.password-toggle-field input').fill(password);
+        await blankForm.locator('input[name="email"], input[type="email"]').fill(blankEmail);
+        await blankForm.locator('input[name="secanswer"]').fill('2');
+        const blankSubmitBtn = blankForm.locator('#registerformsubmit');
+        await Promise.all([
+            blankPage.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            blankSubmitBtn.click()
+        ]);
+        const generatedName = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT username FROM pre_common_member WHERE email='${blankEmail}';"`).toString().trim();
+        assert.match(generatedName, /^user\d+$/, `Assertion Error: Blank username was not auto-assigned as user{id}, got '${generatedName}'.`);
+        await blankPage.waitForURL(url => url.pathname === '/' || url.href.includes('home.php?mod=spacecp'));
+        assert.ok(!(await blankPage.url()).includes('mod=logging'), 'Assertion Error: Blank-username registration did not establish an authenticated session.');
+        await blankContext.close();
+
         console.log("Testing login with the registered email address...");
         const emailLoginContext = await browser.newContext({
             userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',

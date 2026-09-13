@@ -282,7 +282,7 @@ $lang = [
 	'open_forum_before_open_ggcf' => '请先开启论坛功能后再开启圈子、导读、淘帖、广播功能',
 	'portal_status_off' => '抱歉，门户功能尚未开启',
 
-	'register_check_found' => '该用户名已注册，请更换用户名或<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">登录</a>',
+	'register_check_found' => '该用户名已被占用，<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">登录</a>',
 	'no_invitation_code' => '抱歉，邀请码为空请填写，没有邀请码不允许注册',
 	'wrong_invitation_code' => '抱歉，邀请码错误，请重新填写，没有邀请码不允许注册',
 	'username_nonexistence' => '抱歉，指定用户不存在或被冻结',

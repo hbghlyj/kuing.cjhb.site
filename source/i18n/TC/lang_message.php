@@ -282,7 +282,7 @@ $lang = [
 	'open_forum_before_open_ggcf' => '請先開啓論壇功能後再開啓圈子、導讀、淘帖、廣播功能',
 	'portal_status_off' => '抱歉，門戶功能尚未開啓',
 
-	'register_check_found' => '該用戶名已註冊，請更換用戶名或<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">登入</a>',
+	'register_check_found' => '該用戶名已被佔用，<a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;" class="xi2">登入</a>',
 	'no_invitation_code' => '抱歉，邀請碼爲空請填寫，沒有邀請碼不允許註冊',
 	'wrong_invitation_code' => '抱歉，邀請碼錯誤，請重新填寫，沒有邀請碼不允許註冊',
 	'username_nonexistence' => '抱歉，指定用戶不存在或被凍結',

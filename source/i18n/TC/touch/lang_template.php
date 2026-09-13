@@ -145,6 +145,7 @@ $lang = [
 	'useqqconnectlogin' => '或使用QQ登入',
 	'noregister' => '還沒有註冊？',
 	'registerinputtip' => '用戶名：3-15位',
+	'register_username_optional' => '選填',
 	'registeremail' => '郵箱',
 	'quickregister' => '立即註冊',
 	'quickregister_bindaccount' => '註冊一個賬號，並綁定',
