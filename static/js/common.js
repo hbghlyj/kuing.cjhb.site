@@ -787,6 +787,9 @@ function showMenu(v) {
 	if (maxh && menuObj.scrollHeight > maxh) {
 		menuObj.style.height = maxh + 'px';
 		menuObj.style.overflowY = 'auto';
+	} else {
+		menuObj.style.height = '';
+		menuObj.style.overflowY = '';
 	}
 
 	if (!duration) {
