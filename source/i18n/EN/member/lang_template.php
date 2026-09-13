@@ -42,7 +42,7 @@ $lang = [
 	'login_inactive' => 'Cancel activation, <a href="member.php?mod={$_G[\'setting\'][\'regname\']}">{$_G[\'setting\'][\'reglinkname\']}</a> now',
 	'login_now' => 'Already have an account? Login now',
 	'register_buyinvitecode' => 'Don\'t have an invitation code? Click here to get one',
-	'register_email_tips' => 'Please enter a valid email address',
+	'register_email_tips' => 'Enter a valid email address for account recovery.',
 	'register_message' => 'Registration Reason',
 	'register_message1' => 'The registration reason you fill in will be used as an important reference for your registration application. Please fill it in carefully.',
 	'register_password_length_tips1' => 'Minimum length is',

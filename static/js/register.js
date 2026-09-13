@@ -38,7 +38,7 @@ function addFormEvent(formid, focus){
 			stmp[si] = i;
 			si++;
 		}
-		if(formNode[i].type == 'text' || formNode[i].type == 'password'){
+		if(formNode[i].type == 'text' || formNode[i].type == 'password' || formNode[i].type == 'email'){
 			formNode[i].onfocus = function(){
 				showInputTip(!this.id ? this.name : this.id);
 			}
