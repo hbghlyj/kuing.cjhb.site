@@ -49,6 +49,12 @@
 			<div class="mtw">
 				<div id="reginfo_a">
 					<!--{hook/register_top}-->
+					<!--{if !empty($_G['setting']['pluginhooks']['register_logging_method'])}-->
+						<div class="rfm bw0 login-methods {if empty($_GET['infloat'])} mbw{/if}">
+							<div class="login-method-content"><!--{hook/register_logging_method}--></div>
+							<div class="login-method-divider"><span>{lang login_or}</span></div>
+						</div>
+					<!--{/if}-->
 					<!--{if $sendurl}-->
 						<div class="rfm">
 							<table>
@@ -211,12 +217,6 @@
 					</tr>
 				</table>
 			</div>
-			<!--{if !empty($_G['setting']['pluginhooks']['register_logging_method'])}-->
-				<div class="rfm bw0 login-methods {if empty($_GET['infloat'])} mbw{/if}">
-					<div class="login-method-divider"><span>{lang login_or}</span></div>
-					<div class="login-method-content"><!--{hook/register_logging_method}--></div>
-				</div>
-			<!--{/if}-->
 		</div>
 	</form>
 	<!--{/if}-->

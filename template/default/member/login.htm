@@ -45,7 +45,14 @@
 				<!--{if $auth}-->
 					<input type="hidden" name="auth" value="$auth">
 				<!--{/if}-->
-				
+
+				<!--{if !empty($_G['setting']['pluginhooks']['logging_method'])}-->
+					<div class="rfm bw0 login-methods {if empty($_GET['infloat'])} mbw{/if}">
+						<div class="login-method-content"><!--{hook/logging_method}--></div>
+						<div class="login-method-divider"><span>{lang login_or}</span></div>
+					</div>
+				<!--{/if}-->
+
 				<!--{if $invite}-->
 				<div class="rfm">
 					<table>
@@ -146,14 +153,8 @@
 					</table>
 				</div>
 
-				<!--{if !empty($_G['setting']['pluginhooks']['logging_method'])}-->
-					<div class="rfm bw0 login-methods {if empty($_GET['infloat'])} mbw{/if}">
-						<div class="login-method-divider"><span>{lang login_or}</span></div>
-						<div class="login-method-content"><!--{hook/logging_method}--></div>
-					</div>
-				<!--{/if}-->
-			</div>
-		</form>
+		</div>
+	</form>
 	</div>
 	<div id="layer_lostpw_$loginhash" style="display: none;">
 		<h3 class="flb">
