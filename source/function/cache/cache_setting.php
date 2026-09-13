@@ -1005,7 +1005,8 @@ function get_cachedata_mainnav($locale = '') {
 
 		if($nav['logo']) {
 			$navlogo = admin\class_attach::getUrl($nav['logo']);
-			$data['navlogos'][$navid] = '<a href="'.$nav['url'].'" title="'.$_G['setting']['bbname'].'"><img src="'.$navlogo.'" alt="'.$_G['setting']['bbname'].'" border="0"></a>';
+			$navlogoalt = i18n::localizeValue($_G['setting']['bbname_i18n'] ?? $_G['setting']['bbname']);
+			$data['navlogos'][$navid] = '<a href="'.$nav['url'].'" title="'.$navlogoalt.'"><img src="'.$navlogo.'" alt="'.$navlogoalt.'" border="0"></a>';
 		}
 
 		if($nav['icon']) {
