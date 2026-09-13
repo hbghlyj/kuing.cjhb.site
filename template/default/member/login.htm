@@ -2,7 +2,7 @@
 
 <!--{eval $loginhash = 'L'.random(4);}-->
 <!--{if empty($_GET['infloat'])}-->
-<div id="ct" class="ptm wp w cl member-login-page">
+<div id="ct" class="ptm wp w cl">
 	<div class="nfl" id="main_succeed" style="display: none">
 		<div class="f_c altw">
 			<div class="alert_right">
@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<div class="mn" id="main_message">
-		<div class="bm member-login-card">
+		<div class="bm">
 			<div class="bm_h bbs">
 				<span class="y">
 					<!--{hook/logging_side_top}-->
@@ -86,7 +86,6 @@
 			<div class="rfm login-qa-reveal">
 				<table>
 					<tr>
-						<th></th>
 						<td><a href="javascript:;" onclick="document.querySelectorAll('#loginform_$loginhash .loginqa').forEach(function(el){el.classList.remove('loginqa')});this.closest('.rfm').style.display='none';"><span class="qa-box" aria-hidden="true"></span>{lang security_question}</a></td>
 					</tr>
 				</table>
@@ -127,7 +126,6 @@
 				<div class="rfm {if !empty($_GET['infloat'])} bw0{/if}">
 					<table>
 						<tr>
-							<th></th>
 							<td><label for="cookietime_$loginhash"><input type="checkbox" class="pc" name="cookietime" id="cookietime_$loginhash" value="2592000" $cookietimecheck>{lang login_permanent}</label></td>
 						</tr>
 					</table>
@@ -183,7 +181,6 @@
 				<div class="rfm mbw bw0">
 					<table>
 						<tr>
-							<th></th>
 							<td><button class="pn pnc" type="submit" name="lostpwsubmit" value="true"><span>{lang submit}</span></button></td>
 						</tr>
 					</table>

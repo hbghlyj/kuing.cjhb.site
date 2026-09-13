@@ -1652,41 +1652,17 @@ Last Modify:	Pony
 	.login-qa-reveal .qa-box { display: inline-block; width: 14px; height: 14px; border: 1px solid; border-radius: 2px; margin-right: 4px; vertical-align: -2px; }
 	.login-forgot { text-align: right; }
 
-/* Standalone member login */
-	.member-login-page { box-sizing: border-box; display: flex; justify-content: center; min-height: min(620px, calc(100vh - 190px)); padding: 48px 16px; }
-		.member-login-page #main_message { overflow: visible; width: min(100%, 520px); }
-		.member-login-card { overflow: hidden; border: 1px solid {COMMONBORDER}; border-radius: 12px; background: {WRAPBG}; box-shadow: 0 18px 50px rgba(35, 55, 80, .12); }
-			.member-login-card > .bm_h { box-sizing: border-box; height: auto; min-height: 82px; padding: 24px 32px 16px; border: 0; background: transparent; line-height: 1.5; }
-				.member-login-card > .bm_h h3 { font-size: 24px; line-height: 1.3; }
-				.member-login-card > .bm_h .y { margin-top: 7px; }
-				.member-login-card > .bm_h .y > a { display: inline-block; padding: 6px 12px; border: 1px solid {COMMONBORDER}; border-radius: 999px; line-height: 1.4; }
-			.member-login-page [id^="layer_login_"] > .flb { display: none; }
-			.member-login-form > .c { padding: 4px 32px 32px; }
-				.member-login-form .rfm { width: 100%; border: 0; }
-				.member-login-form .rfm table, .member-login-form .rfm tbody { display: block; width: 100%; }
-				.member-login-form .rfm tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; width: 100%; }
-				.member-login-form .rfm th, .member-login-form .rfm td { box-sizing: border-box; width: auto; padding: 0; text-align: left; }
-				.member-login-form .rfm th { grid-column: 1 / -1; grid-row: 1; padding: 10px 0 5px; font-weight: 600; line-height: 1.5; }
-				.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-				.member-login-form .rfm td:not(.tipcol) { grid-column: 1; grid-row: 2; line-height: 42px; }
-				.member-login-form .rfm td + td:not(.tipcol) { grid-column: 2; grid-row: 2; }
-				.member-login-form .rfm td.tipcol { grid-column: 1 / -1; grid-row: 3; padding-top: 5px; line-height: 1.5; }
-				.member-login-form .rfm .px, .member-login-form .rfm .px.p_fre, .member-login-form .rfm select { box-sizing: border-box; width: 100% !important; height: 42px; padding: 8px 11px; font-size: 15px; line-height: 24px; }
-				.member-login-form .password-toggle-field { display: block; width: 100%; }
-				.member-login-form .rfm label { cursor: pointer; }
-				.member-login-form .rfm input.pc { width: 16px; height: 16px; margin: 0 7px 0 0; accent-color: {MENUBGCOLOR}; vertical-align: -3px; }
-				.member-login-form .rfm.mbw { margin-top: 12px !important; }
-				.member-login-form .rfm.mbw .pn { width: 100%; height: 42px; margin: 0; font-size: 15px; line-height: 40px; }
-				.member-login-form .rfm.mbw .pn strong, .member-login-form .rfm.mbw .pn span { line-height: inherit; }
-			.member-login-page [id^="layer_lostpw_"] > .flb { height: auto; padding: 0 32px 8px; border: 0; line-height: 1.5; }
-				.member-login-page [id^="layer_lostpw_"] > .flb em { font-size: 20px; }
-	@media screen and (max-width: 560px) {
-		.member-login-page { min-height: 0; padding: 24px 12px; }
-			.member-login-card > .bm_h { min-height: 72px; padding: 20px 20px 12px; }
-				.member-login-card > .bm_h h3 { font-size: 21px; }
-			.member-login-form > .c { padding: 2px 20px 24px; }
-			.member-login-page [id^="layer_lostpw_"] > .flb { padding-right: 20px; padding-left: 20px; }
-	}
+/* Standalone member login: labelless rows stack full-width; labels live in placeholders */
+	[id^="layer_login_"] > .flb { display: none; }
+	.member-login-form .rfm { width: 100%; border: 0; }
+	.member-login-form .rfm table, .member-login-form .rfm tbody { display: block; width: 100%; }
+	.member-login-form .rfm tr { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
+	.member-login-form .rfm th, .member-login-form .rfm td { box-sizing: border-box; width: auto; padding: 0; text-align: left; }
+	.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+	.member-login-form .rfm td:not(.tipcol), .member-login-form .rfm td.tipcol { grid-column: 1; grid-row: auto; }
+	.member-login-form .rfm .px, .member-login-form .rfm .px.p_fre, .member-login-form .rfm select { box-sizing: border-box; width: 100% !important; }
+	.member-login-form .rfm label { cursor: pointer; }
+	.member-login-form .rfm input.pc { width: 16px; height: 16px; margin: 0 7px 0 0; accent-color: {MENUBGCOLOR}; vertical-align: -3px; }
 
 /*
 	Name:			mod_passlevel

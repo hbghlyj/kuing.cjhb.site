@@ -140,7 +140,7 @@
 	<div class="header-user-login">
 		<a class="pn header-login-link" href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)"><em>{lang login}<svg class="header-login-icon login-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5l7 7-7 7M18 12H3M16 5V3H21V21H16V19"/></svg></em></a>
 		<!--{if $_G['setting']['regstatus']}-->
-		<a class="pn pnc header-register-link" href="member.php?mod={$_G['setting']['regname']}"><em>{lang m_login_reg}<svg class="header-login-icon signup-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.5-3.2 2.5-5 6-5s5.5 1.8 6 5M19 13v8M15 17h8"/></svg></em></a>
+		<a class="pn pnc header-register-link" href="member.php?mod={$_G['setting']['regname']}"><em>{lang m_login_reg}<svg class="header-login-icon signup-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g mask="url(#plus-cutout)"><path d="M4.5 21C5 19.3 7 14.5 10.5 14.5S16 19.3 16.5 21"></path></g><mask id="plus-cutout"><rect width="24" height="24" fill="white" x="0" y="0"></rect><circle cx="18.5" cy="19" r="6.5" fill="black"></circle></mask><path d="M18.5 15v8M14.5 19h8" class="plus-path" style="stroke: currentColor; stroke-width: 1.75px; stroke-linecap: round; stroke-linejoin: round; fill: none;"></path><circle cx="10.5" cy="8" r="3.5"></circle></svg></em></a>
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
