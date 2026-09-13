@@ -1654,11 +1654,8 @@ Last Modify:	Pony
 /* Standalone member login: labelless rows stack full-width; labels live in placeholders */
 	#main_message [id^="layer_login_"] > .flb { display: none; }
 	.member-login-form .rfm { width: 100%; border: 0; }
-	.member-login-form .rfm table, .member-login-form .rfm tbody { display: block; width: 100%; }
-	.member-login-form .rfm tr { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
-	.member-login-form .rfm th, .member-login-form .rfm td { box-sizing: border-box; width: auto; padding: 0; text-align: left; }
+	.member-login-form .rfm td:only-child { grid-column: 1 / -1; }
 	.member-login-form .rfm th.member-login-label { position: absolute; overflow: hidden; width: 1px; height: 1px; padding: 0; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-	.member-login-form .rfm td:not(.tipcol), .member-login-form .rfm td.tipcol { grid-column: 1; grid-row: auto; }
 	.member-login-form .rfm .px, .member-login-form .rfm .px.p_fre, .member-login-form .rfm select { box-sizing: border-box; width: 100% !important; }
 	.member-login-form .rfm label { cursor: pointer; }
 	.member-login-form .rfm input.pc { width: 16px; height: 16px; margin: 0 7px 0 0; accent-color: {MENUBGCOLOR}; vertical-align: -3px; }
