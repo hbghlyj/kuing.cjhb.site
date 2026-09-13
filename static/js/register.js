@@ -70,11 +70,7 @@ function checkPwdComplexity(firstObj, secondObj, modify) {
 	modifypwd = modify || false;
 	firstObj.onblur = function () {
 		if(firstObj.value == '') {
-			var pwmsg = !modifypwd ? $L('password_empty') : profileTips;
-			if(pwlength > 0) {
-				pwmsg += $L('password_min_length', [pwlength]);
-			}
-			errormessage(firstObj.id, pwmsg);
+			errormessage(firstObj.id);
 		}else{
 			errormessage(firstObj.id, !modifypwd ? 'succeed' : '');
 		}
@@ -90,7 +86,7 @@ function checkPwdComplexity(firstObj, secondObj, modify) {
 	if(secondObj) {
 		secondObj.onblur = function () {
 			if(secondObj.value == '') {
-				errormessage(secondObj.id, !modifypwd ? $L('password_repeat') : profileTips);
+				errormessage(secondObj.id);
 			}
 			checkpassword(firstObj.id, secondObj.id);
 		};
@@ -110,7 +106,8 @@ function addMailEvent(mailObj) {
 	};
 	mailObj.onblur = function () {
 		if(mailObj.value == '') {
-			errormessage(mailObj.id, $L('email_empty'));
+			errormessage(mailObj.id);
+			return;
 		}
 		emailMenuOp(3, null, mailObj.id);
 	};
@@ -269,7 +266,10 @@ function checksubmit() {
 function checkusername(id) {
 	errormessage(id);
 	var username = trim($(id).value);
-	if($('tip_' + id).parentNode.className.match(/ p_right/) && (username == '' || username == lastusername)) {
+	if(username == '') {
+		return;
+	}
+	if($('tip_' + id).parentNode.className.match(/ p_right/) && username == lastusername) {
 		return;
 	} else {
 		lastusername = username;
