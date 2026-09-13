@@ -97,9 +97,9 @@
 }
 @font-face {
   font-family: 'dzicon';
-  src: url('font/dzicon.woff2?v2') format('woff2'),
-       url('font/dzicon.woff?v2') format('woff'),
-       url('font/dzicon.ttf?v2') format('truetype');
+  src: url('font/dzicon.woff2?v3') format('woff2'),
+       url('font/dzicon.woff?v3') format('woff'),
+       url('font/dzicon.ttf?v3') format('truetype');
 }
 @font-face {
     font-family: 'sysicon';
