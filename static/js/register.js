@@ -52,9 +52,7 @@ function addFormEvent(formid, focus){
 	};
 	checkPwdComplexity(formNode[stmp[1]]);
 	try {
-		if(!ignoreEmail) {
-			addMailEvent(formNode[stmp[2]]);
-		}
+		addMailEvent(formNode[stmp[2]]);
 	} catch(e) {}
 
 	try {

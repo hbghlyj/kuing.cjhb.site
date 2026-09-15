@@ -451,7 +451,16 @@ const assertPusherMetadataOrder = () => {
         assert.strictEqual(await passwordInput.getAttribute('type'), 'password', 'Assertion Error: Desktop password toggle did not hide the password.');
         const emailInput = registrationForm.locator('input[name="email"], input[type="email"]');
         assert.strictEqual(await emailInput.count(), 1, 'Assertion Error: Desktop registration email field did not render.');
+        await emailInput.fill(username);
+        await emailInput.press('x');
+        const emailMenu = page.locator('#emailmore_menu');
+        await emailMenu.waitFor({ state: 'visible', timeout: 5000 });
+        assert.ok(
+            (await emailMenu.locator('a').first().innerText()).startsWith(`${username}x@`),
+            'Assertion Error: Desktop registration email-domain suggestions did not use the entered prefix.'
+        );
         await emailInput.fill(email);
+        await emailInput.press('End');
 
         const agreeCheckbox = registrationForm.locator('input[name="agree"]');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
