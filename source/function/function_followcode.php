@@ -96,7 +96,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	}
 
 	if(str_contains($msglower, '[/url]')) {
-		$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:)?([^\r\n\[\"']+?))?\](.+?)\[\/url\]/is", 'followcode_callback_fparseurl_152', $message);
+		$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:)?([^\r\n\[\"]+?))?\](.+?)\[\/url\]/is", 'followcode_callback_fparseurl_152', $message);
 	}
 	if(str_contains($msglower, '[/email]')) {
 		$message = preg_replace_callback('/\[email(=([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+))?\](.+?)\[\/email\]/is', 'followcode_callback_fparseemail_14', $message);

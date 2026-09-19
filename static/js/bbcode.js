@@ -95,7 +95,7 @@ function bbcode2html(str) {
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		str = clearcode(str);
-		str = str.replace(/\[url(=((https?|ftp){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\]([\s\S]*?)\[\/url\]/ig, function($0, $1, $2, $3, $4, $5) {
+		str = str.replace(/\[url(=((https?|ftp){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"]+?))?\]([\s\S]*?)\[\/url\]/ig, function($0, $1, $2, $3, $4, $5) {
 			return parseurl_bbcode($1, $5, $2);
 		});
 		str = str.replace(/\[email\](.[^\\=[]*)\[\/email\]/ig, '<a href="mailto:$1">$1</a>');

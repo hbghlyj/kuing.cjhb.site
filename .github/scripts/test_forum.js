@@ -1152,8 +1152,14 @@ const assertPusherMetadataOrder = () => {
             assert.strictEqual(protectedLink.bbcode, '[url=https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf]https://cims.nyu.edu/~tristanb/euler.pdf[/url]', 'Assertion Error: Pasted protected link was corrupted by bare-URL parsing.');
             assert.ok(protectedLink.html.includes('href="https://urldefense.com/v3/__https://cims.nyu.edu/*tristanb/euler.pdf"'), 'Assertion Error: Pasted protected link lost its destination URL.');
             assert.ok(protectedLink.html.includes('>https://cims.nyu.edu/~tristanb/euler.pdf</a>'), 'Assertion Error: Pasted protected link lost its visible URL.');
+            const apostropheUrl = "https://en.wikipedia.org/wiki/Cauchy_stress_tensor#Cauchy's_stress_theorem%E2%80%94stress_tensor";
+            const apostropheLabel = "Cauchy's stress theorem";
+            const apostropheBbcode = `[url=${apostropheUrl}]${apostropheLabel}[/url]`;
+            const apostropheLinkHtml = await page.evaluate(bbcode => bbcode2html(bbcode), apostropheBbcode);
+            assert.ok(apostropheLinkHtml.includes(`href="${apostropheUrl}"`), 'Assertion Error: Editor URL parser rejected an apostrophe in a URL fragment.');
+            assert.ok(apostropheLinkHtml.includes(`>${apostropheLabel}</a>`), 'Assertion Error: Editor URL parser corrupted the apostrophe link label.');
             await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
-            await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
+            await fillPostEditor(`Body text from the full advanced editor.\n${apostropheBbcode}`, page, advancedForm);
             await solveSecurityQuestion(page, advancedForm);
             const advancedSubmit = advancedForm.locator('button[name="topicsubmit"]');
             assert.strictEqual(await advancedSubmit.count(), 1, 'Assertion Error: Full advanced editor submit button did not render.');
@@ -1165,6 +1171,8 @@ const assertPusherMetadataOrder = () => {
             const advancedTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${advancedSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
             assert.match(advancedTid, /^\d+$/, 'Assertion Error: Full advanced editor thread ID was not found.');
             await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${advancedTid}(&|$)`));
+            const apostropheServerLink = await page.locator('a').evaluateAll((links, expected) => links.some(link => link.getAttribute('href') === expected.url && link.textContent === expected.label), { url: apostropheUrl, label: apostropheLabel });
+            assert.ok(apostropheServerLink, 'Assertion Error: Server URL parser did not render a URL containing an apostrophe.');
             const advancedDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${advancedSubject}';"`).toString().trim();
             assert.strictEqual(advancedDbCheck, '1', 'Assertion Error: Full advanced editor thread was not found in database.');
             report += `### Full Advanced Editor\n- **Status**: Checked\n- **Thread Created**: ${advancedSubject} (tid ${advancedTid})\n\n`;

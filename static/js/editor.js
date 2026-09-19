@@ -1666,7 +1666,7 @@ function showEditorMenu(tag, params) {
 				}
 			} else if(!isUndefined(editdoc.selectionStart)) {
 				var content = editdoc.value, selstart = editdoc.selectionStart, selend = editdoc.selectionEnd;
-				var umatch, ure = /\[url(=([^\]\["'\r\n]+))?\]([\s\S]*?)\[\/url\]/ig;
+				var umatch, ure = /\[url(=([^\]\["\r\n]+))?\]([\s\S]*?)\[\/url\]/ig;
 				while((umatch = ure.exec(content))) {
 					if(umatch.index <= selstart && umatch.index + umatch[0].length >= selend) {
 						urlrange = [umatch.index, umatch.index + umatch[0].length];
