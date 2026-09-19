@@ -309,6 +309,7 @@
     #lastMessageTime = null;
     #wasDisconnected = false;
     #isSending = false;
+    #lastSend = null;
     #widget;
     #messageInputEl;
     #messagesEl;
@@ -654,9 +655,18 @@
         this.#messageInputEl.focus();
         return;
       }
-      const chatInfo = {text: message};
+      // A resend of the same still-unconfirmed text reuses its send time
+      // so a lost response cannot duplicate the row. Anything else
+      // (new text, or a repeat after a confirmed send) stamps a fresh
+      // send time, so deliberately repeated messages are never suppressed.
+      const last = this.#lastSend;
+      const ts = (last && !last.ok && last.text === message) ? last.ts : Date.now();
+      const attempt = {text: message, ts, ok: false};
+      this.#lastSend = attempt;
       this.#isSending = true;
-      this.#sendChatMessage(chatInfo).finally(() => {
+      this.#sendChatMessage({text: message, ts}).then(sent => {
+        if(this.#lastSend === attempt) attempt.ok = sent;
+      }).finally(() => {
         this.#isSending = false;
       });
     }
@@ -668,6 +678,10 @@
       const body = new URLSearchParams();
       body.set('formhash', typeof FORMHASH !== 'undefined' ? FORMHASH : '');
       body.set('chat_info[text]', data.text);
+      if(data.ts) {
+        body.set('chat_info[ts]', data.ts);
+      }
+      let sent = false;
       try {
         await requestJSON(this.settings.chatEndPoint, {
           method: 'POST',
@@ -675,6 +689,7 @@
           body
         });
         this.#messageInputEl.value = '';
+        sent = true;
       } catch(error) {
         if(error.response?.status === 413){
           showError($L('chat_message_too_long'));
@@ -686,6 +701,7 @@
         button.disabled = false;
         button.classList.remove('loading');
       }
+      return sent;
     }
     #handlePhotoUpload(inputElement){
       if(!inputElement.files || !inputElement.files[0]) return;
@@ -707,7 +723,7 @@
       requestJSON('/chat/php/upload.php', {method: 'POST', body: formData})
         .then(response => {
           if(response && response.status === 200 && response.url){
-            this.#sendChatMessage({text: response.url});
+            this.#sendChatMessage({text: response.url, ts: Date.now()});
           }else{
             showError(response?.error || $L('chat_upload_failed'));
           }

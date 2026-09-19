@@ -9,6 +9,12 @@ $text = isset($chatInfo['text']) && is_string($chatInfo['text']) ? trim($chatInf
 if($text === '') {
 	chat_json(400, ['error' => 'Chat text must be provided']);
 }
+// Client send time (unix milliseconds) minted per send attempt. A retried
+// POST (lost response, double tap) reuses the send time of its unconfirmed
+// attempt, so the (sender, time, content) row below already exists and the
+// original row is replayed. A deliberately repeated message carries a fresh
+// send time and is stored normally.
+$clientTs = isset($chatInfo['ts']) && is_scalar($chatInfo['ts']) ? (int)$chatInfo['ts'] : 0;
 if((function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text)) > 2000) {
 	chat_json(413, ['error' => 'Chat text is too long']);
 }
@@ -28,11 +34,36 @@ $conn = chat_database($discuzRoot);
 
 // Keep the short-lived history bounded before adding the new message.
 $conn->query('DELETE FROM chat WHERE time < DATE_SUB(NOW(), INTERVAL 2 DAY)');
-$timeResult = $conn->query("SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s') AS chat_time");
-$chatTime = $timeResult ? $timeResult->fetch_assoc()['chat_time'] : null;
-if(!$chatTime) {
+$nowResult = $conn->query('SELECT UNIX_TIMESTAMP(NOW()) AS now_ts');
+$nowTs = $nowResult ? (int)$nowResult->fetch_assoc()['now_ts'] : 0;
+if(!$nowTs) {
 	$conn->close();
-	chat_json(500, ['error' => 'Unable to allocate chat message time']);
+	chat_json(500, ['error' => 'Unable to save chat message']);
+}
+// Trust the client send time only within a small skew window, and never in
+// the future (a future-dated row would stall other clients' history polls).
+// Outside the window the send is treated as legacy: server time, no replay.
+$chatTime = null;
+if($clientTs > 0 && $clientTs <= $nowTs * 1000 && $clientTs > ($nowTs - 300) * 1000) {
+	$chatTime = date('Y-m-d H:i:s', (int)($clientTs / 1000));
+}
+if($chatTime !== null) {
+	// Same sender, same send time, same content: this is the retry of an
+	// unconfirmed attempt. Replay the original row, do not republish.
+	$dup = $conn->prepare('SELECT time FROM chat WHERE uid = ? AND sid = ? AND time = ? AND message = ? LIMIT 1');
+	if($dup) {
+		$dup->bind_param('isss', $uid, $sid, $chatTime, $message);
+		$dup->execute();
+		$dup->bind_result($dupTime);
+		if($dup->fetch()) {
+			$dup->close();
+			$conn->close();
+			chat_json(200, ['time' => $dupTime]);
+		}
+		$dup->close();
+	}
+} else {
+	$chatTime = date('Y-m-d H:i:s', $nowTs);
 }
 $stmt = $conn->prepare('INSERT INTO chat (time, uid, sid, author, message) VALUES (?, ?, ?, ?, ?)');
 if(!$stmt) {

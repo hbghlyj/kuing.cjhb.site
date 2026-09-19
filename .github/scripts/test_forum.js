@@ -90,6 +90,8 @@ const assertPusherMetadataOrder = () => {
 	const chatWidgetSource = fs.readFileSync('chat/PusherChatWidget.js', 'utf8');
 	assert.match(chatWidgetSource, /img\.loading\s*=\s*'lazy'/, 'Assertion Error: Pusher chat message images do not use native lazy loading.');
 	assert.match(chatWidgetSource, /img\.decoding\s*=\s*'async'/, 'Assertion Error: Pusher chat message images do not use asynchronous decoding.');
+	assert.match(chatWidgetSource, /chat_info\[ts\]/, 'Assertion Error: Pusher chat sends do not carry the client send time.');
+	assert.match(chatWidgetSource, /last\.ts/, 'Assertion Error: Pusher chat does not reuse the send time on retry.');
     const templateFiles = fs.readdirSync('template', { recursive: true })
         .filter(file => /\.(?:htm|php)$/.test(file));
     for(const file of templateFiles) {
