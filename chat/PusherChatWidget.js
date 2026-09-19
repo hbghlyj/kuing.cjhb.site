@@ -949,8 +949,13 @@
     }
   }
   const startPusherChat = (forceOpen = false) => new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body, forceOpen});
+  // Guests land on the chat page deliberately: connect immediately instead of
+  // hiding behind a wakeup control (which the touch tab bar would cover).
+  const isChatPage = /(^|\/)forum\.php$/.test(location.pathname) && new URLSearchParams(location.search).get('mod') === 'find';
   if(Number(window.discuz_uid || 0) > 0) {
     startPusherChat();
+  } else if(isChatPage) {
+    startPusherChat(true);
   } else {
     const wakeup = document.createElement('button');
     wakeup.type = 'button';
