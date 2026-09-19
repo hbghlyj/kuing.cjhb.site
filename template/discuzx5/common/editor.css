@@ -41,6 +41,7 @@
 #e_fontsize {width:65px}
 #e_italic {background:url({STYLEIMGDIR}/svg/dz_e_italic.svg) no-repeat center 4px;background-size:16px}
 #e_underline {background:url({STYLEIMGDIR}/svg/dz_e_underline.svg) no-repeat center 4px;background-size:16px}
+#e_strikethrough {background:url({STYLEIMGDIR}/svg/dz_e_strikethrough.svg) no-repeat center 4px;background-size:16px}
 #e_forecolor {background:url({STYLEIMGDIR}/svg/dz_e_forecolor.svg) no-repeat center 3px;background-size:18px}
 #e_backcolor {background:url({STYLEIMGDIR}/svg/dz_e_backcolor.svg) no-repeat center 3px;background-size:18px}
 #e_url {background:url({STYLEIMGDIR}/svg/dz_e_url.svg) no-repeat center 3px;background-size:18px}

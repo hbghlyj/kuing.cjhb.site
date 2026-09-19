@@ -704,6 +704,7 @@ $lang = [
 	'e_smilies_title' => 'Add Emoticons',
 	'e_table' => 'Add Table',
 	'e_underline' => 'Underline',
+	'e_strikethrough' => 'Strikethrough',
 	'e_unlink' => 'Remove Link',
 	'e_unorderedlist' => 'Unordered List',
 	'e_video' => 'Video',

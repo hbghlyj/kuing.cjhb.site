@@ -722,6 +722,7 @@ $lang = [
 	'e_smilies_title' => '添加表情',
 	'e_table' => '添加表格',
 	'e_underline' => '文字加下劃線',
+	'e_strikethrough' => '文字加刪除線',
 	'e_unlink' => '移除鏈接',
 	'e_unorderedlist' => '未排序列表',
 	'e_video' => '影片',

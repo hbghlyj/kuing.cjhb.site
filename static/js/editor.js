@@ -1463,7 +1463,7 @@ function discuzcode(cmd, arg) {
 
 function setContext(cmd) {
 	var cmd = !cmd ? '' : cmd;
-	var contextcontrols = new Array('bold', 'italic', 'underline', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist');
+	var contextcontrols = new Array('bold', 'italic', 'underline', 'strikethrough', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist');
 	for(var i in contextcontrols) {
 		var controlid = contextcontrols[i];
 		var obj = $(editorid + '_' + controlid);
