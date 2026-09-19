@@ -2,6 +2,10 @@
 
 require_once __DIR__.'/bootstrap.php';
 $discuzRoot = chat_init();
+// Persist/refresh the session row. The standalone endpoint otherwise mints a
+// fresh guest sid on every request, which would defeat the sender-scoped
+// replay check below (and flicker guest author tags).
+C::app()->session->update();
 chat_require_write();
 
 $chatInfo = isset($_POST['chat_info']) && is_array($_POST['chat_info']) ? $_POST['chat_info'] : [];
