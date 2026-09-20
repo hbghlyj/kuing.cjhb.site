@@ -307,7 +307,7 @@
     #totalMessages = 0;
     #messagesLoaded = 0;
     #lastMessageTime = null;
-    #wasDisconnected = false;
+    #receivedMessageIds = new Set();
     #isSending = false;
     #lastSend = null;
     #widget;
@@ -340,6 +340,7 @@
         this.#widget.querySelector('label').textContent = $L('chat_connecting');
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
+        this.#fetchMissedMessages();
         this.#widget.querySelector('label').textContent = $L('chat_shortcut') + ' Ctrl+Enter';
         this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
           button.disabled = false;
@@ -353,11 +354,7 @@
       });
       this.#pusher.connection.bind('state_change', states => {
         if(states.current==='disconnected'||states.current==='unavailable'){
-          this.#wasDisconnected = true;
           this.#widget.querySelector('label').textContent = $L('chat_connecting');
-        }else if(states.current==='connected' && this.#wasDisconnected){
-          this.#fetchMissedMessages();
-          this.#wasDisconnected = false;
         }
       });
       if(typeof tid!=='undefined'){
@@ -471,7 +468,7 @@
       }
     }
     #init(){
-      this.#loadHistory();
+      this.#loadHistory().then(() => this.#fetchMissedMessages());
       this.#chatChannel.bind('chat_message', data => {
         this.#chatMessageReceived(data,true);
         this.#processPendingMessages();
@@ -553,23 +550,21 @@
       try {
         const response = await requestJSON('/chat/php/history.php?offset=0&limit=100');
         const data = response.messages || [];
-        const newMessages = [];
-        for (let i = 0; i < data.length; ++i) {
-          if(String(data[i].message_time || '') > this.#lastMessageTime) {
-            newMessages.push(data[i]);
+        for (const message of data) {
+          if(String(message.message_time || '') > this.#lastMessageTime) {
+            this.#chatMessageReceived(message, true);
           }
         }
-        if (newMessages.length > 0) {
-          for (let j = 0; j < newMessages.length; ++j) {
-            this.#chatMessageReceived(newMessages[j],true);
-          }
-          this.#processPendingMessages();
-        }
+        this.#processPendingMessages();
       } catch(error) {
         showError($L('chat_missed_error', [error.message]));
       }
     }
     #chatMessageReceived(data,isLiveMessage,isPrepending=false){
+      // History, reconnect recovery and live events may contain the same row.
+      const id = String(data.message_time || data.id || '');
+      if(id && this.#receivedMessageIds.has(id)) return;
+      if(id) this.#receivedMessageIds.add(id);
       const messageEl = PusherChatWidget._buildListItem(data);
       const entry = {data, messageEl, isLiveMessage, isPrepending};
       if(isPrepending){
@@ -683,13 +678,17 @@
       }
       let sent = false;
       try {
-        await requestJSON(this.settings.chatEndPoint, {
+        const response = await requestJSON(this.settings.chatEndPoint, {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
           body
         });
         this.#messageInputEl.value = '';
         sent = true;
+        if(response.message) {
+          this.#chatMessageReceived(response.message, true);
+          this.#processPendingMessages();
+        }
       } catch(error) {
         if(error.response?.status === 413){
           showError($L('chat_message_too_long'));

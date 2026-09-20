@@ -937,6 +937,32 @@ const assertPusherMetadataOrder = () => {
         );
         await assertObserverDocumentUnchanged(realtimeObserver);
 
+        // Recover a missed event after resubscription, even if a newer event was seen.
+        const recoveredChat = {
+            message_time: '2099-01-01 00:00:01', published: new Date().toISOString(),
+            body: `Recovered chat ${testRunId}`, actor: { id: 1, displayName: 'admin', image: '' }
+        };
+        const recoveryHistory = route => route.fulfill({ json: { messages: [recoveredChat], total: 1 } });
+        await context.route('**/chat/php/history.php?**', recoveryHistory);
+        await emitStubbedPusherEvent(context, 'pusher:subscription_succeeded', {});
+        for(const chatPage of [page, realtimeObserver]) {
+            await chatPage.waitForFunction(text => Array.from(document.querySelectorAll('.message-item')).some(row => row.textContent.includes(text)), recoveredChat.body);
+        }
+        await emitStubbedPusherEvent(context, 'chat_message', recoveredChat);
+        for(const chatPage of [page, realtimeObserver]) {
+            assert.strictEqual(await chatPage.locator('.message-item[data-message-time="2099-01-01 00:00:01"]').count(), 1, 'History and live echo duplicated a recovered chat message.');
+        }
+        const sentChat = { ...recoveredChat, message_time: '2099-01-01 00:00:02', body: `Saved without echo ${testRunId}` };
+        const sendWithoutEcho = async route => {
+            await route.fulfill({ json: { time: sentChat.message_time, message: sentChat } });
+        };
+        await page.route('**/chat/php/chat.php', sendWithoutEcho);
+        await page.locator('.pusher-chat-widget textarea').fill(sentChat.body);
+        await page.locator('.pusher-chat-widget-send-btn').click();
+        await page.waitForFunction(text => Array.from(document.querySelectorAll('.message-item')).some(row => row.textContent.includes(text)), sentChat.body);
+        await page.unroute('**/chat/php/chat.php', sendWithoutEcho);
+        await context.unroute('**/chat/php/history.php?**', recoveryHistory);
+
         // Reply to Thread
             console.log("Attempting to reply to thread...");
             const desktopReplyBtn = page.locator('#post_reply');

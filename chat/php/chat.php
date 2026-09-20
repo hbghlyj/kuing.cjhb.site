@@ -51,10 +51,14 @@ $chatTime = null;
 if($clientTs > 0 && $clientTs <= $nowTs * 1000 && $clientTs > ($nowTs - 300) * 1000) {
 	$chatTime = date('Y-m-d H:i:s', (int)($clientTs / 1000));
 }
-if($chatTime !== null) {
+if($chatTime !== null && ($uid > 0 || $sid !== '')) {
 	// Same sender, same send time, same content: this is the retry of an
 	// unconfirmed attempt. Replay the original row, do not republish.
-	$dup = $conn->prepare('SELECT time FROM chat WHERE uid = ? AND sid = ? AND time = ? AND message = ? LIMIT 1');
+	// Two guards: guests with an empty sid share one scope, so they never
+	// replay; and rows younger than 2s never replay, so a deliberate
+	// same-second repeat is stored instead of being swallowed as a retry.
+	// Genuine retries arrive no faster than human reaction time.
+	$dup = $conn->prepare('SELECT time FROM chat WHERE uid = ? AND sid = ? AND time = ? AND message = ? AND time < DATE_SUB(NOW(), INTERVAL 2 SECOND) LIMIT 1');
 	if($dup) {
 		$dup->bind_param('isss', $uid, $sid, $chatTime, $message);
 		$dup->execute();
@@ -120,4 +124,4 @@ if((int)($result['status'] ?? 500) !== 200) {
 }
 
 $conn->close();
-chat_json(200, ['time' => $chatTime]);
+chat_json(200, ['time' => $chatTime, 'message' => $data]);
