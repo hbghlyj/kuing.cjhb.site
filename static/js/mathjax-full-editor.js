@@ -237,6 +237,9 @@ function removeMathEditorDisplayBreaks(rendered) {
 	}
 }
 
+var mathEditorBatch = [];
+var mathEditorBatchTimer = null;
+
 function renderMathEquation(rendered, math) {
 	ensureMathEditorCarets(rendered);
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
@@ -247,34 +250,91 @@ function renderMathEquation(rendered, math) {
 		return;
 	}
 	if (!rendered.isConnected) return;
+	for (var i = 0; i < mathEditorBatch.length; i++) {
+		if (mathEditorBatch[i].rendered === rendered) {
+			mathEditorBatch[i].math = math;
+			return;
+		}
+	}
+	mathEditorBatch.push({ rendered: rendered, math: math });
+	if (mathEditorBatchTimer === null) mathEditorBatchTimer = setTimeout(flushMathEditorBatch, 0);
+}
+
+function flushMathEditorBatch() {
+	mathEditorBatchTimer = null;
+	var batch = mathEditorBatch;
+	mathEditorBatch = [];
+	renderMathBatch(batch);
+}
+
+function renderMathBatch(batch) {
+	if (!batch.length) return;
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') {
+		for (var q = 0; q < batch.length; q++) queueMathEditorEquation(batch[q].rendered, batch[q].math);
+		return;
+	}
+	var items = [];
 	var host = document.createElement('span');
 	host.style.cssText = 'position:fixed;left:-100000px;top:0;visibility:hidden;';
-	var sourceNode = document.createElement('span');
-	sourceNode.textContent = math;
-	host.appendChild(sourceNode);
+	for (var i = 0; i < batch.length; i++) {
+		var sourceNode = document.createElement('span');
+		sourceNode.textContent = batch[i].math;
+		host.appendChild(sourceNode);
+		items.push({ rendered: batch[i].rendered, sourceNode: sourceNode });
+	}
 	document.body.appendChild(host);
 	var cleanup = function() {
 		if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([host]);
 		host.remove();
 	};
-	var retry = function(error) {
-		var retries = rendered._mathEditorTypesetRetries || 0;
-		if (rendered.isConnected && retries < 50) {
-			rendered._mathEditorTypesetRetries = retries + 1;
-			setTimeout(function() { renderMathEquation(rendered, math); }, 100);
-		}
-	};
-	var finish = function() {
+	var applyOne = function(item) {
+		var rendered = item.rendered;
 		if (!rendered.isConnected) return;
 		rendered.textContent = '';
-		while (sourceNode.firstChild) {
-			rendered.appendChild(editdoc.importNode(sourceNode.firstChild, true));
-			sourceNode.firstChild.remove();
+		while (item.sourceNode.firstChild) {
+			rendered.appendChild(editdoc.importNode(item.sourceNode.firstChild, true));
+			item.sourceNode.firstChild.remove();
 		}
 		rendered._mathEditorTypesetRetries = 0;
-		syncMathJaxEditorStyles();
 		removeMathEditorDisplayBreaks(rendered);
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
+	};
+	var finish = function() {
+		for (var i = 0; i < items.length; i++) applyOne(items[i]);
+		syncMathJaxEditorStyles();
+	};
+	var retry = function(error) {
+		// A rejection applies to the shared host, not to a single formula, so we
+		// cannot tell which member faulted. Fall back to per-item handling so one
+		// persistently failing expression cannot block the rest of the batch
+		// (mirrors the old per-formula typesetPromise failure isolation).
+		//
+		// MathJax may have typeset earlier members of the batch before a later
+		// failure rejected the shared promise. Those members already mutated
+		// stateful TeX (tags:"ams" numbering / \label table), so apply them as-is
+		// and do NOT replay them - re-typesetting would shift equation numbers or
+		// register duplicate labels. Only members that were never processed are
+		// retried, individually, so the tag counter continues in order.
+		var applied = false;
+		for (var i = 0; i < items.length; i++) {
+			(function(item) {
+				var rendered = item.rendered;
+				if (!rendered.isConnected) return;
+				if (item.sourceNode.querySelector && item.sourceNode.querySelector('mjx-container')) {
+					applyOne(item);
+					applied = true;
+					return;
+				}
+				var retries = rendered._mathEditorTypesetRetries || 0;
+				if (retries < 50) {
+					rendered._mathEditorTypesetRetries = retries + 1;
+					setTimeout(function() {
+						renderMathBatch([{ rendered: rendered, math: rendered.getAttribute('data-math-source') || item.sourceNode.textContent }]);
+					}, 100);
+				}
+			})(items[i]);
+		}
+		if (applied) syncMathJaxEditorStyles();
 	};
 	try {
 		var typeset = MathJax.typesetPromise([host]);

@@ -2387,8 +2387,95 @@ const assertPusherMetadataOrder = () => {
 		const mathDraftMessage = execSync(`sudo mysql --raw -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
 		assert.strictEqual(mathDraftMessage, mathContent, `Assertion Error: Submitted restored math draft did not preserve the original TeX source.\nExpected: ${JSON.stringify(mathContent)}\nActual:   ${JSON.stringify(mathDraftMessage)}`);
 
+		// Regression: a rejected batched typeset must not replay already-processed
+		// formulas. Stateful TeX (tags:"ams" numbering / \label) means re-typesetting
+		// a labeled equation in a new typeset call raises "Label ... multiply
+		// defined" and corrupts equation numbers. Inject a batch failure AFTER real
+		// MathJax has processed the whole batch and require the retry path to keep
+		// the rendered formulas as-is instead of re-running them.
+		console.log("Testing batched typeset rejection retry isolation (stateful TeX)...");
+		// MathJax is loaded (async) in the main page header and the editor typesets
+		// through the main-page MathJax instance, so the fault injection must wrap
+		// window.MathJax here, not the editor iframe's window.
+		const retryEqFirst = String.raw`\begin{equation}\label{ci-retry:first} x + 1 = 2 \end{equation}`;
+		const retryEqSecond = String.raw`\begin{equation}\label{ci-retry:second} y + 1 = 3 \end{equation}`;
+		const retryMathSource = 'First ' + retryEqFirst + ' second ' + retryEqSecond + ' and good $a+b$ and bad $\\BADFORMULA$ end.';
+		await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
+		await page.waitForLoadState('networkidle');
+		await page.fill('#e_textarea', retryMathSource);
+		await page.waitForFunction(() => !!(window.MathJax && typeof window.MathJax.typesetPromise === 'function'), null, { timeout: 30000 });
+		await page.evaluate(() => {
+			const mjx = window.MathJax;
+			mjx.__ciCalls = [];
+			mjx.__ciBatchRejected = false;
+			const original = mjx.typesetPromise.bind(mjx);
+			mjx.__ciOriginalTypeset = original;
+			mjx.typesetPromise = function (elements) {
+				const host = elements && elements[0];
+				const text = host ? host.textContent : '';
+				const real = original(elements);
+				mjx.__ciCalls.push({
+					label1: text.indexOf('ci-retry:first') !== -1,
+					label2: text.indexOf('ci-retry:second') !== -1,
+					bad: text.indexOf('BADFORMULA') !== -1
+				});
+				if (text.indexOf('BADFORMULA') !== -1 && !mjx.__ciBatchRejected) {
+					mjx.__ciBatchRejected = true;
+					return real.then(() => Promise.reject(new Error('CI injected batch failure after processing')));
+				}
+				return real;
+			};
+		});
+		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const frame = document.querySelector('#e_iframe');
+			const doc = frame && frame.contentDocument;
+			if (!doc) return false;
+			const spans = Array.from(doc.querySelectorAll('.math-editor-rendered'));
+			if (spans.length < 4) return false;
+			return spans.every(el => el.querySelector('mjx-container'));
+		}, { timeout: 30000 });
+		const retryIsolation = await page.evaluate(() => {
+			const frame = document.querySelector('#e_iframe');
+			const doc = frame.contentDocument;
+			const spans = Array.from(doc.querySelectorAll('.math-editor-rendered'));
+			const of = marker => spans.find(el => (el.getAttribute('data-math-source') || '').indexOf(marker) !== -1);
+			const info = el => {
+				const container = el ? el.querySelector('mjx-container') : null;
+				const match = container ? container.textContent.match(/\(\s*\d+\s*\)/) : null;
+				return {
+					rendered: !!container,
+					number: match ? match[0].replace(/\s/g, '') : null,
+					merrors: el ? Array.from(el.querySelectorAll('mjx-merror')).map(node => node.getAttribute('data-mjx-error') || '') : []
+				};
+			};
+			const calls = window.MathJax.__ciCalls || [];
+			return {
+				batchRejected: window.MathJax.__ciBatchRejected,
+				eq1: info(of('ci-retry:first')),
+				eq2: info(of('ci-retry:second')),
+				good: info(of('$a+b$')),
+				multiplyDefined: doc.querySelectorAll('.math-editor-rendered mjx-merror[data-mjx-error*="multiply defined"]').length,
+				label1Calls: calls.filter(call => call.label1).length,
+				label2Calls: calls.filter(call => call.label2).length
+			};
+		});
+		assert.strictEqual(retryIsolation.batchRejected, true, 'Assertion Error: Batch-failure injection did not run.');
+		assert.ok(retryIsolation.eq1.rendered && retryIsolation.eq1.number === '(1)', `Assertion Error: First labeled equation was not typeset exactly once with number (1) after a batched failure (${JSON.stringify(retryIsolation.eq1)}).`);
+		assert.ok(retryIsolation.eq2.rendered && retryIsolation.eq2.number === '(2)', `Assertion Error: Second labeled equation was not typeset exactly once with number (2) after a batched failure (${JSON.stringify(retryIsolation.eq2)}).`);
+		assert.deepStrictEqual(retryIsolation.eq1.merrors, [], `Assertion Error: First labeled equation contains MathJax errors after the injected batch failure: ${JSON.stringify(retryIsolation.eq1.merrors)}.`);
+		assert.deepStrictEqual(retryIsolation.eq2.merrors, [], `Assertion Error: Second labeled equation contains MathJax errors after the injected batch failure: ${JSON.stringify(retryIsolation.eq2.merrors)}.`);
+		assert.strictEqual(retryIsolation.multiplyDefined, 0, 'Assertion Error: The retry path re-typeset an already processed labeled equation, registering duplicate labels.');
+		assert.strictEqual(retryIsolation.label1Calls, 1, 'Assertion Error: The first labeled equation was re-processed by MathJax after the injected batch failure.');
+		assert.strictEqual(retryIsolation.label2Calls, 1, 'Assertion Error: The second labeled equation was re-processed by MathJax after the injected batch failure.');
+		assert.ok(retryIsolation.good.rendered && retryIsolation.good.merrors.length === 0, `Assertion Error: The valid formula was not rendered after the injected batch failure (${JSON.stringify(retryIsolation.good)}).`);
+		await page.evaluate(() => {
+			const mjx = window.MathJax;
+			if (typeof mjx.__ciOriginalTypeset === 'function') mjx.typesetPromise = mjx.__ciOriginalTypeset;
+		});
+
 		console.log("WYSIWYG mode TeX preservation test passed!");
-		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Rendering**: inline \`$f$\` and display \`$$...$$\` rendered as \`mjx-container\`\n- **Idempotency**: no nested/duplicate formulas and source unchanged after repeated renders and mode round trips\n- **Save/Restore**: formulas rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
+		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Rendering**: inline \`$f$\` and display \`$$...$$\` rendered as \`mjx-container\`\n- **Idempotency**: no nested/duplicate formulas and source unchanged after repeated renders and mode round trips\n- **Save/Restore**: formulas rendered after restoration\n- **Submission**: Original TeX preserved in database\n- **Batch Failure Retry**: injected rejection after processing keeps numbered/labeled equations as-is (numbers preserved, no duplicate labels, no re-typeset)\n\n`;
 
         // 9. Existing math is rendered when the WYSIWYG editor opens (6178d4e8).
         // Without the feature, math already present in the editor content on entering
