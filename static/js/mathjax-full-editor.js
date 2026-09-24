@@ -304,16 +304,22 @@ function renderMathBatch(batch) {
 		syncMathJaxEditorStyles();
 	};
 	var retry = function(error) {
-		var pending = [];
+		// A rejection applies to the shared host, not to a single formula, so we
+		// cannot tell which member faulted. Fall back to isolated per-item retries
+		// so one persistently failing expression cannot block the rest of the
+		// batch (mirrors the old per-formula typesetPromise failure isolation).
 		for (var i = 0; i < items.length; i++) {
-			var rendered = items[i].rendered;
-			var retries = rendered._mathEditorTypesetRetries || 0;
-			if (rendered.isConnected && retries < 50) {
-				rendered._mathEditorTypesetRetries = retries + 1;
-				pending.push({ rendered: rendered, math: rendered.getAttribute('data-math-source') || items[i].sourceNode.textContent });
-			}
+			(function(item) {
+				var rendered = item.rendered;
+				var retries = rendered._mathEditorTypesetRetries || 0;
+				if (rendered.isConnected && retries < 50) {
+					rendered._mathEditorTypesetRetries = retries + 1;
+					setTimeout(function() {
+						renderMathBatch([{ rendered: rendered, math: rendered.getAttribute('data-math-source') || item.sourceNode.textContent }]);
+					}, 100);
+				}
+			})(items[i]);
 		}
-		if (pending.length) setTimeout(function() { renderMathBatch(pending); }, 100);
 	};
 	try {
 		var typeset = MathJax.typesetPromise([host]);
