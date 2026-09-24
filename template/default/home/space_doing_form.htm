@@ -189,7 +189,7 @@
 					vthumb.muted = true;
 					vthumb.playsInline = true;
 					vthumb.preload = 'metadata';
-					vthumb.src = URL.createObjectURL(file);
+					vthumb.setAttribute('src', URL.createObjectURL(file));
 					vthumb.style.width = '100%';
 					vthumb.style.height = '100%';
 					vthumb.style.objectFit = 'cover';
