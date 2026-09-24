@@ -18,6 +18,7 @@ if(!$_G['setting']['doingstatus']) {
 	showmessage('doing_status_off');
 }
 
+if(!function_exists('doing_upload_limits')) {
 function doing_upload_limits() {
 	$setting = getglobal('setting');
 	$videoexts = strtolower(!empty($setting['doingvideoext']) ? $setting['doingvideoext'] : 'mp4,webm,mov');
@@ -80,6 +81,7 @@ function doing_post_media($uid, $aids) {
 		$video = null;
 	}
 	return [$images, $photos, $video];
+}
 }
 
 $doid = empty($_GET['doid']) ? 0 : intval($_GET['doid']);
