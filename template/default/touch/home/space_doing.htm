@@ -528,16 +528,13 @@ function generateCommentHTML(data, doid, key) {
 				if (response.page < response.total_pages) {
 					var nextPage = response.page + 1;
 					loadMoreBtn.setAttribute('data-next-page', nextPage);
-					var template = document.getElementById('loadMoreBtnTemplate').innerHTML;
-					var data = {
-						doid: doid,
-						key: key,
-						next_page: nextPage
-					};
-					var html = template.replace(/{:doid:}/g, data.doid)
-						.replace(/{:key:}/g, data.key)
-						.replace(/{:next_page:}/g, data.next_page);
-					loadMoreBtn.innerHTML = html;
+					var link = loadMoreBtn.querySelector('a');
+					if (link) {
+						link.onclick = function(event) {
+							event.preventDefault();
+							loadMoreComments(doid, key, nextPage);
+						};
+					}
 				} else {
 					// 没有更多评论，移除加载更多按钮
 					loadMoreBtn.remove();
