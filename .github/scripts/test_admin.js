@@ -297,6 +297,17 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(logBatchAction && /(?:^|[?&])operation=cp(?:&|$)/.test(logBatchAction), 'Assertion Error: AdminCP log batch form did not preserve the operation-log view.');
         assert.ok(logBatchAction && !/(?:^|[?&])frames=/.test(logBatchAction), 'Assertion Error: AdminCP log batch form incorrectly targeted the AdminCP shell.');
 
+        await logSearchForm.locator('#keywordraw').fill('hbghlyj');
+        await logSearchForm.locator('input[type="submit"]').click();
+        await page.waitForLoadState('networkidle');
+        assert.ok(page.url().includes('action=logs') && page.url().includes('keywordenc='), 'Assertion Error: AdminCP keyword search did not remain on the log page.');
+        assert.ok(!(await page.locator('body').innerText()).includes('SQL string format error'), 'Assertion Error: AdminCP keyword search reached a SQL format error.');
+        assert.strictEqual(await page.locator('#logbatchform').count(), 1, 'Assertion Error: AdminCP keyword search did not render log results.');
+        const literalKeyword = Buffer.from('%_\\').toString('base64url');
+        await page.goto(`http://127.0.0.1:8080/admin.php?action=logs&operation=cp&keywordenc=${literalKeyword}`);
+        assert.ok(!(await page.locator('body').innerText()).includes('SQL string format error'), 'Assertion Error: Literal wildcard log search reached a SQL format error.');
+        assert.strictEqual(await page.locator('#logbatchform').count(), 1, 'Assertion Error: Literal wildcard log search did not render log results.');
+
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 8. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 

@@ -45,13 +45,16 @@ class table_common_log_mysql extends table_common_log {
 
 	public function fetch_all_by_conditions($conditions = [], $startlimit = 0, $count = 0, $returncount = 0, $order = ['id' => 'DESC']) {
 		$wheresql = ' 1=1 ';
+		$params = [$this->_table];
 		if(!empty($conditions)) {
 			foreach($conditions as $ckey => $cvalue) {
 				if($cvalue[0] == 'keyword') {
 					$keyword = trim($cvalue[2]);
 					if($keyword !== '') {
 						$keyword = $this->escape_like_keyword($keyword);
-						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ESCAPE '.DB::quote('\\').' ';
+						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE %s ESCAPE %s ';
+						$params[] = '%'.$keyword.'%';
+						$params[] = '\\';
 					}
 				} else {
 					$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
@@ -65,9 +68,9 @@ class table_common_log_mysql extends table_common_log {
 			}
 		}
 		if($returncount) {
-			return DB::result_first("SELECT count(*) FROM %t WHERE $wheresql", [$this->_table]);
+			return DB::result_first("SELECT count(*) FROM %t WHERE $wheresql", $params);
 		}
-		return DB::fetch_all("SELECT * FROM %t WHERE $wheresql ORDER BY ".$ordersql.' '.DB::limit($startlimit, $count), [$this->_table]);
+		return DB::fetch_all("SELECT * FROM %t WHERE $wheresql ORDER BY ".$ordersql.' '.DB::limit($startlimit, $count), $params);
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
@@ -93,20 +96,23 @@ class table_common_log_mysql extends table_common_log {
 
 	public function delete_by_conditions($conditions = []) {
 		$wheresql = ' 1=1 ';
+		$params = [$this->_table];
 		if(!empty($conditions)) {
 			foreach($conditions as $cvalue) {
 				if($cvalue[0] == 'keyword') {
 					$keyword = trim($cvalue[2]);
 					if($keyword !== '') {
 						$keyword = $this->escape_like_keyword($keyword);
-						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ESCAPE '.DB::quote('\\').' ';
+						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE %s ESCAPE %s ';
+						$params[] = '%'.$keyword.'%';
+						$params[] = '\\';
 					}
 				} else {
 					$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
 				}
 			}
 		}
-		return DB::query("DELETE FROM %t WHERE $wheresql", [$this->_table]);
+		return DB::query("DELETE FROM %t WHERE $wheresql", $params);
 	}
 
 }
