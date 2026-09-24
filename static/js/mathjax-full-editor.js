@@ -305,14 +305,28 @@ function renderMathBatch(batch) {
 	};
 	var retry = function(error) {
 		// A rejection applies to the shared host, not to a single formula, so we
-		// cannot tell which member faulted. Fall back to isolated per-item retries
-		// so one persistently failing expression cannot block the rest of the
-		// batch (mirrors the old per-formula typesetPromise failure isolation).
+		// cannot tell which member faulted. Fall back to per-item handling so one
+		// persistently failing expression cannot block the rest of the batch
+		// (mirrors the old per-formula typesetPromise failure isolation).
+		//
+		// MathJax may have typeset earlier members of the batch before a later
+		// failure rejected the shared promise. Those members already mutated
+		// stateful TeX (tags:"ams" numbering / \label table), so apply them as-is
+		// and do NOT replay them - re-typesetting would shift equation numbers or
+		// register duplicate labels. Only members that were never processed are
+		// retried, individually, so the tag counter continues in order.
+		var applied = false;
 		for (var i = 0; i < items.length; i++) {
 			(function(item) {
 				var rendered = item.rendered;
+				if (!rendered.isConnected) return;
+				if (item.sourceNode.querySelector && item.sourceNode.querySelector('mjx-container')) {
+					applyOne(item);
+					applied = true;
+					return;
+				}
 				var retries = rendered._mathEditorTypesetRetries || 0;
-				if (rendered.isConnected && retries < 50) {
+				if (retries < 50) {
 					rendered._mathEditorTypesetRetries = retries + 1;
 					setTimeout(function() {
 						renderMathBatch([{ rendered: rendered, math: rendered.getAttribute('data-math-source') || item.sourceNode.textContent }]);
@@ -320,6 +334,7 @@ function renderMathBatch(batch) {
 				}
 			})(items[i]);
 		}
+		if (applied) syncMathJaxEditorStyles();
 	};
 	try {
 		var typeset = MathJax.typesetPromise([host]);
