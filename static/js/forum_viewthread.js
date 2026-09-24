@@ -759,10 +759,14 @@ function bumpthread() {
 		"method": "POST"
 		}).then(response => {
 			response.text().then(text => {
-				if (text.includes('succeedhandle_mods')) {
-					showDialog('提升成功', 'right', '提升成功', 'window.location.reload();');
+				const unesc = s => s.replace(/\\(.)/g, '$1');
+				let m = text.match(/succeedhandle_mods\('((?:[^'\\]|\\.)*)',\s*'((?:[^'\\]|\\.)*)'/);
+				if (m) {
+					showDialog(unesc(m[2]), 'right', null, 'window.location.reload();');
+				} else if ((m = text.match(/errorhandle_mods\('((?:[^'\\]|\\.)*)'/))) {
+					showDialog(unesc(m[1]), 'error');
 				} else {
-					showDialog(text.match(/errorhandle_mods\('([^']+)'/)[1], 'error', '提升失败');
+					showDialog($L('ajax_inner_error'), 'error');
 				}
 			});
 		});
