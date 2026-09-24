@@ -80,14 +80,6 @@ function getgpc($k, $type = 'GP') {
 
 }
 
-function dget($k) {
-	return $_GET[$k] ?? null;
-}
-
-function dpost($k) {
-	return $_POST[$k] ?? null;
-}
-
 function getuserbyuid($uid, $fetch_archive = 0) {
 	static $users = [];
 	if(empty($users[$uid])) {
@@ -427,10 +419,6 @@ function isemail($email) {
 	return strlen($email) <= 255 && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-function quescrypt($questionid, $answer) {
-	return $questionid > 0 && $answer != '' ? substr(md5($answer.md5($questionid)), 16, 8) : '';
-}
-
 function random($length, $numeric = 0) {
 	$seed = base_convert(md5(microtime().$_SERVER['DOCUMENT_ROOT']), 16, $numeric ? 10 : 35);
 	$seed = $numeric ? (str_replace('0', '', $seed).'012340567890') : ($seed.'zZ'.strtoupper($seed));
@@ -567,10 +555,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $ucenteru
 
 function i18n($cmd, $langkey = '', $path = '') {
 	return i18n::cmd($cmd, $langkey, $path);
-}
-
-function mylang($langvar = null, $vars = [], $default = null) {
-	return lang('my', $langvar, $vars, $default);
 }
 
 function lang($file, $langvar = null, $vars = [], $default = null) {
@@ -713,10 +697,6 @@ function _checkDiyTpl($diypath, $file, &$diytemplatename) {
 	}
 	updatediytemplate($file, $_G['style']['tpldirectory']);
 	return file_exists($diypath.$file.'.htm');
-}
-
-function apptemplate($file) {
-	return template($file, 0, 'source/app/'.MITFRAME_APP.'/template');
 }
 
 function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primaltpl = '') {
@@ -1074,10 +1054,6 @@ function dnumber($number) {
 
 function savecache($cachename, $data) {
 	table_common_syscache::t()->insert_syscache($cachename, $data);
-}
-
-function save_syscache($cachename, $data) {
-	savecache($cachename, $data);
 }
 
 function block_get($parameter) {
@@ -2245,33 +2221,6 @@ function getposttable($tableid = 0, $prefix = false) {
 	return table_forum_post::getposttable($tableid, $prefix);
 }
 
-function lmemory($cmd, $key = '', $value = '', $ttl = 0) {
-	if(!getglobal('config/memory/yac')) {
-		return null;
-	}
-	static $m = null;
-	if($m === null) {
-		$m = new memory_driver_yac();
-		$m->init([]);
-	}
-	if($cmd == 'check') {
-		return $m->enable;
-	}
-	$key = 'L_'.getglobal('config/memory/prefix').md5($key);
-	if(!$m->enable) {
-		return memory($cmd, $key, $value, $ttl);
-	}
-	return match ($cmd) {
-		'set' => $m->set($key, $value, $ttl),
-		'get' => $m->get($key),
-		'rm' => $m->rm($key),
-		'inc' => $m->inc($key, $value ? $value : 1),
-		'dec' => $m->dec($key, $value ? $value : 1),
-		'clear' => $m->clear(),
-		default => null,
-	};
-}
-
 /*
  * 以下命令，$value传入的是prefix，其它命令prefix都是最后一个参数
  * 		get, rm, scard, smembers, hgetall, zcard, exists
@@ -2538,14 +2487,6 @@ function getuseraction($var) {
 	return helper_log::getuseraction($var);
 }
 
-function getuserapp($panel = 0) {
-	return '';
-}
-
-function getmyappiconpath($appid, $iconstatus = 0) {
-	return '';
-}
-
 function getexpiration() {
 	global $_G;
 	$date = getdate($_G['timestamp']);
@@ -2596,12 +2537,6 @@ function iswhitelist($host) {
 	return $iswhitelist[$host];
 }
 
-function getattachtablebyaid($aid) {
-	$attach = table_forum_attachment::t()->fetch($aid);
-	$tableid = $attach['tableid'];
-	return 'forum_attachment_'.($tableid >= 0 && $tableid < 10 ? intval($tableid) : 'unused');
-}
-
 function getattachtableid($tid) {
 	$tid = (string)$tid;
 	return intval($tid[strlen($tid) - 1]);
@@ -2609,11 +2544,6 @@ function getattachtableid($tid) {
 
 function getattachtablebytid($tid) {
 	return 'forum_attachment_'.getattachtableid($tid);
-}
-
-function getattachtablebypid($pid) {
-	$tableid = DB::result_first('SELECT tableid FROM '.DB::table('forum_attachment')." WHERE pid='$pid' LIMIT 1");
-	return 'forum_attachment_'.($tableid >= 0 && $tableid < 10 ? intval($tableid) : 'unused');
 }
 
 function getattachnewaid($uid = 0) {
@@ -2641,9 +2571,6 @@ function updatemoderate($idtype, $ids, $status = 0) {
 	helper_form::updatemoderate($idtype, $ids, $status);
 }
 
-function userappprompt() {
-}
-
 function dintval($int, $allowarray = false) {
 	$ret = intval($int);
 	if($int == '' || $int == $ret || !$allowarray && is_array($int)) return $ret;
@@ -2662,10 +2589,6 @@ function dintval($int, $allowarray = false) {
 	return $ret;
 }
 
-
-function makeSearchSignUrl() {
-	return [];
-}
 
 function get_related_link($extent) {
 	return helper_seo::get_related_link($extent);
@@ -2687,25 +2610,6 @@ function check_diy_perm($topic = [], $flag = '') {
 				));
 	}
 	return empty($flag) ? $ret['data'] || $ret['layout'] : $ret[$flag];
-}
-
-function strhash($string, $operation = 'DECODE', $key = '') {
-	$key = md5($key != '' ? $key : getglobal('authkey'));
-	if($operation == 'DECODE') {
-		$hashcode = base64_decode($string);
-		$hashcode = gzuncompress($hashcode);
-		$string = substr($hashcode, 0, -16);
-		$hash = substr($hashcode, -16);
-		unset($hashcode);
-	}
-
-	$vkey = substr(md5($string.substr($key, 0, 16)), 4, 8).substr(md5($string.substr($key, 16, 16)), 18, 8);
-
-	if($operation == 'DECODE') {
-		return $hash == $vkey ? $string : '';
-	}
-
-	return base64_encode(gzcompress($string.$vkey));
 }
 
 function dunserialize($data) {
@@ -2775,11 +2679,6 @@ function lang_attr() {
 	return $map[currentlang()] ?? currentlang();
 }
 
-function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = null) {
-	require_once libfile('function/preg');
-	return _dpreg_replace($pattern, $replacement, $subject, $limit, $count);
-}
-
 function check_protect_username($username, $return = false) {
 	global $_G;
 
@@ -2838,12 +2737,6 @@ function uuid($salt) {
 	return md5($salt.uniqid(md5(microtime(true)), true));
 }
 
-// 获取毫秒级时间戳
-function getMillisecond() {
-	[$microsecond, $time] = explode(' ', microtime()); //' '中间是一个空格
-	return (float)sprintf('%.0f', (floatval($microsecond) + floatval($time)) * 1000);
-}
-
 /**
  * 判断url是否以http://或者https://开头
  * @param string $url
@@ -2855,27 +2748,6 @@ function isHttpOrHttps($url) {
 		return true;
 	}
 	return false;
-}
-
-// 生成不重复的随机数字字符串
-function generateRandomNumbers($length) {
-	$numbers = range(0, 9);
-	shuffle($numbers);
-	return implode('', array_slice($numbers, 0, $length));
-}
-
-// 生成不重复的随机大小写字母字符串
-function generateRandomLetters($length) {
-	$letters = array_merge(range('a', 'z'), range('A', 'Z'));
-	shuffle($letters);
-	return implode('', array_slice($letters, 0, $length));
-}
-
-// 生成不重复的随机数字大小写字母混合字符串
-function generateRandomAlphanumeric($length) {
-	$characters = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
-	shuffle($characters);
-	return implode('', array_slice($characters, 0, $length));
 }
 
 /**
