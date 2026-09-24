@@ -1575,27 +1575,15 @@ function showEditorMenu(tag, params) {
 	var menupos = '43!';
 	var menutype = 'menu';
 
-	try {
-		if(wysiwyg) {
-			if(!(editdoc.selection && editdoc.selection.createRange)) {
-				throw 'legacy selection unavailable';
-			}
-			sel = editdoc.selection.createRange();
-		} else {
-			if(!(document.selection && document.selection.createRange)) {
-				throw 'legacy selection unavailable';
-			}
-			sel = document.selection.createRange();
+	if(wysiwyg) {
+		var gSel = editdoc.getSelection();
+		if(gSel && gSel.rangeCount > 0) {
+			sel = gSel.getRangeAt(0);
 		}
-		selection = wysiwyg ? sel.htmlText : sel.text;
-	} catch(e) {
-		if (wysiwyg) {
-			var gSel = editdoc.getSelection();
-			if (gSel.rangeCount > 0) {
-				sel = gSel.getRangeAt(0);
-			}
-		}
-		selection = getSel();
+	}
+	selection = getSel();
+	if(wysiwyg && selection && typeof selection === 'string') {
+		selection = stripMathEditorCarets(selection);
 	}
 
 	if(menu) {
@@ -1626,15 +1614,11 @@ function showEditorMenu(tag, params) {
 			if(wysiwyg) {
 				var node = null;
 				try {
-					if(editdoc.selection && editdoc.selection.createRange) {
-						node = editdoc.selection.createRange().parentElement();
-					} else {
-						var wsel = editwin.getSelection();
-						if(wsel.rangeCount > 0) {
-							node = wsel.getRangeAt(0).commonAncestorContainer;
-							if(node.nodeType == 3) {
-								node = node.parentNode;
-							}
+					var wsel = editwin.getSelection();
+					if(wsel.rangeCount > 0) {
+						node = wsel.getRangeAt(0).commonAncestorContainer;
+						if(node.nodeType == 3) {
+							node = node.parentNode;
 						}
 					}
 				} catch(e) {node = null;}
@@ -1649,18 +1633,12 @@ function showEditorMenu(tag, params) {
 					linkhref = linknode.getAttribute('href', 2) ? linknode.getAttribute('href', 2) : '';
 					linktext = linknode.textContent;
 					try {
-						if(editdoc.body.createTextRange) {
-							sel = editdoc.body.createTextRange();
-							sel.moveToElementText(linknode);
-							sel.select();
-						} else {
-							var wrange = editdoc.createRange();
-							wrange.selectNode(linknode);
-							var wsel2 = editwin.getSelection();
-							wsel2.removeAllRanges();
-							wsel2.addRange(wrange);
-							sel = wrange;
-						}
+						var wrange = editdoc.createRange();
+						wrange.selectNode(linknode);
+						var wsel2 = editwin.getSelection();
+						wsel2.removeAllRanges();
+						wsel2.addRange(wrange);
+						sel = wrange;
 						selection = linknode.textContent;
 					} catch(e) {}
 				}
@@ -2023,124 +2001,65 @@ function autoTypeset() {
 	hideMenu();
 }
 
+function stripMathEditorCarets(html) {
+	if(!html || typeof html !== 'string') {
+		return html;
+	}
+	return html
+		.replace(/<span\b[^>]*\bdata-math-caret\b[^>]*>[\s\S]*?<\/span>/gi, '')
+		.replace(/<span\b[^>]*\bclass\s*=\s*["'][^"']*\bmath-editor-caret\b[^"']*["'][^>]*>[\s\S]*?<\/span>/gi, '');
+}
+
 function getSel() {
 	if(wysiwyg) {
 		try {
 			selection = editwin.getSelection();
 			checkFocus();
-			range = selection ? selection.getRangeAt(0) : editdoc.createRange();
+			range = selection && selection.rangeCount ? selection.getRangeAt(0) : editdoc.createRange();
 			return readNodes(range.cloneContents(), false);
 		} catch(e) {
-			try {
-				if(!(editdoc.selection && editdoc.selection.createRange)) {
-					return '';
-				}
-				var range = editdoc.selection.createRange();
-				if(range.htmlText && range.text) {
-					return range.htmlText;
-				} else {
-					var htmltext = '';
-					for(var i = 0; i < range.length; i++) {
-						htmltext += range.item(i).outerHTML;
-					}
-					return htmltext;
-				}
-			} catch(e) {
-				return '';
-			}
-		}
-	} else {
-		if(!isUndefined(editdoc.selectionStart)) {
-			return editdoc.value.substr(editdoc.selectionStart, editdoc.selectionEnd - editdoc.selectionStart);
-		} else if(document.selection && document.selection.createRange) {
-			return document.selection.createRange().text;
-		} else if(window.getSelection) {
-			return window.getSelection() + '';
-		} else {
-			return false;
+			return '';
 		}
 	}
+	if(!isUndefined(editdoc.selectionStart)) {
+		return editdoc.value.substr(editdoc.selectionStart, editdoc.selectionEnd - editdoc.selectionStart);
+	}
+	return '';
 }
 
 function insertText(text, movestart, moveend, select, sel) {
 	checkFocus();
 	if(wysiwyg) {
-		try {
-			if(!editdoc.execCommand('insertHTML', false, text)) {
-				throw 'insertHTML Err';
+		if(!editdoc.execCommand('insertHTML', false, text)) {
+			if(!sel) {
+				var currentSel = editdoc.getSelection();
+				if(currentSel.rangeCount == 0) {
+					currentSel.collapse(editdoc.body, 0);
+				}
+				sel = currentSel.getRangeAt(0);
 			}
-		} catch(e) {
-			try {
-				if(!isUndefined(editdoc.selection) && editdoc.selection.type != 'Text' && editdoc.selection.type != 'None') {
-					movestart = false;
-					editdoc.selection.clear();
-				}
-				range = isUndefined(sel) ? editdoc.selection.createRange() : sel;
-				range.pasteHTML(text);
-				if(text.indexOf('\n') == -1) {
-					if(!isUndefined(movestart)) {
-						range.moveStart('character', -strlen(text) + movestart);
-						range.moveEnd('character', -moveend);
-					} else if(movestart != false) {
-						range.moveStart('character', -strlen(text));
-					}
-					if(!isUndefined(select) && select) {
-						range.select();
-					}
-				}
-			} catch(e) {
-				if(!sel) {
-					var sel = editdoc.getSelection();
-					if (sel.rangeCount == 0) {
-						sel.collapse(editdoc.body, 0);
-					}
-					var range = sel.getRangeAt(0);
-				} else {
-					var range = sel;
-				}
-				if(range && range.insertNode) {
-					range.deleteContents();
-				}
-				var frag = range.createContextualFragment(text);
-				range.insertNode(frag);
+			if(sel && sel.insertNode) {
+				sel.deleteContents();
 			}
+			var frag = sel.createContextualFragment(text);
+			sel.insertNode(frag);
 		}
 	} else {
-		if(!isUndefined(editdoc.selectionStart)) {
-			if(!isUndefined(editdoc._selectionStart) && (editdoc._selectionStart || editdoc._selectionEnd)) {
-				editdoc.selectionStart = editdoc._selectionStart;
-				editdoc.selectionEnd = editdoc._selectionEnd;
-				editdoc._selectionStart = 0;
-				editdoc._selectionEnd = 0;
-			}
-			var opn = editdoc.selectionStart + 0;
-			editdoc.value = editdoc.value.substr(0, editdoc.selectionStart) + text + editdoc.value.substr(editdoc.selectionEnd);
+		if(!isUndefined(editdoc._selectionStart) && (editdoc._selectionStart || editdoc._selectionEnd)) {
+			editdoc.selectionStart = editdoc._selectionStart;
+			editdoc.selectionEnd = editdoc._selectionEnd;
+			editdoc._selectionStart = 0;
+			editdoc._selectionEnd = 0;
+		}
+		var opn = editdoc.selectionStart + 0;
+		editdoc.value = editdoc.value.substr(0, editdoc.selectionStart) + text + editdoc.value.substr(editdoc.selectionEnd);
 
-			if(!isUndefined(movestart)) {
-				editdoc.selectionStart = opn + movestart;
-				editdoc.selectionEnd = opn + strlen(text) - moveend;
-			} else if(movestart !== false) {
-				editdoc.selectionStart = opn;
-				editdoc.selectionEnd = opn + strlen(text);
-			}
-		} else if(document.selection && document.selection.createRange) {
-			if(isUndefined(sel)) {
-				sel = document.selection.createRange();
-			}
-			if(editbox.sel) {
-				sel = editbox.sel;
-				editbox.sel = null;
-			}
-			sel.text = text.replace(/\r?\n/g, '\r\n');
-			if(!isUndefined(movestart)) {
-				sel.moveStart('character', -strlen(text) +movestart);
-				sel.moveEnd('character', -moveend);
-			} else if(movestart !== false) {
-				sel.moveStart('character', -strlen(text));
-			}
-			sel.select();
-		} else {
-			editdoc.value += text;
+		if(!isUndefined(movestart)) {
+			editdoc.selectionStart = opn + movestart;
+			editdoc.selectionEnd = opn + strlen(text) - moveend;
+		} else if(movestart !== false) {
+			editdoc.selectionStart = opn;
+			editdoc.selectionEnd = opn + strlen(text);
 		}
 	}
 	checkFocus();
