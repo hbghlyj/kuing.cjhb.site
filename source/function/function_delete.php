@@ -782,11 +782,9 @@ function deletedoings($ids) {
 		$attachments[] = $attach;
 	}
 
-	// 删除物理文件
+	// Remove images, videos and their optional thumbnails.
 	foreach($attachments as $attach) {
-		if($attach['isimage']) {
-			pic_delete($attach['attachment'], 'doing', 0, $attach['remote']);
-		}
+		pic_delete($attach['attachment'], 'doing', empty($attach['isimage']) ? 1 : 0, $attach['remote']);
 	}
 
 	// 删除附件记录

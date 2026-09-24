@@ -19,9 +19,12 @@ if(submitcheck('settingsubmit')) {
 		if(in_array($key, ['siteuniqueid', 'my_sitekey', 'my_siteid'])) {
 			continue;
 		}
-		if($setting[$key] != $val) {
+		if($key === 'doingvideoext') {
+			$val = trim(preg_replace('/[^a-z0-9,]/i', '', strtolower($val)), ',');
+		}
+		if(($setting[$key] ?? null) != $val) {
 			$updatecache = TRUE;
-			if(in_array($key, ['defaultforumid', 'pollforumid', 'tradeforumid', 'rewardforumid', 'activityforumid', 'debateforumid'])) {
+			if(in_array($key, ['defaultforumid', 'pollforumid', 'tradeforumid', 'rewardforumid', 'activityforumid', 'debateforumid', 'doingimgmaxnum', 'doingimgmaxsize', 'doingvideoallow', 'doingvideomaxsize'])) {
 				$val = (float)$val;
 			}
 			$settings[$key] = $val;
@@ -69,6 +72,10 @@ if(submitcheck('settingsubmit')) {
 		showsetting('setting_home_base_default_'.$key.'_forum', "settingnew[{$key}forumid]", $setting[$key.'forumid'], sprintf($forumselect, "settingnew[{$key}forumid]"));
 	}
 	showsetting('setting_doing_dynamic_fname', 'settingnew[doing_dynamic_fname]', $setting['doing_dynamic_fname'], 'radio');
+	$uploaddefaults = ['doingimgmaxnum' => 9, 'doingimgmaxsize' => 2048, 'doingvideoallow' => 1, 'doingvideomaxsize' => 50, 'doingvideoext' => 'mp4,webm,mov'];
+	foreach($uploaddefaults as $key => $default) {
+		showsetting('setting_'.$key, 'settingnew['.$key.']', $setting[$key] ?? $default, $key === 'doingvideoallow' ? 'radio' : 'text');
+	}
 
 	showtablefooter();
 	/*search*/

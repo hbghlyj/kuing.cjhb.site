@@ -82,5 +82,24 @@ class table_home_docomment extends discuz_table {
 		return DB::fetch_all("SELECT * FROM %t WHERE doid=%d AND upid>0 AND uid>0 AND message!='' ORDER BY dateline", [$this->_table, $doid]);
 	}
 
+	public function fetch_hot_top_by_doids($doids, $limit = 3) {
+		$result = [];
+		foreach(array_unique(array_filter(array_map('intval', (array)$doids))) as $doid) {
+			$rows = DB::fetch_all("SELECT * FROM %t WHERE doid=%d AND upid=0 AND uid>0 AND message!='' ORDER BY replynum DESC, recomends DESC, dateline DESC ".DB::limit(0, max(1, (int)$limit)), [$this->_table, $doid]);
+			foreach($rows as $row) {
+				$result[] = $row;
+			}
+		}
+		return $result;
+	}
+
+	public function count_top_by_doids($doids) {
+		$doids = array_unique(array_filter(array_map('intval', (array)$doids)));
+		if(!$doids) {
+			return [];
+		}
+		return DB::fetch_all('SELECT doid, COUNT(*) AS cnt FROM %t WHERE %i AND upid=0 AND uid>0 AND message!=\'\' GROUP BY doid', [$this->_table, DB::field('doid', $doids)]);
+	}
+
 }
 
