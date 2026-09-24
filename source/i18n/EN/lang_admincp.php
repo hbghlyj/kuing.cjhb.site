@@ -1530,6 +1530,11 @@ $lang =
 
 	'setting_doing_dynamic_fname' => 'Forum Name as Topic',
 	'setting_doing_dynamic_fname_comment' => 'When forum posts are synced to doings, whether to sync the forum name as a topic to doings',
+	'setting_doingimgmaxnum' => 'Maximum images per update',
+	'setting_doingimgmaxsize' => 'Maximum image size (KB)',
+	'setting_doingvideoallow' => 'Allow videos in updates',
+	'setting_doingvideomaxsize' => 'Maximum video size (MB)',
+	'setting_doingvideoext' => 'Allowed video extensions',
 
 	'district' => 'Region Settings',
 	'district_tips' => '<li>You can edit region data yourself</li><li>After adding, editing or deleting operations, you need to click the "Submit" button to take effect</li>',

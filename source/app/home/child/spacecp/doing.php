@@ -18,6 +18,70 @@ if(!$_G['setting']['doingstatus']) {
 	showmessage('doing_status_off');
 }
 
+function doing_upload_limits() {
+	$setting = getglobal('setting');
+	$videoexts = strtolower(!empty($setting['doingvideoext']) ? $setting['doingvideoext'] : 'mp4,webm,mov');
+	return [
+		'imgmaxnum' => max(1, (int)($setting['doingimgmaxnum'] ?? 9)),
+		'imgmaxsize' => max(1, (int)($setting['doingimgmaxsize'] ?? 2048)) * 1024,
+		'imgexts' => ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'],
+		'videoallow' => (int)($setting['doingvideoallow'] ?? 1),
+		'videomaxsize' => max(1, (int)($setting['doingvideomaxsize'] ?? 50)) * 1048576,
+		'videoexts' => array_values(array_unique(array_filter(array_map('trim', explode(',', $videoexts))))),
+	];
+}
+
+function doing_check_image_file($file, $limits) {
+	if(!is_array($file) || empty($file['name']) || !is_string($file['name']) || ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+		return 'doing_upload_image_invalid';
+	}
+	if(!in_array(strtolower(pathinfo($file['name'], PATHINFO_EXTENSION)), $limits['imgexts'], true)) {
+		return 'doing_upload_image_ext_invalid';
+	}
+	return $file['size'] > $limits['imgmaxsize'] ? 'doing_upload_image_too_large' : '';
+}
+
+function doing_post_media($uid, $aids) {
+	$limits = doing_upload_limits();
+	$images = [];
+	foreach(array_unique(array_filter(array_map('intval', (array)$aids))) as $aid) {
+		$attachment = table_home_doing_attachment::t()->fetch_attachment('aid:'.$aid, $aid);
+		if($attachment && (int)$attachment['uid'] === (int)$uid && !(int)$attachment['doid'] && (int)$attachment['isimage']) {
+			$images[] = $aid;
+		}
+	}
+	$photos = [];
+	if(!empty($_FILES['photos']) && is_array($_FILES['photos']['name'])) {
+		foreach($_FILES['photos']['name'] as $i => $name) {
+			if(($_FILES['photos']['error'][$i] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) continue;
+			$file = [];
+			foreach(['name', 'type', 'tmp_name', 'error', 'size'] as $key) $file[$key] = $_FILES['photos'][$key][$i] ?? null;
+			$file['full_path'] = $name;
+			$photos[] = $file;
+		}
+	}
+	if(count($images) + count($photos) > $limits['imgmaxnum']) {
+		showmessage('doing_upload_image_too_many', '', ['num' => $limits['imgmaxnum']]);
+	}
+	foreach($photos as $file) {
+		if($error = doing_check_image_file($file, $limits)) {
+			showmessage($error, '', ['size' => $limits['imgmaxsize'] / 1024]);
+		}
+	}
+	$video = $_FILES['video'] ?? null;
+	if(is_array($video) && !is_array($video['name'] ?? null) && ($video['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+		if(!$limits['videoallow']) showmessage('doing_upload_video_disabled');
+		if(($video['error'] ?? null) !== UPLOAD_ERR_OK) showmessage('doing_upload_video_invalid');
+		if(!in_array(strtolower(pathinfo($video['name'], PATHINFO_EXTENSION)), $limits['videoexts'], true)) {
+			showmessage('doing_upload_video_ext_invalid', '', ['ext' => implode(', ', $limits['videoexts'])]);
+		}
+		if($video['size'] > $limits['videomaxsize']) showmessage('doing_upload_video_too_large', '', ['size' => $limits['videomaxsize'] / 1048576]);
+	} else {
+		$video = null;
+	}
+	return [$images, $photos, $video];
+}
+
 $doid = empty($_GET['doid']) ? 0 : intval($_GET['doid']);
 $docid = empty($_GET['docid']) ? 0 : intval($_GET['docid']);
 
@@ -66,7 +130,11 @@ if($_GET['op'] == 'delete') {
 		showmessage('docomment_error');
 	}
 
-	include template('home/spacecp_doing');
+	if(defined('IN_MOBILE') && !empty($_GET['fragment'])) {
+		include template('home/spacecp_doing_formfragment');
+	} else {
+		include template('home/spacecp_doing');
+	}
 	dexit();
 } elseif($_GET['op'] == 'getcomment') {
 	$key = empty($_GET['key']) ? random(8) : $_GET['key'];
@@ -375,6 +443,19 @@ if($_GET['op'] == 'delete') {
 	if(!checkperm('allowdoing')) {
 		showmessage('no_privilege_doing', '', array(), array('login' => 1));
 	}
+	$limits = doing_upload_limits();
+	$error = doing_check_image_file($_FILES['Filedata'] ?? null, $limits);
+	if(!$error) {
+		$count = DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d AND doid=0 AND isimage IN (1, -1)', ['home_doing_attachment', $_G['uid']]);
+		if($count >= $limits['imgmaxnum']) $error = 'doing_upload_image_too_many';
+	}
+	if($error) {
+		$vars = ['num' => $limits['imgmaxnum'], 'size' => $limits['imgmaxsize'] / 1024];
+		if(defined('IN_RESTFUL')) showmessage($error, '', $vars);
+		header('Content-Type: application/json');
+		echo json_encode(['status' => 'error', 'message' => lang('message', $error, $vars)]);
+		exit;
+	}
 
 	if (!empty($_FILES)) {
 		$upload = new upload('doing');
@@ -475,7 +556,7 @@ if($_GET['op'] == 'delete') {
 			if($attach && $attach['uid'] == $_G['uid']) {
 
 				table_home_doing_attachment::t()->delete($aid);
-				pic_delete($attach['attachment'], 'doing', 0, $attach['remote']);
+				pic_delete($attach['attachment'], 'doing', empty($attach['isimage']) ? 1 : 0, $attach['remote']);
 				if($_G['setting']['ftp']['on'] == 2) {
 					ftpcmd('delete', 'doing/'.$attach['attachment']);
 					ftpcmd('delete', 'doing/'.getimgthumbname($attach['attachment']));
@@ -772,6 +853,7 @@ if($_GET['op'] == 'delete') {
 		if(is_array($message) && $message['message']) {
 			showmessage($message['message'], dreferer(), ['message' => $message['message']]);
 		}
+		[$imageaids, $photofiles, $videofile] = doing_post_media($_G['uid'], explode(',', $_POST['imageaids'] ?? ''));
 
 		if(censormod($message) || $_G['group']['allowdoingmod']) {
 			$doing_status = 1;
@@ -836,16 +918,17 @@ if($_GET['op'] == 'delete') {
 		updatecreditbyaction('doing', 0, $extrasql);
 
 		table_common_member_field_home::t()->update($_G['uid'], $setarr);
-		if (!empty($_POST['imageaids'])) {
-			$imageaids = explode(',', $_POST['imageaids']);
-			$imageaids = array_map('intval', $imageaids);
-			$imageaids = array_filter($imageaids); 
-			
-			if (!empty($imageaids)) {
-				table_home_doing_attachment::t()->update_by_aid($imageaids, ['doid' => $newdoid]);
-			}
+		if($imageaids) {
+			table_home_doing_attachment::t()->update_by_aid($imageaids, ['doid' => $newdoid]);
 		}
-		if (!empty($_FILES)) {
+		if($photofiles || $videofile) {
+			$_FILES = [];
+			if($photofiles) {
+				foreach(['name', 'full_path', 'type', 'tmp_name', 'error', 'size'] as $field) {
+					$_FILES['photos'][$field] = array_column($photofiles, $field);
+				}
+			}
+			if($videofile) $_FILES['video'] = $videofile;
 			$upload = new upload('doing');
 			$f = $upload->upload();
 
@@ -881,6 +964,26 @@ if($_GET['op'] == 'delete') {
 						'height' => $value['imageinfo'][1],
 						'displayorder' => $key
 					], true);
+				}
+			}
+			if($videofile && !empty($f['video']['attachment']) && empty($f['video']['error'])) {
+				$value = $f['video'];
+				table_home_doing_attachment::t()->insert_attachment([
+					'doid' => $newdoid, 'uid' => $_G['uid'], 'dateline' => TIMESTAMP,
+					'filename' => $value['name'], 'filesize' => $value['size'],
+					'attachment' => $value['attachment'], 'remote' => $value['remote'] ?? 0,
+					'isimage' => 0, 'width' => 0, 'height' => 0, 'displayorder' => 0,
+				], true);
+				if(!empty($_POST['videoposter']) && preg_match('/^data:image\/jpeg;base64,([A-Za-z0-9+\/=]+)$/', $_POST['videoposter'], $match)) {
+					$poster = base64_decode($match[1], true);
+					$posterinfo = $poster && strlen($poster) <= 5 * 1048576 ? @getimagesizefromstring($poster) : false;
+					if($posterinfo && $posterinfo[2] === IMAGETYPE_JPEG) {
+						$path = $_G['setting']['attachdir'].'/doing/'.getimgthumbname($value['attachment']);
+						if(!is_dir(dirname($path))) dmkdir(dirname($path));
+						if(file_put_contents($path, $poster) && !empty($value['remote'])) {
+							ftpcmd('upload', 'doing/'.getimgthumbname($value['attachment']));
+						}
+					}
 				}
 			}
 		}

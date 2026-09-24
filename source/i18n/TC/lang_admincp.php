@@ -1492,6 +1492,11 @@ $lang =
 
 	'setting_doing_dynamic_fname' => '版塊名稱作爲話題',
 	'setting_doing_dynamic_fname_comment' => '論壇發帖同步到記錄時，是否將版塊名稱作爲話題同步到記錄中',
+	'setting_doingimgmaxnum' => '每條記錄最多上傳圖片數',
+	'setting_doingimgmaxsize' => '單張圖片大小上限（KB）',
+	'setting_doingvideoallow' => '允許記錄上傳影片',
+	'setting_doingvideomaxsize' => '影片大小上限（MB）',
+	'setting_doingvideoext' => '允許的影片副檔名',
 
 	'district' => '地區設定',
 	'district_tips' => '<li>您可以自己編輯地區數據</li><li>添加，編輯或刪除操作後需要點擊“提交”按鈕才生效</li>',

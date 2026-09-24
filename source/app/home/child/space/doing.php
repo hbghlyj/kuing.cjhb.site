@@ -155,15 +155,29 @@ $attachments = [];
 if (!empty($all_doids)) {
 	$attach_list = table_home_doing_attachment::t()->fetch_all_by_id(0, 'doid', $all_doids);
 	foreach ($attach_list as $attach) {
-		$attach['thumb'] = getdiscuzimg('doing', $attach['aid'], 0, 140, 140);
+		$attach['thumb'] = $attach['isimage'] ? getdiscuzimg('doing', $attach['aid'], 0, 140, 140) : '';
 		$attachments[$attach['doid']][] = $attach;
 	}
 }
 // 将附件信息添加到记录数据中
 foreach ($dolist as &$dv) {
 	$dv['attachments'] = isset($attachments[$dv['doid']]) ? $attachments[$dv['doid']] : [];
+	$dv['hotcomments'] = [];
 }
 unset($dv);
+
+$hotcomment_count = [];
+if(empty($doid) && $all_doids) {
+	$hotcomments = [];
+	foreach(table_home_docomment::t()->fetch_hot_top_by_doids($all_doids) as $comment) {
+		$hotcomments[$comment['doid']][] = $comment;
+	}
+	foreach(table_home_docomment::t()->count_top_by_doids($all_doids) as $row) {
+		$hotcomment_count[$row['doid']] = (int)$row['cnt'];
+	}
+	foreach($dolist as &$dv) $dv['hotcomments'] = $hotcomments[$dv['doid']] ?? [];
+	unset($dv);
+}
 
 // 处理评论
 $clist = [];
@@ -211,4 +225,8 @@ if($_G['uid'] != $space['uid'] && $space['username']) {
 }
 $metakeywords = $navtitle;
 $metadescription = $navtitle;
+$type = '';
+$id = 0;
+$topicid = 0;
+$commentcable = [];
 include_once template('diy:home/space_doing');

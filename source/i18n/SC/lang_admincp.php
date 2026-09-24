@@ -1490,6 +1490,11 @@ $lang =
 
 	'setting_doing_dynamic_fname' => '版块名称作为话题',
 	'setting_doing_dynamic_fname_comment' => '论坛发帖同步到记录时，是否将版块名称作为话题同步到记录中',
+	'setting_doingimgmaxnum' => '每条记录最多上传图片数',
+	'setting_doingimgmaxsize' => '单张图片大小上限（KB）',
+	'setting_doingvideoallow' => '允许记录上传视频',
+	'setting_doingvideomaxsize' => '视频大小上限（MB）',
+	'setting_doingvideoext' => '允许的视频扩展名',
 
 	'district' => '地区设置',
 	'district_tips' => '<li>您可以自己编辑地区数据</li><li>添加，编辑或删除操作后需要点击“提交”按钮才生效</li>',
