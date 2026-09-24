@@ -2394,19 +2394,18 @@ const assertPusherMetadataOrder = () => {
 		// MathJax has processed the whole batch and require the retry path to keep
 		// the rendered formulas as-is instead of re-running them.
 		console.log("Testing batched typeset rejection retry isolation (stateful TeX)...");
+		// MathJax is loaded (async) in the main page header and the editor typesets
+		// through the main-page MathJax instance, so the fault injection must wrap
+		// window.MathJax here, not the editor iframe's window.
 		const retryEqFirst = String.raw`\begin{equation}\label{ci-retry:first} x + 1 = 2 \end{equation}`;
 		const retryEqSecond = String.raw`\begin{equation}\label{ci-retry:second} y + 1 = 3 \end{equation}`;
 		const retryMathSource = 'First ' + retryEqFirst + ' second ' + retryEqSecond + ' and good $a+b$ and bad $\\BADFORMULA$ end.';
 		await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
 		await page.waitForLoadState('networkidle');
 		await page.fill('#e_textarea', retryMathSource);
-		await page.waitForFunction(() => {
-			const frame = document.querySelector('#e_iframe');
-			const mjx = frame && frame.contentWindow && frame.contentWindow.MathJax;
-			return !!(mjx && typeof mjx.typesetPromise === 'function');
-		}, { timeout: 30000 });
+		await page.waitForFunction(() => !!(window.MathJax && typeof window.MathJax.typesetPromise === 'function'), null, { timeout: 30000 });
 		await page.evaluate(() => {
-			const mjx = document.querySelector('#e_iframe').contentWindow.MathJax;
+			const mjx = window.MathJax;
 			mjx.__ciCalls = [];
 			mjx.__ciBatchRejected = false;
 			const original = mjx.typesetPromise.bind(mjx);
@@ -2450,8 +2449,9 @@ const assertPusherMetadataOrder = () => {
 					merrors: el ? Array.from(el.querySelectorAll('mjx-merror')).map(node => node.getAttribute('data-mjx-error') || '') : []
 				};
 			};
-			const calls = frame.contentWindow.MathJax.__ciCalls || [];
+			const calls = window.MathJax.__ciCalls || [];
 			return {
+				batchRejected: window.MathJax.__ciBatchRejected,
 				eq1: info(of('ci-retry:first')),
 				eq2: info(of('ci-retry:second')),
 				good: info(of('$a+b$')),
@@ -2460,6 +2460,7 @@ const assertPusherMetadataOrder = () => {
 				label2Calls: calls.filter(call => call.label2).length
 			};
 		});
+		assert.strictEqual(retryIsolation.batchRejected, true, 'Assertion Error: Batch-failure injection did not run.');
 		assert.ok(retryIsolation.eq1.rendered && retryIsolation.eq1.number === '(1)', `Assertion Error: First labeled equation was not typeset exactly once with number (1) after a batched failure (${JSON.stringify(retryIsolation.eq1)}).`);
 		assert.ok(retryIsolation.eq2.rendered && retryIsolation.eq2.number === '(2)', `Assertion Error: Second labeled equation was not typeset exactly once with number (2) after a batched failure (${JSON.stringify(retryIsolation.eq2)}).`);
 		assert.deepStrictEqual(retryIsolation.eq1.merrors, [], `Assertion Error: First labeled equation contains MathJax errors after the injected batch failure: ${JSON.stringify(retryIsolation.eq1.merrors)}.`);
@@ -2469,7 +2470,7 @@ const assertPusherMetadataOrder = () => {
 		assert.strictEqual(retryIsolation.label2Calls, 1, 'Assertion Error: The second labeled equation was re-processed by MathJax after the injected batch failure.');
 		assert.ok(retryIsolation.good.rendered && retryIsolation.good.merrors.length === 0, `Assertion Error: The valid formula was not rendered after the injected batch failure (${JSON.stringify(retryIsolation.good)}).`);
 		await page.evaluate(() => {
-			const mjx = document.querySelector('#e_iframe').contentWindow.MathJax;
+			const mjx = window.MathJax;
 			if (typeof mjx.__ciOriginalTypeset === 'function') mjx.typesetPromise = mjx.__ciOriginalTypeset;
 		});
 
