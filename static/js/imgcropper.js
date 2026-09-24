@@ -334,7 +334,7 @@
 			oEvent.preventDefault();
 		},
 		resize: function(e) {
-			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			window.getSelection().removeAllRanges();
 			this._fun(e);
 			if(this.options.min && (this._styleWidth <= this.options.minWidth || this._styleHeight <= this.options.minHeight)) {
 				return false;
@@ -552,7 +552,7 @@
 			this.options.onDragStart();
 		},
 		dragMove: function(event) {
-			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			window.getSelection().removeAllRanges();
 			var iLeft = event.clientX - this._x;
 			var iTop = event.clientY - this._y;
 			if(this.options.limit) {

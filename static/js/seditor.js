@@ -18,15 +18,7 @@ function seditor_showimgmenu(seditorkey) {
 }
 
 function seditor_menu(seditorkey, tag) {
-	var sel = false;
-	if(!isUndefined($(seditorkey + 'message').selectionStart)) {
-		sel = $(seditorkey + 'message').selectionEnd - $(seditorkey + 'message').selectionStart;
-	} else if(document.selection && document.selection.createRange) {
-		$(seditorkey + 'message').focus();
-		var sel = document.selection.createRange();
-		$(seditorkey + 'message').sel = sel;
-		sel = sel.text ? true : false;
-	}
+	var sel = $(seditorkey + 'message').selectionEnd - $(seditorkey + 'message').selectionStart;
 	if(sel) {
 		seditor_insertunit(seditorkey, '[' + tag + ']', '[/' + tag + ']');
 		return;
@@ -116,27 +108,9 @@ function seditor_insertunit(key, text, textend, moveend, selappend) {
 			text = text + textend;
 			$(key + 'message').value = $(key + 'message').value.substr(0, $(key + 'message').selectionStart) + text + $(key + 'message').value.substr($(key + 'message').selectionEnd);
 		}
-	} else if(document.selection && document.selection.createRange) {
-		var sel = document.selection.createRange();
-		if(!sel.text.length && $(key + 'message').sel) {
-			sel = $(key + 'message').sel;
-			$(key + 'message').sel = null;
-		}
-		if(selappend) {
-			if(textend != '') {
-				text = text + sel.text + textend;
-			}
-			sel.text = text.replace(/\r?\n/g, '\r\n');
-			if(!moveend) {
-				sel.moveStart('character', -endlen);
-				sel.moveEnd('character', -endlen);
-			}
-			sel.select();
-		} else {
-			sel.text = text + textend;
-		}
 	} else {
-		$(key + 'message').value += text;
+		text = text + textend;
+		$(key + 'message').value = $(key + 'message').value.substr(0, $(key + 'message').selectionStart) + text + $(key + 'message').value.substr($(key + 'message').selectionEnd);
 	}
 	hideMenu(2);
 	// Notify editor integrations after programmatic insertion.

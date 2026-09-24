@@ -259,20 +259,10 @@ var Util = {
 		}
 	},
 	cancelSelect : function () {
-		window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+		window.getSelection().removeAllRanges();
 	},
 	getSelectText : function () {
-		var t = '';
-		 if (window.getSelection) {
-			t = window.getSelection();
-		} else if (document.getSelection) {
-			t = document.getSelection();
-		} else if (document.selection) {
-			t = document.selection.createRange().text;
-		} else {
-			t = '';
-		}
-		return t;
+		return window.getSelection ? window.getSelection() : '';
 	},
 	toggleEle : function (ele) {
 		ele = (typeof ele !='object') ? $(ele) : ele;

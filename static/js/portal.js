@@ -99,18 +99,10 @@ function insertImage(text) {
 
 function insertContent(target, text) {
 	var obj = $(target);
-	selection = document.selection;
 	checkFocus(target);
-	if(!isUndefined(obj.selectionStart)) {
-		var opn = obj.selectionStart + 0;
-		obj.value = obj.value.substr(0, obj.selectionStart) + text + obj.value.substr(obj.selectionEnd);
-	} else if(selection && selection.createRange) {
-		var sel = selection.createRange();
-		sel.text = text;
-		sel.moveStart('character', -strlen(text));
-	} else {
-		obj.value += text;
-	}
+	var opn = obj.selectionStart + 0;
+	obj.value = obj.value.substr(0, obj.selectionStart) + text + obj.value.substr(obj.selectionEnd);
+	obj.selectionStart = obj.selectionEnd = opn + strlen(text);
 }
 
 function searchblock(from) {

@@ -149,19 +149,14 @@ function _showdistrict(container, elems, totallevel, changelevel, containertype)
 
 function _copycode(obj) {
 	if(!obj) return false;
-	if(window.getSelection) {
-		var sel = window.getSelection();
-		if (sel.setBaseAndExtent) {
-			sel.setBaseAndExtent(obj, 0, obj, 1);
-		} else {
-			var rng = document.createRange();
-			rng.selectNodeContents(obj);
-			sel.addRange(rng);
-		}
+	var sel = window.getSelection();
+	if (sel.setBaseAndExtent) {
+		sel.setBaseAndExtent(obj, 0, obj, 1);
 	} else {
-		var rng = document.body.createTextRange();
-		rng.moveToElementText(obj);
-		rng.select();
+		var rng = document.createRange();
+		rng.selectNodeContents(obj);
+		sel.removeAllRanges();
+		sel.addRange(rng);
 	}
 	if(setCopy(obj.textContent)) {
 		copycodeIcon(obj);
