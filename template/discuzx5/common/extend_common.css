@@ -1014,13 +1014,13 @@ a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-i
 
 .focus {right:15px;bottom:15px;width:320px;z-index:320;background:none}
 .focus .bm {margin-bottom:0;border:none;border-radius:var(--dz-radius-m);box-shadow:var(--dz-shadow)}
-.focus .bm_h {margin:0;padding:0 20px 10px;height:60px;line-height:60px;background:var(--dz-nvbg);color:var(--dz-ff);border:none;border-radius:var(--dz-radius-m) var(--dz-radius-m) 0 0}
+.focus .bm_h {margin:0;padding:8px 20px;height:36px;line-height:36px;background:var(--dz-nvbg);color:var(--dz-ff);border:none;border-radius:var(--dz-radius-m) var(--dz-radius-m) 0 0}
 .focus .bm_h .i {padding-left:0}
 .focus .bm_h h2:before {background:var(--dz-ff)}
-.focus .bm_h a.y {width:40px;color:var(--dz-ff);opacity:0.8}
+.focus .bm_h a.y {margin-right:-6px;width:24px;height:24px;line-height:24px;text-align:center;color:var(--dz-ff);opacity:0.8;overflow:hidden}
 .focus .bm_h a.y:before {font-family:dzicon;content:"\f116";font-size:24px}
 .focus .bm_h a.y:hover {opacity:1}
-.focus .bm_c {background:var(--dz-bgf);margin-top:-8px;border-radius:var(--dz-radius-m)}
+.focus .bm_c {background:var(--dz-bgf);margin-top:0;border-radius:0}
 .focus .bm_c .bbda.bbda {line-height:28px;font-size:14px;padding-bottom:13px !important}
 .focus .bm_c .ptn .xi2.y {margin-top:8px}
 .focus .bm_c .ptn .xi2, .focus .bm_c .ptn .xi2 a {color:var(--dz-ahot) !important}
