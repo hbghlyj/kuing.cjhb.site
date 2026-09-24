@@ -284,9 +284,7 @@
 		const counter = document.getElementById('mp_counter');
 		if (counter) {
 			var countmsg = '{lang doing_upload_pic_count}';
-			counter.innerHTML = countmsg
-				.replace('@cur@', '<span class="mp_count_num">' + MultiPicUploaded + '</span>')
-				.replace('@num@', mpimgmax);
+			counter.textContent = countmsg.replace('@cur@', MultiPicUploaded).replace('@num@', mpimgmax);
 			if (MultiPicUploaded >= mpimgmax) {
 				counter.classList.add('mp_count_full');
 			} else {

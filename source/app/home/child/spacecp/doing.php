@@ -118,7 +118,8 @@ if($_GET['op'] == 'delete') {
 } elseif($_GET['op'] == 'docomment') {
 	$doid = intval($_GET['doid']);
 	$docid = intval($_GET['docid']);
-	$key = empty($_GET['key']) ? random(8) : $_GET['key'];
+	$key = preg_replace('/[^a-zA-Z0-9_]/', '', substr((string)($_GET['key'] ?? ''), 0, 32));
+	if($key === '') $key = random(8);
 	$_GET['key'] = $key;
 
 	$updo = [];
@@ -139,7 +140,8 @@ if($_GET['op'] == 'delete') {
 	}
 	dexit();
 } elseif($_GET['op'] == 'getcomment') {
-	$key = empty($_GET['key']) ? random(8) : $_GET['key'];
+	$key = preg_replace('/[^a-zA-Z0-9_]/', '', substr((string)($_GET['key'] ?? ''), 0, 32));
+	if($key === '') $key = random(8);
 	$_GET['key'] = $key;
 	$doid = empty($_GET['doid']) ? 0 : intval($_GET['doid']);
 	$doing_info = table_home_doing::t()->fetch($doid);
