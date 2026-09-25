@@ -40,7 +40,7 @@ if(!submitcheck('importsubmit') && empty($_GET['dir'])) {
 		$_GET['dir'] = $style['directory'];
 	}
 	if(!empty($_GET['dir'])) {
-		$renamed = import_styles($_GET['ignoreversion'], $_GET['dir'], $restore);
+		$renamed = import_styles($_GET['ignoreversion'], $_GET['dir'], $restore, setdefault: !empty($_GET['default']));
 	} else {
 		$renamed = import_styles($_GET['ignoreversion'], $_GET['dir']);
 	}
@@ -48,4 +48,3 @@ if(!submitcheck('importsubmit') && empty($_GET['dir'])) {
 	dsetcookie('addoncheck_template', '', -1);
 	cpmsg(!empty($_GET['dir']) ? (!$restore ? 'styles_install_succeed' : 'styles_restore_succeed') : ($renamed ? 'styles_import_succeed_renamed' : 'styles_import_succeed'), 'action=styles', 'succeed');
 }
-	

@@ -233,6 +233,7 @@ if($method == 'show_license') {
 	} else {
 		show_header();
 		echo '</div><div class="main inst_success"><div class="success_icon"></div><h2>'.$lang['install_finish'].'</h2><p>'.$lang['install_finish_next'].'</p>';
+		echo '<a href="'.$default_appurl.'/admin.php?action=styles&operation=import&dir=discuz_blog&default=1" class="btn">'.$lang['finish_btn_install_style_blog'].'</a>';
 		echo '<a href="'.$default_appurl.'/admin.php" class="btn">'.$lang['finish_btn_admin'].'</a>';
 		echo '<a href="'.$default_appurl.'/admin.php?action=cloudaddons&frame=no&from=newinstall" class="btn">'.$lang['finish_btn_cloudaddon'].'</a>';
 		echo '<a href="'.$default_appurl.'" class="btn finish">'.$lang['finish_btn_direct'].'</a>';

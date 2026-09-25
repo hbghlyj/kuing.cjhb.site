@@ -407,6 +407,7 @@ $lang = [
 	'install_finish' => 'Site installation completed. Thank you for your support!',
 	'install_finish_next' => 'Next you can:',
 	'finish_btn_admin' => 'Enter Admin Panel',
+	'finish_btn_install_style_blog' => 'Install Blog Theme',
 	'finish_btn_cloudaddon' => 'Install Plugins & Templates',
 	'finish_btn_direct' => 'Visit Site Directly',
 

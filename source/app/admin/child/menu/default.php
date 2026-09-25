@@ -14,14 +14,9 @@ class menu_default {
 
 	public static function getMenu() {
 
-		$logo = '<a href="{ADMINSCRIPT}?frames=yes&action=index" class="logo"><img src="static/image/admincp/logo.svg" alt="Discuz! Administrator\'s Control Panel"></a>';
+		$logo = menu::defaultLogo;
 
-		$navbar = '
-<form name="search" method="post" autocomplete="off" action="{ADMINSCRIPT}?action=search" target="main">
-	<input type="text" name="keywords" value="" class="txt" required>
-	<button type="submit" name="searchsubmit" value="yes" class="btn"></button>
-</form>
-';
+		$navbar = menu::defaultNavbar;
 
 		$menu = [];
 

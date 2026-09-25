@@ -399,6 +399,7 @@ $lang = [
 	'install_finish' => '站点安装完成，感谢您的支持！',
 	'install_finish_next' => '接下来您可以：',
 	'finish_btn_admin' => '进入管理后台',
+	'finish_btn_install_style_blog' => '安装博客主题',
 	'finish_btn_cloudaddon' => '安装插件模板',
 	'finish_btn_direct' => '直接访问站点',
 
