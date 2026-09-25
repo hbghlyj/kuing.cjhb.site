@@ -805,7 +805,7 @@ const assertPusherMetadataOrder = () => {
             'Assertion Error: Clicking a smiley did not insert its code into the editor.'
         );
 
-		await fillPostEditor('Body text from unprivileged account.');
+        await fillPostEditor('Body text from unprivileged account. $x+1$');
 
         await solveSecurityQuestion(page);
 
@@ -1212,6 +1212,7 @@ const assertPusherMetadataOrder = () => {
             await page.waitForLoadState('networkidle');
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             assert.match(pidOutput, /^\d+$/, 'Assertion Error: Created thread first-post ID was not found.');
+            await page.waitForSelector(`#postmessage_${pidOutput} mjx-container`);
                 const editPostBtn = page.locator(`a.editp[href*="action=edit"][href*="pid=${pidOutput}"]`);
                 assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
                 await editPostBtn.click();
@@ -1224,7 +1225,7 @@ const assertPusherMetadataOrder = () => {
                 await editSubject.fill(editedStandardSubject);
                 const editMessage = editForm.locator('textarea[name="message"]');
                 assert.strictEqual(await editMessage.count(), 1, 'Assertion Error: Desktop edit message input did not render.');
-                await editMessage.fill('Edited body text from unprivileged account.');
+                await editMessage.fill('Edited body text from unprivileged account. $y+2$');
                 await solveSecurityQuestion(page, editForm);
                 const editBtn = editForm.locator('button[name="editsubmit"]');
                 assert.strictEqual(await editBtn.count(), 1, 'Assertion Error: Desktop edit submit button did not render.');
@@ -1247,6 +1248,29 @@ const assertPusherMetadataOrder = () => {
                     return !modal || modal.style.display === 'none';
                 }, null, { timeout: 5000 });
                 assert.match(page.url(), new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), 'Assertion Error: Desktop edit submission navigated away from the thread instead of closing the float window via callback.');
+
+                await page.waitForFunction(pid => {
+                    const formula = document.querySelector(`#postmessage_${pid} mjx-container`);
+                    return formula && MathJax.startup.document.math &&
+                        Array.from(MathJax.startup.document.math).some(math => math.typesetRoot === formula && math.math.trim() === 'y+2');
+                }, pidOutput);
+                const editedMathCopy = await page.evaluate(pid => {
+                    const formula = document.querySelector(`#postmessage_${pid} mjx-container`);
+                    const range = document.createRange();
+                    range.selectNode(formula);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    const clipboard = new DataTransfer();
+                    document.dispatchEvent(new ClipboardEvent('copy', { bubbles: true, cancelable: true, clipboardData: clipboard }));
+                    selection.removeAllRanges();
+                    return {
+                        copied: clipboard.getData('text/plain'),
+                        stale: Array.from(MathJax.startup.document.math).some(math => math.math.trim() === 'x+1' && math.typesetRoot && !math.typesetRoot.isConnected)
+                    };
+                }, pidOutput);
+                assert.strictEqual(editedMathCopy.copied, '$y+2$', 'Assertion Error: Copying an AJAX-edited formula did not yield its updated TeX source.');
+                assert.strictEqual(editedMathCopy.stale, false, 'Assertion Error: MathJax retained a detached formula after AJAX post replacement.');
 
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='${editedStandardSubject}';"`).toString().trim();

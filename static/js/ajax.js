@@ -283,6 +283,9 @@ function _ajaxinnerhtml(showid, s) {
             showid.innerHTML = showid.innerHTML.replace(/<!--Ajax:Clear-->(.|\n)+?<!--Ajax:\/Clear-->/ig, '');
             showid.innerHTML += s;
         } else {
+            if(window.MathJax && typeof MathJax.typesetClear === 'function') {
+                MathJax.typesetClear([showid]);
+            }
             showid.innerHTML = s;
         }
 	} else {
