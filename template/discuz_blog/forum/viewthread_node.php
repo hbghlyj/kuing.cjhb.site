@@ -301,7 +301,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						</div>
 					<!--{/if}-->
 					<!--{if helper_access::check_module('favorite')}-->
-						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&formhash={FORMHASH}" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l" title="{lang thread_favorite}"></em>{lang thread_favorite}<span id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
+						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&formhash={FORMHASH}" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang sp}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l" title="{lang thread_favorite}"></em>{lang thread_favorite}<span id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
 					<!--{/if}-->
 					<!--{if helper_access::check_module('attention') && $_G['forum_thread']['authorid'] != $_G['uid']}-->
 						<a href="home.php?mod=spacecp&ac=attention&op={if $_G['forum_thread']['userattention']}del{else}add{/if}&tid=$_G[tid]&hash={FORMHASH}" id="k_attention"{if $_G['forum_thread']['userattention']} class="active"{/if} onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang thread_attention}"><i><em class="fico-bell fc-n{if $_G['forum_thread']['attentionreplies']} fav-has-count{/if}" title="{lang thread_attention}"></em>{lang thread_attention}<!--{if $_G['forum_thread']['attentionreplies']}--><span class="xi1" id="attentionnumber">{$_G['forum_thread']['attentionreplies']}</span><!--{/if}--></i></a>
@@ -316,7 +316,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<a href="forum.php?mod=viewthread&tid=$_G[tid]" id="threadshare" onclick="return shareThreadUrl(this, '$_G[setting][bbname]')" title="{lang share_url_share}"><i><em class="fico-share fc-p" title="{lang share_url_share}"></em>{lang share_url_share}</i></a>
 
 					<!--{if !$_G['forum']['disablecollect'] && helper_access::check_module('collection')}-->
-						<a href="forum.php?mod=collection&action=edit&op=addthread&tid=$_G[tid]" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' {lang activity_member_unit}{lang collection}'" title="{lang thread_collect}"><i><em class="fico-collection fc-p" alt="{lang collection}"></em>{lang collection}<span id="collectionnumber"{if !$post['releatcollectionnum']} style="display:none"{/if}>{$post['releatcollectionnum']}</span></i></a>
+						<a href="forum.php?mod=collection&action=edit&op=addthread&tid=$_G[tid]" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' {lang activity_member_unit}{lang sp}{lang collection}'" title="{lang thread_collect}"><i><em class="fico-collection fc-p" alt="{lang collection}"></em>{lang collection}<span id="collectionnumber"{if !$post['releatcollectionnum']} style="display:none"{/if}>{$post['releatcollectionnum']}</span></i></a>
 					<!--{/if}-->
 					<!--{hook/viewthread_useraction}-->
 				</div>

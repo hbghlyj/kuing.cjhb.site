@@ -131,9 +131,9 @@
 					<li class="b_t"><div class="tit"><span aid="{$temp['aid']}" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>
 					<!--{if $_G['setting']['allowattachurl']}-->
 					<!--{if $temp['ext'] == 'mp3'}-->
-						<span class="btn" onclick="addsmilies('[audio]attach://{$temp['aid']}.mp3[/audio]')">{lang forum_post_insert}{lang e_audio}</span>
+						<span class="btn" onclick="addsmilies('[audio]attach://{$temp['aid']}.mp3[/audio]')">{lang forum_post_insert}{lang sp}{lang e_audio}</span>
 					<!--{elseif $temp['ext'] == 'mp4'}-->
-						<span class="btn" onclick="addsmilies('[media=x,500,375]attach://{$temp['aid']}.mp4[/media]')">{lang forum_post_insert}{lang e_video}</span>
+						<span class="btn" onclick="addsmilies('[media=x,500,375]attach://{$temp['aid']}.mp4[/media]')">{lang forum_post_insert}{lang sp}{lang e_video}</span>
 					<!--{/if}-->
 					<!--{/if}-->
 					<span class="btn" onclick="addsmilies('[attach]{$temp['aid']}[/attach]')">{lang forum_post_insert}</span>{$temp['filetype']}<span class="link">{$temp['filename']}</span></div><div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew[{$temp['aid']}][description]" value="{$temp['description']}" class="input flex"></div></div><div class="minput">
@@ -467,9 +467,9 @@
 					}
 					<!--{if $_G['setting']['allowattachurl']}-->
 					if (/mp3$/.test(dataarr[6].toLowerCase())) {
-						video_file = '<span class="btn" onclick="addsmilies(\'[audio]attach://' + dataarr[3] + '.mp3[/audio]\')">{lang forum_post_insert}{lang e_audio}</span>';
+						video_file = '<span class="btn" onclick="addsmilies(\'[audio]attach://' + dataarr[3] + '.mp3[/audio]\')">{lang forum_post_insert}{lang sp}{lang e_audio}</span>';
 					} else if (/(mp4)$/.test(dataarr[6].toLowerCase())) {
-						video_file = '<span class="btn" onclick="addsmilies(\'[media=x,500,375]attach://' + dataarr[3] + '.mp4[/media]\')">{lang forum_post_insert}{lang e_video}</span>';
+						video_file = '<span class="btn" onclick="addsmilies(\'[media=x,500,375]attach://' + dataarr[3] + '.mp4[/media]\')">{lang forum_post_insert}{lang sp}{lang e_video}</span>';
 					}
 					<!--{/if}-->
 					var attHtml = '<li class="b_t"><div class="tit"><span aid="' + dataarr[3] + '" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>' + video_file + '<span class="btn" onclick="addsmilies(\'[attach]' + dataarr[3] + '[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/' + file_ex + '" border="0" class="vm mimg" alt=""><span class="link">' + dataarr[6] + '</span></div>';
