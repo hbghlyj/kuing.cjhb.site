@@ -116,7 +116,7 @@
 html, body, #bdcontainer { width: 100%; height: 100%; }
 body { font-size: 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
 .z { float: left; } .y { float: right; }
-.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; } .cl { zoom: 1; }
+.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 #bdcontainer { display: flex; flex-direction: row;}
 .navcontainer{background: #182433;box-shadow: 2px 0 6px rgba(0, 21, 41, .20);}
 .navcontainer nav { display: flex; flex-direction: column; width: 200px; min-width: 150px; max-width: 400px; height: 100%; overflow: hidden;}

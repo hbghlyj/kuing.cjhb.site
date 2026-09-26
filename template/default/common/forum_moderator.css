@@ -9,7 +9,7 @@ https://www.discuz.vip
 	#mdly a { color: #06C; }
 	#mdly .cp { position: absolute; top: 0; right: 0; width: 35px; height: 32px; line-height: 32px; font-size: 20px; text-align: center; color: #555; overflow: hidden; text-decoration: none; }
 		#mdly .cp:before { content: "\f127"; font-family: dzicon; }
-	#mdly label { position: absolute; top: 0; _top: 6px; right: 40px; }
+	#mdly label { position: absolute; top: 0; right: 40px; }
 	#mdly h6 { line-height: 32px; }
 		#mdly h6 strong { margin: 0 3px; color: {NOTICETEXT}; }
 	#mdly.cpd { padding: 0; width: 35px; height: 32px; border: none; background: {NOTICETEXT}; }

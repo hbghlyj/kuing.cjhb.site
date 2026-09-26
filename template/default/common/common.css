@@ -48,7 +48,7 @@ CSS 样式模块的格式示例：
 ----------------------------------
 
 CSS 写作注意事项：
-	1. 属性写在一行内，属性之间、属性名和值之间以及属性与“{}”之间须有空格，例如：.class { width: 400px; height: 300px; }
+”之间须有空格，例如：.class { width: 400px; height: 300px; }
 	2. 属性的书写顺序：
 		2.1. 按照元素模型由外及内，由整体到细节书写，大致分为五组：
 			位置：position,left,right,float
@@ -71,13 +71,6 @@ CSS 写作注意事项：
 	9. 开发过程中的未定事项，须用 [!] 标出，以便于后续讨论整理
 
 ----------------------------------
-
-关于 CSS Hack 的说明：
-
-	所有 IE浏览器适用：	.ie_all .foo { ... }
-	IE6 专用：			.ie6 .foo { ... }
-	IE7 专用：			.ie7 .foo { ... }
-	IE8 专用：			.ie8 .foo { ... }
 
 ---------------------------------- */
 
@@ -160,7 +153,7 @@ Last Modify:	Pony
 	Explain:		Clearfix,避免因子元素浮动而导致的父元素高度缺失能问题
 	Last Modify:	lushnis
 */
-	.cl:after { content: ""; display: table; clear: both; } .cl { zoom: 1; }
+	.cl:after { content: ""; display: table; clear: both; }
 	.stealth-status-icon { display: inline-block; width: 12px; height: 12px; margin-right: 3px; vertical-align: -1px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.4; }
 	#onlinelist .cl li a:last-child { color: revert; }
 /*
@@ -1008,7 +1001,7 @@ Last Modify:	Pony
 						#mu a { float: left; display: inline; margin: 5px 6px; padding: 0 10px; white-space: nowrap; }
 							#mu a:hover { margin: 4px 5px; border: 1px solid {SPECIALBORDER}; background: {SPECIALBG}; color: {HIGHLIGHTLINK}; text-decoration: none; }
 				.floatmu { position: absolute; left: 0; top: 0; }
-			#um { padding-right: 60px; line-height: 2.3; zoom: 1; }
+			#um { padding-right: 60px; line-height: 2.3; }
 				#um, #um a { color: {HEADERTEXT}; }
 				#um p { text-align: right; }
 				#um .avt { display: inline; margin-right: -60px; }
@@ -1098,7 +1091,6 @@ Last Modify:	Pony
 	.bm, .bn { margin-bottom: 10px; }
 		.bm { border: 1px solid {COMMONBORDER}; background: {WRAPBG}; }
 			.bm_c { padding: 10px; }
-		.drag {}
 		.bm_h .o { position: relative; float: right; width: 30px; height: 100%; }
 			.bm_h .o img, .bm_h .o em { float: right; margin-top: 8px; cursor: pointer; font-family: dzicon; color: #CCC; font-size: 26px; line-height: 16px; }
 			.bm_h .o em.tg_yes, .bm_h .o em.tg_no { position: absolute; top: 50%; right: 0; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin: 0; transform: translateY(-50%); }
@@ -1241,7 +1233,7 @@ Last Modify:	Pony
 		.a_t table { width: 100%; }
 		.a_t td { padding: 4px 15px; border: 1px solid {COMMONBORDER}; }
 	/* 帖内广告 */ .a_pr { float: right; overflow: hidden; }
-		.a_pt, .a_pb { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='11'%3e%3cpath fill='%239a11ff' d='M0 0v11h16V0zM6 3l2 2v3H7V7H5v1H4V5zM6 4.4L5 5.4v0.6h2V5.4zM9 3h3l1 1v3l-1 1H9zM10 4v3h2V4z'/%3e%3c/svg%3e") no-repeat 0 50%; margin-bottom: 6px; padding-left: 20px; zoom: 1; }
+		.a_pt, .a_pb { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='11'%3e%3cpath fill='%239a11ff' d='M0 0v11h16V0zM6 3l2 2v3H7V7H5v1H4V5zM6 4.4L5 5.4v0.6h2V5.4zM9 3h3l1 1v3l-1 1H9zM10 4v3h2V4z'/%3e%3c/svg%3e") no-repeat 0 50%; margin-bottom: 6px; padding-left: 20px; }
 	/* 漂浮广告 */ .a_fl, .a_fr { float: right; position: fixed; top: 350px; z-index: 100; }
 		.a_fl { left: 0; }
 		.a_fr { right: 0; text-align: right; }
@@ -1299,7 +1291,6 @@ Last Modify:	Pony
 		.xlda dd .hot { color: {NOTICETEXT}; }
 
 /* 图片列表 */
-.ml {}
 	.ml li { float: left; padding: 0 5px 5px; text-align: center; overflow: hidden; }
 		.ml img { display: block; margin: 0 auto; }
 		.ml p, .ml span { display: block; width: 100%; height: 20px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
@@ -1398,7 +1389,7 @@ Last Modify:	Pony
 			.fpd a.fcd { background-position: -120px -20px; }
 			.fpd a.fsml { background-position: -20px -20px; }
 			.fpd a.fat { background-position: -140px 0; }
-		.tedt .area { padding: 4px; background: {WRAPBG}; zoom: 1; }
+		.tedt .area { padding: 4px; background: {WRAPBG}; }
 		.tedt .pt { width: 100%; margin-right: 0; padding: 0 !important; border: none; background: {WRAPBG} no-repeat center; }
 			.tedt .pt:focus { outline: none; box-shadow: none; }
        .m_c .tedt { width: 100%; max-width: 600px; }
@@ -1515,7 +1506,6 @@ Last Modify:	Pony
 
 			.floatwrap { overflow: auto; overflow-x: hidden; margin-bottom: 10px; height: 280px; }
 
-		.f_c { }
 			.f_c li { list-style: none; }
 			.f_c hr.l { margin: 0; }
 			.f_c a { color: {HIGHLIGHTLINK}; }
@@ -1532,7 +1522,6 @@ Last Modify:	Pony
 	.nfl .clause { width: auto; height: auto; }
 
 /* dropdownbtn 下拉菜单 */
-.hasd {}
 	.hasd input { float: left; width: 121px; }
 		.hasd input.crl { padding: 0; width: 20px; height: 20px; background: none; border-style: solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; border-width: 1px 0 1px 1px; }
 	.hasd .spmediuminput { width: 115px; }
@@ -1571,12 +1560,12 @@ Last Modify:	Pony
 		.pm .c { padding: 0; background: {COMMONBG}; }
 		.pmb { position: relative; padding: 20px 20px 0; width: 360px; height: 280px; overflow: auto; overflow-x: hidden; }
 			.pmb li { position: relative; margin-bottom: 10px; }
-				.pmt { overflow: hidden; position: absolute; bottom: 1px; left: -5px; text-indent: -999px; width: 0; height: 0; zoom: 1; border-bottom: 6px solid #F0F0F0; border-left: 6px solid transparent; box-shadow: 0px 1px 0 0px #999; }
+				.pmt { overflow: hidden; position: absolute; bottom: 1px; left: -5px; text-indent: -999px; width: 0; height: 0; border-bottom: 6px solid #F0F0F0; border-left: 6px solid transparent; box-shadow: 0px 1px 0 0px #999; }
 				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; box-shadow: 2px 2px 4px #DDD; border-radius: 10px 10px 10px 0; }
 				.pmd, .pmd img { max-width: 292px; }
 				/* 短消息下的引用和代码样式 */
 					.quote { padding: 0; background: none; overflow: visible; display: flex; color: #666; }
-					.quote blockquote { margin: 0; padding: 0; background: none; line-height: 1.6; zoom: 1; display: block; }
+					.quote blockquote { margin: 0; padding: 0; background: none; line-height: 1.6; display: block; }
 					.pmd .blockcode { overflow: hidden; margin: 0; padding: 0; background: transparent; color: {MIDTEXT}; }
 					.pmd .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace; font-size: 12px; line-height: 1.8em; margin: 0; white-space: pre-wrap; word-break: break-word; }
 				.pmm .pmt { right: -6px; bottom: 0; left: auto; border: 0; width: 7px; height: 7px; box-shadow: none; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3e%3cpath fill='%23fef5e7' stroke='%23f3bb65' d='M-.7 0L5.8 6.5H0'/%3e%3c/svg%3e"); }
@@ -1617,7 +1606,6 @@ Last Modify:	Pony
 
 .rfm { margin: 0 auto; width: 760px; border-bottom: 1px dotted {COMMONBORDER}; }
 		.rfm a { color: {HIGHLIGHTLINK}; }
-		.rfm .rq {}
 		.rfm th, .rfm td { padding: 10px 2px; vertical-align: top; line-height: 24px; }
 			.rfm .tipwide { padding-top: 0; }
 		.rfm th { padding-right: 10px; text-align: right; }
@@ -1762,7 +1750,6 @@ Last Modify:	Pony
 			.umn h3::after { margin-left: 0.5em; border-top: 0.3em solid transparent; border-right: 0; border-bottom: 0.3em solid transparent; border-left: 0.3em solid #999; vertical-align: 0.1em; }
 			.umn .umh_cb { display: block; background-color: {WRAPBG}; color: {MIDTEXT}; cursor: pointer; }
 			.umn .umh_ext { display :none; }
-.lum {}
 	.lum h2 { font-size: 14px; }
 	.lum ul { padding: 1em 0 1em 2em; margin-bottom: 1em; border-bottom: 1px dashed {COMMONBORDER}; }
 		.lum ul li { padding: 0.2em 0; }
@@ -1796,7 +1783,6 @@ Last Modify:	Pony
 #postbox .mbn, #psd .mbn { height: 1.6em; line-height: 1.6em; }
 
 /* 用于积分奖励提示等弹出层提示 */
-.popupcredit {}
 	.pc_inner { background: #F60; background-image: linear-gradient(90deg, #F60,#FF9800,#F60); border-radius: 5px; border: 1px solid #FECB02; min-width: 240px; height: 38px; padding-left: 15px; padding-right: 15px; box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.2); line-height: 37px; box-sizing: border-box; text-align: center; white-space: nowrap; }
 		.pc_inner i { font-size: 12px; font-style: normal; color: {LIGHTLINK}; font-weight: normal; }
 		.pc_inner span { color: #FFEA97; font-size: 14px; font-weight: bold; }
@@ -1848,7 +1834,6 @@ Last Modify:	Pony
 	Explain:		类似评分窗口中的评分原因选择的样式
 	Last Modify:	Alice
 */
-.reason_slct {}
 	.reason_slct .reasonselect { height: 4.3em; overflow: scroll !important; overflow-x: auto !important; }
 		.reason_slct .reasonselect li { white-space: nowrap; }
 	.reason_slct .pt, .reason_slct .px { width: 25.2em !important; }
@@ -2102,7 +2087,6 @@ a.progressCancel { display: block; float: right; width: 14px; height: 14px; line
 	.b_poll dt { padding-left: 20px; background: url({IMGDIR}/pollsmall.gif) no-repeat 0 9px; }
 	.b_poll dd li { padding: 0 0 4px 20px; }
 		.b_poll dd li .pc { float: left; margin: 4px 0 0 -20px; }
-	.b_debate {}
 		.b_debate dt { padding-left: 20px; background: url({IMGDIR}/debatesmall.gif) no-repeat 0 10px; }
 		.b_debate .chart { position: relative; margin: 8px auto; padding: 0; width: 279px; height: 78px; background: url({IMGDIR}/p_debate_chart.png) no-repeat 0 0; }
 		.b_debate .chart strong { position: absolute; top: 25px; width: 80px; font-size: 14px; text-align: center; }

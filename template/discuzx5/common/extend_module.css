@@ -292,7 +292,7 @@ div.mtm.mbm.pnpost {padding-top:5px;line-height:34px}
 /**end**/
 /** home::space,home::spacecp **/
 .moodfm_btn {padding-left:10px;background:none}
-.moodfm_btn button {padding:23px 15px;opacity:1;filter:alpha(opacity=1);background:var(--dz-btnbga);color:var(--dz-btntxta);border:none;font-size:14px;border-radius:var(--dz-radius-s)}
+.moodfm_btn button {padding:23px 15px;opacity:1;background:var(--dz-btnbga);color:var(--dz-btntxta);border:none;font-size:14px;border-radius:var(--dz-radius-s)}
 .moodfm_btn button:hover {opacity:0.8}
 .rwdl .uslvd{background: var(--dz-bga);}
 .rwdl .slvd{background: var(--dz-bgc);}

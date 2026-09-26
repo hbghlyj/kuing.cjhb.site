@@ -188,8 +188,8 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 .num{ width:40px !important; height: 28px; vertical-align:middle; }
 .highlight { color: #C00; font-weight: 700; }
 /* simulate input type="file" */
-.filebtn { position: relative; margin-right: 30px; width: 60px; overflow: hidden; zoom: 1; }
-	.filebtn .pf { position: absolute; right: 0; height: 23px; opacity: 0; filter:alpha(opacity=0); cursor: pointer; }
+.filebtn { position: relative; margin-right: 30px; width: 60px; overflow: hidden; }
+	.filebtn .pf { position: absolute; right: 0; height: 23px; opacity: 0;cursor: pointer; }
 
 /* .html */
 .html { cursor: text; white-space: nowrap; overflow-x: hidden; }
@@ -206,7 +206,7 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 .popupmenu_popup { width:400px; overflow:hidden; padding:10px; border:1px solid var(--admincp-borderb); background: var(--admincp-bgf); font-size:12px; font-weight:400; text-align:left; border-radius: var(--admincp-radius-s); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
 	li.popupmenu_popup { list-style: none; }
 	#fselect_menu { width:300px; }
-	.fsel { _height: 350px; max-height: 350px; overflow-y: auto; }
+	.fsel { max-height: 350px; overflow-y: auto; }
 		#fselect_menu a { width: 70%; }
 	#ugselect_menu { width:450px; }
 	.popupmenu_popup em { display:block; clear: both; padding: 2px 4px; font-weight:700; background:var(--admincp-bgf2); color: var(--admincp-fa); }
@@ -343,7 +343,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 .tb{ clear:both; width:100%; margin-bottom: 20px;}
 
 	.tb th, .tb td{ padding:5px; height:25px; }
-.tb1{}
 	.th11, .th12{ width:60px; font-weight:700; }
 	.tb1 .th12{ padding-top:7px; vertical-align:top; }
 		.tb1 .tb2 th{ padding-top:0; }
@@ -354,16 +353,15 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 	.bdtop td{ border-top:1px dashed var(--admincp-borderb); }
 	.bdbot td{ border-bottom:1px dashed var(--admincp-borderb); }
 	.td11{ width:350px; vertical-align:top; }
-		.td11 li{ float:left; margin:0 10px 7px 0; *margin:-3px 10px 7px 0; }
+		.td11 li{ float:left; margin:0 10px 7px 0; }
 		.td11 .clear{ margin:0; }
-		.listtitle,	.listtitlelong{ padding-top:3px; *padding-top:6px; width:80px; color:var(--admincp-color); }
+		.listtitle,	.listtitlelong{ padding-top:3px; width:80px; color:var(--admincp-color); }
 		.listtitlelong{ width:100px; }
 		.td11 .txt{ width:70px; }
 		.td11 .sginput .txt{ width:150px; }
-	.td12{}
 		.td12 li{ float:left; margin-right:10px; }
-		.td12 .radio{ float:left; margin-top:4px; *float:none; *margin-top:0; }
-		.td12 label{ float:left; margin-top:2px; *float:none; *margin-top:0; }
+		.td12 .radio{ float:left; margin-top:4px; }
+		.td12 label{ float:left; margin-top:2px; }
 		.td12 .txt{ width:50px; }
 	.checkboxlist{ width:720px; }
 		.checkboxlist li{ float:left; width:90px; line-height:180%; white-space:nowrap; cursor:pointer; }
@@ -375,7 +373,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 	.tb2 .fixsel{ padding-left: 0px; }
 	.tb2 tbody:first-child tr:first-child th, .tb2 tbody:first-child tr:first-child td{ border-top: 0px; }
 /* tb */
-.tb2{}
 	.tb2 tr.hover:hover .tips2{ color:var(--admincp-fa); }
 	.tb2 tr.hover:hover td { background: var(--admincp-bgf2); transition: background .12s; }
 
@@ -398,8 +395,7 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 	.td24{ width:120px; }
 	.td25{ width: 80px; }
 		.td25 .txt{ width:60px; }
-	.td26{}
-		.td26 .txt, .td26 .txtnobd{ width:90%; *width:280px; }
+		.td26 .txt, .td26 .txtnobd{ width:90%; }
 	.tb2 .td27{ padding:16px 10px 10px 20px; font-weight:700;}
 		.tb2 .td27:hover { background: none; }
 	.td27m { font-weight:700; padding-bottom:5px; }
@@ -425,7 +421,7 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 		.tb2 .rowform{ padding-left:20px; }
 		.rowform .txt, .rowform textarea{ margin-right:10px; width:250px; }
 		.rowform select{ margin-right:10px; width:256px; }
-		/* .rowform .radio{ margin-top:-2px !important; *margin-top:0 !important; *margin-top:-2px; } */
+		/* .rowform .radio{ margin-top:-2px !important; } */
 		.rowform li{ overflow:hidden; float:left; margin-right:10px; white-space:nowrap; cursor:pointer; }
 			.rowform li:hover { color: var(--admincp-color); opacity: 0.7; }
 			.rowform .clear{ clear:both; float:none; margin-bottom:10px; }
@@ -437,7 +433,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
 	.tb2 .partition { padding: 15px 10px; font-size: 14px; border: 0; border-radius: var(--admincp-radius-s) var(--admincp-radius-s) 0 0; border-bottom: 1px solid var(--admincp-bordera); color: var(--admincp-color); font-weight: 700; background: var(--admincp-bgf2); }
 
-	.dblist{}
 		.dblist li{ float:left; margin-bottom:5px; width:33%; height:20px; white-space:nowrap; cursor:pointer; }
 
 	.cfolder, .ofolder{ display:block; line-height:30px; font-weight:700; }
@@ -520,7 +515,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 	.safelist li{ margin-bottom:5px; padding-left:20px; line-height:160%; background:url(bg_repno.gif) no-repeat -340px 6px; }
 		.safelist p{ margin-bottom:5px; }
 		.safelist .txt{ width:150px; }
-.infolist{}
 	.infolist li{ clear:both; line-height:180%; }
 		.infolist em{ float:left; width:120px; }
 .tb2 .threadopt{ border-bottom:1px solid var(--admincp-borderb); background:none; vertical-align:top; }
@@ -542,7 +536,7 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 .addtr:hover { text-decoration: none;}
 .addtr::before {font-family:dzicon;content: "\e601";font-size: 16px;font-style: normal; margin-right: 5px;border: 0; color:  var(--admincp-f60);}
 .act{ margin:0 5px; text-decoration:underline; }
-.addchildboard, .deleterow { margin-right: 5px; padding-left:17px; line-height:25px;color:  var(--admincp-fa); zoom: 1;display: inline-flex;vertical-align: middle; }
+.addchildboard, .deleterow { margin-right: 5px; padding-left:17px; line-height:25px;color:  var(--admincp-fa);display: inline-flex;vertical-align: middle; }
 .addchildboard::before {font-family:dzicon;content: "\e601";font-size: 16px;font-style: normal; margin-right: 5px;border: 0; color:  var(--admincp-fc);}
 	.deleterow::before {font-family:dzicon;content: "\e647";font-size: 16px;font-style: normal; margin-right: 5px;border: 0; color:  var(--admincp-fc);}
 	.addchildboard:hover, .deleterow:hover { text-decoration:none; color:var(--admincp-f60) !important; }
@@ -580,7 +574,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 .marginbot{ margin-bottom:10px; }
 .nobg, .nobg td{ background:none; }
 	.nobg .td27{ padding-left:5px; }
-.nobottom{  }
 .nobdb{ border-bottom:none; }
 .nobdt{ border-top:none; }
 .noborder, .noborder td{border-bottom:0; border-top:0; }
@@ -764,7 +757,6 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
 /* .cl --> Clear 自动闭合 */
 .cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-.cl { zoom: 1; }
 
 .preview { margin-bottom: 20px; width: 100%; height: 340px; border: 1px solid var(--admincp-color); box-shadow: 0 2px 8px rgba(0,0,0,.08); border-radius: var(--admincp-radius-s); }
 
@@ -903,7 +895,6 @@ input[type=radio]:checked:after {font-family: dzicon;content: "\e645";color:var(
 input[type=radio]:disabled:after,input[type=checkbox]:disabled:after {border:1px solid var(--admincp-bordera);background-color:var(--admincp-bge);}
 
 .charts span { margin-right: 50px; }
-.charts .trendlink { }
 .charts { margin-top: 6px; }
 #statchart { border-radius: 6px; overflow: hidden; }
 div.stats, div.todo { display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px; text-align: center; flex-wrap: wrap; }
@@ -1909,7 +1900,6 @@ h3.flb { font-weight: bold; }
     .imgf .px { width: 106px; padding: 2px; height: 14px; line-height: 14px; }
 
 /* pgs --> pages & postbutton 分页、发帖按钮, pgb -->返回首页, nxt -->下一页 */
-.pgs {}
     .pgs #newspecial, .pgs #newspecialtmp, .pgs #post_reply, .pgs #post_replytmp { float: left; margin-right: 5px; }
     .pgsbtn { color: #FFF; padding: 10px 16px; font-size: 14px; line-height: 14px; border-radius: var(--admincp-radius-s); letter-spacing: 1px; transition: background .2s, box-shadow .2s; border: 0; }
     .pgsbtn:hover { text-decoration: none; }

@@ -135,6 +135,38 @@
 			</ul>
 			<!--{/if}-->
 			$_G[setting][menunavs]
+			<span id="recentthreads_wrap" class="blog-recentthreads" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'43'})">{lang viewed_threads}</a></span>
+			<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display:none">
+				<ul id="v_threads"></ul>
+			</div>
+			<script>
+			(function() {
+				var storageKey = 'kuing-recent-threads-v1';
+				var currentThread = <!--{if CURMODULE == 'viewthread' && !empty($_G['tid'])}-->{tid:$_G['tid'],title:<!--{echo json_encode($_G['forum_thread']['subject'] ?? '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}-->}<!--{else}-->null<!--{/if}-->;
+				var wrap = document.getElementById('recentthreads_wrap');
+				var list = document.getElementById('v_threads');
+				if(!wrap || !list || !window.localStorage) return;
+				var items = [];
+				try { items = JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch(e) {}
+				if(!Array.isArray(items)) items = [];
+				if(currentThread && currentThread.tid && currentThread.title) {
+					items = items.filter(function(item) { return item && item.tid != currentThread.tid; });
+					items.unshift({tid: currentThread.tid, title: currentThread.title});
+					try { localStorage.setItem(storageKey, JSON.stringify(items.slice(0, 8))); } catch(e) {}
+				}
+				items.slice(0, 5).forEach(function(item) {
+					if(!item || !item.tid || !item.title) return;
+					var li = document.createElement('li');
+					var link = document.createElement('a');
+					link.href = 'forum.php?mod=viewthread&tid=' + encodeURIComponent(item.tid);
+					link.title = item.title;
+					link.textContent = item.title;
+					li.appendChild(link);
+					list.appendChild(li);
+				});
+				if(list.children.length) wrap.style.display = '';
+			})();
+			</script>
 			<div id="mu" class="cl">
 				<!--{if $_G['setting']['subnavs']}-->
 				<!--{loop $_G[setting][subnavs] $navid $subnav}-->

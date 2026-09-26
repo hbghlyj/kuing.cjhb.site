@@ -35,14 +35,13 @@ body { background-color: transparent; }
 .mn { display: inline; margin-left: 10px; width: 1000px !important; }
 	.mt { margin: 0; padding: 0; }
 	h1.mt { font-size: 12px; }
-	.bm { background: #FFF; zoom: 1; }
+	.bm { background: #FFF; }
 .sd { display: inline; margin-right: 10px; min-height: 0; }
 	#pcd { padding: 15px 4px 15px 6px; }
 
 	.mla li, .mlp li { width: 153px; }
 	.buddy li { width: 156px; }
 	.pic .c img { max-width: 714px; }
-	.ul_list {}
 		.ul_list a { padding: 2px 0; }
 		.ul_list li:before { font-family: dzicon; line-height: 14px; font-size: 16px; color: #7DA0CC; margin-right: 4px; }
 		.ul_diy:before { content: "\f107"; }

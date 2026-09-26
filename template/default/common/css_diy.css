@@ -1,7 +1,6 @@
 /* 判断：当打开 DIY 面板时加载 */
 body { padding-top: 170px; }
 #controlpanel { color: #000;position: fixed; top: 0; left: 0; z-index: 200; width: 100%; border-bottom: 1px solid #999; background: #F5F5F5 url({STATICURL}image/diy/cp-bg.png) repeat-x 0 0; }
-	* html #controlpanel { position: absolute; top: expression(offsetParent.scrollTop); }
 	#controlheader { margin: 0 10px; background: url({STATICURL}image/diy/cp-nav.png) repeat-x 0 0; line-height: 46px; }
 		#controlheader p { width: 460px; height: 46px; background: url({STATICURL}image/diy/cp-nav-corner-tr.png) no-repeat 100% 100%; }
 			#controlheader p a { float: right; margin-top: 8px; height: 25px; line-height: 25px; border: 1px solid #bbb3bf; background: #FEFEFE; text-align: center; }
@@ -160,7 +159,7 @@ dl.diy dt { margin-top: -10px; margin-bottom: 10px; padding-bottom: 5px; border-
 
 /* 个人空间和网站DIY共用的部分样式 */
 .hide { display: none; }
-.frame,.tab,.block { position: relative; zoom:1; min-height: 20px; }
+.frame,.tab,.block { position: relative; min-height: 20px; }
 .edit { position: absolute; top: 0; right: 0; z-index: 199; padding: 0 5px; background: red; line-height: 26px; color: #FFF; cursor: pointer; }
 .block .edit { background: #369; }
 .edit-menu { position: absolute; z-index: 300; border-style: solid; border-width: 0 1px 1px; border-color: #DDD #999 #999 #CCC; background: #FFF; }

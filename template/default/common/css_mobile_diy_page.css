@@ -64,7 +64,7 @@ tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:
 .fa_layer:before {content: "\f146";color: #fff;}
 #open_diy_module, #diycancel, #savebtn{ margin-right: 2px; border-radius: 4px;background: #E6A234 !important;border-color: #DB7D29 !important;color: #FFF;font-size: 14px;font-weight: bold;text-shadow: 1px 1px 2px #666; }
 
-.block,.frame,.tab {position:relative;min-height:20px;zoom:1}
+.block,.frame,.tab {position:relative;min-height:20px;}
 .edit {position:absolute;top:0;right:0;z-index:199;padding:0 5px;background:red;color:#fff;line-height:26px;cursor:pointer}
 .block .edit {background:#369}
 .edit-menu {position:absolute;z-index:300;margin-top:-20px;margin-left:37px;border-color:#323233;border-style:solid;border-width:0 1px 1px 1px;background:#323233}
@@ -199,7 +199,6 @@ label {color:#797c80;font-size:13px;cursor:pointer}
 .tfm caption,.tfm td,.tfm th {padding:5px 0;vertical-align:top}
 .tfm th {padding:5px 2px;width:135px;text-align:left;font-weight:normal}
 .area {margin:0;min-height:10px;background:#ddf0df}
-#controlpanel {}
 #controlcontent {flex:1}
 #contentstart {height:100%}
 #tbody_setting textarea {width:98%;padding:.2rem .3rem;min-height:300px}

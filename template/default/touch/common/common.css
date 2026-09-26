@@ -139,7 +139,6 @@ a.button {color:var(--dz-FC-fff)}
 .z {float:left}
 .y {float:right}
 .cl:after {content:".";display:block;height:0;clear:both;visibility:hidden}
-.cl {zoom:1}
 .vm {vertical-align:middle}
 .vm * {vertical-align:middle}
 .none {display:none}
@@ -887,7 +886,6 @@ a.flw_readfull {color: var(--dz-BG-2);}
 /*----- 记录、留言 -----*/
 .moodfm { margin-top: 10px;overflow: hidden;border-bottom: 1px solid var(--dz-BOR-ed);}
 .moodfm_post { background: var(--dz-BG-0); }
-.moodfm_text { }
 .moodfm_text textarea { width: 100%; min-height: 66px; line-height: 22px; border: none; resize: none; font-size: 14px; vertical-align: middle; }
 .moodfm_f {overflow: hidden;}
 .moodfm_btn { float: right; height: 30px; line-height: 30px; color: var(--dz-FC-999); }
@@ -1407,7 +1405,6 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .home-order-status-2 {color:var(--dz-FC-aaa);}
 
 /*----- 群组 -----*/
-.groupbox {}
 .group_memberlist_star {background-color: var(--dz-BG-3);border-radius: 10px;color:var(--dz-BG-0);margin-left:5px;padding: 0px 2px;font-size: 12px;}
 #group_manage_userlist li { width:auto; margin:0 5px;}
 #threadtype input { background-color:var(--dz-BG-5); width:100%;}
@@ -1472,12 +1469,12 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 		.xlda dd .hot { color: {NOTICETEXT}; }
 
 /* 用来展示复杂统计数据的表格，目前仅用户组页面用到 */
-.tdats { overflow: hidden; zoom: 1; margin: 10px 0; }
+.tdats { overflow: hidden; margin: 10px 0; }
 .tdats i { font-size: 14px; }
 .tdats i:before { height: 18px; line-height: 18px; margin-right: 2px; }
 .tdats th, .tdats td { overflow: hidden; padding: 0 5px; height: 26px; border-width: 0 1px 0 0; border-color: #fff; white-space: nowrap; }
 .tdats th { height: 40px; font-weight: bold; }
-.tdats .h th { height: 24px; border-top: 1px solid var(--dz-BOR-ed); border-bottom: 1px solid #E5E5E5; background: linear-gradient(0deg, #efefef, #fcfcfc); color: var(--dz-FC-666); zoom: 1; }
+.tdats .h th { height: 24px; border-top: 1px solid var(--dz-BOR-ed); border-bottom: 1px solid #E5E5E5; background: linear-gradient(0deg, #efefef, #fcfcfc); color: var(--dz-FC-666); }
 .tdats .tdat { float: left; width: 40%; border: none; table-layout: fixed; }
 .tdats .tfx { width: 300px; }
 .tdats .tfxf { width: 60%; }
@@ -1507,7 +1504,6 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .el li { padding: 10px 20px; min-height: 20px; border-bottom: 1px dashed var(--dz-BOR-ed); }
 .el .t { position: absolute; margin: 1px 0 0 -20px; }
 .el .o { overflow: hidden; float: right; margin: 4px -20px -4px 0; width: 16px; height: 16px; font-size: 16px; line-height: 16px; font-family: dzicon; text-align: center; color: var(--dz-FC-a); }
-/* 外宽改变时 .ie6 .el .o, .ie6 .xlda .el .o 的 margin 值需要更改 */
 .el .o:before { content: "\f149"; }
 .el .o:hover { text-decoration: none; }
 .el .del:before { content: "\f116"; }
@@ -1529,7 +1525,6 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .ranks_1 { background: var(--dz-BG-2); } .ranks_2 { background: var(--dz-BG-3); } .ranks_3 { background: var(--dz-BG-4); }
 
 /* 图片列表 */
-.ml {}
 	.ml li { float: left; padding: 0 5px 5px; text-align: center; overflow: hidden; }
 		.ml img { display: block; margin: 0 auto; }
 		.ml p, .ml span { display: block; width: 100%; height: 20px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
@@ -1555,7 +1550,6 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 	.xl em { float: right; padding-left: 5px; }
 		.xl em, .xl em a { color: var(--dz-FC-999); }
 /* .rnk1 每行一个区块 */
-.rnk1 {}
 	.rnk1 .mlp .d { width: 120px; height: 120px; }
 	.rnk1 .mlp img { max-width: 100px; max-height: 75px; }
 	.rnk1 .mlp .bigpic { width: 100%; height: auto; }
@@ -1565,7 +1559,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .picrank { position: absolute; margin: -10px 0 0 -10px !important; }
 
 /* 竞价排名 by Pony */
-.bid { margin: 2px -4px -2px 2px; zoom: 1; }
+.bid { margin: 2px -4px -2px 2px; }
 .biduser { width: 988px; background: url(/static/image/mobile/touch/avatar_blank.gif); }
 	.biduser li { float: left; margin: 0 4px 4px 0; }
 	.biduser a { display: block; }
@@ -1580,7 +1574,6 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .hasrank dl { padding-left: 110px; }
 	.ranknum { position: absolute; margin: 8px 0 0 -100px; }
 
-.el .t {  }
 .pll li { padding-left: 20px; }
 
 .acl td { border-top: none; border-bottom: 1px dashed var(--dz-BOR-ed); }
@@ -1609,7 +1602,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 			a.icon_up { display: block; margin:0 10px; height: 25px; background: #F2F2F2 url({STATICURL}image/common/arrow_up.png) no-repeat 50% 50%; overflow: hidden; border:1px dashed rgb(194, 213, 227); border-radius: 3px; }
 			a.icon_up:hover { background:var(--dz-BG-0) url({STATICURL}image/common/arrow_up_hover.png) no-repeat 50% 50%; }
 				.fastpreview td { border-bottom: none!important; }
-			.tl th, .tl td.fn { padding-right: 1.5em; zoom: 1; }
+			.tl th, .tl td.fn { padding-right: 1.5em; }
 				.fromg { visibility: hidden; }
 			.tl .icn { padding-left: 5px; width: 25px; text-align: left; }
 				.tl .icn a:hover { text-decoration: none; }
@@ -1623,14 +1616,12 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 				.tl .tpin2 svg { fill: #00ABDE; }
 				.tl .tpin3 svg { fill: #F90; }
 				.tl .tpin4 svg { fill: var(--dz-FC-a); }
-			.tl .new {}
-			.tl .comm {}
 			.tl .frm { width: 150px; }
 			.tl .o { width: 20px; }
 			.tl .num { width: 60px; line-height: 14px; }
 			.tl .by { width: 105px; line-height: 14px; }
 				.tl cite, .tl .num em { display: block; }
-			.tl th em { margin-right: 4px; zoom: 1; }
+			.tl th em { margin-right: 4px; }
 					.tl th em, .tl th em a { color: #007CD5; }
 				.tl td em { font-size: 11px; font-family: Arial, Psimsun, sans-serif; -webkit-text-size-adjust: none; }
 			/*.tl .th th, .tl .th td { padding: 8px 0; background: {SPECIALBG}; border-top: 1px solid var(--dz-BOR-ed); }*/
