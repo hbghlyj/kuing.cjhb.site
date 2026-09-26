@@ -61,8 +61,40 @@
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
 						<div class="bm">
+							<!--{if !$_G['setting']['grid']['gridtype']}-->
+							<div class="newimgbox">
+								<h4>{lang latest_images}</h4>
+								<!--{if $_G['setting']['forumallowside']}-->
+									<!--{eval $slide_width = 220;}-->
+								<!--{else}-->
+									<!--{eval $slide_width = 278;}-->
+								<!--{/if}-->
+								<div class="module cl slidebox_grid" style="width:{$slide_width}px">
+									<script type="text/javascript">
+									var slideSpeed = 5000;
+									var slideImgsize = [{$slide_width},200];
+									var slideBorderColor = '{$_G['style']['specialborder']}';
+									var slideBgColor = '{$_G['style']['commonbg']}';
+									var slideImgs = new Array();
+									var slideImgLinks = new Array();
+									var slideImgTexts = new Array();
+									var slideSwitchColor = '{$_G['style']['tabletext']}';
+									var slideSwitchbgColor = '{$_G['style']['commonbg']}';
+									var slideSwitchHiColor = '{$_G['style']['specialborder']}';
+									{eval $k = 1;}
+									<!--{loop $grids['slide'] $stid $svalue}-->
+										slideImgs[<!--{echo $k;}-->] = '$svalue[image]';
+										slideImgLinks[<!--{echo $k;}-->] = '{$svalue[url]}';
+										slideImgTexts[<!--{echo $k;}-->] = '$svalue[subject]';
+										{eval $k++;}
+									<!--{/loop}-->
+									</script>
+									<script language="javascript" type="text/javascript" src="{$_G[setting][jspath]}forum_slide.js?{VERHASH}"></script>
+								</div>
+							</div>
+							<!--{/if}-->
 				        <ul class="bm_c category_newlist">
-					        	<!--{loop $grids['newthread'] $thread}-->
+				        	<!--{loop $grids['newthread'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
