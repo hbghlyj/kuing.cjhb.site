@@ -72,7 +72,7 @@
 								<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
 								<select class="footer-style-select" aria-label="{lang style}" onchange="setcookie('styleid', this.value, 31536000);location.reload();">
 									<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>X3.5</option><!--{/if}-->
-									<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
+									<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5</option><!--{/if}-->
 									<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
 								</select>
 								<!--{eval $footerlinkindex++;}-->
