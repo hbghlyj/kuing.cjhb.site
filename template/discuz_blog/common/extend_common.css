@@ -542,6 +542,15 @@ img{border:none;}
    the extra .header-user to outrank .poptip-popper, which comes later in this
    file at equal specificity. */
 .header-user .header-user-dropdown{padding-bottom:0}
+/* The dropdown is position:absolute;top:55px inside .header-user, but
+   .header-user is only as tall as the header bar. In this theme the bar is
+   shorter than 55px, so the panel starts below the parent's box: the band
+   between them belongs to neither element, mouseleave fires on .header-user and
+   .open is removed, so moving the pointer down onto .bm_h h2 makes the panel
+   vanish. Extend the panel's hit area upward to bridge the gap. Using top/height
+   rather than a negative inset keeps the bridge inside the panel's own box, so
+   nothing depends on the header's height. */
+.header-user .header-user-dropdown::before{content:'';position:absolute;left:0;right:0;top:-20px;height:20px}
 .header-user .user-card{display:flex;flex-direction:column;align-items:center;width:210px;background:var(--dz-bgf);border-radius:4px;padding: 0 12px;max-width: 286px;overflow: hidden;cursor: default;box-shadow: 0 8px 20px 0 rgba(28, 54, 108, .05), 0 4px 12px 0 rgba(28, 54, 108, .08);}
 .header-user .user-card-area, .header-user .user-card-general{border-top:1px solid var(--dz-borderb);width:90%}
 .header-user .user-card-general a{display:block;width:100%;text-align:center}
