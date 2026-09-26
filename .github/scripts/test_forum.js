@@ -69,8 +69,17 @@ const resetPusherAjaxCallCounter = async targetPage => {
     await targetPage.evaluate(() => {
         if(!window.__pusherAjaxOriginal) {
             window.__pusherAjaxOriginal = window.ajaxget;
-            window.ajaxget = function() {
-                window.__pusherAjaxCalls++;
+            window.ajaxget = function(url) {
+                // Count only the widget's own post fetches, which are the viewpid
+                // reloads and the commentmore fragment load. Counting every
+                // ajaxget also counts unrelated background traffic such as the
+                // self rescheduling checkForumnew poll in forum.js, which can
+                // land inside the measurement window and fail this assertion
+                // even though the echo was suppressed correctly.
+                const target = String(url);
+                if(target.includes('viewpid=') || target.includes('action=commentmore')) {
+                    window.__pusherAjaxCalls++;
+                }
                 return window.__pusherAjaxOriginal.apply(this, arguments);
             };
         }
