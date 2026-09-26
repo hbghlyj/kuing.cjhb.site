@@ -90,6 +90,24 @@
 								<!--{/if}-->
 							</a>
 							</p>
+							<div class="kmmeta">
+								<cite>
+								<!--{if $thread['authorid'] && $thread['author']}-->
+									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'small')}--></a>
+									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank">$thread['author']</a>
+									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
+								<!--{else}-->
+									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
+								<!--{/if}-->
+								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1">{lang started} <time data-local-timestamp="$thread['dbdateline']">$thread['dateline']</time></span>
+								</cite>
+								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
+									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
+								<!--{/if}-->
+								<!--{if $thread['taglist']}-->
+									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
+								<!--{/if}-->
+							</div>
 							<div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>
 							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
@@ -110,13 +128,6 @@
 							<!--{/if}-->
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
-								<!--{if $_GET['view'] != 'me'}-->
-									<!--{if $thread['authorid'] && $thread['author']}-->
-										<a href="home.php?mod=space&uid=$thread['authorid']" c="1" class="kmimg" target="_blank" title="{lang author}: $thread['author']"><!--{avatar($thread['authorid'],'middle')}--></a>
-									<!--{else}-->
-										<a href="javascript:;" class="kmimg"><!--{avatar(0,'middle')}--></a>
-									<!--{/if}-->
-								<!--{/if}-->
 								<!--{if $thread['allreplies'] || $thread['replies']}-->
 								<cite><!--{if $thread['lastposter']}-->
 									<a href="{if $thread['digest'] != -2}home.php?mod=space&username=$thread['lastposterenc']{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}" target="_blank">$thread['lastposter']</a>
@@ -136,15 +147,10 @@
 									<!--{else}-->
 										{if $_G['cache']['forums'][$thread['fid']]['name']}<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>{/if}
 									<!--{/if}-->
-								<!--{elseif $thread['typehtml'] || $thread['sorthtml']}-->
-									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
 								<!--{elseif $_G['cache']['forums'][$thread['fid']]['name']}-->
 									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
 								<!--{elseif $thread['forumname']}-->
 									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
-								<!--{/if}-->
-								<!--{if $thread['taglist']}-->
-									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
 								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->
