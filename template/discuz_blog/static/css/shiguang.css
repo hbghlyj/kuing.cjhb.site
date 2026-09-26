@@ -1257,15 +1257,6 @@ body.discuzx5 .dz_rnav a:hover {
         gap: 16px;
     }
 
-    body.discuzx5 .dz_nav .dz_nav_logo {
-        flex-basis: 160px;
-    }
-
-    body.discuzx5 .dz_nav .dz_nav_logo a.dzlogo {
-        width: 160px;
-        max-width: 160px;
-    }
-
     body.discuzx5 .dz_layer_nav ul {
         justify-content: space-evenly;
     }
@@ -1291,7 +1282,6 @@ body.discuzx5 .dz_rnav a:hover {
         padding: 0;
     }
 
-    body.discuzx5 .dz_nav .dz_nav_logo,
     body.discuzx5 .header-right {
         height: 86px;
     }
