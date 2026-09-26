@@ -926,6 +926,8 @@ $lang = [
 	'no_privilege_viewip' => '抱歉，您没有权限查看 IP',
 
 	'no_privilege_mergethread' => '抱歉，您没有权限合并主题',
+	'admin_getip_nopermission' => '抱歉，您无权查看更高权限管理员的 IP 地址',
+	'admin_getip_noip' => '该用户没有留下 IP 地址记录',
 	'admin_merge_nonexistence' => '抱歉，主题 ID (tid) 不存在',
 	'admin_merge_invalid' => '抱歉，请选择其他主题进行合并',
 

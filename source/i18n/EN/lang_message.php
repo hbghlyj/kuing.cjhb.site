@@ -933,6 +933,7 @@ $lang = [
 
 	'no_privilege_viewip' => 'Sorry, you do not have permission to view IP',
 	'admin_getip_nopermission' => 'Sorry, you do not have permission to view the IP of higher-level administrators',
+	'admin_getip_noip' => 'No IP address is on record for this member',
 
 	'no_privilege_mergethread' => 'Sorry, you do not have permission to merge threads',
 	'admin_merge_nonexistence' => 'Sorry, the thread ID (tid) does not exist',
