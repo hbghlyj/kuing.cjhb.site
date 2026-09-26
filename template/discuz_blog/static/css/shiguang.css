@@ -1279,6 +1279,19 @@ body.discuzx5 #postlist .quote {
     color: #4f5f59;
 }
 
+body.discuzx5 #postlist .quote blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+}
+
+body.discuzx5 #postlist .quote::before,
+body.discuzx5 #postlist .quote::after {
+    content: none;
+}
+
 body.discuzx5 #postlist .pi,
 body.discuzx5 #postlist .po,
 body.discuzx5 #postlist .pob {
@@ -1326,13 +1339,8 @@ body.discuzx5 #postlist #p_btn > a em {
     font-size: 18px;
 }
 
-body.discuzx5 #postlist #p_btn #k_favorite em,
-body.discuzx5 #postlist #p_btn #recommend_add em {
+body.discuzx5 #postlist #p_btn #k_favorite em {
     color: var(--sg-red) !important;
-}
-
-body.discuzx5 #postlist #p_btn #recommend_subtract em {
-    color: #8e867c !important;
 }
 
 body.discuzx5 #postlist #p_btn > a:hover {

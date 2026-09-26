@@ -333,14 +333,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if !$_G['forum']['disablecollect'] && helper_access::check_module('collection')}-->
 						<a href="forum.php?mod=collection&action=edit&op=addthread&tid=$_G[tid]" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' {lang activity_member_unit}{lang collection}'" title="{lang thread_collect}"><i><em class="fico-collection fc-p" alt="{lang collection}"></em>{lang collection}<span id="collectionnumber"{if !$post['releatcollectionnum']} style="display:none"{/if}>{$post['releatcollectionnum']}</span></i></a>
 					<!--{/if}-->
-					<!--{if ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status'])}-->
-						<!--{if !empty($_G['setting']['recommendthread']['addtext'])}-->
-						<a id="recommend_add" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 1, 0, '43', 'recommendupdate({$_G['group']['allowrecommend']})');return false;"{else} onclick="showWindow('login', this.href)"{/if} onmouseover="this.title = $('recommendv_add').innerHTML + ' {lang activity_member_unit}$_G[setting][recommendthread][addtext]'" title="{lang maketoponce}"><i><em class="fico-thumbup fc-l" title="$_G['setting']['recommendthread'][addtext]"></em>$_G['setting']['recommendthread'][addtext]<span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>$_G[forum_thread][recommend_add]</span></i></a>
-						<!--{/if}-->
-						<!--{if !empty($_G['setting']['recommendthread']['subtracttext'])}-->
-						<a id="recommend_subtract" href="forum.php?mod=misc&action=recommend&do=subtract&tid=$_G[tid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 1, 0, '43', 'recommendupdate(-{$_G['group']['allowrecommend']})');return false;"{else} onclick="showWindow('login', this.href)"{/if} onmouseover="this.title = $('recommendv_subtract').innerHTML + ' {lang activity_member_unit}$_G[setting][recommendthread][subtracttext]'" title="{lang makebottomonce}"><i><em class="fico-thumbdown fc-n" title="$_G['setting']['recommendthread'][subtracttext]"></em>$_G['setting']['recommendthread'][subtracttext]<span id="recommendv_subtract"{if !$_G['forum_thread']['recommend_sub']} style="display:none"{/if}>$_G[forum_thread][recommend_sub]</span></i></a>
-						<!--{/if}-->
-					<!--{/if}-->
 					<!--{hook/viewthread_useraction}-->
 				</div>
 			<!--{/if}-->
@@ -403,6 +395,12 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 					<!--{if $_G['uid'] == $post['authorid']}-->
 						<a class="removep" href="forum.php?mod=misc&action=postdelete&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page" onClick="showWindow('postdelete', this.href, 'get', 0)">{lang delete}</a>
+					<!--{/if}-->
+					<!--{if $post['first'] && ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status']) && !empty($_G['setting']['recommendthread']['addtext'])}-->
+						<a class="replyadd{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_add']}title="$_G[forum_thread][recommend_add] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg><span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_add]</span></a>
+						<!--{if !empty($_G['setting']['recommendthread']['subtracttext'])}-->
+						<a class="replysubtract{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=subtract&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_sub']}title="$_G[forum_thread][recommend_sub] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg><span id="recommendv_subtract"{if !$_G['forum_thread']['recommend_sub']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_sub]</span></a>
+						<!--{/if}-->
 					<!--{/if}-->
 					<!--{if $post['first'] && $post['invisible'] == -3}-->
 						<!--<a class="psave" href="forum.php?mod=misc&action=pubsave&tid=$_G[tid]">{lang published}</a>-->
