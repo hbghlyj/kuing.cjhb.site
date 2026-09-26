@@ -49,104 +49,55 @@
 	<div class="mn">
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
-		<!-- index four grid -->
-		<div class="fl bm">
-			<div class="bm bmw cl">
-				<div id="category_grid" class="bm_c" >
-					<table cellspacing="0" cellpadding="0"><tr>
-					<!--{if !$_G['setting']['grid']['gridtype']}-->
-						<td valign="top" class="category_l1">
-							<div class="newimgbox">
-								<h4><span class="tit_newimg"></span>{lang latest_images}</h4>
-								<!--{if $_G['setting']['forumallowside']}-->
-								    <!--{eval $slide_width = 220;}-->
-								<!--{else}-->
-								    <!--{eval $slide_width = 278;}-->
-								<!--{/if}-->
-								<div class="module cl slidebox_grid" style="width:{$slide_width}px">
-									<script type="text/javascript">
-									var slideSpeed = 5000;
-									var slideImgsize = [{$slide_width},200];
-									var slideBorderColor = '{$_G['style']['specialborder']}';
-									var slideBgColor = '{$_G['style']['commonbg']}';
-									var slideImgs = new Array();
-									var slideImgLinks = new Array();
-									var slideImgTexts = new Array();
-									var slideSwitchColor = '{$_G['style']['tabletext']}';
-									var slideSwitchbgColor = '{$_G['style']['commonbg']}';
-									var slideSwitchHiColor = '{$_G['style']['specialborder']}';
-									{eval $k = 1;}
-									<!--{loop $grids['slide'] $stid $svalue}-->
-										slideImgs[<!--{echo $k}-->] = '$svalue[image]';
-										slideImgLinks[<!--{echo $k}-->] = '{$svalue[url]}';
-										slideImgTexts[<!--{echo $k}-->] = '$svalue[subject]';
-										{eval $k++;}
-									<!--{/loop}-->
-									</script>
-									<script language="javascript" type="text/javascript" src="{$_G[setting][jspath]}forum_slide.js?{VERHASH}"></script>
-								</div>
-							</div>
-						</td>
-					<!--{/if}-->
-					<td valign="top" class="category_l2">
-						<div class="subjectbox">
-							<h4><span class="tit_subject"></span>{lang collection_lastthread}</h4>
-					        <ul class="category_newlist">
-						<!--{loop $grids['newthread'] $thread}-->
-						<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
+		<div id="forum-index-tabs" class="bm bm_h" role="tablist">
+			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
+			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
+			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
+			<button type="button" data-index-tab="boards" role="tab" aria-selected="true" class="a">{lang forumlist}</button>
+			<!--{if !empty($collectiondata['follows']) || !empty($forum_favlist)}--><button type="button" data-index-tab="myforums" role="tab" aria-selected="false">{lang my_forums}</button><!--{/if}-->
+		</div>
+		<div id="forum-index-grid-panel" hidden>
+			<div id="category_grid">
+					<table class="cp0"><tr>
+					<td valign="top" class="category_l2" data-index-tab="latest">
+						<div class="bm">
+				        <ul class="bm_c category_newlist">
+					        	<!--{loop $grids['newthread'] $thread}-->
+					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[oldsubject]</strong><br/>{lang author}: $thread[author] ($thread[dateline])<br/>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[oldsubject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<li><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
 								<!--{/loop}-->
 					         </ul>
 				         </div>
 					</td>
-					<td valign="top" class="category_l3">
-						<div class="replaybox">
-							<h4><span class="tit_replay"></span>{lang show_newthreads}</h4>
-					        <ul class="category_newlist">
-						<!--{loop $grids['newreply'] $thread}-->
-						<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
+					<td valign="top" class="category_l3" data-index-tab="top">
+						<div class="bm">
+				        <ul class="bm_c category_newlist">
+					        	<!--{loop $grids['newreply'] $thread}-->
+					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']}tip="{lang title}: <strong>$thread[oldsubject]</strong><br/>{lang author}: $thread[author] ($thread[dateline])<br/>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[oldsubject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<li><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']}tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
 								<!--{/loop}-->
 					         </ul>
 				         </div>
 					</td>
-					<td valign="top" class="category_l3">
-						<div class="hottiebox">
-							<h4><span class="tit_hottie"></span>{lang hot_thread}</h4>
-					        <ul class="category_newlist">
-						<!--{loop $grids['hot'] $thread}-->
-						<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
+					<td valign="top" class="category_l3" data-index-tab="hot">
+						<div class="bm">
+				        <ul class="bm_c category_newlist">
+					        	<!--{loop $grids['hot'] $thread}-->
+					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[oldsubject]</strong><br/>{lang author}: $thread[author] ($thread[dateline])<br/>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[oldsubject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<li n="$thread[addviews]"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
 								<!--{/loop}-->
 					         </ul>
 				         </div>
 					</td>
-					<!--{if $_G['setting']['grid']['gridtype']}-->
-						<td valign="top" class="category_l4">
-							<div class="goodtiebox">
-								<h4><span class="tit_goodtie"></span>{lang post_digest_thread}</h4>
-								<ul class="category_newlist">
-									<!--{loop $grids['digest'] $thread}-->
-										<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
-											<!--{eval $thread['tid']=$thread['closed'];}-->
-										<!--{/if}-->
-										<li><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[oldsubject]</strong><br/>{lang author}: $thread[author] ($thread[dateline])<br/>{lang show}/{lang reply}: $thread[views]/$thread[replies]" onmouseover="showTip(this)"{else} title="$thread[oldsubject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
-									<!--{/loop}-->
-								 </ul>
-							</div>
-						</td>
-					<!--{/if}-->
 					</table>
-				</div>
 			</div>
 		</div>
-		<!-- index four grid end -->
 		<!--{/if}-->
 		<!--{hook/index_top}-->
 		<!--{if !empty($_G['cache']['heats']['message'])}-->
@@ -174,7 +125,7 @@
 		<!--{/if}-->
 
 		<!--{hook/index_catlist_top}-->
-		<div class="fl bm">
+		<div id="forum-index-myforums" class="fl bm"<!--{if !empty($_G['setting']['grid']['showgrid'])}--> hidden<!--{/if}-->>
 			<!--{if !empty($collectiondata['follows'])}-->
 
 			<!--{eval $forumscount = count($collectiondata['follows']);}-->
@@ -341,7 +292,7 @@
 		<!--{/if}-->
 		<!--{loop $catlist $key $cat}-->
 			<!--{hook/index_catlist $cat['fid']}-->
-			<div class="bm bmw {if $cat['forumcolumns']} flg{/if} cl">
+			<div class="bm bmw {if $cat['forumcolumns']} flg{/if} cl" data-forum-index-board>
 				<div class="bm_h cl">
 					<span class="o">
 						<em id="category_$cat[fid]_img" class="tg{$cat[collapseicon]}" title="{lang spread}" onclick="toggle_collapse('category_$cat[fid]');"></em>
@@ -434,6 +385,42 @@
 			</div>
 			<!--{ad/intercat/bm a_c/$cat[fid]}-->
 		<!--{/loop}-->
+		<script>
+		(function() {
+			var tabs = document.getElementById('forum-index-tabs');
+			if(!tabs) return;
+			var grid = document.getElementById('forum-index-grid-panel');
+			var boardPanels = document.querySelectorAll('[data-forum-index-board]');
+			var myforums = document.getElementById('forum-index-myforums');
+			var buttons = tabs.getElementsByTagName('button');
+			var cells = grid.querySelectorAll('[data-index-tab]');
+			function selectTab(tab) {
+				for(var j = 0; j < buttons.length; j++) {
+					var active = buttons[j].getAttribute('data-index-tab') == tab;
+					buttons[j].className = buttons[j].className.replace(/\s*a/g, '') + (active ? ' a' : '');
+					buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
+				}
+				for(var m = 0; m < boardPanels.length; m++) {
+					boardPanels[m].hidden = tab != 'boards';
+				}
+				myforums.hidden = tab != 'myforums';
+				grid.hidden = tab == 'boards' || tab == 'myforums';
+				for(var k = 0; k < cells.length; k++) {
+					cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
+				}
+			}
+			for(var i = 0; i < buttons.length; i++) {
+				buttons[i].onclick = function() {
+					var tab = this.getAttribute('data-index-tab');
+					if(document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+						document.startViewTransition(function() { selectTab(tab); });
+					} else {
+						selectTab(tab);
+					}
+				};
+			}
+		})();
+		</script>
 			<!--{if !empty($collectiondata['data'])}-->
 
 			<!--{eval $forumscount = count($collectiondata['data']);}-->
