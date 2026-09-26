@@ -504,21 +504,20 @@
 		</div>
 
 		<!--{if empty($gid) && $_G['setting']['whosonlinestatus']}-->
-			<div id="online" class="bm oll">
+		<div id="online" class="bm oll">
 				<div class="bm_h">
+				<!--{if $detailstatus || empty($_G['setting']['sessionclose'])}-->
+					<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="<!--{if $detailstatus}-->tg_no<!--{else}-->tg_yes<!--{/if}-->" title="{lang spread}"></em></a></span>
+				<!--{/if}-->
 				<!--{if $detailstatus}-->
-					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
 						<strong><a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a></strong>
-						<span class="xs1">- <strong>$onlinenum</strong> {lang onlines}
-						- <strong>$membercount</strong> {lang index_members}(<strong>$invisiblecount</strong> {lang index_invisibles}),
-						<strong>$guestcount</strong> {lang index_guests}
+						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
+						<span id="whosonline_member_segment"<!--{if !$membercount}--> style="display:none"<!--{/if}-->>- <strong id="whosonline_count_member">$membercount</strong> {lang index_members}<span id="whosonline_invisible_segment"<!--{if !$invisiblecount}--> style="display:none"<!--{/if}-->>(<strong id="whosonline_count_invisible">$invisiblecount</strong> {lang index_invisibles})</span>,</span>
+						<span id="whosonline_guest_segment"<!--{if !$guestcount}--> style="display:none"<!--{/if}-->><strong id="whosonline_count_guest">$guestcount</strong> {lang index_guests}</span>
 						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{else}-->
-					<!--{if empty($_G['setting']['sessionclose'])}-->
-						<span class="o"><a href="forum.php?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
-					<!--{/if}-->
 					<h3>
 						<strong>
 							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
@@ -533,30 +532,20 @@
 					</h3>
 				<!--{/if}-->
 				</div>
-			<!--{if $_G['setting']['whosonlinestatus'] && $detailstatus}-->
-				<dl id="onlinelist" class="bm_c">
+			<!--{if $_G['setting']['whosonlinestatus']}-->
+				<dl id="online_index_panel" class="bm_c" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> hidden<!--{/if}--> >
 					<dt class="ptm pbm bbda">$_G[cache][onlinelist][legend]</dt>
-					<!--{if $detailstatus}-->
-						<dd class="ptm pbm">
-						<ul class="cl">
-						<!--{if $whosonline}-->
-							<!--{loop $whosonline $key $online}-->
-								<li title="{lang time}: $online[lastactivity]">
-								<img src="$online['icon']" alt="icon" />
-								<!--{if $online['uid']}-->
-									<a href="home.php?mod=space&uid=$online[uid]">$online[username]</a>
-								<!--{else}-->
-									$online[username]
-								<!--{/if}-->
-								</li>
-							<!--{/loop}-->
-						<!--{else}-->
-							<li style="width: auto">{lang online_only_guests}</li>
-						<!--{/if}-->
-						</ul>
+						<dd class="ptm pbm cl">
+							<ul id="whosonline_list_container" class="cl">
+								<li style="width: auto">{lang m_loading}</li>
+							</ul>
 					</dd>
-					<!--{/if}-->
 				</dl>
+				<script>
+					if(document.getElementById('online_index_panel').getAttribute('data-expanded') == '1') {
+						toggleOnlinePanel('online_index_panel', 'onlineindex', null, '{lang online_list_load_error}');
+					}
+				</script>
 			<!--{/if}-->
 			</div>
 		<!--{/if}-->
