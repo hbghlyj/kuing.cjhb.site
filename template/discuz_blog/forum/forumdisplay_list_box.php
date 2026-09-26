@@ -38,6 +38,7 @@
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 							<!--{/if}-->
 
+							<p class="kmtit">
 							<a href="forum.php?mod=viewthread&tid=$thread['tid']&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread['highlight']{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} title="{if $thread['displayorder'] == 1}{lang thread_type1}{/if}
 									{if $thread['displayorder'] == 2}{lang thread_type2}{/if}
 									{if $thread['displayorder'] == 3}{lang thread_type3}{/if}
@@ -48,7 +49,7 @@
 									{if $thread['special'] == 3}{lang thread_reward}{lang forum_threads}{/if}
 									{if $thread['special'] == 4}{lang thread_activity}{lang forum_threads}{/if}
 									{if $thread['special'] == 5}{lang thread_debate}{lang forum_threads}{/if}
-									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}" class="kmtit">
+									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}">
 								<!--{if $thread['folder'] == 'lock'}-->
 									<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico" />
 								<!--{elseif $thread['special'] == 1}-->
@@ -88,6 +89,7 @@
 									<i class="fico-attachment fnmr vm" title="{lang attachment}"></i>
 								<!--{/if}-->
 							</a>
+							</p>
 							<div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>
 							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
