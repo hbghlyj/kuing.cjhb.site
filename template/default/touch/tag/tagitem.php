@@ -89,7 +89,7 @@
 		</div>
 		<!--{if $showtype && $multipage}--><div class="pgs mt10 cl">$multipage</div><!--{/if}-->
 		<!--{else}-->
-		<div class="empty-box"><h4>{lang no_content}</h4></div>
+		<div class="empty-box"><h4>{lang tag_no}{lang sp}{lang tag_related}{lang sp}{lang tag_content}</h4></div>
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
@@ -150,7 +150,7 @@
 		</div>
 		<!--{if $showtype && $multipage}--><div class="pgs mt10 cl">$multipage</div><!--{/if}-->
 		<!--{else}-->
-		<div class="empty-box"><h4>{lang no_content}</h4></div>
+		<div class="empty-box"><h4>{lang tag_no}{lang sp}{lang tag_related}{lang sp}{lang tag_content}</h4></div>
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
@@ -165,7 +165,7 @@
 </form>
 <div class="bodybox empty-box cl">
 	<h4 class="mt">
-		{lang no_content}
+		{lang tag_no}{lang sp}{lang tag_related}{lang sp}{lang tag_content}
 	</h4>
 </div>
 <!--{/if}-->
