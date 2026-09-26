@@ -335,6 +335,13 @@ function profile_show($fieldid, $space = [], $getalone = false) {
 		return $space[$fieldid].'<img src="'.STATICURL.'image/common/qq.gif" alt="QQ" style="margin:0px;"></a>';
 	} elseif($fieldid == 'wechat') {
 		return $space[$fieldid].'<img width="16" src="https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" alt="WeChat" style="margin:0px;">';
+	} elseif($fieldid == 'github') {
+		$account = trim($space[$fieldid]);
+		// GitHub handles are alphanumerics and single hyphens, at most 39 characters.
+		if($account === '' || !preg_match('/^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$/', $account)) {
+			return nl2br($space[$fieldid]);
+		}
+		return '<a href="https://github.com/'.$account.'" target="_blank" rel="nofollow noopener">'.$account.'</a>';
 	} else {
 		return nl2br($space[$fieldid]);
 	}
