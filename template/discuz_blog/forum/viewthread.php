@@ -170,10 +170,14 @@
 			}
 		}
 
-		if (!$sg_thread_cover && !empty($sg_first_post['message']) && preg_match('/<img\\b[^>]*\\bsrc=(["\\\'])([^"\\\']+)\\1/i', $sg_first_post['message'], $sg_cover_match)) {
-			$sg_cover_candidate = html_entity_decode($sg_cover_match[2], ENT_QUOTES, CHARSET);
-			if (!preg_match('/^(?:data|javascript):/i', $sg_cover_candidate)) {
+		if (!$sg_thread_cover && !empty($sg_first_post['message']) && preg_match_all('/<img\\b[^>]*\\bsrc=(["\\\'])([^"\\\']+)\\1[^>]*>/i', $sg_first_post['message'], $sg_cover_matches, PREG_SET_ORDER)) {
+			foreach ($sg_cover_matches as $sg_cover_match) {
+				$sg_cover_candidate = html_entity_decode($sg_cover_match[2], ENT_QUOTES, CHARSET);
+				if (preg_match('/\\bsmilieid\\s*=/i', $sg_cover_match[0]) || preg_match('~(?:^|/)static/image/smiley/~i', $sg_cover_candidate) || preg_match('/^(?:data|javascript):/i', $sg_cover_candidate)) {
+					continue;
+				}
 				$sg_thread_cover = $sg_cover_candidate;
+				break;
 			}
 		}
 		$sg_thread_cover = dhtmlspecialchars($sg_thread_cover);

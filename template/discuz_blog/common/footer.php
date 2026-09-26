@@ -85,7 +85,6 @@
 								</select>
 							</span>
 						<!--{/if}-->
-						<!--{if $_G['setting']['siteurl']}--><span class="pipe">|</span><a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a><!--{/if}-->
 						<!--{hook/global_footerlink}-->
 						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
 					</div>
