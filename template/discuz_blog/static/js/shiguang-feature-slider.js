@@ -31,7 +31,9 @@
             var dot = document.createElement('button');
             dot.type = 'button';
             dot.setAttribute('data-sg-slide-to', i);
-            dot.setAttribute('aria-label', '第 ' + (i + 1) + ' 张：' + (slides[i].querySelector('h2') ? slides[i].querySelector('h2').innerText : '精选内容'));
+            var slideLabel = (typeof _JSLANG_ !== 'undefined' && _JSLANG_['slide_aria']) ? _JSLANG_['slide_aria'] : 'Slide {1}: ';
+            var slideFallback = (typeof _JSLANG_ !== 'undefined' && _JSLANG_['slide_aria_fallback']) ? _JSLANG_['slide_aria_fallback'] : 'Featured content';
+            dot.setAttribute('aria-label', slideLabel.replace('{1}', i + 1) + (slides[i].querySelector('h2') ? slides[i].querySelector('h2').innerText : slideFallback));
             dotsRoot.appendChild(dot);
             dots.push(dot);
         }

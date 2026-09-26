@@ -771,7 +771,6 @@ body.discuzx5 .sg-forum-page-heading__intro {
     margin: 0;
     overflow: hidden;
     color: var(--sg-muted);
-    font-size: 17px;
     line-height: 1.9;
     display: -webkit-box;
     -webkit-box-orient: vertical;

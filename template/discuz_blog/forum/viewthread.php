@@ -178,7 +178,7 @@
 		$sg_thread_cover = dhtmlspecialchars($sg_thread_cover);
 
 		if (!empty($_G['forum_thread']['digest'])) {
-			$sg_thread_label = '精选';
+			$sg_thread_label = lang('template', 'blog_digest_label');
 			$sg_thread_label_url = 'forum.php?mod=forumdisplay&fid='.$_G['fid'].'&filter=digest&digest=1';
 		} elseif (!empty($_G['forum_thread']['typeid']) && !empty($_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']])) {
 			$sg_thread_label = strip_tags($_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]);
