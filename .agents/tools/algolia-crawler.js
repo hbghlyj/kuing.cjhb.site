@@ -55,7 +55,32 @@ new Crawler({
                 $("table.plhin")
                     .get()
                     .map(function (a) {
-                        $(a).find("div.quote > blockquote").has("font[size='2']").remove();
+                        // Strip quoted blocks so replies that only quote someone
+                        // else are not indexed as original content.
+                        //
+                        // The attribution line is what we match on, and it is
+                        // emitted from the [size=2] bbcode that [quote=...] wraps
+                        // around its "X wrote:" header. Commit 515cdbea8
+                        // ("refactor(html): replace font output with styled
+                        // spans", 2026-08-22) rewrote function_discuzcode.php to
+                        // emit <span style="..."> instead of the deprecated
+                        // <font>, so the header changed from
+                        // <font size="2"> to <span style="font-size:small">.
+                        // The old filter matched nothing after that, .remove()
+                        // became a no-op, and every quote got indexed.
+                        //
+                        // Both forms are matched so the rule keeps working if any
+                        // post still carries raw legacy <font> markup. Verified
+                        // against the live DOM: 7 quote blocks in tid 15059 all
+                        // serialise as <span style="font-size:small"> as the first
+                        // child of <blockquote>, with 0 <font size=2> remaining.
+                        // Descendant (not child) combinator on purpose: the
+                        // crawler runtime supplies Cheerio, whose .has() handling
+                        // of a leading ">" is not dependable across versions.
+                        $(a)
+                            .find("div.quote > blockquote")
+                            .has('span[style*="font-size:small"], font[size="2"]')
+                            .remove();
                         const content = $(a).find("td.t_f").text().trim();
                         if (content != "") {
                             records.push({
