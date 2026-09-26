@@ -2291,6 +2291,7 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
 .fico-right:before{content:"\f127"}
 .fico-lock:before{content:"\f136"}
 .fico-share:before{content:"\f114"}
+.cmty-edit-tag-btn { margin-left: 10px; font-size: 12px; color: #029386 !important; cursor: pointer; }
 .fico-rss_feed:before{content:"\f10a"}
 .fico-rss:before{content:"\f10a";}
 .fico-left:before{content:"\f126"}

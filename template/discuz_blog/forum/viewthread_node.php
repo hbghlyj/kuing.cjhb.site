@@ -191,7 +191,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						</label>
 					<!--{/if}-->
 				</div>
-				<div class="authi">
+				<div class="authi" data-datetime="$post[dateline]">
 				<span class="sg-post-native-meta">
 				<!--{if $close_leftinfo && !$post['anonymous'] && $postshowavatars && $showavatars && $_G['style']['viewthread_pl']}-->
 					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt" style="padding-right:10px;">{echo avatar($post['authorid'], 'small')}</a>
@@ -315,6 +315,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $post['first'] && helper_access::check_module('doing')}-->
 						<a class="sharep" href="home.php?mod=spacecp&ac=doing&type=thread&id=$_G[tid]" onclick="showWindow('sharethread', this.href, 'get', 0);" title="{lang share_digest}"><i><em class="fico-share fc-p" title="{lang thread_share}"></em>{lang thread_share}<!--{if $_G['forum_thread']['sharetimes']}--><span id="sharenumber">{$_G['forum_thread']['sharetimes']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
+					<a href="forum.php?mod=viewthread&tid=$_G[tid]" id="threadshare" onclick="return shareThreadUrl(this, '$_G[setting][bbname]')" title="{lang share_url_share}"><i><em class="fico-share fc-p" title="{lang share_url_share}"></em>{lang share_url_share}</i></a>
 
 					<!--{if !$_G['forum']['disablecollect'] && helper_access::check_module('collection')}-->
 						<a href="forum.php?mod=collection&action=edit&op=addthread&tid=$_G[tid]" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' {lang activity_member_unit}{lang collection}'" title="{lang thread_collect}"><i><em class="fico-collection fc-p" alt="{lang collection}"></em>{lang collection}<span id="collectionnumber"{if !$post['releatcollectionnum']} style="display:none"{/if}>{$post['releatcollectionnum']}</span></i></a>
