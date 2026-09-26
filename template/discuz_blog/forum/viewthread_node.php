@@ -148,7 +148,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 	<td class="plc"<!--{if $close_leftinfo}--> style="width:100%"<!--{/if}-->>
 
 		<!--{if $_G['style']['viewthread_pl']}-->
-		<div class="pi"<!--{if $close_leftinfo && !$post['anonymous'] && $postshowavatars && $showavatars}--> style="height:48px"<!--{/if}-->>
+		<div class="pi">
 			<!--{if !IS_ROBOT}-->
 				<!--{if !$postcount && !$_G['forum_thread']['archiveid'] && $post['first'] && $_G['style']['viewthread_pl']}-->
 					<div id="fj" class="y">
