@@ -234,17 +234,9 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $_G['forum_thread']['attachment'] == 2 && $_G['group']['allowgetimage'] && (!$_G['setting']['guestviewthumb']['flag'] || $_G['setting']['guestviewthumb']['flag'] && $_G['uid'])}-->
 						<span class="pipe">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&from=album">{lang view_bigpic}</a>
 					<!--{/if}-->
-						<span class="none" title="{lang replycredit}"></span>
-						<!--{if $ordertype != 1}-->
-							<span class="pipe show">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&extra=$_GET[extra]&ordertype=1"  class="show">{lang post_descview}</a>
-						<!--{else}-->
-							<span class="pipe show">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&extra=$_GET[extra]&ordertype=2"  class="show">{lang post_ascview}</a>
-						<!--{/if}-->
-				<!--{/if}-->
-				<!--{if $post['first']}-->
-				<span class="pipe show">|</span><a href="javascript:;" onclick="readmode($('thread_subject').innerHTML, $post[pid]);" class="show">{lang read_mode}</a>
-				<!--{/if}-->
-				<!--{hook/viewthread_postheader $postcount}-->
+					<span class="none" title="{lang replycredit}"></span>
+			<!--{/if}-->
+			<!--{hook/viewthread_postheader $postcount}-->
 				</div>
 			</div>
 		</div>
@@ -324,7 +316,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&formhash={FORMHASH}" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l" title="{lang thread_favorite}"></em>{lang thread_favorite}<span id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
 					<!--{/if}-->
 					<!--{if !$post['anonymous'] && $post['first'] && helper_access::check_module('follow')}-->
-						<a class="followp" href="home.php?mod=spacecp&ac=follow&op=relay&tid=$_G[tid]&from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="{lang follow_spread}"><i><em class="fico-launch fc-p" title="{lang thread_realy}"></em>{lang thread_realy}<!--{if $_G['forum_thread']['relay']}--><span id="relaynumber" style="display:none">{$_G['forum_thread']['relay']}</span><!--{/if}--></i></a>
+						<a class="followp" href="home.php?mod=spacecp&ac=follow&op=relay&tid=$_G[tid]&from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="{lang follow_spread}"><i><em class="fico-launch fc-p" title="{lang thread_relay}"></em>{lang thread_relay}<!--{if $_G['forum_thread']['relay']}--><span id="relaynumber" style="display:none">{$_G['forum_thread']['relay']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
 					<!--{if $post['first'] && helper_access::check_module('doing')}-->
 						<a class="sharep" href="home.php?mod=spacecp&ac=doing&type=thread&id=$_G[tid]" onclick="showWindow('sharethread', this.href, 'get', 0);" title="{lang share_digest}"><i><em class="fico-share fc-p" title="{lang thread_share}"></em>{lang thread_share}<!--{if $_G['forum_thread']['sharetimes']}--><span id="sharenumber">{$_G['forum_thread']['sharetimes']}</span><!--{/if}--></i></a>
@@ -348,13 +340,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/loop}-->
 				</ul>
 			</div>
-		<!--{/if}-->
-		<!--{if $post['signature'] && ($_G['setting']['bannedmessages'] & 4 && ($post['memberstatus'] == '-1' || ($post['authorid'] && !$post['username']) || ($post['groupid'] == 4 || $post['groupid'] == 5) || ($post['status'] & 1)))}-->
-			<div class="sign">{lang member_signature_banned}</div>
-		<!--{elseif $post['signature'] && !$post['anonymous'] && $showsignatures}-->
-			<div class="sign" style="max-height:{$_G['setting']['maxsigrows']}px;">{if $_G['setting']['sigimgclick']}{eval $post['signature'] = str_replace('onclick="zoom(this, this.src, 0, 0, 0)"', '', $post['signature']);}{/if}{$post['signature']}</div>
-		<!--{elseif !$post['anonymous'] && $showsignatures && !empty($_G['setting']['globalsightml'])}-->
-			<div class="sign">$_G['setting']['globalsightml']</div>
 		<!--{/if}-->
 		<!--{hook/viewthread_postsightmlafter $postcount}-->
 		<!--{ad/thread/a_pb/1/$postcount}-->

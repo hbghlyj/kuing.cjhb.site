@@ -87,13 +87,6 @@
 								<!--{elseif $thread['attachment'] == 1}-->
 									<i class="fico-attachment fnmr vm" title="{lang attachment}"></i>
 								<!--{/if}-->
-								<!--{if $thread['displayorder'] == 0}-->
-									<!--{if $thread['rate'] > 0}-->
-										<i class="fico-thumbup fc-l fnmr vm" title="{lang rate_credit_add}"></i>
-									<!--{elseif $thread['rate'] < 0}-->
-										<i class="fico-thumbdown fc-a fnmr vm" title="{lang posts_deducted}"></i>
-									<!--{/if}-->
-								<!--{/if}-->
 							</a>
 							<div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>
 							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->

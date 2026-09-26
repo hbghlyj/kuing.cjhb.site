@@ -92,22 +92,6 @@
 				<p class="xs0"><time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time></p>
 			</div>
 			<div id="frt">
-				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
-				<div class="dz_footc_dico">
-					<div class="ewmimg">
-						<!--{if $_G['style']['bottom_qrcode']}-->
-							<img src="{$_G['style']['bottom_qrcode']}">
-						<!--{else}-->
-							<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
-						<!--{/if}-->
-						<!--{if $_G['style']['bottom_qrcodetxt']}-->
-							{$_G['style']['bottom_qrcodetxt']}
-						<!--{else}-->
-							{lang fllowwechat}
-						<!--{/if}-->
-					</div>
-				</div>
-				<!--{/if}-->
 				<div class="dz_footc_copy">
 				<!--{if $_G['style']['bottom_txt']}-->
 				<p>{$_G['style']['bottom_txt']}</p>
@@ -130,16 +114,8 @@
 	<a href="javascript:;" class="dz_rwx" rel="nofollow">
 		<div class="dz_rewm_box">
 			<div class="dz_rewm">
-				<!--{if $_G['style']['sider_wechat']}-->
-					<img src="{$_G['style']['sider_wechat_qrcode']}">
-				<!--{else}-->
-					<img src="{STYLEIMGDIR}/img/dz_wx.jpg">
-				<!--{/if}-->
-				<!--{if $_G['style']['sider_wechat']}-->
-					<span>{$_G['style']['sider_wechat_txt']}</span>
-				<!--{else}-->
-					<span>{lang addservice}</span>
-				<!--{/if}-->
+				<img src="{$_G['style']['sider_wechat_qrcode']}">
+				<span>{$_G['style']['sider_wechat_txt']}</span>
 			</div>
 		</div>
 	</a>

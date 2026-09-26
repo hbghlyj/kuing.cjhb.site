@@ -19,13 +19,6 @@
 				<a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=heat&orderby=heats{$forumdisplayadd['heat'] or ''}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}" class="kmico kmrm{if isset($_GET['filter']) && $_GET['filter'] == 'heat'} kmon{/if}">{lang order_heats}</a><span class="pipe z">|</span>
 				<a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=hot" class="kmico kmrt{if isset($_GET['filter']) && $_GET['filter'] == 'hot'} kmon{/if}">{lang hot_thread}</a><span class="pipe z">|</span>
 				<a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=digest&digest=1$forumdisplayadd['digest']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}" class="kmico kmjh{if isset($_GET['filter']) && $_GET['filter'] == 'digest'} kmon{/if}">{lang digest_posts}</a>
-			<!--{else}-->
-				<a href="forum.php?mod=forumdisplay&fid=$_G[fid]" class="kmico kmzx{if !$flowtype} kmon{/if}">{lang flow_filter_type_0}</a><span class="pipe z">|</span>
-				<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&flow=1" class="kmico kmzx{if $flowtype == 1} kmon{/if}">{lang flow_filter_type_1}</a><span class="pipe z">|</span>
-				<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&flow=2" class="kmico kmzx{if $flowtype == 2} kmon{/if}">{lang flow_filter_type_2}</a><span class="pipe z">|</span>
-				<!--{if $_G['forum']['ismoderator']}-->
-					<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&flow=3" class="kmico kmzx{if $flowtype == 3} kmon{/if}">{lang flow_filter_type_3}</a>
-				<!--{/if}-->
 			<!--{/if}-->
 			<!--{hook/forumdisplay_filter_extra}-->
 			<!--{if isset($_GET['filter']) && $_GET['filter'] == 'hot'}-->

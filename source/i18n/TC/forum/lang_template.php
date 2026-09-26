@@ -1316,4 +1316,5 @@ $lang = [
   'admin_merge_order_begin' => '新帖置於開頭',
   'darkroom' => '小黑屋',
   'darkroom_no_users' => '還沒有人入住小黑屋，大家都是模範會員~',
+  'online_list_load_error' => '無法載入線上用戶列表',
 ];
