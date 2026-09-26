@@ -114,8 +114,8 @@
 									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
 								<!--{/if}-->
 							</div>
-							<div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>
-							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
+							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>
+							<!--{if is_array($threadlist_data[$thread['tid']]['attachment']) && !in_array($thread['displayorder'], array(1,2,3,4))}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
 								<div class="kmimg_onebox">
 								<!--{else}-->
