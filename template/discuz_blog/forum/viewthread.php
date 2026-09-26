@@ -114,7 +114,6 @@
 	<ul class="p_pop modmenu_popup" id="modmenu_menu" style="display: none">
 		<!--{eval $modopt=0;}-->
 		<!--{if $_G['forum']['ismoderator']}-->
-			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++;}--><li class="modmenu_del"><a href="javascript:;" onclick="modthreads(3, 'delete');hideMenu()">{lang modmenu_deletethread}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowbumpthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(3, 'bump');hideMenu()">{lang modmenu_updown}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowstickthread'] && ($_G['forum_thread']['displayorder'] <= 3 || $_G['adminid'] == 1) && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(1, 'stick');hideMenu()">{lang modmenu_stickthread}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowhighlightthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(1, 'highlight');hideMenu()">{lang modmenu_highlight}</a></li><!--{/if}-->
@@ -138,6 +137,7 @@
 			<!--{if $_G['group']['allowremovereward'] && $_G['forum_thread']['special'] == 3 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modaction('removereward');hideMenu()">{lang modmenu_removereward}</a></li><!--{/if}-->
 			<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}--><li><a href="javascript:;" onclick="modthreads(5, 'recommend_group');hideMenu();return false;">{lang modmenu_grouprecommend}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowmanagetag']}--><li><a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0);hideMenu()">{lang post_tag}</a></li><!--{/if}-->
+			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++;}--><li class="modmenu_del"><a href="javascript:;" onclick="modthreads(3, 'delete');hideMenu()">{lang modmenu_deletethread}</a></li><!--{/if}-->
 		<!--{/if}-->
 		<!--{if $allowpusharticle && $allowpostarticle}--><!--{eval $modopt++;}--><li><a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']">{lang modmenu_pusharticle}</a></li><!--{/if}-->
 		<!--{hook/viewthread_modoption}-->
