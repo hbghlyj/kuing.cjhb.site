@@ -1202,6 +1202,23 @@ body.discuzx5 .sg-thread-hero__author {
     color: inherit !important;
 }
 
+body.discuzx5 .sg-thread-hero__author-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+body.discuzx5 .sg-thread-hero__author-filter {
+    margin-left: 48px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+body.discuzx5 .sg-thread-hero__author-filter:hover {
+    text-decoration: underline;
+}
+
 body.discuzx5 .sg-thread-hero__avatar {
     display: inline-flex;
     width: 38px;

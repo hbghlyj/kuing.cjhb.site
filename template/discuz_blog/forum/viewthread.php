@@ -289,10 +289,19 @@
 				<!--{if $_G['style']['blog_mod']}-->
 						<div class="sg-thread-hero__meta">
 							<!--{if $_G['forum_thread']['authorid'] && $_G['forum_thread']['author']}-->
+								<div class="sg-thread-hero__author-group">
 								<a class="sg-thread-hero__author" href="home.php?mod=space&uid=$_G[forum_thread][authorid]" title="$_G[forum_thread][author]">
 									<img class="_avt sg-thread-hero__avatar" data-uid="$_G[forum_thread][authorid]" data-size="small" alt="$_G[forum_thread][author]" />
 									<span>$_G[forum_thread][author]</span>
 								</a>
+								<!--{if !IS_ROBOT && !$_G['forum_thread']['archiveid']}-->
+									<!--{if $_GET['authorid']}-->
+										<a class="sg-thread-hero__author-filter" href="forum.php?mod=viewthread&tid=$_G[tid]&page=$page" rel="nofollow">{lang thread_show_all}</a>
+									<!--{else}-->
+										<a class="sg-thread-hero__author-filter" href="forum.php?mod=viewthread&tid=$_G[tid]&page=$page&authorid=$_G[forum_thread][authorid]" rel="nofollow">{lang thread_show_author}</a>
+									<!--{/if}-->
+								<!--{/if}-->
+								</div>
 							<!--{else}-->
 								<span class="sg-thread-hero__author"><span class="sg-thread-hero__avatar sg-thread-hero__avatar--anonymous">匿</span><span>$_G[setting][anonymoustext]</span></span>
 							<!--{/if}-->
