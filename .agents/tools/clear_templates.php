@@ -87,6 +87,16 @@ $discuz->init_cron = false;
 $discuz->init_misc = false;
 $discuz->init();
 
+// cleartemplatecache() lives in function_cache.php, not in class_core.php, so it
+// is not defined by the bootstrap above. rebuild_cache.php requires this file
+// explicitly for the same reason.
+require_once './source/function/function_cache.php';
+
+if(!function_exists('cleartemplatecache')) {
+	fwrite(STDERR, "cleartemplatecache() still undefined after requiring function_cache.php\n");
+	exit(1);
+}
+
 cleartemplatecache();
 
 $after = compiled_templates($tplDir);
