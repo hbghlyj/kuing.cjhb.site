@@ -68,13 +68,13 @@
 										<!--{if $task['reward'] == 'credit'}-->
 											{lang gettable}$_G['setting']['extcredits'][$task[prize]][title] <strong class="xi1">$task[bonus]</strong> $_G['setting']['extcredits'][$task[prize]][unit]
 										<!--{elseif $task['reward'] == 'magic'}-->
-											{lang gettable}{lang magics_title} $listdata[$task[prize]] <strong class="xi1">$task[bonus]</strong> {lang magics_unit}
+											{lang gettable}{lang sp}{lang magics_title} $listdata[$task[prize]] <strong class="xi1">$task[bonus]</strong> {lang magics_unit}
 										<!--{elseif $task['reward'] == 'medal'}-->
 											{lang gettable}{lang sp}{lang medals} <strong class="xi1">1</strong> {lang unit}
 										<!--{elseif $task['reward'] == 'invite'}-->
-											{lang gettable}{lang invite_code} <strong class="xi1">$task[prize]</strong> {lang unit}
+											{lang gettable}{lang sp}{lang invite_code} <strong class="xi1">$task[prize]</strong> {lang unit}
 										<!--{elseif $task['reward'] == 'group'}-->
-											{lang step_up}{lang usergroup}{lang level}
+											{lang step_up}{lang sp}{lang usergroup}{lang sp}{lang level}
 										<!--{/if}-->
 									</p>
 								<!--{/if}-->

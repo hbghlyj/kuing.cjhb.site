@@ -8,7 +8,7 @@
 		<!--{if CURMODULE != 'guide'}-->
 			<!--{if !$flowmode}-->
 				<!--{if !empty($_G['forum']['picstyle'])}-->
-					<a{if empty($_G['cookie']['forumdefstyle'])} href="forum.php?mod=forumdisplay&fid=$_G['fid']&forumdefstyle=yes" class="chked kmy"{else} href="forum.php?mod=forumdisplay&fid=$_G['fid']&forumdefstyle=no" class="unchk"{/if} title="{lang view_thread_imagemode}{lang view_thread}">{lang view_thread_imagemode}</a>
+					<a{if empty($_G['cookie']['forumdefstyle'])} href="forum.php?mod=forumdisplay&fid=$_G['fid']&forumdefstyle=yes" class="chked kmy"{else} href="forum.php?mod=forumdisplay&fid=$_G['fid']&forumdefstyle=no" class="unchk"{/if} title="{lang view_thread_imagemode}{lang sp}{lang view_thread}">{lang view_thread_imagemode}</a>
 				<!--{/if}-->
 				<span id="atarget" {if isset($_G['cookie']['atarget']) && $_G['cookie']['atarget'] > 0}onclick="setatarget(-1)" class="y atarget_1"{else}onclick="setatarget(1)" class="y"{/if} title="{lang new_window_thread}">{lang new_window}</span>
 				<a id="filter_kmsj" href="javascript:;" class="showmenu kmy{if $_GET['dateline']} kmon{/if}" onmouseover="showMenu(this.id)">{if !$_GET['dateline']}{lang search_all_date}{elseif $_GET['dateline'] == '86400'}{lang last_1_days}{elseif $_GET['dateline'] == '172800'}{lang last_2_days}{elseif $_GET['dateline'] == '604800'}{lang list_one_week}{elseif $_GET['dateline'] == '2592000'}{lang list_one_month}{elseif $_GET['dateline'] == '7948800'}{lang list_three_month}{else}{lang tmp081}{/if}</a>

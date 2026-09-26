@@ -1,6 +1,6 @@
 <?PHP exit('Access Denied');?>
 <!--{if $leftside['favorites']}-->
-	<h2><a href="home.php?mod=space&do=favorite&type=forum" title="{lang click_here}{lang manage}{lang favorite_forums}">{lang favorite_forums}</a></h2>
+	<h2><a href="home.php?mod=space&do=favorite&type=forum" title="{lang click_here}{lang sp}{lang manage}{lang sp}{lang favorite_forums}">{lang favorite_forums}</a></h2>
 	<dl id="lf_fav" class="bdl_fav mbm">
 		<!--{loop $leftside['favorites'] $favfid $fdata}-->
 			<dd>

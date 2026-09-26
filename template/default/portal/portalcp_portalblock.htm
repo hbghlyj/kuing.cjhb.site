@@ -112,7 +112,7 @@
 				<li{if $op === 'verifydata'} class="a"{/if}><a href="portal.php?mod=portalcp&ac=portalblock&op=verifydata$addurl">{lang block_verifydata}</a></li>
 				<li{if $op === 'verifieddata'} class="a"{/if}><a href="portal.php?mod=portalcp&ac=portalblock&op=verifieddata$addurl">{lang block_verifieddata}</a></li>
 				<!--{if $_GET['searchkey'] && $_block}-->
-					<li class="o"><a href="portal.php?mod=portalcp&ac=portalblock&op=getblocklist">{lang return}{lang block_list}</a></li>
+					<li class="o"><a href="portal.php?mod=portalcp&ac=portalblock&op=getblocklist">{lang return}{lang sp}{lang block_list}</a></li>
 				<!--{/if}-->
 			</ul>
 			<form action="portal.php?mod=portalcp&ac=portalblock&op=$op" method="post">

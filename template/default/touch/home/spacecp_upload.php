@@ -4,7 +4,7 @@
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
 	<h2>
 		<a href="home.php?mod=space&do=album">
-			{lang album}{lang upload_pic}
+			{lang album}{lang sp}{lang upload_pic}
 		</a>
 	</h2>
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>

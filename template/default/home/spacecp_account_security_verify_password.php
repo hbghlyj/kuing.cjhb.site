@@ -3,7 +3,7 @@
 <div class="tm_c">
     <!--{eval $layerhash = 'L'.rand(100000, 999999);}-->
     <h3 class="flb">
-        <em id="return_$handlekey">{lang action_account_security_verify}{lang action_account_security_type_password}</em>
+        <em id="return_$handlekey">{lang action_account_security_verify}{lang sp}{lang action_account_security_type_password}</em>
         <span>
 			<a href="javascript:;" class="flbc" onclick="hideWindow('$handlekey')" title="{lang close}">{lang close}</a>
 		</span>

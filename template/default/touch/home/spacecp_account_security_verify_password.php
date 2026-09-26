@@ -2,7 +2,7 @@
 <!--{template common/header}-->
 <div class="header cl">
     <div class="mz"><a href="home.php?mod=spacecp&ac=account"><i class="dm-x"></i></a></div>
-    <h2>{lang action_account_security_verify}{lang action_account_security_type_password}</h2>
+    <h2>{lang action_account_security_verify}{lang sp}{lang action_account_security_type_password}</h2>
 </div>
 <!--{eval $layerhash = 'L'.rand(100000, 999999);}-->
 <div id="ct" class="bodybox p10 cl" style="padding-top: 20px !important;">
