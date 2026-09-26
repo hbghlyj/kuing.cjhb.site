@@ -62,7 +62,6 @@ body.discuzx5 a {
 }
 
 body.discuzx5 .wp,
-body.discuzx5.dz_wide .wp,
 body.discuzx5 .dz_btm_layer {
     width: min(1180px, calc(100% - 48px));
     min-width: 0;
@@ -1315,7 +1314,6 @@ body.discuzx5 .dz_rnav a:hover {
 
 @media (max-width: 960px) {
     body.discuzx5 .wp,
-    body.discuzx5.dz_wide .wp,
     body.discuzx5 .dz_btm_layer,
     body.discuzx5 .portal_container {
         width: min(100% - 28px, 1180px);
@@ -1360,8 +1358,7 @@ body.discuzx5 .dz_rnav a:hover {
     }
 
     body.discuzx5 .portal_container_wrap,
-    body.discuzx5 .ct2,
-    body.discuzx5.dz_wide .ct2 {
+    body.discuzx5 .ct2 {
         grid-template-columns: 1fr;
     }
 
@@ -1370,9 +1367,7 @@ body.discuzx5 .dz_rnav a:hover {
     }
 
     body.discuzx5 .ct2 .mn,
-    body.discuzx5.dz_wide .ct2 .mn,
-    body.discuzx5 .ct2 .sd,
-    body.discuzx5.dz_wide .ct2 .sd {
+    body.discuzx5 .ct2 .sd {
         float: none;
         width: auto;
     }
