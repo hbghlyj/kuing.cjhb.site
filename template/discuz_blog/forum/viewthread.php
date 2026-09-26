@@ -177,8 +177,10 @@
 		}
 		$sg_thread_cover = dhtmlspecialchars($sg_thread_cover);
 
+		$sg_thread_label = '';
+		$sg_thread_label_is_digest = false;
 		if (!empty($_G['forum_thread']['digest'])) {
-			$sg_thread_label = lang('template', 'blog_digest_label');
+			$sg_thread_label_is_digest = true;
 			$sg_thread_label_url = 'forum.php?mod=forumdisplay&fid='.$_G['fid'].'&filter=digest&digest=1';
 		} elseif (!empty($_G['forum_thread']['typeid']) && !empty($_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']])) {
 			$sg_thread_label = strip_tags($_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]);
@@ -223,7 +225,7 @@
 					<!--{if $sg_thread_cover}--><img class="sg-thread-hero__media" src="$sg_thread_cover" alt="$_G[forum_thread][subject]" /><!--{/if}-->
 					<span class="sg-thread-hero__shade" aria-hidden="true"></span>
 					<div class="sg-thread-hero__content">
-						<a class="sg-thread-hero__tag" href="$sg_thread_label_url">$sg_thread_label</a>
+						<a class="sg-thread-hero__tag" href="$sg_thread_label_url">{if $sg_thread_label_is_digest}{lang blog_digest_label}{else}$sg_thread_label{/if}</a>
 				<!--{/if}-->
 				<!--{if !$_G['style']['blog_mod']}-->
 				<!--{if !IS_ROBOT}-->
