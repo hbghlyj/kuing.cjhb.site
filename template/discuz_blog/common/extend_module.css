@@ -35,6 +35,10 @@
 .fl_by {width:300px}
 .bm_h h3 strong {font-weight:400}
 #category_lk {padding:15px 20px 10px !important}
+#category_lk .lk_cat {padding:0 0 8px}
+#category_lk .lk_cat + .lk_cat {border-top:1px solid var(--dz-borderb);padding-top:8px}
+#category_lk summary {cursor:pointer;user-select:none;font-weight:bold}
+#category_lk .lk_cat_count {margin-left:6px;font-weight:normal;color:var(--dz-fa)}
 .slideouter {border-color:var(--dz-borderb) !important}
 .lk_logo .lk_content h5, .lk_logo .lk_content p {line-height:14px}
 .lk_logo .lk_content h5 {margin-bottom:3px}

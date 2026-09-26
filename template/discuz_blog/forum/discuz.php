@@ -561,22 +561,19 @@
 			</div>
 		<!--{/if}-->
 
-		<!--{if empty($gid) && ($_G['cache']['forumlinks'][0] || $_G['cache']['forumlinks'][1] || $_G['cache']['forumlinks'][2])}-->
+		<!--{if empty($gid) && !empty($_G['cache']['forumlinks'])}-->
 		<div class="bm lk">
 			<div id="category_lk" class="bm_c ptm">
-				<!--{if $_G['cache']['forumlinks'][0]}-->
-					<ul class="m mbn cl">$_G['cache']['forumlinks'][0]</ul>
+				<!--{loop $_G['cache']['forumlinks'] $catid $cat}-->
+				<!--{if is_array($cat)}-->
+				<details class="lk_cat"<!--{if $catid == 1}--> open<!--{/if}-->>
+					<summary class="lk_cat_hd"><span class="lk_cat_name"><!--{eval echo lang('forum/template', 'friendlink_group'.$catid);}--></span><span class="lk_cat_count">($cat[count])</span></summary>
+					<!--{if is_string($cat[content]) && $cat[content]}--><ul class="m mbn cl">$cat[content]</ul><!--{/if}-->
+					<!--{if is_string($cat[logo]) && $cat[logo]}--><div class="mbn cl">$cat[logo]</div><!--{/if}-->
+					<!--{if is_string($cat[text]) && $cat[text]}--><ul class="x mbm cl">$cat[text]</ul><!--{/if}-->
+				</details>
 				<!--{/if}-->
-				<!--{if $_G['cache']['forumlinks'][1]}-->
-					<div class="mbn cl">
-						$_G['cache']['forumlinks'][1]
-					</div>
-				<!--{/if}-->
-				<!--{if $_G['cache']['forumlinks'][2]}-->
-					<ul class="x mbm cl">
-						$_G['cache']['forumlinks'][2]
-					</ul>
-				<!--{/if}-->
+				<!--{/loop}-->
 			</div>
 		</div>
 		<!--{/if}-->
