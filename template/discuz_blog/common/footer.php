@@ -62,8 +62,39 @@
 	<!--{/if}-->
 	<div class="dz_footc cl">
 		<div id="ft" class="wp dz_footc_bottom cl">
-			<div class="dz_footc_dico">
+			<div id="flk">
+				<div class="footer-row-1">
+					<div class="dz_footc_nav">
+						<!--{eval $footerlinkindex = 0;}-->
+						<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
+							!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
+						<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
+						<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
+						<select class="footer-style-select" aria-label="{lang style}" onchange="setcookie('styleid', this.value, 31536000);location.reload();">
+							<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>default style</option><!--{/if}-->
+							<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
+							<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
+						</select>
+						<!--{if !empty($_G['setting']['i18n'])}-->
+							<!--{eval $footerLang = currentlang();}-->
+							<span class="pipe">|</span><span class="lang-selector-wrap">
+								<select class="lang-selector-trigger" aria-label="Language" onchange="location.href='misc.php?mod=i18n&key=' + encodeURIComponent(this.value);">
+									<!--{if !empty($_G['setting']['i18n']['EN'])}--><option value="EN"{if $footerLang == 'EN'} selected{/if}>English</option><!--{/if}-->
+									<!--{if !empty($_G['setting']['i18n']['SC'])}--><option value="SC"{if $footerLang == 'SC'} selected{/if}>简体中文</option><!--{/if}-->
+									<!--{if !empty($_G['setting']['i18n']['TC'])}--><option value="TC"{if $footerLang == 'TC'} selected{/if}>繁體中文</option><!--{/if}-->
+								</select>
+							</span>
+						<!--{/if}-->
+						<!--{if $_G['setting']['siteurl']}--><span class="pipe">|</span><a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a><!--{/if}-->
+						<!--{hook/global_footerlink}-->
+						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+					</div>
+				</div>
+				<p class="xs0"><time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time></p>
+			</div>
+			<div id="frt">
 				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
+				<div class="dz_footc_dico">
 					<div class="ewmimg">
 						<!--{if $_G['style']['bottom_qrcode']}-->
 							<img src="{$_G['style']['bottom_qrcode']}">
@@ -76,38 +107,15 @@
 							{lang fllowwechat}
 						<!--{/if}-->
 					</div>
+				</div>
 				<!--{/if}-->
-
-			</div>
-			<div class="dz_footc_nav">
-				<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
-				<select class="footer-style-select" aria-label="{lang style}" onchange="setcookie('styleid', this.value, 31536000);location.reload();">
-					<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>default style</option><!--{/if}-->
-					<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
-					<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
-				</select><span class="pipe">|</span>
-				<!--{if !empty($_G['setting']['i18n'])}-->
-					<!--{eval $footerLang = currentlang();}-->
-					<div class="lang-selector-wrap">
-						<select class="lang-selector-trigger" aria-label="Language" onchange="location.href='misc.php?mod=i18n&key=' + encodeURIComponent(this.value);">
-							<!--{if !empty($_G['setting']['i18n']['EN'])}--><option value="EN"{if $footerLang == 'EN'} selected{/if}>English</option><!--{/if}-->
-							<!--{if !empty($_G['setting']['i18n']['SC'])}--><option value="SC"{if $footerLang == 'SC'} selected{/if}>简体中文</option><!--{/if}-->
-							<!--{if !empty($_G['setting']['i18n']['TC'])}--><option value="TC"{if $footerLang == 'TC'} selected{/if}>繁體中文</option><!--{/if}-->
-						</select>
-					</div><span class="pipe">|</span>
-				<!--{/if}-->
-				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
-						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav['code']<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
-						<a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a>
-						<!--{hook/global_footerlink}-->
-						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
-			</div>
-			<div class="dz_footc_copy">
-				<p class="xs0"><time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time></p>
+				<div class="dz_footc_copy">
 				<!--{if $_G['style']['bottom_txt']}-->
 				<p>{$_G['style']['bottom_txt']}</p>
 				<!--{/if}-->
 				<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
+				<p class="xs0"><span id="debuginfo"><!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries<!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}--><!--{/if}--></span></p>
+				</div>
 			</div>
 		</div>
 	</div>

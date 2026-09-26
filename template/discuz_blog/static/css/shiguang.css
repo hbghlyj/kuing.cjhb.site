@@ -1365,11 +1365,6 @@ body.discuzx5 .dz_footc {
     box-shadow: none;
 }
 
-body.discuzx5 .dz_footc_nav {
-    padding: 24px 0 18px;
-    border-color: var(--sg-line) !important;
-}
-
 body.discuzx5 .dz_footc_nav .lang-selector-wrap {
     display: inline-block;
     vertical-align: middle;
