@@ -431,11 +431,6 @@ $_G['forum_tagscript']
 <!--{/if}-->
 </div>
 	</main>
-	<aside class="sg-viewthread-sidebar">
-		<div class="sg-viewthread-recommend">
-			<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
-		</div>
-	</aside>
 </div>
 <!--{if $_G['relatedlinks'] || !empty($_GET['highlight'])}-->
 	<script type="text/javascript">
