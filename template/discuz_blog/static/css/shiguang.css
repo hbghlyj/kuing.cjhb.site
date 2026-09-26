@@ -123,8 +123,7 @@ body.discuzx5 .dz_layer_nav {
 
 body.discuzx5 .dz_layer_nav ul {
     display: flex;
-    justify-content: center;
-    gap: clamp(20px, 1.4vw, 40px);
+    justify-content: space-evenly;
     height: 86px;
 }
 
@@ -1302,8 +1301,7 @@ body.discuzx5 .dz_rnav a:hover {
     }
 
     body.discuzx5 .dz_layer_nav ul {
-        justify-content: flex-start;
-        gap: 16px;
+        justify-content: space-evenly;
     }
 
     body.discuzx5 .header-searcher .ais-SearchBox-input {
@@ -1342,8 +1340,7 @@ body.discuzx5 .dz_rnav a:hover {
     }
 
     body.discuzx5 .dz_layer_nav ul {
-        justify-content: flex-start;
-        gap: 14px;
+        justify-content: space-evenly;
         width: auto;
         height: 86px;
     }
