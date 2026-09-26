@@ -121,11 +121,8 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{/if}-->
 				</div>
 			<!--{/if}-->
-			<!--{if (!empty($_G['group']['allowedituser']) || !empty($_G['group']['allowbanuser']) || ($_G['forum']['ismoderator'] && $_G['group']['allowviewip'])) && !getstatus($post['status'], 5)}-->
+			<!--{if (!empty($_G['group']['allowedituser']) || !empty($_G['group']['allowbanuser'])) && !getstatus($post['status'], 5)}-->
 				<p class="cp_pls cl">
-					<!--{if $_G['forum']['ismoderator'] && $_G['group']['allowviewip']}-->
-						<a href="forum.php?mod=topicadmin&action=getip&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if $_G['forum_auditstatuson']}&modthreadkey=$_GET[modthreadkey]{/if}" onclick="ajaxmenu(this, 0, 0, 2);doane(event)">IP</a>
-					<!--{/if}-->
 					<!--{if $_G['group']['allowedituser']}-->
 						<a href="{if $_G['adminid'] == 1}?app=admin&frames=yes&action=members&operation=search&uid=$post[authorid]&submit=yes{else}forum.php?mod=modcp&action=member&op=edit&uid=$post[authorid]{/if}" target="_blank">{lang edit}</a>
 					<!--{/if}-->
