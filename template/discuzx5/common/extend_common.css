@@ -793,9 +793,9 @@ div[id*='fwin_a_friend_li'] .m_c .c {min-width:300px;padding-bottom:15px;font-si
 #floatlayout_newthread #subject {font-size:16px}
 #floatlayout_newthread #subject.km_type {width:calc(100% - 150px)}
 .m_c .o span.z label {margin-left:-10px}
-.flbc{background: none;line-height: 17px;}
+.flbc,.flbc:hover{background:none;line-height:17px;}
 .flbc:before {font-size:28px;color:var(--dz-color)}
-.flbc:hover:before {color:var(--dz-fd)}
+.flbc:hover:before {color:var(--dz-ahover)}
 .p_opt .notice {margin-bottom:0;padding:7px 0 0;line-height:22px}
 .nfl .f_c {margin:15px auto;border:none;padding:20px 20px 30px;width:calc(100% - 40px);background:var(--dz-bgf);box-shadow:var(--dz-shadow);border-radius:var(--dz-radius-m)}
 .flb {padding:15px 15px 10px}

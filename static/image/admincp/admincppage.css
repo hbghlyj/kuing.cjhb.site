@@ -745,9 +745,9 @@ textarea {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 		.flb em a { text-decoration: none; }
 	.flb span { float: right; color: #999; }
 		.flb span a, .flb strong { float: left; text-decoration: none; margin-left: 8px; font-weight: 400; color: var(--admincp-fa); }
-			.flb span a:hover { color: #999; }
+			.flb span a:hover { color: var(--admincp-ahover); }
 		.flbc { float: left; width: 20px; height: 20px; overflow: hidden; background: #AAA; cursor: pointer; font-size: 16px; text-align: center; line-height: 20px; border-radius: var(--admincp-radius-s); transition: background .2s; }
-			.flbc:hover { background: #15afdb; text-decoration: none; }
+			.flbc:hover { background: #666; text-decoration: none; }
 			.flbc:before { content: "\d7"; color:  var(--admincp-ff); font-weight: 700; }
 
 .fwin .cl li { margin:5px; float: left; }
