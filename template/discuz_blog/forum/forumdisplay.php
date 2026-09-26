@@ -37,7 +37,6 @@
 			<div class="bm bml pbn sg-forum-page-heading">
 				<!--{if $_G[forum][banner] && !$subforumonly}--><img class="forum-banner" src="$_G[forum][banner]" alt="$_G['forum'][name]" /><!--{/if}-->
 				<div class="bm_h cl sg-forum-page-heading__content">
-					<span class="sg-forum-page-heading__tag">{lang blog_forum_category}</span>
 					<!--{if !$_G['style']['blog_mod']}-->
 					<span class="y">
 						<!--{if helper_access::check_module('favorite')}--><a href="home.php?mod=spacecp&ac=favorite&type=forum&id=$_G[fid]&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="fa_fav" onclick="showWindow(this.id, this.href, 'get', 0);">{lang forum_favorite} <strong class="xi1" id="number_favorite" {if !$_G[forum][favtimes]} style="display:none;"{/if}>(<span id="number_favorite_num">$_G[forum][favtimes]</span>)</strong></a><!--{/if}-->

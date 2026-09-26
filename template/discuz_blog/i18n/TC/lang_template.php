@@ -10,7 +10,6 @@ $lang = [
 	'blog_customer_service' => '客服',
 	'blog_digest_label' => '精選',
 	'blog_diy_settings' => 'DIY設置',
-	'blog_forum_category' => '分類',
 	'blog_forum_rules' => '查看版规',
 	'blog_list_end' => '已經到底了',
 	'blog_load_more' => '點擊加載更多',

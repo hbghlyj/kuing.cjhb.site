@@ -738,21 +738,6 @@ body.discuzx5 .boardnav .sg-forum-page-heading > .bm_h.sg-forum-page-heading__co
     margin: 0;
 }
 
-body.discuzx5 .sg-forum-page-heading__tag {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    box-sizing: border-box;
-    height: 28px;
-    padding: 0 12px;
-    border-radius: 5px;
-    background: var(--sg-red);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
-}
-
 body.discuzx5 .boardnav .sg-forum-page-heading h1 {
     margin: 18px 0 12px;
     font-weight: 500;

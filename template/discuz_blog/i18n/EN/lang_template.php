@@ -10,7 +10,6 @@ $lang = [
 	'blog_customer_service' => 'Support',
 	'blog_digest_label' => 'Featured',
 	'blog_diy_settings' => 'DIY settings',
-	'blog_forum_category' => 'Category',
 	'blog_forum_rules' => 'View forum rules',
 	'blog_list_end' => 'You have reached the end',
 	'blog_load_more' => 'Load more',
