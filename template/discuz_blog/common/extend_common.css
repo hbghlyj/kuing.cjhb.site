@@ -2,7 +2,7 @@
     --dz-bodybg:{BGCOLOR};
     --dz-color:{MENUBGCOLOR};
     --dz-alink:{LINK};
-    --dz-ahover: var(--dz-color);
+    --dz-ahover:{MENUHOVERBGCOLOR};
     --dz-ahot:{NOTICETEXT};
     --dz-fa:{TABLETEXT};
     --dz-fb:{MIDTEXT};
