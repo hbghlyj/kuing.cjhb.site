@@ -111,7 +111,7 @@
 						<ul class="cl" id="qmenu_loopul">
 							<!--{loop $_G['setting']['mynavs'] $nav}-->
 								<!--{if $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}-->
-									<li>{echo str_replace($nav['navname'], '<span>'. $nav['navname'].'</span>', $nav['code']);}</li>
+									<li>{echo str_replace('>'.$nav['navname'].'</a>', '><span>'.$nav['navname'].'</span></a>', $nav['code']);}</li>
 								<!--{/if}-->
 							<!--{/loop}-->
 						</ul>
