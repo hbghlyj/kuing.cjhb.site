@@ -138,9 +138,9 @@
 	<!--{else}-->
 	<!--{hook/global_usernav_extra1}-->
 	<div class="header-user-login">
-		<div class="login_btn"><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a></div>
+		<div class="login_btn"><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}<svg class="header-login-icon login-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5l7 7-7 7M18 12H3M16 5V3H21V21H16V19"/></svg></a></div>
 		<!--{if $_G['setting']['regstatus']}-->
-		<div class="register_btn"><a href="member.php?mod={$_G['setting']['regname']}">{lang m_login_reg}</a></div>
+		<div class="register_btn"><a href="member.php?mod={$_G['setting']['regname']}">{lang m_login_reg}<svg class="header-login-icon signup-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g mask="url(#plus-cutout)"><path d="M4.5 21C5 19.3 7 14.5 10.5 14.5S16 19.3 16.5 21"></path></g><mask id="plus-cutout"><rect width="24" height="24" fill="white" x="0" y="0"></rect><circle cx="18.5" cy="19" r="6.5" fill="black"></circle></mask><path d="M18.5 15v8M14.5 19h8" class="plus-path" style="stroke: currentColor; stroke-width: 1.75px; stroke-linecap: round; stroke-linejoin: round; fill: none;"></path><circle cx="10.5" cy="8" r="3.5"></circle></svg></a></div>
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
