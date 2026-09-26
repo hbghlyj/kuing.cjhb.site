@@ -433,6 +433,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 
 /** forum::forumdisplay **/
+.forum-banner {display:block;max-width:100%}
 /*
 	Name:			mod_board_navigation
 	Level:			Function
