@@ -92,7 +92,6 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .appl hr.da {margin:0 15px}
 .tbn {margin:-6px 0 0}
 .tbn .mt {padding:0 0 15px 0;margin:10px 20px 8px;font-weight:400;border-bottom:1px solid var(--dz-borderb)}
-.dz_wide .tbn .mt {padding:0 0 18px 0;margin:14px 20px 8px}
 .tbn li {height:40px;margin:0;border-bottom:none;padding:0}
 .tbn ul a {height:40px;line-height:40px;padding:0 20px}
 .tbn li.a {padding:0;border:none;background:none;margin:0}
@@ -115,16 +114,8 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 #fastpostsmiliesdiv #fastpostsmiliesdiv_tb li:last-child, #e_sml_menu #smiliesdiv_tb li:last-child, #replysmiliesdiv_tb li:last-child, #sightmlsmiliesdiv_tb li:last-child, .tb_s li:last-child {margin-right:0}
 .tb_s a {padding:0 12px}
 .ct2 .sd .mls, .ct3_a .sd .mls {margin-left:-10px;margin-right:-10px}
-.ct2 .sd .mls li, .ct3_a .sd .mls li, .dz_wide .ct3_a .sd .mls li {width:calc(33.33% - 6px);padding:5px 3px;margin:0}
+.ct2 .sd .mls li, .ct3_a .sd .mls li{width:calc(33.33% - 6px);padding:5px 3px;margin:0}
 .fwinmask .tb a, .sllt .tb a {font-size:12px}
-.dz_wide .wp {width:1200px}
-.dz_wide .ct2 .sd {width:300px}
-.dz_wide .ct3_a .sd {width:250px}
-.dz_wide .ct2 .mn {width:860px}
-.dz_wide .ct3_a .mn {width:720px}
-.dz_wide .ct2_a .mn, #nv_userapp.dz_wide .ct2_a .mn, .dz_wide .ct2_a_r .mn {width:915px}
-.dz_wide .appl {width:200px}
-.dz_wide .pbm .ptw .ml li {padding:0 4px 5px}
 .dz_flex {display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}
 .flex {-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}
 #ct {min-height:260px}
@@ -203,8 +194,6 @@ p.pns label {margin-right:10px}
 #g_upmine_menu li.hm span img {margin:0 2px}
 .tdat {border:1px solid var(--dz-borderb);margin-top:15px !important}
 .tdat th, .tdat td {border:1px solid var(--dz-borderb);padding:10px}
-.dz_wide .tdats .tfx, .dz_wide .tdats .tb, .dz_wide .tscr, .dz_wide .tscr .tdat th, .dz_wide .tscr .tdat td {width:352px}
-.dz_wide .tdats .tfxf {width:705px}
 .tfm td p img {margin-right:5px}
 .tfm td p img[src*="mail_"] {display:none}
 .tbms {background:var(--dz-bgd) url({STYLEIMGDIR}/svg/ico_tips.svg) no-repeat 12px 50%;background-size:22px;padding:12px 12px 12px 40px;font-size:13px;margin:15px 0 5px !important;border-color:var(--dz-borderd);border-radius:var(--dz-radius-s)}
@@ -302,19 +291,6 @@ input[name="searchkey"] {width: 120px;}
 .dz_tbnvb .tb .y {margin-right:0}
 .dz_tbnvb .tb .y:after {display:none}
 .dz_tbnvb .tb .showmenu:after {content:"";position:static;bottom:auto;display:inline-block;margin:0 0 0 4px;width:auto;height:auto;background:none;border-radius:0}
-
-.dz_wide.dz_tbnva .tb .o, .dz_wide.dz_tbnva .tb .y select {float:right;padding-right:0;margin:0 0 0 10px}
-
-.dz_wide .tb {height:40px;line-height:20px;padding-left:0;    margin-top: 20px;}
-.dz_wide .tb li {margin-right:10px;height:40px;margin-bottom:0}
-.dz_wide .tb a {background:none;border:none;padding:0 5px;font-size:15px;}
-.dz_wide .tb .a:after, .dz_wide .tb .current:after {content:"";position:relative;bottom:-8px;display:flex;margin:0 auto;width:20px;height:3px; background:var(--dz-nvbg);border-radius:var(--dz-radius-s)}
-.dz_wide .tb .a a, .dz_wide .tb .current a{color:var(--dz-nvbg);}
-.dz_wide .tb .o {margin-right:0;margin-left:10px}
-.dz_wide .tb .o a {padding:0 10px;background:var(--dz-btnbg);}
-.dz_wide .tb .kmfa_rss {margin-top:0;padding-left:20px !important;background-position:0 3px !important}
-.dz_wide .tb .y {margin-right:0}
-.dz_wide .tb .showmenu:after {content:"";position:static;bottom:auto;display:inline-block;margin:0 auto;width:auto;height:auto;background:none;border-radius:0}
 
 .fl .bm_h {background:none;border:none}
 .bbs {border-bottom:1px solid var(--dz-borderb) !important}
