@@ -1202,20 +1202,13 @@ body.discuzx5 .sg-thread-hero__author {
     color: inherit !important;
 }
 
-body.discuzx5 .sg-thread-hero__author-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-}
-
-body.discuzx5 .sg-thread-hero__author-filter {
-    margin-left: 48px;
+body.discuzx5 #postlist .sg-author-filter {
+    margin: 8px 0;
     font-size: 12px;
     line-height: 1.4;
 }
 
-body.discuzx5 .sg-thread-hero__author-filter:hover {
+body.discuzx5 #postlist .sg-author-filter a:hover {
     text-decoration: underline;
 }
 

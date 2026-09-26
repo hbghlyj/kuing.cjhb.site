@@ -84,6 +84,11 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{hook/viewthread_sidetop $postcount}-->
 				<!--{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])}-->
 					{eval viewthread_profile_node('left', $post);}
+					<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
+						<p class="sg-author-filter"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
+					<!--{elseif !$_G['forum_thread']['archiveid']}-->
+						<p class="sg-author-filter"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}" rel="nofollow">{lang thread_show_all}</a></p>
+					<!--{/if}-->
 					<!--{if $post[authorid] != $_G[uid]}-->
 						<ul class="xl xl2 o cl">
 							<!--{if helper_access::check_module('follower')}-->
@@ -213,14 +218,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $_G['setting']['showiplocation']}--><span class="pipe">|</span><em>$post['iplocation']</em><!--{/if}-->
 					<!--{if $post['status'] & 8}-->
 						<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
-					<!--{/if}-->
-					<!--{if $post['invisible'] == 0}-->
-						<span class="pipe">|</span>
-						<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
-							<a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a>
-						<!--{elseif !$_G['forum_thread']['archiveid']}-->
-							<a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page" rel="nofollow">{lang thread_show_all}</a>
-						<!--{/if}-->
 					<!--{/if}-->
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;" class="xi2">$post[author]</a><!--{/if}-->
