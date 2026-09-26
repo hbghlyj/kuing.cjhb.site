@@ -28,7 +28,7 @@
 .edt a.cst {font-size:11px;line-height:1;background-image:none;text-align:center;text-indent:0}
 .edt a.cst img {vertical-align:middle}
 .simpleedt .bar, .simpleedt .b1r, .simpleedt .b2r {height:30px}
-.bar_swch {display:block;clear:both}
+.bar_swch {display:inline-block;clear:none;vertical-align:top}
 #e_bold {background:url({STYLEIMGDIR}/svg/dz_e_bold.svg) no-repeat center 4px;background-size:16px}
 #e_fontsize {width:65px}
 #e_italic {background:url({STYLEIMGDIR}/svg/dz_e_italic.svg) no-repeat center 4px;background-size:16px}
@@ -95,8 +95,6 @@
 .b2r #e_attachn {left:73px}
 .b2r #e_vidn, .b2r #e_audn { top: -4px; left: 137px; }
 .b2r #e_audn { left: 174px; }
-#e_switcher {margin-left:6px}
-#e_switcher input{margin-right:6px;vertical-align:middle}
 #e_switcher.sw_toggle {margin-left:6px;border-radius:6px}
 #e_switcher .sw_track {background:var(--dz-borderc)}
 #e_switcher.sw_toggle a {float:none;display:inline-block;padding:0 3px;font-size:14px;line-height:20px;text-decoration:none;border:none;color:var(--dz-fc);cursor:pointer}
