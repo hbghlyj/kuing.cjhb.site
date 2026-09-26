@@ -48,7 +48,7 @@ $lang =
 
 	'qrcode_login' => 'QR Code Login',
 	'pwd_login' => 'Account Login',
-	'qrcode_wechat_scan' => 'Please use WeChat to scan the QR code to login',
+	'qrcode_wechat_scan' => 'Please use WeChat to scan the QR code to log in',
 
 	'login_password_invalid' => 'Sorry, the password you entered is incorrect.',
 	];

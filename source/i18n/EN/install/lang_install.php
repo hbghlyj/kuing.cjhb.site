@@ -81,7 +81,7 @@ $lang = [
 	'tips_dbinfo_comment' => '',
 	'tips_admininfo' => 'Fill in Administrator Information',
 	'step_ext_info_title' => 'Installation successful.',
-	'step_ext_info_comment' => 'Click to enter login',
+	'step_ext_info_comment' => 'Click to log in',
 
 	'ext_info_succ' => 'Installation successful.',
 	'install_submit' => 'Submit',
@@ -443,7 +443,7 @@ $lang = [
 	'tool_resetpw_password' => 'New Account Password',
 	'tool_resetpw_password2' => 'Please Re-enter',
 	'tool_resetpw_password_error' => 'The two passwords do not match',
-	'tool_resetpw_success' => 'Password has been reset. Please use the new password to login',
+	'tool_resetpw_success' => 'Password has been reset. Please use the new password to log in',
 
 	'tool_dircheck_unwritable' => 'Directory is not writable, please check directory permissions',
 	'tool_dircheck_checkfile_notexists' => 'Verification file does not exist, cannot perform file verification',
