@@ -165,7 +165,7 @@
 				<!--{subtemplate forum/forumdisplay_waterfall}-->
 			<!--{/if}-->
 		<!--{else}-->
-			<p class="emp">{lang tmp063}{lang tmp088}{lang tmp089}</p>
+			<p class="emp">{lang blog_no}{lang blog_related}{lang blog_content}</p>
 		<!--{/if}-->
 	</div>
 </div>

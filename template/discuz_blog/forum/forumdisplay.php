@@ -37,7 +37,7 @@
 			<div class="bm bml pbn sg-forum-page-heading">
 				<!--{if $_G[forum][banner] && !$subforumonly}--><img class="forum-banner" src="$_G[forum][banner]" alt="$_G['forum'][name]" /><!--{/if}-->
 				<div class="bm_h cl sg-forum-page-heading__content">
-					<span class="sg-forum-page-heading__tag">{lang tmp012}</span>
+					<span class="sg-forum-page-heading__tag">{lang blog_forum_category}</span>
 					<!--{if !$_G['style']['blog_mod']}-->
 					<span class="y">
 						<!--{if helper_access::check_module('favorite')}--><a href="home.php?mod=spacecp&ac=favorite&type=forum&id=$_G[fid]&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="fa_fav" onclick="showWindow(this.id, this.href, 'get', 0);">{lang forum_favorite} <strong class="xi1" id="number_favorite" {if !$_G[forum][favtimes]} style="display:none;"{/if}>(<span id="number_favorite_num">$_G[forum][favtimes]</span>)</strong></a><!--{/if}-->
@@ -76,7 +76,7 @@
 					<p class="sg-forum-page-heading__intro">$_G['forum']['description']</p>
 					<!--{/if}-->
 					<!--{if $_G['page'] == 1 && $_G['forum']['rules']}-->
-					<a class="sg-forum-page-heading__rules-link" href="javascript:;" onclick="toggle_collapse('forum_rules_{$_G[fid]}')"><em id="forum_rules_{$_G[fid]}_img" class="{if $_G['style']['blog_mod']}tg_collapsed{else}tg_{$collapse[forum_rulesimg]}{/if}"></em>{lang tmp135}</a>
+					<a class="sg-forum-page-heading__rules-link" href="javascript:;" onclick="toggle_collapse('forum_rules_{$_G[fid]}')"><em id="forum_rules_{$_G[fid]}_img" class="{if $_G['style']['blog_mod']}tg_collapsed{else}tg_{$collapse[forum_rulesimg]}{/if}"></em>{lang blog_forum_rules}</a>
 					<!--{/if}-->
 				</div>
 				<!--{if (!empty($_G[forum][domain]) && !empty($_G['setting']['domain']['root']['forum'])) || $moderatedby || ($_G['page'] == 1 && $_G['forum']['rules'])}-->

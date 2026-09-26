@@ -120,8 +120,8 @@
 		</div>
 	</a>
 	<!--{/if}-->
-	<!--{if $_G['setting']['site_qq']}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" class="dz_rqq" rel="nofollow" target="_blank"><span class="dz_tip_text">QQ{lang tmp097}</span></a><!--{/if}-->
-	<a href="javascript:;" onclick="jQuery('body,html').animate({scrollTop:0}, 600);" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang tmp096}</span></a>
+	<!--{if $_G['setting']['site_qq']}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" class="dz_rqq" rel="nofollow" target="_blank"><span class="dz_tip_text">QQ{lang blog_customer_service}</span></a><!--{/if}-->
+	<a href="javascript:;" onclick="jQuery('body,html').animate({scrollTop:0}, 600);" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang scrolltop}</span></a>
 </div>
 
 <div id="scrolltop" style="display: none;">
