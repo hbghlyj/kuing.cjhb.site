@@ -42,7 +42,7 @@
 				<!--{echo implode('<span class="pipe">|</span>',array_column(array_filter(is_array($_G['setting']['footernavs']) ? $_G['setting']['footernavs'] : array(),fn($nav)=>is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) || !$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))),'code'))}-->
 				<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
 				<span class="pipe">|</span><select class="footer-style-select" aria-label="{lang style}" onchange="setcookie('styleid', this.value, 31536000);location.reload();">
-					<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>default style</option><!--{/if}-->
+					<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>X3.5</option><!--{/if}-->
 					<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
 					<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
 				</select>
