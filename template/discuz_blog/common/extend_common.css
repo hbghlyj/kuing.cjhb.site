@@ -1088,3 +1088,13 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .fwin [id^="fwin_content"] .rfm .px,
 .fwin [id^="fwin_content"] .rfm .px.p_fre,
 .fwin [id^="fwin_content"] .rfm .password-toggle-field {max-width:100%}
+
+/* Cap the float dialogs themselves. Without this the panel sizes to its
+   content and only happens to land near 440px; min() makes it shrink predictably
+   on narrow viewports instead of being clipped by the viewport. Same declaration
+   and selector group as discuzx5/common/extend_common.css:1240-1242, so
+   lost-password and any future dialog carrying a .rfm are covered by the :has()
+   branch too. */
+.fwin:has([id^="fwin_content"] .rfm),
+#fwin_login .fwin,
+#fwin_register .fwin {width:min(calc(100vw - 32px),440px)}
