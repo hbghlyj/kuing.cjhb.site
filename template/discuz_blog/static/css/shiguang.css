@@ -1425,7 +1425,6 @@ body.discuzx5 .dz_footc_nav .lang-selector-trigger {
     min-width: 0;
     min-height: 30px;
     height: 30px;
-    margin-right: 10px;
     border: 1px solid var(--sg-line);
     border-radius: 6px;
     background-color: var(--sg-paper-soft);
