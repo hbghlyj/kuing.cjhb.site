@@ -84,10 +84,12 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{hook/viewthread_sidetop $postcount}-->
 				<!--{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])}-->
 					{eval viewthread_profile_node('left', $post);}
+					<!--{if !($post['first'] && $_G['style']['blog_mod'])}-->
 					<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
 						<p class="sg-author-filter"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
 					<!--{elseif !$_G['forum_thread']['archiveid']}-->
 						<p class="sg-author-filter"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}" rel="nofollow">{lang thread_show_all}</a></p>
+					<!--{/if}-->
 					<!--{/if}-->
 					<!--{if $post[authorid] != $_G[uid]}-->
 						<ul class="xl xl2 o cl">
@@ -227,6 +229,14 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<em id="authorposton$post[pid]">{lang poston} $post[dateline]</em>
 				<!--{/if}-->
 				</span>
+				<!--{if $post['first'] && $_G['style']['blog_mod']}-->
+					<span class="pipe">|</span><em>$_G[forum_thread][views] {lang tmp007}</em>
+					<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
+						<span class="pipe">|</span><a class="sg-author-filter" href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a>
+					<!--{elseif !$_G['forum_thread']['archiveid']}-->
+						<span class="pipe">|</span><a class="sg-author-filter" href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}" rel="nofollow">{lang thread_show_all}</a>
+					<!--{/if}-->
+				<!--{/if}-->
 				<!--{if !IS_ROBOT && !$_G['forum_thread']['archiveid'] && $post['first'] }-->
 					<!--{if $_G['forum_thread']['attachment'] == 2 && $_G['group']['allowgetimage'] && (!$_G['setting']['guestviewthumb']['flag'] || $_G['setting']['guestviewthumb']['flag'] && $_G['uid'])}-->
 						<span class="pipe">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&from=album">{lang view_bigpic}</a>

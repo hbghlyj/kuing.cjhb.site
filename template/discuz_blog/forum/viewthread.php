@@ -193,7 +193,6 @@
 			$sg_thread_label_url = 'forum.php?mod=forumdisplay&fid='.$_G['fid'];
 		}
 		$sg_thread_label = dhtmlspecialchars($sg_thread_label);
-		$sg_thread_dateline = !empty($sg_first_post['dateline']) ? $sg_first_post['dateline'] : dgmdate($_G['forum_thread']['dateline'], 'u');
 	<!--{/eval}-->
 	<!--{/if}-->
 	<table class="posthead{if $_G['style']['blog_mod']} sg-thread-hero{if $sg_thread_cover} has-cover{/if}{/if}" cellspacing="0" cellpadding="0">
@@ -283,26 +282,11 @@
 					<!--{if $_G['forum_thread']['closed'] == 1}-->
 						&nbsp;<i class="fico-lock fc-s" title="{lang close}"></i>
 					<!--{/if}-->
-					{cells viewthread/title_extra}
+				{cells viewthread/title_extra}
 				</span>
 				<!--{hook/viewthread_title_extra}-->
-				<!--{if $_G['style']['blog_mod']}-->
-						<div class="sg-thread-hero__meta">
-							<!--{if $_G['forum_thread']['authorid'] && $_G['forum_thread']['author']}-->
-								<a class="sg-thread-hero__author" href="home.php?mod=space&uid=$_G[forum_thread][authorid]" title="$_G[forum_thread][author]">
-									<img class="_avt sg-thread-hero__avatar" data-uid="$_G[forum_thread][authorid]" data-size="small" alt="$_G[forum_thread][author]" />
-									<span>$_G[forum_thread][author]</span>
-								</a>
-							<!--{else}-->
-								<span class="sg-thread-hero__author"><span class="sg-thread-hero__avatar sg-thread-hero__avatar--anonymous">匿</span><span>$_G[setting][anonymoustext]</span></span>
-							<!--{/if}-->
-							<span>$sg_thread_dateline</span>
-							<span>$_G[forum_thread][views] {lang tmp007}</span>
-						</div>
-					</div>
-				<!--{/if}-->
-			</td>
-		</tr>
+			</div>
+		</td>
 	</table>
 	<!--{if $_G['forum_thread']['replycredit'] > 0}-->
 	<div id="pl_top">
