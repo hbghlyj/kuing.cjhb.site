@@ -558,7 +558,7 @@ img{border:none;}
 .header-user-info::after{display:none;margin-left:4px;width:12px;height:12px;content:'';}
 .header-user-name{margin-left:8px;font-size:14px;}
 .header-user-avatar{transition-duration:.4s;}
-.header-user-avatar img{width:32px;height:32px;border-radius:50%;}
+.header-user-avatar img,.header-user-avatar .Avatar{width:32px;height:32px;border-radius:50%;}
 .header-user-dropdown{position:absolute;top:55px;right:0;display:none;}
 .header-user .user-card{display:flex;flex-direction:column;align-items:center;width:210px;background:var(--dz-bgf);border-radius:4px;padding: 0 12px;max-width: 286px;overflow: hidden;cursor: default;box-shadow: 0 8px 20px 0 rgba(28, 54, 108, .05), 0 4px 12px 0 rgba(28, 54, 108, .08);}
 .header-user .user-card-area, .header-user .user-card-general{border-top:1px solid var(--dz-borderb);width:90%}
