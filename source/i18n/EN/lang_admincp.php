@@ -3940,7 +3940,6 @@ China
 	'members_edit_qq' => 'QQ',
 	'members_edit_icq' => 'ICQ',
 	'members_edit_yahoo' => 'Yahoo',
-	'members_edit_taobao' => 'Taobao Wangwang',
 	'members_edit_alipay' => 'Alipay Account',
 	'members_edit_location' => 'From',
 	'members_edit_bday' => 'Birthday',

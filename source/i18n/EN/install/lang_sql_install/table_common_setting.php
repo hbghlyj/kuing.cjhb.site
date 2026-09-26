@@ -2418,7 +2418,6 @@ If you have any questions, please contact the administrator, Email: {adminemail}
 							'qq' => 'qq',
 							'yahoo' => 'yahoo',
 							'msn' => 'msn',
-							'taobao' => 'taobao',
 						],
 				],
 			'edu' =>

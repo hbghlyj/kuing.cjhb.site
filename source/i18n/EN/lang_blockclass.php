@@ -224,7 +224,6 @@ $lang = [
 	'blockclass_member_field_icq' => 'ICQ',
 	'blockclass_member_field_qq' => 'QQ',
 	'blockclass_member_field_yahoo' => 'YAHOO',
-	'blockclass_member_field_taobao' => 'AliWangWang',
 	'blockclass_member_field_site' => 'Personal Homepage',
 	'blockclass_member_field_bio' => 'Bio',
 	'blockclass_member_field_interest' => 'Interests',

@@ -335,7 +335,6 @@ $serialize_sql_setting = array(
 							'qq' => 'qq',
 							'yahoo' => 'yahoo',
 							'wechat' => 'wechat',
-							'taobao' => 'taobao',
 						),
 				),
 			'edu' =>

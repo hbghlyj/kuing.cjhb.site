@@ -3847,7 +3847,6 @@ $lang =
 	'members_edit_qq' => 'QQ',
 	'members_edit_icq' => 'ICQ',
 	'members_edit_yahoo' => 'Yahoo',
-	'members_edit_taobao' => '淘寶旺旺',
 	'members_edit_alipay' => '支付寶賬號',
 	'members_edit_location' => '來自',
 	'members_edit_bday' => '生日',

@@ -225,7 +225,6 @@ $lang = [
 	'blockclass_member_field_qq' => 'QQ號',
 	'blockclass_member_field_yahoo' => 'YAHOO賬號',
 	'blockclass_member_field_wechat' => '微信號',
-	'blockclass_member_field_taobao' => '阿裡旺旺賬號',
 	'blockclass_member_field_site' => '個人主頁',
 	'blockclass_member_field_bio' => '自我介紹',
 	'blockclass_member_field_interest' => '興趣愛好',
