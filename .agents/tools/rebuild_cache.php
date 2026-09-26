@@ -17,15 +17,16 @@ $cachename = $options['cachename'] ?? '';
 // permanently stores http://localhost/... in the rendered nav code. The host
 // defaults to the real site and must never fall back to localhost.
 //
-// Prefixed names are deliberate: C::app()->init() extracts its config into the
-// global scope, which overwrites a bare $host (the config has a 'host' key).
-// The pre-init guard below passed, then $host was empty by the time the
-// post-init check used it. Keep these names, and keep re-reading them after
-// init() for the same reason.
-$buildHost = $options['host'] ?? (getenv('SITE_HOST') ?: 'kuing.cjhb.site');
-$buildScheme = $options['scheme'] ?? (getenv('SITE_SCHEME') ?: 'https');
-if(!$buildHost || $buildHost === 'localhost' || $buildHost === '127.0.0.1') {
-	fwrite(STDERR, "Refusing to build caches under host '".$buildHost."'.\n");
+// These are constants, not variables, on purpose. Requiring class_core.php
+// clears the global scope - anything assigned before it is unset by the time
+// init() returns. Verified by probe: a plain $buildHost is set before the
+// require and NULL immediately after it. Constants survive, so the post-init
+// guard below can still see the intended host.
+define('DZ_BUILD_HOST', $options['host'] ?? (getenv('SITE_HOST') ?: 'kuing.cjhb.site'));
+define('DZ_BUILD_SCHEME', $options['scheme'] ?? (getenv('SITE_SCHEME') ?: 'https'));
+
+if(DZ_BUILD_HOST === '' || DZ_BUILD_HOST === 'localhost' || DZ_BUILD_HOST === '127.0.0.1') {
+	fwrite(STDERR, "Refusing to build caches under host '".DZ_BUILD_HOST."'.\n");
 	fwrite(STDERR, "The 'setting' cache bakes absolute URLs from \$_G['siteurl']; a placeholder\n");
 	fwrite(STDERR, "host would store http://localhost/... in the rendered nav code.\n");
 	fwrite(STDERR, "Pass --host=kuing.cjhb.site (the default) if this is wrong.\n");
@@ -35,11 +36,11 @@ if(!$buildHost || $buildHost === 'localhost' || $buildHost === '127.0.0.1') {
 $root = dirname(__DIR__, 2);
 chdir($root);
 
-$_SERVER['HTTP_HOST'] = $buildHost;
-$_SERVER['SERVER_NAME'] = $buildHost;
-$_SERVER['SERVER_PORT'] = $buildScheme === 'https' ? '443' : '80';
-$_SERVER['HTTPS'] = $buildScheme === 'https' ? 'on' : '';
-$_SERVER['REQUEST_SCHEME'] = $buildScheme;
+$_SERVER['HTTP_HOST'] = DZ_BUILD_HOST;
+$_SERVER['SERVER_NAME'] = DZ_BUILD_HOST;
+$_SERVER['SERVER_PORT'] = DZ_BUILD_SCHEME === 'https' ? '443' : '80';
+$_SERVER['HTTPS'] = DZ_BUILD_SCHEME === 'https' ? 'on' : '';
+$_SERVER['REQUEST_SCHEME'] = DZ_BUILD_SCHEME;
 $_SERVER['REQUEST_URI'] = '/index.php';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['SCRIPT_NAME'] = '/index.php';
@@ -58,9 +59,9 @@ $discuz->init();
 $_G['siteroot'] = '/';
 
 // Guard: verify what Discuz actually resolved before anything is written.
-$expected = $buildScheme.'://'.$buildHost.'/';
-echo 'host          : '.$buildHost."\n";
-echo 'scheme        : '.$buildScheme."\n";
+$expected = DZ_BUILD_SCHEME.'://'.DZ_BUILD_HOST.'/';
+echo 'host          : '.DZ_BUILD_HOST."\n";
+echo 'scheme        : '.DZ_BUILD_SCHEME."\n";
 echo '$_G[siteurl]  : '.$_G['siteurl']."\n";
 echo 'expected      : '.$expected."\n";
 if($_G['siteurl'] !== $expected) {
