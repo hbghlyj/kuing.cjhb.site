@@ -353,7 +353,7 @@
 	<!--{/if}-->
 </div>
 
-<!--{if $modmenu['thread']}-->
+<!--{if $modmenu['thread'] && !$_G['style']['blog_mod']}-->
 	<div class="xi2 mbm pbm bbs">
 	<script type="text/javascript">
 		$('modmenu').lastChild.style.visibility = 'hidden';
