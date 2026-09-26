@@ -1078,3 +1078,13 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .fpd a.ficd {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 2px;background-size:18px}
 
 .dz_pg_space #ct.wp .mn .bm.bw0.online_user_list {overflow-x:auto}
+
+/* Float dialogs (login/register/lost-password) are narrower than the 760px
+   .rfm default and than the 500px that common.css applies inside .fwin, so a
+   fixed-width row spills past the dialog. Let the row fill the dialog instead,
+   matching what discuzx5 already does via
+   .fwin [id^="fwin_content"] .rfm in its extend_common.css. */
+.fwin [id^="fwin_content"] .rfm {width:100%;max-width:100%;box-sizing:border-box}
+.fwin [id^="fwin_content"] .rfm .px,
+.fwin [id^="fwin_content"] .rfm .px.p_fre,
+.fwin [id^="fwin_content"] .rfm .password-toggle-field {max-width:100%}
