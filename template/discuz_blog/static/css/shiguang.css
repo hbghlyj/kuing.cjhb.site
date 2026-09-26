@@ -51,7 +51,6 @@ body.discuzx5 {
     --sg-line: #e8dfd2;
     margin: 0;
     color: var(--sg-ink);
-
     background:
         radial-gradient(circle at 12% 8%, rgba(204, 142, 92, .14), transparent 28%),
         radial-gradient(circle at 86% 12%, rgba(74, 133, 119, .12), transparent 24%),
@@ -1098,7 +1097,6 @@ body.discuzx5 #postlist .pls {
 body.discuzx5 #postlist .t_f,
 body.discuzx5 #postlist .t_fsz,
 body.discuzx5 #postlist .pcb {
-    color: #5f594f;
     font-size: 16px;
     line-height: 2;
 }
