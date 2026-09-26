@@ -35,7 +35,7 @@
 
 		<div class="mn">
 			<div class="bm bml pbn sg-forum-page-heading">
-				<!--{if $_G[forum][banner] && !$subforumonly}--><img src="$_G[forum][banner]" alt="$_G['forum'][name]" /><!--{/if}-->
+				<!--{if $_G[forum][banner] && !$subforumonly}--><img class="forum-banner" src="$_G[forum][banner]" alt="$_G['forum'][name]" /><!--{/if}-->
 				<div class="bm_h cl sg-forum-page-heading__content">
 					<span class="sg-forum-page-heading__tag">{lang tmp012}</span>
 					<!--{if !$_G['style']['blog_mod']}-->
