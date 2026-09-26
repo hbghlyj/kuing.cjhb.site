@@ -443,6 +443,36 @@ img{border:none;}
 .header-searcher .search-panel .search-hot-list{display:flex;justify-content:flex-start;flex-wrap:wrap;padding:12px 14px;padding-bottom: 0;}
 .header-searcher .search-panel .search-hot-list .item{display: block;color:var(--dz-alink);margin-right:12px;margin-bottom:10px;padding:6px 8px;background:var(--dz-borderb);border-radius:15px;font-size:13px;font-weight:400;cursor:pointer}
 
+/* Algolia results overlay -- ported from discuzx5/common/extend_common.css:447-459.
+   This is the styling-only half of the search box: the markup is already here
+   (template/discuz_blog/common/pubsearchform.php is byte-identical to x5's, and
+   static/js/algolia-search.js mounts hits/pagination/refinementList/
+   clearRefinements/rangeInput into it), so the blog was rendering the whole
+   overlay with no rules at all.
+
+   Only x5's increment over core is ported. These six are byte-identical
+   restatements of default/common/common.css:649-686 and are skipped, because
+   every style inherits them already and in x5 they are no-ops:
+     #ais-wrapper{display:flex;flex-direction:row}
+     .ais-ClearRefinements-button{width/height/display/...}
+     .widgettitle{margin-top:2rem}
+     .ais-facets{padding:0}
+     .ais-facets ul{list-style:none;padding-left:0;margin-left:0}
+     .ais-facets li{margin-left:0}
+
+   The four that actually change rendering here, measured before the port:
+     #ais-main / #ais-facets  both computed flex:0 1 auto  (content-sized)
+     .ais-Pagination-list     computed display:block, gap:normal
+     .ais-Pagination-item--selected a  colour rgb(32,32,29), not the accent */
+#ais-main{padding:1rem;flex:1 1 auto;min-width:0;box-sizing:border-box}
+#ais-facets{flex:0 0 40%;width:auto;min-width:0;padding:1rem 1rem 1rem 0;box-sizing:border-box}
+.ais-Hits-list{list-style:none;padding-left:0;margin:0}
+.ais-Hits-item{min-width:0}
+.ais-hits--content{overflow:hidden}
+.ais-Pagination-list{display:flex;gap:8px;list-style:none;padding-left:0}
+.ais-Pagination-item--selected a{color:var(--dz-ahot)}
+.ais-SearchBox-input{box-sizing:border-box}
+
 @media screen and (max-width: 1366px){
     .header-searcher .ais-SearchBox-input {
         width: 160px;
