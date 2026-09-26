@@ -1194,13 +1194,6 @@ body.discuzx5 #postlist .posthead.sg-thread-hero .side_btn {
     display: none;
 }
 
-body.discuzx5 #postlist .sg-first-post .pi {
-    min-height: 28px;
-    padding: 10px 22px;
-    border-color: var(--sg-line);
-    background: rgba(255, 253, 248, .82);
-}
-
 body.discuzx5 #postlist .viewthread_table,
 body.discuzx5 #postlist > div[id^="post_"] {
     border-color: var(--sg-line);
