@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	0 => 'Register/Login',
+	0 => 'Register/Log in',
 	1 => 'Space',
 	2 => 'Forum',
 	3 => 'Group',

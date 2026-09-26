@@ -39,7 +39,7 @@ $lang =
 	'login_nosecques' => 'You have not set up secure login yet. Please set your security question in the User Control Panel before accessing the Admin CP. You can <a href="forum.php?mod=memcp&action=profile&typeid=1" target="_blank">click here</a> to set up your security question.',
 	'copyright' => '&copy; 2001-'.date('Y').' <a href="https://code.dismall.com/" target="_blank">Discuz! Team</a>.',
 
-	'login_cp_guest' => '<h1>You are not logged in</h1><a href="member.php?mod=logging&action=login" class="btn">Login</a><p>When the webmaster requires mandatory login, modify config/config_global.php to disable this feature.</p>',
+	'login_cp_guest' => '<h1>You are not logged in</h1><a href="member.php?mod=logging&action=login" class="btn">Log in</a><p>When the webmaster requires mandatory login, modify config/config_global.php to disable this feature.</p>',
 	'login_cplock' => 'Your admin panel has been locked!<br>Please revisit the admin CP after <b> {ltime} </b> seconds.',
 	'login_user_lock' => 'Due to too many failed login attempts, this login request has been rejected. Please try again in 15 minutes.',
 	'login_cp_noaccess' => '<b>Admin CP (or this operation) is not available for the current account</b><br><br>Please log in again with an account that has permission',
