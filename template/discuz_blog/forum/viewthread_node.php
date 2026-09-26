@@ -217,9 +217,9 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2">$post[author]</a>$authorverifys<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					<em id="authorposton$post[pid]">{lang poston} $post[dateline]</em>
-					<!--{if $_G['setting']['showiplocation']}--><span class="pipe">|</span><em>$post['iplocation']</em><!--{/if}-->
-					<!--{if $post['status'] & 8}-->
-						<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
+					<!--{if $_G['setting']['showiplocation'] && $post['iplocation']}--><span class="pipe">|</span><em>$post['iplocation']</em><!--{/if}-->
+					<!--{if $post['status'] & 8 && ($_G['setting']['mobile']['mobilecomefrom'] || $post['mobilecomefrom'])}-->
+						<span class="pipe">|</span><span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
 					<!--{/if}-->
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;" class="xi2">$post[author]</a><!--{/if}-->
