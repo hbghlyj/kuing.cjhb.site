@@ -77,7 +77,7 @@
 						</select>
 						<!--{if !empty($_G['setting']['i18n'])}-->
 							<!--{eval $footerLang = currentlang();}-->
-							<span class="pipe">|</span><span class="lang-selector-wrap">
+							<span class="lang-selector-wrap">
 								<select class="lang-selector-trigger" aria-label="Language" onchange="location.href='misc.php?mod=i18n&key=' + encodeURIComponent(this.value);">
 									<!--{if !empty($_G['setting']['i18n']['EN'])}--><option value="EN"{if $footerLang == 'EN'} selected{/if}>English</option><!--{/if}-->
 									<!--{if !empty($_G['setting']['i18n']['SC'])}--><option value="SC"{if $footerLang == 'SC'} selected{/if}>简体中文</option><!--{/if}-->
