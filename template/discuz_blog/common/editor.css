@@ -33,6 +33,7 @@
 #e_fontsize {width:65px}
 #e_italic {background:url({STYLEIMGDIR}/svg/dz_e_italic.svg) no-repeat center 4px;background-size:16px}
 #e_underline {background:url({STYLEIMGDIR}/svg/dz_e_underline.svg) no-repeat center 4px;background-size:16px}
+#e_strikethrough {background:url({STYLEIMGDIR}/svg/dz_e_strikethrough.svg) no-repeat center 4px;background-size:16px}
 #e_forecolor {background:url({STYLEIMGDIR}/svg/dz_e_forecolor.svg) no-repeat center 3px;background-size:18px}
 #e_backcolor {background:url({STYLEIMGDIR}/svg/dz_e_backcolor.svg) no-repeat center 3px;background-size:18px}
 #e_url {background:url({STYLEIMGDIR}/svg/dz_e_url.svg) no-repeat center 3px;background-size:18px}
@@ -67,8 +68,9 @@
 .b2r #e_image {background:url({STYLEIMGDIR}/svg/dz_e_image.svg) no-repeat center 3px;background-size:20px}
 #e_attach {background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 4px;background-size:28px}
 .b2r #e_attach {background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 2px;background-size:20px}
-#e_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 4px;background-size:28px}
-.b2r #e_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 2px;background-size:20px}
+#e_code {background:url({STATICURL}image/editor/dz_e_codeblock.svg?{VERHASH}) no-repeat center 4px;background-size:28px}
+.b2r #e_code {background:url({STATICURL}image/editor/dz_e_codeblock.svg?{VERHASH}) no-repeat center 2px;background-size:20px}
+#e_inlinecode {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 3px;background-size:18px}
 #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 5px;background-size:26px}
 .b2r #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 3px;background-size:18px}
 #e_pasteword {background:url({STYLEIMGDIR}/svg/dz_e_pasteword.svg) no-repeat center 2px;background-size:20px}
@@ -108,3 +110,4 @@
 #e_cst1_fly {background:url({STYLEIMGDIR}/svg/dz_e_kmfly.svg) no-repeat center 2px;background-size:20px}
 #e_cst1_sup {background:url({STYLEIMGDIR}/svg/dz_e_kmsup.svg) no-repeat center 3px;background-size:18px}
 #e_cst1_sub {background:url({STYLEIMGDIR}/svg/dz_e_kmsub.svg) no-repeat center 3px;background-size:18px}
+#e_cst1_inlinecode, #e_cst1_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 3px;background-size:18px}
