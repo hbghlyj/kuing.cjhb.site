@@ -21,12 +21,20 @@
 		</a></div>
 	</div>
 	<!--{/if}-->
+	<!--{if !empty($_G['setting']['pmstatus'])}-->
+	<div class="header-message">
+		<a class="message-icon" href="home.php?mod=space&do=pm" title="{lang pm_center}" aria-label="{lang pm_center}">
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 5.5h17v13h-17zM4 6l8 7 8-7"/></svg>
+			<!--{if $_G['member']['newpm']}--><span class="dot"></span><!--{/if}-->
+		</a>
+	</div>
+	<!--{/if}-->
 	<div class="header-notice">
 		<div class="notice-icon">
 			<i class="dzicon noticeicon"></i>
-			<!--{if $_G['member']['newprompt'] || $_G['member']['newpm']}-->
-			{eval $newprompt = $_G['member']['newprompt'] + $_G['member']['newpm'];}
-			<span class="dot">{if $newprompt >99}99{else}$newprompt{/if}</span>
+			<!--{if $_G['member']['newprompt']}-->
+			{eval $noticecount = intval($_G['member']['newprompt']);}
+			<span class="dot">{if $noticecount > 99}99{else}$noticecount{/if}</span>
 			<!--{/if}-->
 		</div>
 
@@ -34,9 +42,6 @@
 			<div class="poptip-arrow"></div>
 			<ul class="notice-content">
 				<li class="notice-item"><a href="home.php?mod=space&do=notice">{lang remind}<!--{if $_G[member][newprompt]}--><span class="num">($_G[member][newprompt])</span><span class="dot"></span><!--{/if}--></a>
-				<!--{if !empty($_G['setting']['pmstatus'])}-->
-					<li class="notice-item"><a href="home.php?mod=space&do=pm">{lang pm_center}{if $_G[member][newpm]}<span class="dot"></span>{/if}</a></li>
-				<!--{/if}-->
 				<li class="notice-item"><a href="home.php?mod=follow&do=follower"><!--{lang notice_interactive_follower}-->{if $_G[member][newprompt_num][follower]} <span class="num">$_G[member][newprompt_num][follower]</span>{/if}{if $_G[member][newprompt_num][follower]}<span class="dot"></span>{/if}</a></li>
 				<!--{if $_G[member][newprompt] && $_G[member][newprompt_num][follow]}-->
 					<li class="notice-item"><a href="home.php?mod=follow"><!--{lang notice_interactive_follow}-->($_G[member][newprompt_num][follow])<span class="dot"></span></a></li>

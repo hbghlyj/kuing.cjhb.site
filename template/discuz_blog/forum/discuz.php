@@ -513,7 +513,7 @@
 						<span class="xs1">- <strong>$onlinenum</strong> {lang onlines}
 						- <strong>$membercount</strong> {lang index_members}(<strong>$invisiblecount</strong> {lang index_invisibles}),
 						<strong>$guestcount</strong> {lang index_guests}
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong>.</span>
+						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
@@ -529,7 +529,7 @@
 						</strong>
 						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}
 						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members},<strong>$guestcount</strong> {lang index_guests}<!--{/if}-->
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong>.</span>
+						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{/if}-->
 				</div>

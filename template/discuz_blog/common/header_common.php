@@ -37,6 +37,7 @@
 	.dz_layer_nav ul li a:before{background: var(--dz-bgf);}
 	.dz_layer_nav ul li a::after{background: var(--dz-bgf);}
 	.header-notice .notice-icon .dzicon {color: var(--dz-ff);}
+	.header-message .message-icon svg {stroke: var(--dz-ff);}
 	.header-searcher input:focus{border-color: var(--dz-bgfglass);}
 	.header-notice .notice-icon:hover, .header-notice.open .notice-icon {background: var(--dz-bgfglass);}
 	.dz_menumore::after{color: var(--dz-ff);}

@@ -492,7 +492,7 @@ img{border:none;}
 .header-login .break{background-color:#c0c5cc;width:1px;height:12px;margin: 0 5px 0 10px;}
 
 /* */
-.header-client, .header-notice,.header-i18n{display:flex;align-items:center;margin-right: 12px;position:relative;height:60px}
+.header-client,.header-message,.header-notice,.header-i18n{display:flex;align-items:center;margin-right:12px;position:relative;height:60px}
 .header-client .client-dropdown{display:none;top:55px;right:-45px;}
 .header-client.open .client-dropdown{display:block}
 .header-client .client-icon{display: flex; align-items: center;font-size:12px;font-weight:400;color:#494b4d;padding:6px;cursor: pointer;}
@@ -505,8 +505,10 @@ img{border:none;}
 .header-notice .poptip-popper .poptip-arrow{right: 22px;}
 .header-notice .notice-dropdown{display:none;top:55px;right:-6px;}
 .header-notice.open .notice-dropdown{display:block}
-.header-notice .notice-icon{position:relative;width:24px;height:24px;cursor:pointer;padding:6px;line-height: 24px;text-align: center;}
-.header-notice .notice-icon:hover, .header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
+.header-message .message-icon,.header-notice .notice-icon{position:relative;width:24px;height:24px;cursor:pointer;padding:6px;line-height:24px;text-align:center;}
+.header-message .message-icon:hover,.header-notice .notice-icon:hover,.header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
+.header-message .message-icon svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:var(--dz-fc);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.header-message .message-icon .dot{position:absolute;top:2px;right:0;width:8px;height:8px;border-radius:50%;background:#f35}
 .header-notice .notice-icon .dot{position:absolute;top:0;right: -6px;min-width:16px;height:16px;line-height: 16px; border-radius:8px;background:#f35;text-align: center;color: var(--dz-ff);padding: 0 5px;}
 .header-notice .notice-content{padding:5px 0;background:var(--dz-bgf);border-radius:4px;box-shadow:0 8px 20px 0 rgba(28,54,108,.05),0 4px 12px 0 rgba(28,54,108,.08);min-width: 120px;}
 .header-notice .notice-content a{font-size:14px;font-weight:400;color:var(--dz-alink);line-height:20px;text-align:center;padding:12px 20px;display: block; word-break: keep-all;}
