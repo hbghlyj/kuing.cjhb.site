@@ -10,7 +10,6 @@ if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 }
 
 $options = getopt('', ['cachename:', 'host:', 'scheme:']);
-$cachename = $options['cachename'] ?? '';
 
 // Caches bake absolute URLs. cache_setting.php:1183 builds nav markup with
 // $_G['siteurl'], so building the 'setting' cache under a placeholder host
@@ -20,8 +19,10 @@ $cachename = $options['cachename'] ?? '';
 // These are constants, not variables, on purpose. Requiring class_core.php
 // clears the global scope - anything assigned before it is unset by the time
 // init() returns. Verified by probe: a plain $buildHost is set before the
-// require and NULL immediately after it. Constants survive, so the post-init
-// guard below can still see the intended host.
+// require and NULL immediately after it. The same happened to $cachename,
+// which made the tool silently print its usage line instead of building.
+// Constants survive, so keep the cache name here too.
+define('DZ_BUILD_CACHE', $options['cachename'] ?? '');
 define('DZ_BUILD_HOST', $options['host'] ?? (getenv('SITE_HOST') ?: 'kuing.cjhb.site'));
 define('DZ_BUILD_SCHEME', $options['scheme'] ?? (getenv('SITE_SCHEME') ?: 'https'));
 
@@ -70,12 +71,12 @@ if($_G['siteurl'] !== $expected) {
 	exit(1);
 }
 
-if(!$cachename) {
+if(!DZ_BUILD_CACHE) {
 	echo "\nUsage: php .agents/tools/rebuild_cache.php --cachename=forumlinks --host=kuing.cjhb.site\n";
 	exit(0);
 }
 
 require_once './source/function/function_cache.php';
-echo "\nRebuilding cache: ".$cachename."\n";
-updatecache($cachename);
+echo "\nRebuilding cache: ".DZ_BUILD_CACHE."\n";
+updatecache(DZ_BUILD_CACHE);
 echo "Done.\n";
