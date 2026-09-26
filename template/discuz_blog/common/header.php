@@ -7,6 +7,7 @@
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
+	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
 		<!--{template common/header_diy}-->
@@ -145,4 +146,4 @@
 		<!--{hook/global_header}-->
 	<!--{/if}-->
 
-	<div id="wp" class="wp">
+	<div id="wp" class="wp" tabindex="-1">
