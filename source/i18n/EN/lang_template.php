@@ -13,6 +13,7 @@ $lang = [
 	'debate_opponent' => 'Con',
 	'debate_square' => 'Pro',
 	'thread_poll' => 'Poll',
+	'sp' => ' ',
 	'credits' => 'Credit',
 	'login' => 'Login',
 	'active_email' => 'Email Address',

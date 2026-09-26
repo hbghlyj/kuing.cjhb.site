@@ -37,6 +37,7 @@ $lang = [
 	'debate_opponent' => '反方',
 	'debate_square' => '正方',
 	'thread_poll' => '投票',
+	'sp' => '',
 	'credits' => '积分',
 	'login' => '登录',
 	'register' => '注册',

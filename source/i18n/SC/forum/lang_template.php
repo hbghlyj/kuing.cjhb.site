@@ -226,6 +226,7 @@ $lang = [
 	'forum_posts' => '帖数',
 	'forum_subforums' => '子版块',
 	'forum_threads' => '主题',
+	'sp' => '',
 	'forum_todayposts' => '今日',
 	'hotthreads_forum' => '$_G[\'setting\'][\'navs\'][2][\'navname\']热点',
 	'index_guests' => '位游客',

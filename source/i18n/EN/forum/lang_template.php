@@ -214,6 +214,7 @@ $lang = [
 	'forum_posts' => 'Posts',
 	'forum_subforums' => 'Subforums',
 	'forum_threads' => 'Thread',
+	'sp' => ' ',
 	'forum_todayposts' => 'Today',
 	'hotthreads_forum' => '$_G[\'setting\'][\'navs\'][2][\'navname\'] Hot Topics',
 	'index_guests' => 'Guests',

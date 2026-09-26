@@ -51,7 +51,7 @@
 <!--{if !IS_ROBOT}-->
 <div id="filter_special_menu" class="p_pop" style="display:none" change="location.href='forum.php?mod=forumdisplay&fid=$_G['fid']&filter='+$('filter_special').value">
 		<ul>
-			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang all}{lang forum_threads}</a></li>
+			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang all}{lang sp}{lang forum_threads}</a></li>
 			<!--{if $showpoll}--><li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=specialtype&specialtype=poll$forumdisplayadd['specialtype']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang thread_poll}</a></li><!--{/if}-->
 			<!--{if $showtrade}--><li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=specialtype&specialtype=trade$forumdisplayadd['specialtype']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang thread_trade}</a></li><!--{/if}-->
 			<!--{if $showreward}--><li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=specialtype&specialtype=reward$forumdisplayadd['specialtype']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang thread_reward}</a></li><!--{/if}-->
@@ -68,7 +68,7 @@
 	</div>
 	<div id="filter_kmpx_menu" class="p_pop" style="display:none">
 		<ul>
-			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang all}{lang forum_threads}</a></li>
+			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang all}{lang sp}{lang forum_threads}</a></li>
 			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=author&orderby=dateline$forumdisplayadd['author']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang list_post_time}</a></li>
 			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=reply&orderby=replies$forumdisplayadd['reply']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang replies}</a></li>
 			<li><a href="forum.php?mod=forumdisplay&fid=$_G['fid']&filter=reply&orderby=views$forumdisplayadd['view']{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang views}</a></li>

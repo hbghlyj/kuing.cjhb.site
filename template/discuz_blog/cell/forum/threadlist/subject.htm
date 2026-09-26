@@ -22,12 +22,12 @@
 		{if $thread['displayorder'] == 3}{lang thread_type3}{/if}
 		{if $thread['displayorder'] == 4}{lang thread_type4}{/if}
 		{if $thread['folder'] == 'lock'}{lang closed_thread}{/if}
-		{if $thread['special'] == 1}{lang thread_poll}{lang forum_threads}{/if}
-		{if $thread['special'] == 2}{lang thread_trade}{lang forum_threads}{/if}
-		{if $thread['special'] == 3}{lang thread_reward}{lang forum_threads}{/if}
-		{if $thread['special'] == 4}{lang thread_activity}{lang forum_threads}{/if}
-		{if $thread['special'] == 5}{lang thread_debate}{lang forum_threads}{/if}
-		{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}" class="kmtit">
+		{if $thread['special'] == 1}{lang thread_poll}{lang sp}{lang forum_threads}{/if}
+		{if $thread['special'] == 2}{lang thread_trade}{lang sp}{lang forum_threads}{/if}
+		{if $thread['special'] == 3}{lang thread_reward}{lang sp}{lang forum_threads}{/if}
+		{if $thread['special'] == 4}{lang thread_activity}{lang sp}{lang forum_threads}{/if}
+		{if $thread['special'] == 5}{lang thread_debate}{lang sp}{lang forum_threads}{/if}
+		{if $thread['folder'] == "new"}{lang have_newreplies}{lang sp}{lang forum_threads}{/if}" class="kmtit">
 	<!--{if $thread['folder'] == 'lock'}-->
 		<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico" />
 	<!--{elseif $thread['special'] == 1}-->
