@@ -11,6 +11,7 @@ if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 
 $root = dirname(__DIR__, 2);
 chdir($root);
+define('IN_ADMINCP', true);
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['REQUEST_URI'] = '/index.php';
