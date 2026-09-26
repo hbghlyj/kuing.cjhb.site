@@ -80,6 +80,10 @@
 
 			</div>
 			<div class="dz_footc_nav">
+				<!--{if !empty($_G['setting']['styles'][1])}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><span class="pipe">|</span><!--{/if}-->
+				<!--{if !empty($_G['setting']['styles'][3])}--><a href="javascript:;" onclick="setcookie('styleid', '3', 31536000);location.reload();return false;">discuzx5</a><span class="pipe">|</span><!--{/if}-->
+				<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
+				<!--{if $blogStyleId}--><span class="xg1">blog style</span><span class="pipe">|</span><!--{/if}-->
 				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
 						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav['code']<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
 						<a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a>

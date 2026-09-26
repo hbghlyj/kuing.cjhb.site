@@ -70,6 +70,8 @@
 								!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
 								<!--{if !empty($_G['setting']['styles'][1])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == 1}--><span class="xg1">default style</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
 								<!--{if !empty($_G['setting']['styles'][3])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == 3}--><span class="xg1">discuzx5</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '3', 31536000);location.reload();return false;">discuzx5</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
+								<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
+								<!--{if $blogStyleId}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == $blogStyleId}--><span class="xg1">blog style</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '$blogStyleId', 31536000);location.reload();return false;">blog style</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
 								<!--{if !empty($_G['setting']['i18n'])}-->
 									<!--{eval 
 										$footerLocales = [

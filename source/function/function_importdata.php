@@ -35,7 +35,7 @@ function import_smilies() {
 	return $renamed;
 }
 
-function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecache = 1, $validate = 1, $setdefault = 0) {
+function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecache = 1, $validate = 1, $setdefault = 0, $applySiteSettings = true) {
 	global $_G, $importtxt, $stylearray;
 	if(empty($dir)) {
 		$stylearrays = [getimportdata('Discuz! Style')];
@@ -171,7 +171,7 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 				$stylearray['var'][$var['variable']] = $var;
 			}
 
-			if(!empty($stylearray['forumportal']) && is_array($stylearray['forumportal'])) {
+			if($applySiteSettings && !empty($stylearray['forumportal']) && is_array($stylearray['forumportal'])) {
 				$forumportal = is_array($_G['setting']['forumportal'] ?? null) ? $_G['setting']['forumportal'] : [];
 				$forumportal['navList'] = is_array($forumportal['navList'] ?? null) ? $forumportal['navList'] : [];
 				$froms = [];
@@ -194,10 +194,10 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 				}
 				table_common_setting::t()->update_batch(['forumportal' => $forumportal]);
 			}
-			if(isset($stylearray['defaultindex']) && $stylearray['defaultindex'] !== '') {
+			if($applySiteSettings && isset($stylearray['defaultindex']) && $stylearray['defaultindex'] !== '') {
 				table_common_setting::t()->update_batch(['defaultindex' => $stylearray['defaultindex']]);
 			}
-			if(!empty($stylearray['diy']) && is_array($stylearray['diy'])) {
+			if($applySiteSettings && !empty($stylearray['diy']) && is_array($stylearray['diy'])) {
 				$tpldir = (string)$stylearray['directory'];
 				if(!str_contains($tpldir, "\0") && !str_contains($tpldir, '..')) {
 					foreach($stylearray['diy'] as $data) {
@@ -213,10 +213,10 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 					}
 				}
 			}
-			if($setdefault) {
+			if($applySiteSettings && $setdefault) {
 				$stylearray['setting']['styleid'] = $styleidnew;
 			}
-			if(!empty($stylearray['setting']) && is_array($stylearray['setting'])) {
+			if($applySiteSettings && !empty($stylearray['setting']) && is_array($stylearray['setting'])) {
 				table_common_setting::t()->update_batch($stylearray['setting']);
 			}
 		}

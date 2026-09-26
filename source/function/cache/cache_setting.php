@@ -298,6 +298,10 @@ function build_cache_setting() {
 	foreach(table_common_style::t()->fetch_all_data(false, 1) as $style) {
 		$data['styles'][$style['styleid']] = dhtmlspecialchars($style['name']);
 	}
+	$data['style_directories'] = [];
+	foreach(table_common_style::t()->fetch_all_data(true, 1) as $style) {
+		$data['style_directories'][$style['directory']] = $style['styleid'];
+	}
 
 	$exchcredits = [];
 	$allowexchangein = $allowexchangeout = FALSE;
@@ -347,6 +351,10 @@ function build_cache_setting() {
 	$data['styles'] = [];
 	foreach(table_common_style::t()->fetch_all_data(false, 1) as $style) {
 		$data['styles'][$style['styleid']] = dhtmlspecialchars($style['name']);
+	}
+	$data['style_directories'] = [];
+	foreach(table_common_style::t()->fetch_all_data(true, 1) as $style) {
+		$data['style_directories'][$style['directory']] = $style['styleid'];
 	}
 
 	$exchcredits = [];
