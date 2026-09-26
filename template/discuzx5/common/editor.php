@@ -40,8 +40,7 @@
 	<!--{/if}-->
 	<!--{if $editor['allowresize']}-->
 		<span id="{$editorid}_resize">
-		<a href="javascript:;" onclick="editorsize('+');return false;" id="{$editorid}_kmjd">{lang editor_increase}</a>
-		<a href="javascript:;" onclick="editorsize('-');return false;" id="{$editorid}_kmsx">{lang editor_narrow}</a><img src="{STATICURL}image/editor/resize.gif" onmousedown="editorresize(event)">
+		<img src="{STATICURL}image/editor/resize.gif" onmousedown="editorresize(event)">
 		</span>
 	<!--{/if}-->
 </div>
