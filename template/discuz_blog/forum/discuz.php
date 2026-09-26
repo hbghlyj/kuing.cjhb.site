@@ -60,7 +60,7 @@
 			<div id="category_grid">
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
-						<div class="bm">
+						<div class="bm latest_panel">
 							<!--{if !$_G['setting']['grid']['gridtype']}-->
 							<div class="newimgbox">
 								<h4>{lang latest_images}</h4>

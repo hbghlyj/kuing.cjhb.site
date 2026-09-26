@@ -6,9 +6,13 @@
 .dz_ngbox {margin-bottom:15px;background:var(--dz-bgf);border:none;border-radius:var(--dz-radius-m);box-shadow:var(--dz-shadow)}
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
-#category_grid .newimgbox {float:left;margin:0 15px 0 0}
+#category_grid .latest_panel {display:flex;align-items:flex-start;gap:15px}
+#category_grid .latest_panel .newimgbox {flex:0 0 auto}
+#category_grid .latest_panel .category_newlist {flex:1 1 auto;min-width:0}
 #category_grid .newimgbox h4 {height:30px;line-height:30px;margin:0 0 8px;font-size:13px;font-weight:400;text-indent:0;background:none;border:0;border-bottom:1px solid var(--dz-borderb)}
-.slidebox_grid {margin:0 auto;border-color:var(--dz-borderb);overflow:hidden}
+.slidebox_grid {margin:0;border-color:var(--dz-borderb);overflow:hidden;position:relative}
+.slidebox_grid .slideimage img {max-width:100%;height:auto}
+.slidebox_grid div[id^="switch_"] {left:auto;right:1px;margin-left:0}
 .category_newlist {padding:10px 15px}
 .category_newlist li {height:26px;line-height:26px;font-size:13px}
 .category_newlist li:before {width:4px;height:4px;background:var(--dz-fc);border-radius:6px;margin:0 8px 3px 0}
