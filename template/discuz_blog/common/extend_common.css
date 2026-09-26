@@ -416,6 +416,8 @@ img{border:none;}
 #hds .p_pop .a a{background-color: var(--dz-bgc);color: var(--dz-ahover) !important;}
 #recentthreads_menu{width:260px;max-width:calc(100vw - 32px)}
 #hds #recentthreads_menu a{overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
+#header_visitedforums_menu{width:260px;max-width:calc(100vw - 32px)}
+#hds #header_visitedforums_menu a{overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
 
 .dz_layer_dl{float:right;}
 .dz_layer_top{background:var(--dz-bgf);box-shadow:0px 2px 20px 0px rgba(0,0,0,.05);}
