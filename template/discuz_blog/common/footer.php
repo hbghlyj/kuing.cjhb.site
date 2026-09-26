@@ -86,6 +86,16 @@
 					<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
 					<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
 				</select><span class="pipe">|</span>
+				<!--{if !empty($_G['setting']['i18n'])}-->
+					<!--{eval $footerLang = currentlang();}-->
+					<div class="lang-selector-wrap">
+						<select class="lang-selector-trigger" aria-label="Language" onchange="location.href='misc.php?mod=i18n&key=' + encodeURIComponent(this.value);">
+							<!--{if !empty($_G['setting']['i18n']['EN'])}--><option value="EN"{if $footerLang == 'EN'} selected{/if}>English</option><!--{/if}-->
+							<!--{if !empty($_G['setting']['i18n']['SC'])}--><option value="SC"{if $footerLang == 'SC'} selected{/if}>简体中文</option><!--{/if}-->
+							<!--{if !empty($_G['setting']['i18n']['TC'])}--><option value="TC"{if $footerLang == 'TC'} selected{/if}>繁體中文</option><!--{/if}-->
+						</select>
+					</div><span class="pipe">|</span>
+				<!--{/if}-->
 				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
 						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav['code']<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
 						<a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a>
