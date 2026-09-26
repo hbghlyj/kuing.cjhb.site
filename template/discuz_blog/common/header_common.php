@@ -24,7 +24,7 @@
 	<!--{if !$_G['style']['top_nav_widthauto']}-->
 	.dz_btm_layer{width: 1200px;margin: 0 auto;}
 	.dz_btm_layer .dz_layer_nav{width: 609px;}
-	.dz_btm_layer .header-searcher .search-input{width: 200px;}
+	.dz_btm_layer .header-searcher .ais-SearchBox-input{width: 200px;}
 	<!--{/if}-->
 	<!--{if $_G['style']['top_nav_bgc']}-->
 	.dz_layer_top{background: $_G['style']['top_nav_bgc'];}

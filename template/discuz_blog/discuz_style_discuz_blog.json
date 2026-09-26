@@ -102,7 +102,7 @@
                 "description": "定义顶部搜索框的开关",
                 "variable": "is_search",
                 "type": "radio",
-                "value": "0",
+                "value": "1",
                 "extra": ""
             },
             "is_fixtop": {

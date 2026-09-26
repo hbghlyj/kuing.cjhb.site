@@ -181,7 +181,7 @@ body.discuzx5 .header-searcher {
     margin-right: 14px;
 }
 
-body.discuzx5 .header-searcher .search-input {
+body.discuzx5 .header-searcher .ais-SearchBox-input {
     width: 216px !important;
     height: 44px;
     padding: 0 44px 0 14px;
@@ -1413,7 +1413,7 @@ body.discuzx5 .dz_rnav a:hover {
         gap: 16px;
     }
 
-    body.discuzx5 .header-searcher .search-input {
+    body.discuzx5 .header-searcher .ais-SearchBox-input {
         width: 170px !important;
     }
 
