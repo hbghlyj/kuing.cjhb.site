@@ -34,7 +34,7 @@
 
 		<div class="mn">
 			<div class="bm bml pbn">
-				<!--{if $_G[forum][banner] && !$subforumonly}--><img src="$_G[forum][banner]" alt="$_G['forum'][name]"><!--{/if}-->
+				<!--{if $_G[forum][banner] && !$subforumonly}--><img class="forum-banner" src="$_G[forum][banner]" alt="$_G['forum'][name]"><!--{/if}-->
 				<div class="bm_h cl">
 					<!--{if $_G['page'] == 1 && $_G['forum']['rules']}--><span class="o"><em id="forum_rules_{$_G[fid]}_img" class="tg_{$collapse[forum_rulesimg]}" title="{lang spread}" onclick="toggle_collapse('forum_rules_{$_G[fid]}')"></em></span><!--{/if}-->
 					<span class="y">
