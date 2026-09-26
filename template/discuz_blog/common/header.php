@@ -57,19 +57,6 @@
 					<!--{/loop}-->
 				</div>
 			<!--{/if}-->
-			<!--{if $_G['uid']}-->
-				<ul id="myitem_menu" class="p_pop" style="display: none;">
-					<!--{if $_G['setting']['forumstatus']}--><li><a href="home.php?mod=space&do=thread&view=me">{lang mypost}</a></li><!--{/if}-->
-					<!--{if $_G['setting']['favoritestatus']}--><li><a href="home.php?mod=space&do=favorite&view=me">{lang favorite}</a></li><!--{/if}-->
-					<!--{if $_G['setting']['friendstatus']}--><li><a href="home.php?mod=space&do=friend">{lang friends}</a></li><!--{/if}-->
-					<!--{if $_G['setting']['followerstatus']}-->
-						<li><a href="home.php?mod=follow&do=follower">{lang follower}</a></li>
-						<li><a href="home.php?mod=follow&do=following">{lang following}</a></li>
-					<!--{/if}-->
-					<!--{hook/global_myitem_extra}-->
-				</ul>
-			<!--{/if}-->
-			<!--{subtemplate common/header_qmenu}-->
 		<!--{/if}-->
 
 		<!--{ad/headerbanner/wp a_h}-->
