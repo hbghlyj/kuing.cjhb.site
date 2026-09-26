@@ -136,22 +136,6 @@
 								<!--{/if}-->
 								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastposted} <a href="{if $thread['digest'] != -2}forum.php?mod=redirect&tid=$thread['tid']&goto=lastpost#lastpost{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}"><time data-local-timestamp="$thread['dblastpost']">$thread['lastpost']</time></a></span></cite>
 								<!--{/if}-->
-								<!--{if $_G['basescript'] != 'group' && CURMODULE != 'group' && !$thread['forumstick'] && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
-									<!--{if $thread['related_group'] == 0 && $thread['closed'] > 1}-->
-										<!--{eval $thread['tid']=$thread['closed'];}-->
-									<!--{/if}-->
-									<!--{if $groupnames[$thread['tid']]}-->
-										<a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread['tid']]['fid']}" target="_blank">{$groupnames[$thread['tid']]['name']}</a>
-									<!--{elseif $thread['forumname']}-->
-										<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
-									<!--{else}-->
-										{if $_G['cache']['forums'][$thread['fid']]['name']}<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>{/if}
-									<!--{/if}-->
-								<!--{elseif $_G['cache']['forums'][$thread['fid']]['name']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
-								<!--{elseif $thread['forumname']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
-								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->
 								<!--{if $thread['price'] > 0}-->
