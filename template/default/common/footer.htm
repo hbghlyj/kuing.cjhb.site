@@ -46,6 +46,47 @@
 					<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
 					<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
 				</select>
+				<!--{if !empty($_G['setting']['i18n'])}-->
+					<!--{eval
+						$footerLocales = [
+							'SC' => '简体中文',
+							'TC' => '繁體中文',
+							'EN' => 'English'
+						];
+						$curLangKey = currentlang();
+						$curLangDisplay = $footerLocales[$curLangKey] ?? $footerLocales['EN'];
+					}-->
+					<span class="pipe">|</span><span class="lang-selector-wrap" id="lang_selector_root">
+						<a href="javascript:;" class="lang-selector-trigger" id="lang_select_btn" onclick="(function(e){e.stopPropagation();var m=document.getElementById('lang_selector_dropdown');if(m){m.style.display=m.style.display==='none'?'block':'none';}}).call(this,event)" aria-haspopup="true" aria-expanded="false">
+							<span class="lang-code">{$curLangDisplay}</span>
+							<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+						</a>
+						<span id="lang_selector_dropdown" class="lang-selector-dropdown">
+							<span class="lang-menu-list">
+								<!--{loop $footerLocales $locale $localeName}-->
+									<!--{if !empty($_G['setting']['i18n'][$locale])}-->
+										<span class="lang-menu-item">
+											<a href="misc.php?mod=i18n&key=$locale" class="lang-menu-link{if $curLangKey == $locale} is-active{/if}">
+												<span class="lang-menu-name">$localeName</span>
+												<!--{if $curLangKey == $locale}-->
+													<svg class="lang-menu-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+												<!--{/if}-->
+											</a>
+										</span>
+									<!--{/if}-->
+								<!--{/loop}-->
+							</span>
+						</span>
+					</span>
+					<script>
+					(function(){
+						document.addEventListener('click', function(){
+							var m = document.getElementById('lang_selector_dropdown');
+							if(m) m.style.display = 'none';
+						});
+					})();
+					</script>
+				<!--{/if}-->
 				<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}-->( <!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png">$_G['setting']['mps']</a><!--{/if}--> )<!--{/if}-->
 				<!--{hook/global_footerlink}-->
 				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
