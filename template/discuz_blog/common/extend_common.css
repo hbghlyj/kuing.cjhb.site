@@ -1119,9 +1119,14 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
    but left every label ragged and every field a different width.
 
    Deliberately NOT ported from the same x5 block: the standalone
-   .password-toggle-field rules. There is no password-toggle markup in ANY style
-   (0 hits in discuzx5, discuz_blog and default) and {IMGDIR}/password-eye.svg
-   is absent from all three, so the feature is inert in x5 too. */
+   .password-toggle-field rules (x5:1258-1263) and the two .rfm sizing rules for
+   it. The base styling already reaches every style via
+   default/common/common.css:114-119, the eye mask resolves from
+   static/image/common/password-eye.svg, and the wrapper is emitted by the form
+   generator rather than a template (0 hits anywhere under template/) -- verified
+   live on member.php?mod=register: 1 wrapper, 1 toggle, eye icon drawn, and the
+   password field already computes to the same 280px as every other field. So
+   x5's block only duplicates core CSS here. */
 .rfm { width: min(100%, 760px); --rfm-label-w: 10em; --rfm-field-w: 280px; }
 .rfm table,
 .rfm tbody { display: block; width: 100%; }
