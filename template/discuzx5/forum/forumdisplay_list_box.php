@@ -169,7 +169,7 @@
 				<!--{subtemplate forum/forumdisplay_waterfall}-->
 			<!--{/if}-->
 		<!--{else}-->
-			<p class="emp">{lang x5_no_related_content}</p>
+			<p class="emp">{lang x5_no}{lang sp}{lang x5_related}{lang sp}{lang x5_content}</p>
 		<!--{/if}-->
 	</div>			
 </div>
