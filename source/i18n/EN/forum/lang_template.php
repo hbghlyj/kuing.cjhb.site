@@ -908,7 +908,7 @@ $lang = [
 	'thread_highlight' => 'Highlight',
 	'topicadmin_crime_delpost_nums' => 'User $crimeauthor\'s posts have been deleted for violations $crimenum times',
 	'types' => 'Category',
-	'admin_banpost' => 'Filtered',
+	'admin_banpost' => 'Ban',
 	'admin_delposts' => 'Delete Selected Posts',
 	'admin_merge' => 'Merge',
 	'admin_merge_tid' => 'Enter thread ID (tid) to merge with',
@@ -1031,8 +1031,8 @@ $lang = [
 	'last_thread' => 'Previous Thread',
 	'moderating' => 'Under Review',
 	'modmenu_archive' => 'Unarchive',
-	'modmenu_banpost' => 'Filtered',
-	'modmenu_banthread' => 'Filtered',
+	'modmenu_banpost' => 'Ban Post',
+	'modmenu_banthread' => 'Ban',
 	'modmenu_copy' => 'Copy',
 	'modmenu_deletepost' => 'Delete',
 	'modmenu_deletethread' => 'Delete Thread',
@@ -1354,4 +1354,3 @@ $lang = [
 	'modmenu'			=> 'Thread Menu',
 	'online_list_load_error'	=> 'Unable to load online users list.',
 ];
-

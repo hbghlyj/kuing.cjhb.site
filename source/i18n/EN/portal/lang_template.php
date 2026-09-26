@@ -106,7 +106,7 @@ $lang = [
 	'block_properties_comment' => 'This block\'s data is determined by properties, please edit properties to display the desired data',
 	'block_start_time' => 'Start Time',
 	'block_start_time_comment' => 'Leave blank to start immediately',
-	'block_stop' => 'Filtered',
+	'block_stop' => 'Hide',
 	'block_template' => 'Module Template',
 	'block_type' => 'Module Category',
 	'block_type_convert_tips' => 'This block category supports converting block types, but <font color=\'red\'>some special fields may be lost and the block display style will change to a custom template</font>, please use as needed.<br/><font color=\'red\'>Note:</font> After selecting a block type from the dropdown, the block category will change immediately.',

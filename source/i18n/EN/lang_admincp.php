@@ -8194,7 +8194,7 @@ function getSign(nonce, t, secret) {
 	'qrcodelogin_status' => 'Status',
 	'qrcodelogin_status_1' => 'Founder',
 	'qrcodelogin_status_0' => 'Administrators',
-	'qrcodelogin_status_-1' => 'Filtered',
+	'qrcodelogin_status_-1' => 'Blocked',
 	'qrcodelogin_bind' => 'Bind',
 	'qrcodelogin_wechat_scan' => 'Please scan with WeChat',
 	'qrcodelogin_bindcode' => 'Please enter the 6-digit binding code displayed on WeChat',

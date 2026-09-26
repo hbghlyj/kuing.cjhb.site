@@ -32,8 +32,8 @@ $lang =
 	'polllist_credit_nolimit' => 'No Limit',
 	'polllist_credit_yes' => 'Only Reward Polls',
 	'polllist_expirefilter' => 'Expired Polls',
-	'polllist_expirefilter_off' => 'Not Filtered',
-	'polllist_expirefilter_on' => 'Filtered',
+	'polllist_expirefilter_off' => 'Show Expired Polls',
+	'polllist_expirefilter_on' => 'Hide Expired Polls',
 
 	];
 
