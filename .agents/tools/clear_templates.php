@@ -27,8 +27,13 @@ $options = getopt('', ['dry-run']);
 $root = dirname(__DIR__, 2);
 chdir($root);
 
-$tplDir = $root . '/data/template';
-$isDry  = isset($options['dry-run']);
+// Requiring class_core.php WIPES the global scope: every variable assigned above
+// is gone by the time init() returns, so $root/$tplDir/$before are null in any
+// code that runs after the bootstrap. Constants survive. Same reason
+// rebuild_cache.php passes DZ_BUILD_HOST / DZ_BUILD_CACHE as constants.
+define('DZ_CLEAR_ROOT', $root);
+define('DZ_CLEAR_TPLDIR', $root . '/data/template');
+define('DZ_CLEAR_DRY', isset($options['dry-run']));
 
 function compiled_templates(string $dir): array {
 	if(!is_dir($dir)) { return []; }
@@ -37,7 +42,7 @@ function compiled_templates(string $dir): array {
 	return $out;
 }
 
-$before = compiled_templates($tplDir);
+$before = compiled_templates(DZ_CLEAR_TPLDIR);
 printf("compiled templates in data/template : %d\n", count($before));
 
 // Report anything still holding a known-stale string, so an operator can tell
@@ -55,7 +60,7 @@ if($stale) {
 	foreach(array_slice($stale, 0, 5) as $s) { echo "    $s\n"; }
 }
 
-if($isDry) {
+if(DZ_CLEAR_DRY) {
 	echo "\nDRY RUN - nothing removed.\n";
 	exit(0);
 }
@@ -99,7 +104,11 @@ if(!function_exists('cleartemplatecache')) {
 
 cleartemplatecache();
 
-$after = compiled_templates($tplDir);
+// $root/$tplDir/$before are all null here: class_core.php cleared them. Use the
+// constants, and re-glob the directory because cleartemplatecache() removes it.
+$after  = compiled_templates(DZ_CLEAR_TPLDIR);
+$beforeCount = count(glob(DZ_CLEAR_TPLDIR . '/*.tpl.php') ?: []);
 printf("\ncompiled templates after clear    : %d\n", count($after));
-printf("removed                           : %d\n", count($before) - count($after));
+printf("directory still present          : %s\n", is_dir(DZ_CLEAR_TPLDIR) ? 'yes' : 'no (recreated on next request)');
+printf("note                             : %d were present before this run\n", $beforeCount);
 echo "They are regenerated on next page view.\n";
