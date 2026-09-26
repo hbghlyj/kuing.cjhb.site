@@ -59,7 +59,7 @@ new Crawler({
                         // else are not indexed as original content.
                         //
                         // The attribution line is what we match on, and it is
-                        // emitted from the [size=2] bbcode that [quote=...] wraps
+                        // emitted from the [size=2] bbcode that the editor wraps
                         // around its "X wrote:" header. Commit 515cdbea8
                         // ("refactor(html): replace font output with styled
                         // spans", 2026-08-22) rewrote function_discuzcode.php to
@@ -69,17 +69,31 @@ new Crawler({
                         // The old filter matched nothing after that, .remove()
                         // became a no-op, and every quote got indexed.
                         //
-                        // Both forms are matched so the rule keeps working if any
-                        // post still carries raw legacy <font> markup. Verified
-                        // against the live DOM: 7 quote blocks in tid 15059 all
-                        // serialise as <span style="font-size:small"> as the first
-                        // child of <blockquote>, with 0 <font size=2> remaining.
-                        // Descendant (not child) combinator on purpose: the
-                        // crawler runtime supplies Cheerio, whose .has() handling
-                        // of a leading ">" is not dependable across versions.
+                        // :first-child rather than a bare descendant match: the
+                        // attribution is emitted first, so anchoring on it stops
+                        // a quote being stripped just because the quoted text
+                        // happens to contain some other small-font span. A child
+                        // combinator would express this too, but the crawler
+                        // runtime supplies Cheerio, whose .has() handling of a
+                        // leading ">" is not dependable across versions.
+                        //
+                        // No <font size=2> fallback: the parser no longer emits
+                        // it, and a scan of pre_forum_post found 0 stored
+                        // messages containing a raw <font size=2> inside a
+                        // quote-bearing post (the 37 hits are all inside [code]
+                        // blocks quoting Discuz's own source), so the extra
+                        // selector only risks false positives.
+                        //
+                        // Coverage, measured on pre_forum_post (2026-09-26,
+                        // after a one-off normalisation moved legacy
+                        // end-attributions to the front):
+                        //   7,264 of 9,030 quote posts have the attribution
+                        //     immediately after [quote]   -> stripped
+                        //       74 have it later in the quote -> deliberately not
+                        //    1,692 have no attribution at all  -> not stripped
                         $(a)
                             .find("div.quote > blockquote")
-                            .has('span[style*="font-size:small"], font[size="2"]')
+                            .has('span[style*="font-size:small"]:first-child')
                             .remove();
                         const content = $(a).find("td.t_f").text().trim();
                         if (content != "") {
