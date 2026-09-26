@@ -78,7 +78,7 @@ $lang = [
 	'thread_show_all' => 'View All',
 	'thread_show_author' => 'View Author Only',
 	'activity_mod' => 'Please use the non-mobile version to manage activities',
-	'poll_msg_allwvote_user' => 'You need to <a href="member.php?mod=logging&action=login">login</a> before you can vote',
+	'poll_msg_allwvote_user' => 'You need to <a href="member.php?mod=logging&action=login">log in</a> before you can vote',
 	'resolved' => 'Solved',
 	'unresolved' => 'Unsolved',
 	'trade_mod' => 'Please use the non-mobile version to manage trades',
