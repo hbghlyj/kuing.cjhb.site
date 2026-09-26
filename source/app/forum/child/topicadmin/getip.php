@@ -30,7 +30,7 @@ if(!$postlist) {
 
 $uids = [];
 foreach($postlist as $post) {
-	if($post['authorid'] && $post['username']) {
+	if($post['authorid']) {
 		$uids[$post['authorid']] = 1;
 	}
 }
@@ -41,7 +41,8 @@ if(!$uids) {
 $memberlist = table_common_member::t()->fetch_all(array_keys($uids));
 foreach($postlist as $post) {
 	$member = $memberlist[$post['authorid']] ?? [];
-	if(empty($member['username'])) {
+	$username = $member['username'] ?: ($post['author'] ?? '');
+	if(!$post['authorid'] || $username === '') {
 		continue;
 	}
 
@@ -56,7 +57,7 @@ foreach($postlist as $post) {
 		showmessage('admin_getip_noip');
 	}
 
-	showmessage(lang('magic/showip', 'showip_ip_message', ['username' => $member['username'], 'ip' => $ip]), '', [], ['alert' => 'info']);
+	showmessage(lang('magic/showip', 'showip_ip_message', ['username' => $username, 'ip' => $ip]), '', [], ['alert' => 'info']);
 }
 
 showmessage('admin_nopermission', NULL);
