@@ -322,6 +322,7 @@
 			</div>
 			<!--{ad/intercat/bm a_c/-1}-->
 		<!--{/if}-->
+		</div>
 		<!--{loop $catlist $key $cat}-->
 			<!--{hook/index_catlist $cat['fid']}-->
 			<div class="bm bmw {if $cat['forumcolumns']} flg{/if} cl" data-forum-index-board>
@@ -510,8 +511,6 @@
 			</div>
 
 			<!--{/if}-->
-
-		</div>
 
 		<!--{hook/index_middle}-->
 		<div class="wp mtn">
