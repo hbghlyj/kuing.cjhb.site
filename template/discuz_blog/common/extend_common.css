@@ -414,10 +414,10 @@ img{border:none;}
 #hds .p_pop a:hover{color:var(--dz-color);}
 #hds .p_pop a span{display: none;}
 #hds .p_pop .a a{background-color: var(--dz-bgc);color: var(--dz-ahover) !important;}
-#recentthreads_menu{width:260px;max-width:calc(100vw - 32px)}
-#hds #recentthreads_menu a{overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
-#header_visitedforums_menu{width:260px;max-width:calc(100vw - 32px)}
-#hds #header_visitedforums_menu a{overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
+.navs_menu{width:260px;max-width:calc(100vw - 32px);padding:0;font-size:12px;overflow:hidden;}
+.navs_menu > li{display:block;float:none;}
+.navs_menu a{display:block;padding:7px 12px;overflow:hidden;color:var(--dz-alink);font-size:12px;line-height:1.4;white-space:nowrap;text-overflow:ellipsis;}
+.navs_menu a:hover{color:var(--dz-color);background:var(--dz-bgc);}
 
 .dz_layer_dl{float:right;}
 .dz_layer_top{background:var(--dz-bgf);box-shadow:0px 2px 20px 0px rgba(0,0,0,.05);}
@@ -1094,3 +1094,13 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .dz_rbox_btn:hover {cursor:pointer;opacity:0.8}
 #postbox .mbn, #psd .mbn {padding:0;height:36px;line-height:36px;font-size:14px}
 #pmsmiliesdiv_tb, #sendsmiliesdiv_tb {width:365px !important}
+/* editor inline code button, inherited from common/seditor.htm */
+.fpd a.ficd {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 2px;background-size:18px}
+
+.forumportal_separator {margin:0 -20px;padding:10px 20px;background:var(--dz-bgc);border-top:1px solid var(--dz-borderb);font-weight:normal}
+.forumportal_separator a {color:var(--dz-fc)}
+.forumportal_listc .kmmeta .kmimg img {width:20px;height:20px;overflow:hidden;object-fit:cover;transition:all .4s;z-index:50;vertical-align:text-bottom}
+.forumportal_listc .kmmeta .kmimg:hover img {transform:scale(1.1)}
+.forumportal_listc .kmmeta, .forumportal_listc .kmfoot {font-size:12px;color:var(--dz-fc);text-align:right}
+.forumportal_listc .kmmeta a, .forumportal_listc .kmfoot a {margin-right:4px;color:var(--dz-fc)}
+.dz_pg_space #ct.wp .mn .bm.bw0.online_user_list {overflow-x:auto}
