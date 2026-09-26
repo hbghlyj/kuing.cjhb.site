@@ -731,10 +731,9 @@ body.discuzx5 .boardnav .sg-forum-page-heading {
 body.discuzx5 .boardnav .sg-forum-page-heading > .bm_h.sg-forum-page-heading__content {
     position: relative;
     z-index: 1;
-    box-sizing: border-box;
-    min-height: 238px;
-    padding: 42px;
-    border: 0;
+    min-height: 0;
+    padding: 5px 10px;
+    border: none;
     background: transparent;
     margin: 0;
 }
