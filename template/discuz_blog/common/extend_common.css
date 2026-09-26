@@ -1089,6 +1089,18 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .dz_rbox_btn:hover {cursor:pointer;opacity:0.8}
 #postbox .mbn, #psd .mbn {padding:0;height:36px;line-height:36px;font-size:14px}
 #pmsmiliesdiv_tb, #sendsmiliesdiv_tb {width:365px !important}
+/* The header layer paints below the main content column.
+   .dz_layer_top carries backdrop-filter:blur(16px), and backdrop-filter creates a
+   stacking context even on a position:static element. That traps the z-index of
+   everything inside it, so .header-user-dropdown's z-index:200 never competes
+   with the page - it is compared as a peer of .dz_layer_top, not of the content.
+   Result: the user dropdown and the notice poptip slide under the forum list, and
+   em.tg_no in .bm_h .o (z-index:2) paints on top of the open panel.
+   Giving the layer its own z-index above the content fixes it. 150 clears the
+   content column (highest is .forumportal_listc .kmimg at 50) and stays well
+   below .dz_rnav (300), .focus (320) and the 300-level modals. */
+.dz_layer_top{position:relative;z-index:150}
+
 /* editor inline code button, inherited from common/seditor.htm */
 .fpd a.ficd {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 2px;background-size:18px}
 
