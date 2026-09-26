@@ -198,12 +198,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{/if}-->
 				<!--{if $post['authorself']}-->
 					<em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em>
-				<!--{else}-->
-					<!--{if !$post['anonymous'] && $_G['cache']['groupicon'][$post['groupid']]}-->
-						<img class="authicn vm" id="authicon$post[pid]" src="$_G['cache']['groupicon'][$post['groupid']]" />
-					<!--{else}-->
-						<img class="authicn vm" id="authicon$post[pid]" src="$_G['cache']['groupicon'][0]" />
-					<!--{/if}-->
 				<!--{/if}-->
 
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
