@@ -28,7 +28,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$sessions_guests = [];
 	} else {
 		$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
-		$sessions = C::app()->session->fetch_member(1, 0, $memberlimit);
+		$sessions = C::app()->session->fetch_member(1, 2, $memberlimit);
 
 		$membercount_fetched = count($sessions);
 		$sessions_guests = [];
