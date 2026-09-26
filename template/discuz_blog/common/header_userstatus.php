@@ -40,18 +40,9 @@
 
 		<div class="notice-dropdown poptip-popper">
 			<div class="poptip-arrow"></div>
-			<ul class="notice-content">
-				<li class="notice-item"><a href="home.php?mod=space&do=notice">{lang remind}<!--{if $_G[member][newprompt]}--><span class="num">($_G[member][newprompt])</span><span class="dot"></span><!--{/if}--></a>
-				<li class="notice-item"><a href="home.php?mod=follow&do=follower"><!--{lang notice_interactive_follower}-->{if $_G[member][newprompt_num][follower]} <span class="num">$_G[member][newprompt_num][follower]</span>{/if}{if $_G[member][newprompt_num][follower]}<span class="dot"></span>{/if}</a></li>
-				<!--{if $_G[member][newprompt] && $_G[member][newprompt_num][follow]}-->
-					<li class="notice-item"><a href="home.php?mod=follow"><!--{lang notice_interactive_follow}-->($_G[member][newprompt_num][follow])<span class="dot"></span></a></li>
-				<!--{/if}-->
-				<!--{if $_G[member][newprompt]}-->
-				<!--{loop $_G['member']['category_num'] $key $val}-->
-					<li class="notice-item"><a href="home.php?mod=space&do=notice&view=$key"><!--{echo lang('template', 'notice_'.$key)}--><span class="num">$val</span><span class="dot"></span></a></li>
-				<!--{/loop}-->
-				<!--{/if}-->
-			</ul>
+			<div class="notice-content">
+				<ul id="myprompt_menu" class="notice-list" data-empty-label="{lang no_unread_notifications}"></ul>
+			</div>
 		</div>
 	</div>
 	<div class="header-user">
@@ -96,7 +87,7 @@
 						<a href="forum.php?mod=modcp&fid=$_G['fid']" class="info_portalcp" target="_blank">{lang forum_manager}</a>
 					<!--{/if}-->
 					<!--{if $_G['uid'] && getstatus($_G['member']['allowadmincp'], 1)}-->
-						<a href="?app=admin" class="info_admin" target="_blank">{lang admincp}</a>
+					<a href="/?app=admin" class="info_admin" target="_blank">{lang admincp}</a>
 					<!--{/if}-->
 				</div>
 				<div class="user-card-area">
@@ -151,8 +142,28 @@
 	</div>
 	<!--{/if}-->
 </div>
-<script type="text/javascript">
+<script>
 document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-client').forEach(function(element) {
+    if(element.classList.contains('header-notice')) {
+        var noticeMenu = element.querySelector('#myprompt_menu');
+        if(noticeMenu) {
+            element.addEventListener('mouseenter', function() {
+                if(noticeMenu.dataset.loaded || typeof ajaxget !== 'function') return;
+                noticeMenu.dataset.loaded = '1';
+                ajaxget('forum.php?mod=ajax&action=markAsRead', 'myprompt_menu', 'ajaxwaitid', null, null, function() {
+                    if(!noticeMenu.children.length) {
+                        var emptyItem = document.createElement('li');
+                        emptyItem.className = 'notice-empty';
+                        emptyItem.textContent = noticeMenu.dataset.emptyLabel;
+                        noticeMenu.appendChild(emptyItem);
+                    }
+                    var icon = element.querySelector('.notice-icon');
+                    var noticeDot = icon && icon.querySelector('.dot');
+                    if(noticeDot) noticeDot.remove();
+                });
+            });
+        }
+    }
     element.addEventListener('mouseenter', function() {
         this.classList.add('open');
     });
