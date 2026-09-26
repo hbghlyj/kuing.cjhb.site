@@ -306,7 +306,7 @@
 								<span class="sg-thread-hero__author"><span class="sg-thread-hero__avatar sg-thread-hero__avatar--anonymous">匿</span><span>$_G[setting][anonymoustext]</span></span>
 							<!--{/if}-->
 							<span>$sg_thread_dateline</span>
-							<span>$_G[forum_thread][views] 阅读</span>
+							<span>$_G[forum_thread][views] {lang tmp007}</span>
 						</div>
 					</div>
 				<!--{/if}-->
