@@ -107,7 +107,6 @@
 		</table>
 	</div>
 <!--{/if}-->
-<!--{if !$_G['style']['blog_mod']}-->
 <!--{if $modmenu['thread']}-->
 	<div id="modmenu" class="xi2 pbm">
 		<!--{eval $modopt=0;}-->
@@ -140,7 +139,6 @@
 		<!--{if $allowpusharticle && $allowpostarticle}--><!--{eval $modopt++}--><a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']">{lang modmenu_pusharticle}</a><span class="pipe">|</span><!--{/if}-->
 		<!--{hook/viewthread_modoption}-->
 	</div>
-<!--{/if}-->
 <!--{/if}-->
 <!--{hook/viewthread_beginline}-->
 
@@ -353,7 +351,7 @@
 	<!--{/if}-->
 </div>
 
-<!--{if $modmenu['thread'] && !$_G['style']['blog_mod']}-->
+<!--{if $modmenu['thread']}-->
 	<div class="xi2 mbm pbm bbs">
 	<script type="text/javascript">
 		$('modmenu').lastChild.style.visibility = 'hidden';
