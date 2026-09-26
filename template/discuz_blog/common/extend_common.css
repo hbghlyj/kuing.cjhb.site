@@ -1106,22 +1106,120 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 
 .dz_pg_space #ct.wp .mn .bm.bw0.online_user_list {overflow-x:auto}
 
-/* Float dialogs (login/register/lost-password) are narrower than the 760px
-   .rfm default and than the 500px that common.css applies inside .fwin, so a
-   fixed-width row spills past the dialog. Let the row fill the dialog instead,
-   matching what discuzx5 already does via
-   .fwin [id^="fwin_content"] .rfm in its extend_common.css. */
-.fwin [id^="fwin_content"] .rfm {width:100%;max-width:100%;box-sizing:border-box}
-.fwin [id^="fwin_content"] .rfm .px,
-.fwin [id^="fwin_content"] .rfm .px.p_fre,
-.fwin [id^="fwin_content"] .rfm .password-toggle-field {max-width:100%}
+/* Form Field Alignment -- ported from discuzx5/common/extend_common.css:1159-1275.
+   Each .rfm row is its own <table>, so column widths cannot be shared via table
+   layout. Use a grid with a FIXED label column so every label ends at the same
+   vertical line and every control starts at the same line. Controls get a
+   uniform width, and the tip/checkmark column sits to the RIGHT of the control
+   on the same row; minmax(0, 1fr) lets long strings wrap instead of collapsing
+   into a 1-character-wide cell (the old table-layout artifact).
 
-/* Cap the float dialogs themselves. Without this the panel sizes to its
-   content and only happens to land near 440px; min() makes it shrink predictably
-   on narrow viewports instead of being clipped by the viewport. Same declaration
-   and selector group as discuzx5/common/extend_common.css:1240-1242, so
-   lost-password and any future dialog carrying a .rfm are covered by the :has()
-   branch too. */
+   This supersedes the earlier ad-hoc float-dialog rules here (width:100% on .rfm
+   plus the .px max-width pair). Those stopped the row spilling out of the panel
+   but left every label ragged and every field a different width.
+
+   Deliberately NOT ported from the same x5 block: the standalone
+   .password-toggle-field rules. There is no password-toggle markup in ANY style
+   (0 hits in discuzx5, discuz_blog and default) and {IMGDIR}/password-eye.svg
+   is absent from all three, so the feature is inert in x5 too. */
+.rfm { width: min(100%, 760px); --rfm-label-w: 10em; --rfm-field-w: 280px; }
+.rfm table,
+.rfm tbody { display: block; width: 100%; }
+.rfm tr {
+	display: grid;
+	grid-template-columns: var(--rfm-label-w) minmax(0, max-content) minmax(0, 1fr);
+	column-gap: 10px;
+	align-items: start;
+}
+.rfm th {
+	grid-column: 1;
+	grid-row: 1;
+	width: auto;
+	white-space: nowrap;
+	text-align: right;
+}
+/* No explicit grid-column here: rows may hold more than one td (e.g. the
+   login/register submit rows carry a second td with an info icon). Explicit
+   placement would stack them all on column 2, and the later td's box then
+   intercepts clicks on the button underneath. Auto-placement assigns the
+   first td to column 2 and any following td to column 3. */
+.rfm td:not(.tipcol) {
+	grid-row: 1;
+	min-width: 0;
+}
+/* Full-width hint rows (e.g. email-verification note) span the field + tip
+   columns so long sentences wrap instead of stretching the field column. */
+.rfm td.tipwide {
+	grid-column: 2 / 4;
+	white-space: normal;
+	overflow-wrap: break-word;
+}
+.rfm td:not(.tipcol) .px {
+	width: var(--rfm-field-w);
+	max-width: 100%;
+	box-sizing: border-box;
+}
+/* .p_fre carries width:auto!important in common.css; keep .rfm fields uniform */
+.rfm td:not(.tipcol) .px.p_fre { width: var(--rfm-field-w) !important; }
+.rfm td.tipcol {
+	grid-column: 3;
+	grid-row: 1;
+	display: block;
+	width: auto;
+	max-width: 100%;
+	min-width: 0;
+	padding-top: 0;
+	padding-left: 0;
+}
+.rfm .p_tip,
+.rfm .p_chk,
+.rfm kbd.p_chk {
+	position: relative !important;
+	float: none;
+	width: auto !important;
+	max-width: 100%;
+	margin-top: 0;
+	padding-left: 0;
+	vertical-align: middle;
+	white-space: normal;
+	overflow-wrap: break-word;
+	word-break: normal;
+	hyphens: manual;
+}
+
+/* Float dialogs (#fwin_content_*, e.g. login/register/lost-password) are only
+   ~520px wide: a 10em label + 280px field leaves the tip column ~76px, so
+   links like "Create new account" wrap one word per line. Stack the label
+   and tip rows inside float windows, same as the <=760px viewport layout.
+   min() makes the panel shrink predictably on narrow viewports instead of
+   being clipped; the :has() branch covers lost-password and any future dialog
+   carrying a .rfm. */
 .fwin:has([id^="fwin_content"] .rfm),
 #fwin_login .fwin,
-#fwin_register .fwin {width:min(calc(100vw - 32px),440px)}
+#fwin_register .fwin { width: min(calc(100vw - 32px), 440px); }
+.fwin [id^="fwin_content"] .rfm,
+.rfm.rfm-stacked { --rfm-field-w: 100%; width: 100%; }
+.fwin [id^="fwin_content"] .rfm tr,
+.rfm.rfm-stacked tr { grid-template-columns: 1fr; }
+.fwin [id^="fwin_content"] .rfm th,
+.fwin [id^="fwin_content"] .rfm td:not(.tipcol),
+.fwin [id^="fwin_content"] .rfm td.tipcol,
+.rfm.rfm-stacked th,
+.rfm.rfm-stacked td:not(.tipcol),
+.rfm.rfm-stacked td.tipcol { grid-column: 1; grid-row: auto; }
+.fwin [id^="fwin_content"] .rfm th,
+.rfm.rfm-stacked th { text-align: left; }
+.fwin [id^="fwin_content"] .rfm td.tipcol,
+.rfm.rfm-stacked td.tipcol { padding-top: 4px; }
+
+@media screen and (max-width: 760px) {
+	.rfm { width: 100%; --rfm-field-w: 100%; }
+	.rfm tr { grid-template-columns: 1fr; }
+	/* Stack cells in DOM order; explicit rows would overlap when a row
+	   carries two td cells (e.g. the submit rows). */
+	.rfm th,
+	.rfm td:not(.tipcol),
+	.rfm td.tipcol { grid-column: 1; grid-row: auto; }
+	.rfm th { text-align: left; }
+	.rfm td.tipcol { padding-top: 4px; }
+}
