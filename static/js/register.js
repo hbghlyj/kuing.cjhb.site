@@ -178,7 +178,7 @@ var emaildomains = (function() {
 	return ['qq.com', 'gmail.com', 'foxmail.com', 'sina.com', '163.com', '126.com', 'hotmail.com', 'outlook.com'];
 })();
 function emailMenuOp(op, e, id) {
-	if(!$('emailmore_menu')) {
+	if(op != 3 && !$('emailmore_menu')) {
 		return;
 	}
 	if(op == 1) {

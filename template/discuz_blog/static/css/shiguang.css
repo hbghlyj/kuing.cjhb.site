@@ -1370,6 +1370,27 @@ body.discuzx5 .dz_footc_nav {
     border-color: var(--sg-line) !important;
 }
 
+body.discuzx5 .dz_footc_nav .footer-style-select {
+    min-width: 0;
+    min-height: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1px solid var(--sg-line);
+    border-radius: 6px;
+    background-color: var(--sg-paper-soft);
+    color: var(--sg-ink);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+body.discuzx5 .dz_footc_nav .footer-style-select:hover,
+body.discuzx5 .dz_footc_nav .footer-style-select:focus {
+    border-color: var(--sg-red);
+    color: var(--sg-red);
+    outline-color: var(--sg-red);
+}
+
 body.discuzx5 .dz_footc_copy,
 body.discuzx5 .dz_footc_copy a,
 body.discuzx5 .dz_footc_nav a,
