@@ -404,7 +404,6 @@ $lang = [
 	'have_posted' => 'Already Posted',
 	'payto_creditinfo' => 'Alipay Account Credit Info',
 	'recyclebin' => 'Recycle Bin',
-	'taobao' => 'AliWangWang',
 	'del_favorite' => 'Delete Selected Favorites',
 	'collection_favorite' => 'Add to Collection',
 	'del_select_favorite_confirm' => 'Are you sure you want to delete the selected favorites?',

@@ -928,7 +928,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 			$post['upgradeprogress'] = min(max($post['upgradeprogress'], 2), 100);
 		}
 
-		$post['taobaoas'] = addslashes($post['taobao']);
 		$post['regdate'] = dgmdate($post['regdate'], 'd');
 		$post['lastdate'] = dgmdate($post['lastvisit'], 'd');
 

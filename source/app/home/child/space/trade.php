@@ -143,7 +143,6 @@ if($_GET['view'] == 'me') {
 	}
 	$member['avatar'] .= '</div>';
 
-	$member['taobaoas'] = str_replace("'", '', addslashes($member['taobao']));
 	$member['regdate'] = dgmdate($member['regdate'], 'd');
 	$member['usernameenc'] = rawurlencode($member['username']);
 	$member['buyerrank'] = 0;

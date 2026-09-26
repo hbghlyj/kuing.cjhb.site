@@ -416,7 +416,6 @@ $lang = [
 	'have_posted' => '已發表',
 	'payto_creditinfo' => '支付寶賬戶信用資訊',
 	'recyclebin' => '回收站',
-	'taobao' => '阿裡旺旺',
 	'del_favorite' => '刪除選中收藏',
 	'del_attention' => '刪除選中關注',
 	'del_select_attention_confirm' => '確定要刪除選中的關注嗎？',

@@ -987,7 +987,6 @@ $lang = [
 	'post_trade_support_tenpay' => 'This goods supports Tenpay, you can inspect goods before payment',
 	'post_trade_transport_none' => 'No Shipping Fee',
 	'sold_out' => 'Sold Out',
-	'taobao' => 'AliWangWang',
 	'trade' => 'Goods',
 	'trade_bargain' => 'Bargain',
 	'trade_costprice' => 'Original Price',

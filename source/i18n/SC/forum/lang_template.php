@@ -994,7 +994,6 @@ $lang = [
 	'post_trade_support_tenpay' => '此商品支持财付通，您可以先验货后付款',
 	'post_trade_transport_none' => '无运费',
 	'sold_out' => '已售完',
-	'taobao' => '阿里旺旺',
 	'trade' => '商品',
 	'trade_bargain' => '砍价',
 	'trade_costprice' => '原价',

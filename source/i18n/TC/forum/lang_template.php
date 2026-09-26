@@ -994,7 +994,6 @@ $lang = [
 	'post_trade_support_tenpay' => '此商品支持財付通，您可以先驗貨後付款',
 	'post_trade_transport_none' => '無運費',
 	'sold_out' => '已售完',
-	'taobao' => '阿裡旺旺',
 	'trade' => '商品',
 	'trade_bargain' => '砍價',
 	'trade_costprice' => '原價',

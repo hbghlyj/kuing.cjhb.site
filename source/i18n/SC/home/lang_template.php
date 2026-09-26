@@ -416,7 +416,6 @@ $lang = [
 	'have_posted' => '已发表',
 	'payto_creditinfo' => '支付宝账户信用信息',
 	'recyclebin' => '回收站',
-	'taobao' => '阿里旺旺',
 	'del_favorite' => '删除选中收藏',
 	'del_attention' => '删除选中关注',
 	'del_select_attention_confirm' => '确定要删除选中的关注吗？',
