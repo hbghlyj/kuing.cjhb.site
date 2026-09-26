@@ -139,7 +139,7 @@ new Crawler({
             minProximity: 1,
             minWordSizefor1Typo: 3,
             minWordSizefor2Typos: 7,
-            separatorsToIndex: "!#()[]{}*+-_一,:;<>?@/\\^|%&~§`'''""†‡",
+            separatorsToIndex: "!#()[]{}*+-_一,:;<>?@/\\^|%&~§`'''\"\"†‡",
             ranking: [
                 "words",
                 "filters",
