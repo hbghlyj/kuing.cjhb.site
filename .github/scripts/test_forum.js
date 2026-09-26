@@ -744,6 +744,12 @@ const assertPusherMetadataOrder = () => {
         assert.strictEqual(requestSubmitMetadata, await page.evaluate(() => window.KK_PUSHER_TAB_ID), 'Assertion Error: requestSubmit Pusher metadata did not match the current tab token.');
 
         console.log("Testing footer locale switcher and localized forum names...");
+        const chatMessagesBeforeLocaleSwitch = page.locator('.pusher-chat-widget-messages');
+        const reopenChatAfterLocaleSwitch = await chatMessagesBeforeLocaleSwitch.isVisible();
+        if(reopenChatAfterLocaleSwitch) {
+            await page.locator('.pusher-chat-widget-header').click();
+            await chatMessagesBeforeLocaleSwitch.waitFor({ state: 'hidden' });
+        }
         const scLocaleLink = page.locator('#lang_selector_dropdown a[href="misc.php?mod=i18n&key=SC"]');
         // Open the dropdown first so the link is clickable
         await page.locator('#lang_select_btn').click();
@@ -764,6 +770,10 @@ const assertPusherMetadataOrder = () => {
         ]);
         assert.strictEqual(await page.evaluate(() => DISCUZ_I18N), 'EN', 'Assertion Error: Footer locale switch did not restore EN.');
         assert.strictEqual(await page.getByText('Default Forum', { exact: true }).count(), 1, 'Assertion Error: EN locale switch did not localize the forum name.');
+        if(reopenChatAfterLocaleSwitch) {
+            await page.locator('.pusher-chat-widget-header').click();
+            await page.locator('.pusher-chat-widget-messages').waitFor({ state: 'visible' });
+        }
 
         const tcContext = await browser.newContext({
             userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
