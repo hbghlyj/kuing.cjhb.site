@@ -33,7 +33,7 @@ if(getgpc('username')) {
 	if(empty($member) && !($member = table_common_member_archive::t()->fetch_by_username($_GET['username']))) {
 		$his = table_common_member_username_history::t()->fetch($_GET['username']);
 		if(!$his) {
-			showmessage('space_does_not_exist');
+			showmessage('space_does_not_exist', '', [], ['httpstatus' => 404]);
 		}
 		$member = table_common_member::t()->fetch($his['uid']);
 	}
@@ -70,7 +70,7 @@ if($_GET['do'] == 'follow') {
 if($uid && empty($member)) {
 	$space = getuserbyuid($uid, 1);
 	if(empty($space)) {
-		showmessage('space_does_not_exist');
+		showmessage('space_does_not_exist', '', [], ['httpstatus' => 404]);
 	}
 } else {
 	$space = &$member;

@@ -55,6 +55,7 @@ function dshowmessage($message, $url_forward = '', $values = [], $extraparam = [
 		'handle' => false,
 		'extrajs' => '',
 		'striptags' => true,
+		'httpstatus' => null,
 	];
 
 	if($message == 'submit_seccode_invalid' && !empty($_GET['seccodehash'])) {
@@ -133,6 +134,10 @@ function dshowmessage($message, $url_forward = '', $values = [], $extraparam = [
 	if($param['header']) {
 		header('HTTP/1.1 301 Moved Permanently');
 		dheader('location: '.str_replace('&amp;', '&', $url_forward));
+	}
+	if($param['httpstatus'] >= 400 && $param['httpstatus'] < 600) {
+		$httpstatusphrase = [400 => 'Bad Request', 401 => 'Unauthorized', 403 => 'Forbidden', 404 => 'Not Found', 405 => 'Method Not Allowed', 410 => 'Gone', 451 => 'Unavailable For Legal Reasons', 500 => 'Internal Server Error', 502 => 'Bad Gateway', 503 => 'Service Unavailable'];
+		dheader('Status: '.$param['httpstatus'].' '.($httpstatusphrase[$param['httpstatus']] ?? 'Error'), true, $param['httpstatus']);
 	}
 	$url_forward_js = addslashes(str_replace('\\', '%27', $url_forward));
 	if(!empty($param['location']) && !empty($_G['inajax'])) {

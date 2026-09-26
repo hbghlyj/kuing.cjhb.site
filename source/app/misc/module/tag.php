@@ -70,21 +70,21 @@ if(!empty($id) || $name !== '') {
 		foreach($nameparts as $value) {
 			$tagLength = mb_strlen($value, 'UTF-8');
 			if($value === '' || $tagLength > 35 || $tagLength < 3 || !preg_match('/^[^\x00-\x1F\x7F,]+$/u', $value)) {
-				showmessage('tag_does_not_exist', '', ['tag' => $value]);
+				showmessage('tag_does_not_exist', '', ['tag' => $value], ['httpstatus' => 404]);
 			}
 			$result = table_common_tag::t()->get_bytagname($value, 'tid');
 			if($result) {
 				$id[] = $result['tagid'];
 				$html_title[] = "<a href=\"misc.php?mod=tag&id={$result['tagid']}\">{$result['tagname']}</a>";
 			} else {
-				showmessage('tag_does_not_exist', '', ['tag' => $value]);
+				showmessage('tag_does_not_exist', '', ['tag' => $value], ['httpstatus' => 404]);
 			}
 		}
 	} else {
 		$tags = table_common_tag::t()->get_byids($id);
 		$id_not_exist = array_diff($id, array_column($tags, 'tagid'));
 		if(!empty($id_not_exist)) {
-			showmessage('tag_does_not_exist', '', ['tag' => implode(',', $id_not_exist)]);
+			showmessage('tag_does_not_exist', '', ['tag' => implode(',', $id_not_exist)], ['httpstatus' => 404]);
 		}
 		$tagname = implode(',', array_column($tags, 'tagname'));
 		$html_title = [];
