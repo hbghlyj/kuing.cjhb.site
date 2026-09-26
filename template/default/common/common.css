@@ -1663,7 +1663,7 @@ Last Modify:	Pony
 	.login-method-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: {LIGHTTEXT}; text-align: center; }
 		.login-method-divider::before, .login-method-divider::after { content: ""; flex: 1; border-top: 1px solid {COMMONBORDER}; }
 		.login-method-divider span { line-height: 1; }
-	.login-method-content { display: flex; justify-content: center; }
+	.login-method-content { display: flex; justify-content: center; align-items: center; }
 	.rfm.loginqa { display: none; }
 	.login-forgot { text-align: right; }
 
