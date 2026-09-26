@@ -85,6 +85,45 @@ class i18n {
 		return '';
 	}
 
+	/**
+	 * Per-style language overrides.
+	 *
+	 * The template compiler already merges template/<style>/i18n/<locale>/<file>
+	 * over the shared pack for {lang ...} in markup; see class_template. The
+	 * runtime lang() helper reads $_G['lang'], which is filled from here, so
+	 * without this a style-local key resolved to its own name at runtime and the
+	 * two paths disagreed. Same overlay, same precedence, so they agree.
+	 */
+	private static function getStyleLang($file, $i18n = '') {
+		global $_G;
+
+		if(empty($_G['style']['tpldir']) || !function_exists('DISCUZ_TEMPLATE')) {
+			return [];
+		}
+
+		// Style language files guard on IN_DISCUZ and exit when it is missing.
+		// The compiler only ever reaches them from inside a bootstrapped
+		// request, and this keeps the runtime path from being able to fatal
+		// where it previously could not.
+		if(!defined('IN_DISCUZ')) {
+			return [];
+		}
+
+		$tpldir = DISCUZ_TEMPLATE($_G['style']['tpldir']);
+		$locale = strtoupper($i18n ?: (string)currentlang());
+		$lang = [];
+
+		// English falls back to the style's SC copy, as the compiler does
+		if($locale === 'EN' && is_file($fallback = $tpldir.'/i18n/SC/'.$file)) {
+			$lang = array_merge($lang, self::loadLangFile($fallback));
+		}
+		if(is_file($override = $tpldir.'/i18n/'.$locale.'/'.$file)) {
+			$lang = array_merge($lang, self::loadLangFile($override));
+		}
+
+		return $lang;
+	}
+
 	public static function getLang($file, $i18n = '') {
 		global $_G;
 
@@ -96,6 +135,17 @@ class i18n {
 
 		$i18n = !empty($i18n) ? $i18n : ($_G['i18n'] ?? '');
 
+		// style-local overrides are merged last so they win, which is the same
+		// precedence the template compiler applies
+		return $loaded[$file] = array_merge(
+			self::resolveLang($file, $i18n),
+			self::getStyleLang($file, $i18n)
+		);
+	}
+
+	private static function resolveLang($file, $i18n = '') {
+		global $_G;
+
 		$lang = self::loadLangFile(self::getFallbackPath($file, $i18n));
 
 		if($i18n && !empty($_G['setting']['i18n']) && !empty($_G['setting']['i18n'][$i18n])) {
@@ -103,23 +153,22 @@ class i18n {
 				$customSource = $_G['setting']['i18n_custom'][$i18n] ?? 'default';
 				loadcache('lang');
 				if(!empty($_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file])) {
-					return $loaded[$file] = $_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file];
+					return $_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file];
 				} elseif(is_dir($path = $_G['setting']['i18n'][$customSource].'/')) {
 					$lang = array_merge($lang, self::loadLangFile($path.$file));
 					if(!empty($lang)) {
-						return $loaded[$file] = $lang;
+						return $lang;
 					}
 				}
 			} elseif(is_dir($path = $_G['setting']['i18n'][$i18n].'/')) {
 				$lang = array_merge($lang, self::loadLangFile($path.$file));
 				if(!empty($lang)) {
-					return $loaded[$file] = $lang;
+					return $lang;
 				}
 			}
 		}
 
-		$lang = array_merge($lang, self::loadLangFile(self::getDefaultPath($file)));
-		return $loaded[$file] = $lang;
+		return array_merge($lang, self::loadLangFile(self::getDefaultPath($file)));
 	}
 
 	public static function cmd($cmd, $langkey = '', $path = '') {
