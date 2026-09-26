@@ -3752,7 +3752,7 @@ China
 	'styles_edit_simple_switch' => 'Preview Style Settings',
 	'styles_edit_adv_switch' => 'Edit Style Settings',
 	'styles_edit_visual' => 'Visual Preview',
-	'styles_edit_visual_exit' => 'Logout',
+	'styles_edit_visual_exit' => 'Log out',
 	'styles_edit_visual_menu_current' => 'Current',
 	'styles_edit_visual_menu' => 'Navigation',
 	'styles_edit_visual_text' => '<p id="sp_tabletext" style="margin: 0; line-height: 1.6em; color: #444;"><a id="sp_link" href="https://www.discuz.vip/" target="_blank" style="color: #09C; text-decoration: none;">Crossday Discuz! Board</a> forum system<span id="sp_midtext" style="color: #666;">(referred to as <strong id="sp_notice" style="color: #F60;">Discuz!</strong> forum)</span> is an efficient website building solution built with PHP, MySQL, and various other databases.</p>',

@@ -209,7 +209,7 @@ $lang = [
 	'group_live_fastreply_notice' => '#Quick Reply Here#',
 	'group_live_post' => 'Post',
 	'group_live_nocontent_error' => 'Sorry, you have not entered content',
-	'login_to_reply' => 'You need to login before you can reply',
+	'login_to_reply' => 'You need to log in before you can reply',
 	'no_permission_to_post' => 'You do not have permission to post.',
 	'click_to_show_reason' => 'Click to show reason',
 ];

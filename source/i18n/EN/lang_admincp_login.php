@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 $lang =
 	[
 	'admincp_title' => '{bbname} Admin CP',
-	'login_title' => 'Login to Admin CP',
+	'login_title' => 'Log in to Admin CP',
 	'login_username' => 'Username',
 	'login_password' => 'Password',
 	'login_dk_light_mode' => 'Light Mode',
