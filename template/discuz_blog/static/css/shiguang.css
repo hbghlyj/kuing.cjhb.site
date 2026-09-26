@@ -395,125 +395,6 @@ body.discuzx5 .portal_side .blocktitle {
     font-size: 22px;
 }
 
-/* Article rows shared by the aggregate and forum list pages. */
-body.discuzx5 .forumportal_listc {
-    margin-bottom: 0;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    grid-template-rows: auto auto 1fr;
-    column-gap: 28px;
-    min-height: 160px;
-    padding: 28px 0;
-    border-top: 1px solid var(--sg-line);
-}
-
-body.discuzx5 .forumportal_listc li.kmlist:first-child {
-    border-top: 0;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmtit {
-    grid-column: 2;
-    grid-row: 1;
-    height: auto;
-    margin: 4px 0 10px;
-    overflow: visible;
-    white-space: normal;
-    font-family: "STSong", "Noto Serif SC", "Songti SC", serif;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmtxt {
-    grid-column: 2;
-    grid-row: 2;
-    max-height: 52px;
-    margin: 0 0 18px;
-    color: var(--sg-muted);
-    font-size: 14px;
-    line-height: 1.85;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmfoot {
-    grid-column: 2;
-    grid-row: 3;
-    align-self: end;
-    height: auto;
-    min-height: 24px;
-    margin: 0;
-    color: var(--sg-muted);
-    line-height: 24px;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_onebox,
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box {
-    grid-column: 1;
-    grid-row: 1 / span 3;
-    width: 220px !important;
-    min-width: 0;
-    max-width: none;
-    height: 160px;
-    margin: 0;
-    overflow: hidden;
-    border-radius: 7px;
-    background: #eee7dc;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_onebox .kmimg,
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box .kmshowimg:first-child {
-    display: block;
-    width: 100%;
-    max-width: none;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box .kmshowimg:not(:first-child) {
-    display: none;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_onebox img,
-body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box img {
-    position: static;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) {
-    grid-template-columns: minmax(0, 1fr);
-}
-
-body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmtit,
-body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmtxt,
-body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmfoot {
-    grid-column: 1;
-}
-
-body.discuzx5 .forumportal_listc .kmfoot .kmimg {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-
-body.discuzx5 .forumportal_listc .kmfoot .kmico_bk {
-    padding: 2px 9px;
-    border-radius: 5px;
-    background: rgba(74, 133, 119, .12);
-    color: var(--sg-green);
-}
-
-
-body.discuzx5 .forumportal_listc .kmtit span.kmding,
-body.discuzx5 .forumportal_listc .kmtit span.kmjing {
-    background: var(--sg-red);
-}
-
 /* Aggregate-home DIY feature module: a five-slide lead story plus two cards. */
 body.discuzx5 #diy1 .sg-diy-feature-frame,
 body.discuzx5 #diy1 .sg-diy-feature-frame > .column,
@@ -1505,16 +1386,6 @@ body.discuzx5 .dz_rnav a:hover {
         width: auto;
     }
 
-    body.discuzx5 .forumportal_listc li.kmlist {
-        grid-template-columns: 180px minmax(0, 1fr);
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist > .kmimg_onebox,
-    body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box {
-        width: 180px !important;
-        height: 140px;
-    }
-
     body.discuzx5 #postlist .pls {
         width: 170px;
     }
@@ -1568,40 +1439,6 @@ body.discuzx5 .dz_rnav a:hover {
     body.discuzx5 #threadlist > .bm_c {
         padding-right: 18px;
         padding-left: 18px;
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist,
-    body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) {
-        grid-template-columns: 1fr;
-        min-height: 0;
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist > .kmimg_onebox,
-    body.discuzx5 .forumportal_listc li.kmlist > .kmimg_box {
-        grid-column: 1;
-        grid-row: 1;
-        width: 100% !important;
-        height: 220px;
-        margin-bottom: 16px;
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist > .kmtit,
-    body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmtit {
-        grid-column: 1;
-        grid-row: 2;
-        font-size: 21px;
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist > .kmtxt,
-    body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmtxt {
-        grid-column: 1;
-        grid-row: 3;
-    }
-
-    body.discuzx5 .forumportal_listc li.kmlist > .kmfoot,
-    body.discuzx5 .forumportal_listc li.kmlist:not(:has(> .kmimg_onebox, > .kmimg_box)) > .kmfoot {
-        grid-column: 1;
-        grid-row: 4;
     }
 
     body.discuzx5 #postlist .pls {
