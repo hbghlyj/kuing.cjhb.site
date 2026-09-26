@@ -31,7 +31,8 @@
 					//showFace('message', 'message', msgstr);
 				}
 			}
-			if (BROWSER.firefox || BROWSER.chrome) {
+			var _ua = navigator.userAgent;
+			if (_ua.indexOf('Firefox') > -1 || _ua.indexOf('Chrome') > -1) {
 				//showFace('message', 'message', msgstr);
 			}
 		} else {
