@@ -68,10 +68,14 @@
 						<!--{eval $footerlinkindex = 0;}-->
 						<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
 								!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
-								<!--{if !empty($_G['setting']['styles'][1])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == 1}--><span class="xg1">default style</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
-								<!--{if !empty($_G['setting']['styles'][3])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == 3}--><span class="xg1">discuzx5</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '3', 31536000);location.reload();return false;">discuzx5</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
 								<!--{eval $blogStyleId = (int)($_G['setting']['style_directories']['./template/discuz_blog'] ?? 0);}-->
-								<!--{if $blogStyleId}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><!--{if $_G['style']['styleid'] == $blogStyleId}--><span class="xg1">blog style</span><!--{else}--><a href="javascript:;" onclick="setcookie('styleid', '$blogStyleId', 31536000);location.reload();return false;">blog style</a><!--{/if}--><!--{eval $footerlinkindex++;}--><!--{/if}-->
+								<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
+								<select class="footer-style-select" aria-label="{lang style}" onchange="setcookie('styleid', this.value, 31536000);location.reload();">
+									<!--{if !empty($_G['setting']['styles'][1])}--><option value="1"{if $_G['style']['styleid'] == 1} selected{/if}>default style</option><!--{/if}-->
+									<!--{if !empty($_G['setting']['styles'][3])}--><option value="3"{if $_G['style']['styleid'] == 3} selected{/if}>X5 style</option><!--{/if}-->
+									<!--{if $blogStyleId}--><option value="$blogStyleId"{if $_G['style']['styleid'] == $blogStyleId} selected{/if}>blog style</option><!--{/if}-->
+								</select>
+								<!--{eval $footerlinkindex++;}-->
 								<!--{if !empty($_G['setting']['i18n'])}-->
 									<!--{eval 
 										$footerLocales = [

@@ -134,18 +134,18 @@
 										<!--{eval $thread['tid']=$thread['closed'];}-->
 									<!--{/if}-->
 									<!--{if $groupnames[$thread['tid']]}-->
-										<a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread['tid']]['fid']}" target="_blank" class="kmbg kmico_bk">{$groupnames[$thread['tid']]['name']}</a>
+										<a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread['tid']]['fid']}" target="_blank">{$groupnames[$thread['tid']]['name']}</a>
 									<!--{elseif $thread['forumname']}-->
-										<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$thread['forumname']}</a>
+										<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
 									<!--{else}-->
-										{if $_G['cache']['forums'][$thread['fid']]['name']}<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$_G['cache']['forums'][$thread['fid']]['name']}</a>{/if}
+										{if $_G['cache']['forums'][$thread['fid']]['name']}<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>{/if}
 									<!--{/if}-->
 								<!--{elseif $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
 								<!--{elseif $_G['cache']['forums'][$thread['fid']]['name']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
+									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
 								<!--{elseif $thread['forumname']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$thread['forumname']}</a>
+									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
 								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->

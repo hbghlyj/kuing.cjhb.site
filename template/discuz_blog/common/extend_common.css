@@ -415,9 +415,6 @@ img{border:none;}
 #hds .p_pop a:hover{color:var(--dz-color);}
 #hds .p_pop a span{display: none;}
 #hds .p_pop .a a{background-color: var(--dz-bgc);color: var(--dz-ahover) !important;}
-.blog-recentthreads{display:block;padding:7px 0;text-align:right}
-.blog-recentthreads a{color:var(--dz-alink)}
-.blog-recentthreads a:after{display:inline-block;margin-left:6px;vertical-align:2px;content:"";border-top:4px solid currentColor;border-right:4px solid transparent;border-left:4px solid transparent}
 #recentthreads_menu{width:260px;max-width:calc(100vw - 32px)}
 #hds #recentthreads_menu a{overflow:hidden;text-align:left;text-overflow:ellipsis;white-space:nowrap}
 

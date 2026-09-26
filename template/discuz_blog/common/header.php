@@ -115,6 +115,7 @@
 									<!--{eval $n=9999;break;}-->
 								<!--{/if}-->
 							<!--{/loop}-->
+							<li id="recentthreads_wrap" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'43'})">{lang viewed_threads}</a></li>
 						</ul>
 						<!--{hook/global_nav_extra}-->
 					</div>
@@ -135,7 +136,6 @@
 			</ul>
 			<!--{/if}-->
 			$_G[setting][menunavs]
-			<span id="recentthreads_wrap" class="blog-recentthreads" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'43'})">{lang viewed_threads}</a></span>
 			<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display:none">
 				<ul id="v_threads"></ul>
 			</div>
