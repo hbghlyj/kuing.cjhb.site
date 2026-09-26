@@ -130,4 +130,5 @@ $lang = [
 	'tmp133' => 'More',
 	'tmp134' => 'Anonymous',
 	'tmp135' => 'View forum rules',
+	'post_newthread' => 'New Thread',
 ];
