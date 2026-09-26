@@ -309,6 +309,10 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if helper_access::check_module('favorite')}-->
 						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&formhash={FORMHASH}" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l" title="{lang thread_favorite}"></em>{lang thread_favorite}<span id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
 					<!--{/if}-->
+					<!--{if helper_access::check_module('attention') && $_G['forum_thread']['authorid'] != $_G['uid']}-->
+						<a href="home.php?mod=spacecp&ac=attention&op={if $_G['forum_thread']['userattention']}del{else}add{/if}&tid=$_G[tid]&hash={FORMHASH}" id="k_attention"{if $_G['forum_thread']['userattention']} class="active"{/if} onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang thread_attention}"><i><em class="fico-bell fc-n{if $_G['forum_thread']['attentionreplies']} fav-has-count{/if}" title="{lang thread_attention}"></em>{lang thread_attention}<!--{if $_G['forum_thread']['attentionreplies']}--><span class="xi1" id="attentionnumber">{$_G['forum_thread']['attentionreplies']}</span><!--{/if}--></i></a>
+					<!--{/if}-->
+					<!--{if $emailcopy_url}--><a href="$emailcopy_url" id="k_emailcopy" title="{lang emailpost_copy_title}"><i><em class="fico-email fc-n" title="{lang emailpost_copy_title}"></em>{lang emailpost_copy}</i></a><!--{/if}-->
 					<!--{if !$post['anonymous'] && $post['first'] && helper_access::check_module('follow')}-->
 						<a class="followp" href="home.php?mod=spacecp&ac=follow&op=relay&tid=$_G[tid]&from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="{lang follow_spread}"><i><em class="fico-launch fc-p" title="{lang thread_relay}"></em>{lang thread_relay}<!--{if $_G['forum_thread']['relay']}--><span id="relaynumber" style="display:none">{$_G['forum_thread']['relay']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
