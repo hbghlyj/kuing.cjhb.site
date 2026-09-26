@@ -536,6 +536,12 @@ img{border:none;}
 .header-user-avatar img,.header-user-avatar .Avatar{width:32px;height:32px;border-radius:50%;}
 .header-user-avatar .Avatar{font-size:16px}
 .header-user-dropdown{position:absolute;top:55px;right:0;display:none;}
+/* .poptip-popper adds padding:10px 0 7px. The 10px top is needed for the arrow,
+   but the 7px bottom is an unbacked strip below the card, so the page shows
+   through it and the panel reads as see-through. Drop just the bottom. Needs
+   the extra .header-user to outrank .poptip-popper, which comes later in this
+   file at equal specificity. */
+.header-user .header-user-dropdown{padding-bottom:0}
 .header-user .user-card{display:flex;flex-direction:column;align-items:center;width:210px;background:var(--dz-bgf);border-radius:4px;padding: 0 12px;max-width: 286px;overflow: hidden;cursor: default;box-shadow: 0 8px 20px 0 rgba(28, 54, 108, .05), 0 4px 12px 0 rgba(28, 54, 108, .08);}
 .header-user .user-card-area, .header-user .user-card-general{border-top:1px solid var(--dz-borderb);width:90%}
 .header-user .user-card-general a{display:block;width:100%;text-align:center}
