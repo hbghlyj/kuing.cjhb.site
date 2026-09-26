@@ -725,6 +725,23 @@ Last Modify:	Pony
 	.ais-SearchBox-loadingIndicator[hidden] {
 		display: none;
 	}
+
+	/* Blink draws its own clear ("x") glyph on <input type="search">, but this
+	   search box ships a custom .ais-SearchBox-reset button, so the native one
+	   is a duplicate. Suppress it explicitly rather than relying on the two
+	   overlapping: the header-search input carries padding-right:44px (from
+	   shiguang.css, scoped to body.discuzx5), which pushes the native glyph
+	   clear of the custom button and shows both. On x5 the padding is 8px, so
+	   the native glyph happens to sit underneath the custom button and is
+	   invisible -- suppressing it changes nothing there. */
+	.header-searcher .ais-SearchBox-input::-webkit-search-cancel-button,
+	.header-searcher .ais-SearchBox-input::-webkit-search-decoration,
+	.header-searcher .ais-SearchBox-input::-webkit-search-results-button,
+	.header-searcher .ais-SearchBox-input::-webkit-search-results-decoration {
+		-webkit-appearance: none;
+		appearance: none;
+		display: none;
+	}
 	#algolia-powered-by {
 		position: absolute;
 		top: 60px;
