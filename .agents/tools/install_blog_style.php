@@ -31,6 +31,8 @@ $discuz->init();
 
 foreach(table_common_style::t()->fetch_all_data(true, 1) as $style) {
 	if($style['directory'] === './template/discuz_blog') {
+		require_once './source/function/function_cache.php';
+		updatecache(['setting', 'styles']);
 		echo "Blog style already installed: {$style['styleid']}\n";
 		exit(0);
 	}
