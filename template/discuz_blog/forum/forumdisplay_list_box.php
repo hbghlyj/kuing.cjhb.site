@@ -110,20 +110,14 @@
 							<!--{/if}-->
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
-								<!--{if $_GET['view'] != 'me'}-->
-									<!--{if $thread['authorid'] && $thread['author']}-->
-										<a href="home.php?mod=space&uid=$thread['authorid']" c="1" class="kmimg" target="_blank"><!--{avatar($thread['authorid'],'middle')}--></a>
-									<!--{else}-->
-										<a href="javascript:;" class="kmimg"><!--{avatar(0,'middle')}--></a>
-									<!--{/if}-->
-								<!--{/if}-->
-								<!--{if $thread['authorid'] && $thread['author']}-->
-									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
-									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
+								<!--{if $thread['allreplies'] || $thread['replies']}-->
+								<cite><!--{if $thread['lastposter']}-->
+									<a href="{if $thread['digest'] != -2}home.php?mod=space&username=$thread['lastposterenc']{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}" target="_blank">$thread['lastposter']</a>
 								<!--{else}-->
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
-								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['dateline']</span>
+								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastposted} <a href="{if $thread['digest'] != -2}forum.php?mod=redirect&tid=$thread['tid']&goto=lastpost#lastpost{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}"><time data-local-timestamp="$thread['dblastpost']">$thread['lastpost']</time></a></span></cite>
+								<!--{/if}-->
 								<!--{if $_G['basescript'] != 'group' && CURMODULE != 'group' && !$thread['forumstick'] && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{if $thread['related_group'] == 0 && $thread['closed'] > 1}-->
 										<!--{eval $thread['tid']=$thread['closed'];}-->
@@ -141,6 +135,9 @@
 									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
 								<!--{elseif $thread['forumname']}-->
 									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank">{$thread['forumname']}</a>
+								<!--{/if}-->
+								<!--{if $thread['taglist']}-->
+									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
 								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->
