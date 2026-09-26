@@ -18,7 +18,7 @@
 	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 </div>
 <div class="boardnav">
-	<div id="ct" class="wp cl ct2 sg-forumdisplay-layout"{if $leftside} style="margin-left:{$_G['leftsidewidth_mwidth']}px"{/if}>
+	<div id="ct" class="wp cl{if $_G['forum']['allowside']} ct2{/if} sg-forumdisplay-layout"{if $leftside} style="margin-left:{$_G['leftsidewidth_mwidth']}px"{/if}>
 		<!--{if $leftside}-->
 			<div id="sd_bdl" class="dz_bdl" onmouseover="showMenu({'ctrlid':this.id, 'pos':'dz'});" style="width:{$_G['setting']['leftsidewidth']}px;margin-left:-{$_G['leftsidewidth_mwidth']}px">
 				<!--{hook/forumdisplay_leftside_top}-->
@@ -321,12 +321,6 @@
 				<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
 			</div>
 			<!--{hook/forumdisplay_side_bottom}-->
-		</div>
-		<!--{else}-->
-		<div class="sd sg-forumdisplay-sidebar">
-			<div class="drag sg-forumdisplay-diy">
-				<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
-			</div>
 		</div>
 		<!--{/if}-->
 	</div>
