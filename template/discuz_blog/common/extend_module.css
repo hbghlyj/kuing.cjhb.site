@@ -117,13 +117,13 @@
 /**forum::viewthread**/
 .pi {padding:15px 0;border-color:var(--dz-borderb)}
 .po {padding:5px 0;border-color:var(--dz-borderb)}
-.plc .authi span, .plc .authi em {margin:0 4px}
+.plc .authi .avt {padding-right:10px}
 .plc .authi a.kmico {margin:0 1px}
 .plc .authi .authicn {float:left;margin:1px 4px 0 0}
 /* Post time on its own line, matching the touch layout which puts it in a separate
    <li class="mtime">. The "Posted on" wording was dropped in the template.
-   No margin is declared here on purpose, so the time picks up the same 0 4px as every
-   other span and em in the byline from the rule above rather than being special-cased.
+   No margin is declared here, so the time sits flush with the byline's left edge like
+   the author name above it does.
    white-space:nowrap is required: .authi is a flex container and this em sits inside
    .sg-post-native-meta, which flex shrinks to roughly 130px. As a block the relative
    time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
