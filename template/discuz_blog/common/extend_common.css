@@ -780,15 +780,18 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
    .pgb a is deliberately left floated: blog's .pgb button groups rely on it. */
 .pg, .pg a, .pg strong, .pg label {float:none}
 /* .prev and .nxt are icon-only boxes. helper_page.php:49 sets the desktop prev label to
-   &nbsp;&nbsp; while next renders the words "Next Page", so the pair read asymmetrically:
-   one a small square, the other a wide button. Give both the same square box and hide
-   their text with text-indent rather than removing it, so the accessible name survives.
-   30px matches the height the shared ".pg a" rule already sets. */
-.pg a.prev, .pg a.nxt {padding:0;width:30px;min-width:30px;text-align:center;overflow:hidden;text-indent:-9999px}
-.pg a.prev {background-image:url({STYLEIMGDIR}/svg/arw_l.svg);background-position:50% 50%;background-size:14px;background-repeat:no-repeat}
-.pg a:hover.prev {background-image:url({STYLEIMGDIR}/svg/arw_ls.svg);background-repeat:no-repeat;background-position:50% 50%;background-size:14px}
-.pg a.nxt {background-image:url({STYLEIMGDIR}/svg/arw_r.svg);background-position:50% 50%;background-size:14px;background-repeat:no-repeat}
-.pg a:hover.nxt {background-image:url({STYLEIMGDIR}/svg/arw_rs.svg);background-repeat:no-repeat;background-position:50% 50%;background-size:14px}
+   &nbsp;&nbsp; while next renders the words "Next Page", so the pair read asymmetrically.
+   The shared ".pg a" rule sets display:inline, and on a non-replaced inline element
+   width, height and overflow are all ignored, so the box has to become inline-block for
+   the 30px square to apply. The label is hidden with font-size:0 plus color:transparent
+   rather than removed, which keeps the accessible name; text-indent cannot be used
+   because it has no effect alongside text-align:center. */
+.pg a.prev, .pg a.nxt {display:inline-block;padding:0;width:30px;min-width:30px;height:30px;line-height:30px;font-size:0;color:transparent;overflow:hidden;text-align:center;background-repeat:no-repeat;background-position:50% 50%;background-size:14px}
+.pg a:hover.prev, .pg a:hover.nxt {color:transparent}
+.pg a.prev {background-image:url({STYLEIMGDIR}/svg/arw_l.svg)}
+.pg a:hover.prev {background-image:url({STYLEIMGDIR}/svg/arw_ls.svg)}
+.pg a.nxt {background-image:url({STYLEIMGDIR}/svg/arw_r.svg)}
+.pg a:hover.nxt {background-image:url({STYLEIMGDIR}/svg/arw_rs.svg)}
 .pgb a {background-image:url({STYLEIMGDIR}/svg/arw_l.svg);background-size:14px;background-position:10px 50%;padding-left:28px}
 .pgb a:hover {background-image:url({STYLEIMGDIR}/svg/arw_ls.svg);background-repeat:no-repeat;background-size:14px}
 .pgb a:before, .pg a.nxt:after, .pg a.prev:after, .oshr:before, .tbms_r:before, .tbms:before, .xl a.d:before,  .c a.d:before, .fico-mypost:before, #scbar_btn:before, .fico-group:before, #task_ntc:before {display:none}
