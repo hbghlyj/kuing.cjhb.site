@@ -776,9 +776,12 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .pg label > span {display:inline-block;height:30px;line-height:30px;margin-left:8px;color:var(--dz-fa);white-space:nowrap}
 /* default/common/common.css:1809-1811 floats .pg right and every child left, which
    pulls .prev and .nxt out of flow and packs them ahead of the unfloated jump input.
-   Reset the .pg subtree to normal inline flow so DOM order is visual order.
-   .pgb a is deliberately left floated: blog's .pgb button groups rely on it. */
-.pg, .pg a, .pg strong, .pg label {float:none}
+   Reset the children to normal inline flow so DOM order is visual order.
+   .pg itself is deliberately NOT reset: its float:right is what keeps the pager on the
+   same line as the New Thread buttons, and .pg is a block-level div, so unfloating it
+   drops the pager onto its own row and wraps those buttons.
+   .pgb a is also left floated: blog's .pgb button groups rely on it. */
+.pg a, .pg strong, .pg label {float:none}
 /* .prev and .nxt are icon-only boxes. helper_page.php:49 sets the desktop prev label to
    &nbsp;&nbsp; while next renders the words "Next Page", so the pair read asymmetrically.
    The shared ".pg a" rule sets display:inline, and on a non-replaced inline element
