@@ -251,10 +251,19 @@ body.discuzx5 .dz_rbox_btn {
 body.discuzx5 .px,
 body.discuzx5 .pt,
 body.discuzx5 .ps,
-body.discuzx5 select,
-body.discuzx5 textarea {
+body.discuzx5 select {
     border-color: var(--sg-line);
     border-radius: 8px;
+    background: var(--sg-paper-soft);
+}
+
+/* No radius on textarea: a textarea clips its content to its border-radius, and the
+   padding is 8px, so an 8px radius put the curve exactly on the first character of
+   every line and sliced the start of each one. Square corners avoid the clip.
+   This must be its own rule, otherwise extend_common.css:134 puts its 4px back. */
+body.discuzx5 textarea {
+    border-color: var(--sg-line);
+    border-radius: 0;
     background: var(--sg-paper-soft);
 }
 
