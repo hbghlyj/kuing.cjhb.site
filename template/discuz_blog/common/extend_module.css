@@ -78,6 +78,7 @@
 .dz_list_top .kmgx:before {content:"\f10b";margin-top:1px;color:var(--dz-ahot)}
 .dz_list_top .kmon {color:var(--dz-color)}
 .dz_list_top .kmy, .dz_list_top #atarget, .dz_list_top .unchk, .dz_list_top .chked {float:right;margin-left:15px}
+.dz_list_top #forum_tags_select {float:right;margin-left:15px;width:auto;min-width:0;max-width:160px;height:20px;line-height:20px;padding:0 20px 0 8px;margin-top:0;font-size:12px;color:var(--dz-fa);background-color:var(--dz-bgf);background-position:100% center;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s);vertical-align:middle}
 .dz_list_top #atarget, .dz_list_top .unchk, .dz_list_top .chked {line-height:20px}
 .dz_list_top #atarget:before, .dz_list_top .unchk:before, .dz_list_top .chked:before {float:left;margin-top:3px;margin-right:4px;width:16px;height:16px;line-height:16px;font-size:16px}
 .dz_list_top #atarget, .dz_list_top #atarget:before, .dz_list_top .unchk:before {color:var(--dz-fa)}

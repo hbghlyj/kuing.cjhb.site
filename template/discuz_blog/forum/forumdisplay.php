@@ -201,7 +201,7 @@
 					<!--{hook/forumdisplay_postbutton_top}-->
 				</div>
 				<!--{/if}-->
-				<!--{if ($_G['forum']['threadtypes'] && $_G['forum']['threadtypes']['listable']) || (isset($_G['forum']['threadsorts']['types']) && is_array($_G['forum']['threadsorts']['types']) && count($_G['forum']['threadsorts']['types']) > 0) || !empty($forum_tags)}-->
+				<!--{if ($_G['forum']['threadtypes'] && $_G['forum']['threadtypes']['listable']) || (isset($_G['forum']['threadsorts']['types']) && is_array($_G['forum']['threadsorts']['types']) && count($_G['forum']['threadsorts']['types']) > 0)}-->
 					<ul id="thread_types" class="ttp bm cl">
 						<!--{hook/forumdisplay_threadtype_inner}-->
 						<li id="ttp_all" {if !$_GET['typeid'] && !$_GET['sortid']}class="xw1 a"{/if}><a href="forum.php?mod=forumdisplay&fid=$_G[fid]{if $_G['forum']['threadsorts']['defaultshow']}&filter=sortall&sortall=1{/if}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang forum_viewall}</a></li>
@@ -227,12 +227,6 @@
 						<!--{/if}-->
 						<!--{hook/forumdisplay_filter_extra}-->
 					</ul>
-					<!--{if $forum_tags}-->
-					<select id="forum_tags_select" aria-label="{lang post_tag}" onchange="if(this.value) { location.href = this.value; }">
-						<option value="">{lang post_tag}</option>
-						<!--{loop $forum_tags $tag}--><option value="misc.php?mod=tag&id=$tag[tagid]&name={echo rawurlencode($tag[tagname])}"><!--{echo strip_tags($tag['tagname']);}--></option><!--{/loop}-->
-					</select>
-					<!--{/if}-->
 					<script type="text/javascript">showTypes('thread_types');</script>
 				<!--{/if}-->
 				<!--{hook/forumdisplay_threadtype_extra}-->
