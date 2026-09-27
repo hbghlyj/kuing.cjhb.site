@@ -1279,6 +1279,12 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 
 .pgs #modmenutop, .pgs #modmenubtm {float:left;margin-right:5px}
 .pgsbtn.modmenu_btn {float:left;margin-right:5px;padding:12px 18px;background:var(--dz-btnbg);color:var(--dz-btntxt) !important}
+/* The bump control is an inline .pgsbtn, so its vertical padding does not contribute to
+   layout height, and the dzicon glyph inside <font face="dzicon"> inflates the painted box
+   past its siblings. The rest of the row resolves to 34px: .pn/.pnc declares height:34px
+   outright, and .pgsbtn gets 12+10+12 from its padding plus the inherited line-height:10px.
+   Pin the bump to that same 34px and centre the label with line-height rather than padding. */
+.pgs .y > a.pgsbtn {display:inline-block;box-sizing:border-box;height:34px;line-height:34px;padding:0 28px}
 .pgsbtn.modmenu_btn:hover {opacity:0.85;background-color:var(--dz-btnbg);color:var(--dz-btntxt) !important}
 .pgsbtn.modmenu_btn.showmenu::after {color:var(--dz-btntxta) !important}
 .modmenu_popup {display:grid;grid-template-columns:repeat(2,minmax(96px,1fr));gap:3px 6px;min-width:210px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m,6px);background:var(--dz-bgf);z-index:301}
