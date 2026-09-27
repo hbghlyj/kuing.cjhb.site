@@ -197,9 +197,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt">{echo avatar($post['authorid'], 'small')}</a><!--{/if}--><!--{if $post['authorself']}--><em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em><!--{/if}-->
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
 					<!--{if $post['authorself']}-->
-					{lang thread_author}<span class="pipe">|</span>
-					<!--{/if}-->
-					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}-->
+					{lang thread_author}<span class="pipe">|</span><!--{/if}--><!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					<em id="authorposton$post[pid]">$post[dateline]</em>
 					<!--{if $post['status'] & 8}-->
