@@ -202,7 +202,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
 					<!--{if $post['authorself']}-->
-					&nbsp;{lang thread_author}<span class="pipe">|</span>
+					{lang thread_author}<span class="pipe">|</span>
 					<!--{/if}-->
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
