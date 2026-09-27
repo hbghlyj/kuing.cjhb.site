@@ -194,12 +194,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<div class="authi" data-datetime="$post[dateline]">
 				<span class="sg-post-native-meta xi2">
 				<!--{if $close_leftinfo && !$post['anonymous'] && $postshowavatars && $showavatars && $_G['style']['viewthread_pl']}-->
-					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt">{echo avatar($post['authorid'], 'small')}</a>
-				<!--{/if}-->
-				<!--{if $post['authorself']}-->
-					<em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em>
-				<!--{/if}-->
-
+					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt">{echo avatar($post['authorid'], 'small')}</a><!--{/if}--><!--{if $post['authorself']}--><em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em><!--{/if}-->
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
 					<!--{if $post['authorself']}-->
 					{lang thread_author}<span class="pipe">|</span>
