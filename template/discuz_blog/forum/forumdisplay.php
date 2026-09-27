@@ -9,7 +9,7 @@
 <!--{if !$_G['style']['blog_mod']}-->
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation<em>&raquo;</em><a href="forum.php" class="nvhm" title="{lang return_index}">{lang return_index}</a>
+		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation
 	</div>
 </div>
 <!--{/if}-->
