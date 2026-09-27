@@ -18,6 +18,7 @@
 	<div class="z">
 		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][short_subject]</a>
 	</div>
+	<span class="y pgb"><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 </div>
 <!--{/if}-->
 <!--{hook/viewthread_top}-->

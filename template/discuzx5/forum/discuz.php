@@ -243,7 +243,7 @@
 									<!--{hook/index_favforum_extra $forum['fid']}-->
 								</td>
 								<td class="fl_i" width="6%">
-									<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
+									<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon">&#xf134;</font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon">&#xf10d;</font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
 								</td>
 								<td class="fl_by">
 									<div>
