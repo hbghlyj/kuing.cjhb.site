@@ -117,7 +117,7 @@
 /**forum::viewthread**/
 .pi {padding:15px 0;border-color:var(--dz-borderb)}
 .po {padding:5px 0;border-color:var(--dz-borderb)}
-.plc .authi a, .plc .authi span, .plc .authi em {margin:0 4px}
+.plc .authi span, .plc .authi em {margin:0 4px}
 .plc .authi a.kmico {margin:0 1px}
 .plc .authi .authicn {float:left;margin:1px 4px 0 0}
 /* Post time on its own line, matching the touch layout which puts it in a separate
