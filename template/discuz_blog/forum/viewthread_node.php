@@ -192,7 +192,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 				</div>
 				<div class="authi" data-datetime="$post[dateline]">
-				<span class="sg-post-native-meta">
+				<span class="sg-post-native-meta xi2">
 				<!--{if $close_leftinfo && !$post['anonymous'] && $postshowavatars && $showavatars && $_G['style']['viewthread_pl']}-->
 					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt">{echo avatar($post['authorid'], 'small')}</a>
 				<!--{/if}-->
@@ -204,14 +204,14 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $post['authorself']}-->
 					&nbsp;{lang thread_author}<span class="pipe">|</span>
 					<!--{/if}-->
-					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2">$post[author]</a>$authorverifys<!--{/if}-->
+					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					<em id="authorposton$post[pid]">$post[dateline]</em>
 					<!--{if $post['status'] & 8}-->
 						<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
 					<!--{/if}-->
 				<!--{elseif getstatus($post['status'], 5)}-->
-					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;" class="xi2">$post[author]</a><!--{/if}-->
+					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;">$post[author]</a><!--{/if}-->
 					<em id="authorposton$post[pid]">$post[dateline]</em>
 				<!--{elseif $post['authorid'] && $post['username'] && $post['anonymous'] || !$post['authorid'] && !$post['username']}-->
 					$_G[setting][anonymoustext]&nbsp;
