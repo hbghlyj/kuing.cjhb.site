@@ -122,8 +122,12 @@
 .plc .authi .authicn {float:left;margin:1px 4px 0 0}
 /* Post time on its own line, matching the touch layout which puts it in a separate
    <li class="mtime">. The "Posted on" wording was dropped in the template, so the
-   horizontal 4px margin from the rule above no longer applies to this block. */
-.plc .authi em[id^="authorposton"] {display:block;margin:2px 0 0;padding:0}
+   horizontal 4px margin from the rule above no longer applies to this block.
+   white-space:nowrap is required: .authi is a flex container and this em sits inside
+   .sg-post-native-meta, which flex shrinks to roughly 130px. As a block the relative
+   time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
+   because it simply overflowed. */
+.plc .authi em[id^="authorposton"] {display:block;margin:2px 0 0;padding:0;white-space:nowrap}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
 .t_f ul{    margin-left: 0px;}
