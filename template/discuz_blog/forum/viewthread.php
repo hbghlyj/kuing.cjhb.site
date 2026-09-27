@@ -35,7 +35,7 @@
 	<!--{if !$_G['style']['blog_mod']}-->
 	<div id="pgt" class="pgs mbm cl">
 		<div class="pgt">$multipage</div>
-<span class="y pg"><a href="javascript:bumpthread();" title="{lang bump}"><font color="#888" face="dzicon">&#xf124;</font>{lang bump}</a></span>
+<span class="y"><a class="pgsbtn" href="javascript:bumpthread();" title="{lang bump}"><font face="dzicon">&#xf124;</font>{lang bump}</a></span>
 		<!--{if $_G['forum']['threadsorts'] && $_G['forum']['threadsorts']['templatelist']}-->
 			<!--{loop $_G['forum']['threadsorts']['types'] $id $name}-->
 				<button id="newspecial" class="pn pnc" onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]&extra=$extra&sortid=$id'"><strong>{lang i_want}$name</strong></button>
@@ -374,7 +374,7 @@ $_G['forum_tagscript']
 
 <div class="pgs mtm mbm cl">
 $multipage
-<span class="y pg"><a href="javascript:bumpthread();" title="{lang bump}"><font color="#888" face="dzicon">&#xf124;</font>{lang bump}</a></span>
+<span class="y"><a class="pgsbtn" href="javascript:bumpthread();" title="{lang bump}"><font face="dzicon">&#xf124;</font>{lang bump}</a></span>
 <!--{if !$_G['forum_thread']['is_archived']}-->
 		<a id="newspecialtmp"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang post_newthread}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang post_newthread}</a>
 	<!--{/if}-->
