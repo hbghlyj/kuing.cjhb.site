@@ -774,6 +774,13 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .pg label {display:inline-flex;align-items:center;float:none;border:0;background:none;min-width:0;margin-left:6px;padding:0;height:auto;overflow:visible}
 .pg label .px {font-size:12px;min-width:5ch;height:30px;line-height:30px;margin-left:6px;padding:0 6px;text-align:center;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s);background-color:var(--dz-bgf);color:var(--dz-fa)}
 .pg label > span {display:inline-block;height:30px;line-height:30px;margin-left:8px;color:var(--dz-fa);white-space:nowrap}
+/* Put the four pager parts on one aligned row. Two reasons this was needed:
+   1. box-sizing:border-box, so height:30px is the whole box. Without it the 1px borders
+      make every bordered part 32px while the unbordered label stays 30px.
+   2. vertical-align:middle, because the arrow boxes carry font-size:0 and no text, so
+      their baseline is the bottom margin edge, while the input and the total sit on the
+      text baseline. Default baseline alignment therefore raised the arrows above them. */
+.pg a.prev, .pg a.nxt, .pg label, .pg label .px, .pg label > span {box-sizing:border-box;vertical-align:middle}
 /* default/common/common.css:1809-1811 floats .pg right and every child left, which
    pulls .prev and .nxt out of flow and packs them ahead of the unfloated jump input.
    Reset the children to normal inline flow so DOM order is visual order.
