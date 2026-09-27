@@ -235,7 +235,7 @@ class discuz_application extends discuz_base {
 				'manage' => ['mod_member', 'report', 'pmreport'],
 				'app' => [],
 			],
-			'mobiletpl' => ['1' => 'touch', '2' => 'touch', '3' => 'touch', 'yes' => 'touch'],
+			'mobiletpl' => ['1' => 'touch', '2' => 'touch', 'yes' => 'touch'],
 		];
 		$_G['PHP_SELF'] = dhtmlspecialchars($this->_get_script_url());
 		$_G['basescript'] = CURSCRIPT;

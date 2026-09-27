@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 $lang = [
 	'no_simplemobiletype' => '简易版',
 	'nomobiletype' => '电脑版',
-	'extremelysimplemobiletype' => 'WML版',
 	'favorite' => '收藏',
 	'my_posts' => '我的帖子',
 	'new_pm' => '新短消息',

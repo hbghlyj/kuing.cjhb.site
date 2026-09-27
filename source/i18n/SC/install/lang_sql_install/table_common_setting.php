@@ -1088,7 +1088,6 @@ $data = [[
       'mobilecomefrom' => '',
       'mobilepreview' => 0,
       'legacy' => 1,
-      'wml' => 0,
       'portal' =>
       [
         'catnav' => 0,

@@ -26,7 +26,6 @@ if(submitcheck('settingsubmit')) {
 	$settingnew['mobile_arr']['mobilecomefrom'] = preg_replace(["/\son(.*)=[\'\"](.*?)[\'\"]/i"], '', strip_tags($settingnew['mobile']['mobilecomefrom'], '<a><font><img><span><strong><b>'));
 	$settingnew['mobile_arr']['mobilepreview'] = intval($settingnew['mobile']['mobilepreview']);
 	$settingnew['mobile_arr']['legacy'] = 0;
-	$settingnew['mobile_arr']['wml'] = 0;
 
 	$settingnew['mobile_arr']['portal']['catnav'] = intval($settingnew['mobile']['portal']['catnav']);
 	$settingnew['mobile_arr']['portal']['wzpicture'] = intval($settingnew['mobile']['portal']['wzpicture']);

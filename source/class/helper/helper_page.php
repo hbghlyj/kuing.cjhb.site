@@ -108,16 +108,15 @@ class helper_page {
 					'<a href="'.(self::mpurl($mpurl, $pagevar, $i)).($ajaxtarget && $i == $pages && $autogoto ? '#' : $a_name).'"'.$ajaxtarget.'>'.$i.'</a>';
 			}
 
-			$wml = defined('IN_MOBILE') && IN_MOBILE == 3;
 			$jsurl = '';
-			if(($showpagejump || $showkbd) && !$simple && !$ajaxtarget && !$wml) {
+			if(($showpagejump || $showkbd) && !$simple && !$ajaxtarget) {
 				$jsurl = $mpurl.(str_contains($mpurl, '{page}') ? '\'.replace(\'{page}\', this.value == 1 ? \'\' : this.value)' : $pagevar.'\'+this.value;').'; doane(event);';
 			}
 
 			$multipage .= ($to < $pages ? '<a href="'.(self::mpurl($mpurl, $pagevar, $pages)).$a_name.'" class="last"'.$ajaxtarget.'>'.$dot.' '.$pages.'</a>' : '').
-				($showpagejump && !$simple && !$ajaxtarget && !$wml ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$pageunit.'"> / '.$pages.' '.$pageunit.'</span></label>' : '').
+				($showpagejump && !$simple && !$ajaxtarget ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$pageunit.'"> / '.$pages.' '.$pageunit.'</span></label>' : '').
 				($curpage < $pages && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage + 1)).$a_name.'" class="nxt"'.$ajaxtarget.'>'.$lang['next'].'</a>' : '').
-				($showkbd && !$simple && $pages > $page && !$ajaxtarget && !$wml ? '<kbd><input type="number" min="1" max="'.$pages.'" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"></kbd>' : '');
+				($showkbd && !$simple && $pages > $page && !$ajaxtarget ? '<kbd><input type="number" min="1" max="'.$pages.'" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"></kbd>' : '');
 
 			if(defined('IN_MOBILE') && $multipage) {
 				$multipage .= '<input type="hidden" name="multipage_url" id="multipage_url" value="'.$mpurl.'">';

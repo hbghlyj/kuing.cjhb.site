@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 $lang = [
 	'no_simplemobiletype' => 'Simple Version',
 	'nomobiletype' => 'Desktop Version',
-	'extremelysimplemobiletype' => 'WML Version',
 	'favorite' => 'Favorite',
 	'my_posts' => 'My Posts',
 	'new_pm' => 'New PM',
