@@ -77,6 +77,11 @@ class helper_page {
 			$realpages = @ceil($num / $perpage);
 			$curpage = $curpage > $realpages ? $realpages : $curpage;
 			$pages = $maxpages && $maxpages < $realpages ? $maxpages : $realpages;
+			// English needs a plural unit once there is more than one page. $pages is 2 or
+			// more in practice because the pager only renders when $num > $perpage, but
+			// a $maxpages of 1 would make the singular correct, so branch rather than
+			// hardcode the plural.
+			$pageunit = $pages > 1 ? lang('core', 'pageunits') : $lang['pageunit'];
 
 			if($page > $pages) {
 				$from = 1;
@@ -110,7 +115,7 @@ class helper_page {
 			}
 
 			$multipage .= ($to < $pages ? '<a href="'.(self::mpurl($mpurl, $pagevar, $pages)).$a_name.'" class="last"'.$ajaxtarget.'>'.$dot.' '.$pages.'</a>' : '').
-				($showpagejump && !$simple && !$ajaxtarget && !$wml ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$lang['pageunit'].'"> / '.$pages.' '.$lang['pageunit'].'</span></label>' : '').
+				($showpagejump && !$simple && !$ajaxtarget && !$wml ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$pageunit.'"> / '.$pages.' '.$pageunit.'</span></label>' : '').
 				($curpage < $pages && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage + 1)).$a_name.'" class="nxt"'.$ajaxtarget.'>'.$lang['next'].'</a>' : '').
 				($showkbd && !$simple && $pages > $page && !$ajaxtarget && !$wml ? '<kbd><input type="number" min="1" max="'.$pages.'" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"></kbd>' : '');
 

@@ -15,6 +15,7 @@ $lang =
 	'nextpage' => '下一頁',
 	'prevpage' => '上一頁',
 	'pageunit' => '頁',
+	'pageunits' => '頁',
 	'total' => '共',
 	'10k' => '萬',
 	'pagejumptip' => '輸入頁碼，按回車快速跳轉',

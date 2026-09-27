@@ -15,6 +15,7 @@ $lang =
 	'nextpage' => 'Next Page',
 	'prevpage' => 'Previous Page',
 	'pageunit' => 'Page',
+	'pageunits' => 'pages',
 	'total' => 'Total',
 	'10k' => '0K',
 	'pagejumptip' => 'Enter page number, press Enter to jump quickly',
