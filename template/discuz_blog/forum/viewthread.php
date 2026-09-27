@@ -33,7 +33,8 @@
 <div id="ct" class="cl">
 	<!--{if !$_G['style']['blog_mod']}-->
 	<div id="pgt" class="pgs mbm cl">
-		<div class="pgt">$multipage</div>
+<div class="pgt">$multipage</div>
+<span class="y pg"><a href="javascript:bumpthread();" title="{lang bump}"><font color="#888" face="dzicon">&#xf124;</font>{lang bump}</a></span>
 		<span class="y pgb"{if $_G['setting']['visitedforums']} id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'34'})"{/if}><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 		<!--{if $_G['forum']['threadsorts'] && $_G['forum']['threadsorts']['templatelist']}-->
 			<!--{loop $_G['forum']['threadsorts']['types'] $id $name}-->
@@ -114,7 +115,7 @@
 	<ul class="p_pop modmenu_popup" id="modmenu_menu" style="display: none">
 		<!--{eval $modopt=0;}-->
 		<!--{if $_G['forum']['ismoderator']}-->
-			<!--{if $_G['group']['allowbumpthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(3, 'bump');hideMenu()">{lang modmenu_updown}</a></li><!--{/if}-->
+			<!--{if !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(3, 'bump');hideMenu()">{lang modmenu_updown}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowstickthread'] && ($_G['forum_thread']['displayorder'] <= 3 || $_G['adminid'] == 1) && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(1, 'stick');hideMenu()">{lang modmenu_stickthread}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowhighlightthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(1, 'highlight');hideMenu()">{lang modmenu_highlight}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowdigestthread'] && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modthreads(1, 'digest');hideMenu()">{lang modmenu_digestpost}</a></li><!--{/if}-->
@@ -136,7 +137,7 @@
 			<!--{/if}-->
 			<!--{if $_G['group']['allowremovereward'] && $_G['forum_thread']['special'] == 3 && !$_G['forum_thread']['is_archived']}--><!--{eval $modopt++;}--><li><a href="javascript:;" onclick="modaction('removereward');hideMenu()">{lang modmenu_removereward}</a></li><!--{/if}-->
 			<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}--><li><a href="javascript:;" onclick="modthreads(5, 'recommend_group');hideMenu();return false;">{lang modmenu_grouprecommend}</a></li><!--{/if}-->
-			<!--{if $_G['group']['allowmanagetag']}--><li><a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0);hideMenu()">{lang post_tag}</a></li><!--{/if}-->
+				<!--{if !empty($_G['group']['allowretag'])}--><li><a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0);hideMenu()">{lang post_tag}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++;}--><li class="modmenu_del"><a href="javascript:;" onclick="modthreads(3, 'delete');hideMenu()">{lang modmenu_deletethread}</a></li><!--{/if}-->
 		<!--{/if}-->
 		<!--{if $allowpusharticle && $allowpostarticle}--><!--{eval $modopt++;}--><li><a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']">{lang modmenu_pusharticle}</a></li><!--{/if}-->
@@ -372,8 +373,9 @@ $_G['forum_tagscript']
 <!--{/if}-->
 
 <div class="pgs mtm mbm cl">
-	$multipage
-	<span class="pgb y"{if $_G['setting']['visitedforums']} id="visitedforumstmp" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'21'})"{/if}><a href="$upnavlink">{lang return_forumdisplay}</a></span>
+$multipage
+<span class="y pg"><a href="javascript:bumpthread();" title="{lang bump}"><font color="#888" face="dzicon">&#xf124;</font>{lang bump}</a></span>
+<span class="pgb y"{if $_G['setting']['visitedforums']} id="visitedforumstmp" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'21'})"{/if}><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 	<!--{if !$_G['forum_thread']['is_archived']}-->
 		<a id="newspecialtmp"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang post_newthread}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang post_newthread}</a>
 	<!--{/if}-->
