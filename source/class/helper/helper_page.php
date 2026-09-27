@@ -54,10 +54,7 @@ class helper_page {
 			$lang['pagejumptip'] = lang('core', 'pagejumptip');
 		}
 		if(defined('IN_MOBILE') && !defined('TPL_DEFAULT')) {
-			$dot = '..';
 			$page = intval($page) < 10 && intval($page) > 0 ? $page : 4;
-		} else {
-			$dot = '...';
 		}
 		$multipage = '';
 		if($jsfunc === FALSE) {
@@ -101,20 +98,14 @@ class helper_page {
 				}
 			}
 			$_G['page_next'] = $to;
-			$multipage = ($curpage - $offset > 1 && $pages > $page ? '<a href="'.(self::mpurl($mpurl, $pagevar, 1)).$a_name.'" class="first"'.$ajaxtarget.'>1 '.$dot.'</a>' : '').
-				($curpage > 1 && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage - 1)).$a_name.'" class="prev"'.$ajaxtarget.'>'.$lang['prev'].'</a>' : '');
-			for($i = $from; $i <= $to; $i++) {
-				$multipage .= $i == $curpage ? '<strong>'.$i.'</strong>' :
-					'<a href="'.(self::mpurl($mpurl, $pagevar, $i)).($ajaxtarget && $i == $pages && $autogoto ? '#' : $a_name).'"'.$ajaxtarget.'>'.$i.'</a>';
-			}
+			$multipage = ($curpage > 1 && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage - 1)).$a_name.'" class="prev"'.$ajaxtarget.'>'.$lang['prev'].'</a>' : '');
 
 			$jsurl = '';
 			if(($showpagejump || $showkbd) && !$simple && !$ajaxtarget) {
 				$jsurl = $mpurl.(str_contains($mpurl, '{page}') ? '\'.replace(\'{page}\', this.value == 1 ? \'\' : this.value)' : $pagevar.'\'+this.value;').'; doane(event);';
 			}
 
-			$multipage .= ($to < $pages ? '<a href="'.(self::mpurl($mpurl, $pagevar, $pages)).$a_name.'" class="last"'.$ajaxtarget.'>'.$dot.' '.$pages.'</a>' : '').
-				($showpagejump && !$simple && !$ajaxtarget ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$pageunit.'"> / '.$pages.' '.$pageunit.'</span></label>' : '').
+			$multipage .= ($showpagejump && !$simple && !$ajaxtarget ? '<label><input type="number" min="1" max="'.$pages.'" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"><span title="'.$lang['total'].' '.$pages.' '.$pageunit.'"> / '.$pages.' '.$pageunit.'</span></label>' : '').
 				($curpage < $pages && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage + 1)).$a_name.'" class="nxt"'.$ajaxtarget.'>'.$lang['next'].'</a>' : '').
 				($showkbd && !$simple && $pages > $page && !$ajaxtarget ? '<kbd><input type="number" min="1" max="'.$pages.'" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}"></kbd>' : '');
 
