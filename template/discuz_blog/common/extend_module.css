@@ -129,6 +129,13 @@
    time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
    because it simply overflowed. */
 .plc .authi em[id^="authorposton"] {display:block;padding:0;white-space:nowrap}
+/* The edit-history control is a flex item of .authi, so align-items:center
+   centres it against the whole two-line author block and strands it in the
+   gap between the name and the time. Pin it to the timestamp line instead
+   and lift it 3px so the glyph sits on the text baseline. The inherited
+   a.editlog margin-left:6px is dropped because .authi's 8px flex gap
+   already separates the two. */
+.plc .authi a.editlog {align-self:flex-end;margin:0 0 3px}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
 .t_f ul{    margin-left: 0px;}
