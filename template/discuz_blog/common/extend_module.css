@@ -129,26 +129,25 @@
    time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
    because it simply overflowed. */
 .plc .authi em[id^="authorposton"] {display:block;padding:0;white-space:nowrap}
-/* The edit-history control is rendered inside em[id^="authorposton"], on the
-   timestamp's own line box, so it can never collide with the time text the
-   way a sibling of .sg-post-native-meta did.
+/* The edit-history control sits on the first byline line, right after the
+   username, where it doubles as the separator that the removed
+   <span class="pipe">|</span> used to provide between the name and the
+   {lang thread_author} label.
 
-   That move is what made the 54px overflow matter: .authi is a flex row, so
-   .sg-post-native-meta was sized to about 132px -- the width of the time text
-   alone -- while the floated avatar (40px + 2px margin + 10px padding) is
-   out of flow and so contributed nothing to that intrinsic width. The time
-   line was then indented 54px by the float and ran 54px past its own box.
+   It is inline here, not a flex item, so it takes an inline margin and
+   vertical-align rather than align-self.
 
-   flex:0 0 auto did not help, because a flex item's auto base size still
-   ignores out-of-flow floats. display:inline-block does establish a
-   block formatting context, so the float is accounted for and the box grows
-   to fit float + time + icon (measured 277px, no overflow).
-
-   The anchor is inline rather than a flex item now, so it needs an inline
-   margin instead of align-self, and vertical-align:middle puts the glyph on
-   the text baseline. */
+   .sg-post-native-meta still needs display:inline-block: .authi is a flex
+   row, so the meta span was sized to about 132px -- the width of the time
+   text alone -- while the floated avatar (40px + 2px margin + 10px
+   padding) is out of flow and so contributed nothing to that intrinsic
+   width, yet it still indents the time's line box by 54px. That made the
+   box 54px narrower than its content. flex:0 0 auto could not fix it,
+   because a flex item's auto base size still ignores out-of-flow floats;
+   display:inline-block establishes a block formatting context, so the
+   float is accounted for and the box grows to fit. */
 .plc .authi .sg-post-native-meta {display:inline-block}
-.plc .authi em[id^="authorposton"] a.editlog {margin-left:6px;vertical-align:middle}
+.plc .authi a.editlog {margin-left:6px;vertical-align:middle}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
 .t_f ul{    margin-left: 0px;}
