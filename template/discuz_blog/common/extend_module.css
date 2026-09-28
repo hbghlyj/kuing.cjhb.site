@@ -119,7 +119,12 @@
 .po {padding:5px 0;border-color:var(--dz-borderb)}
 .plc .authi .avt {padding-right:10px}
 .plc .authi a.kmico {margin:0 1px}
-.plc .authi .authicn {float:left;margin:1px 4px 0 0}
+/* The starter badge must not float. A left float is positioned at the line's
+   left edge regardless of DOM order, so even though the badge now follows the
+   username in the markup, float:left still drew it before the name (measured
+   icon at x=440.7 against a name starting at x=461.5). Inlining it lets the
+   document order show through: icon at x=509.9 after a name ending at x=500.2. */
+.plc .authi .authicn {float:none;display:inline-block;vertical-align:middle;margin:0 0 0 4px}
 /* Post time on its own line, matching the touch layout which puts it in a separate
    <li class="mtime">. The "Posted on" wording was dropped in the template.
    No margin is declared here, so the time sits flush with the byline's left edge like
