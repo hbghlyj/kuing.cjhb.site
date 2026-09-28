@@ -129,13 +129,17 @@
    time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
    because it simply overflowed. */
 .plc .authi em[id^="authorposton"] {display:block;padding:0;white-space:nowrap}
-/* The edit-history control is a flex item of .authi, so align-items:center
-   centres it against the whole two-line author block and strands it in the
-   gap between the name and the time. Pin it to the timestamp line instead
-   and lift it 3px so the glyph sits on the text baseline. The inherited
-   a.editlog margin-left:6px is dropped because .authi's 8px flex gap
-   already separates the two. */
-.plc .authi a.editlog {align-self:flex-end;margin:0 0 3px}
+/* .authi is a flex row, so .sg-post-native-meta was being shrunk to about
+   130px while its own content needs ~186px (a "Yesterday 13:15" relative
+   time). The time therefore overflowed its own box. That was harmless while
+   nothing followed the box, but the edit-history control is a sibling laid
+   out after it, so the icon was drawn on top of the overflowing text.
+   flex:0 0 auto lets the meta block keep its content width and fixes the
+   overflow at the source instead of compensating for it. align-self:flex-end
+   then lands the icon on the timestamp line, and margin:0 drops the
+   inherited 6px because .authi's 8px flex gap already separates them. */
+.plc .authi .sg-post-native-meta {flex:0 0 auto}
+.plc .authi a.editlog {align-self:flex-end;margin:0}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
 .t_f ul{    margin-left: 0px;}
