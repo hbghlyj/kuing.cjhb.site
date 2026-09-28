@@ -129,17 +129,26 @@
    time then wrapped mid-word ("23 min-" / "utes ago"); inline it never showed this
    because it simply overflowed. */
 .plc .authi em[id^="authorposton"] {display:block;padding:0;white-space:nowrap}
-/* .authi is a flex row, so .sg-post-native-meta was being shrunk to about
-   130px while its own content needs ~186px (a "Yesterday 13:15" relative
-   time). The time therefore overflowed its own box. That was harmless while
-   nothing followed the box, but the edit-history control is a sibling laid
-   out after it, so the icon was drawn on top of the overflowing text.
-   flex:0 0 auto lets the meta block keep its content width and fixes the
-   overflow at the source instead of compensating for it. align-self:flex-end
-   then lands the icon on the timestamp line, and margin:0 drops the
-   inherited 6px because .authi's 8px flex gap already separates them. */
-.plc .authi .sg-post-native-meta {flex:0 0 auto}
-.plc .authi a.editlog {align-self:flex-end;margin:0}
+/* The edit-history control is rendered inside em[id^="authorposton"], on the
+   timestamp's own line box, so it can never collide with the time text the
+   way a sibling of .sg-post-native-meta did.
+
+   That move is what made the 54px overflow matter: .authi is a flex row, so
+   .sg-post-native-meta was sized to about 132px -- the width of the time text
+   alone -- while the floated avatar (40px + 2px margin + 10px padding) is
+   out of flow and so contributed nothing to that intrinsic width. The time
+   line was then indented 54px by the float and ran 54px past its own box.
+
+   flex:0 0 auto did not help, because a flex item's auto base size still
+   ignores out-of-flow floats. display:inline-block does establish a
+   block formatting context, so the float is accounted for and the box grows
+   to fit float + time + icon (measured 277px, no overflow).
+
+   The anchor is inline rather than a flex item now, so it needs an inline
+   margin instead of align-self, and vertical-align:middle puts the glyph on
+   the text baseline. */
+.plc .authi .sg-post-native-meta {display:inline-block}
+.plc .authi em[id^="authorposton"] a.editlog {margin-left:6px;vertical-align:middle}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
 .t_f ul{    margin-left: 0px;}
