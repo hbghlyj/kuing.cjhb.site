@@ -108,4 +108,9 @@
 #e_tbl_menu #tbltips {float:left;margin-right:6px}
 .popupfix .px {margin-bottom:4px}
 #e_body {display:block !important}
-#e_body_loading {display:none}
+#e_body_loading, #e_cst1_qq img, #e_cst1_fly img, #e_cst1_sup img, #e_cst1_sub img, #e_cst1_inlinecode img {display:none}
+#e_cst1_qq {background:url({STYLEIMGDIR}/svg/dz_e_kmqq.svg) no-repeat center 2px;background-size:20px}
+#e_cst1_fly {background:url({STYLEIMGDIR}/svg/dz_e_kmfly.svg) no-repeat center 2px;background-size:20px}
+#e_cst1_sup {background:url({STYLEIMGDIR}/svg/dz_e_kmsup.svg) no-repeat center 3px;background-size:18px}
+#e_cst1_sub {background:url({STYLEIMGDIR}/svg/dz_e_kmsub.svg) no-repeat center 3px;background-size:18px}
+#e_cst1_inlinecode, #e_cst1_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 3px;background-size:18px}
