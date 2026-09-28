@@ -134,19 +134,17 @@
    <span class="pipe">|</span> used to provide between the name and the
    {lang thread_author} label.
 
-   It is inline here, not a flex item, so it takes an inline margin and
-   vertical-align rather than align-self.
+   It is inline here rather than a flex item, so it needs an inline margin
+   and vertical-align rather than align-self.
 
-   .sg-post-native-meta still needs display:inline-block: .authi is a flex
-   row, so the meta span was sized to about 132px -- the width of the time
-   text alone -- while the floated avatar (40px + 2px margin + 10px
-   padding) is out of flow and so contributed nothing to that intrinsic
-   width, yet it still indents the time's line box by 54px. That made the
-   box 54px narrower than its content. flex:0 0 auto could not fix it,
-   because a flex item's auto base size still ignores out-of-flow floats;
-   display:inline-block establishes a block formatting context, so the
-   float is accounted for and the box grows to fit. */
-.plc .authi .sg-post-native-meta {display:inline-block}
+   No width fix is needed for .sg-post-native-meta. It is a flex item of
+   .authi, so its inline-block display would be blockified to block anyway,
+   and its base size ignores the out-of-flow floated avatar even though that
+   avatar still indents the timestamp's line box by 54px. That used to leave
+   the box 54px narrower than its content, but only when the timestamp was
+   the widest line. Now the first line carries username + icon + label, so
+   it is the widest and the box fits its content (measured 264px, no
+   overflow). */
 .plc .authi a.editlog {margin-left:6px;vertical-align:middle}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
