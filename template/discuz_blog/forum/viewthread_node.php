@@ -198,6 +198,11 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}--><!--{if $post['authorself']}--><em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em>{lang thread_author}<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
+					<!--{if !IS_ROBOT && !$_G['forum_thread']['archiveid'] && $post['first'] }-->
+						<!--{if $_G['forum_thread']['attachment'] == 2 && $_G['group']['allowgetimage'] && (!$_G['setting']['guestviewthumb']['flag'] || $_G['setting']['guestviewthumb']['flag'] && $_G['uid'])}-->
+							<span class="pipe">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&from=album">{lang view_bigpic}</a>
+						<!--{/if}-->
+					<!--{/if}-->
 					<em id="authorposton$post[pid]">$post[dateline]<!--{if $post[mobiletype] == 2}--><span class="xg1"><i class="fico-email vm" title="{lang from_email}"></i>{lang from_email}</span><!--{elseif $post['status'] & 8}--><span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span><!--{/if}--><!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg><span class="editlog-label">{lang post_revision_history}</span></a><!--{/if}--></em>
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;">$post[author]</a><!--{/if}-->
@@ -205,11 +210,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{elseif $post['authorid'] && $post['username'] && $post['anonymous'] || !$post['authorid'] && !$post['username']}-->
 					$_G[setting][anonymoustext]&nbsp;
 					<em id="authorposton$post[pid]">$post[dateline]<!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg><span class="editlog-label">{lang post_revision_history}</span></a><!--{/if}--></em>
-				<!--{/if}-->
-				<!--{if !IS_ROBOT && !$_G['forum_thread']['archiveid'] && $post['first'] }-->
-					<!--{if $_G['forum_thread']['attachment'] == 2 && $_G['group']['allowgetimage'] && (!$_G['setting']['guestviewthumb']['flag'] || $_G['setting']['guestviewthumb']['flag'] && $_G['uid'])}-->
-						<span class="pipe">|</span><a href="forum.php?mod=viewthread&tid=$_G[tid]&from=album">{lang view_bigpic}</a>
-					<!--{/if}-->
 				<!--{/if}-->
 				</span>
 				<!--{if !IS_ROBOT && !$_G['forum_thread']['archiveid'] && $post['first'] }-->
