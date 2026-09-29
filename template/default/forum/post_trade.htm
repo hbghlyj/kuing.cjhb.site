@@ -93,7 +93,7 @@
 			<dd><input type="text" name="item_locus" id="item_locus" class="px" value="$trade[locus]"></dd>
 			<dt><label for="item_expiration">{lang valid_before}:</label></dt>
 			<dd class="hasd">
-				<input type="text" name="item_expiration" id="item_expiration" class="px" onclick="showcalendar(event, this, false)" autocomplete="off" value="$trade[expiration]">
+				<input type="date" name="item_expiration" id="item_expiration" class="px" autocomplete="off" value="$trade[expiration]">
 				<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'item_expiration', 1)">^</a>
 			</dd>
 			<!--{if $allowpostimg}-->

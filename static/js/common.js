@@ -2441,3 +2441,37 @@ function initPasswordToggles() {
 }
 
 document.addEventListener('DOMContentLoaded', initPasswordToggles);
+
+function normalizeNativeDateInput(input) {
+	if(!input || !input.matches || !input.matches('input[type="date"], input[type="datetime-local"]')) {
+		return;
+	}
+	var value = input.getAttribute('value');
+	if(!value || input.value) {
+		return;
+	}
+	var match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{1,2}))?/);
+	if(!match) {
+		return;
+	}
+	value = match[1] + '-' + ('0' + match[2]).slice(-2) + '-' + ('0' + match[3]).slice(-2);
+	if(input.type == 'datetime-local') {
+		if(typeof match[4] == 'undefined') {
+			return;
+		}
+		value += 'T' + ('0' + match[4]).slice(-2) + ':' + ('0' + match[5]).slice(-2);
+	}
+	input.value = value;
+}
+
+function initNativeDateInputs() {
+	var inputs = document.querySelectorAll('input[type="date"], input[type="datetime-local"]');
+	for(var i = 0; i < inputs.length; i++) {
+		normalizeNativeDateInput(inputs[i]);
+	}
+}
+
+document.addEventListener('DOMContentLoaded', initNativeDateInputs);
+document.addEventListener('focusin', function(event) {
+	normalizeNativeDateInput(event.target);
+});

@@ -98,7 +98,7 @@
 								<td><input{if $_G['forum']['modrecommend']['sort'] == 1} readonly="readonly"{/if} type="text" name="subject[{$thread[tid]}]" class="px" value="$thread[subject]"></td>
 								<td class="xi2">$thread[authorlink]</td>
 								<td class="xi2"><!--{if $thread['moderatorid']}--><a href="home.php?mod=space&uid=$thread[moderatorid]" target="_blank">{$moderatormembers[$thread[moderatorid]][username]}</a><!--{else}-->System<!--{/if}--></td>
-								<td><input type="text" name="expirationrecommend[{$thread[tid]}]" id="expirationrecommend" class="px" value="{$thread[expiration]}" autocomplete="off" {if $_G['forum']['modrecommend']['sort'] == 1} readonly="readonly"{else} onclick="showcalendar(event, this, true)"{/if}></td>
+								<td><input type="datetime-local" name="expirationrecommend[{$thread[tid]}]" id="expirationrecommend" class="px" value="{$thread[expiration]}" autocomplete="off" {if $_G['forum']['modrecommend']['sort'] == 1} readonly="readonly"{/if}></td>
 								<td><!--{if $_G['forum']['modrecommend']['sort'] != 1}--><a href="javascript:;" onclick="showWindow('mods', 'forum.php?mod=topicadmin&optgroup=1&action=moderate&operation=recommend&frommodcp=2&show={$show}&tid={$thread[tid]}')" class="xi2">{lang more_settings}</a><!--{/if}--></td>
 							</tr>
 						<!--{/loop}-->
@@ -126,4 +126,3 @@
 		simulateSelect('fid');
 	}
 </script>
-<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>

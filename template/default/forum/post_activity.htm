@@ -4,10 +4,10 @@
 			<dt><span class="rq">*</span>{lang post_event_time}:</dt>
 			<dd>
 				<div id="certainstarttime" {if $activity['starttimeto']}style="display: none"{/if}>
-					<input type="text" name="starttimefrom[0]" id="starttimefrom_0" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="$activity[starttimefrom]">
+					<input type="datetime-local" name="starttimefrom[0]" id="starttimefrom_0" class="px" autocomplete="off" value="$activity[starttimefrom]">
 				</div>
 				<div id="uncertainstarttime" {if !$activity['starttimeto']}style="display: none"{/if}>
-					<input type="text" name="starttimefrom[1]" id="starttimefrom_1" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="$activity[starttimefrom]"><span> ~ </span><input onclick="showcalendar(event, this, true)" type="text" autocomplete="off" id="starttimeto" name="starttimeto" class="px" value="{if $activity['starttimeto']}$activity[starttimeto]{/if}">
+					<input type="datetime-local" name="starttimefrom[1]" id="starttimefrom_1" class="px" autocomplete="off" value="$activity[starttimefrom]"><span> ~ </span><input type="datetime-local" autocomplete="off" id="starttimeto" name="starttimeto" class="px" value="{if $activity['starttimeto']}$activity[starttimeto]{/if}">
 				</div>
 				<div class="spmf cl">
 					<label for="activitytime"><input type="checkbox" id="activitytime" name="activitytime" class="pc" onclick="if(this.checked) {$('certainstarttime').style.display='none';$('uncertainstarttime').style.display='';} else {$('certainstarttime').style.display='';$('uncertainstarttime').style.display='none';}" value="1" {if $activity['starttimeto']}checked{/if}>{lang activity_starttime_endtime}</label>
@@ -82,7 +82,7 @@
 			<dt><label for="activityexpiration">{lang post_closing}:</label></dt>
 			<dd class="hasd cl">
 				<span>
-					<input type="text" name="activityexpiration" id="activityexpiration" class="px" onclick="showcalendar(event, this, true)" autocomplete="off" value="$activity[expiration]">
+					<input type="datetime-local" name="activityexpiration" id="activityexpiration" class="px" autocomplete="off" value="$activity[expiration]">
 				</span>
 				<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'activityexpiration')">^</a>
 			</dd>

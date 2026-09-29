@@ -44,8 +44,7 @@
 	                    </span>
 	                <!--{else}-->
 	                    <!--{if $option['type'] == 'calendar'}-->
-	                        <script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
-	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" onclick="showcalendar(event, this, false)">
+	                        <input type="date" name="searchoption[$optionid][value]" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}">
 	                    <!--{else}-->
 	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}">
 	                    <!--{/if}-->

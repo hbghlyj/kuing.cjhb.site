@@ -22,9 +22,7 @@
 							<a href="javascript:;" onclick="checkForumnew_btn('{$_G['fid']}')" title="{lang showupgrade}" class="forumrefresh"></a>
 						<!--{/if}-->
 						<!--{if isset($_GET['filter']) && $_GET['filter'] == 'hot'}-->
-							<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
-							<span>$ctime</span>
-							<em class="fico-search cur1 vm" alt="" id="hottime" value="$ctime" fid="$_G[fid]" onclick="showcalendar(event, this, false, false, false, false, function(){viewhot(this);});"></em>
+							<input type="date" class="px vm" id="hottime" value="$ctime" fid="$_G[fid]" onchange="viewhot(this)">
 						<!--{/if}-->
 						<span id="clearstickthread" style="display: none;">
 							<span class="pipe">|</span><a href="javascript:;" onclick="clearStickThread()" class="xi2" title="{lang showdisplayorder}">{lang showdisplayorder}</a>

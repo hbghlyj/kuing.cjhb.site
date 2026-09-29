@@ -7,7 +7,6 @@
 		<li><a href="{$cpscript}?mod=modcp&action=recyclebin{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebin}</a></li>
 		<li><a href="{$cpscript}?mod=modcp&action=recyclebinpost{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebinpost}</a></li>
 	</ul>
-	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
 		<input type="hidden" name="do" value="search">
 		<input type="hidden" name="formhash" value="{FORMHASH}">
@@ -45,7 +44,7 @@
 					<th>{lang modcp_posts_author}:</th>
 					<td><input type="text" class="px" size="20" value="$result[users]" name="users" style="width: 180px"></td>
 					<th>{lang modcp_dateline_range}:</th>
-					<td><input type="text" class="px" size="10" value="$result[starttime]" name="starttime" onclick="showcalendar(event, this);"> {lang modcp_posts_to} <input type="text" class="px" size="10" value="$result[endtime]" name="endtime" onclick="showcalendar(event, this)"> </td>
+					<td><input type="date" class="px" value="$result[starttime]" name="starttime"> {lang modcp_posts_to} <input type="date" class="px" value="$result[endtime]" name="endtime"> </td>
 				</tr>
 				<tr>
 					<th>{lang modcp_subject_keyword}:</th>

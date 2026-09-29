@@ -20,9 +20,7 @@
 			<!--{hook/forumdisplay_filter_extra}-->
 			<!--{if isset($_GET['filter']) && $_GET['filter'] == 'hot'}-->
 				<span class="pipe z">|</span>
-				<script src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
-				<span class="xg1" style="font-size:12px">$ctime</span>
-				<em class="fico-search cur1 xi2 vm" alt="" id="hottime" value="$ctime" fid="$_G['fid']" onclick="showcalendar(event, this, false, false, false, false, function(){viewhot(this);});"></em>
+				<input type="date" class="px vm" id="hottime" value="$ctime" fid="$_G['fid']" onchange="viewhot(this)">
 			<!--{/if}-->
 		<!--{else}-->
 			{lang title}
