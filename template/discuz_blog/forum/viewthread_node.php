@@ -12,6 +12,14 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 <!--{/loop}-->
 <!--{/block}-->
 <!--{if empty($post['deleted'])}-->
+<div class="ntc_jp_anchor">
+	<div id="ntc_jp_pid$post[pid]" class="ntc_jp" style="display:none">
+		<div class="s_clear">
+			<a class="deloption" href="javascript:;" onclick="this.closest('.ntc_jp').remove();" title="{lang close}">{lang close}</a>
+			<em>{lang jump_post_notice}</em>
+		</div>
+	</div>
+</div>
 <table id="pid$post[pid]" class="plhin" summary="pid$post[pid]" cellspacing="0" cellpadding="0">
 <tr>
 	$post[newpostanchor] $post[lastpostanchor]
@@ -195,7 +203,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{if $post['authorid'] && !$post['anonymous']}-->
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$post[author]</a>$authorverifys<!--{/if}--><!--{if $post['authorself']}--><em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}"></em>{lang thread_author}<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
-					<em id="authorposton$post[pid]">$post[dateline]<!--{if $post['status'] & 8}--><span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span><!--{/if}--><!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg><span class="editlog-label">{lang post_revision_history}</span></a><!--{/if}--></em>
+					<em id="authorposton$post[pid]">$post[dateline]<!--{if $post[mobiletype] == 2}--><span class="xg1"><i class="fico-email vm" title="{lang from_email}"></i>{lang from_email}</span><!--{elseif $post['status'] & 8}--><span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span><!--{/if}--><!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg><span class="editlog-label">{lang post_revision_history}</span></a><!--{/if}--></em>
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft']}--><a href="javascript:;">$post[author]</a><!--{/if}-->
 					<em id="authorposton$post[pid]">$post[dateline]<!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><svg class="thread-history-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg><span class="editlog-label">{lang post_revision_history}</span></a><!--{/if}--></em>
@@ -350,7 +358,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&repquote=$post[pid]&extra=$_GET[extra]&page=$page" onclick="showWindow('reply', this.href)">{lang reply}</a>
 						<!--{/if}-->
 					<!--{/if}-->
-						<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><a class="cmmnt" href="forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}" onclick="showWindow('comment', this.href, 'get', 0)">{lang comments}</a><!--{/if}-->
+						<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><a class="cmmnt" href="forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}" onclick="showWindow('comment', this.href, 'get', 0)" onmouseover="showTip(this)" tip="{lang comment_tip}">{lang comments}</a><!--{/if}-->
 					<!--{/if}-->
 					<!--{if (($_G['forum']['ismoderator'] && $_G['group']['alloweditpost'] && (!in_array($post['adminid'], array(1, 2, 3)) || $_G['adminid'] <= $post['adminid'])) || ($_G['forum']['alloweditpost'] && $_G['uid'] && ($post['authorid'] == $_G['uid'] && $_G['forum_thread']['closed'] == 0) && !(!$alloweditpost_status && $edittimelimit && TIMESTAMP - $post['dbdateline'] > $edittimelimit)))}-->
 						<a class="editp" href="forum.php?mod=post&action=edit&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if !empty($_GET[modthreadkey])}&modthreadkey=$_GET[modthreadkey]{/if}&page=$page"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a>
