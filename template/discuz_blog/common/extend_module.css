@@ -150,6 +150,7 @@
    the widest line. Now the first line carries username + icon + label, so
    it is the widest and the box fits its content (measured 264px, no
    overflow). */
+.plc .authi em[id^="authorposton"] .xg1 {margin-left:6px;vertical-align:middle}
 .plc .authi em[id^="authorposton"] a.editlog {margin-left:6px;vertical-align:middle}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
