@@ -314,6 +314,19 @@ div.mtm.mbm.pnpost {padding-top:5px;line-height:34px}
 
 /** end **/
 
+/** home::space,forum::guide **/
+/* space_thread.htm:129 and guide.htm:130 both cramp a keyword input and a
+   Search button beside a column header, which wraps the button onto a second
+   line at blog's widths. A 34px icon button fits; the text stays in the DOM
+   under font-size:0 so the accessible name survives. search_n.svg is the
+   existing white asset - search.svg is dark #333 and is unreadable on
+   --dz-btnbg. Both targets use <strong> or <span> around the label, hence the
+   em/span/strong padding reset. */
+#searchmypost + button.pn {width:34px;min-width:34px;margin-right:0;padding:0;overflow:hidden;font-size:0;background-image:url({STYLEIMGDIR}/svg/search_n.svg);background-repeat:no-repeat;background-position:50% 50%;background-size:18px}
+#searchmypost + button.pn em, #searchmypost + button.pn span, #searchmypost + button.pn strong {padding:0}
+
+/** end **/
+
 
 /** misc::ranklist **/
 .tl .th th, .tl .th td, .tl th, .tl td {padding:15px 0}
