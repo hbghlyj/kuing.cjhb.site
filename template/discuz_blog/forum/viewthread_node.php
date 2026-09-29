@@ -75,11 +75,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{if !$postshowavatars}-->
 					<div class="avatar">{lang member_avatar_banned}</div>
 				<!--{elseif $post['avatar'] && $showavatars}-->
-					<!--{if $post[mobiletype]}-->
-					<div class="mobile-type mobile-type-$post[mobiletype]">
-						<a></a>
-					</div>
-					<!--{/if}-->
 					<div class="avatar"{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])} onmouseover="showauthor(this, 'userinfo$post[pid]')"{/If}><a href="home.php?mod=space&uid=$post[authorid]" class="avtm" target="_blank">$post[avatar]</a></div>
 				<!--{/if}-->
 				<!--{hook/viewthread_avatar $postcount}-->
