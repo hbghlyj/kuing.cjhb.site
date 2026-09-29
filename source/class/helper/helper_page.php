@@ -42,13 +42,12 @@ class helper_page {
 		} else {
 			$shownum = $showkbd = FALSE;
 			$showpagejump = TRUE;
-			if(defined('IN_MOBILE') && !defined('TPL_DEFAULT')) {
-				$lang['prev'] = lang('core', 'prevpage');
-				$lang['next'] = lang('core', 'nextpage');
-			} else {
-				$lang['prev'] = '&nbsp;&nbsp;';
-				$lang['next'] = lang('core', 'nextpage');
-			}
+			// Prev used to be '&nbsp;&nbsp;' on desktop while next got a real
+			// label, so <a class="prev"> rendered as an empty link and the
+			// pager looked one-sided. Both now use the same keys, which makes
+			// the mobile/desktop branch below redundant.
+			$lang['prev'] = lang('core', 'prevpage');
+			$lang['next'] = lang('core', 'nextpage');
 			$lang['pageunit'] = lang('core', 'pageunit');
 			$lang['total'] = lang('core', 'total');
 			$lang['pagejumptip'] = lang('core', 'pagejumptip');
