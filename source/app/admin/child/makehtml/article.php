@@ -14,8 +14,7 @@ loadcache('portalcategory');
 showtips('makehtml_tips_article');
 showformheader('makehtml&operation=category');
 showtableheader('');
-echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>',
-	'<script type="text/javascript" src="'.STATICURL.'js/makehtml.js?1"></script>',
+echo '<script type="text/javascript" src="'.STATICURL.'js/makehtml.js?1"></script>',
 $css;
 
 showsetting('start_time', 'starttime', dgmdate(TIMESTAMP - 86400, 'Y-m-d'), 'calendar', '', '', '', '1');
@@ -84,4 +83,4 @@ function make_html_article(starttime, catids, startid, endid) {
 EOT;
 showtablefooter();
 showformfooter();
-	
+

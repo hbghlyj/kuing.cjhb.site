@@ -39,7 +39,7 @@ if($muticondition) {
 $staticurl = STATICURL;
 /*search*/
 echo <<<EOT
-<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 <script type="text/JavaScript">
 function page(number) {
 	$('blogforum').page.value=number;
@@ -73,4 +73,3 @@ showtablefooter();
 showformfooter();
 showtagfooter('div');
 /*search*/
-	

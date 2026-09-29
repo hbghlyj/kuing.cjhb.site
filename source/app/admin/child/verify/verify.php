@@ -87,8 +87,8 @@ if($anchor == 'add') {
 		$datehtml = $orderbyhtml = '';
 		if($anchor != 'pass') {
 			$datehtml = "<tr><td>{$searchlang['members_verify_dateline']}</td><td colspan=\"3\">
-					<input type=\"text\" name=\"dateline1\" value=\"{$_GET['dateline1']}\" size=\"10\" onclick=\"showcalendar(event, this)\"> ~
-					<input type=\"text\" name=\"dateline2\" value=\"{$_GET['dateline2']}\" size=\"10\" onclick=\"showcalendar(event, this)\"> (YYYY-MM-DD)
+					<input type=\"date\" name=\"dateline1\" value=\"{$_GET['dateline1']}\"> ~
+					<input type=\"date\" name=\"dateline2\" value=\"{$_GET['dateline2']}\">
 					</td></tr>";
 			$orderbyhtml = "<select name=\"orderby\"><option value=\"dateline\"{$orderby['dateline']}>{$searchlang['members_verify_dateline']}</option>	</select>";
 		} else {
@@ -138,7 +138,7 @@ if($anchor == 'add') {
 				</div></div>
 			</form>
 			<iframe id="frame_profile" name="frame_profile" style="display: none"></iframe>
-			<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 			<script type="text/javascript">
 				function showreason(vid, flag) {
 					var reasonobj = $('reason_'+vid);

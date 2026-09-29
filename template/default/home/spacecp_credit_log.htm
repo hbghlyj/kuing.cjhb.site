@@ -6,14 +6,13 @@
 				<a{if $_GET[suboperation] != 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log" hidefocus="true">{lang credit_log}</a><span class="pipe">|</span><a{if $_GET[suboperation] == 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog" hidefocus="true">{lang credit_log_sys}</a>
 			</p>
 			<!--{if $_GET[suboperation] != 'creditrulelog'}-->
-			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" action="home.php?mod=spacecp&ac=credit&op=log">
 				<div class="exfm" style="margin-top: 0;">
 					<table class="cp0">
 						<tr>
 							<th>{lang starttime_endtime}:</th>
 							<td>
-								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly"> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)">
+								<input type="date" name="starttime" class="px" value="$_GET[starttime]"> {lang credit_to} <input type="date" name="endtime" class="px" value="$_GET[endtime]">
 							</td>
 						</tr>
 						<tr>

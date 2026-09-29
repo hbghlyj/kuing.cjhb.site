@@ -32,7 +32,7 @@ if($operation == 'article' || $operation == 'topic') {
 		showtips('comment_'.$operation.'_tips');
 		$staticurl = STATICURL;
 		echo <<<EOT
-	<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 	<script type="text/JavaScript">
 	function page(number) {
 		$('articleforum').page.value=number;

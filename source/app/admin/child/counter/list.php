@@ -70,8 +70,8 @@ showtablerow('', ['class="td31 bold"'], [
 ]);
 showtablerow('', ['class="td31 bold"'], [
 	"{$lang['counter_thread_cover']}:",
-	'<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script><input name="pertask99" type="text" class="txt" value="100"> '.$lang['counter_forumid'].': <input type="text" class="txt marginleft10" name="fid" value="" size="10">&nbsp;<input type="checkbox" class="checkbox" value="1" name="allthread">'.$lang['counter_have_cover'].'<br><input type="text" onclick="showcalendar(event, this)" value="" name="starttime" class="txt"> -- <input type="text" onclick="showcalendar(event, this)" value="" name="endtime" class="txt marginleft10">('.$lang['counter_thread_cover_settime'].')  &nbsp;&nbsp;<input type="submit" class="btn" name="setthreadcover" onclick="this.form.pertask.value=this.form.pertask99.value" value="'.$lang['submit'].'">'
+	'<input name="pertask99" type="text" class="txt" value="100"> '.$lang['counter_forumid'].': <input type="text" class="txt marginleft10" name="fid" value="" size="10">&nbsp;<input type="checkbox" class="checkbox" value="1" name="allthread">'.$lang['counter_have_cover'].'<br><input type="date" value="" name="starttime" class="txt"> -- <input type="date" value="" name="endtime" class="txt marginleft10">('.$lang['counter_thread_cover_settime'].')  &nbsp;&nbsp;<input type="submit" class="btn" name="setthreadcover" onclick="this.form.pertask.value=this.form.pertask99.value" value="'.$lang['submit'].'">'
 ]);
 showtablefooter();
 showformfooter();
-	
+

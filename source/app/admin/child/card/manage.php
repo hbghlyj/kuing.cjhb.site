@@ -36,7 +36,6 @@ foreach($_GET as $key => $val) {
 }
 
 $perpage = max(20, empty($_GET['perpage']) ? 20 : intval($_GET['perpage']));
-echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 
 /*search={"card_manage_tips":"action=card&operation=manage"}*/
 showtips('card_manage_tips');
@@ -72,7 +71,7 @@ showtablerow('', [],
 showtablerow('', ['class="td23"', 'class="td23"'],
 	[
 		cplang('card_log_used_user'), '<input type="text" name="srch_username" class="txt" value="'.$_GET['srch_username'].'">',
-		cplang('card_used_dateline'), '<input type="text" name="srch_useddateline_start" class="txt" value="'.$_GET['srch_useddateline_start'].'" onclick="showcalendar(event, this);">- &nbsp;<input type="text" name="srch_useddateline_end" class="txt" value="'.$_GET['srch_useddateline_end'].'" onclick="showcalendar(event, this)">',
+		cplang('card_used_dateline'), '<input type="date" name="srch_useddateline_start" class="txt" value="'.$_GET['srch_useddateline_start'].'">- &nbsp;<input type="date" name="srch_useddateline_end" class="txt" value="'.$_GET['srch_useddateline_end'].'">',
 	]
 );
 
@@ -139,4 +138,4 @@ if($count) {
 
 showtablefooter();
 showformfooter();
-	
+

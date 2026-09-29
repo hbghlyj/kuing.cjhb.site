@@ -211,13 +211,11 @@ class class_component {
 
 	public static function type_date(&$var, &$extra) {
 		$var['type'] = 'calendar';
-		$extra['date'] = '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 	}
 
 	public static function type_datetime(&$var, &$extra) {
 		$var['type'] = 'calendar';
 		$var['extra'] = 1;
-		$extra['date'] = '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 	}
 
 	public static function type_forum(&$var, &$extra) {

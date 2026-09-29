@@ -3,14 +3,13 @@
 		<!--{hook/spacecp_payment_top}-->
 		<!--{subtemplate home/spacecp_payment_header}-->
 
-			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" action="home.php?mod=spacecp&ac=payment&op=order">
 				<div class="exfm" style="margin-top: 10px;">
 					<table class="cp0">
 						<tr>
 							<th>{lang starttime_endtime}:</th>
 							<td>
-								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly"> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)">
+								<input type="date" name="starttime" class="px" value="$_GET[starttime]"> {lang credit_to} <input type="date" name="endtime" class="px" value="$_GET[endtime]">
 							</td>
 							<th>{lang operation}:</th>
 							<td><span class="ftid">$optypehtml</span></td>

@@ -76,7 +76,7 @@
 		}
 	</script>
 	<!--{elseif $field[formtype] == 'date'}-->
-	<input type="text" class="px" name="$fieldname" value="$itemfields[$fieldname]" onclick="showcalendar(event, this, true)">
+	<input type="datetime-local" class="px" name="$fieldname" value="$itemfields[$fieldname]">
 	<!--{else}-->
 	<input type="text" class="px" name="$fieldname" value="$itemfields[$fieldname]">
 	<!--{/if}-->

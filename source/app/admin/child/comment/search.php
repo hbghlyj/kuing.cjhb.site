@@ -29,7 +29,7 @@ if(!submitcheck('commentsubmit')) {
 	showtips('comment_tips');
 	$staticurl = STATICURL;
 	echo <<<EOT
-	<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 	<script type="text/JavaScript">
 	function page(number) {
 		$('commentforum').page.value=number;

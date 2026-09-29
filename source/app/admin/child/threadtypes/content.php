@@ -64,7 +64,7 @@ if(!submitcheck('searchsortsubmit', 1) && !submitcheck('delsortsubmit') && !subm
 					}
 				} elseif(in_array($option['type'], ['number', 'text', 'email', 'calendar', 'image', 'url', 'textarea', 'upload', 'range'])) {
 					if($option['type'] == 'calendar') {
-						$optionshow .= '<script type="text/javascript" src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'" onclick="showcalendar(event, this, false)">';
+						$optionshow .= '<input type="date" name="searchoption['.$optionid.'][value]" class="txt" value="'.$_GET['searchoption'][$optionid]['value'].'">';
 					} elseif($option['type'] == 'number') {
 						$optionshow .= '<select name="searchoption['.$optionid.'][condition]">
 								<option value="0" '.($_GET['searchoption'][$optionid]['condition'] == 0 ? 'selected="selected"' : '').'>'.cplang('equal_to').'</option>
@@ -219,4 +219,3 @@ if(!submitcheck('searchsortsubmit', 1) && !submitcheck('delsortsubmit') && !subm
 
 	}
 }
-	

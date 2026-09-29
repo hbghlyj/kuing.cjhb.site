@@ -41,7 +41,7 @@ if(!submitcheck('editsubmit')) {
 		if($group['groupid'] && !in_array($group['groupid'], [4, 5, 6, 7, 8]) && ($group['type'] == 'system' || $group['type'] == 'special')) {
 			$extgroups .= showtablerow('', ['class="td27"', 'style="width:70%"'], [
 				'<input class="checkbox" type="checkbox" name="extgroupidsnew[]" value="'.$group['groupid'].'" '.(in_array($group['groupid'], $extgrouparray) ? 'checked' : '').' id="extgid_'.$group['groupid'].'"><label for="extgid_'.$group['groupid'].'"> '.$group['grouptitle'].'</label>',
-				'<input type="text" class="txt" size="9" name="extgroupexpirynew['.$group['groupid'].']" value="'.(in_array($group['groupid'], $extgrouparray) && !empty($member['groupterms']['ext'][$group['groupid']]) ? dgmdate($member['groupterms']['ext'][$group['groupid']], 'Y-n-j') : '').'" onclick="showcalendar(event, this)">'
+				'<input type="date" class="txt" name="extgroupexpirynew['.$group['groupid'].']" value="'.(in_array($group['groupid'], $extgrouparray) && !empty($member['groupterms']['ext'][$group['groupid']]) ? dgmdate($member['groupterms']['ext'][$group['groupid']], 'Y-m-d') : '').'">'
 			], TRUE);
 		}
 		if($group['groupid'] && $group['type'] == 'member' && !($member['credits'] >= $group['creditshigher'] && $member['credits'] < $group['creditslower']) && $member['groupid'] != $group['groupid']) {
@@ -70,7 +70,6 @@ if(!submitcheck('editsubmit')) {
 	showchildmenu([['nav_members', 'members&operation=list'],
 		[$member['username'].' ', 'members&operation=edit&uid='.$member['uid']]], cplang('members_group'));
 
-	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 	showformheader("members&operation=group&uid={$member['uid']}");
 	showtableheader('usergroup', 'nobottom');
 	showsetting('members_group_group', '', '', '<select name="groupidnew" onchange="if(in_array(this.value, ['.$radmingids.'])) {$(\'relatedadminid\').style.display = \'\';$(\'adminidnew\').name=\'adminidnew[\' + this.value + \']\';} else {$(\'relatedadminid\').style.display = \'none\';$(\'adminidnew\').name=\'adminidnew[0]\';}"><optgroup label="'.$lang['usergroups_system'].'">'.$groups['system'].'<optgroup label="'.$lang['usergroups_special'].'">'.$groups['special'].'<optgroup label="'.$lang['usergroups_specialadmin'].'">'.$groups['specialadmin'].'<optgroup label="'.$lang['usergroups_member'].'">'.$groups['member'].'</select>');
@@ -215,4 +214,4 @@ if(!submitcheck('editsubmit')) {
 	cpmsg('members_edit_groups_succeed', "action=members&operation=group&uid={$member['uid']}", 'succeed');
 
 }
-	
+

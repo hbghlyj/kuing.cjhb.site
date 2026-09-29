@@ -15,7 +15,7 @@ function gettypetemplate($option, $optionvalue, $optionid) {
 
 	if(in_array($option['type'], ['number', 'text', 'email', 'calendar', 'image', 'url', 'range', 'upload', 'range'])) {
 		if($option['type'] == 'calendar') {
-			$showoption[$option['identifier']]['value'] = '<script src="'.$_G['setting']['jspath'].'calendar.js?'.$_G['style']['verhash'].'"></script><input type="text" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" style="width:'.$option['inputsize'].'px;" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" onclick="showcalendar(event, this, false)" '.$optionvalue['unchangeable'].' class="px">';
+			$showoption[$option['identifier']]['value'] = '<input type="date" name="typeoption['.$option['identifier'].']" id="typeoption_'.$option['identifier'].'" onchange="checkoption(\''.$option['identifier'].'\', \''.$option['required'].'\', \''.$option['type'].'\')" value="'.$optionvalue['value'].'" '.$optionvalue['unchangeable'].' class="px">';
 		} elseif($option['type'] == 'image') {
 			$showoption[$option['identifier']]['value'] = '<button type="button" class="pn" onclick="uploadWindow(function (aid, url){updatesortattach(aid, url, \'data/attachment/forum\', \''.$option['identifier'].'\')})"><span>'.($optionvalue['value'] ? lang('forum/misc', 'sort_update') : lang('forum/misc', 'sort_upload')).'</span></button>
 				<input type="hidden" name="typeoption['.$option['identifier'].'][aid]" id="sortaid_'.$option['identifier'].'" value="'.$optionvalue['value']['aid'].'">'.

@@ -19,7 +19,6 @@ showsubmenu('collection', [
 	['collection_recommend', 'collection&operation=recommend', $current['recommend']]
 ]);
 
-echo '<script src="'.STATICURL.'js/calendar.js"></script>';
 
 $file = childfile('collection/'.$operation);
 if(!file_exists($file)) {

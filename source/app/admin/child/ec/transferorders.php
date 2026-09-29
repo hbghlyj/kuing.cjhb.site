@@ -34,7 +34,6 @@ if($_GET['op'] == 'query') {
 
 	/*search={"nav_ec":"action=ec&operation=base","nav_ec_qpay":"action=ec&operation=transferorders"}*/
 	echo '<style>.order-status-1 td { color: #555; } .order-status-2 td { color: green; } .order-status-3 td { color: red; }</style>';
-	echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
 	$queryparams = [
 		'out_biz_no' => daddslashes($_GET['out_biz_no']),
 		'user' => daddslashes($_GET['user']),
@@ -72,7 +71,7 @@ if($_GET['op'] == 'query') {
 		[
 			lang('admincp', 'ec_transferorders_channel'), '<select name="channel">'.implode('', $channeloptions).'</select>',
 			lang('admincp', 'ec_paymentorders_status'), '<select name="status">'.implode('', $statusoptions).'</select>',
-			lang('admincp', 'ec_paymentorders_date'), '<input type="text" class="txt" name="starttime" value="'.$queryparams['starttime'].'" style="width: 108px;" onclick="showcalendar(event, this)"> - <input type="text" class="txt" name="endtime" value="'.$queryparams['endtime'].'" style="width: 108px;" onclick="showcalendar(event, this)">',
+			lang('admincp', 'ec_paymentorders_date'), '<input type="date" class="txt" name="starttime" value="'.$queryparams['starttime'].'"> - <input type="date" class="txt" name="endtime" value="'.$queryparams['endtime'].'">',
 		]
 	);
 	showtablefooter();

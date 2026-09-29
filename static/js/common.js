@@ -2446,22 +2446,23 @@ function normalizeNativeDateInput(input) {
 	if(!input || !input.matches || !input.matches('input[type="date"], input[type="datetime-local"]')) {
 		return;
 	}
-	var value = input.getAttribute('value');
-	if(!value || input.value) {
-		return;
-	}
-	var match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{1,2}))?/);
-	if(!match) {
-		return;
-	}
-	value = match[1] + '-' + ('0' + match[2]).slice(-2) + '-' + ('0' + match[3]).slice(-2);
-	if(input.type == 'datetime-local') {
-		if(typeof match[4] == 'undefined') {
-			return;
+	var attributes = ['value', 'min', 'max'];
+	for(var i = 0; i < attributes.length; i++) {
+		var attribute = attributes[i];
+		var value = input.getAttribute(attribute);
+		if(!value) {
+			continue;
 		}
-		value += 'T' + ('0' + match[4]).slice(-2) + ':' + ('0' + match[5]).slice(-2);
+		var match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{1,2}))?/);
+		if(!match) {
+			continue;
+		}
+		value = match[1] + '-' + ('0' + match[2]).slice(-2) + '-' + ('0' + match[3]).slice(-2);
+		if(input.type == 'datetime-local') {
+			value += 'T' + ('0' + (match[4] || 0)).slice(-2) + ':' + ('0' + (match[5] || 0)).slice(-2);
+		}
+		input.setAttribute(attribute, value);
 	}
-	input.value = value;
 }
 
 function initNativeDateInputs() {

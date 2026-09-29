@@ -228,10 +228,6 @@
 	<!--{subtemplate forum/editor_menu_forum}-->
 </div>
 
-<!--{if $special || ($_G['group']['allowsetpublishdate'] && ($_GET[action] == 'newthread' || ($_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4)))}-->
-	<script src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
-<!--{/if}-->
-
 <!--{if $allowuploadtoday || $special == 1}-->
 	<!--{if empty($_G['setting']['pluginhooks']['post_upload_extend'])}-->
 		<!--{subtemplate common/upload}-->

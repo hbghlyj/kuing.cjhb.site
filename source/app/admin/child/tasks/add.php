@@ -37,7 +37,6 @@ if(in_array($_GET['script'], $custom_scripts)) {
 
 if(!submitcheck('addsubmit')) {
 
-	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 	shownav('extended', 'nav_tasks');
 	showsubmenu('nav_tasks', [
 		['admin', 'tasks', 0],
@@ -227,4 +226,4 @@ if(!submitcheck('addsubmit')) {
 	cpmsg('tasks_succeed', 'action=tasks', 'succeed');
 
 }
-	
+

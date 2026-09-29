@@ -104,7 +104,7 @@ showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 	[
 		cplang('uid'), '<input type="text" name="srch_uid" class="txt" value="'.$srch_uid.'">',
-		cplang('time'), '<input type="text" name="srch_starttime" class="txt" value="'.$srch_starttime.'" onclick="showcalendar(event, this)">- <input type="text" name="srch_endtime" class="txt" value="'.$srch_endtime.'" onclick="showcalendar(event, this)">',
+		cplang('time'), '<input type="date" name="srch_starttime" class="txt" value="'.$srch_starttime.'">- <input type="date" name="srch_endtime" class="txt" value="'.$srch_endtime.'">',
 	]
 );
 showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
@@ -131,7 +131,6 @@ showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 );
 showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'">']);
 showtablefooter();
-echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 showtableheader('', 'fixpadding');
 showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 'class="td24"', 'class="td24"', 'class="td24"', 'class="td24"'], [
 	cplang('username'),

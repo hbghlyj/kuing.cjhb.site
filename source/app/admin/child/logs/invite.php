@@ -89,7 +89,7 @@ if(!submitcheck('invitesubmit')) {
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
 		[
 			cplang('logs_invite_target'), '<input type="text" name="srch_fusername" class="txt" value="'.$srch_fusername.'">',
-			cplang('logs_invite_buydate'), '<input type="text" name="srch_buydate_start" class="txt" value="'.$srch_buydate_start.'" onclick="showcalendar(event, this)">- <input type="text" name="srch_buydate_end" class="txt" value="'.$srch_buydate_end.'" onclick="showcalendar(event, this)">',
+			cplang('logs_invite_buydate'), '<input type="date" name="srch_buydate_start" class="txt" value="'.$srch_buydate_start.'">- <input type="date" name="srch_buydate_end" class="txt" value="'.$srch_buydate_end.'">',
 		]
 	);
 	showtablerow('', ['class="td23"', 'width="150"', 'class="td23"'],
@@ -101,8 +101,7 @@ if(!submitcheck('invitesubmit')) {
 	showtablerow('', ['colspan="4"'], ['<input type="submit" name="srchlogbtn" class="btn" value="'.$lang['search'].'">']);
 	showtablefooter();
 	showformfooter();
-	
-	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
+
 	showtableheader('', 'fixpadding');
 	showtablerow('class="header"', ['width="35"', 'class="td23"', 'class="td24"', 'class="td24"', 'class="td23"', 'class="td24"', 'class="td24"'], [
 		'',
@@ -162,4 +161,4 @@ if(!submitcheck('invitesubmit')) {
 
 	header("Location: {$_G['siteurl']}".ADMINSCRIPT."?action=logs&operation=invite&lpp={$_GET['lpp']}{$_GET['pageadd']}");
 }
-	
+

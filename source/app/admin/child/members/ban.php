@@ -28,7 +28,6 @@ $member['banexpiry'] = !empty($member['groupterms']['main']['time']) && ($member
 
 if(!submitcheck('bansubmit')) {
 
-	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 	shownav('user', 'members_ban_user');
 	showchildmenu([['nav_members', 'members&operation=list'],
 		[$member['username'].' ', 'members&operation=edit&uid='.$member['uid']]], cplang('members_ban_user'));

@@ -18,7 +18,6 @@ $task = table_common_task::t()->fetch($id);
 
 if(!submitcheck('editsubmit')) {
 
-	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 	shownav('extended', 'nav_tasks');
 	showchildmenu([['nav_tasks', 'tasks']], $task['name']);
 
@@ -219,4 +218,4 @@ if(!submitcheck('editsubmit')) {
 	cpmsg('tasks_succeed', 'action=tasks', 'succeed');
 
 }
-	
+

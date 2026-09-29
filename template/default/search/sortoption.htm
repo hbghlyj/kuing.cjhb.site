@@ -9,8 +9,7 @@
 		<td>
 			<!--{if in_array($option['type'], array('number', 'text', 'email', 'calendar', 'image', 'url', 'textarea'))}-->
 				<!--{if $option['type'] == 'calendar'}-->
-					<script src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
-					<input type="text" name="searchoption[$optionid][value]" size="45" value="$option[value]" onclick="showcalendar(event, this, false)">
+					<input type="date" name="searchoption[$optionid][value]" value="$option[value]">
 				<!--{elseif $option['type'] == 'number'}-->
 					<select name="searchoption[$optionid][condition]">
 						<option value="0">{lang equal_to}</option>

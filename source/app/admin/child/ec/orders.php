@@ -21,7 +21,6 @@ if(!$_G['setting']['creditstrans'] || !$_G['setting']['ec_ratio']) {
 
 if(!submitcheck('ordersubmit')) {
 
-	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 
 	/*search={"nav_ec":"action=ec&operation=base","nav_ec_orders":"action=ec&operation=orders"}*/
 	showtips('ec_orders_tips');
@@ -124,4 +123,4 @@ if(!submitcheck('ordersubmit')) {
 	cpmsg('orders_validate_succeed', "action=ec&operation=orders&searchsubmit=yes&orderstatus={$_GET['orderstatus']}&orderid={$_GET['orderid']}&users={$_GET['users']}&buyer={$_GET['buyer']}&admin={$_GET['admin']}&sstarttime={$_GET['sstarttime']}&sendtime={$_GET['sendtime']}&cstarttime={$_GET['cstarttime']}&cendtime={$_GET['cendtime']}", 'succeed');
 
 }
-	
+

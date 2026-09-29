@@ -20,5 +20,3 @@ if(!file_exists($file)) {
 }
 require_once $file;
 
-echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
-

@@ -328,7 +328,7 @@ function frame_cpmsg($message, $succeed = false, $url = '') {
 	} else {
 		$url = $url ? "'".$url."'" : 'parent.location';
 		echo "<script>
-			if(typeof parent.cpmsgHook == 'undefined') {	
+			if(typeof parent.cpmsgHook == 'undefined') {
 				parent.showDialog('<div class=infotitle2 style=\"padding:5px 10px\">".$message."</div>', 'info', '".cplang('frame_cpmsg_title')."');
 				setTimeout(function() {parent.location = $url;}, 3000);
                         } else {
@@ -989,13 +989,14 @@ function showsetting($setname, $varname, $value, $type = 'radio', $disabled = ''
 		$s .= "<input id=\"c{$colorid}_v\" type=\"text\" class=\"txt\" style=\"float:left; width:210px;\" value=\"$value\" name=\"$varname\" onchange=\"updatecolorpreview('c{$colorid}')\">\n".
 			"<input id=\"c$colorid\" onclick=\"c{$colorid}_frame.location='static/image/admincp/getcolor.htm?c{$colorid}|c{$colorid}_v';showMenu({'ctrlid':'c$colorid'})\" type=\"button\" class=\"colorwd\" value=\"\" style=\"background: $background\"><span id=\"c{$colorid}_menu\" style=\"display: none\"><iframe name=\"c{$colorid}_frame\" src=\"\" frameborder=\"0\" width=\"210\" height=\"148\" scrolling=\"no\"></iframe></span>\n$extra";
 	} elseif($type == 'calendar') {
-		$s .= "<input type=\"text\" class=\"txt\" name=\"$varname\" value=\"".dhtmlspecialchars($value)."\" onclick=\"showcalendar(event, this".($extra ? ', 1' : '').")\">\n";
+		$inputtype = $extra ? 'datetime-local' : 'date';
+		$s .= "<input type=\"$inputtype\" class=\"txt\" name=\"$varname\" value=\"".dhtmlspecialchars($value)."\">\n";
 	} elseif(in_array($type, ['multiply', 'range', 'daterange'])) {
-		$onclick = $type == 'daterange' ? ' onclick="showcalendar(event, this'.($extra ? ', 1' : '').')"' : '';
+		$inputtype = $type == 'daterange' ? ($extra ? 'datetime-local' : 'date') : 'text';
 		if(isset($_G['showsetting_multi'])) {
 			$varname[1] = preg_replace('/\w+new/', 'multinew['.$_G['showsetting_multi'].'][\\0]', $varname[1]);
 		}
-		$s .= "<input type=\"text\" class=\"txt\" name=\"$varname[0]\" value=\"".dhtmlspecialchars($value[0])."\" style=\"width: 108px; margin-right: 5px;\"$onclick>".($type == 'multiply' ? ' X ' : ' -- ')."<input type=\"text\" class=\"txt\" name=\"$varname[1]\" value=\"".dhtmlspecialchars($value[1])."\"class=\"txt\" style=\"width: 108px; margin-left: 5px;\"$onclick>";
+		$s .= "<input type=\"$inputtype\" class=\"txt\" name=\"$varname[0]\" value=\"".dhtmlspecialchars($value[0])."\" style=\"width: 108px; margin-right: 5px;\">".($type == 'multiply' ? ' X ' : ' -- ')."<input type=\"$inputtype\" class=\"txt\" name=\"$varname[1]\" value=\"".dhtmlspecialchars($value[1])."\" style=\"width: 108px; margin-left: 5px;\">";
 	} else {
 		$s .= $type;
 	}

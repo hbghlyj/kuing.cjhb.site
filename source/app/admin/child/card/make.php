@@ -19,7 +19,6 @@ if(!submitcheck('cardsubmit', 1)) {
 		$card_type[] = [$result['id'], $result['typename']];
 	}
 
-	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>';
 	showformheader('card&operation=make&');
 	/*search={"card_make_tips":"admin.php?action=card&operation=make"}*/
 	showtips('card_make_tips');

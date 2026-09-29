@@ -36,7 +36,7 @@ showsubmenu('nav_recyclebinpost', [
 /*search={"nav_recyclebinpost":"action=recyclebinpost","search":"action=recyclebinpost&operation=search"}*/
 $staticurl = STATICURL;
 echo <<<EOT
-<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 <script type="text/JavaScript">
 function page(number) {
 	$('rbsearchform').page.value=number;
@@ -79,4 +79,3 @@ if(submitcheck('searchsubmit')) {
 	echo '<iframe name="rbframe" style="display:none"></iframe>';
 	showtagfooter('div');
 }
-	

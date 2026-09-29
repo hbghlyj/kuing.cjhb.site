@@ -542,7 +542,7 @@ function block_setting($blockclass, $script, $values = []) {
 
 function block_makeform($blocksetting, $values) {
 	global $_G;
-	static $randomid = 0, $calendar_loaded = false;
+	static $randomid = 0;
 	$return = [];
 	foreach($blocksetting as $settingvar => $setting) {
 		$varname = in_array($setting['type'], ['mradio', 'mcheckbox', 'select', 'mselect']) ?
@@ -606,11 +606,7 @@ function block_makeform($blocksetting, $values) {
 			}
 			$s .= '</select>';
 		} elseif($type == 'calendar') {
-			if(!$calendar_loaded) {
-				$s .= "<script src=\"{$_G['setting']['jspath']}calendar.js?".$_G['style']['verhash']."\"></script>";
-				$calendar_loaded = true;
-			}
-			$s .= '<input type="text" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'" onclick="showcalendar(event, this, true)">';
+			$s .= '<input type="datetime-local" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'">';
 		} elseif($type == 'color') {
 			global $stylestuff;
 			$preview_varname = str_replace('[', '_', str_replace(']', '', $varname));

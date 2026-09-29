@@ -37,7 +37,7 @@ showtips('share_tips');
 /*search*/
 $staticurl = STATICURL;
 echo <<<EOT
-<script type="text/javascript" src="{$staticurl}js/calendar.js"></script>
+
 <script type="text/JavaScript">
 function page(number) {
 	$('shareforum').page.value=number;

@@ -122,7 +122,6 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 	<div class="mn">
 		<div class="bm bw0">
 			<h1 class="mbm bbs mt"><!--{if !empty($aid)}-->{lang article_edit}<!--{else}-->{lang article_publish}<!--{/if}--></h1>
-			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" autocomplete="off" id="articleform" action="portal.php?mod=portalcp&ac=article{if $_GET[modarticlekey]}&modarticlekey=$_GET[modarticlekey]{/if}" enctype="multipart/form-data">
 				<!--{hook/portalcp_top}-->
 				<div class="dopt cl">
@@ -171,7 +170,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 							<dt>{lang article_source_url}</dt>
 							<dd><input type="text" name="fromurl" class="px p_fre" value="$article[fromurl]" size="30"></dd>
 							<dt>{lang article_dateline}</dt>
-							<dd><input type="text" name="dateline" class="px p_fre" value="$article[dateline]" size="30" onclick="showcalendar(event, this, true)"></dd>
+							<dd><input type="datetime-local" name="dateline" class="px p_fre" value="$article[dateline]"></dd>
 
 						</dl>
 					</div>

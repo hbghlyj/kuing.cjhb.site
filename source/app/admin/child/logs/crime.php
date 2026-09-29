@@ -32,7 +32,7 @@ foreach(crime('actions') as $key => $value) {
 }
 $staticurl = STATICURL;
 print <<<SEARCH
-		<script src="{$staticurl}js/calendar.js"></script>
+
 		<input type="hidden" name="operation" value="$operation">
 		<input type="hidden" name="action" value="$action">
 		<tr class="hover">
@@ -41,7 +41,7 @@ print <<<SEARCH
 		</tr>
 		<tr class="hover">
 			<td class="td23">{$lang['crime_user']}: </td><td><input type="text" class="txt" name="username" value="$username"></td>
-			<td class="td23">{$lang['startendtime']}: </td><td><input type="text" onclick="showcalendar(event, this)" style="width: 80px; margin-right: 5px;" value="$starttime" name="starttime" class="txt"> -- <input type="text" onclick="showcalendar(event, this)" style="width: 80px; margin-left: 5px;" value="$endtime" name="endtime" class="txt"></td>
+			<td class="td23">{$lang['startendtime']}: </td><td><input type="date" value="$starttime" name="starttime" class="txt"> -- <input type="date" value="$endtime" name="endtime" class="txt"></td>
 		</tr>
 		<tr class="hover">
 			<td class="td23">{$lang['keywords']}: </td><td><input type="text" class="txt" name="keyword" value="$keyword"></td>
@@ -67,4 +67,4 @@ if(submitcheck('crimesearch', 1)) {
 		showtablerow('', 'colspan=5', [$lang['none']]);
 	}
 }
-	
+

@@ -68,8 +68,7 @@ if(!submitcheck('advsubmit')) {
 	$adv['starttime'] = $adv['starttime'] ? dgmdate($adv['starttime'], 'Y-n-j') : '';
 	$adv['endtime'] = $adv['endtime'] ? dgmdate($adv['endtime'], 'Y-n-j') : '';
 
-	echo '<script type="text/javascript" src="'.STATICURL.'js/calendar.js"></script>'.
-		'<div class="colorbox"><h4>'.lang('adv/'.$type, $advclass->name).'</h4>'.
+	echo '<div class="colorbox"><h4>'.lang('adv/'.$type, $advclass->name).'</h4>'.
 		'<table><tr><td style="padding:3px">'.
 		(count($etype) > 1 && preg_match('/^[\w\_:]+$/', $type) ? (file_exists(DISCUZ_PLUGIN($etype[0]).'/adv/adv_'.$etype[1].'.gif') ? '<img src="source/plugin/'.$etype[0].'/adv/adv_'.$etype[1].'.gif">' : '')
 			: (file_exists(DISCUZ_ROOT.'./static/image/admincp/'.$type.'.gif') ? '<img src="static/image/admincp/'.$type.'.gif">' : '')).

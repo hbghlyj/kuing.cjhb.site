@@ -506,11 +506,10 @@
 	<!--{subtemplate portal/portalcp_block_setting}-->
 
 <!--{elseif $op == 'item' || $op == 'additem'}-->
-	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<h3 class="flb">
 		<em id="return_$_GET[handlekey]">{lang block_edit}</em>
 		<span>
-			<!--{if $_GET[itemfrom]=='ajax'}--><a href="portal.php?mod=portalcp&ac=block&op=data&bid=$bid{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('showblock', this.href);closecalendar(e);return false;"> &lt;&lt;{lang return} </a><!--{/if}-->
+			<!--{if $_GET[itemfrom]=='ajax'}--><a href="portal.php?mod=portalcp&ac=block&op=data&bid=$bid{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('showblock', this.href);return false;"> &lt;&lt;{lang return} </a><!--{/if}-->
 			<!--{if $_G[inajax]}--><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET[handlekey]');{if empty($bid)}drag.removeBlock('$_GET[eleid]');{/if}return false;" title="{lang close}">{lang close}</a><!--{/if}-->
 		</span>
 	</h3>
@@ -551,14 +550,14 @@
 					<tr>
 						<th>{lang block_start_time}</th>
 						<td>
-							<input type="text" class="px p_fre" name="startdate"{if $item[startdate]} value="$blockitem[startdate]"{/if} onclick="showcalendar(event, this, true)">
+							<input type="datetime-local" class="px p_fre" name="startdate"{if $item[startdate]} value="$blockitem[startdate]"{/if}>
 							<p class="d">{lang block_start_time_comment}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>{lang block_expire_time}</th>
 						<td>
-							<input type="text" class="px p_fre" name="enddate"{if $item[enddate]} value="$blockitem[enddate]"{/if} onclick="showcalendar(event, this, true)">
+							<input type="datetime-local" class="px p_fre" name="enddate"{if $item[enddate]} value="$blockitem[enddate]"{/if}>
 							<p class="d">{lang block_expire_time_comment}</p>
 						</td>
 					</tr>
@@ -618,7 +617,6 @@
 	<tr><td colspan="2">{lang verify_message}</td></tr>
 	<!--{/if}-->
 <!--{elseif $op == 'verifydata'}-->
-	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<h3 class="flb">
 		<em id="return_$_GET[handlekey]">{lang moderate_data}</em>
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET[handlekey]');return false;" title="{lang close}">{lang close}</a></span><!--{/if}-->
@@ -652,7 +650,6 @@
 	</script>
 <!--{elseif $op == 'managedata'}-->
 
-	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<h3 class="flb">
 		<em id="return_$_GET[handlekey]">{lang edit_data}</em>
 		<!--{if $_G[inajax]}--><span><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET[handlekey]');return false;" title="{lang close}">{lang close}</a></span><!--{/if}-->
