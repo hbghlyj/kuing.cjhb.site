@@ -242,9 +242,9 @@ function uploadNextAttach() {
 
 function uploadAttach(curId, statusid, prefix, sizelimit) {
 	prefix = isUndefined(prefix) ? '' : prefix;
-	var nextId = 0;
-	for(var i = 0; i < AID[prefix ? 1 : 0] - 1; i++) {
-		if($(prefix + 'attachform_' + i)) {
+	var nextId = -1;
+	for(var i = 0; i < AID[prefix ? 1 : 0]; i++) {
+		if($(prefix + 'attachform_' + i) && $(prefix + 'attachnew_' + i).value) {
 			nextId = i;
 			if(curId == 0) {
 				break;
@@ -255,7 +255,7 @@ function uploadAttach(curId, statusid, prefix, sizelimit) {
 			}
 		}
 	}
-	if(nextId == 0) {
+	if(nextId == -1) {
 		return;
 	}
 	CURRENTATTACH = nextId + '|' + prefix;
@@ -278,7 +278,8 @@ function uploadAttach(curId, statusid, prefix, sizelimit) {
 				FAILEDATTACHS = '';
 			}
 			UPLOADSTATUS = 2;
-			for(var i = 0; i < AID[prefix ? 1 : 0] - 1; i++) {
+			var attachEnd = AID[prefix ? 1 : 0];
+			for(var i = 0; i < attachEnd; i++) {
 				if($(prefix + 'attachform_' + i)) {
 					reAddAttach(prefix, i)
 				}
@@ -306,12 +307,12 @@ function uploadAttach(curId, statusid, prefix, sizelimit) {
 }
 
 function addAttach(prefix) {
+	prefix = isUndefined(prefix) ? '' : prefix;
     if(!$(prefix + 'attachbtnhidden')) {
         return;
     }
 	var id = AID[prefix ? 1 : 0];
 	var tags, newnode, i;
-	prefix = isUndefined(prefix) ? '' : prefix;
 	newnode = $(prefix + 'attachbtnhidden').firstChild.cloneNode(true);
 	tags = newnode.getElementsByTagName('input');
 	for(i = 0;i < tags.length;i++) {
@@ -521,6 +522,13 @@ function switchButton(btn, type) {
 	var btnpre = editorid + '_btn_';
 	if(!$(btnpre + btn) || !$(editorid + '_' + btn)) {
 		return;
+	}
+	if((type == 'attach' && btn == 'upload') || (type == 'image' && btn == 'local')) {
+		var prefix = type == 'image' ? 'img' : '';
+		var attachbtn = $(prefix + 'attachbtn');
+		if(attachbtn && !attachbtn.querySelector('input[type="file"]')) {
+			addAttach(prefix);
+		}
 	}
 	var tabs = $(editorid + '_' + type + '_ctrl').getElementsByTagName('LI');
 	$(btnpre + btn).style.display = '';

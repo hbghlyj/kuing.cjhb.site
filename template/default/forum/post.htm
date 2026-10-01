@@ -342,8 +342,6 @@
 	<!--{if $_GET[action] == 'newthread' && $_G['setting']['sitemessage'][newthread] || $_GET[action] == 'reply' && $_G['setting']['sitemessage'][reply]}-->
 		showPrompt('custominfo', 'mouseover', '<!--{if $_GET[action] == 'newthread'}--><!--{echo trim($_G['setting']['sitemessage'][newthread][array_rand($_G['setting']['sitemessage'][newthread])])}--><!--{elseif $_GET[action] == 'reply'}--><!--{echo trim($_G['setting']['sitemessage'][reply][array_rand($_G['setting']['sitemessage'][reply])])}--><!--{/if}-->', $_G['setting']['sitemessage'][time]);
 	<!--{/if}-->
-	<!--{if $_G['group']['allowpostattach']}-->addAttach();<!--{/if}-->
-	<!--{if $allowpostimg}-->addAttach('img');<!--{/if}-->
 
 	(function () {
 		var oSubjectbox = $('subjectbox'),
