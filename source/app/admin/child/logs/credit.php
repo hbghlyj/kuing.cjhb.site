@@ -256,4 +256,5 @@ foreach($logs as $log) {
 }
 
 showsubmit('', '', '', '', $multipage);
+showtablefooter();
 showformfooter();

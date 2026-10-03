@@ -67,7 +67,10 @@ if(submitcheck('logbatchsubmit', true)) {
 			cpmsg(table_common_log::t()->last_error(), '', 'error');
 		}
 	}
-	cpmsg('logs_delete_succeed', $logquery.'&page='.$page, 'succeed');
+	$returnquery = !empty($_POST['deleteallfiltered'])
+		? 'action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'&page=1'
+		: $logquery.'&page='.$page;
+	cpmsg('logs_delete_succeed', $returnquery, 'succeed');
 }
 
 $logs = [];
@@ -169,7 +172,30 @@ if($operation != 'setting') {
 	unset($menuitem);
 }
 
+$logtitle = cplang('nav_logs_'.$operation);
+foreach($displaymenu as &$menuitem) {
+	if(empty($menuitem[0]['submenu'])) {
+		continue;
+	}
+	$activegroup = false;
+	foreach($menuitem[0]['submenu'] as &$item) {
+		parse_str($item[1], $params);
+		$item[2] = ($params['operation'] ?? '') === $operation;
+		if($item[2]) {
+			$activegroup = true;
+			$logtitle = cplang($item[0]);
+		}
+	}
+	unset($item);
+	if($activegroup) {
+		$menuitem[1] = 'logs&operation='.rawurlencode($operation);
+	}
+}
+unset($menuitem);
 showsubmenu('nav_logs', $displaymenu, $sel);
+if($operation != 'setting') {
+	echo '<h3 id="log-view-title">'.dhtmlspecialchars($logtitle).'</h3>';
+}
 
 $filters = '';
 if($operation != 'setting') {
@@ -252,7 +278,12 @@ function toggleLogFilterDelete(chk) {
 	if(deleteall) {
 		deleteall.value = chk.checked ? '1' : '';
 	}
-	checkAll('prefix', document.getElementById('logbatchform'), 'deleteids');
+	var inputs = document.getElementsByName('deleteids[]');
+	for(var i = 0; i < inputs.length; i++) {
+		if(inputs[i].form === $('logbatchform')) {
+			inputs[i].checked = chk.checked;
+		}
+	}
 }
 </script>
 EOD;
@@ -273,6 +304,9 @@ if(!file_exists($file)) {
 require_once $file;
 
 if($operation != 'setting') {
+	if(!in_array($operation, ['editlog', 'credit', 'crime'])) {
+		showtablefooter();
+	}
 	echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
 	echo '<input type="hidden" name="formhash" value="'.FORMHASH.'">';
 	echo '<input type="hidden" name="logbatchsubmit" value="yes">';

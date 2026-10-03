@@ -48,13 +48,13 @@ print <<<SEARCH
 			<td class="td23"><input type="submit" name="crimesearch" value="{$lang['search']}" class="btn"></td><td></td>
 		</tr>
 SEARCH;
+showtablefooter();
 showformfooter();
 
 if(submitcheck('crimesearch', 1)) {
 	include_once libfile('function/member');
 	list($count, $clist) = crime('search', $crimeaction, $username, $operator, $starttime, $endtime, $keyword, $start, $lpp);
 
-	showtablefooter();
 	showtableheader($lang['members_ban_crime_record'].(!empty($lang[$_GET['crimeactions']]) ? ' - '.$lang[$_GET['crimeactions']] : ''), 'fixpadding', '', 5);
 
 	if($clist) {
@@ -66,5 +66,6 @@ if(submitcheck('crimesearch', 1)) {
 	} else {
 		showtablerow('', 'colspan=5', [$lang['none']]);
 	}
+	showtablefooter();
 }
 

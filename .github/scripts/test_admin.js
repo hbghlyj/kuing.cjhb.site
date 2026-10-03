@@ -308,6 +308,33 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok(!(await page.locator('body').innerText()).includes('SQL string format error'), 'Assertion Error: Literal wildcard log search reached a SQL format error.');
         assert.strictEqual(await page.locator('#logbatchform').count(), 1, 'Assertion Error: Literal wildcard log search did not render log results.');
 
+        const batchMarker = `log_batch_${Date.now()}`;
+        const moderationData = Buffer.from(JSON.stringify({operator_username: batchMarker, operator_adminid: 1, forum_fid: 2, forum_name: 'Test forum', tid: 1, subject: 'Test thread', action: 'DEL', reason: batchMarker})).toString('base64');
+        const logDevice = Buffer.from(JSON.stringify({client_ip: '127.0.0.1', client_port: 0, client_browser: 'Test', client_os: 'Test', client_device: 'Test', client_useragent: 'Test'})).toString('base64');
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_log (type,data,device,dateline) VALUES ('mods',FROM_BASE64('${moderationData}'),FROM_BASE64('${logDevice}'),UNIX_TIMESTAMP()),('mods',FROM_BASE64('${moderationData}'),FROM_BASE64('${logDevice}'),UNIX_TIMESTAMP()),('cp',FROM_BASE64('${moderationData}'),FROM_BASE64('${logDevice}'),UNIX_TIMESTAMP());"`);
+        await page.goto(`http://127.0.0.1:8080/admin.php?action=logs&operation=mods&keywordenc=${Buffer.from(batchMarker).toString('base64url')}&lpp=1`);
+        assert.ok((await page.locator('#log-view-title').innerText()).trim(), 'Selected log type has no visible title.');
+        assert.strictEqual(await page.locator('.dropmenu a.current[href*="operation=mods"]').count(), 1, 'Moderator log menu does not indicate the current selection.');
+        assert.strictEqual(await page.locator('input[name="deleteids[]"]').count(), 1, 'Moderator log row has no delete checkbox.');
+        assert.strictEqual(await page.locator('#logbatchform').evaluate(form => form.closest('table') === null), true, 'Batch form is nested inside an unclosed results table.');
+        await page.locator('#chkall').check();
+        assert.strictEqual(await page.locator('input[name="deleteids[]"]').isChecked(), true, 'Select all did not select the visible moderator log.');
+        assert.strictEqual(await page.locator('#deleteallfiltered').inputValue(), '1', 'Select all did not select all filtered pages.');
+        page.once('dialog', dialog => dialog.accept());
+        await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('action=logs')),
+            page.locator('input[type="submit"][form="logbatchform"]').click(),
+        ]);
+        const remainingBatchLogs = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT type,COUNT(*) FROM pre_common_log WHERE data LIKE '%${batchMarker}%' GROUP BY type;"`).toString().trim();
+        assert.strictEqual(remainingBatchLogs, 'cp\t1', 'Filtered moderator deletion did not remove both pages or removed another log type.');
+        await page.waitForURL(url => url.searchParams.get('action') === 'logs' && url.searchParams.get('operation') === 'mods' && url.searchParams.get('page') === '1' && !url.searchParams.has('keywordenc'));
+        const returnedLogParams = new URL(page.url()).searchParams;
+        for (const filter of ['keyword', 'keywordenc', 'username', 'day', 'search[field]', 'search[key]']) {
+            assert.strictEqual(returnedLogParams.has(filter), false, `Delete-all redirect retained ${filter}.`);
+        }
+        assert.strictEqual(await page.locator('#keywordraw').inputValue(), '', 'Delete-all redirect retained the keyword field.');
+        execSync(`sudo mysql -u root ultrax -e "DELETE FROM pre_common_log WHERE type='cp' AND data LIKE '%${batchMarker}%';"`);
+
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 8. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 

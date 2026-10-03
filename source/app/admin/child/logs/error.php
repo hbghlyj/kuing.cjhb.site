@@ -23,6 +23,7 @@ print <<<SEARCH
 			<td class="td23"><input type="submit" name="crimesearch" value="{$lang['search']}" class="btn"></td><td></td>
 		</tr>
 SEARCH;
+showtablefooter();
 showformfooter();
 
 showtableheader('', 'fixpadding');
