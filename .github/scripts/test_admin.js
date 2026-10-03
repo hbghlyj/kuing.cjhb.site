@@ -330,7 +330,8 @@ const { reportCiFailure } = require('./report_ci_failure');
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('action=logs')),
             page.locator('input[type="submit"][form="logbatchform"]').click(),
         ]);
-        const remainingBatchLogs = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT type,COUNT(*) FROM pre_common_log WHERE data LIKE '%${batchMarker}%' GROUP BY type;"`).toString().trim();
+        // Deletion also writes audit logs containing the filter; count only the seeded fixtures.
+        const remainingBatchLogs = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT type,COUNT(*) FROM pre_common_log WHERE data=FROM_BASE64('${moderationData}') GROUP BY type;"`).toString().trim();
         assert.strictEqual(remainingBatchLogs, 'cp\t1', 'Filtered moderator deletion did not remove both pages or removed another log type.');
         await page.waitForURL(url => url.searchParams.get('action') === 'logs' && url.searchParams.get('operation') === 'mods' && url.searchParams.get('page') === '1' && !url.searchParams.has('keywordenc'));
         const returnedLogParams = new URL(page.url()).searchParams;
