@@ -1086,11 +1086,7 @@ function getEditorBbcodeContents() {
 		for(var i = 0; i < formulas.length; i++) {
 			formulas[i].replaceWith(document.createTextNode(formulas[i].getAttribute('data-math-source') || ''));
 		}
-		var mathCarets = source.querySelectorAll('[data-math-caret]');
-		for(var j = 0; j < mathCarets.length; j++) {
-			mathCarets[j].remove();
-		}
-		html = source.innerHTML;
+		html = stripMathEditorCarets(source.innerHTML);
 	}
 	return wysiwygSourceBbcode !== null && wysiwygSourceHtml === html ? wysiwygSourceBbcode : html2bbcode(html);
 }
@@ -2005,9 +2001,22 @@ function stripMathEditorCarets(html) {
 	if(!html || typeof html !== 'string') {
 		return html;
 	}
-	return html
-		.replace(/<span\b[^>]*\bdata-math-caret\b[^>]*>[\s\S]*?<\/span>/gi, '')
-		.replace(/<span\b[^>]*\bclass\s*=\s*["'][^"']*\bmath-editor-caret\b[^"']*["'][^>]*>[\s\S]*?<\/span>/gi, '');
+	var source = document.createElement('div');
+	source.innerHTML = html;
+	var carets = source.querySelectorAll('span[data-math-caret], span.math-editor-caret');
+	for(var i = 0; i < carets.length; i++) {
+		// Typing can put real content inside the caret scaffold; only its marker is synthetic.
+		var walker = document.createTreeWalker(carets[i], 4);
+		var node;
+		while((node = walker.nextNode())) {
+			node.nodeValue = node.nodeValue.replace(/\u200b/g, '');
+		}
+		while(carets[i].firstChild) {
+			carets[i].parentNode.insertBefore(carets[i].firstChild, carets[i]);
+		}
+		carets[i].remove();
+	}
+	return source.innerHTML;
 }
 
 function getSel() {

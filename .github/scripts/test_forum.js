@@ -2395,6 +2395,23 @@ const assertPusherMetadataOrder = () => {
 			return result;
 		});
 		assert.strictEqual(displayCaretLayout.shared, true, 'Assertion Error: Adjacent display equations did not share one editor caret.');
+		const caretContent = await page.evaluate(() => {
+			const doc = document.getElementById('e_iframe').contentDocument;
+			const original = doc.body.innerHTML;
+			try {
+				doc.body.innerHTML = '<span data-math-source="$x$">rendered</span><span class="math-editor-caret" data-math-caret="1">\u200b&nbsp;</span>next';
+				return {
+					bbcode: window.getEditorBbcodeContents(),
+					empty: window.stripMathEditorCarets('<span data-math-caret="1">\u200b</span>'),
+					text: window.stripMathEditorCarets('<span class="math-editor-caret">\u200b&nbsp;typed</span>')
+				};
+			} finally {
+				doc.body.innerHTML = original;
+			}
+		});
+		assert.strictEqual(caretContent.bbcode, '$x$ next', 'Assertion Error: User space inside a formula caret was lost during BBCode export.');
+		assert.strictEqual(caretContent.empty, '', 'Assertion Error: Synthetic caret leaked into content.');
+		assert.strictEqual(caretContent.text, '&nbsp;typed', 'Assertion Error: Caret cleanup discarded user text.');
 		assert.strictEqual(displayCaretLayout.height, 0, `Assertion Error: The editor caret between display equations created a ${displayCaretLayout.height}px blank line.`);
 
 		// Idempotency: re-running the renderer must not nest or duplicate formulas.
