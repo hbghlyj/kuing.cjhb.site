@@ -30,7 +30,7 @@ foreach($logs as $k => $logrow) {
 	$log = [];
 	$log[0] = $logrow['id'];
 	$log[1] = dgmdate($logrow['dateline']);
-	$log[2] = "<a href=\"home.php?mod=space&username=".rawurlencode($data['operator_username'])."\" target=\"_blank\">".($data['operator_username'] != $_G['member']['username'] ? '<b>'.$data['operator_username'].'</b>' : $data['operator_username'])."</a>";
+	$log[2] = logoperatorlink($data['operator_username']);
 	$log[3] = $usergroup[$data['operator_adminid']];
 	$log[4] = $_G['group']['allowviewip'] ? 'ClientIP: '.$device['client_ip'].'&nbsp;&nbsp;<a href="javascript:;" onclick="togglelog('.$logrow['id'].')">'.cplang('more').'</a>' : '-';
 	preg_match('/operation=(.[^;]*)/i', $data['extralog'], $operationInfo);

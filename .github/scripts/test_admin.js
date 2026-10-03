@@ -316,6 +316,11 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.ok((await page.locator('#log-view-title').innerText()).trim(), 'Selected log type has no visible title.');
         assert.strictEqual(await page.locator('.dropmenu a.current[href*="operation=mods"]').count(), 1, 'Moderator log menu does not indicate the current selection.');
         assert.strictEqual(await page.locator('input[name="deleteids[]"]').count(), 1, 'Moderator log row has no delete checkbox.');
+        await page.locator(`a[href*="operator=${batchMarker}"]`).click();
+        await page.waitForLoadState('networkidle');
+        assert.strictEqual(new URL(page.url()).searchParams.get('operator'), batchMarker, 'Operator link did not filter the current logs.');
+        assert.strictEqual(await page.locator('#logsearchform input[name="operator"]').inputValue(), batchMarker, 'Keyword search would lose the operator filter.');
+        assert.ok((await page.locator('#logbatchform').getAttribute('action')).includes(`operator=${batchMarker}`), 'Deletion would lose the operator filter.');
         assert.strictEqual(await page.locator('#logbatchform').evaluate(form => form.closest('table') === null), true, 'Batch form is nested inside an unclosed results table.');
         await page.locator('#chkall').check();
         assert.strictEqual(await page.locator('input[name="deleteids[]"]').isChecked(), true, 'Select all did not select the visible moderator log.');
@@ -329,7 +334,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(remainingBatchLogs, 'cp\t1', 'Filtered moderator deletion did not remove both pages or removed another log type.');
         await page.waitForURL(url => url.searchParams.get('action') === 'logs' && url.searchParams.get('operation') === 'mods' && url.searchParams.get('page') === '1' && !url.searchParams.has('keywordenc'));
         const returnedLogParams = new URL(page.url()).searchParams;
-        for (const filter of ['keyword', 'keywordenc', 'username', 'day', 'search[field]', 'search[key]']) {
+        for (const filter of ['keyword', 'keywordenc', 'username', 'operator', 'day', 'search[field]', 'search[key]']) {
             assert.strictEqual(returnedLogParams.has(filter), false, `Delete-all redirect retained ${filter}.`);
         }
         assert.strictEqual(await page.locator('#keywordraw').inputValue(), '', 'Delete-all redirect retained the keyword field.');

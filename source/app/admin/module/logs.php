@@ -29,9 +29,13 @@ if(isset($_GET['keywordenc']) && preg_match('/^[A-Za-z0-9_-]+$/', $_GET['keyword
 	$keyword = trim((string)$_GET['keyword']);
 }
 
+$operatorUsername = !$filelog && isset($_GET['operator']) ? trim((string)$_GET['operator']) : '';
 $conditions = [];
 if(!$filelog) {
 	$conditions[] = ['type', '=', "'".$operation."'"];
+	if($operatorUsername !== '') {
+		$conditions[] = ["JSON_EXTRACT(data, '$.operator_username')", '=', DB::quote($operatorUsername)];
+	}
 	if(!empty($_GET['search']) && !empty($_GET['search']['field']) && in_array($_GET['search']['field'], ['data', 'device']) && preg_match('/^\w+$/', $_GET['search']['key'])
 		&& !empty($_GET['search']['key'])&& !empty($_GET['search'][$_GET['search']['key']])) {
 		$conditions[] = ['JSON_EXTRACT('.$_GET['search']['field'].', \'$.'.$_GET['search']['key'].'\')', '=', "'".$_GET['search'][$_GET['search']['key']]."'"];
@@ -45,6 +49,10 @@ $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_')
 $editorUsername = $filelog && isset($_GET['username']) ? trim((string)$_GET['username']) : '';
 $logquery = "action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').($editorUsername !== '' ? '&username='.rawurlencode($editorUsername) : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 $urlbase = ADMINSCRIPT.'?'.$logquery;
+if($operatorUsername !== '') {
+	$logquery .= '&operator='.rawurlencode($operatorUsername);
+	$urlbase = ADMINSCRIPT.'?'.$logquery;
+}
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
@@ -208,6 +216,10 @@ if($operation != 'setting') {
 	echo '<input type="hidden" name="lpp" value="'.$lpp.'">';
 	echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'">';
 	echo '<input type="hidden" name="username" value="'.dhtmlspecialchars($editorUsername).'">';
+	echo '<input type="hidden" name="operator" value="'.dhtmlspecialchars($operatorUsername).'">';
+	if($operatorUsername !== '') {
+		echo '<tr><td colspan="3">'.cplang('operator').': '.dhtmlspecialchars($operatorUsername).' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">'.cplang('all').'</a></td></tr>';
+	}
 	showtablerow('', [], [
 		'Keyword',
 		'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'">',
@@ -316,6 +328,12 @@ if($operation != 'setting') {
 	showtableheader('', 'fixpadding');
 	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="toggleLogFilterDelete(this)" form="logbatchform"><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform">', $multipage);
 	showtablefooter();
+}
+
+function logoperatorlink($username) {
+	global $logquery;
+	$query = preg_replace('/&operator=[^&]*/', '', $logquery);
+	return '<a href="'.dhtmlspecialchars(ADMINSCRIPT.'?'.$query.'&operator='.rawurlencode($username).'&page=1').'">'.dhtmlspecialchars($username).'</a>';
 }
 
 function showdevice($id, $device, $colspan = 1) {

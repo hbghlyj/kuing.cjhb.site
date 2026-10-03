@@ -27,7 +27,7 @@ foreach($logs as $k => $logrow) {
 	$data = logdecode($logrow['data']);
 	$device = logdecode($logrow['device']);
 	$log[1] = dgmdate($logrow['dateline']);
-	$log[2] = "<a href=\"home.php?mod=space&username=".rawurlencode($data['operator_username'])."\" target=\"_blank\">".$data['operator_username'].'</a>';
+	$log[2] = logoperatorlink($data['operator_username']);
 	$log[3] = $usergroup[$data['operator_adminid']];
 	if($data['member_username'] == $_G['member']['username']) {
 		$data['member_username'] = '<b>'.$data['member_username'].'</b>';
