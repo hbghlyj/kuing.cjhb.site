@@ -12,11 +12,16 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 
 $backupPath = DISCUZ_ROOT.'./data/'.$backupdir.'/';
 $backupUrl = 'data/'.$backupdir.'/';
-$backupFiles = [
-	'backup_monday.sql.gz',
-	'backup_wednesday.sql.gz',
-	'backup_friday.sql.gz',
-];
+// The cron job writes backup_<weekday>_<am|pm>.sql.gz, two slots per day, so the
+// original three hardcoded names (backup_monday.sql.gz and friends) never existed
+// and every row rendered as "Unavailable". Build the real scheme instead: the
+// Unavailable branch still earns its keep for a slot that has not run yet.
+$backupFiles = [];
+foreach(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day) {
+	foreach(['am', 'pm'] as $slot) {
+		$backupFiles[] = 'backup_'.$day.'_'.$slot.'.sql.gz';
+	}
+}
 
 shownav('founder', 'nav_db', 'nav_db_export');
 showsubmenu('nav_db', [
