@@ -2405,6 +2405,11 @@ if (typeof IN_ADMINCP == 'undefined') {
 
 document.addEventListener('DOMContentLoaded', loadAvatar);
 document.addEventListener('DOMContentLoaded', initZoom);
+document.addEventListener('DOMContentLoaded', function() {
+	if ($('nv')) {
+		$F('_navscroll', []);
+	}
+});
 
 function initPasswordToggles() {
 	function enhance(input) {
