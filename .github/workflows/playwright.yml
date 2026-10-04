@@ -109,6 +109,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Phase 1: Independent suites run in parallel.
+          node .github/scripts/test_stat.js
+          php .github/scripts/test_stat_templates.php
           node .github/scripts/test_forum.js &
           P1=$!
           node .github/scripts/test_forum_mobile.js &

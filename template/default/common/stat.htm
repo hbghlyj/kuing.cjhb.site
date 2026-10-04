@@ -1,6 +1,9 @@
+<script>
+window.STAT_LABELS = {echo json_encode(array('noData' => lang('template', 'stat_no_data'), 'line' => lang('template', 'stat_line'), 'bar' => lang('template', 'stat_bar'), 'stack' => lang('template', 'stat_stack'), 'saveImage' => lang('template', 'stat_save_image'), 'restore' => lang('template', 'stat_restore')), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)};
+</script>
 <div class="appl">
 	<div class="tbn">
-		<h2 class="mt bbda">{lang stats}</h2>
+		<h2 class="mt">{lang stats}</h2>
 		<ul>
 			<li class="cl{if $op == 'basic'} a{/if}"><a href="misc.php?mod=stat&op=basic">{lang basic_situation}</a></li>
 			<li class="cl{if $op == 'forumstat'} a{/if}"><a href="misc.php?mod=stat&op=forumstat">{lang forum_stat}</a></li>
