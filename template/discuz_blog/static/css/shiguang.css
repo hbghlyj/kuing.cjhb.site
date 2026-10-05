@@ -232,7 +232,12 @@ body.discuzx5 .portal_side .drag > .area > .block {
     box-shadow: var(--sg-shadow);
 }
 
-body.discuzx5 .bm_h {
+/* Flat card headers, but not the ones inside .focus panels. Those carry an
+   accent bar from extend_common.css (.focus .bm_h sets
+   background:var(--dz-nvbg) with color:var(--dz-ff)); flattening them as well
+   left white text on the near-white card, a contrast ratio of 1.0, so the
+   ip_notice title rendered invisible. */
+body.discuzx5 .bm_h:not(.focus *) {
     border-color: var(--sg-line);
     background: transparent;
 }
