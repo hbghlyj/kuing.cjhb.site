@@ -115,6 +115,6 @@ $qbeginlastmonth = gmdate('Y-m-01', strtotime($qbeginmonth.' UTC') - 86400);
 	<!--{subtemplate common/stat}-->
 </div>
 <script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-<script src="{$_G['setting']['jspath']}stat.js"></script>
+<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 <script>drawstatchart('{$statuspara}', 420);</script>
 <!--{template common/footer}-->

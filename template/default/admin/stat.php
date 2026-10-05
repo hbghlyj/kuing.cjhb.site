@@ -46,7 +46,7 @@
 				</form>
 				<div class="charts">
 					<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-					<script src="{$_G['setting']['jspath']}stat.js"></script>
+					<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 					<div id="statchart"></div>
 					<script>
 						drawstatchart('{ADMINSCRIPT}?action=stat&operation=chart&primarybegin=$primarybegin&primaryend=$primaryend&key=$key&type=$type$append', 400);

@@ -2002,7 +2002,7 @@ body { background: none !important; }
 .ttp .a a { padding-left: 8px; padding-right: 8px; }
 .ttp li.xw1 { font-weight: normal; }
 /* ------------------------------------------------------------------------
-   统计页现代化组件（.stat-*）：替代 .dt 布局用表格，配合 static/js/stat.js 的 echarts 助手
+   统计页现代化组件（.stat-*）：替代 .dt 布局用表格，配合 static/js/forum-stat-charts.js 的 echarts 助手
    注：上方 .dt 系列规则仍需保留，stat_misc.php 暂未改造，依旧使用 .dt 表格
    ------------------------------------------------------------------------ */
 .stat-page { --stat-c1: {MENUBGCOLOR}; --stat-c2: {MENUCURBGCOLOR}; --stat-c3: {HIGHLIGHTLINK}; --stat-c4: {NOTICETEXT}; --stat-c5: {MIDTEXT}; --stat-c6: {COMMONBORDER}; --stat-warn: #F0A020; --stat-good: #7CBE00; --stat-grid: {COMMONBG}; --stat-axis: {COMMONBORDER}; --stat-label: {MIDTEXT}; --stat-pointer: {COMMONBG}; --stat-surface: {WRAPBG}; padding-bottom: 4px; }

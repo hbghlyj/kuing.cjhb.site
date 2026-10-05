@@ -90,7 +90,7 @@
 	</div>
 </div>
 <script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-<script src="{$_G['setting']['jspath']}stat.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 <script>
 <!--{if $tradesums}-->statBarH($('stat_bar_tradesum'), {echo json_encode($sumCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($sumVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});<!--{/if}-->
 <!--{if $totalitems}-->statBarH($('stat_bar_totalitems'), {echo json_encode($itemCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($itemVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 0});<!--{/if}-->

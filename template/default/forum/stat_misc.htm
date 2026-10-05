@@ -326,14 +326,14 @@
 
 <!--{if $op == 'forumstat' && $_GET['fid']}-->
 	<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-	<script src="{$_G['setting']['jspath']}stat.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 	<script>
 	statLine($('statchart'), {echo json_encode(array_column((array)$logs, 'logdate'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, [{name: '{lang stats_main_total_posted}', type: 'line', smooth: true, showSymbol: true, data: {echo json_encode(array_map('intval', array_column((array)$logs, 'value')), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}}]);
 	</script>
 <!--{/if}-->
 <!--{if $op == 'modworks'}-->
 	<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-	<script src="{$_G['setting']['jspath']}stat.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 	<script>
 	<!--{if $op == 'modworks' && $uid}-->
 		statBarH($('stat_bar_modaction'), {echo json_encode($mwCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($mwVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});
@@ -346,7 +346,7 @@
 <!--{/if}-->
 <!--{if $op == 'forumstat' && !$_GET['fid']}-->
 	<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
-	<script src="{$_G['setting']['jspath']}stat.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 	<script>
 	<!--{if $fCats}-->statBarH($('stat_bar_forums'), {echo json_encode($fCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($fVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {labelWidth: 110});<!--{/if}-->
 	</script>

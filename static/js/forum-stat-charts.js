@@ -112,7 +112,7 @@ function statInit(el, option) {
 	} catch(e) {
 		STAT_ERRORS.push((e && e.message ? e.message : String(e)));
 		if(window.console && console.warn) {
-			console.warn('[stat.js] 图表初始化失败：', STAT_ERRORS[STAT_ERRORS.length - 1]);
+			console.warn('[forum-stat-charts.js] 图表初始化失败：', STAT_ERRORS[STAT_ERRORS.length - 1]);
 		}
 		return null;
 	}
@@ -124,7 +124,7 @@ function statInit(el, option) {
 		var t = option && option.series && option.series[0] && option.series[0].type;
 		STAT_ERRORS.push('图表类型 ' + t + ' 未渲染（当前 echarts 构建可能不支持该类型）');
 		if(window.console && console.warn) {
-			console.warn('[stat.js] 图表类型 ' + t + ' 未渲染，请确认 echarts 构建是否包含该类型');
+			console.warn('[forum-stat-charts.js] 图表类型 ' + t + ' 未渲染，请确认 echarts 构建是否包含该类型');
 		}
 	}
 	return chart;

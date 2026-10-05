@@ -347,7 +347,7 @@ class rp {
 			showtableheader('restful_chart_title');
 			echo '<tr><td><div class="charts">
 			<script src="'.STATICURL.'js/echarts/echarts.common.min.js"></script>
-			<script src="'.$_G['setting']['jspath'].'stat.js"></script>
+			<script src="'.$_G['setting']['jspath'].'forum-stat-charts.js?'.VERHASH.'"></script>
 			<div id="statchart"></div>
 			<script type="text/javascript">
 				drawstatchart(\''.ADMINSCRIPT.'?action=restful&operation=stat&id='.$appid.'&api='.$api.'&data=yes\', 300);

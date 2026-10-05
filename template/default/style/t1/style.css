@@ -99,7 +99,7 @@ body { background: transparent url(bgimg.jpg) no-repeat 50% 0; background-size: 
 		#qmenu_menu #fjump_menu .jump_bdl p.a a { background-color: #FFECEC; color: #BA350F; }
 		#qmenu_menu #fjump_menu .jump_bdl li::-webkit-scrollbar-thumb { background: #FCC; }
 
-/* 统计页：图表配色由 static/js/stat.js 读取这些自定义属性 */
+/* 统计页：图表配色由 static/js/forum-stat-charts.js 读取这些自定义属性 */
 .stat-page { --stat-c1: #C00; --stat-c2: #800; --stat-c3: #BA350F; --stat-c6: #FCC; --stat-grid: #FFECEC; --stat-axis: #FCC; --stat-pointer: #FFECEC; }
 	.stat-kpi-num, .stat-metric b, .stat-mx .stat-mx-total { color: #C00; }
 	.stat-chip.on { border-color: #C00; background: #C00; }

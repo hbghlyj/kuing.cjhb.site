@@ -29,7 +29,7 @@ const { chromium } = require('playwright');
         });
         const commonSource = fs.readFileSync('static/js/common.js', 'utf8');
         await page.addScriptTag({ content: commonSource.slice(commonSource.indexOf('function Ajax('), commonSource.indexOf('function getHost(')) });
-        await page.addScriptTag({ path: path.resolve('static/js/stat.js') });
+        await page.addScriptTag({ path: path.resolve('static/js/forum-stat-charts.js') });
         const result = await page.evaluate(() => {
             window.fixture = { xaxis: ['2026-10-01', '2026-10-02'], graphs: [{ title: 'Posts', data: ['2', '5'] }] };
             drawstatchart('/fixture', 300, null, $('chart'));
@@ -48,6 +48,11 @@ const { chromium } = require('playwright');
         assert.equal(result.gaugeType, 'pie');
         assert.equal(result.emptyTitle, 'No data fixture');
         assert.equal(result.emptySeries, 0, 'Old series must not survive an empty response');
+        for (const file of ['template/default/admin/stat.php', 'template/default/admin/index_charts.php', 'template/default/home/misc_stat.htm', 'template/default/forum/stat_memberlist.htm', 'template/default/forum/stat_main.htm', 'template/default/forum/stat_misc.htm', 'template/default/forum/stat_trade.htm']) {
+            const source = fs.readFileSync(file, 'utf8');
+            assert.ok(source.includes('forum-stat-charts.js?{VERHASH}'), `${file}: chart scripts must retain cache busting`);
+            assert.ok(!/\}stat\.js/.test(source), `${file}: obsolete script URL must not return`);
+        }
         const memberTemplate = fs.readFileSync('template/default/forum/stat_memberlist.htm', 'utf8');
         assert.ok(memberTemplate.includes('stat-ava-uid'), 'Compact UID beneath the username must remain');
         assert.ok(memberTemplate.includes('order=uid'), 'UID sorting must remain available');
