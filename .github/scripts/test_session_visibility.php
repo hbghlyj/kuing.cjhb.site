@@ -28,3 +28,11 @@ if($table->count_invisible(1, true) !== 0) {
     throw new RuntimeException('An invisible guest must not count as an invisible member');
 }
 echo "Session visibility counts passed\n";
+foreach(['index/forum.php', 'ajax/getOnlineUserListHtml.php'] as $file) {
+    $source = file_get_contents(__DIR__.'/../../source/app/forum/child/'.$file);
+    $update = strpos($source, 'updatesession();');
+    $count = strpos($source, '->count');
+    if($update === false || $count === false || $update > $count) {
+        throw new RuntimeException('Online counts must follow session refresh: '.$file);
+    }
+}

@@ -123,6 +123,7 @@ if(isset($catlist[0]) && $catlist[0]['forumscount']) {
 
 if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3)) {
 	$_G['setting']['whosonlinestatus'] = 1;
+	updatesession();
 
 	$todayday = dgmdate(TIMESTAMP, 'Ymd');
 	$todaystat = table_common_stat::t()->fetch_all_stat($todayday, $todayday, 'daytime,login');
