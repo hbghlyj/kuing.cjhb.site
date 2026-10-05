@@ -1,0 +1,30 @@
+<?php
+define('IN_DISCUZ', true);
+class discuz_table {
+    protected $_table;
+    protected $_pk;
+    public function __construct() {}
+}
+class DB {
+    public static $rows = [
+        ['uid' => 0, 'invisible' => 1],
+        ['uid' => 0, 'invisible' => 0],
+        ['uid' => 12, 'invisible' => 1],
+        ['uid' => 13, 'invisible' => 0],
+    ];
+    public static function result_first($sql, $params) {
+        return count(array_filter(self::$rows, fn($row) => $row['invisible'] == $params[1] && (!str_contains($sql, 'uid>0') || $row['uid'] > 0)));
+    }
+}
+require __DIR__.'/../../source/class/table/table_common_session.php';
+$table = new table_common_session();
+foreach([[1, true, 1], [1, false, 2], [0, false, 2], [0, true, 1]] as [$flag, $membersOnly, $expected]) {
+    if($table->count_invisible($flag, $membersOnly) !== $expected) {
+        throw new RuntimeException('Session visibility count mismatch');
+    }
+}
+DB::$rows = [['uid' => 0, 'invisible' => 1]];
+if($table->count_invisible(1, true) !== 0) {
+    throw new RuntimeException('An invisible guest must not count as an invisible member');
+}
+echo "Session visibility counts passed\n";

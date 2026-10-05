@@ -111,6 +111,7 @@ jobs:
           # Phase 1: Independent suites run in parallel.
           node .github/scripts/test_stat.js
           php .github/scripts/test_stat_templates.php
+          php .github/scripts/test_session_visibility.php
           node .github/scripts/test_forum.js &
           P1=$!
           node .github/scripts/test_forum_mobile.js &

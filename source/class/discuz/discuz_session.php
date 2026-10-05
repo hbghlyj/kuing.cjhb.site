@@ -107,8 +107,8 @@ class discuz_session {
 		return $this->table->fetch_member($ismember, $invisible, $start, $limit);
 	}
 
-	public function count_invisible($type = 1) {
-		return $this->table->count_invisible($type);
+	public function count_invisible($type = 1, $membersOnly = false) {
+		return $this->table->count_invisible($type, $membersOnly);
 	}
 
 	public function update_max_rows($max_rows) {

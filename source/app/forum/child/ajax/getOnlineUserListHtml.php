@@ -105,7 +105,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$onlinenum = C::app()->session->count_by_fid($fid);
 	} else {
 		$guestcount = C::app()->session->count(2);
-		$invisiblecount = C::app()->session->count_invisible();
+		$invisiblecount = C::app()->session->count_invisible(1, true);
 		$onlinenum = $membercount + $invisiblecount + $guestcount;
 	}
 }

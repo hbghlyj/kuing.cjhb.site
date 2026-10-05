@@ -59,8 +59,8 @@ class table_common_session extends discuz_table {
 		return DB::fetch_all($sql, [$this->_table], $this->_pk);
 	}
 
-	public function count_invisible($type = 1) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE invisible=%d', [$this->_table, $type]);
+	public function count_invisible($type = 1, $membersOnly = false) {
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE invisible=%d'.($membersOnly ? ' AND uid>0' : ''), [$this->_table, $type]);
 	}
 
 	public function count($type = 0) {

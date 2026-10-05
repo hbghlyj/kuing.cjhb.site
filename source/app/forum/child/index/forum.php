@@ -129,7 +129,7 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 	$onlineinfo = [intval($todaystat[$todayday]['login'] ?? 0)];
 	$membercount = C::app()->session->count(1);
 	$guestcount = C::app()->session->count(2);
-	$invisiblecount = C::app()->session->count_invisible();
+	$invisiblecount = C::app()->session->count_invisible(1, true);
 	$onlinenum = $membercount + $guestcount;
 	$whosonline = [];
 	dsetcookie('onlineusernum', intval($onlinenum), 300);

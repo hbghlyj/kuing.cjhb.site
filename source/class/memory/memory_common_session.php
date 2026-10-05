@@ -109,7 +109,18 @@ LUA;
 	/*
 	 * memory下，基于 idx_invisible_$invisible: SortedSet, member是sid, score是lastactivity
 	 */
-	public function count_invisible($type = 1) {
+	public function count_invisible($type = 1, $membersOnly = false) {
+		if($membersOnly) {
+			$script = <<<'LUA'
+local prefix = ARGV[1]
+local output = prefix..'count_invisible_members'
+redis.call('ZINTERSTORE', output, 2, prefix..'idx_invisible_'..ARGV[2], prefix..'idx_uid_group_1')
+local count = redis.call('ZCARD', output)
+redis.call('DEL', output)
+return count
+LUA;
+			return memory('eval', $script, [$type], 'count_invisible_members', $this->_pre_cache_key);
+		}
 		return memory('zcard', 'idx_invisible_'.$type, $this->_pre_cache_key);
 	}
 

@@ -108,7 +108,7 @@ class discuz_session_close {
 		return $this->table->fetch_all_by_lastactivity_invisible($this->oltimestamp, $invisible, $start, $limit);
 	}
 
-	public function count_invisible($type = 1) {
+	public function count_invisible($type = 1, $membersOnly = false) {
 		return $this->table->count_by_lastactivity_invisible($this->oltimestamp, $type);
 	}
 
