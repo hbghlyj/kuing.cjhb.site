@@ -12,11 +12,23 @@ const { chromium } = require('playwright');
         await page.evaluate(() => {
             window.$ = id => document.getElementById(id);
             window.STAT_LABELS = { noData: 'No data fixture' };
-            window.Ajax = function(type) {
-                window.ajaxType = type;
-                this.get = (url, callback) => callback(window.fixture);
+            window.$L = key => key;
+            window.hostconvert = url => url;
+            window.isUndefined = value => typeof value === 'undefined';
+            // Mock only transport; use common.js's real Ajax response parser.
+            window.XMLHttpRequest = function() {
+                this.open = () => {};
+                this.setRequestHeader = () => {};
+                this.send = () => {
+                    this.responseText = JSON.stringify(window.fixture);
+                    this.readyState = 4;
+                    this.status = 200;
+                    this.onreadystatechange();
+                };
             };
         });
+        const commonSource = fs.readFileSync('static/js/common.js', 'utf8');
+        await page.addScriptTag({ content: commonSource.slice(commonSource.indexOf('function Ajax('), commonSource.indexOf('function getHost(')) });
         await page.addScriptTag({ path: path.resolve('static/js/stat.js') });
         const result = await page.evaluate(() => {
             window.fixture = { xaxis: ['2026-10-01', '2026-10-02'], graphs: [{ title: 'Posts', data: ['2', '5'] }] };
@@ -28,9 +40,8 @@ const { chromium } = require('playwright');
             window.fixture = { xaxis: [], graphs: [] };
             drawstatchart('/empty', 300, null, $('chart'));
             const empty = echarts.getInstanceByDom($('chart')).getOption();
-            return { type: window.ajaxType, dates: option.xAxis[0].data, values: option.series[0].data, supportsGauge, gaugeType: gauge.series[0].type, emptyTitle: empty.title[0].text, emptySeries: empty.series.length };
+            return { dates: option.xAxis[0].data, values: option.series[0].data, supportsGauge, gaugeType: gauge.series[0].type, emptyTitle: empty.title[0].text, emptySeries: empty.series.length };
         });
-        assert.equal(result.type, 'JSON');
         assert.deepEqual(result.dates, ['2026-10-01', '2026-10-02']);
         assert.deepEqual(result.values, [2, 5]);
         assert.equal(result.supportsGauge, false, 'Bundled ECharts must fall back when gauge is unsupported');

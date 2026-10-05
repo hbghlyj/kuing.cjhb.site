@@ -279,7 +279,6 @@ function drawstatchart(url, height, titleOption, obj) {
 	height = height || 400;
 
 	var x = new Ajax('JSON');
-	x.recvType = 'HTML';
 	obj.style.width = '100%';
 	obj.style.height = height + 'px';
 	x.get(url, function (xdata) {
