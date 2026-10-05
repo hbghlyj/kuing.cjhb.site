@@ -16,6 +16,10 @@ class DB {
         return count(array_filter(self::$rows, fn($row) => $row['invisible'] == $params[1] && (!str_contains($sql, 'uid>0') || $row['uid'] > 0)));
     }
 }
+$ajax = file_get_contents(__DIR__.'/../../source/app/forum/child/ajax/getOnlineUserListHtml.php');
+if(!str_contains($ajax, '$membercount = C::app()->session->count(1);') || str_contains($ajax, '$membercount + $invisiblecount + $guestcount')) {
+    throw new RuntimeException('AJAX totals must include invisible members once, independently of rendered rows');
+}
 require __DIR__.'/../../source/class/table/table_common_session.php';
 $table = new table_common_session();
 foreach([[1, true, 1], [1, false, 2], [0, false, 2], [0, true, 1]] as [$flag, $membersOnly, $expected]) {
