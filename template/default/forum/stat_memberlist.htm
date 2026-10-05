@@ -37,8 +37,7 @@
 				<!-- 排序并入表头：点击列头切换排序，箭头指示当前方向，替代独立的排序 chips 行 -->
 				<div class="stat-list">
 					<div class="stat-row stat-row-hd">
-						<span class="stat-cell"><a href="$sortbase&order=username{if $so == 'username'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'username'} on{if $sa} asc{/if}{/if}">{lang username}</a></span>
-						<span class="stat-cell-w2"><a href="$sortbase&order=uid{if $so == 'uid'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'uid'} on{if $sa} asc{/if}{/if}">{lang uid}</a></span>
+						<span class="stat-cell"><a href="$sortbase&order=username{if $so == 'username'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'username'} on{if $sa} asc{/if}{/if}">{lang username}</a> / <a href="$sortbase&order=uid{if $so == 'uid'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'uid'} on{if $sa} asc{/if}{/if}">{lang uid}</a></span>
 						<span class="stat-cell-w1"><a href="$sortbase&order=lastpost{if $so == 'lastpost'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'lastpost'} on{if $sa} asc{/if}{/if}">{lang lastpost}</a></span>
 						<span class="stat-cell-w3"><a href="$sortbase&order=regdate{if $so == 'regdate'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'regdate'} on{if $sa} asc{/if}{/if}">{lang regdate}</a></span>
 						<span class="stat-cell-w3"><a href="$sortbase&order=lastvisit{if $so == 'lastvisit'}&asc={if $sa}0{else}1{/if}{else}&asc=0{/if}$sortq" class="stat-cell-hd stat-sort{if $so == 'lastvisit'} on{if $sa} asc{/if}{/if}">{lang lastvisit}</a></span>
@@ -48,7 +47,6 @@
 					<!--{loop $memberlist $member}-->
 						<div class="stat-row">
 							<span class="stat-cell stat-cell-user">{avatar($member['uid'], 'small')}<span class="stat-ava-txt"><a href="home.php?mod=space&uid=$member[uid]" target="_blank">$member[username]</a><em class="stat-ava-uid">UID $member[uid]</em></span></span>
-							<span class="stat-cell-w2">$member[uid]</span>
 							<span class="stat-cell-w1">$member[lastpost]</span>
 							<span class="stat-cell-w3 xg1">$member[regdate]</span>
 							<span class="stat-cell-w3 xg1">$member[lastvisit]</span>

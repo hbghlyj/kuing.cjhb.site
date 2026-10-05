@@ -48,6 +48,10 @@ const { chromium } = require('playwright');
         assert.equal(result.gaugeType, 'pie');
         assert.equal(result.emptyTitle, 'No data fixture');
         assert.equal(result.emptySeries, 0, 'Old series must not survive an empty response');
+        const memberTemplate = fs.readFileSync('template/default/forum/stat_memberlist.htm', 'utf8');
+        assert.ok(memberTemplate.includes('stat-ava-uid'), 'Compact UID beneath the username must remain');
+        assert.ok(memberTemplate.includes('order=uid'), 'UID sorting must remain available');
+        assert.ok(!memberTemplate.includes('<span class="stat-cell-w2">$member[uid]</span>'), 'Redundant UID column must not consume width');
         for (const file of ['stat_main', 'stat_memberlist', 'stat_team', 'stat_trade', 'stat_misc', 'stat_misc_export']) {
             const source = fs.readFileSync(`template/default/forum/${file}.htm`, 'utf8');
             const stack = [];
