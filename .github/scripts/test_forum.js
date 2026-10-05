@@ -669,6 +669,13 @@ const assertPusherMetadataOrder = () => {
         await page.goto('http://127.0.0.1:8080/forum.php');
         await page.waitForLoadState('networkidle');
         assert.strictEqual(await page.locator('#ct').count(), 1, 'Assertion Error: Desktop forum index content container did not render.');
+        if(await page.locator('#forum-index-tabs').count()) {
+            const myPosts = page.locator('#forum-index-tabs a.forum-index-link');
+            assert.strictEqual(await myPosts.count(), 1, 'My posts must appear in the index navigation for a signed-in member.');
+            assert.strictEqual(await myPosts.getAttribute('href'), 'home.php?mod=space&do=thread&view=me');
+            assert.strictEqual(await myPosts.getAttribute('data-index-tab'), null, 'My posts is navigation, not a panel toggle.');
+            assert.strictEqual(await page.locator('#chart a[href="home.php?mod=space&do=thread&view=me"]').count(), 0, 'The summary must not duplicate My posts while tabs are available.');
+        }
         const layout = await page.locator('#ct.wp').evaluate(element => ({
             width: Math.round(element.getBoundingClientRect().width),
             viewportWidth: document.documentElement.clientWidth

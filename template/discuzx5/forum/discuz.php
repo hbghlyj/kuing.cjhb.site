@@ -41,6 +41,7 @@
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
 		<div id="forum-index-tabs" role="tablist">
+			<!--{if $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="forum-index-link">{lang my_posts}</a><!--{/if}-->
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
@@ -471,7 +472,8 @@
 			<p class="chart z">{lang index_today}: <em><a href="search.php?mod=forum&srchfrom={echo strtotime('today')}&searchsubmit=yes">$todayposts</a></em><span class="pipe">|</span>{lang index_yesterday}: <em><a href="search.php?mod=forum&srchfrom={echo strtotime('yesterday')}&before={echo strtotime('today')}&searchsubmit=yes">$postdata[0]</a></em><span class="pipe">|</span>{lang index_posts}: <em>$posts</em><span class="pipe">|</span>{lang index_members}: <em>$_G['cache']['userstats']['totalmembers']</em><!--{if $_G['cache']['userstats']['newsetuser']}--><span class="pipe">|</span>{lang welcome_new_members}: <em><a href="home.php?mod=space&username={echo rawurlencode($_G['cache']['userstats']['newsetuser'])}" target="_blank" class="xi2">$_G['cache']['userstats']['newsetuser']</a></em><!--{/if}--></p>
 			<div class="y">
 				<!--{hook/index_nav_extra}-->
-				<!--{if !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><a href="forum.php?mod=guide&view=new" title="{lang show_newthreads}" class="xi2">{lang show_newthreads}</a><!--{/if}-->
+				<!--{if empty($_G['setting']['grid']['showgrid']) && $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="xi2">{lang my_posts}</a><!--{if $_G['group']['allowstatdata'] || !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><span class="pipe">|</span><!--{/if}--><!--{/if}-->
+				<!--{if $_G['group']['allowstatdata']}--><a href="misc.php?mod=stat" title="{lang stats}" class="xi2">{lang stats}</a><!--{/if}--><!--{if !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><!--{if $_G['group']['allowstatdata']}--><span class="pipe">|</span><!--{/if}--><a href="forum.php?mod=guide&view=new" title="{lang show_newthreads}" class="xi2">{lang show_newthreads}</a><!--{/if}-->
 			</div>
 		</div>
 	<!--{/if}-->
