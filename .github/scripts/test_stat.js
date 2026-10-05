@@ -11,7 +11,9 @@ const { chromium } = require('playwright');
         await page.addScriptTag({ path: path.resolve('static/js/echarts/echarts.common.min.js') });
         const moduleCss = fs.readFileSync('template/default/common/module.css', 'utf8');
         const selectedChipRule = moduleCss.match(/\.stat-chip\.on\s*\{[^}]*\{MENUBGCOLOR\}[^\n]*/)[0];
-        await page.addStyleTag({ content: selectedChipRule.replaceAll('{MENUBGCOLOR}', '#0066ff').replaceAll('{MENUTEXT}', '#0066ff').replaceAll('{MENUHOVERTEXT}', '#ffffff') });
+        const firstRankRule = moduleCss.split(/\r?\n/).find(line => line.includes('.stat-rank li:nth-child(1) .stat-rank-no'));
+        const blogStyle = JSON.parse(fs.readFileSync('template/discuz_blog/discuz_style_discuz_blog.json', 'utf8')).Data.style;
+        await page.addStyleTag({ content: (selectedChipRule + '\n' + firstRankRule).replace(/\{(MENUBGCOLOR|MENUTEXT|MENUHOVERTEXT)\}/g, (_, key) => blogStyle[key.toLowerCase()]) });
         const chipColors = await page.evaluate(() => {
             const chip = document.createElement('a');
             chip.className = 'stat-chip on';
@@ -22,6 +24,16 @@ const { chromium } = require('playwright');
         });
         assert.equal(chipColors.color, 'rgb(255, 255, 255)', 'Selected filter text must remain visible without hovering');
         assert.notEqual(chipColors.color, chipColors.background);
+        const rankColors = await page.evaluate(() => {
+            const rank = document.createElement('ul');
+            rank.className = 'stat-rank';
+            rank.innerHTML = '<li><span class="stat-rank-no">1</span></li>';
+            document.body.appendChild(rank);
+            const style = getComputedStyle(rank.querySelector('.stat-rank-no'));
+            return { color: style.color, background: style.backgroundColor };
+        });
+        assert.equal(rankColors.color, 'rgb(255, 255, 255)', 'Rank one must use a readable foreground with the blog style variables');
+        assert.notEqual(rankColors.color, rankColors.background);
         await page.evaluate(() => {
             window.$ = id => document.getElementById(id);
             window.STAT_LABELS = { noData: 'No data fixture' };
