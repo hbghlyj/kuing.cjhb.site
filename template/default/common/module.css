@@ -2044,7 +2044,7 @@ body { background: none !important; }
 .stat-chip { display: inline-flex; align-items: center; margin: 0; padding: 4px 12px; border: 1px solid {COMMONBORDER}; border-radius: 999px; background: {WRAPBG}; color: {MIDTEXT}; cursor: pointer; white-space: nowrap; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
 	.stat-chip:hover { border-color: {SPECIALBORDER}; background: {SPECIALBG}; color: {HIGHLIGHTLINK}; }
 	.stat-chip input.pc { margin: 0 6px 0 0; vertical-align: -2px; }
-	.stat-chip.on { border-color: {MENUBGCOLOR}; background: {MENUBGCOLOR}; color: {MENUTEXT}; font-weight: 700; }
+	.stat-chip.on { border-color: {MENUBGCOLOR}; background: {MENUBGCOLOR}; color: {MENUHOVERTEXT}; font-weight: 700; }
 		.stat-chip.on:hover { background: {MENUCURBGCOLOR}; color: {MENUHOVERTEXT}; }
 
 /* 快捷时间区间 + 操作条 */

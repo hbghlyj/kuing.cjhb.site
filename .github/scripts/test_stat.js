@@ -9,6 +9,19 @@ const { chromium } = require('playwright');
         const page = await browser.newPage();
         await page.setContent('<div class="stat-page"><div id="chart" style="width:600px;height:300px"></div><div id="gauge" style="width:600px;height:300px"></div></div>');
         await page.addScriptTag({ path: path.resolve('static/js/echarts/echarts.common.min.js') });
+        const moduleCss = fs.readFileSync('template/default/common/module.css', 'utf8');
+        const selectedChipRule = moduleCss.match(/\.stat-chip\.on\s*\{[^}]*\{MENUBGCOLOR\}[^\n]*/)[0];
+        await page.addStyleTag({ content: selectedChipRule.replaceAll('{MENUBGCOLOR}', '#0066ff').replaceAll('{MENUTEXT}', '#0066ff').replaceAll('{MENUHOVERTEXT}', '#ffffff') });
+        const chipColors = await page.evaluate(() => {
+            const chip = document.createElement('a');
+            chip.className = 'stat-chip on';
+            chip.textContent = 'Comprehensive Overview';
+            document.body.appendChild(chip);
+            const style = getComputedStyle(chip);
+            return { color: style.color, background: style.backgroundColor };
+        });
+        assert.equal(chipColors.color, 'rgb(255, 255, 255)', 'Selected filter text must remain visible without hovering');
+        assert.notEqual(chipColors.color, chipColors.background);
         await page.evaluate(() => {
             window.$ = id => document.getElementById(id);
             window.STAT_LABELS = { noData: 'No data fixture' };
