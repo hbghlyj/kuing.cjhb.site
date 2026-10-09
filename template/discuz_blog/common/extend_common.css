@@ -712,6 +712,7 @@ img{border:none;}
 .m_c .o {padding:0 0 10px 16px;height:34px;line-height:34px;border-top:none}
 .m_c .o, body .tm_c .o {background:none}
 .m_c .c {min-width:240px;color:var(--dz-fb)}
+.m_c .upfile .c {min-width:0}
 .m_c #moreconf.o {padding:0 11px 10px 11px}
 div[id*='fwin_a_friend_li'] .m_c .c {min-width:300px;padding-bottom:15px;font-size:14px}
 #fwin_content_postappend.m_c .o {padding:5px 10px 10px 10px}
