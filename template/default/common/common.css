@@ -1026,7 +1026,6 @@ Last Modify:	Pony
 			#um { padding-right: 60px; line-height: 2.3; }
 				#um, #um a { color: {HEADERTEXT}; }
 				#um p { text-align: right; }
-				#um .avt { display: inline; margin-right: -60px; }
 				/* .vwmy */
 					.vwmy:before { font-family: dzicon; content: "\f100"; display: inline-block; height: 14px; line-height: 14px; font-size: 16px; color: #7DA0CC; margin-right: 2px; }
 					.vwmy.qq:before { content: "\f118"; }

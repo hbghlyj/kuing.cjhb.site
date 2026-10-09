@@ -180,8 +180,6 @@ p.pns label {margin-right:10px}
 .mls img {width:44px;height:44px;background:var(--dz-bgc)}
 .avt img, .mls .avt img, .mls a[c*="1"] img {border:none;}
 
-#um, #um a {color:var(--dz-fa)}
-#um .avt img {width:52px;height:52px}
 .pipe {margin:0 5px;color:var(--dz-borderb)}
 .ignore_notice {top:2px;right:2px;width:20px;height:20px;line-height:20px;font-size:16px;text-align:center;background:var(--dz-btnbg);color:var(--dz-btntxt);border-radius:var(--dz-radius-a)}
 .ignore_notice:hover {opacity:0.8}
@@ -398,7 +396,6 @@ img{border:none;}
 #hds .p_pop .a a{background-color: var(--dz-bgc);color: var(--dz-ahover) !important;}
 
 .dz_layer_dl{float:right;}
-#hd .wp{display:flex;align-items:center;justify-content:space-between;}
 #recentthreads:after, #visitedforums:after{display:inline-block;margin-left:6px;vertical-align:2px;content:"";border-top:4px solid currentColor;border-right:4px solid transparent;border-bottom:0;border-left:4px solid transparent;}
 .navs_menu{width:260px;max-width:calc(100vw - 32px);padding:0;font-size:12px;overflow:hidden;}
 .navs_menu > li{display:block;float:none;}

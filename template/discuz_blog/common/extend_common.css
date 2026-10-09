@@ -192,8 +192,6 @@ p.pns label {margin-right:10px}
 .mls img {width:44px;height:44px;background:var(--dz-bgc)}
 .avt img, .mls .avt img, .mls a[c*="1"] img {border:none;}
 
-#um, #um a {color:var(--dz-fa)}
-#um .avt img {width:52px;height:52px}
 .pipe {margin:0 5px;color:var(--dz-borderb)}
 .ignore_notice {top:2px;right:2px;width:20px;height:20px;line-height:20px;font-size:16px;text-align:center;background:var(--dz-btnbg);color:var(--dz-btntxt);border-radius:var(--dz-radius-a)}
 .ignore_notice:hover {opacity:0.8}
