@@ -194,7 +194,6 @@ p.pns label {margin-right:10px}
 
 #um, #um a {color:var(--dz-fa)}
 #um .avt img {width:52px;height:52px}
-#um .avt .Avatar {width:52px;height:52px;font-size:26px;border:none}
 .pipe {margin:0 5px;color:var(--dz-borderb)}
 .ignore_notice {top:2px;right:2px;width:20px;height:20px;line-height:20px;font-size:16px;text-align:center;background:var(--dz-btnbg);color:var(--dz-btntxt);border-radius:var(--dz-radius-a)}
 .ignore_notice:hover {opacity:0.8}
