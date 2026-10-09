@@ -262,7 +262,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 		foreach($blocksData['blocks'] as $key => $value) {
 			if(in_array($value['type'], $identifiers)) {
-				if($value['type'] == 'images') {
+				if(!empty($value['data']['files'])) {
 					foreach($value['data']['files'] ?? [] as $_file) {
 						$_aid = intval($_file['aid'] ?? 0);
 						if($_aid) {

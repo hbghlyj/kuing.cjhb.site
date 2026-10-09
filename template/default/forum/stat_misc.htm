@@ -142,9 +142,8 @@
 				</section>
 			</div>
 		<!--{elseif $op == 'modworks' && $uid}-->
-			<!--{eval $mwCats = array_values((array)$modactioncode);}-->
-			<!--{eval $taList = array_replace(array_fill_keys(array_keys((array)$modactioncode), array('count' => 0, 'posts' => 0)), array_diff_key((array)$totalactions, array('total' => 0)));}-->
-			<!--{eval $mwVals = array_map('intval', array_column($taList, 'count'));}-->
+			<!--{eval $mwChart = stat_moderation_chart($totalactions, $modactioncode, lang('template', 'stat_other'));}-->
+			<!--{eval $mwCats = $mwChart['categories']; $mwVals = $mwChart['values'];}-->
 			<!--{eval $mwDays = array_keys((array)$modactions);}-->
 			<!--{eval $mwTotals = array_map('intval', array_column((array)$modactions, 'total'));}-->
 			<div class="bm bw0 stat-page">
@@ -172,7 +171,7 @@
 				<div class="stat-cols">
 					<section class="stat-card">
 						<header class="stat-card-hd"><h2>{lang stat_action_distribution}</h2><p class="stat-card-sub">{lang stat_by_count}</p></header>
-						<div class="stat-chart stat-chart-h320" id="stat_bar_modaction"></div>
+						<div class="stat-chart {if count($mwCats) > 8}stat-chart-h420{else}stat-chart-h320{/if}" id="stat_bar_modaction"></div>
 					</section>
 					<section class="stat-card">
 						<header class="stat-card-hd"><h2>{lang stat_daily_actions}</h2><p class="stat-card-sub">$starttime ~ $endtime</p></header>
@@ -228,14 +227,13 @@
 			</div>
 
 		<!--{elseif $op == 'modworks'}-->
-			<!--{eval $maCats = array_values((array)$modactioncode);}-->
-			<!--{eval $taList2 = array_replace(array_fill_keys(array_keys((array)$modactioncode), array('count' => 0, 'posts' => 0)), array_diff_key((array)$total, array('total' => 0)));}-->
-			<!--{eval $maVals = array_map('intval', array_column($taList2, 'count'));}-->
+			<!--{eval $maChart = stat_moderation_chart($total, $modactioncode, lang('template', 'stat_other'));}-->
+			<!--{eval $maCats = $maChart['categories']; $maVals = $maChart['values'];}-->
 			<!--{eval $mmNames = array_column((array)$members, 'username', 'uid');}-->
 			<!--{eval $mmTotals = array_replace(array_fill_keys(array_keys($mmNames), 0), array_map('intval', array_column((array)$members, 'total', 'uid')));}-->
 			<!--{eval arsort($mmTotals);}-->
 			<!--{eval $mmTop = array_slice($mmTotals, 0, 10, true);}-->
-			<!--{eval $mmCats = array_map('strip_tags', array_values(array_replace(array_flip(array_keys($mmTop)), $mmNames)));}-->
+			<!--{eval $mmCats = array_map('strip_tags', array_slice(array_values(array_replace(array_flip(array_keys($mmTop)), $mmNames)), 0, count($mmTop)));}-->
 			<!--{eval $mmVals = array_values($mmTop);}-->
 			<div class="bm bw0 stat-page">
 				<h1 class="mt">{lang stats_modworks} - {lang stats_modworks_all}</h1>
@@ -262,7 +260,7 @@
 				<div class="stat-cols">
 					<section class="stat-card">
 						<header class="stat-card-hd"><h2>{lang stat_action_distribution}</h2><p class="stat-card-sub">{lang stat_staff_total}</p></header>
-						<div class="stat-chart stat-chart-h320" id="stat_bar_modaction"></div>
+						<div class="stat-chart {if count($maCats) > 8}stat-chart-h420{else}stat-chart-h320{/if}" id="stat_bar_modaction"></div>
 					</section>
 					<section class="stat-card">
 						<header class="stat-card-hd"><h2>{lang stat_staff_rank}</h2><p class="stat-card-sub">{lang stat_action_count} TOP {echo min(10, count($mmCats))}</p></header>
@@ -336,10 +334,10 @@
 	<script src="{$_G['setting']['jspath']}forum-stat-charts.js?{VERHASH}"></script>
 	<script>
 	<!--{if $op == 'modworks' && $uid}-->
-		statBarH($('stat_bar_modaction'), {echo json_encode($mwCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($mwVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});
+		<!--{if $mwCats}-->statBarH($('stat_bar_modaction'), {echo json_encode($mwCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($mwVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});<!--{else}-->statNoData($('stat_bar_modaction'));<!--{/if}-->
 		statLine($('stat_line_modday'), {echo json_encode($mwDays, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, [{name: '{lang stats_modworks}', type: 'line', smooth: true, showSymbol: true, data: {echo json_encode($mwTotals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}}]);
 	<!--{else}-->
-		statBarH($('stat_bar_modaction'), {echo json_encode($maCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($maVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});
+		<!--{if $maCats}-->statBarH($('stat_bar_modaction'), {echo json_encode($maCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($maVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 3});<!--{else}-->statNoData($('stat_bar_modaction'));<!--{/if}-->
 		statBarH($('stat_bar_modmember'), {echo json_encode($mmCats, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {echo json_encode($mmVals, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}, {color: 0, labelWidth: 72});
 	<!--{/if}-->
 	</script>

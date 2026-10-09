@@ -624,6 +624,7 @@ $lang = [
 	'stat_this_month' => '本月',
 	'stat_last_month' => '上月',
 	'stat_no_data' => '所選時段內沒有資料',
+	'stat_other' => '其他',
 	'stat_line' => '折線圖',
 	'stat_bar' => '柱狀圖',
 	'stat_stack' => '堆疊',

@@ -621,6 +621,7 @@ $lang = [
 	'stat_this_month' => 'This month',
 	'stat_last_month' => 'Last month',
 	'stat_no_data' => 'No data for the selected period',
+	'stat_other' => 'Other',
 	'stat_line' => 'Line chart',
 	'stat_bar' => 'Bar chart',
 	'stat_stack' => 'Stack',

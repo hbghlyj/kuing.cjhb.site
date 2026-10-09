@@ -15,6 +15,7 @@ if(empty($_G['setting']['modworkstatus'])) {
 }
 
 $statvars = getstatvars('modworks');
+require_once libfile('function/stat');
 extract($statvars);
 if($_GET['exportexcel']) {
 	$filename = 'stat_modworks_'.($username ? $username.'_' : '').$starttime.'_'.$endtime.'.csv';
