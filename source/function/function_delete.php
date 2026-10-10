@@ -162,6 +162,7 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 
 	$tids = [];
 	$emailpostpids = [];
+	$deletedpids = [];
 	if($credit) {
 		$replycredit_list = $tuidarray = $ruidarray = $_G['deleteauthorids'] = [];
 	}
@@ -175,6 +176,9 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 			$postlist = table_forum_post::t()->fetch_all_by_authorid($id, $ids, false);
 		}
 		foreach($postlist as $post) {
+			if($idtype == 'authorid') {
+				$deletedpids[$post['pid']] = $post['pid'];
+			}
 			if(!$recycle && $idtype != 'tid') {
 				$tids[$post['tid']] = $post['tid'];
 			}
@@ -226,6 +230,10 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 			} elseif($idtype == 'authorid') {
 				table_forum_post::t()->delete_by_authorid($id, $ids);
 				table_forum_postcomment::t()->delete_by_authorid($ids);
+				if($deletedpids) {
+					table_forum_postcomment::t()->delete_by_pid($deletedpids);
+					table_forum_postcomment::t()->delete_by_rpid($deletedpids);
+				}
 			}
 			table_forum_trade::t()->delete_by_id_idtype($ids, ($idtype == 'authorid' ? 'sellerid' : $idtype));
 			table_home_feed::t()->delete_by_id_idtype($ids, ($idtype == 'authorid' ? 'uid' : $idtype));
