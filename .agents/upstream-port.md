@@ -2,14 +2,15 @@
 
 Fetched `upstream/MitFrame` through `6f7c68893` from
 https://gitee.com/Discuz/DiscuzX.git on 2026-10-11.
-Upstream release at this checkpoint: `20261010`; fork release remains `20260910`.
+Upstream release at this checkpoint: `20261010`; fork release now `20261010`
+(per user direction, the release bump is ported rather than kept at `20260910`).
 The previous note incorrectly called upstream `20260910`: `1db0682f` already
 declared `20261001`. Release metadata does not imply unported upstream features.
 
 ## Latest Batch: d372a5fc..6f7c68893
 
-- `882cc712b`: `DISCUZ_RELEASE` bump 20261001 to 20261010; metadata only, not
-  ported. The fork keeps its own release string.
+- `882cc712b`: `DISCUZ_RELEASE` bump 20261001 to 20261010; ported per user
+  direction (fork previously kept its own release string at 20260910).
 - `6f7c68893`: `cplang()` now loads MitFrame app admincp language from
   `i18n/{$_G['i18n']|currentlang()}/lang_admincp.php` instead of
   `language/lang_admincp.php`. Ported verbatim; matches the fork's existing
