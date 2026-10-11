@@ -1,12 +1,28 @@
 # MitFrame Port Checkpoint
 
-Fetched `origin/MitFrame` through `d372a5fc` from
-https://gitee.com/Discuz/DiscuzX.git on 2026-10-08.
-Upstream release at this checkpoint: `20261001`; fork release remains `20260910`.
+Fetched `upstream/MitFrame` through `6f7c68893` from
+https://gitee.com/Discuz/DiscuzX.git on 2026-10-11.
+Upstream release at this checkpoint: `20261010`; fork release remains `20260910`.
 The previous note incorrectly called upstream `20260910`: `1db0682f` already
 declared `20261001`. Release metadata does not imply unported upstream features.
 
-## Latest Batch: 1db0682f..d372a5fc
+## Latest Batch: d372a5fc..6f7c68893
+
+- `882cc712b`: `DISCUZ_RELEASE` bump 20261001 to 20261010; metadata only, not
+  ported. The fork keeps its own release string.
+- `6f7c68893`: `cplang()` now loads MitFrame app admincp language from
+  `i18n/{$_G['i18n']|currentlang()}/lang_admincp.php` instead of
+  `language/lang_admincp.php`. Ported verbatim; matches the fork's existing
+  app-language loading pattern in `function_core.php`. Currently a no-op in
+  both trees: neither the fork nor upstream ships per-app admincp language
+  files, and no caller passes the fourth `cplang()` argument.
+
+Validation: `php -l` on `function_admincp.php`; the new branch cannot load
+anything in either tree until per-app language files exist. PHP-only change:
+server pull, no style or template rebuild required.
+Next comparison starts after `6f7c68893`.
+
+## Previous Batch
 
 - `23fe6b73`: moderation charts show the 15 largest positive operation counts,
   with the remainder in a localized Other bucket. Use a shared PHP aggregation
@@ -28,7 +44,7 @@ Existing unrelated IP-notice and language edits remain untouched.
 Next comparison starts after `d372a5fc`. Rebuild styles/scripts and clear compiled
 templates when deploying this batch.
 
-## Previous Batch
+## Older Batch
 
 Previous upstream baseline: `14007e09` (release `20260910`).
 
