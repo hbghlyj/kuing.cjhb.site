@@ -1,13 +1,27 @@
 # MitFrame Port Checkpoint
 
-Fetched `upstream/MitFrame` through `6f7c68893` from
-https://gitee.com/Discuz/DiscuzX.git on 2026-10-11.
+Fetched `upstream/MitFrame` through `172c8c874` from
+https://gitee.com/Discuz/DiscuzX.git on 2026-10-14.
 Upstream release at this checkpoint: `20261010`; fork release now `20261010`
 (per user direction, the release bump is ported rather than kept at `20260910`).
 The previous note incorrectly called upstream `20260910`: `1db0682f` already
 declared `20261001`. Release metadata does not imply unported upstream features.
 
-## Latest Batch: d372a5fc..6f7c68893
+## Latest Batch: 6f7c68893..172c8c874
+
+- `172c8c874`: adds `template/default/touch/home/misc_ajax.php` (byte-identical
+  to upstream's desktop copy) so mobile `home.php?mod=misc&ac=ajax` stops
+  failing with `mobile_template_no_found`. Ported as `touch/home/misc_ajax.htm`
+  using the fork's desktop `home/misc_ajax.htm` content (fork keeps `.htm`
+  templates with HTML5 void syntax and `cp0` class divergences). Resolution
+  trace: `.htm` resolves for TPLDIR=default via the else branch; the `:829`
+  `.php`-only fallback only matters when TPLDIR is not default, but mobile
+  forces `setting styleid2 = 1` (default style), so `.htm` covers all mobile
+  traffic. Live verified: compiled `EN_1_1_touch_home_misc_ajax_EN`, no
+  `mobile_template_no_found`, style-1 mobile page renders.
+Next comparison starts after `172c8c874`.
+
+## Previous Batch: d372a5fc..6f7c68893
 
 - `882cc712b`: `DISCUZ_RELEASE` bump 20261001 to 20261010; ported per user
   direction (fork previously kept its own release string at 20260910).
