@@ -257,7 +257,12 @@
 	btn.on('click', function(e) {
 		e.preventDefault();
 
-		if(btn.attr('data-disabled') === 'true' || state.submitting) {
+		if(state.submitting) {
+			return false;
+		}
+
+		if(btn.attr('data-disabled') === 'true') {
+			popup.open('{lang post_sm_isnull}', 'alert');
 			return false;
 		}
 
@@ -328,6 +333,7 @@
 				msg = s;
 			}
 			popup.open(msg);
+			evalscript(msg);
 
 			var redirectMatch = msg && msg.match(/location\.href\s*=\s*['"]([^'"]+)['"]/i);
 			if(redirectMatch && redirectMatch[1]) {
