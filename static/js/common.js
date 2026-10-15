@@ -1539,7 +1539,7 @@ function ctrlEnter(event, btnId, onlyEnter) {
 	return true;
 }
 
-function parseurl(str, mode, parsecode) {
+function parseurl(str, mode, parsecode, parseimages = true) {
 	const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
 	if(isUndefined(parsecode)) parsecode = true;
 	if(parsecode) {
@@ -1562,7 +1562,7 @@ function parseurl(str, mode, parsecode) {
 	});
 
 	const imgPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))`, 'ig');
-	str = str.replace(imgPattern, '$1[img]$2[/img]');
+	if(parseimages) str = str.replace(imgPattern, '$1[img]$2[/img]');
 
 	const audioPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(mp3|wma))`, 'ig');
 	str = str.replace(audioPattern, '$1[audio]$2[/audio]');

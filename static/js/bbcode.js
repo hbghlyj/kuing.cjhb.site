@@ -62,7 +62,7 @@ function bbcode2html(str) {
 		str = str.replace(/</g, '&lt;');
 		str = str.replace(/>/g, '&gt;');
 		if(!fetchCheckbox('parseurloff')) {
-			str = parseurl(str, 'html', false);
+			str = parseurl(str, 'html', false, !!$('imgurloff') && !fetchCheckbox('imgurloff'));
 		}
 	}
 
@@ -453,7 +453,7 @@ function html2bbcode(str) {
 	}
 
 	if(!fetchCheckbox('parseurloff')) {
-		str = parseurl(str, 'bbcode', false);
+		str = parseurl(str, 'bbcode', false, !!$('imgurloff') && !fetchCheckbox('imgurloff'));
 	}
 
 	for(i in EXTRAFUNC['html2bbcode']) {
