@@ -1,6 +1,6 @@
 <div id="post_extra" class="ptm cl">
 	<div id="post_extra_tb" class="cl" onselectstart="return false">
-		<label id="extra_additional_b" onclick="showExtra('extra_additional')"><span id="extra_additional_chk">{lang post_additional_options}</span></label>
+		<label id="extra_additional_b" {if $_GET['action'] == 'reply'}class="a" {/if}onclick="showExtra('extra_additional')"><span id="extra_additional_chk">{lang post_additional_options}</span></label>
 		<!--{if $_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost}-->
 			<!--{if $_G['group']['allowsetreadperm']}-->
 				<label id="extra_readperm_b" onclick="showExtra('extra_readperm')"><span id="extra_readperm_chk">{lang readperm}</span></label>
@@ -103,7 +103,7 @@
 			<!--{/if}-->
 		<!--{/if}-->
 
-		<div class="exfm cl" id="extra_additional_c" style="display: none;">
+		<div class="exfm cl" id="extra_additional_c" style="display: {if $_GET['action'] == 'reply'}block{else}none{/if};">
 			<table class="cp0">
 				<tr>
 					<td class="xw1" valign="top">{lang basic_attr}</td>
@@ -116,6 +116,14 @@
 
 						<!--{if $_GET[action] != 'edit' && helper_access::check_module('feed') && $_G['forum']['allowfeed']}-->
 							<label for="addfeed"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck>{lang addfeed}</label>
+						<!--{/if}-->
+
+						<!--{if $_G['setting']['attentionstatus'] && $_GET['action'] == 'reply' && $thread['authorid'] != $_G['uid']}-->
+							<!--{if $has_attention}-->
+							<span id="attentionspan"><label for="attention_remove"><input type="checkbox" name="attention_remove" id="attention_remove" value="1" class="pc">{lang post_no_attention}</label></span>
+							<!--{else}-->
+							<span id="attentionspan"><label for="attention_add"><input type="checkbox" name="attention_add" id="attention_add" value="1" class="pc">{lang post_attention}</label></span>
+							<!--{/if}-->
 						<!--{/if}-->
 					</td>
 				</tr>

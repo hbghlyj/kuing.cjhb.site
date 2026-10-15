@@ -4,7 +4,7 @@
 		<div id="dhnavs">
 			<div id="dhnavs_li">
 				<ul class="swiper-wrapper" id="post_extra_tb" onselectstart="return false">
-					<li class="swiper-slide" id="extra_additional_b" onclick="showExtra('extra_additional')"><a>{lang post_additional_options}</a></li>
+					<li class="swiper-slide{if $_GET['action'] == 'reply'} mon{/if}" id="extra_additional_b" onclick="showExtra('extra_additional')"><a>{lang post_additional_options}</a></li>
 					<!--{if $_GET['action'] == 'newthread' || $_GET['action'] == 'edit' && $isfirstpost}-->
 						<!--{if $_G['group']['allowsetreadperm']}-->
 							<li class="swiper-slide" id="extra_readperm_b" onclick="showExtra('extra_readperm')"><a>{lang readperm}</a></li>
@@ -134,7 +134,7 @@
 		<!--{/if}-->
 	<!--{/if}-->
 
-	<div id="extra_additional_c" class="exfm p5 cl" style="display: none;">
+	<div id="extra_additional_c" class="exfm p5 cl" style="display: {if $_GET['action'] == 'reply'}block{else}none{/if};">
 		<li class="mtit">{lang basic_attr}</li>
 		<ul class="flex-box flex-wrap p10 cl">
 			<li class="mli flex-half">
@@ -146,6 +146,15 @@
 			</li>
 			<!--{if $_GET['action'] != 'edit' && helper_access::check_module('feed') && $_G['forum']['allowfeed']}-->
 			<li class="mli flex-half"><label for="addfeed"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck>{lang addfeed}</label></li>
+			<!--{/if}-->
+			<!--{if $_G['setting']['attentionstatus'] && $_GET['action'] == 'reply' && $thread['authorid'] != $_G['uid']}-->
+			<li class="mli flex-half">
+				<!--{if $has_attention}-->
+				<label for="attention_remove"><input type="checkbox" name="attention_remove" id="attention_remove" value="1" class="pc">{lang post_no_attention}</label>
+				<!--{else}-->
+				<label for="attention_add"><input type="checkbox" name="attention_add" id="attention_add" value="1" class="pc">{lang post_attention}</label>
+				<!--{/if}-->
+			</li>
 			<!--{/if}-->
 		</ul>
 		<li class="mtit">{lang text_feature}</li>
