@@ -882,7 +882,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.pcb span.t_tag { cursor: pointer; border-bottom: 1px solid red; white-space: nowrap; }
 			.pcb span.t_tag:hover { border-bottom: 1px solid {NOTICETEXT}; }
 		.pct { padding-bottom: 1em; }
-		.t_fsz { min-height: unset; }
+		.t_fsz { overflow: auto; }
 		.t_f, .t_f td { font-size: {MSGFONTSIZE}; }
 			.t_f a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
 		.t_f ul, .t_f ol { margin-top: 1em; margin-bottom: 1em; }
@@ -1319,7 +1319,7 @@ a.editlog:hover { color: #333; }
 		.t_attachinsert{ margin:1em 0; font-size: 12px; }
 		.t_attachinsert p img{ margin-bottom: -4px; }
 	.t_table{ border: 1px solid rgba(0,0,0,.1); empty-cells: show; border-collapse: collapse; }
-		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); overflow: hidden; overflow-wrap: anywhere; text-align: center; }
+		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); overflow-wrap: anywhere; text-align: center; }
 		.t_table th { font-weight: bold; border-bottom-width: 2px; }
 	.tattl { float: left; overflow: hidden; padding: 10px 10px 10px 0; width: 45%; height: 64px; }
 		.tattl a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
