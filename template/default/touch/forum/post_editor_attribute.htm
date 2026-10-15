@@ -4,7 +4,7 @@
 		<div id="dhnavs">
 			<div id="dhnavs_li">
 				<ul class="swiper-wrapper" id="post_extra_tb" onselectstart="return false">
-					<li class="swiper-slide{if $_GET['action'] == 'reply'} mon{/if}" id="extra_additional_b" onclick="showExtra('extra_additional')"><a>{lang post_additional_options}</a></li>
+					<li class="swiper-slide" id="extra_additional_b" onclick="showExtra('extra_additional')"><a>{lang post_additional_options}</a></li>
 					<!--{if $_GET['action'] == 'newthread' || $_GET['action'] == 'edit' && $isfirstpost}-->
 						<!--{if $_G['group']['allowsetreadperm']}-->
 							<li class="swiper-slide" id="extra_readperm_b" onclick="showExtra('extra_readperm')"><a>{lang readperm}</a></li>
@@ -134,7 +134,7 @@
 		<!--{/if}-->
 	<!--{/if}-->
 
-	<div id="extra_additional_c" class="exfm p5 cl" style="display: {if $_GET['action'] == 'reply'}block{else}none{/if};">
+	<div id="extra_additional_c" class="exfm p5 cl" style="display: none;">
 		<li class="mtit">{lang basic_attr}</li>
 		<ul class="flex-box flex-wrap p10 cl">
 			<li class="mli flex-half">
