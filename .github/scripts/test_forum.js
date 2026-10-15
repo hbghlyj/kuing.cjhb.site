@@ -96,6 +96,9 @@ const assertOriginatingTabIgnoredForumEvent = async targetPage => {
 };
 
 const assertPusherMetadataOrder = () => {
+	const blogNode = fs.readFileSync('template/discuz_blog/forum/viewthread_node.php', 'utf8');
+	assert.ok(!blogNode.includes('attachimgshow('), 'Blog posts must not call the removed legacy image loader.');
+	assert.ok(blogNode.includes("attachimglstshow($post['pid'], aimgfid, '{$_G[setting][showexif]}');"), 'Blog thumbnail galleries must use the current three-argument API.');
 	const chatWidgetSource = fs.readFileSync('chat/PusherChatWidget.js', 'utf8');
 	assert.match(chatWidgetSource, /img\.loading\s*=\s*'lazy'/, 'Assertion Error: Pusher chat message images do not use native lazy loading.');
 	assert.match(chatWidgetSource, /img\.decoding\s*=\s*'async'/, 'Assertion Error: Pusher chat message images do not use asynchronous decoding.');

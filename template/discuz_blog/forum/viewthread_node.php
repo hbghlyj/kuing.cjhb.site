@@ -465,22 +465,15 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 </tr>
 </table>
 <!--{if !empty($aimgs[$post[pid]])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
-	<!--{if empty($_G['setting']['lazyload'])}-->
-		<!--{if !$post['imagelistthumb']}-->
-			attachimgshow($post[pid]);
-		<!--{else}-->
-			attachimgshow($post[pid], 1);
-		<!--{/if}-->
-	<!--{/if}-->
 	var aimgfid = 0;
 	<!--{if $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $_G['thread']['authorid'])}-->
 		aimgfid = $_G[fid];
 	<!--{/if}-->
 	<!--{if $post['imagelistthumb']}-->
-		attachimglstshow($post['pid'], <!--{echo intval($_G['setting']['lazyload'])}-->, aimgfid, '{$_G[setting][showexif]}');
+		attachimglstshow($post['pid'], aimgfid, '{$_G[setting][showexif]}');
 	<!--{/if}-->
 </script>
 <!--{/if}-->
