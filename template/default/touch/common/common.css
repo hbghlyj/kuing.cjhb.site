@@ -1026,7 +1026,7 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .threadlist_foot li a.replyadd.active, .threadlist_foot li a.replysubtract.active {color:var(--dz-FC-light)}
 .threadlist_foot li a.replyadd.active i, .threadlist_foot li a.replysubtract.active i {color:inherit}
 .threadlist_foot li.stats {margin-left:auto}
-.threadlist_foot li.stats ~ li.stats {margin-left:0}
+.threadlist_foot li.stats ~ li.stats {margin-left:8px}
 .threadlist_foot li.stats a {display:inline-flex;align-items:center;gap:4px;color:var(--dz-FC-999)}
 .threadlist li.list_top {padding:0 15px;background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed)}
 .threadlist li.list_top a {display:block;height:36px;line-height:36px;font-size:14px;overflow:hidden}
