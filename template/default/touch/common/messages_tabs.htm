@@ -1,0 +1,4 @@
+<nav class="dhnv flex-box cl messages-tabs" aria-label="{lang mobile_messages}">
+	<a href="forum.php?mod=find" class="flex{if $_G['basescript'] == 'forum' && $_GET['mod'] == 'find'} mon{/if}">{lang chatpm}</a>
+	<a href="home.php?mod=space&do=pm" class="flex{if $_G['basescript'] == 'home' && $_GET['do'] == 'pm'} mon{/if}">{lang pm_center}<!--{if $_G['uid'] && $_G['member']['newpm']}--><i class="ico_msg" aria-label="{lang new_pm}"></i><!--{/if}--></a>
+</nav>

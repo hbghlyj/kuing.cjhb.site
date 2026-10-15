@@ -948,6 +948,7 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .dhnv {background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed);border-bottom:1px solid var(--dz-BOR-ed);font-size:15px;text-align:center}
 .dhnv a {height:40px;line-height:38px;color:var(--dz-FC-999);position:relative}
 .dhnv a.mon {height:38px;color:var(--dz-FC-color);font-weight:normal;border-bottom:2px solid var(--dz-BG-color)}
+.messages-tabs .ico_msg {display:inline-block;width:7px;height:7px;margin-left:5px;border-radius:50%;background:var(--dz-BG-2);vertical-align:middle}
 
 /*----- 通用滑动二级导航 -----*/
 .dhnav_box, .dhnav {width:100%;height:40px;overflow:hidden}

@@ -89,6 +89,7 @@ $lang = [
 	'title_memcp_favorite' => '收藏',
 	'back' => '返回',
 	'chatpm' => '閒聊',
+	'mobile_messages' => '訊息',
 	'chatpm_author' => '發起者',
 	'pm_totail' => '交談',
 	'pm_with' => '與',

@@ -86,6 +86,7 @@ $lang = [
 	'title_memcp_favorite' => 'Favorite',
 	'back' => 'Back',
 	'chatpm' => 'Group Chat',
+	'mobile_messages' => 'Messages',
 	'chatpm_author' => 'Initiator',
 	'pm_totail' => 'Chat',
 	'pm_with' => 'with',

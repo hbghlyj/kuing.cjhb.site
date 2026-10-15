@@ -73,41 +73,17 @@
 		<span class="foot-ico"><em class="ma"></em></span>
 		<span class="foot-txt">{lang mobhome}</span>
 	</a>
-	<!--{if strpos('forum.php', $_G['setting']['defaultindex']) === false}-->
-	<a href="<!--{if $_G['setting']['mobile']['forum']['index'] > 1}-->forum.php<!--{elseif $_G['setting']['mobile']['forum']['index'] == 1}-->forum.php?mod=guide&view=newthread<!--{else}-->forum.php?forumlist=1<!--{/if}-->" class="flex{if $_G['basescript'] == 'forum' && $_GET['mod'] != 'find' && (CURMODULE == 'index' || $_GET['forumlist'] == 1 || CURMODULE == 'forumdisplay' || CURMODULE == 'viewthread' || CURMODULE == 'guide')} mon{/if}">
-		<span class="foot-ico"><em class="mb"></em></span>
-		<span class="foot-txt">{$_G['setting']['navs'][2]['navname']}</span>
+	<a href="misc.php?mod=tag" class="flex{if $_G['basescript'] == 'misc' && $_GET['mod'] == 'tag'} mon{/if}">
+		<span class="foot-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 13l-7 7L3 10V3h7z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span>
+		<span class="foot-txt">{lang tag}</span>
 	</a>
-	<!--{elseif strpos('forum.php', $_G['setting']['defaultindex']) === 0}-->
-		<!--{if helper_access::check_module('portal')}-->
-		<a href="portal.php" class="flex{if $_G['basescript'] == 'portal'} mon{/if}">
-			<span class="foot-ico"><em class="mb"></em></span>
-			<span class="foot-txt">{lang mobnews}</span>
-		</a>
-		<!--{elseif helper_access::check_module('group')}-->
-		<a href="group.php" class="flex{if $_G['basescript'] == 'group'} mon{/if}">
-			<span class="foot-ico"><em class="mb"></em></span>
-			<span class="foot-txt">{$_G['setting']['navs'][3]['navname']}</span>
-		</a>
-		<!--{elseif helper_access::check_module('feed')}-->
-		<a href="home.php" class="flex{if $_G['basescript'] == 'home' && CURMODULE == 'space' && $_GET['do'] == 'home'} mon{/if}">
-			<span class="foot-ico"><em class="mb"></em></span>
-			<span class="foot-txt">{lang mobfeed}</span>
-		</a>
-		<!--{else}-->
-		<a href="home.php?mod=space&do=pm" class="flex{if $_G['basescript'] == 'home' && CURMODULE == 'space' && $_GET['do'] == 'pm'} mon{/if}">
-			<span class="foot-ico"><em class="mb"><!--{if $_G['uid'] && ($_G['member']['newpm'] || $_G['member']['newprompt'])}--><i class="ico_msg"></i><!--{/if}--></em></span>
-			<span class="foot-txt">{lang pm_center}</span>
-		</a>
-		<!--{/if}-->
-	<!--{/if}-->
 	<a href="forum.php?mod=misc&action=nav" class="flex foot-post">
 		<span class="foot-ico"><em class="mc"></em></span>
 		<span class="foot-txt">{lang mobpost}</span>
 	</a>
-	<a href="forum.php?mod=find" class="flex{if $_G['basescript'] == 'forum' && $_GET['mod'] == 'find'} mon{/if}">
-		<span class="foot-ico"><em class="md"></em></span>
-		<span class="foot-txt">{lang chatpm}</span>
+	<a href="forum.php?mod=find" class="flex{if ($_G['basescript'] == 'forum' && $_GET['mod'] == 'find') || ($_G['basescript'] == 'home' && $_GET['do'] == 'pm')} mon{/if}">
+		<span class="foot-ico"><em class="md"><!--{if $_G['uid'] && $_G['member']['newpm']}--><i class="ico_msg"></i><!--{/if}--></em></span>
+		<span class="foot-txt">{lang mobile_messages}</span>
 	</a>
 	<a href="{if $_G['uid']}home.php?mod=space&uid={$_G['uid']}&do=profile&mycenter=1{else}member.php?mod=logging&action=login{/if}" class="flex{if $_G['basescript'] == 'home' && CURMODULE == 'space' && $_GET['mycenter'] == 1} mon{/if}">
 		<span class="foot-ico"><em class="me">
@@ -138,7 +114,7 @@
 	<script src="/chat/PusherForumMetadata.js?{VERHASH}"></script>
 	<!--{if $_G['basescript'] == 'forum' && $_GET['mod'] == 'find'}-->
 		<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet">
-		<style>.pusher-chat-widget{position:fixed;left:0;right:0;bottom:60px;z-index:99998;margin:0;}.pusher-chat-widget ul.activity-stream{max-height:calc(100dvh - 136px);}</style>
+		<style>.pusher-chat-widget{position:fixed;left:0;right:0;top:94px;bottom:60px;z-index:500;margin:0;display:flex;flex-direction:column;}.pusher-chat-widget-messages{flex:1;min-height:0;}.pusher-chat-widget ul.activity-stream{height:100%;max-height:none;box-sizing:border-box;}.pusher-chat-widget-input{flex-shrink:0;}</style>
 		<script src="/chat/pusher.min.js"></script>
 		<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 	<!--{/if}-->
