@@ -240,19 +240,101 @@
 		updateButton();
 	}
 
+	// JSON-editor mode stores the real body in #content and keeps only a '1'
+	// flag in #needmessage, so the textarea draft path must stay out of its way.
+	<!--{if (!empty($_G['setting']['editormodetype']) && $_GET['action'] != 'edit') || ($_GET['action'] == 'edit' && $isJsonContent)}-->
+	var draftEnabled = false;
+	<!--{elseif $_GET['action'] == 'newthread' || $_GET['action'] == 'reply'}-->
+	var draftEnabled = true;
+	<!--{else}-->
+	var draftEnabled = false;
+	<!--{/if}-->
+	<!--{eval $draftkeytid = intval($_G['tid'] ?? 0); $draftkeyfid = intval($_G['fid'] ?? 0);}-->
+	var draftName = 'postdraft_{echo dhtmlspecialchars((string)$_GET['action'])}_{$draftkeyfid}_{$draftkeytid}';
+	var draftTtl = 86400000;
+	var draftPosted = false;
+	// Set once continueSubmit has snapshotted the raw text, so the parseurl()
+	// rewrite that follows cannot leak [url]-wrapped text into the saved draft.
+	var draftFrozen = false;
+
+	function readDraft() {
+		if(!draftEnabled || draftPosted) return null;
+		try {
+			var raw = loadUserdata(draftName);
+			if(!raw) return null;
+			var draft = JSON.parse(raw);
+			if(!draft || typeof draft !== 'object') return null;
+			if(Date.now() - (draft.t || 0) > draftTtl) {
+				saveUserdata(draftName, '');
+				return null;
+			}
+			// A guest draft is the one this browser just typed, so let it
+			// survive the uid change caused by logging in from the popup.
+			var author = String(draft.u || 0);
+			if(author !== String(discuz_uid) && author !== '0') return null;
+			return draft;
+		} catch(e) {
+			return null;
+		}
+	}
+
+	function writeDraft() {
+		if(!draftEnabled || draftPosted || draftFrozen) return;
+		var subject = needsubject.length ? String(needsubject.val() || '') : '';
+		var message = needmessage.length ? String(needmessage.val() || '') : '';
+		if(!subject.trim() && !message.trim()) {
+			saveUserdata(draftName, '');
+			return;
+		}
+		saveUserdata(draftName, JSON.stringify({u: discuz_uid, t: Date.now(), s: subject, m: message}));
+	}
+
+	function clearDraft() {
+		draftPosted = true;
+		saveUserdata(draftName, '');
+	}
+
+	function restoreDraft() {
+		var draft = readDraft();
+		if(!draft) return;
+		var restored = false;
+		if(needsubject.length && isEmpty(needsubject) && draft.s) {
+			needsubject.val(draft.s);
+			restored = true;
+		}
+		if(needmessage.length && isEmpty(needmessage) && draft.m) {
+			needmessage.val(draft.m);
+			restored = true;
+		}
+		if(!restored) return;
+		if(needsubject.length) checkSubject();
+		checkMessage();
+	}
+
 	<!--{if $_GET['action'] == 'newthread' || ($_GET['action'] == 'edit' && $isfirstpost)}-->
 	needsubject.on('keyup input', function() {
+		draftFrozen = false;
 		clearTimeout(subjectTimer);
-		subjectTimer = setTimeout(checkSubject, 150);
+		subjectTimer = setTimeout(function() {
+			checkSubject();
+			writeDraft();
+		}, 150);
 	});
 	<!--{/if}-->
 
 	needmessage.on('keyup input', function() {
+		draftFrozen = false;
 		clearTimeout(messageTimer);
-		messageTimer = setTimeout(checkMessage, 150);
+		messageTimer = setTimeout(function() {
+			checkMessage();
+			writeDraft();
+		}, 150);
 	});
 
+	window.addEventListener('pagehide', writeDraft);
+
 	updateButton();
+	restoreDraft();
 
 	btn.on('click', function(e) {
 		e.preventDefault();
@@ -308,6 +390,10 @@
 		popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 
 		var myform = document.getElementById('postform');
+		// Persist before parseurl() rewrites the textarea, so the draft keeps the
+		// user's raw text rather than the [url]-wrapped submission form.
+		writeDraft();
+		draftFrozen = true;
 		// Match desktop posting: convert bare URLs to [url] BBCode before submission.
 		if(needmessage.length && typeof parseurl === 'function') {
 			needmessage.val(parseurl(needmessage.val()));
@@ -337,6 +423,7 @@
 
 			var redirectMatch = msg && msg.match(/location\.href\s*=\s*['"]([^'"]+)['"]/i);
 			if(redirectMatch && redirectMatch[1]) {
+				clearDraft();
 				setTimeout(function() {
 					window.location.href = redirectMatch[1];
 				}, 1200);
