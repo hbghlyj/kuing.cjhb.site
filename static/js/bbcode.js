@@ -54,7 +54,7 @@ function bbcode2html(str) {
 		str = str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return parsecode($2);});
 	}
 
-	if(fetchCheckbox('allowimgurl')) {
+	if($('imgurloff') && !fetchCheckbox('imgurloff')) {
 		str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp|webp))/ig, '$1[img]$2[/img]');
 	}
 
@@ -439,7 +439,7 @@ function html2bbcode(str) {
 
 	str= str.replace(/&((#(32|127|160|173))|shy|nbsp);/ig, ' ');
 
-	if(fetchCheckbox('allowimgurl')) {
+	if($('imgurloff') && !fetchCheckbox('imgurloff')) {
 		str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp|webp))/ig, '$1[img]$2[/img]');
 	}
 

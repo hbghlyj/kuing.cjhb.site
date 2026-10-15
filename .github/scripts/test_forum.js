@@ -1189,6 +1189,26 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!pastedFontFormatting.includes('[font='), 'Assertion Error: Pasted typeface formatting produced a non-semantic font BBCode tag.');
             assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
             const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
+            const imageLinkRecognition = await page.evaluate(() => {
+                const checkbox = document.getElementById('imgurloff');
+                if(!checkbox) throw new Error('Image link recognition option is missing');
+                const previous = checkbox.checked;
+                const url = 'https://example.com/photo.png';
+                try {
+                    checkbox.checked = false;
+                    const enabled = { html: bbcode2html(url), bbcode: html2bbcode(url) };
+                    checkbox.checked = true;
+                    const disabled = { html: bbcode2html(url), bbcode: html2bbcode(url), explicit: bbcode2html('[img]' + url + '[/img]') };
+                    return { enabled, disabled };
+                } finally {
+                    checkbox.checked = previous;
+                }
+            });
+            assert.ok(imageLinkRecognition.enabled.html.includes('<img'), 'Unchecked image-link option must embed bare image URLs.');
+            assert.ok(imageLinkRecognition.enabled.bbcode.includes('[img]'), 'Unchecked image-link option must convert bare image URLs to BBCode.');
+            assert.ok(!imageLinkRecognition.disabled.html.includes('<img'), 'Checked image-link option must not embed bare image URLs.');
+            assert.ok(!imageLinkRecognition.disabled.bbcode.includes('[img]'), 'Checked image-link option must not convert bare image URLs to image BBCode.');
+            assert.ok(imageLinkRecognition.disabled.explicit.includes('<img'), 'Disabling image-link recognition must preserve explicit image BBCode.');
             assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
             const importantDefaultColor = await page.evaluate(() => {
                 const html = '<span style="color: rgb(0, 0, 0) !important;">was fully written by ChatGPT and passed Lean verification</span>';
