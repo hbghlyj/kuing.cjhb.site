@@ -27,7 +27,7 @@
 	<input type="hidden" name="specialextra" value="$specialextra">
 <!--{/if}-->
 <div class="header cl">
-	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
+	<div class="mz"><a href="<!--{if in_array($_GET['action'], ['reply', 'edit']) && $_G['tid']}-->forum.php?mod=viewthread&tid=$_G['tid']<!--{else}-->forum.php?mod=forumdisplay&fid=$_G['fid']<!--{/if}-->"><i class="dm-c-left"></i></a></div>
 	<h2><!--{if $_GET['action'] == 'edit'}-->{lang edit}<!--{else}-->{lang send_threads}<!--{/if}--></h2>
 	<div class="my"></div>
 </div>

@@ -279,6 +279,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         console.log('Posting mobile thread with image attachment...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('domcontentloaded');
+        assert.strictEqual(await page.locator('.header .mz a').getAttribute('href'), 'forum.php', 'Forum navigation must lead to the index without browser history.');
         const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
         await Promise.all([
@@ -286,6 +287,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             postThreadBtn.click()
         ]);
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
+        assert.strictEqual(await page.locator('.header .mz a').getAttribute('href'), 'forum.php?mod=forumdisplay&fid=2', 'New-thread navigation must lead to its forum.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
         await page.locator('#needsubject').fill(subject);
         await page.locator('#needmessage').fill(message);
@@ -433,11 +435,13 @@ const { reportCiFailure } = require('./report_ci_failure');
         await page.screenshot({ path: 'screenshot_mobile_attachment_non_image_viewthread.png' });
 
         console.log('Replying to mobile thread...');
+        assert.strictEqual(await page.locator('.header .mz a').getAttribute('href'), 'forum.php?mod=forumdisplay&fid=2', 'Thread navigation must lead to its forum.');
         const replyBtn = page.locator('a.flex[href*="action=reply"][href*="reppost="]');
         assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Mobile reply control did not render.');
         await replyBtn.click();
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile reply form did not render.');
+        assert.strictEqual(await page.locator('.header .mz a').getAttribute('href'), 'forum.php?mod=viewthread&tid=' + new URL(page.url()).searchParams.get('tid'), 'Reply navigation must lead to its thread.');
         await page.locator('#needmessage').fill(reply);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
         await solveVisibleSecurityQuestion(page);
@@ -463,6 +467,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         await editLink.click();
         await page.waitForLoadState('networkidle');
         assert.ok(page.url().includes('mod=post&action=edit'), 'Assertion Error: Mobile edit control did not navigate to the edit form.');
+        assert.strictEqual(await page.locator('.header .mz a').getAttribute('href'), 'forum.php?mod=viewthread&tid=' + new URL(page.url()).searchParams.get('tid'), 'Edit navigation must lead to its thread.');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile edit form did not render.');
         await page.locator('#needmessage').fill(editedReply);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
