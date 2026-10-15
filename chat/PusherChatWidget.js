@@ -591,32 +591,14 @@
       }
       this.#isProcessingPendingMessages=true;
       let currentEntry=this.#pendingMessages[0];
-      let messageEl=currentEntry.messageEl;
-      let images=messageEl.querySelectorAll('img');
       let oldScrollHeight=0;
       let oldScrollTop=0;
       if(currentEntry.isPrepending){
         oldScrollHeight=this.#messagesEl.scrollHeight;
         oldScrollTop=this.#messagesEl.scrollTop;
       }
-      if(images.length===0){
-        this.#actuallyAppendMessage(currentEntry,oldScrollHeight,oldScrollTop);
-      }else{
-        let loaded=0;
-        images.forEach(img=>{
-          let handled = false;
-          const complete = ()=>{
-            if(handled) return;
-            handled = true;
-            if(++loaded===images.length){
-              this.#actuallyAppendMessage(currentEntry,oldScrollHeight,oldScrollTop);
-            }
-          };
-          img.addEventListener('load', complete, {once: true});
-          img.addEventListener('error', complete, {once: true});
-          if(img.complete||img.naturalWidth>0){ complete(); }
-        });
-      }
+      // Detached lazy images may never load; media must not block the message queue.
+      this.#actuallyAppendMessage(currentEntry,oldScrollHeight,oldScrollTop);
     }
     #actuallyAppendMessage(entry,oldScrollHeight,oldScrollTop){
       this.#pendingMessages.shift();

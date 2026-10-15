@@ -110,6 +110,7 @@ jobs:
         run: |
           # Phase 1: Independent suites run in parallel.
           node .github/scripts/test_stat.js
+          node .github/scripts/test_chat_rendering.js
           php .github/scripts/test_stat_templates.php
           php .github/scripts/test_upstream_port.php
           php .github/scripts/test_session_visibility.php
