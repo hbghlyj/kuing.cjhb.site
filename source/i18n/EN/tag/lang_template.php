@@ -36,7 +36,6 @@ $lang = [
 	'none_tag' => 'No Related Tags',
 	'tag_search' => 'Search results show up to 50, click result link to insert tag directly',
 	'sortby_related_count_desc' => 'Sort by post count',
-	'sortby_hot_desc'	=> 'Sort by hot',
 	'sortby_time_desc'	=> 'Sort by time',
 	];
 

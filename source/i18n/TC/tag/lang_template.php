@@ -30,7 +30,6 @@ $lang = [
 	'related_doing' => '相關記錄',
 	'replies' => '回覆/查看',
 	'sortby_related_count_desc' => '帖數降序',
-	'sortby_hot_desc' => '熱度降序',
 	'sortby_time_desc' => '時間降序',
 	'price' => '售價',
 	'attach_img' => '圖片附件',

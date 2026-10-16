@@ -1314,7 +1314,6 @@ $lang = [
 	'collection_sortby_commentnum'	=> 'Sort by comment count',
 	'postcomment_too_long'	=> 'Post comments are limited to 200 characters. Convert it to a reply?',
 	'postcomment_to_reply'	=> 'Convert to reply',
-	'comment_tip'		=> 'Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.',
 	'my_forums'			=> 'My forums',
 	'index_members_today'		=> 'Active members today',
 	'uploaded'			=> 'Uploaded',
