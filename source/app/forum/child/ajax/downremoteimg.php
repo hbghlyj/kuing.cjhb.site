@@ -15,7 +15,7 @@ if(!$_G['group']['allowdownremoteimg']) {
 }
 preg_match_all("/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[img=\d{1,4}[x|\,]\d{1,4}\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", $_GET['message'], $image1, PREG_SET_ORDER);
 preg_match_all("/\<img.+\bsrc\b\s*=('|\"|)(.*)('|\"|)([\s].*)?\>/ismU", $_GET['message'], $image2, PREG_SET_ORDER);
-$temp = $aids = $existentimg = [];
+$temp = $aids = $imagereplace = [];
 if(is_array($image1) && !empty($image1)) {
 	foreach($image1 as $value) {
 		$temp[] = [
@@ -41,9 +41,7 @@ if(is_array($temp) && !empty($temp)) {
 		$imageurl = $value[1];
 		$hash = md5($imageurl);
 		if(strlen($imageurl)) {
-			$imagereplace['oldimageurl'][] = $value[0];
-			if(!isset($existentimg[$hash])) {
-				$existentimg[$hash] = $imageurl;
+			if(!isset($attachaids[$hash])) {
 				$attach['ext'] = $upload->fileext($imageurl);
 				if(!$upload->is_image_ext($attach['ext'])) {
 					continue;
@@ -51,8 +49,6 @@ if(is_array($temp) && !empty($temp)) {
 				$content = '';
 				if(preg_match('/^(http(s?):\/\/|\.)/i', $imageurl)) {
 					$content = dfsockopen($imageurl);
-				} elseif(preg_match('/^('.preg_quote(getglobal('setting/attachurl'), '/').')/i', $imageurl)) {
-					$imagereplace['newimageurl'][] = $value[0];
 				}
 				if(empty($content)) continue;
 				$patharr = explode('/', $imageurl);
@@ -130,17 +126,16 @@ if(is_array($temp) && !empty($temp)) {
 					'height' => $height
 				];
 				C::t('forum_attachment_unused')->insert($setarr);
-				$attachaids[$hash] = $imagereplace['newimageurl'][] = '[attachimg]'.$aid.'[/attachimg]';
+				$attachaids[$hash] = '[attachimg]'.$aid.'[/attachimg]';
 
-			} else {
-				$imagereplace['newimageurl'][] = $attachaids[$hash];
 			}
+			$imagereplace[$value[0]] = $attachaids[$hash];
 		}
 	}
 	if(!empty($aids)) {
 		require_once libfile('function/post');
 	}
-	$_GET['message'] = str_replace($imagereplace['oldimageurl'], $imagereplace['newimageurl'], $_GET['message']);
+	$_GET['message'] = strtr($_GET['message'], $imagereplace);
 }
 $messagejson = json_encode($_GET['message'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
 print <<<EOF
