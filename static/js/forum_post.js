@@ -512,7 +512,7 @@ function updateDownImageList(msg) {
 	if(msg == '') {
 		showError($L('no_remote_attach'));
 	} else {
-		ajaxget('forum.php?mod=ajax&action=imagelist&pid=' + pid + '&posttime=' + $('posttime').value + (!fid ? '' : '&fid=' + fid), 'imgattachlist', null, null, null, function(){if(wysiwyg) {editdoc.body.innerHTML = msg;switchEditor(0);switchEditor(1)} else {textobj.value = msg;}});
+		ajaxget('forum.php?mod=ajax&action=imagelist&pid=' + pid + '&posttime=' + $('posttime').value + (!fid ? '' : '&fid=' + fid), 'imgattachlist', null, null, null, function(){if(wysiwyg) {switchEditor(0);textobj.value = msg;switchEditor(1)} else {textobj.value = msg;}});
 		switchImagebutton('imgattachlist');$('imgattach_notice').style.display = '';
 		showDialog($L('remote_downloaded'), 'right', null, null, 0, null, null, null, null, 3);
 	}

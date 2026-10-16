@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 if(!$_G['group']['allowdownremoteimg']) {
 	dexit();
 }
-$_GET['message'] = str_replace(["\r", "\n"], [$_GET['wysiwyg'] ? '<br>' : '', "\\n"], $_GET['message']);
 preg_match_all("/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[img=\d{1,4}[x|\,]\d{1,4}\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", $_GET['message'], $image1, PREG_SET_ORDER);
 preg_match_all("/\<img.+\bsrc\b\s*=('|\"|)(.*)('|\"|)([\s].*)?\>/ismU", $_GET['message'], $image2, PREG_SET_ORDER);
 $temp = $aids = $existentimg = [];
@@ -143,12 +142,11 @@ if(is_array($temp) && !empty($temp)) {
 	}
 	$_GET['message'] = str_replace($imagereplace['oldimageurl'], $imagereplace['newimageurl'], $_GET['message']);
 }
-$_GET['message'] = addcslashes($_GET['message'], '/"\'');
+$messagejson = json_encode($_GET['message'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
 print <<<EOF
 		<script>
 			parent.ATTACHORIMAGE = 1;
-			parent.updateDownImageList('{$_GET['message']}');
+			parent.updateDownImageList($messagejson);
 		</script>
 EOF;
 dexit();
-	
