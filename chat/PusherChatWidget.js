@@ -409,7 +409,7 @@
             return;
           }
           if(data.tid==tid && data.page==pageNumber){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, function() {
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}&mobile=${isMobile ? '2' : 'no'}`, 'post_new', 'ajaxwaitid', '', null, function() {
               if(typeof appendreply === 'function') {
                 appendreply(data.pid);
               }
@@ -422,7 +422,7 @@
           data.tid = Number(data.tid);
           if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;
           if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}&mobile=${isMobile ? '2' : 'no'}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
               const subjectEl = document.getElementById('thread_subject');
               if(subjectEl){

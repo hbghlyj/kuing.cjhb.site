@@ -78,6 +78,9 @@ const resetPusherAjaxCallCounter = async targetPage => {
                 // even though the echo was suppressed correctly.
                 const target = String(url);
                 if(target.includes('viewpid=') || target.includes('action=commentmore')) {
+                    if(target.includes('viewpid=') && new URL(target, location.href).searchParams.get('mobile') !== 'no') {
+                        throw new Error('Desktop live post fragments must explicitly retain desktop mode');
+                    }
                     window.__pusherAjaxCalls++;
                 }
                 return window.__pusherAjaxOriginal.apply(this, arguments);
