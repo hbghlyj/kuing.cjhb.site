@@ -314,6 +314,9 @@
     #messageInputEl;
     #messagesEl;
     #loadMoreButton;
+    #bottomPinned = true;
+    #lastScrollTop = 0;
+    #messageResizeObserver;
     settings;
     isCollapsed;
     constructor(pusher, options = {}) {
@@ -329,6 +332,19 @@
       this.#messageInputEl = this.#widget.querySelector('textarea');
       this.#messagesEl = this.#widget.querySelector('ul');
       this.#loadMoreButton = this.#widget.querySelector('.pusher-chat-widget-load-more');
+      this.#messagesEl.addEventListener('scroll', () => {
+        const top = this.#messagesEl.scrollTop;
+        if(this.#messagesEl.scrollHeight - this.#messagesEl.clientHeight - top <= 4) {
+          this.#bottomPinned = true;
+        } else if(top < this.#lastScrollTop) {
+          this.#bottomPinned = false;
+        }
+        this.#lastScrollTop = top;
+      });
+      this.#messageResizeObserver = new ResizeObserver(() => {
+        if(this.#bottomPinned) this.#messagesEl.scrollTop = this.#messagesEl.scrollHeight;
+      });
+      this.#messageResizeObserver.observe(this.#messagesEl);
       this.isCollapsed = !this.settings.forceOpen && readChatCollapsedPreference();
       if(this.settings.forceOpen) saveChatCollapsedPreference(false);
       if(isMobile) this.isCollapsed = false;
@@ -520,6 +536,7 @@
           }
           if(!isLoadingMore){
             this.#onQueueDrainedCallback=()=>{
+              this.#bottomPinned = true;
               this.#messagesEl.scrollTop = this.#messagesEl.scrollHeight;
               this.#onQueueDrainedCallback=null;
             };
@@ -578,6 +595,7 @@
       this.#pendingMessages = this.#pendingMessages.filter(entry => String(entry.data.message_time || entry.data.id || '') !== key);
       this.#messagesEl.querySelectorAll('li.message-item').forEach(li => {
         if(li.dataset.messageTime === key){
+          this.#messageResizeObserver.unobserve(li);
           li.remove();
           this.#itemCount--;
         }
@@ -607,6 +625,8 @@
       }else{
         this.#messagesEl.append(entry.messageEl);
       }
+      // Images and MathJax can change row height after insertion.
+      this.#messageResizeObserver.observe(entry.messageEl);
       if(!this.#lastMessageTime || String(entry.data.message_time || '') > this.#lastMessageTime) {
         this.#lastMessageTime = String(entry.data.message_time || '');
       }
@@ -615,8 +635,9 @@
       }
       typesetNodes([entry.messageEl]).catch(err=>{ showError($L('chat_mathjax_error', [err])); });
       this.#itemCount++;
-      if(entry.isLiveMessage){
-        this.#messagesEl.scrollTo({top:this.#messagesEl.scrollHeight,behavior:'smooth'});
+      if(entry.isLiveMessage && (this.#bottomPinned || isOwnMessage(entry.data))){
+        this.#bottomPinned = true;
+        this.#messagesEl.scrollTop = this.#messagesEl.scrollHeight;
       }else if(entry.isPrepending){
         let newScrollHeight=this.#messagesEl.scrollHeight;
         this.#messagesEl.scrollTop=oldScrollTop+(newScrollHeight-oldScrollHeight);
