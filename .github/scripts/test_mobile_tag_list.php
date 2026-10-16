@@ -21,6 +21,7 @@ $name = '';
 $_G = ['setting' => ['jspath' => 'static/js/']];
 define('VERHASH', 'test');
 $orderactives = ['time' => 'class="a"', 'related_count' => ''];
+$viewtype = 'time';
 $multipage = '<nav id="fixture-pagination">2</nav>';
 $tagarray = [
     ['tagid' => 7, 'tagname' => 'Green\'s "theorem" </script>', 'related_count' => 12],
@@ -36,6 +37,16 @@ if(!str_contains($payload, 'list="mobile-tag-suggestions"') || !str_contains($pa
     throw new RuntimeException('Mobile tags need suggestions and sorting controls');
 }
 echo "Mobile wrapping tag list renders links, counts and pagination without JavaScript\n";
+if(!preg_match('/href="misc.php\?mod=tag"\s+class="mon" aria-current="true"/', $payload)) {
+    throw new RuntimeException('Newest sorting must be visibly active');
+}
+$viewtype = 'related_count';
+ob_start();
+eval('?>'.$compiled);
+$sorted = ob_get_clean();
+if(!preg_match('/href="misc.php\?mod=tag&(?:amp;)?sortby=related_count"\s+class="mon" aria-current="true"/', $sorted) || substr_count($sorted, 'aria-current="true"') !== 1) {
+    throw new RuntimeException('Related-count sorting must be the only active sort');
+}
 $tagarray = [];
 ob_start();
 eval('?>'.$compiled);

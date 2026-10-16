@@ -16,8 +16,8 @@
 </form>
 <div class="bodybox p10 cl">
 	<nav class="mobile-tag-sort dhnv flex-box cl" aria-label="{lang tag}">
-		<a href="misc.php?mod=tag" $orderactives[time]>{lang sortby_time_desc}</a>
-		<a href="misc.php?mod=tag&sortby=related_count" $orderactives[related_count]>{lang sortby_related_count_desc}</a>
+		<a href="misc.php?mod=tag" <!--{if $viewtype == 'time'}-->class="mon" aria-current="true"<!--{/if}-->>{lang sortby_time_desc}</a>
+		<a href="misc.php?mod=tag&sortby=related_count" <!--{if $viewtype == 'related_count'}-->class="mon" aria-current="true"<!--{/if}-->>{lang sortby_related_count_desc}</a>
 	</nav>
 	<!--{if $tagarray}-->
 	<ul class="mobile-tag-list">
