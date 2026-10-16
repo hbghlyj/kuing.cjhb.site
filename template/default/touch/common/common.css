@@ -401,6 +401,7 @@ a.editlog:focus {color:var(--dz-BG-color);border-color:var(--dz-BG-color);}
 .foot a span.foot-ico em {display:block;margin:2px auto 0;width:24px;height:24px;line-height:24px;position:relative;background:no-repeat 0 0}
 .foot a span.foot-ico em.ma {background-image:url(/static/image/mobile/touch/home.svg)}
 .foot a span.foot-ico em.mb {background-image:url(/static/image/mobile/touch/forum.svg)}
+.foot a span.foot-ico em.mtag {background-image:url(/static/image/mobile/touch/tag.svg)}
 .foot a span.foot-ico em.md {background-image:url(/static/image/mobile/touch/group_chat.svg)}
 .foot a span.foot-ico em.me {background-image:url(/static/image/mobile/touch/space.svg)}
 .foot a span.foot-ico em.mf {background-image:url(/static/image/mobile/touch/space.svg)}
