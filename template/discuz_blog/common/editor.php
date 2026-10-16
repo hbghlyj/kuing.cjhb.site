@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{$_G['setting']['jspath']}editor.js?{VERHASH}"></script>
 <script type="text/javascript" src="{$_G['setting']['jspath']}bbcode.js?{VERHASH}"></script>
 <script type="text/javascript" src="data/cache/common_postimg.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G['setting']['jspath']}common_smilies_var.js?{VERHASH}"></script>
 <script type="text/javascript">
 	var editorid = '$editorid';
 	var textobj = $(editorid + '_textarea');
