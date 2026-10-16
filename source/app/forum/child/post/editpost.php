@@ -138,14 +138,7 @@ if(!$editsubmit) {
 		} elseif($thread['special'] == 5) {
 			$debate['endtime'] = $debate['endtime'] ? dgmdate($debate['endtime'], 'Y-m-d H:i') : '';
 		}
-		if($_G['group']['allowsetpublishdate']) {
-			loadcache('cronpublish');
-			$cron_publish_ids = getglobal('cache/cronpublish');
-			if(in_array($_G['tid'], (array)$cron_publish_ids)) {
-				$cronpublish = 1;
-				$cronpublishdate = dgmdate($thread['dateline'], 'dt');
-			}
-		}
+
 	}
 
 	if($thread['special'] == 2 && ($thread['authorid'] == $_G['uid'] && $_G['group']['allowposttrade'] || $_G['group']['allowedittrade'])) {
@@ -420,10 +413,6 @@ if(!$editsubmit) {
 			'sortid' => $sortid,
 			'typeid' => $typeid,
 			'isanonymous' => $isanonymous,
-
-			'cronpublish' => $_GET['cronpublish'],
-			'cronpublishdate' => $_GET['cronpublishdate'],
-			'save' => $_GET['save'],
 
 			'readperm' => $readperm,
 			'price' => $_GET['price'],

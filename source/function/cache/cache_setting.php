@@ -688,7 +688,7 @@ function perm_data($pluginid, &$permSetting, &$permTypeSetting) {
 function get_cachedata_setting_plugin($method = '') {
 	require_once libfile('function/admincp');
 	global $_G;
-	$hookfuncs = ['common', 'discuzcode', 'template', 'deletemember', 'deletethread', 'deletepost', 'avatar', 'savebanlog', 'cacheuserstats', 'undeletethreads', 'recyclebinpostundelete', 'threadpubsave', 'profile_node'];
+	$hookfuncs = ['common', 'discuzcode', 'template', 'deletemember', 'deletethread', 'deletepost', 'avatar', 'savebanlog', 'cacheuserstats', 'undeletethreads', 'recyclebinpostundelete', 'profile_node'];
 	$data = $adminmenu = $adminlog = [];
 	$data['plugins'] = $data['pluginlinks'] = $data['hookscript'] = $data['hookscriptmobile'] = $data['threadplugins'] = $data['specialicon'] = [];
 	$data['plugins']['func'] = $data['plugins']['available'] = $_G['cache']['admin']['component'] = [];

@@ -87,7 +87,7 @@ if($view != 'index') {
 			showmessage('to_login', '', [], ['login' => 1]);
 		}
 		$lang = lang('forum/template');
-		$filter_array = ['common' => $lang['have_posted'], 'save' => $lang['guide_draft'], 'close' => $lang['close'], 'aduit' => $lang['pending'], 'ignored' => $lang['have_ignored'], 'recyclebin' => $lang['forum_recyclebin']];
+		$filter_array = ['common' => $lang['have_posted'], 'close' => $lang['close'], 'aduit' => $lang['pending'], 'ignored' => $lang['have_ignored'], 'recyclebin' => $lang['forum_recyclebin']];
 		$viewtype = in_array($_GET['type'], ['reply', 'thread', 'postcomment']) ? $_GET['type'] : 'thread';
 		if($searchkey = stripsearchkey($_GET['searchkey'])) {
 			$searchkey = dhtmlspecialchars($searchkey);
@@ -252,8 +252,6 @@ function get_my_threads($viewtype, $fid = 0, $filter = '', $searchkey = '', $sta
 			$displayorder = -2;
 		} elseif($filter == 'ignored') {
 			$displayorder = -3;
-		} elseif($filter == 'save') {
-			$displayorder = -4;
 		} elseif($filter == 'close') {
 			$closed = 1;
 		} elseif($filter == 'common') {
@@ -326,9 +324,8 @@ function get_my_threads($viewtype, $fid = 0, $filter = '', $searchkey = '', $sta
 			$invisible = -5;
 		} elseif($filter == 'aduit') {
 			$invisible = -2;
-		} elseif($filter == 'save' || $filter == 'ignored') {
+		} elseif($filter == 'ignored') {
 			$invisible = -3;
-			$displayorder = -4;
 		} elseif($filter == 'close') {
 			$closed = 1;
 		} elseif($filter == 'common') {

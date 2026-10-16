@@ -46,7 +46,7 @@ class extend_thread_debate extends extend_thread_base {
 			table_forum_debate::t()->insert([
 				'tid' => $this->tid,
 				'uid' => $this->member['uid'],
-				'starttime' => $this->param['publishdate'],
+				'starttime' => TIMESTAMP,
 				'endtime' => $this->endtime,
 				'affirmdebaters' => 0,
 				'negadebaters' => 0,

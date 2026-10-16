@@ -46,7 +46,7 @@ if(isset($_GET['aids']) && isset($_GET['formhash']) && formhash() == $_GET['form
 			if($attach['tid'] && $attach['pid']) {
 				require_once libfile('function/post');
 				$thread = table_forum_thread::t()->fetch_thread($attach['tid']);
-				updateattach($thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $attach['tid'], $attach['pid'], [], [], $attach['uid']);
+				updateattach($_G['forum_auditstatuson'], $attach['tid'], $attach['pid'], [], [], $attach['uid']);
 				if($attach['isimage'] != 0 && empty($updatedtids[$attach['tid']])) {
 					$threadimage = table_forum_attachment_n::t()->fetch_max_image('tid:'.$attach['tid'], 'tid', $attach['tid']);
 					table_forum_threadimage::t()->delete_by_tid($attach['tid']);

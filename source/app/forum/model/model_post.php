@@ -68,7 +68,7 @@ class model_post extends discuz_model {
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'from', 'sechash',
 			'timestamp', 'modstatus',
-			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
+			'subject', 'special', 'sortid', 'typeid', 'isanonymous',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'contentType', 'contentEditor', 'repid', 'pusher_tab_id',
 		];
 		foreach($varname as $name) {
@@ -104,6 +104,9 @@ class model_post extends discuz_model {
 	public function newreply($parameters) {
 
 		$this->_init_parameters($parameters);
+		if($this->thread['displayorder'] == -4) {
+			return $this->showmessage('thread_nonexist');
+		}
 		if(empty($this->member['uid'])) {
 			return $this->showmessage('replyperm_login_nopermission', null, [], ['login' => 1]);
 		}
@@ -121,8 +124,6 @@ class model_post extends discuz_model {
 			return $this->showmessage('post_flood_ctrl', '', ['floodctrl' => $this->setting['floodctrl']]);
 		} elseif(checkmaxperhour('pid')) {
 			return $this->showmessage('post_flood_ctrl_posts_per_hour', '', ['posts_per_hour' => $this->group['maxpostsperhour']]);
-		} elseif($this->thread['displayorder'] == -4 && !$this->group['allowsavereply']) {
-			return $this->showmessage('post_not_allow_reply_save');
 		}
 
 
@@ -139,10 +140,7 @@ class model_post extends discuz_model {
 
 		list(, $this->param['modnewreplies']) = threadmodstatus($this->param['subject']."\t".$this->param['message']."\t".$this->param['content'].$this->param['extramessage']);
 
-		if($this->thread['displayorder'] == -4) {
-			$this->param['modnewreplies'] = 0;
-		}
-		$pinvisible = $this->param['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
+		$pinvisible = $this->param['modnewreplies'] ? -2 : 0;
 		$this->param['message'] = applyattachdisplaywidths($this->param['message'], (array)getgpc('attachnew'));
 		$this->param['message'] = preg_replace('/\[attachimg=(\d{1,4})\](\d+)\[\/attachimg\]/is', '[attach=$1]$2[/attach]', $this->param['message']);
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]$1[/attach]', $this->param['message']);
@@ -318,24 +316,22 @@ class model_post extends discuz_model {
 				$fieldarr['views'] = $row['addviews'];
 			}
 			$this->param['updatethreaddata'] = array_merge($this->param['updatethreaddata'], table_forum_thread::t()->increase($this->thread['tid'], $fieldarr, false, 0, true));
-			if($this->thread['displayorder'] != -4) {
-				updatepostcredits('+', $this->member['uid'], 'reply', $this->forum['fid']);
-				if($this->forum['status'] == 3) {
-					if($this->forum['closed'] > 1) {
-						table_forum_thread::t()->increase($this->forum['closed'], $fieldarr, true);
-					}
-					table_forum_groupuser::t()->update_counter_for_user($this->member['uid'], $this->forum['fid'], 0, 1);
-					table_forum_forumfield::t()->update($this->forum['fid'], ['lastupdate' => TIMESTAMP]);
-					require_once libfile('function/grouplog');
-					updategroupcreditlog($this->forum['fid'], $this->member['uid']);
+			updatepostcredits('+', $this->member['uid'], 'reply', $this->forum['fid']);
+			if($this->forum['status'] == 3) {
+				if($this->forum['closed'] > 1) {
+					table_forum_thread::t()->increase($this->forum['closed'], $fieldarr, true);
 				}
-
-				C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->thread['subject'], getglobal('timestamp'), $author, array(
-					'propagate_parent' => $this->forum['type'] == 'sub',
-					'forum' => $this->forum
-				));
-				C::t('forum_forum')->update_forum_counter($this->forum['fid'], 0, 1, 1);
+				table_forum_groupuser::t()->update_counter_for_user($this->member['uid'], $this->forum['fid'], 0, 1);
+				table_forum_forumfield::t()->update($this->forum['fid'], ['lastupdate' => TIMESTAMP]);
+				require_once libfile('function/grouplog');
+				updategroupcreditlog($this->forum['fid'], $this->member['uid']);
 			}
+
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->thread['subject'], getglobal('timestamp'), $author, array(
+				'propagate_parent' => $this->forum['type'] == 'sub',
+				'forum' => $this->forum
+			));
+			C::t('forum_forum')->update_forum_counter($this->forum['fid'], 0, 1, 1);
 
 
 			$this->param['page'] = @ceil(($this->thread['special'] ? $this->thread['replies'] + 1 : $this->thread['replies'] + 2) / getglobal('ppp'));
@@ -409,6 +405,9 @@ class model_post extends discuz_model {
 	public function editpost($parameters) {
 
 		$this->_init_parameters($parameters);
+		if($this->thread['displayorder'] == -4) {
+			return $this->showmessage('thread_nonexist');
+		}
 		$isfirstpost = $this->post['first'] ? 1 : 0;
 		$isorigauthor = $this->member['uid'] && $this->member['uid'] == $this->post['authorid'];
 		$this->param['audit'] = $this->post['invisible'] == -2 || $this->thread['displayorder'] == -2 ? $this->param['audit'] : 0;
@@ -441,24 +440,6 @@ class model_post extends discuz_model {
 				showmessage('post_sm_isnull');
 			}
 
-			$publishdate = null;
-			if($this->group['allowsetpublishdate'] && $this->thread['displayorder'] == -4) {
-				$cron_publish_ids = $this->cache('cronpublish');
-				if(!$this->param['cronpublish'] && in_array($this->thread['tid'], $cron_publish_ids) || $this->param['modnewthreads']) {
-					$this->param['threadupdatearr']['dateline'] = $publishdate = TIMESTAMP;
-					unset($cron_publish_ids[$this->thread['tid']]);
-					savecache('cronpublish', $cron_publish_ids);
-				} elseif($this->param['cronpublish'] && $this->param['cronpublishdate']) {
-					$this->param['threadupdatearr']['dateline'] = $publishdate = strtotime($this->param['cronpublishdate']);
-					$this->param['save'] = 1;
-					if(!in_array($this->thread['tid'], $cron_publish_ids)) {
-						$cron_publish_ids[$this->thread['tid']] = $this->thread['tid'];
-						savecache('cronpublish', $cron_publish_ids);
-					}
-				}
-			}
-
-
 			$this->param['readperm'] = $this->group['allowsetreadperm'] ? intval($this->param['readperm']) : ($isorigauthor ? $this->thread['readperm'] : 'ignore');
 			if($this->thread['special'] != 3) {
 				$this->param['price'] = intval($this->param['price']);
@@ -473,7 +454,7 @@ class model_post extends discuz_model {
 
                        $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 
-			$displayorder = (empty($this->param['save']) || $this->thread['displayorder'] != -4) ? ($this->thread['displayorder'] == -4 ? -4 : $this->thread['displayorder']) : -4;
+			$displayorder = $this->thread['displayorder'];
 			$this->param['typeid'] = isset($this->param['typeid']) && isset($this->forum['threadtypes']['types'][$this->param['typeid']]) && (!$this->forum['threadtypes']['moderators'][$this->param['typeid']] || $this->forum['ismoderator']) ? $this->param['typeid'] : 0;
 			$this->param['sortid'] = !$this->forum['threadsorts']['types'][$this->param['sortid']] ? 0 : $this->param['sortid'];
 
@@ -564,9 +545,9 @@ class model_post extends discuz_model {
 		$displayorder = $pinvisible = 0;
 		if($isfirstpost) {
 			$displayorder = $this->param['modnewthreads'] ? -2 : $this->thread['displayorder'];
-			$pinvisible = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
+			$pinvisible = $this->param['modnewthreads'] ? -2 : 0;
 		} else {
-			$pinvisible = $this->param['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
+			$pinvisible = $this->param['modnewreplies'] ? -2 : 0;
 		}
 
 		if(!empty($this->param['noticetrimstr'])) {
@@ -612,9 +593,6 @@ class model_post extends discuz_model {
 
 		if($anonymousadd !== '') {
 			$setarr['anonymous'] = $anonymousadd;
-		}
-		if($publishdate) {
-			$setarr['dateline'] = $publishdate;
 		}
 		if(getglobal('forum_auditstatuson') && $this->param['audit'] == 1) {
 			$setarr['invisible'] = 0;
@@ -677,10 +655,6 @@ class model_post extends discuz_model {
 			updatemodworks('EDT', 1);
 			require_once libfile('function/misc');
 			modlog($this->thread, 'EDT');
-		}
-
-		if($isfirstpost && $this->thread['displayorder'] == -4 && empty($this->param['save'])) {
-			threadpubsave($this->thread['tid']);
 		}
 
 		$this->trigger_chat_activity('editpost', ['tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->member['uid']]);

@@ -26,9 +26,7 @@
 						<!--{if $_G['group']['allowposttag']}-->
 							<li class="swiper-slide" id="extra_tag_b" onclick="showExtra('extra_tag')"><a>{lang posttag}</a></li>
 						<!--{/if}-->
-						<!--{if $_G['group']['allowsetpublishdate'] && ($_GET['action'] == 'newthread' || ($_GET['action'] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))}-->
-							<li class="swiper-slide" id="extra_pubdate_b" onclick="showExtra('extra_pubdate')"><a>{lang post_timer}</a></li>
-						<!--{/if}-->
+
 					<!--{/if}-->
 					<!--{hook/post_attribute_extra_mobile}-->
 				</ul>
@@ -126,12 +124,7 @@
 			</div>
 		<!--{/if}-->
 
-		<!--{if $_G['group']['allowsetpublishdate'] && ($_GET['action'] == 'newthread' || ($_GET['action'] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))}-->
-			<div id="extra_pubdate_c" class="exfm cl" style="display: none;">
-				<label><input type="checkbox" name="cronpublish" onclick="if(this.checked) {getID('cronpublishdate').click();doane(event,false);};hidenFollowBtn(this.checked);" id="cronpublish" value="true" class="pc"{if $cronpublish} checked="checked"{/if}>{lang post_timer}</label>
-				<input type="text" name="cronpublishdate" id="cronpublishdate" class="px" autocomplete="off" value="{$cronpublishdate}" onchange="if(this.value) getID('cronpublish').checked = true;">
-			</div>
-		<!--{/if}-->
+
 	<!--{/if}-->
 
 	<div id="extra_additional_c" class="exfm p5 cl" style="display: none;">

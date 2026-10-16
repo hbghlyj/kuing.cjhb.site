@@ -471,7 +471,7 @@ function loadforum($fid = null, $tid = null) {
 			$_G['thread'] = get_thread_by_tid($tid, $archiveid);
 			$_G['thread']['allreplies'] = $_G['thread']['replies'] + $_G['thread']['comments'];
 			if(!$_G['forum_auditstatuson'] && !empty($_G['thread'])
-				&& !($_G['thread']['displayorder'] >= 0 || (in_array($_G['thread']['displayorder'], [-4, -3, -2]) && $_G['uid'] && $_G['thread']['authorid'] == $_G['uid']))) {
+				&& !($_G['thread']['displayorder'] >= 0 || (in_array($_G['thread']['displayorder'], [-3, -2]) && $_G['uid'] && $_G['thread']['authorid'] == $_G['uid']))) {
 				$_G['thread'] = null;
 			}
 
@@ -887,78 +887,6 @@ function threadmodstatus($string) {
 		}
 	}
 	return [$modnewthreads, $modnewreplies];
-}
-
-function threadpubsave($tid, $passapproval = false) {
-	global $_G;
-	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
-		$hookparam = func_get_args();
-		hookscript('threadpubsave', 'global', 'funcs', ['param' => $hookparam, 'step' => 'check'], 'threadpubsave');
-	}
-	$thread = table_forum_thread::t()->fetch_by_tid_displayorder($tid, -4, '=', !$passapproval ? $_G['uid'] : null);
-	if(!$thread) {
-		return 0;
-	}
-	$threadpost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($tid);
-	$thread['message'] = $threadpost['message'];
-
-	$modworksql = 0;
-	$displayorder = 0;
-	$dateline = $_G['timestamp'];
-	$moderatepids = $saveposts = [];
-	$return = 1;
-
-	list($modnewthreads) = threadmodstatus($thread['subject']."\t".$thread['message']);
-	if($modnewthreads && $passapproval === false) {
-		updatemoderate('tid', $tid);
-		manage_addnotify('verifythread');
-		$displayorder = -2;
-		$modworksql = 1;
-		$return = -1;
-		table_forum_post::t()->update_by_tid('tid:'.$tid, $tid, ['dateline' => $dateline], false, false, 1);
-	} else {
-		table_forum_post::t()->update_by_tid('tid:'.$tid, $tid, ['dateline' => $dateline, 'invisible' => '0'], false, false, 1);
-	}
-
-	table_forum_thread::t()->update($tid, ['displayorder' => $displayorder, 'dateline' => $_G['timestamp'], 'lastpost' => $_G['timestamp']]);
-	$posts = $thread['replies'] + 1;
-	if($thread['replies']) {
-		$saveposts = table_forum_post::t()->fetch_all_by_tid('tid:'.$tid, $tid, true, '', 0, 0, 0);
-		foreach($saveposts as $post) {
-			$dateline++;
-			$invisible = 0;
-			list(, $modnewreplies) = threadmodstatus($post['subject']."\t".$post['message']);
-			if($modnewreplies) {
-				$moderatepids[] = $post['pid'];
-				$verifypost = true;
-				$invisible = -2;
-				$modworksql = 1;
-				$return = -2;
-			}
-			table_forum_post::t()->update_post('tid:'.$tid, $post['pid'], ['dateline' => $dateline, 'invisible' => $invisible]);
-			updatepostcredits('+', $thread['authorid'], 'reply', $thread['fid']);
-		}
-	}
-	if($moderatepids) {
-		updatemoderate('pid', $moderatepids);
-		manage_addnotify('verifypost');
-	}
-	updatepostcredits('+', $thread['authorid'], 'post', $thread['fid']);
-	$attachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$thread['tid'], 'tid', $thread['tid']);
-	updatecreditbyaction('postattach', $thread['authorid'], [], '', $attachcount, 1, $thread['fid']);
-	if($_G['forum']['status'] == 3) {
-		table_forum_groupuser::t()->update_counter_for_user($thread['authorid'], $thread['fid'], 1);
-	}
-
-	C::t('forum_forum')->update_lastpost($_G['fid'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array(
-		'propagate_parent' => $_G['forum']['type'] == 'sub',
-		'forum' => $_G['forum']
-	));
-	C::t('forum_forum')->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
-	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
-		hookscript('threadpubsave', 'global', 'funcs', ['param' => $hookparam, 'step' => 'save', 'posts' => $saveposts], 'threadpubsave');
-	}
-	return $return;
 }
 
 function getrelatecollection($tid, $all = false, &$num = null, &$more = null) {

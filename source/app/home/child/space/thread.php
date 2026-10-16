@@ -89,7 +89,7 @@ if($_GET['view'] == 'me') {
 
 	if($_GET['from'] == 'space') $diymode = 1;
 	$allowview = true;
-	$filter = in_array(getgpc('filter'), ['recyclebin', 'ignored', 'save', 'aduit', 'close', 'common']) ? $_GET['filter'] : '';
+	$filter = in_array(getgpc('filter'), ['recyclebin', 'ignored', 'aduit', 'close', 'common']) ? $_GET['filter'] : '';
 	if($space['uid'] != $_G['uid'] && in_array($viewtype, ['reply', 'thread'])) {
 		if($allowviewuserthread === -1 && $_G['adminid'] != 1) {
 			$allowview = false;
@@ -110,8 +110,6 @@ if($_GET['view'] == 'me') {
 			$displayorder = -2;
 		} elseif($filter == 'ignored') {
 			$displayorder = -3;
-		} elseif($filter == 'save') {
-			$displayorder = -4;
 		} elseif($filter == 'close') {
 			$closed = 1;
 		} elseif($filter == 'common') {
@@ -175,9 +173,8 @@ if($_GET['view'] == 'me') {
 			$invisible = -5;
 		} elseif($filter == 'aduit') {
 			$invisible = -2;
-		} elseif($filter == 'save' || $filter == 'ignored') {
+		} elseif($filter == 'ignored') {
 			$invisible = -3;
-			$displayorder = -4;
 		} elseif($filter == 'close') {
 			$closed = 1;
 		} elseif($filter == 'common') {

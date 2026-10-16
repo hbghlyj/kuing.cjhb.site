@@ -22,9 +22,7 @@
 			<!--{if $_G['group']['allowposttag']}-->
 				<label id="extra_tag_b" onclick="showExtra('extra_tag')"><span id="extra_tag_chk">{lang posttag}</span></label>
 			<!--{/if}-->
-			<!--{if $_G['group']['allowsetpublishdate'] && ($_GET[action] == 'newthread' || ($_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))}-->
-				<label id="extra_pubdate_b" onclick="showExtra('extra_pubdate')"><span id="extra_pubdate_chk">{lang post_timer}</span></label>
-			<!--{/if}-->
+
 		<!--{/if}-->
 		<!--{hook/post_attribute_extra}-->
 	</div>
@@ -95,12 +93,7 @@
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->
 
-			<!--{if $_G['group']['allowsetpublishdate'] && ($_GET[action] == 'newthread' || ($_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))}-->
-				<div class="exfm cl" id="extra_pubdate_c" style="display: none;">
-					<label><input type="checkbox" name="cronpublish" onclick="if(this.checked) {$('cronpublishdate').click();doane(event,false);};extraCheck(5);hidenFollowBtn(this.checked);" id="cronpublish" value="true" class="pc"{if $cronpublish} checked="checked"{/if}>{lang post_timer}</label>
-					<input type="datetime-local" step="1800" name="cronpublishdate" id="cronpublishdate" class="px" autocomplete="off" value="{$cronpublishdate}" onchange="if(this.value) $('cronpublish').checked = true;">
-				</div>
-			<!--{/if}-->
+
 		<!--{/if}-->
 
 		<div class="exfm cl" id="extra_additional_c" style="display: {if $_GET['action'] == 'reply'}block{else}none{/if};">

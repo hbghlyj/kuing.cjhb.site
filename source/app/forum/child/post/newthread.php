@@ -187,21 +187,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		'special' => $special,
 	];
 
-	$_GET['save'] = $_G['uid'] ? $_GET['save'] : 0;
-
-	if($_G['group']['allowsetpublishdate'] && $_GET['cronpublish'] && $_GET['cronpublishdate']) {
-		$publishdate = strtotime($_GET['cronpublishdate']);
-		if($publishdate > $_G['timestamp']) {
-			$_GET['save'] = 1;
-		} else {
-			$publishdate = $_G['timestamp'];
-		}
-	} else {
-		$publishdate = $_G['timestamp'];
-	}
-	$params['publishdate'] = $publishdate;
-	$params['save'] = $_GET['save'];
-
 	$params['sticktopic'] = getgpc('sticktopic');
 
 	$params['digest'] = getgpc('addtodigest');

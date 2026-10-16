@@ -369,7 +369,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<!--{/if}-->
 					<!--{/if}-->
 					<!--{if $post['first'] && $post['invisible'] == -3}-->
-						<!--<a class="psave" href="forum.php?mod=misc&action=pubsave&tid=$_G[tid]">{lang published}</a>-->
 					<!--{/if}-->
 					<!--{if $post['invisible'] == -2 && !$post['first']}-->
 						<span class="xg1">({lang moderate_need})</span>

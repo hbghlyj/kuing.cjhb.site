@@ -23,10 +23,7 @@ class extend_thread_comment extends extend_thread_base {
 	public function before_newreply($parameters) {
 		require_once libfile('function/post');
 		list(, $this->param['modnewreplies']) = threadmodstatus($this->param['subject']."\t".$this->param['message'].$this->param['extramessage']);
-		if($this->thread['displayorder'] == -4) {
-			$this->param['modnewreplies'] = 0;
-		}
-		$pinvisible = $parameters['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
+		$pinvisible = $parameters['modnewreplies'] ? -2 : 0;
 		$replypost = !empty($parameters['repid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($parameters['repid'])) : [];
 		// ✅ GOOD: HTML-escape and censor comment text before inserting into database to prevent Stored XSS
 		$postcomment = is_array($this->setting['allowpostcomment']) &&

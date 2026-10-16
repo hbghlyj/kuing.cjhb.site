@@ -115,6 +115,7 @@ jobs:
           php .github/scripts/test_stat_templates.php
           php .github/scripts/test_mobile_tag_list.php
             php .github/scripts/test_mobile_mode.php
+            php .github/scripts/test_retired_thread_drafts.php
           php .github/scripts/test_upstream_port.php
           php .github/scripts/test_session_visibility.php
           node .github/scripts/test_forum.js &

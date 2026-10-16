@@ -139,18 +139,6 @@ $data = [[
     'hour' => '0',
     'minute' => '0',
   ],[
-    'cronid' => '15',
-    'available' => '1',
-    'type' => 'system',
-    'name' => 'Scheduled Topic Publishing',
-    'filename' => 'cron_publish_halfhourly.php',
-    'lastrun' => '1269746639',
-    'nextrun' => '1269792000',
-    'weekday' => '-1',
-    'day' => '-1',
-    'hour' => '-1',
-    'minute' => '0	30',
-  ],[
     'cronid' => '16',
     'available' => '1',
     'type' => 'system',

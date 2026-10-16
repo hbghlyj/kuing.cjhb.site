@@ -822,8 +822,6 @@ function extraCheck(op) {
 		$('extra_price_chk').className = $('price').value > 0 ? 'a' : '';
 	} else if(op == 4 && $('tags')) {
 		$('extra_tag_chk').className = $('tags').value !== '' ? 'a' : '';
-	} else if(op == 5 && $('cronpublish')) {
-		$('extra_pubdate_chk').className = $('cronpublish').checked ? 'a' : '';
     } else if(op == 6 && $('attrs')) {
         $('extra_attr_chk').className = $('attrs').value !== '' ? 'a' : '';
     }

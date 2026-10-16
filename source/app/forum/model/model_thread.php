@@ -55,10 +55,6 @@ class model_thread extends discuz_model {
 			return $this->showmessage('postperm_login_nopermission', null, [], ['login' => 1]);
 		}
 
-		if(!empty($this->param['save']) && !$this->group['allowsave']) {
-			return $this->showmessage('post_not_allow_save');
-		}
-
 		if(trim($this->param['subject']) == '') {
 			return $this->showmessage('post_sm_isnull');
 		}
@@ -77,15 +73,12 @@ class model_thread extends discuz_model {
 		} elseif(checkmaxperhour('tid')) {
 			return $this->showmessage('thread_flood_ctrl_threads_per_hour', '', ['threads_per_hour' => $this->group['maxthreadsperhour']]);
 		}
-		$this->param['save'] = $this->member['uid'] ? $this->param['save'] : 0;
 
 		$this->param['typeid'] = isset($this->param['typeid']) && isset($this->forum['threadtypes']['types'][$this->param['typeid']]) && (!$this->forum['threadtypes']['moderators'][$this->param['typeid']] || $this->forum['ismoderator']) ? $this->param['typeid'] : 0;
 
-		$this->param['displayorder'] = $this->param['modnewthreads'] ? -2 : (($this->forum['ismoderator'] && $this->group['allowstickthread'] && !empty($this->param['sticktopic'])) ? 1 : (empty($this->param['save']) ? 0 : -4));
+		$this->param['displayorder'] = $this->param['modnewthreads'] ? -2 : (($this->forum['ismoderator'] && $this->group['allowstickthread'] && !empty($this->param['sticktopic'])) ? 1 : 0);
 		if($this->param['displayorder'] == -2) {
 			table_forum_forum::t()->update($this->forum['fid'], ['modworks' => '1']);
-		} elseif($this->param['displayorder'] == -4 && !empty($this->group['allowsavenum']) && table_forum_thread::t()->count_by_authorid_displayorder($this->member['uid'], -4) >= intval($this->group['allowsavenum'])) {
-			return $this->showmessage('post_max_save');
 		}
 
 		$this->param['digest'] = $this->forum['ismoderator'] && $this->group['allowdigestthread'] && !empty($this->param['digest']) ? 1 : 0;
@@ -123,7 +116,6 @@ class model_thread extends discuz_model {
 
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
-		$this->param['publishdate'] = !$this->param['modnewthreads'] ? $this->param['publishdate'] : TIMESTAMP;
 
 		// 更新摘要
 		$summary = '';
@@ -159,8 +151,8 @@ class model_thread extends discuz_model {
 			'authorid' => $this->member['uid'],
 			'subject' => $this->param['subject'],
 			'summary' => $summary,
-			'dateline' => $this->param['publishdate'],
-			'lastpost' => $this->param['publishdate'],
+			'dateline' => TIMESTAMP,
+			'lastpost' => TIMESTAMP,
 			'lastposter' => $author,
 			'displayorder' => $this->param['displayorder'],
 			'digest' => $this->param['digest'],
@@ -177,15 +169,10 @@ class model_thread extends discuz_model {
 		table_forum_newthread::t()->insert([
 			'tid' => $this->tid,
 			'fid' => $this->forum['fid'],
-			'dateline' => $this->param['publishdate'],
+			'dateline' => TIMESTAMP,
 		]);
 		table_forum_sofa::t()->insert(['tid' => $this->tid, 'fid' => $this->forum['fid']]);
 		useractionlog($this->member['uid'], 'tid');
-		if($this->param['publishdate'] != TIMESTAMP) {
-			$cron_publish_ids = $this->cache('cronpublish');
-			$cron_publish_ids[$this->tid] = $this->tid;
-			savecache('cronpublish', $cron_publish_ids);
-		}
 
 		if(!$this->param['isanonymous']) {
 			table_common_member_field_home::t()->update($this->member['uid'], ['recentnote' => $this->param['subject']]);
@@ -209,7 +196,7 @@ class model_thread extends discuz_model {
 		$class_tag = new tag();
 		table_forum_thread::t()->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
 
-		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
+		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : 0;
 		$this->param['message'] = applyattachdisplaywidths($this->param['message'], (array)getgpc('attachnew'));
 		$this->param['message'] = preg_replace('/\[attachimg=(\d{1,4})\](\d+)\[\/attachimg\]/is', '[attach=$1]$2[/attach]', $this->param['message']);
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]$1[/attach]', $this->param['message']);
@@ -229,7 +216,7 @@ class model_thread extends discuz_model {
 			'author' => $this->member['username'],
 			'authorid' => $this->member['uid'],
 			'subject' => $this->param['subject'],
-			'dateline' => $this->param['publishdate'],
+			'dateline' => TIMESTAMP,
 			'message' => $this->param['message'],
 			'content' => $content,
 			'invisible' => $this->param['pinvisible'],
@@ -254,21 +241,19 @@ class model_thread extends discuz_model {
 			return 'post_newthread_mod_succeed';
 		} else {
 
-			if($this->param['displayorder'] != -4) {
-				if($this->param['digest']) {
-					updatepostcredits('+', $this->member['uid'], 'digest', $this->forum['fid']);
-				}
-				updatepostcredits('+', $this->member['uid'], 'post', $this->forum['fid']);
-				if($this->param['isgroup']) {
-					table_forum_groupuser::t()->update_counter_for_user($this->member['uid'], $this->forum['fid'], 1);
-				}
-
-				table_forum_forum::t()->update_lastpost($this->forum['fid'], $this->tid, $this->param['subject'], TIMESTAMP, $author, [
-					'propagate_parent' => $this->forum['type'] == 'sub',
-					'forum' => $this->forum
-				]);
-				table_forum_forum::t()->update_forum_counter($this->forum['fid'], 1, 1, 1);
+			if($this->param['digest']) {
+				updatepostcredits('+', $this->member['uid'], 'digest', $this->forum['fid']);
 			}
+			updatepostcredits('+', $this->member['uid'], 'post', $this->forum['fid']);
+			if($this->param['isgroup']) {
+				table_forum_groupuser::t()->update_counter_for_user($this->member['uid'], $this->forum['fid'], 1);
+			}
+
+			table_forum_forum::t()->update_lastpost($this->forum['fid'], $this->tid, $this->param['subject'], TIMESTAMP, $author, [
+				'propagate_parent' => $this->forum['type'] == 'sub',
+				'forum' => $this->forum
+			]);
+			table_forum_forum::t()->update_forum_counter($this->forum['fid'], 1, 1, 1);
 
 			if($this->param['isgroup']) {
 				table_forum_forumfield::t()->update($this->forum['fid'], ['lastupdate' => TIMESTAMP]);
@@ -330,9 +315,9 @@ class model_thread extends discuz_model {
 
 		$varname = [
 			'member', 'group', 'forum', 'extramessage',
-			'subject', 'sticktopic', 'save',
+			'subject', 'sticktopic',
                        'readperm', 'price', 'typeid', 'sortid',
-			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
+			'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message', 'content', 'isanonymous',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'contentType', 'contentEditor'

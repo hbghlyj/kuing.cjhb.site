@@ -94,7 +94,7 @@ class extend_thread_trade extends extend_thread_base {
 			convertunusedattach($_GET['tradeaid'], $this->tid, $pid);
 		}
 
-		($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $_GET['tradeaid']) && updateattach($this->param['displayorder'] == -4 || $this->param['modnewthreads'], $this->tid, $pid, getgpc('attachnew'));
+		($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $_GET['tradeaid']) && updateattach($this->param['modnewthreads'], $this->tid, $pid, getgpc('attachnew'));
 		require_once libfile('function/trade');
 		$author = !$this->param['isanonymous'] ? $this->member['username'] : '';
 		trade_create([

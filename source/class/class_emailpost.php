@@ -418,8 +418,6 @@ class emailpost {
 			$params += [
 				'typeid' => 0,
 				'sortid' => 0,
-				'publishdate' => TIMESTAMP,
-				'save' => 0,
 				'readperm' => 0,
 				'price' => 0,
 				'tags' => '',

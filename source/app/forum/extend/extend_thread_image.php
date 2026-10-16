@@ -34,7 +34,7 @@ class extend_thread_image extends extend_thread_base {
 		}
 		$this->mobile_upload();
 		if(($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $this->param['sortid'] || !empty($_GET['activityaid']))) {
-			updateattach($this->param['displayorder'] == -4 || $this->param['modnewthreads'], $tid, $pid, getgpc('attachnew'));
+			updateattach($this->param['modnewthreads'], $tid, $pid, getgpc('attachnew'));
 			if(!$threadimageaid) {
 				$threadimage = table_forum_attachment_n::t()->fetch_max_image('tid:'.$tid, 'tid', $tid);
 				$threadimageaid = $threadimage['aid'];
@@ -93,7 +93,7 @@ class extend_thread_image extends extend_thread_base {
 
 	public function after_newreply() {
 		$this->mobile_upload();
-		($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->thread['displayorder'] == -4 || $this->param['modnewreplies'], $this->thread['tid'], $this->pid, getgpc('attachnew'));
+		($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->param['modnewreplies'], $this->thread['tid'], $this->pid, getgpc('attachnew'));
 	}
 
 	public function before_editpost($parameters) {
@@ -103,7 +103,7 @@ class extend_thread_image extends extend_thread_base {
 
 		if($attachupdate) {
 			$this->snapshot_revision_attachments();
-			updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], getgpc('attachnew'), getgpc('attachupdate'), $this->post['authorid']);
+			updateattach($_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], getgpc('attachnew'), getgpc('attachupdate'), $this->post['authorid']);
 		}
 
 

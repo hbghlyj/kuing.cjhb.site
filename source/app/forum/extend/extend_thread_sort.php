@@ -65,7 +65,7 @@ class extend_thread_sort extends extend_thread_base {
 					'fid' => $fid,
 					'optionid' => $optionid,
 					'value' => $value,
-					'expiration' => ($typeexpiration ? $this->param['publishdate'] + $typeexpiration : 0),
+					'expiration' => ($typeexpiration ? TIMESTAMP + $typeexpiration : 0),
 				]);
 			}
 

@@ -41,7 +41,7 @@ if(!in_array($_GET['action'], $after_actions)) {
 	}
 
 	$thread = table_forum_thread::t()->fetch_thread($_G['tid']);
-	if(!($thread['displayorder'] >= 0 || $thread['displayorder'] == -4 && $thread['authorid'] == $_G['uid'])) {
+	if(!($thread['displayorder'] >= 0)) {
 		$thread = [];
 	}
 	if($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && !$_G['forum']['ismoderator'] && $thread['authorid'] != $_G['uid']) {

@@ -498,7 +498,7 @@ $_G['forum_onlineauthors'] = $_G['forum_cachepid'] = $_G['blockedpids'] = [];
 
 $isdel_post = $cachepids = $postusers = $skipaids = [];
 
-if($_G['forum_auditstatuson'] || in_array($_G['forum_thread']['displayorder'], [-2, -3, -4]) && $_G['forum_thread']['authorid'] == $_G['uid']) {
+if($_G['forum_auditstatuson'] || in_array($_G['forum_thread']['displayorder'], [-2, -3]) && $_G['forum_thread']['authorid'] == $_G['uid']) {
 	$visibleallflag = 1;
 }
 
@@ -756,14 +756,10 @@ if($_G['setting']['portalstatus']) {
 } else {
 	$allowpostarticle = $allowpusharticle = false;
 }
-if($_G['forum_thread']['displayorder'] != -4) {
 	$modmenu = [
 		'thread' => $_G['forum']['ismoderator'] || $allowblockrecommend || $allowpusharticle && $allowpostarticle,
 		'post' => $_G['forum']['ismoderator'] && ($_G['group']['allowwarnpost'] || $_G['group']['allowbanpost'] || $_G['group']['allowdelpost'] || $_G['group']['allowstickreply']) || $_G['forum_thread']['pushedaid'] && $allowpostarticle || $_G['forum_thread']['authorid'] == $_G['uid']
 	];
-} else {
-	$modmenu = [];
-}
 
 if($_G['forum']['alloweditpost'] && $_G['uid']) {
 	$alloweditpost_status = getstatus($_G['setting']['alloweditpost'], $_G['forum_thread']['special'] + 1);

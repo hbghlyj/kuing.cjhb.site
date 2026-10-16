@@ -91,7 +91,7 @@ if(!empty($_GET['cedit'])) {
 if($_GET['action'] == 'edit' || $_GET['action'] == 'reply') {
 
 	$thread = table_forum_thread::t()->fetch_thread($_G['tid']);
-	if(!$_G['forum_auditstatuson'] && !($thread['displayorder'] >= 0 || (in_array($thread['displayorder'], [-4, -2]) && $thread['authorid'] == $_G['uid']))) {
+	if(!$_G['forum_auditstatuson'] && !($thread['displayorder'] >= 0 || (in_array($thread['displayorder'], [-2]) && $thread['authorid'] == $_G['uid']))) {
 		$thread = [];
 	}
 	if(!empty($thread)) {
