@@ -52,12 +52,15 @@
 	<!--{/if}-->
 	<p class="xs0" style="text-align:center;margin:8px 0;">
 		<time id="footer_time_now" data-timestamp="{$_G[timestamp]}">{lang time_now}</time>
+	</p>
+	<!--{if debuginfo()}-->
+	<p class="xs0" style="text-align:center;margin:8px 0;">
 		<span id="debuginfo">
-		<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+		Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
 			<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
-		<!--{/if}-->
 		</span>
 	</p>
+	<!--{/if}-->
 	<div class="footer-copy mt10">
 		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png">$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
 		Powered by Discuz! <em>$_G['setting']['version']</em>
