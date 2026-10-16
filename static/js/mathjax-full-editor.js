@@ -449,6 +449,7 @@ function renderMathEditorContent() {
 	var runParent = entries[0].parent;
 	for (var i = 1; i <= entries.length; i++) {
 		if (i === entries.length || entries[i].parent !== runParent ||
+				entries[i].node.previousSibling !== entries[i - 1].node ||
 				(entries[i - 1].node.nodeType === Node.TEXT_NODE && entries[i].node.nodeType === Node.TEXT_NODE)) {
 			runs.push({ start: runStart, end: i - 1 });
 			if (i < entries.length) {
