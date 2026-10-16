@@ -9,11 +9,16 @@
 <form class="searchform" method="get" action="misc.php">
 	<input type="hidden" name="mod" value="tag">
 	<div class="search flex-box">
-		<input autocomplete="off" class="mtxt flex" name="name" id="scform_srchtxt" value="{echo dhtmlspecialchars($name)}" placeholder="{lang mobsearchtxt}">
+		<input autocomplete="off" class="mtxt flex" name="name" id="scform_srchtxt" list="mobile-tag-suggestions" value="{echo dhtmlspecialchars($name)}" placeholder="{lang mobsearchtxt}">
+		<datalist id="mobile-tag-suggestions"></datalist>
 		<input type="submit" value="{lang search}" class="mbtn" id="scform_submit">
 	</div>
 </form>
 <div class="bodybox p10 cl">
+	<nav class="mobile-tag-sort dhnv flex-box cl" aria-label="{lang tag}">
+		<a href="misc.php?mod=tag" $orderactives[time]>{lang sortby_time_desc}</a>
+		<a href="misc.php?mod=tag&sortby=related_count" $orderactives[related_count]>{lang sortby_related_count_desc}</a>
+	</nav>
 	<!--{if $tagarray}-->
 	<ul class="mobile-tag-list">
 		<!--{loop $tagarray $tag}-->
@@ -25,6 +30,7 @@
 	<!--{/if}-->
 	$multipage
 </div>
+<script src="{$_G['setting']['jspath']}mobile_tag_search.js?{VERHASH}"></script>
 <!--{else}-->
 $num
 <!--{/if}-->

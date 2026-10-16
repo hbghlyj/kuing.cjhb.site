@@ -18,6 +18,9 @@ token_get_all($compiled, TOKEN_PARSE);
 $compiled = preg_replace('/include template\([^;]+;/', '', $compiled);
 $type = '';
 $name = '';
+$_G = ['setting' => ['jspath' => 'static/js/']];
+define('VERHASH', 'test');
+$orderactives = ['time' => 'class="a"', 'related_count' => ''];
 $multipage = '<nav id="fixture-pagination">2</nav>';
 $tagarray = [
     ['tagid' => 7, 'tagname' => 'Green\'s "theorem" </script>', 'related_count' => 12],
@@ -26,8 +29,11 @@ $tagarray = [
 ob_start();
 eval('?>'.$compiled);
 $payload = ob_get_clean();
-if(!str_contains($payload, 'id=7') || !str_contains($payload, 'id=8') || !str_contains($payload, '&lt;/script&gt;') || !str_contains($payload, 'fixture-pagination') || str_contains($payload, '<script')) {
+if(!str_contains($payload, 'id=7') || !str_contains($payload, 'id=8') || !str_contains($payload, '&lt;/script&gt;') || !str_contains($payload, 'fixture-pagination')) {
     throw new RuntimeException('Mobile tag links must render safely without JavaScript');
+}
+if(!str_contains($payload, 'list="mobile-tag-suggestions"') || !str_contains($payload, 'sortby=related_count') || !str_contains($payload, 'mobile_tag_search.js?test')) {
+    throw new RuntimeException('Mobile tags need suggestions and sorting controls');
 }
 echo "Mobile wrapping tag list renders links, counts and pagination without JavaScript\n";
 $tagarray = [];
