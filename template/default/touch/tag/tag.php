@@ -29,7 +29,7 @@
 	// 关键词数据 - 包含文本和权重(影响大小)
 	const keywords = [
 		<!--{loop $tagarray $tag}-->
-		{ text: "{$tag['tagname']}", weight: {$tag['hot_score']}, url: 'misc.php?mod=tag&id={$tag['tagid']}' },
+		{echo json_encode(['text' => $tag['tagname'], 'weight' => (float)($tag['hot_score'] ?? 0), 'url' => 'misc.php?mod=tag&id='.(int)$tag['tagid']], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)},
 		<!--{/loop}-->
 	];
 
