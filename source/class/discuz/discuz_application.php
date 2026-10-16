@@ -1066,6 +1066,7 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _init_mobile() {
+		$nomobile = false;
 		if(!empty(getgpc('mobilediy'))) {
 			define('IN_MOBILE', '2');
 			return true;
@@ -1087,6 +1088,10 @@ class discuz_application extends discuz_base {
 		}
 
 		$mobile = $this->var['cookie']['mobile'] ?? '';
+		$requestedmobile = $_GET['mobile'] ?? null;
+		if(is_string($requestedmobile) && in_array($requestedmobile, ['no', 'yes', '1', '2'], true)) {
+			$mobile = $requestedmobile;
+		}
 		if($mobile === 'yes') {
 			$mobile = '2';
 			dsetcookie('mobile', $mobile, 31536000);
