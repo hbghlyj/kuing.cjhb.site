@@ -36,7 +36,6 @@ class block_misctag extends discuz_block {
 			'url' => ['name' => lang('block/misctag', 'blockclass_misctag_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
 			'title' => ['name' => lang('block/misctag', 'blockclass_misctag_field_name'), 'formtype' => 'title', 'datatype' => 'title'],
 			'related_count' => ['name' => lang('block/misctag', 'blockclass_misctag_field_related_count'), 'formtype' => 'text', 'datatype' => 'int'],
-			'hot_score' => ['name' => lang('block/misctag', 'blockclass_misctag_field_hot_score'), 'formtype' => 'text', 'datatype' => 'string'],
 			'size_level' => ['name' => lang('block/misctag', 'blockclass_misctag_field_size_level'), 'formtype' => 'text', 'datatype' => 'int'],
 			'color_level' => ['name' => lang('block/misctag', 'blockclass_misctag_field_color_level'), 'formtype' => 'text', 'datatype' => 'int'],
 		];
@@ -54,7 +53,6 @@ class block_misctag extends discuz_block {
 				'type'=> 'mradio',
 				'value' => [
 					['tagid', 'misctag_orderby_tagid'],
-					['hot_score', 'misctag_orderby_hot_score'],
 					['related_count', 'misctag_orderby_related_count'],
 					['rand', 'misctag_orderby_rand'],
 				],
@@ -82,7 +80,7 @@ class block_misctag extends discuz_block {
 		$tagids		= !empty($parameter['ids']) ? explode(',', $parameter['ids']) : [];
 		$startrow	= !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
 		$items		= !empty($parameter['items']) ? intval($parameter['items']) : 10;
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['tagid','hot_score', 'related_count','rand']) ? $parameter['orderby'] : 'tagid') : 'tagid';
+		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['tagid', 'related_count','rand']) ? $parameter['orderby'] : 'tagid') : 'tagid';
 		$titlelength	= !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 
 		$list = [];
@@ -96,9 +94,9 @@ class block_misctag extends discuz_block {
 		if($tagids) {
 			$tags = table_common_tag::t()->get_byids($tagids);
 		}else{
-			$tags = table_common_tag::t()->fetch_all_by_hot(NULL, $startrow, $items, $order, $orderby);
+			$tags = table_common_tag::t()->fetch_all_by_order(NULL, $startrow, $items, $order, $orderby);
 		}
-		$tags = $this->process_tags_by_hot_score($tags);
+		$tags = $this->process_tags_by_related_count($tags);
 		foreach($tags as $data) {
 			$list[] = [
 				'id' => $data['tagid'],
@@ -106,7 +104,6 @@ class block_misctag extends discuz_block {
 				'url' => 'misc.php?mod=tag&id='.$data['tagid'],
 				'fields' => [
 					'related_count' => intval($data['related_count']),
-					'hot_score' => sprintf("%.2f", $data['hot_score']),
 					'size_level' => intval($data['size_level']),
 					'color_level' => intval($data['color_level']),
 				],
@@ -114,23 +111,23 @@ class block_misctag extends discuz_block {
 		}
 		return ['html' => '', 'data' => $list];
 	}
-	private function process_tags_by_hot_score($tags) {
+	private function process_tags_by_related_count($tags) {
 		// 检查是否有标签数据
 		if (empty($tags)) {
 			return [];
 		}
 
-		// 找出最大和最小的hot_score值
+		// 找出最大和最小的related_count值
 		$maxHotScore = PHP_INT_MIN;
 		$minHotScore = PHP_INT_MAX;
 
 		foreach ($tags as $tag) {
-			$hotScore = (int)$tag['hot_score'];
+			$hotScore = (int)$tag['related_count'];
 			$maxHotScore = max($maxHotScore, $hotScore);
 			$minHotScore = min($minHotScore, $hotScore);
 		}
 
-		// 如果所有标签的hot_score都相同，将它们都设为中等大小和颜色
+		// 如果所有标签的related_count都相同，将它们都设为中等大小和颜色
 		if ($maxHotScore == $minHotScore) {
 			foreach ($tags as &$tag) {
 				$tag['size_level'] = 3;
@@ -145,9 +142,9 @@ class block_misctag extends discuz_block {
 
 		// 为每个标签分配等级
 		foreach ($tags as &$tag) {
-			$hotScore = (int)$tag['hot_score'];
+			$hotScore = (int)$tag['related_count'];
 
-			// 根据hot_score确定等级 (1-5)
+			// 根据related_count确定等级 (1-5)
 			if ($hotScore >= $minHotScore && $hotScore < $minHotScore + $interval) {
 				$level = 1;
 			} elseif ($hotScore < $minHotScore + $interval * 2) {

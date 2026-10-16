@@ -1634,9 +1634,10 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .border_right { border-left: none; border-top: none; border-bottom: none; }
 
 /*----- 字云容器样式 -----*/
-.wordcloud-container {position:relative;min-height:700px;overflow:hidden;transition:background-color 0.3s ease,box-shadow 0.3s ease;}
-.wordcloud-container .word {position:absolute;cursor:pointer;user-select:none;text-align:center;padding:4px 8px;border-radius:var(--dz-radius-sm);text-decoration:none;transition:transform 0.3s ease;}
-.wordcloud-container .word:hover {transform:scale(1.15) !important;z-index:10;text-shadow:0 2px 4px rgba(0,0,0,0.1);}
+.mobile-tag-list {display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.mobile-tag-list li {max-width:100%;min-width:0}
+.mobile-tag-list a {display:flex;align-items:baseline;gap:8px;padding:7px 12px;border:1px solid var(--dz-BOR-ed);border-radius:var(--dz-radius-sm);background:var(--dz-BG-0);overflow-wrap:anywhere}
+.mobile-tag-count {flex-shrink:0;color:var(--dz-FC-999);font-size:12px}
 
 /*----- 新记录功能样式 -----*/
 #moodfm {background:var(--dz-BG-0);padding:15px;}

@@ -220,7 +220,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         const decoyTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE tid <> ${taggedTid} ORDER BY tid LIMIT 1;"`).toString().trim();
         assert.match(decoyTid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not find a second thread for the delimiter test.');
         const decoyTagName = oldTagName.replace('_', 'X');
-        const tagId = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_common_tag (tagname, status, related_count, hot_score, created_at, updated_at) VALUES ('${oldTagName}', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();"`).toString().trim();
+        const tagId = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_common_tag (tagname, status, related_count, created_at, updated_at) VALUES ('${oldTagName}', 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();"`).toString().trim();
         assert.match(tagId, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not seed a tag.');
         const taggedDoid = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_home_doing (uid, username, dateline, body_template, body_data, message, fields) VALUES (1, 'admin', UNIX_TIMESTAMP(), '', '', '', JSON_OBJECT('tags', JSON_OBJECT('${tagId}', '${oldTagName}'))); SELECT LAST_INSERT_ID();"`).toString().trim();
         assert.match(taggedDoid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not seed a doing record.');

@@ -5520,7 +5520,6 @@ $lang =
 	'misc_tag_all_open' => '全部开放',
 	'misc_tag_all_recommend' => '全部推荐',
 	'misc_tag_related_count' => '关联数据数',
-	'misc_tag_hot_score' => '热度',
 	'misc_tag_created_at' => '创建时间',
 	'misc_tag_updated_at' => '更新时间',
 

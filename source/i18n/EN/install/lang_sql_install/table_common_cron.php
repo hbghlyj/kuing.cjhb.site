@@ -115,18 +115,6 @@ $data = [[
     'hour' => '6',
     'minute' => '0',
   ],[
-    'cronid' => '11',
-    'available' => '1',
-    'type' => 'system',
-    'name' => 'Daily Tag Update',
-    'filename' => 'cron_tag_daily.php',
-    'lastrun' => '1269746633',
-    'nextrun' => '1269792000',
-    'weekday' => '-1',
-    'day' => '-1',
-    'hour' => '0',
-    'minute' => '0',
-  ],[
     'cronid' => '12',
     'available' => '1',
     'type' => 'system',

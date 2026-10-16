@@ -5635,7 +5635,6 @@ China
 	'misc_tag_all_open' => 'Open All',
 	'misc_tag_all_recommend' => 'Recommend All',
 	'misc_tag_related_count' => 'Related Data Count',
-	'misc_tag_hot_score' => 'Hot Score',
 	'misc_tag_created_at' => 'Creation Time',
 	'misc_tag_updated_at' => 'Update Time',
 

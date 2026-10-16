@@ -116,7 +116,7 @@ class table_common_tag extends discuz_table {
 	 * @return int 插入的标签ID
 	 */
 	public function insert_tag($tagname, $status = 0) {
-		DB::query('INSERT INTO %t (tagname, status, related_count, hot_score, created_at) VALUES (%s, %d, 0, 0, %d)', [$this->_table, $tagname, $status, TIMESTAMP]);
+		DB::query('INSERT INTO %t (tagname, status, related_count, created_at) VALUES (%s, %d, 0, %d)', [$this->_table, $tagname, $status, TIMESTAMP]);
 		return DB::insert_id();
 	}
 
@@ -198,7 +198,7 @@ class table_common_tag extends discuz_table {
 	 * @param string $order 排序方式，默认DESC
 	 * @return array 标签列表
 	 */
-	public function fetch_all_by_hot($status = NULL, $startlimit = 0, $count = 0, $order = 'DESC', $order_by = 'hot_score') {
+	public function fetch_all_by_order($status = NULL, $startlimit = 0, $count = 0, $order = 'DESC', $order_by = 'related_count') {
 		if($status === NULL) {
 			$statussql = 'status<>3';
 		} else {
@@ -210,19 +210,6 @@ class table_common_tag extends discuz_table {
 			$ordersql = " ORDER BY ".DB::order($order_by, $order);
 		}
 		return DB::fetch_all("SELECT * FROM %t WHERE $statussql $ordersql" .DB::limit($startlimit, $count), [$this->_table]);
-	}
-
-	/**
-	 * 批量获取标签热度
-	 *
-	 * @param array $tagids 标签ID数组
-	 * @return array 标签热度信息，键为标签ID，值为热度分数
-	 */
-	public function fetch_hot_by_tagids($tagids) {
-		if(empty($tagids)) {
-			return [];
-		}
-		return DB::fetch_all('SELECT tagid, hot_score FROM %t WHERE tagid IN (%n)', [$this->_table, $tagids], 'tagid');
 	}
 
 	/**

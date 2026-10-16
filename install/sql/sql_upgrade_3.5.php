@@ -596,10 +596,8 @@ ALTER TABLE `pre_common_tag`
 
 ALTER TABLE `pre_common_tag`
 	ADD COLUMN `related_count` mediumint(8) unsigned NOT NULL DEFAULT '0'  AFTER `status`,
-	ADD COLUMN `hot_score` float NOT NULL DEFAULT '0'  AFTER `related_count`,
-	ADD COLUMN `created_at` int(10) unsigned NOT NULL DEFAULT '0'  AFTER `hot_score`,
-	ADD COLUMN `updated_at` int(10) unsigned NOT NULL DEFAULT '0'  AFTER `created_at`,
-	ADD KEY `idx_hot_score` (`hot_score`);
+	ADD COLUMN `created_at` int(10) unsigned NOT NULL DEFAULT '0'  AFTER `related_count`,
+	ADD COLUMN `updated_at` int(10) unsigned NOT NULL DEFAULT '0'  AFTER `created_at`;
 
 ALTER TABLE `pre_common_tagitem`
 	ADD COLUMN `created_at` int(10) unsigned NOT NULL DEFAULT '0'  AFTER `idtype`,

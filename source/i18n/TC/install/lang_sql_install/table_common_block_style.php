@@ -4886,7 +4886,7 @@ runslideshow();
 		   title="{title} ({related_count}篇內容)"
 		   class="tag-cloud-item tag-size-{size_level} tag-color-{color_level}"
 		   data-count="{related_count}"
-		   data-hot="{hot_score}">
+		   >
 			{title}
 		</a>
 		[/loop]
@@ -4913,7 +4913,7 @@ runslideshow();
 		   title="{title} ({related_count}篇內容)"
 		   class="tag-cloud-item tag-size-{size_level} tag-color-{color_level}"
 		   data-count="{related_count}"
-		   data-hot="{hot_score}">
+		   >
 			{title}
 		</a>',
     ],
@@ -4929,7 +4929,6 @@ runslideshow();
       2 => 'related_count',
       3 => 'size_level',
       4 => 'color_level',
-      5 => 'hot_score',
     ],
     'moreurl' => '0',
   ],

@@ -129,16 +129,12 @@ $sortby = trim((string)getgpc('sortby'));
 $viewtype = 'time';
 if(in_array($sortby, ['threadnum', 'related_count'], true)) {
 	$viewtype = 'related_count';
-} elseif($sortby === 'hot') {
-	$viewtype = 'hot';
 }
 $orderactives[$viewtype] = 'class="a"';
 
-$sql = 'SELECT tag.tagname AS tagname, tag.tagid AS tagid, tag.related_count AS related_count, tag.hot_score AS hot_score FROM '.DB::table('common_tag').' tag WHERE tag.status=0';
+$sql = 'SELECT tag.tagname AS tagname, tag.tagid AS tagid, tag.related_count AS related_count FROM '.DB::table('common_tag').' tag WHERE tag.status=0';
 if(in_array($sortby, ['threadnum', 'related_count'], true)) {
 	$sql .= ' ORDER BY tag.related_count DESC, tag.tagid DESC';
-} elseif($sortby === 'hot') {
-	$sql .= ' ORDER BY tag.hot_score DESC, tag.tagid DESC';
 } else {
 	$sql .= ' ORDER BY tag.tagid DESC';
 }

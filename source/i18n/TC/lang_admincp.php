@@ -5524,7 +5524,6 @@ $lang =
 	'misc_tag_all_open' => '全部開放',
 	'misc_tag_all_recommend' => '全部推薦',
 	'misc_tag_related_count' => '關聯數據數',
-	'misc_tag_hot_score' => '熱度',
 	'misc_tag_created_at' => '創建時間',
 	'misc_tag_updated_at' => '更新時間',
 

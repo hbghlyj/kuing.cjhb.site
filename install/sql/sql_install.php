@@ -1628,13 +1628,11 @@ CREATE TABLE `pre_common_tag`
 	`tagname`       char(35) NOT NULL DEFAULT '',
 	`status`        tinyint(1) NOT NULL DEFAULT '0',
 	`related_count` mediumint(8) unsigned NOT NULL DEFAULT '0',
-	`hot_score`     float    NOT NULL DEFAULT '0',
 	`created_at`    int(10) unsigned NOT NULL DEFAULT '0',
 	`updated_at`    int(10) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (`tagid`),
 	KEY             `tagname` (`tagname`),
-	KEY             `status` (`status`,`tagid`),
-	KEY             `idx_hot_score` (`hot_score`)
+	KEY             `status` (`status`,`tagid`)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_tagitem;

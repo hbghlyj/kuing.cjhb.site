@@ -27,7 +27,7 @@ $query = table_common_tag::t()->fetch_all_by_status($table_status, $tagname, $st
 showformheader('tag&operation=admin');
 showtableheader(cplang('tag_result').' '.$totalcount.' <a href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=tag&operation=admin;\'" class="act lightlink normal">'.cplang('research').'</a>', 'nobottom');
 showhiddenfields(['page' => $_GET['page'], 'tagname' => $tagname, 'status' => $status, 'perpage' => $ppp]);
-showsubtitle(['', 'tagname', 'misc_tag_status', 'misc_tag_related_count', 'misc_tag_hot_score', 'misc_tag_created_at', 'misc_tag_updated_at']);
+showsubtitle(['', 'tagname', 'misc_tag_status', 'misc_tag_related_count', 'misc_tag_created_at', 'misc_tag_updated_at']);
 foreach($query as $result) {
 	if($result['status'] == 0) {
 		$tagstatus = cplang('misc_tag_status_0');
@@ -39,7 +39,6 @@ foreach($query as $result) {
 		'<a href="misc.php?mod=tag&id='.intval($result['tagid']).'" target="_blank">'.dhtmlspecialchars($result['tagname']).'</a>',
 		$tagstatus,
 		$result['related_count'],
-		sprintf("%.2f", $result['hot_score']),
 		dgmdate($result['created_at']),
 		dgmdate($result['updated_at'])
 	]);
