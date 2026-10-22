@@ -1,13 +1,30 @@
 # MitFrame Port Checkpoint
 
-Fetched `upstream/MitFrame` through `172c8c874` from
-https://gitee.com/Discuz/DiscuzX.git on 2026-10-14.
+Fetched `origin/MitFrame` in the sibling `../mitframe` checkout through
+`3db25375efc48a05c7d3594f51ff7225c38be8c2` from
+https://gitee.com/Discuz/DiscuzX.git on 2026-10-22.
 Upstream release at this checkpoint: `20261010`; fork release now `20261010`
 (per user direction, the release bump is ported rather than kept at `20260910`).
 The previous note incorrectly called upstream `20260910`: `1db0682f` already
 declared `20261001`. Release metadata does not imply unported upstream features.
 
-## Latest Batch: 6f7c68893..172c8c874
+## Latest Batch: 172c8c874..3db25375
+
+- `01ff4317`: table-tool `sanitize` permits `content.br`; already ported in
+  fork commit `20bdf5eb5`, no duplicate patch required.
+- `a494eaeb`: registration checks active and archived usernames after the
+  upstream UCenter check. The fork already calls `native_user_checkname()`,
+  whose member UID lookups include archived members (archive lookup enabled),
+  login names and username history. Keep the existing native implementation
+  rather than add redundant full-row queries or restore UCenter activation.
+- `3db25375`: merge of the two changes above; no extra functional change.
+
+Validation: execute the real native username validator and member table lookup
+methods against fixture storage for active, archived, login and historical
+identities, plus an available name. Release remains `20261010`.
+Next comparison starts after `3db25375`.
+
+## Previous Batch: 6f7c68893..172c8c874
 
 - `172c8c874`: adds `template/default/touch/home/misc_ajax.php` (byte-identical
   to upstream's desktop copy) so mobile `home.php?mod=misc&ac=ajax` stops
