@@ -169,9 +169,9 @@ class discuz_upload {
 			return false;
 		}
 
-		$allowedElements = array_flip(['svg', 'g', 'defs', 'symbol', 'use', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'pattern', 'title', 'desc', 'text', 'tspan']);
-		$allowedAttributes = array_flip(['id', 'class', 'xmlns', 'width', 'height', 'viewbox', 'preserveaspectratio', 'overflow', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'transform', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'offset', 'stop-color', 'stop-opacity', 'gradientunits', 'gradienttransform', 'spreadmethod', 'patternunits', 'patterncontentunits', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline', 'role', 'aria-label', 'aria-hidden']);
-		$allowedStyleProperties = array_intersect_key($allowedAttributes, array_flip(['fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'stop-color', 'stop-opacity', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline']));
+		$allowedElements = array_flip(['svg', 'g', 'defs', 'symbol', 'use', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'pattern', 'marker', 'title', 'desc', 'text', 'tspan']);
+		$allowedAttributes = array_flip(['id', 'class', 'xmlns', 'width', 'height', 'viewbox', 'preserveaspectratio', 'overflow', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'transform', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'offset', 'stop-color', 'stop-opacity', 'marker-start', 'marker-mid', 'marker-end', 'markerwidth', 'markerheight', 'markerunits', 'refx', 'refy', 'orient', 'gradientunits', 'gradienttransform', 'spreadmethod', 'patternunits', 'patterncontentunits', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline', 'role', 'aria-label', 'aria-hidden']);
+		$allowedStyleProperties = array_intersect_key($allowedAttributes, array_flip(['fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'marker-start', 'marker-mid', 'marker-end', 'stop-color', 'stop-opacity', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline']));
 		$referenceElements = array_flip(['use', 'lineargradient', 'radialgradient', 'pattern']);
 		$nodes = [];
 		foreach($document->getElementsByTagName('*') as $node) {
@@ -213,7 +213,7 @@ class discuz_upload {
 					}
 					continue;
 				}
-				if(!isset($allowedAttributes[$name]) || (str_contains(strtolower($value), 'url(') && !preg_match('/^url\\(\\s*#[a-z][\\w.-]*\\s*\\)$/i', $value))) {
+				if(!isset($allowedAttributes[$name]) || (str_contains(strtolower($value), 'url(') && !self::is_safe_svg_presentation_value($value))) {
 					$node->removeAttributeNode($attribute);
 				}
 			}
