@@ -182,10 +182,13 @@ function removedir($dirname, $keepdir = FALSE) {
 		return FALSE;
 	}
 	$handle = opendir($dirname);
+	if($handle === false) {
+		return FALSE;
+	}
 	while(($file = readdir($handle)) !== FALSE) {
 		if($file != '.' && $file != '..') {
 			$dir = $dirname.DIRECTORY_SEPARATOR.$file;
-			is_dir($dir) ? removedir($dir) : unlink($dir);
+			is_dir($dir) && !is_link($dir) ? removedir($dir) : unlink($dir);
 		}
 	}
 	closedir($handle);

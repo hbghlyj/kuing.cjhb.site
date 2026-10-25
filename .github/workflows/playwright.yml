@@ -122,6 +122,7 @@ jobs:
           php .github/scripts/test_username_availability.php
           php .github/scripts/test_svg_markers.php
           php .github/scripts/test_sitemap_atomic.php
+          php .github/scripts/test_system_error_regressions.php
           php .github/scripts/test_session_visibility.php
           node .github/scripts/test_forum.js &
           P1=$!

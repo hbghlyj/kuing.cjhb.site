@@ -57,6 +57,7 @@ foreach([
     'template/default/touch/forum/viewthread.htm',
     'template/discuzx5/forum/viewthread.php',
     'template/discuz_blog/forum/viewthread.php',
+    'template/discuz_blog/forum/forumdisplay_list_box.php',
 ] as $file) {
     $compiler = new DraftTemplateCompiler();
     $compiled = $compiler->parse_template($file, 1, '', 'retired_drafts');

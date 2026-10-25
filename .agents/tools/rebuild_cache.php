@@ -37,6 +37,11 @@ if(DZ_BUILD_HOST === '' || DZ_BUILD_HOST === 'localhost' || DZ_BUILD_HOST === '1
 $root = dirname(__DIR__, 2);
 chdir($root);
 
+if(DZ_BUILD_CACHE && (!preg_match('/^[a-z0-9_]+$/D', DZ_BUILD_CACHE) || !is_file($root.'/source/function/cache/cache_'.DZ_BUILD_CACHE.'.php'))) {
+	fwrite(STDERR, "Unknown cache builder: ".DZ_BUILD_CACHE."\n");
+	exit(1);
+}
+
 $_SERVER['HTTP_HOST'] = DZ_BUILD_HOST;
 $_SERVER['SERVER_NAME'] = DZ_BUILD_HOST;
 $_SERVER['SERVER_PORT'] = DZ_BUILD_SCHEME === 'https' ? '443' : '80';

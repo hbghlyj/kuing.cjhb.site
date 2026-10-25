@@ -13,11 +13,10 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('function/post');
 loadcache('groupreadaccess');
 $attachlist = getattach($_GET['pid'], intval($_GET['posttime']), $_GET['aids']);
-$attachlist = $attachlist['attachs']['unused'];
+$attachlist = $attachlist['attachs']['unused'] ?? [];
 $_G['group']['maxprice'] = isset($_G['setting']['extcredits'][$_G['setting']['creditstrans']]) ? $_G['group']['maxprice'] : 0;
 
 include template('common/header_ajax');
 include template('forum/ajax_attachlist');
 include template('common/footer_ajax');
 dexit();
-	
