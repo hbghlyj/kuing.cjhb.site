@@ -376,7 +376,9 @@ function fonttag(fontoptions, text) {
 	}
 
 	var pend = parsestyle(fontoptions, prepend, append);
-	return pend['prepend'] + recursion('font', text, 'fonttag') + pend['append'];
+	text = recursion('font', text, 'fonttag');
+	text = recursion('span', text, 'fonttag');
+	return pend['prepend'] + text + pend['append'];
 }
 
 function getoptionvalue(option, text) {

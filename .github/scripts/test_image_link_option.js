@@ -10,6 +10,20 @@ const { chromium } = require('playwright');
         await page.evaluate(() => Object.assign(window, { EXTRAFUNC: {}, allowhtml: false, allowbbcode: true, allowimgcode: true, allowsmilies: false, STATICURL: '/static/' }));
         await page.addScriptTag({ path: path.resolve('static/js/common.js') });
         await page.addScriptTag({ path: path.resolve('static/js/bbcode.js') });
+        const nestedFormatting = await page.evaluate(() => [
+            html2bbcode('<span style="font-size:x-large">1. Statement</span>'),
+            html2bbcode('<span style="color: #222222"><span style="font-size:x-large">1. Statement</span></span>'),
+            html2bbcode('<span style="font-size:x-large"><span style="color:#222222">1. Statement</span></span>'),
+            html2bbcode('<font color="#222222"><span style="font-size:x-large">1. Statement</span></font>'),
+            html2bbcode('<span style="color:#222222">Before <span style="font-size:x-large">Large</span> after</span>')
+        ]);
+        assert.deepEqual(nestedFormatting, [
+            '[size=5]1. Statement[/size]',
+            '[color=#222222][size=5]1. Statement[/size][/color]',
+            '[size=5][color=#222222]1. Statement[/color][/size]',
+            '[color=#222222][size=5]1. Statement[/size][/color]',
+            '[color=#222222]Before [size=5]Large[/size] after[/color]'
+        ]);
         const result = await page.evaluate(() => {
             const url = 'https://example.com/photo.png';
             const control = document.getElementById('imgurloff');
