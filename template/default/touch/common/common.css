@@ -113,7 +113,6 @@ input:focus, textarea:focus, select:focus {transition:border-color 0.2s ease, bo
 .ann-box .mtit, .hotbox h2 span {transition:transform 0.15s ease}
 .ann-box .mtit:active, .hotbox h2 span:active {transform:scale(0.95)}
 .dz-swiper_box, .hotbox, .stat, .ann-box, .forumlist .subforumshow {animation:dz-slide-down 0.3s ease-out}
-* {overflow-wrap:break-word}
 ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:0;border:0;z-index:inherit}
 img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
