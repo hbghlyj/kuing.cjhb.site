@@ -663,15 +663,6 @@ body.discuzx5 .portal_container .timeline_entry_list_container {
 
 
 /* Forum index and category pages. */
-body.discuzx5 #chart {
-    margin: 26px 0 22px;
-    padding: 18px 22px;
-    border: 1px solid var(--sg-line);
-    border-radius: 9px;
-    background: rgba(255, 253, 248, .72) !important;
-    box-shadow: var(--sg-shadow);
-}
-
 body.discuzx5 .fl.bm,
 body.discuzx5 .fl .bmw,
 body.discuzx5 .boardnav .bml{
