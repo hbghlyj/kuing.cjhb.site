@@ -110,10 +110,12 @@
 					<td data-index-tab="images" hidden>
 						<!--{if count($grids['slide']) > 1}-->
 						<div class="index-image-controls">
+							<button type="button" class="index-image-arrow prev" aria-label="{lang index_image_previous}" aria-controls="index-image-strip">&#9664;</button>
+							<button type="button" class="index-image-arrow next" aria-label="{lang index_image_next}" aria-controls="index-image-strip">&#9654;</button>
 							<!--{eval $imageNumber = 0;}-->
 							<!--{loop $grids['slide'] $imageSlide}-->
 								<!--{eval $imageNumber++;}-->
-								<button type="button" data-image-number aria-controls="index-image-strip"<!--{if $imageNumber == 1}--> aria-current="true"<!--{/if}-->>$imageNumber</button>
+								<button type="button" data-image-number aria-label="{lang latest_images}: $imageNumber" aria-controls="index-image-strip"<!--{if $imageNumber == 1}--> aria-current="true"<!--{/if}-->></button>
 							<!--{/loop}-->
 						</div>
 						<span class="index-image-progress" aria-hidden="true" hidden></span>
@@ -467,6 +469,8 @@
 			}
 			if(controls) {
 				var imageButtons = controls.querySelectorAll('[data-image-number]');
+				controls.querySelector('.prev').onclick = function() { stepImage(-1); };
+				controls.querySelector('.next').onclick = function() { stepImage(1); };
 				imageButtons.forEach(function(button, index) {
 					button.onclick = function() { goToImage(index); };
 				});

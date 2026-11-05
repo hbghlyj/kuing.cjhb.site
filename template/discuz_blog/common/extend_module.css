@@ -8,9 +8,15 @@
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid td[data-index-tab="images"] {position:relative;--index-image-height:clamp(150px,28vw,260px)}
 .index-image-progress {position:absolute;z-index:2;top:calc(12px + var(--index-image-height));left:12px;right:12px;height:3px;background:var(--dz-ahover);transform-origin:left;pointer-events:none}
-.index-image-controls {position:absolute;z-index:1;inset:18px 18px auto auto;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:3px;max-width:calc(100% - 36px)}
-.index-image-controls button {min-width:24px;min-height:24px;padding:0 3px;border:1px solid var(--dz-borderb);border-radius:3px;background:color-mix(in srgb,var(--dz-bgf) 88%,transparent);color:var(--dz-fc);font-family:inherit;font-size:11px;font-weight:600;line-height:1;cursor:pointer}
-.index-image-controls button:hover,.index-image-controls button[aria-current="true"] {background:var(--dz-bgf);color:var(--dz-ahover);border-color:currentColor}
+.index-image-controls {position:absolute;z-index:3;top:calc(var(--index-image-height) - 20px);left:12px;right:12px;display:flex;justify-content:center;pointer-events:none}
+.index-image-controls button {border:0;background:none;color:var(--dz-fc);cursor:pointer;pointer-events:auto}
+.index-image-controls [data-image-number] {display:grid;place-items:center;width:24px;height:24px;padding:0}
+.index-image-controls [data-image-number]::before {content:"";width:8px;height:8px;border:1px solid currentColor;border-radius:50%;background:var(--dz-bgf)}
+.index-image-controls [aria-current="true"]::before {background:currentColor}
+.index-image-controls .index-image-arrow {position:absolute;top:calc(18px - var(--index-image-height) / 2);width:32px;height:32px;border-radius:50%;background:var(--dz-bgf)}
+.index-image-arrow.prev {left:6px}
+.index-image-arrow.next {right:6px}
+.index-image-controls button:hover {color:var(--dz-ahover)}
 .index-image-controls button:focus-visible {outline:2px solid currentColor;outline-offset:2px}
 .index-image-strip {position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:12px;padding:12px}
 .index-image-strip li {flex:0 0 100%;min-width:0;scroll-snap-align:start;overflow-wrap:anywhere}
