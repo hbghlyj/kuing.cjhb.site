@@ -799,7 +799,7 @@ a#post_reply, a#post_replytmp {padding-left:32px;padding-right:16px;background-i
 .forumportal_listc li.kmlist_hf {padding-bottom:20px}
 .forumportal_listc li .km_moderate {float:right}
 .forumportal_listb li .kmimg_onebox {min-width:400px;max-width:500px;margin:5px 0 10px 50px;font-size:0;overflow:hidden;position:relative}
-.forumportal_listc .kmmeta .kmimg img {width:20px;height:20px;overflow:hidden;object-fit:cover;transition:all .4s;z-index:50;vertical-align:text-bottom}
+.forumportal_listc .kmmeta .kmimg img {width:20px;height:20px;overflow:hidden;object-fit:cover;transition:all .4s;z-index:50}
 .forumportal_listc .kmmeta .kmimg:hover img {transform:scale(1.1)}
 .forumportal_listc .kmtype em {float:left;margin-right:5px;font-size:14px}
 .forumportal_listc .kmtit span.kmico {float:left;margin-top:2px;margin-right:8px;padding:0 4px;height:18px;line-height:18px;font-size:12px;overflow:hidden;background-image:linear-gradient(100deg,#13adff,#006eff);color:var(--dz-ff);border-radius:var(--dz-radius-x)}
