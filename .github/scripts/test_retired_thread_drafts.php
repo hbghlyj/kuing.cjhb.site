@@ -52,6 +52,7 @@ foreach([
     'template/default/forum/post_infloat.htm',
     'template/default/forum/post_editor_attribute.htm',
     'template/default/forum/viewthread.htm',
+    'template/default/forum/discuzcode.htm',
     'template/default/touch/forum/post.htm',
     'template/default/touch/forum/post_editor_attribute.htm',
     'template/default/touch/forum/viewthread.htm',

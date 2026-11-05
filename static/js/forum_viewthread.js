@@ -815,7 +815,7 @@ function initPostZoomAndWheel(root) {
 	root = root || document;
 	const targets = root.querySelectorAll ? root.querySelectorAll('.t_fsz img.zoom,tikz img,asy img') : [];
 	targets.forEach(item => {
-		if(item.dataset.zoomWheelReady) return;
+		if(item.dataset.zoomWheelReady || item.closest('.attachment-lightbox-trigger')) return;
 		item.dataset.zoomWheelReady = '1';
 		const tikzCode = item.getAttribute('data-tikz-code');
 		if(tikzCode !== null) {
