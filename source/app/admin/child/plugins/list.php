@@ -11,6 +11,8 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 
+require_once libfile('function/cloudaddons');
+
 if(!submitcheck('submit')) {
 
 	$recommendaddon = dunserialize($_G['setting']['cloudaddons_recommendaddon']);
@@ -66,9 +68,10 @@ if(!submitcheck('submit')) {
 		if(is_array($checkresult) && isset($checkresult[$addonid])) {
 			list(, $newver, $sysver) = explode(':', $checkresult[$addonid]);
 		}
-		if(!empty($sysver) && $sysver > $plugin['version']) {
+		$noticeversion = !empty($sysver) && $sysver > $plugin['version'] ? $sysver : $newver;
+		if(!empty($sysver) && $noticeversion === $sysver && !cloudaddons_skip_upgrade_notice($addonid, $noticeversion)) {
 			$updateinfo = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$addonid.'&from=newver" title="'.$lang['plugins_online_update'].'" target="_blank"><font color="red">'.$lang['plugins_find_newversion'].'<span class="w1000hide w1300hide"> '.$sysver.'</span></font></a>';
-		} elseif(!empty($newver)) {
+		} elseif(!empty($newver) && !cloudaddons_skip_upgrade_notice($addonid, $noticeversion)) {
 			$updateinfo = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$addonid.'&from=newver" title="'.$lang['plugins_online_update'].'" target="_blank"><font color="red">'.$lang['plugins_find_newversion'].'<span class="w1000hide w1300hide"> '.$newver.'</span></font></a>';
 		}
 		$hookexists = FALSE;
@@ -259,4 +262,3 @@ if(!submitcheck('submit')) {
 	cpmsg('plugins_edit_succeed', 'action=plugins', 'succeed');
 
 }
-	

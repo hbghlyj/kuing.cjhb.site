@@ -33,9 +33,9 @@ class optimizer_plugin {
 		$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
 		savecache('addoncheck_plugin', $checkresult);
 		$newversion = 0;
-		foreach($checkresult as $value) {
-			list(, $newver) = explode(':', $value);
-			if($newver) {
+		foreach($checkresult as $addonid => $value) {
+			[, $newver, $sysver] = array_pad(explode(':', $value), 3, '');
+			if($newver && !cloudaddons_skip_upgrade_notice($addonid, $sysver ?: $newver)) {
 				$newversion++;
 			}
 		}
