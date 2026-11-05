@@ -562,7 +562,7 @@
 		<!--{if empty($gid)}-->
 		<div id="online" class="bm oll forum-index-stats">
 		<div id="chart" class="bm_c cl">
-			<!--{if $_G['group']['allowstatdata']}--><div class="forum-stats-heading"><a href="misc.php?mod=stat" title="{lang stats}" class="xi2">{lang stats}</a></div><!--{/if}-->
+			<!--{if $_G['group']['allowstatdata']}--><div class="forum-stats-heading chart"><a href="misc.php?mod=stat" title="{lang stats}" class="xi2">{lang stats}</a></div><!--{/if}-->
 			<!--{template forum/index_stats_table}-->
 			<div class="forum-stats-links">
 				<!--{hook/index_nav_extra}-->
