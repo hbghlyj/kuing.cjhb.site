@@ -116,6 +116,7 @@
 								<button type="button" data-image-number aria-controls="index-image-strip"<!--{if $imageNumber == 1}--> aria-current="true"<!--{/if}-->>$imageNumber</button>
 							<!--{/loop}-->
 						</div>
+						<span class="index-image-progress" aria-hidden="true" hidden></span>
 						<!--{/if}-->
 						<ul id="index-image-strip" class="index-image-strip">
 							<!--{loop $grids['slide'] $stid $svalue}-->
@@ -436,12 +437,19 @@
 			var cells = grid.querySelectorAll('[data-index-tab]');
 			var strip = grid.querySelector('.index-image-strip');
 			var controls = grid.querySelector('.index-image-controls');
+			var imageProgress = grid.querySelector('.index-image-progress');
 			var imageTimer;
+			var imageAnimation;
+			var imageInterval = 8000;
 			var autoplay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			function scheduleImages() {
 				clearTimeout(imageTimer);
+				if(imageAnimation) imageAnimation.cancel();
+				if(imageProgress) imageProgress.hidden = true;
 				if(controls && autoplay && !document.hidden && !grid.hidden && !strip.closest('td').hidden) {
-					imageTimer = setTimeout(function() { stepImage(1); }, 8000);
+					imageProgress.hidden = false;
+					imageAnimation = imageProgress.animate([{transform: 'scaleX(0)'}, {transform: 'scaleX(1)'}], {duration: imageInterval, fill: 'forwards'});
+					imageTimer = setTimeout(function() { stepImage(1); }, imageInterval);
 				}
 			}
 			function currentImage() {
@@ -460,10 +468,7 @@
 			if(controls) {
 				var imageButtons = controls.querySelectorAll('[data-image-number]');
 				imageButtons.forEach(function(button, index) {
-					button.onclick = function() {
-						autoplay = false;
-						goToImage(index);
-					};
+					button.onclick = function() { goToImage(index); };
 				});
 				strip.addEventListener('scroll', function() {
 					var active = currentImage();
