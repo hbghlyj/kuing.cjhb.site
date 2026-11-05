@@ -441,7 +441,7 @@
 			function scheduleImages() {
 				clearTimeout(imageTimer);
 				if(controls && autoplay && !document.hidden && !grid.hidden && !strip.closest('td').hidden) {
-					imageTimer = setTimeout(function() { stepImage(1); }, 12000);
+					imageTimer = setTimeout(function() { stepImage(1); }, 8000);
 				}
 			}
 			function currentImage() {
