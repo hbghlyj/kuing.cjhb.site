@@ -65,7 +65,14 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 /** forum::index **/
 #pt .y { height: 29px; overflow: hidden; }
 #chart { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 5px; }
-.forum-index-stats #chart .chart { float: none; }
+.forum-index-tags .bm_h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.forum-index-tags ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
+.forum-index-tags li a { display: block; padding: 3px 10px; border: 1px solid {COMMONBORDER}; border-radius: 1em; overflow-wrap: anywhere; }
+.forum-stats-scroll { flex: 1 1 100%; min-width: 0; overflow-x: auto; }
+.forum-stats-table { width: 100%; }
+.forum-stats-table th, .forum-stats-table td { padding: 4px 12px; text-align: center; white-space: nowrap; }
+.forum-stats-table th { color: {LIGHTTEXT}; }
+.forum-stats-table td { font-weight: 600; font-variant-numeric: tabular-nums; }
 	.chart { color: {LIGHTTEXT}; }
 		.chart:before { font-family: dzicon; content: "\f104"; display: inline-block; height: 16px; line-height: 16px; font-size: 18px; color: #4284CE; margin-right: 4px; }
 		.chart em { color: {TABLETEXT}; }

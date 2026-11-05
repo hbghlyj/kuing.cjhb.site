@@ -54,6 +54,8 @@ foreach([
     'template/default/forum/viewthread.htm',
     'template/default/forum/discuzcode.htm',
     'template/default/forum/discuz.htm',
+    'template/default/forum/index_stats_table.htm',
+    'template/default/forum/index_tags.htm',
     'template/discuzx5/forum/discuz.php',
     'template/discuz_blog/forum/discuz.php',
     'template/default/touch/forum/post.htm',

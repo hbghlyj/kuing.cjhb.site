@@ -494,7 +494,7 @@
 		<!--{if empty($gid)}-->
 			<div id="online" class="bm bmw forum-index-stats">
 		<div id="chart" class="bm_c cl">
-			<p class="chart">{lang index_today}: <em><a href="search.php?mod=forum&srchfrom={echo strtotime('today')}&searchsubmit=yes">$todayposts</a></em><span class="pipe">|</span>{lang index_yesterday}: <em><a href="search.php?mod=forum&srchfrom={echo strtotime('yesterday')}&before={echo strtotime('today')}&searchsubmit=yes">$postdata[0]</a></em><span class="pipe">|</span>{lang index_posts}: <em>$posts</em><span class="pipe">|</span>{lang index_members}: <em>$_G['cache']['userstats']['totalmembers']</em><!--{if $_G['cache']['userstats']['newsetuser']}--><span class="pipe">|</span>{lang welcome_new_members}: <em><a href="home.php?mod=space&username={echo rawurlencode($_G['cache']['userstats']['newsetuser'])}" target="_blank" class="xi2">$_G['cache']['userstats']['newsetuser']</a></em><!--{/if}--></p>
+			<!--{template forum/index_stats_table}-->
 			<div class="forum-stats-links">
 				<!--{hook/index_nav_extra}-->
 				<!--{if empty($_G['setting']['grid']['showgrid']) && $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="xi2">{lang my_posts}</a><!--{if $_G['group']['allowstatdata'] || !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><span class="pipe">|</span><!--{/if}--><!--{/if}-->
@@ -548,6 +548,7 @@
 			</div>
 		<!--{/if}-->
 
+		<!--{template forum/index_tags}-->
 		<!--{if empty($gid) && !empty($_G['cache']['forumlinks'])}-->
 		<div class="bm lk">
 			<div id="category_lk" class="bm_c ptm">
