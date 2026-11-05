@@ -439,6 +439,7 @@ function html2bbcode(str) {
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		var postbg = '';
+		str = str.replace(/(<table\b[^>]*>)\s*<caption\b[^>]*>([\s\S]*?)<\/caption\s*>/ig, '$2<br><br>$1');
 		str = str.replace(/<style[^>]+name="editorpostbg"[^>]*>body{background-image:url\("([^\[\<\r\n;'\"\?\(\)]+?)"\);}<\/style>/ig, function($1, $4) {
 			$4 = $4.replace(STATICURL+'image/postbg/', '');
 			return '[postbg]'+$4+'[/postbg]';
