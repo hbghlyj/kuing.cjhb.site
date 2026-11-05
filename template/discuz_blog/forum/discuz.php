@@ -95,38 +95,50 @@
 								</div>
 							</div>
 							<!--{/if}-->
-				        <ul class="bm_c category_newlist">
+				        <table class="category_newlist"><tbody>
 				        	<!--{loop $grids['newthread'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}: $thread[views] &middot; {lang reply}: $thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<tr>
+									<th scope="row"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
+									<td class="by">$thread[author]<br>$thread[dateline]</td>
+									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
+								</tr>
 								<!--{/loop}-->
-					         </ul>
+					         </tbody></table>
 				         </div>
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="top">
 						<div class="bm">
-				        <ul class="bm_c category_newlist">
+				        <table class="category_newlist"><tbody>
 					        	<!--{loop $grids['newreply'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']}tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}: $thread[views] &middot; {lang reply}: $thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<tr>
+									<th scope="row"><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
+									<td class="by">$thread[author]<br>$thread[dateline]</td>
+									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
+								</tr>
 								<!--{/loop}-->
-					         </ul>
+					         </tbody></table>
 				         </div>
 					</td>
 					<td valign="top" class="category_l3" data-index-tab="hot">
 						<div class="bm">
-				        <ul class="bm_c category_newlist">
+				        <table class="category_newlist"><tbody>
 					        	<!--{loop $grids['hot'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 								<!--{/if}-->
-								<li n="$thread[addviews]"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['showtips']} tip="{lang title}: <strong>$thread[subject]</strong><br>{lang author}: $thread[author] ($thread[dateline])<br>{lang show}: $thread[views] &middot; {lang reply}: $thread[replies]" onmouseover="showTip(this)"{else} title="$thread[subject]"{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></li>
+								<tr>
+									<th scope="row"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
+									<td class="by">$thread[author]<br>$thread[dateline]</td>
+									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
+								</tr>
 								<!--{/loop}-->
-					         </ul>
+					         </tbody></table>
 				         </div>
 					</td>
 					</table>

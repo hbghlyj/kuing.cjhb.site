@@ -13,8 +13,6 @@
 .slidebox_grid {margin:0;border-color:var(--dz-borderb);overflow:hidden;position:relative}
 .slidebox_grid .slideimage img {max-width:100%;height:auto}
 .slidebox_grid div[id^="switch_"] {left:auto;right:1px;margin-left:0}
-.category_newlist {padding:10px 15px}
-.category_newlist li {line-height:26px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flg .bm_h {margin:0 15px 15px}
 .flg .bm_c {padding:0 15px 15px}
 .fl_tb td.fl_g {padding:15px;border-radius:var(--dz-radius-l)}
