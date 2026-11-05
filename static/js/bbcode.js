@@ -413,9 +413,27 @@ function html2bbcode(str) {
 		str = str.replace(/<\/div>((<br[^>]*>){1,})<div>/ig, '$1');
 	}
 
-	str = str.replace(/<div\sclass=["']?blockcode["']?>[\s\S]*?<pre[^>]*>([\s\S]+?)<\/pre>[\s\S]*?<\/div>/ig, function($1, $2) {
-		return codetag($2.replace(codespanRe, function($0, $1, $2) {return $2;}));
-	});
+	var preBlocks = [];
+	var preMarker = 'DISCUZPREBLOCK';
+	while(str.includes(preMarker)) {
+		preMarker += '_';
+	}
+	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
+		function readCodeText(content) {
+			var template = document.createElement('template');
+			template.innerHTML = content;
+			template.content.querySelectorAll('br').forEach(function(br) { br.replaceWith('\n'); });
+			return template.content.textContent;
+		}
+		str = str.replace(/<div\sclass=["']?blockcode["']?>\s*(<pre\b[^>]*>[\s\S]*?<\/pre>)\s*<\/div>/ig, '$1');
+		str = str.replace(/<pre\b[^>]*>([\s\S]*?)<\/pre>/ig, function(_, content) {
+			return preMarker + (preBlocks.push(readCodeText(content)) - 1) + 'END';
+		});
+		str = str.replace(/<code\b[^>]*>([\s\S]*?)<\/code>/ig, function(original, content) {
+			var code = readCodeText(content);
+			return /[\r\n]/.test(code.trimEnd()) ? preMarker + (preBlocks.push(code) - 1) + 'END' : original;
+		});
+	}
 
 	str = str.replace(codespanRe, function($0, $1, $2) {return codetag($2);});
 
@@ -510,7 +528,6 @@ function html2bbcode(str) {
 		str = str.replace(/<img[^>]+smilieid=(["']?)(\d+)(\1)[^>]*>/ig, function($1, $2, $3) {return smileycode($3);});
 		str = str.replace(/<img([^>]*src[^>]*)>/ig, function($1, $2) {return imgtag($2);});
 		str = str.replace(/<div[^>]*quote[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[quote]$1[/quote]");
-		str = str.replace(/<div[^>]*blockcode[^>]*><pre[^>]*>([\s\S]*?)<\/pre><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
 		str = str.replace(/<code[^>]*>([\s\S]*?)<\/code>/ig, "`$1`");
 
 		str = recursion('b', str, 'simpletag', 'b');
@@ -536,7 +553,10 @@ function html2bbcode(str) {
 	str = clearcode(str);
 	str = mergeAdjacentBbcodeOptionTags(str, 'size');
 
-	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str).trim();
+	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str).trim()
+		.replace(new RegExp(preMarker + '(\\d+)END', 'g'), function(_, index) {
+			return '[code]' + preBlocks[index] + '[/code]';
+		});
 }
 
 function mergeAdjacentBbcodeOptionTags(str, tagname) {

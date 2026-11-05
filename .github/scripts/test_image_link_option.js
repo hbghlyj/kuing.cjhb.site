@@ -10,6 +10,25 @@ const { chromium } = require('playwright');
         await page.evaluate(() => Object.assign(window, { EXTRAFUNC: {}, allowhtml: false, allowbbcode: true, allowimgcode: true, allowsmilies: false, STATICURL: '/static/' }));
         await page.addScriptTag({ path: path.resolve('static/js/common.js') });
         await page.addScriptTag({ path: path.resolve('static/js/bbcode.js') });
+        const codePaste = await page.evaluate(() => {
+            const html = '<pre><code class="language-js"><span>  if (x &lt; 2)</span> {&#10;\t$x = &quot;&amp;lt;&quot;;<br>  }</code></pre>';
+            const bbcode = html2bbcode(html);
+            return [
+                bbcode,
+                html2bbcode(bbcode2html(bbcode)),
+                html2bbcode('<pre>  first\n  second</pre>'),
+                html2bbcode('<div class="blockcode"><pre>editor block</pre></div>'),
+                html2bbcode('<code>inline</code>'),
+                html2bbcode('<code><span>first</span><br>  second &lt; 3</code>'),
+                html2bbcode('<code>first&#10;second</code>'),
+                html2bbcode('<code>inline&#10;</code>').startsWith('\x60')
+            ];
+        });
+        const block = '[code]  if (x < 2) {\n\t$x = "&lt;";\n  }[/code]';
+        assert.deepEqual(codePaste, [
+            block, block, '[code]  first\n  second[/code]', '[code]editor block[/code]', '\x60inline\x60',
+            '[code]first\n  second < 3[/code]', '[code]first\nsecond[/code]', true
+        ]);
         const nestedFormatting = await page.evaluate(() => [
             html2bbcode('<span style="font-size:x-large">1. Statement</span>'),
             html2bbcode('<span style="color: #222222"><span style="font-size:x-large">1. Statement</span></span>'),
