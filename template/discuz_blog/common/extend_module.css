@@ -7,6 +7,7 @@
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid td[data-index-tab="images"] {position:relative;--index-image-height:clamp(150px,28vw,260px)}
+.forum-stats-heading {flex:1 0 100%;font-weight:600}
 .index-image-progress {position:absolute;z-index:2;top:calc(12px + var(--index-image-height));left:12px;right:12px;height:2px;background:var(--dz-ahover);opacity:.55;transform-origin:left;pointer-events:none}
 .index-image-controls {position:absolute;z-index:3;top:calc(var(--index-image-height) - 20px);left:12px;right:12px;display:flex;pointer-events:none}
 .index-image-controls button {border:0;background:none;color:var(--dz-fc);cursor:pointer;pointer-events:auto}

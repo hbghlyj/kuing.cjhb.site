@@ -562,11 +562,12 @@
 		<!--{if empty($gid)}-->
 		<div id="online" class="bm oll forum-index-stats">
 		<div id="chart" class="bm_c cl">
+			<!--{if $_G['group']['allowstatdata']}--><div class="forum-stats-heading"><a href="misc.php?mod=stat" title="{lang stats}" class="xi2">{lang stats}</a></div><!--{/if}-->
 			<!--{template forum/index_stats_table}-->
 			<div class="forum-stats-links">
 				<!--{hook/index_nav_extra}-->
-				<!--{if empty($_G['setting']['grid']['showgrid']) && $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="xi2">{lang my_posts}</a><!--{if $_G['group']['allowstatdata'] || !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><span class="pipe">|</span><!--{/if}--><!--{/if}-->
-				<!--{if $_G['group']['allowstatdata']}--><a href="misc.php?mod=stat" title="{lang stats}" class="xi2">{lang stats}</a><!--{/if}--><!--{if !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><!--{if $_G['group']['allowstatdata']}--><span class="pipe">|</span><!--{/if}--><a href="forum.php?mod=guide&view=new" title="{lang show_newthreads}" class="xi2">{lang show_newthreads}</a><!--{/if}-->
+				<!--{if empty($_G['setting']['grid']['showgrid']) && $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="xi2">{lang my_posts}</a><!--{/if}-->
+				<!--{if !empty($_G['setting']['search']['forum']['status'] && $_G['setting']['guidestatus'])}--><!--{if empty($_G['setting']['grid']['showgrid']) && $_G['uid'] && $_G['setting']['forumstatus']}--><span class="pipe">|</span><!--{/if}--><a href="forum.php?mod=guide&view=new" title="{lang show_newthreads}" class="xi2">{lang show_newthreads}</a><!--{/if}-->
 			</div>
 		</div>
 			<!--{if $_G['setting']['whosonlinestatus']}-->
