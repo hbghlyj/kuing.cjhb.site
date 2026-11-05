@@ -6,7 +6,7 @@
 		<div class="thread-editlog-item">
 			<!--{if $editlog[pid]}--><a class="thread-editlog-subject" href="forum.php?mod=redirect&goto=findpost&ptid=$editlog[tid]&pid=$editlog[pid]"><b>$editlog[title]</b></a><!--{else}--><b class="thread-editlog-subject">$editlog[title]</b><!--{/if}-->
 			<div class="thread-editlog-meta"><strong>$editlog[action_label]</strong><span class="xg1">$editlog[displaytime]</span></div>
-			<div class="thread-editlog-previous"><strong>{lang post_revision_content}:</strong><em>$editlog[old_message]</em></div>
+			<div class="thread-editlog-previous"><strong>{lang post_revision_content}:</strong><em>$editlog[old_message_preview]</em></div>
 			<a class="dialog thread-editlog-compare" href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]">{lang post_revision_compare}</a>
 		</div>
 	<!--{/loop}-->

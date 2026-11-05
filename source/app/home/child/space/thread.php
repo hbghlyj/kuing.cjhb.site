@@ -79,6 +79,7 @@ if($_GET['view'] == 'me') {
 				$editlog['action_label'] = lang('template', $editlog['action'] == 'delete' ? 'delete' : 'edit');
 				$editlog['displaytime'] = dgmdate($editlog['dateline']);
 				$editlog['title'] = $editlog['old_subject'] ?: $editlog['thread_subject'];
+				$editlog['old_message_preview'] = cutstr($editlog['old_message'], 240);
 			}
 			unset($editlog);
 			$multi = multi(table_forum_editlog::t()->count_by_authorid($authorid), $perpage, $page, $theurl, $_G['setting']['maxpage']);
