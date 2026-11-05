@@ -115,7 +115,6 @@
 								<!--{eval $imageNumber++;}-->
 								<button type="button" data-image-number aria-controls="index-image-strip"<!--{if $imageNumber == 1}--> aria-current="true"<!--{/if}-->>$imageNumber</button>
 							<!--{/loop}-->
-							<button type="button" data-image-autoplay aria-pressed="false">{lang index_image_autoplay}</button>
 						</div>
 						<!--{/if}-->
 						<ul id="index-image-strip" class="index-image-strip">
@@ -460,16 +459,12 @@
 			}
 			if(controls) {
 				var imageButtons = controls.querySelectorAll('[data-image-number]');
-				var autoplayButton = controls.querySelector('[data-image-autoplay]');
-				autoplayButton.setAttribute('aria-pressed', String(autoplay));
 				imageButtons.forEach(function(button, index) {
-					button.onclick = function() { goToImage(index); };
+					button.onclick = function() {
+						autoplay = false;
+						goToImage(index);
+					};
 				});
-				autoplayButton.onclick = function() {
-					autoplay = !autoplay;
-					this.setAttribute('aria-pressed', String(autoplay));
-					scheduleImages();
-				};
 				strip.addEventListener('scroll', function() {
 					var active = currentImage();
 					imageButtons.forEach(function(button, index) {

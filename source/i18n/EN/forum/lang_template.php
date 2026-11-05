@@ -1220,7 +1220,6 @@ $lang = [
 	'replystick_icon' => 'Stick',
 	'search_forum' => 'Search Forum',
 	'latest_images' => 'Latest Images',
-	'index_image_autoplay' => 'Autoplay',
 	'hot_thread' => 'Hot Thread',
 	'my_order_collection' => 'My Subscribed Collections',
 	'recommend_collection' => 'Recommended Collections',
