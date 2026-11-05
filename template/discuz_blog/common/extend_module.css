@@ -7,7 +7,7 @@
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid td[data-index-tab="images"] {position:relative;--index-image-height:clamp(150px,28vw,260px)}
-.index-image-progress {position:absolute;z-index:1;top:calc(10px + var(--index-image-height));left:12px;right:12px;height:2px;background:var(--dz-ahover);opacity:.5;transform-origin:left;pointer-events:none}
+.index-image-progress {position:absolute;z-index:2;top:calc(12px + var(--index-image-height));left:12px;right:12px;height:3px;background:var(--dz-ahover);transform-origin:left;pointer-events:none}
 .index-image-controls {position:absolute;z-index:1;inset:18px 18px auto auto;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:3px;max-width:calc(100% - 36px)}
 .index-image-controls button {min-width:24px;min-height:24px;padding:0 3px;border:1px solid var(--dz-borderb);border-radius:3px;background:color-mix(in srgb,var(--dz-bgf) 88%,transparent);color:var(--dz-fc);font-family:inherit;font-size:11px;font-weight:600;line-height:1;cursor:pointer}
 .index-image-controls button:hover,.index-image-controls button[aria-current="true"] {background:var(--dz-bgf);color:var(--dz-ahover);border-color:currentColor}
