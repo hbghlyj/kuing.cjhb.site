@@ -613,7 +613,9 @@
 			</div>
 		<!--{/if}-->
 
-		<!--{template forum/index_tags}-->
+		<!--{if empty($_G['setting']['forumallowside'])}-->
+			<!--{template forum/index_tags}-->
+		<!--{/if}-->
 		<!--{if empty($gid) && !empty($_G['cache']['forumlinks'])}-->
 		<div class="bm lk">
 			<div id="category_lk" class="bm_c ptm">
@@ -640,6 +642,7 @@
 			<div class="drag">
 				<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
 			</div>
+			<!--{template forum/index_tags}-->
 			<!--{hook/index_side_bottom}-->
 		</div>
 	<!--{/if}-->
