@@ -7,7 +7,7 @@
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid td[data-index-tab="images"] {--index-image-height:clamp(150px,28vw,260px)}
-.index-image-controls {display:flex;justify-content:center;align-items:center;gap:12px;padding:0 12px 8px}
+.index-image-controls {display:flex;justify-content:center;align-items:center;gap:12px;padding-top:8px}
 .index-image-controls button {border:0;background:none;color:var(--dz-fc);cursor:pointer;pointer-events:auto}
 .index-image-controls .index-image-arrow {width:32px;height:32px;border-radius:50%;background:var(--dz-bgf)}
 .index-image-toggle {position:relative;width:32px;height:32px;padding:7px;border-radius:50%;background:var(--dz-bgf)!important}
