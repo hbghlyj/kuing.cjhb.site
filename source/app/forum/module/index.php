@@ -96,7 +96,7 @@ if($gid && !empty($catlist)) {
 }
 
 if(!$gid && !defined('IN_MOBILE')) {
-	$indexTags = DB::fetch_all('SELECT tagid, tagname FROM %t WHERE status=0 AND related_count>0 ORDER BY related_count DESC, tagid DESC LIMIT 12', ['common_tag']);
+	$indexTags = DB::fetch_all('SELECT tagid, tagname FROM %t WHERE status=0 ORDER BY tagid DESC LIMIT 12', ['common_tag']);
 }
 
 include template('diy:forum/discuz:'.$gid);
