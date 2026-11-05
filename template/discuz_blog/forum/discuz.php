@@ -108,6 +108,17 @@
 					</td>
 					<!--{if !empty($grids['slide'])}-->
 					<td data-index-tab="images" hidden>
+						<!--{if count($grids['slide']) > 1}-->
+						<div class="index-image-controls">
+							<button type="button" class="index-image-arrow prev" aria-label="{lang index_image_previous}" aria-controls="index-image-strip">&#9664;</button>
+							<button type="button" class="index-image-toggle" aria-controls="index-image-strip" aria-pressed="false">
+								<svg class="index-image-ring" viewBox="0 0 32 32" aria-hidden="true"><circle class="ring-track" cx="16" cy="16" r="14.5" pathLength="100"></circle><circle class="ring-arc" cx="16" cy="16" r="14.5" pathLength="100"></circle></svg>
+								<svg data-icon="pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"></rect><rect x="14" y="5" width="4" height="14" rx="1.2"></rect></svg>
+								<svg data-icon="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l8.4 6.5c.6.5.6 1.4 0 1.8L9.6 19.4c-.7.5-1.6 0-1.6-.9z"></path></svg>
+							</button>
+							<button type="button" class="index-image-arrow next" aria-label="{lang index_image_next}" aria-controls="index-image-strip">&#9654;</button>
+						</div>
+						<!--{/if}-->
 						<ul id="index-image-strip" class="index-image-strip">
 							<!--{loop $grids['slide'] $stid $svalue}-->
 								<!--{eval $imageThread = $grids['image'][$stid] ?? []; $imageTitle = dhtmlspecialchars(stripslashes($svalue['subject'])); $imageSrc = dhtmlspecialchars($svalue['image']); $imageForum = dhtmlspecialchars($_G['cache']['forums'][$imageThread['fid'] ?? 0]['name'] ?? '');}-->
@@ -123,17 +134,6 @@
 								</li>
 							<!--{/loop}-->
 						</ul>
-						<!--{if count($grids['slide']) > 1}-->
-						<div class="index-image-controls">
-							<button type="button" class="index-image-arrow prev" aria-label="{lang index_image_previous}" aria-controls="index-image-strip">&#9664;</button>
-							<button type="button" class="index-image-toggle" aria-controls="index-image-strip" aria-pressed="false">
-								<svg class="index-image-ring" viewBox="0 0 32 32" aria-hidden="true"><circle class="ring-track" cx="16" cy="16" r="14.5" pathLength="100"></circle><circle class="ring-arc" cx="16" cy="16" r="14.5" pathLength="100"></circle></svg>
-								<svg data-icon="pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"></rect><rect x="14" y="5" width="4" height="14" rx="1.2"></rect></svg>
-								<svg data-icon="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l8.4 6.5c.6.5.6 1.4 0 1.8L9.6 19.4c-.7.5-1.6 0-1.6-.9z"></path></svg>
-							</button>
-							<button type="button" class="index-image-arrow next" aria-label="{lang index_image_next}" aria-controls="index-image-strip">&#9654;</button>
-						</div>
-						<!--{/if}-->
 					</td>
 					<!--{/if}-->
 					</tr></table>
