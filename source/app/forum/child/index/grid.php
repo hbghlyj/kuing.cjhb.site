@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-loadcache('grids');
+loadcache(['grids', 'forums']);
 $cachelife = $_G['setting']['grid']['cachelife'] ? $_G['setting']['grid']['cachelife'] : 600;
 $now = dgmdate(TIMESTAMP, lang('forum/misc', 'y_m_d')).' '.lang('forum/misc', 'week_'.dgmdate(TIMESTAMP, 'w'));
 if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {

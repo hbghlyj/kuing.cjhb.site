@@ -104,9 +104,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.category_newlist th > a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 		.category_newlist .by, .category_newlist .num { width: 10em; font-size: .875em; color: {LIGHTTEXT}; }
 		.category_newlist .by { overflow-wrap: anywhere; }
+		.category_newlist .forum { width: 9em; overflow-wrap: anywhere; }
 		.category_newlist .num { text-align: end; }
 		@media (max-width: 600px) {
-			.category_newlist .by, .category_newlist .num { display: none; }
+			.category_newlist .by, .category_newlist .num, .category_newlist .forum { display: none; }
 		}
 /** end **/
 

@@ -102,6 +102,8 @@
 								<!--{/if}-->
 								<tr>
 									<th scope="row"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
+									<!--{eval $gridforumname = dhtmlspecialchars($_G['cache']['forums'][$thread['fid']]['name'] ?? '');}-->
+									<td class="forum"><!--{if $gridforumname !== ''}--><a href="forum.php?mod=forumdisplay&fid=$thread[fid]">$gridforumname</a><!--{/if}--></td>
 									<td class="by">$thread[author]<br>$thread[dateline]</td>
 									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
 								</tr>
@@ -118,7 +120,9 @@
 								<!--{/if}-->
 								<tr>
 									<th scope="row"><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
-									<td class="by">$thread[author]<br>$thread[dateline]</td>
+									<!--{eval $gridforumname = dhtmlspecialchars($_G['cache']['forums'][$thread['fid']]['name'] ?? '');}-->
+									<td class="forum"><!--{if $gridforumname !== ''}--><a href="forum.php?mod=forumdisplay&fid=$thread[fid]">$gridforumname</a><!--{/if}--></td>
+									<td class="by">$thread[lastposter]<br>$thread[lastpost]</td>
 									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
 								</tr>
 								<!--{/loop}-->
@@ -134,8 +138,10 @@
 								<!--{/if}-->
 								<tr>
 									<th scope="row"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a></th>
+									<!--{eval $gridforumname = dhtmlspecialchars($_G['cache']['forums'][$thread['fid']]['name'] ?? '');}-->
+									<td class="forum"><!--{if $gridforumname !== ''}--><a href="forum.php?mod=forumdisplay&fid=$thread[fid]">$gridforumname</a><!--{/if}--></td>
 									<td class="by">$thread[author]<br>$thread[dateline]</td>
-									<td class="num">{lang show}: $thread[views]<br>{lang reply}: $thread[replies]</td>
+									<td class="num">{lang show}: $thread[views] (+$thread[addviews])<br>{lang reply}: $thread[replies]</td>
 								</tr>
 								<!--{/loop}-->
 					         </tbody></table>
