@@ -73,8 +73,12 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .ct2_a:has(> .appl) {display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start}
 .ct2_a:has(> .appl) .appl {order:1;width:160px;margin-right:20px;margin-left:0 !important;flex-shrink:0}
 .ct2_a:has(> .appl) .mn {order:2;flex:1;min-width:0}
-.ct2 .sd {width:250px}
-.ct2 .mn {width:735px;margin-bottom:0}
+.forum-index-layout.ct2 {display:grid;grid-template-columns:minmax(0,1fr) clamp(250px,28%,340px);column-gap:20px;margin-right:0}
+.forum-index-layout.ct2:after {content:none}
+.forum-index-layout.ct2 > #diy_chart {grid-column:1/-1}
+.forum-index-layout.ct2 > .mn {float:none;width:auto;min-width:0;margin-bottom:0}
+.forum-index-layout.ct2 > .sd {float:none;width:auto;min-width:0;margin-right:0}
+.ct2 .mn {margin-bottom:0}
 .ct2 .sd .bm_c {padding:10px 20px;overflow:hidden}
 .ct3_a .sd {width:250px;margin-bottom:15px;background:var(--dz-bgf);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m)}
 .ct3_a .mn {width:570px;margin-left:15px;background:var(--dz-bgf);border:1px solid var(--dz-borderb);padding:20px 0 15px !important;border-radius:var(--dz-radius-m)}

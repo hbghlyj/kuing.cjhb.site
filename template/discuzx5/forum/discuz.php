@@ -35,7 +35,7 @@
 	</div>
 <!--{/if}-->
 
-<div id="ct" class="wp cl{if $_G['setting']['forumallowside']} ct2{/if}">
+<div id="ct" class="wp cl forum-index-layout{if $_G['setting']['forumallowside']} ct2{/if}">
 	<!--[diy=diy_chart]--><div id="diy_chart" class="area"></div><!--[/diy]-->
 	<div class="mn">
 
