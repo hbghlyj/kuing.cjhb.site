@@ -55,6 +55,7 @@
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
+			<!--{if !empty($grids['slide'])}--><button type="button" data-index-tab="images" role="tab" aria-selected="false">{lang latest_images}</button><!--{/if}-->
 			<button type="button" data-index-tab="boards" role="tab" aria-selected="true" class="a">{lang forumlist}</button>
 			<!--{if !empty($collectiondata['follows']) || !empty($forum_favlist)}--><button type="button" data-index-tab="myforums" role="tab" aria-selected="false">{lang my_forums}</button><!--{/if}-->
 		</div>
@@ -62,39 +63,7 @@
 			<div id="category_grid">
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
-						<div class="bm latest_panel">
-							<!--{if !$_G['setting']['grid']['gridtype']}-->
-							<div class="newimgbox">
-								<h4>{lang latest_images}</h4>
-								<!--{if $_G['setting']['forumallowside']}-->
-									<!--{eval $slide_width = 220;}-->
-								<!--{else}-->
-									<!--{eval $slide_width = 278;}-->
-								<!--{/if}-->
-								<div class="module cl slidebox_grid" style="width:{$slide_width}px">
-									<script type="text/javascript">
-									var slideSpeed = 5000;
-									var slideImgsize = [{$slide_width},200];
-									var slideBorderColor = '{$_G['style']['specialborder']}';
-									var slideBgColor = '{$_G['style']['commonbg']}';
-									var slideImgs = new Array();
-									var slideImgLinks = new Array();
-									var slideImgTexts = new Array();
-									var slideSwitchColor = '{$_G['style']['tabletext']}';
-									var slideSwitchbgColor = '{$_G['style']['commonbg']}';
-									var slideSwitchHiColor = '{$_G['style']['specialborder']}';
-									{eval $k = 1;}
-									<!--{loop $grids['slide'] $stid $svalue}-->
-										slideImgs[<!--{echo $k;}-->] = '$svalue[image]';
-										slideImgLinks[<!--{echo $k;}-->] = '{$svalue[url]}';
-										slideImgTexts[<!--{echo $k;}-->] = '$svalue[subject]';
-										{eval $k++;}
-									<!--{/loop}-->
-									</script>
-									<script language="javascript" type="text/javascript" src="{$_G[setting][jspath]}forum_slide.js?{VERHASH}"></script>
-								</div>
-							</div>
-							<!--{/if}-->
+						<div class="bm">
 				        <table class="category_newlist"><tbody>
 				        	<!--{loop $grids['newthread'] $thread}-->
 					        	<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
@@ -147,7 +116,26 @@
 					         </tbody></table>
 				         </div>
 					</td>
-					</table>
+					<!--{if !empty($grids['slide'])}-->
+					<td data-index-tab="images" hidden>
+						<ul class="index-image-strip">
+							<!--{loop $grids['slide'] $stid $svalue}-->
+								<!--{eval $imageThread = $grids['image'][$stid] ?? []; $imageTitle = dhtmlspecialchars(stripslashes($svalue['subject'])); $imageSrc = dhtmlspecialchars($svalue['image']); $imageForum = dhtmlspecialchars($_G['cache']['forums'][$imageThread['fid'] ?? 0]['name'] ?? '');}-->
+								<li>
+									<a href="$svalue[url]"><img src="$imageSrc" alt="" loading="lazy" decoding="async"><strong>$imageTitle</strong></a>
+									<!--{if $imageThread}-->
+										<div class="index-image-meta">
+											<!--{if $imageForum !== ''}--><a href="forum.php?mod=forumdisplay&fid=$imageThread[fid]">$imageForum</a><!--{/if}-->
+											<span>$imageThread[author] &middot; $imageThread[dateline]</span>
+											<span>{lang show}: $imageThread[views] &middot; {lang reply}: $imageThread[replies]</span>
+										</div>
+									<!--{/if}-->
+								</li>
+							<!--{/loop}-->
+						</ul>
+					</td>
+					<!--{/if}-->
+					</tr></table>
 			</div>
 		</div>
 		<!--{/if}-->
