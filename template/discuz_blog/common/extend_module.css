@@ -8,6 +8,7 @@
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 .index-image-controls {display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 12px 0}
 .index-image-controls button[aria-pressed="true"] {font-weight:bold}
+.index-image-controls button[aria-current="true"] {font-weight:bold;outline:2px solid currentColor;outline-offset:1px}
 .index-image-strip {position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:12px;padding:12px}
 .index-image-strip li {flex:0 0 100%;min-width:0;scroll-snap-align:start;overflow-wrap:anywhere}
 .index-image-strip img {display:block;width:100%;height:clamp(150px,28vw,260px);object-fit:contain;background:var(--dz-bgc);margin-bottom:6px}

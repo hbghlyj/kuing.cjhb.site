@@ -110,9 +110,11 @@
 					<td data-index-tab="images" hidden>
 						<!--{if count($grids['slide']) > 1}-->
 						<div class="index-image-controls">
-							<button type="button" data-image-prev aria-controls="index-image-strip">{lang index_image_previous}</button>
-							<span data-image-position>1 / {echo count($grids['slide'])}</span>
-							<button type="button" data-image-next aria-controls="index-image-strip">{lang index_image_next}</button>
+							<!--{eval $imageNumber = 0;}-->
+							<!--{loop $grids['slide'] $imageSlide}-->
+								<!--{eval $imageNumber++;}-->
+								<button type="button" data-image-number aria-controls="index-image-strip"<!--{if $imageNumber == 1}--> aria-current="true"<!--{/if}-->>$imageNumber</button>
+							<!--{/loop}-->
 							<button type="button" data-image-autoplay aria-pressed="false">{lang index_image_autoplay}</button>
 						</div>
 						<!--{/if}-->
@@ -450,23 +452,30 @@
 			}
 			function stepImage(direction) {
 				var count = strip.children.length;
-				var index = (currentImage() + direction + count) % count;
+				goToImage((currentImage() + direction + count) % count);
+			}
+			function goToImage(index) {
 				strip.scrollTo({left: strip.children[index].offsetLeft - strip.children[0].offsetLeft, behavior: 'auto'});
 				scheduleImages();
 			}
 			if(controls) {
-				var position = controls.querySelector('[data-image-position]');
+				var imageButtons = controls.querySelectorAll('[data-image-number]');
 				var autoplayButton = controls.querySelector('[data-image-autoplay]');
 				autoplayButton.setAttribute('aria-pressed', String(autoplay));
-				controls.querySelector('[data-image-prev]').onclick = function() { stepImage(-1); };
-				controls.querySelector('[data-image-next]').onclick = function() { stepImage(1); };
+				imageButtons.forEach(function(button, index) {
+					button.onclick = function() { goToImage(index); };
+				});
 				autoplayButton.onclick = function() {
 					autoplay = !autoplay;
 					this.setAttribute('aria-pressed', String(autoplay));
 					scheduleImages();
 				};
 				strip.addEventListener('scroll', function() {
-					position.textContent = (currentImage() + 1) + ' / ' + strip.children.length;
+					var active = currentImage();
+					imageButtons.forEach(function(button, index) {
+						if(index === active) button.setAttribute('aria-current', 'true');
+						else button.removeAttribute('aria-current');
+					});
 					scheduleImages();
 				}, {passive: true});
 				document.addEventListener('visibilitychange', scheduleImages);
