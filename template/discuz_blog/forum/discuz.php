@@ -108,7 +108,15 @@
 					</td>
 					<!--{if !empty($grids['slide'])}-->
 					<td data-index-tab="images" hidden>
-						<ul class="index-image-strip">
+						<!--{if count($grids['slide']) > 1}-->
+						<div class="index-image-controls">
+							<button type="button" data-image-prev aria-controls="index-image-strip">{lang index_image_previous}</button>
+							<span data-image-position>1 / {echo count($grids['slide'])}</span>
+							<button type="button" data-image-next aria-controls="index-image-strip">{lang index_image_next}</button>
+							<button type="button" data-image-autoplay aria-pressed="false">{lang index_image_autoplay}</button>
+						</div>
+						<!--{/if}-->
+						<ul id="index-image-strip" class="index-image-strip">
 							<!--{loop $grids['slide'] $stid $svalue}-->
 								<!--{eval $imageThread = $grids['image'][$stid] ?? []; $imageTitle = dhtmlspecialchars(stripslashes($svalue['subject'])); $imageSrc = dhtmlspecialchars($svalue['image']); $imageForum = dhtmlspecialchars($_G['cache']['forums'][$imageThread['fid'] ?? 0]['name'] ?? '');}-->
 								<li>
@@ -425,6 +433,44 @@
 			var myforums = document.getElementById('forum-index-myforums');
 			var buttons = tabs.getElementsByTagName('button');
 			var cells = grid.querySelectorAll('[data-index-tab]');
+			var strip = grid.querySelector('.index-image-strip');
+			var controls = grid.querySelector('.index-image-controls');
+			var imageTimer;
+			var autoplay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			function scheduleImages() {
+				clearTimeout(imageTimer);
+				if(controls && autoplay && !document.hidden && !grid.hidden && !strip.closest('td').hidden) {
+					imageTimer = setTimeout(function() { stepImage(1); }, 12000);
+				}
+			}
+			function currentImage() {
+				var width = strip.children[0].getBoundingClientRect().width;
+				var step = width + parseFloat(getComputedStyle(strip).columnGap);
+				return step ? Math.min(strip.children.length - 1, Math.round(strip.scrollLeft / step)) : 0;
+			}
+			function stepImage(direction) {
+				var count = strip.children.length;
+				var index = (currentImage() + direction + count) % count;
+				strip.scrollTo({left: strip.children[index].offsetLeft - strip.children[0].offsetLeft, behavior: 'auto'});
+				scheduleImages();
+			}
+			if(controls) {
+				var position = controls.querySelector('[data-image-position]');
+				var autoplayButton = controls.querySelector('[data-image-autoplay]');
+				autoplayButton.setAttribute('aria-pressed', String(autoplay));
+				controls.querySelector('[data-image-prev]').onclick = function() { stepImage(-1); };
+				controls.querySelector('[data-image-next]').onclick = function() { stepImage(1); };
+				autoplayButton.onclick = function() {
+					autoplay = !autoplay;
+					this.setAttribute('aria-pressed', String(autoplay));
+					scheduleImages();
+				};
+				strip.addEventListener('scroll', function() {
+					position.textContent = (currentImage() + 1) + ' / ' + strip.children.length;
+					scheduleImages();
+				}, {passive: true});
+				document.addEventListener('visibilitychange', scheduleImages);
+			}
 			function selectTab(tab) {
 				for(var j = 0; j < buttons.length; j++) {
 					var active = buttons[j].getAttribute('data-index-tab') == tab;
@@ -439,6 +485,7 @@
 				for(var k = 0; k < cells.length; k++) {
 					cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
 				}
+				scheduleImages();
 			}
 			for(var i = 0; i < buttons.length; i++) {
 				buttons[i].onclick = function() {
