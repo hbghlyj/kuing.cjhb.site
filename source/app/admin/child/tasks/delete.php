@@ -14,7 +14,7 @@ if(empty($id)) {
 	cpmsg('undefined_action');
 }
 
-if(!$_GET['confirmed']) {
+if(empty($_POST['confirmed']) || ($_POST['formhash'] ?? '') !== FORMHASH) {
 	cpmsg('tasks_del_confirm', "action=tasks&operation=delete&id=$id", 'form');
 }
 
@@ -26,4 +26,3 @@ $tasklib = &task::instance();
 $tasklib->update_available(1);
 
 cpmsg('tasks_del', 'action=tasks', 'succeed');
-	

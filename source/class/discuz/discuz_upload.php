@@ -289,7 +289,7 @@ class discuz_upload {
 	}
 
 	public static function get_target_extension($ext) {
-		static $safeext = ['attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4', 'wmv', 'wma', 'mov'];
+		static $safeext = ['attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4', 'wmv', 'wma', 'mov'];
 		return strtolower(!in_array(strtolower($ext), $safeext) ? 'attach' : $ext);
 	}
 

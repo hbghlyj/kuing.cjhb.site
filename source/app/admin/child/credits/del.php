@@ -16,11 +16,10 @@ list(, $isSub) = explode('/', $rule['action']);
 if(!$isSub) {
 	cpmsg('undefined_action', '', 'error');
 }
-if(empty($_GET['confirm'])) {
-	cpmsg('credits_rule_delete_confirm', 'action=credits&operation=del&rid='.$rid.'&confirm=yes', 'form');
+if(empty($_POST['confirmed']) || ($_POST['formhash'] ?? '') !== FORMHASH) {
+	cpmsg('credits_rule_delete_confirm', 'action=credits&operation=del&rid='.$rid, 'form');
 }
 table_common_credit_rule::t()->delete($rid);
 
 updatecache(['setting', 'creditrule']);
 cpmsg('credits_update_succeed', 'action=credits&operation=list&anchor=policytable', 'succeed');
-	

@@ -299,7 +299,8 @@ class restful {
 
 	public function output($value) {
 		$this->_log($value);
-		$this->_setSysVar($return['data'], $value);
+		$return = [];
+		$this->_setSysVar($return, $value);
 		echo json_encode($value);
 		exit;
 	}
@@ -486,6 +487,7 @@ class restful {
 	}
 
 	public function refreshTokenData() {
+		global $_G;
 		$v = $this->_getTokenData(true);
 		if(!$v) {
 			return false;

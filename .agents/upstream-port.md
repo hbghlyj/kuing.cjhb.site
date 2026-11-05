@@ -1,5 +1,25 @@
 # MitFrame Port Checkpoint
 
+## 20261101 Batch: 3db25375..10fcc8bc
+
+Upstream comparison through 10fcc8bcee828a3ee7b1712867929601205788cd.
+Fork release metadata updated to 20261101; this is a selective port.
+
+- Ported article cover input validation, signed click hashes, matching password
+  recovery errors, SWF allowlist removal, attachment preview ownership,
+  REST variable fixes, and admin delete confirmation tokens.
+- Ported search username escaping and integer special-type filters. Existing
+  fork search extensions remain; other upstream search changes need review.
+- Fixed both username censor setting references, including the guard upstream
+  missed. Enabled outbound socket safety in defaults, not live configuration.
+- Already covered: safe JSON for remote image replies, class restrictions in
+  unserialization, and no backup-delete link in the fork's export handler.
+- Deferred: payment reconciliation and bootstrap changes, JSON-editor append
+  handling, myrepeats changes, and cloud plugin menu policy changes. Keep the
+  fork's add-on upgrade notice policy and review these separately.
+
+Use 10fcc8bc for the next upstream comparison; track deferred work above.
+
 Fetched `origin/MitFrame` in the sibling `../mitframe` checkout through
 `3db25375efc48a05c7d3594f51ff7225c38be8c2` from
 https://gitee.com/Discuz/DiscuzX.git on 2026-10-22.

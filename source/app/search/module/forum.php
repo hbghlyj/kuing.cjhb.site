@@ -135,7 +135,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$keyword = $searchstring[2];
 		$index['keywords'] = rawurlencode($keyword);
 		$srchuid = intval($searchstring[3]);
-		$srchuname = $searchstring[4];
+		$srchuname = dhtmlspecialchars($searchstring[4]);
 		$srchparticipantuids = !empty($searchstring[12]) ? array_map('intval', explode(',', $searchstring[12])) : [];
 		$srchparticipant = !empty($searchstring[13]) ? base64_decode($searchstring[13]) : '';
 		if(!$srchuname && $srchuid) {
@@ -273,7 +273,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			$specialpluginstr = '';
 		}
 		$special = getgpc('special');
-		$specials = $special ? implode(',', $special) : '';
+		$specials = $special ? implode(',', dintval((array)$special, true)) : '';
 		$srchfilter = in_array(getgpc('srchfilter'), ['all', 'digest', 'top']) ? $_GET['srchfilter'] : 'all';
 
 		$searchstring = 'forum|'.$srchtype.'|'.base64_encode($srchtxt).'|'.intval($srchuid).'|'.$srchuname.'|'.addslashes($fids).'|'.intval($srchfrom).'|'.intval($before).'|'.$srchfilter.'|'.$specials.'|'.$specialpluginstr.'|'.$seltableid.'|'.implode(',', $srchparticipantuids).'|'.base64_encode($srchparticipant);

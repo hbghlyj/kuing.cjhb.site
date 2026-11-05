@@ -14,7 +14,7 @@ if(empty($_GET['script'])) {
 	cpmsg('undefined_action');
 }
 
-if(!$_GET['confirmed']) {
+if(empty($_POST['confirmed']) || ($_POST['formhash'] ?? '') !== FORMHASH) {
 	cpmsg('tasks_uninstall_confirm', "action=tasks&operation=uninstall&script={$_GET['script']}", 'form');
 }
 
@@ -48,4 +48,3 @@ $tasklib = &task::instance();
 $tasklib->update_available(1);
 
 cpmsg('tasks_uninstalled', 'action=tasks&operation=type', 'succeed');
-	

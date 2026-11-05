@@ -10,6 +10,10 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
+if(($_GET['formhash'] ?? '') !== FORMHASH) {
+	cpmsg('undefined_action');
+}
+
 $plugin = table_common_plugin::t()->fetch($pluginid);
 $dir = substr($plugin['directory'], 0, -1);
 $modules = dunserialize($plugin['modules']);
@@ -81,4 +85,3 @@ if(!empty($_G['cache']['pluginlanguage_install']) && isset($_G['cache']['pluginl
 
 cloudaddons_uninstall($dir.'.plugin', DISCUZ_PLUGIN($dir));
 cpmsg('plugins_delete_succeed', 'action=plugins', 'succeed');
-	
