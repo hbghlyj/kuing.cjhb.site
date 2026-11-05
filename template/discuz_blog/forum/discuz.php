@@ -126,10 +126,10 @@
 						<!--{if count($grids['slide']) > 1}-->
 						<div class="index-image-controls">
 							<button type="button" class="index-image-arrow prev" aria-label="{lang index_image_previous}" aria-controls="index-image-strip">&#9664;</button>
-							<button type="button" class="index-image-toggle" aria-label="{lang index_image_pause}" aria-controls="index-image-strip" aria-pressed="false">
+							<button type="button" class="index-image-toggle" aria-controls="index-image-strip" aria-pressed="false">
 								<svg class="index-image-ring" viewBox="0 0 32 32" aria-hidden="true"><circle class="ring-track" cx="16" cy="16" r="14.5" pathLength="100"></circle><circle class="ring-arc" cx="16" cy="16" r="14.5" pathLength="100"></circle></svg>
 								<svg data-icon="pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"></rect><rect x="14" y="5" width="4" height="14" rx="1.2"></rect></svg>
-								<svg data-icon="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l8.4 6.5c.6.5.6 1.4 0 1.8L9.6 19.4c-.7.5-1.6 0-1.6-.9z"></path></svg>
+								<svg data-icon="play" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M8 5.5c0-.8.9-1.3 1.6-.9l8.4 6.5c.6.5.6 1.4 0 1.8L9.6 19.4c-.7.5-1.6 0-1.6-.9z"></path></svg>
 							</button>
 							<button type="button" class="index-image-arrow next" aria-label="{lang index_image_next}" aria-controls="index-image-strip">&#9654;</button>
 						</div>
@@ -427,89 +427,7 @@
 			</div>
 			<!--{ad/intercat/bm a_c/$cat[fid]}-->
 		<!--{/loop}-->
-		<script>
-		(function() {
-			var tabs = document.getElementById('forum-index-tabs');
-			if(!tabs) return;
-			var grid = document.getElementById('forum-index-grid-panel');
-			var boardPanels = document.querySelectorAll('[data-forum-index-board]');
-			var myforums = document.getElementById('forum-index-myforums');
-			var buttons = tabs.getElementsByTagName('button');
-			var cells = grid.querySelectorAll('[data-index-tab]');
-			var strip = grid.querySelector('.index-image-strip');
-			var controls = grid.querySelector('.index-image-controls');
-			var imageToggle = grid.querySelector('.index-image-toggle');
-			var imageRing = grid.querySelector('.index-image-ring .ring-arc');
-			var imageTimer;
-			var imageAnimation;
-			var imageInterval = 8000;
-			var autoplay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			function scheduleImages() {
-				clearTimeout(imageTimer);
-				if(imageAnimation) imageAnimation.cancel();
-				if(imageToggle) imageToggle.setAttribute('aria-pressed', autoplay ? 'false' : 'true');
-				if(controls && autoplay && !document.hidden && !grid.hidden && !strip.closest('td').hidden) {
-					imageAnimation = imageRing.animate([{strokeDashoffset: '100'}, {strokeDashoffset: '0'}], {duration: imageInterval, fill: 'forwards'});
-					imageTimer = setTimeout(function() { stepImage(1); }, imageInterval);
-				}
-			}
-			function currentImage() {
-				var width = strip.children[0].getBoundingClientRect().width;
-				var step = width + parseFloat(getComputedStyle(strip).columnGap);
-				return step ? Math.min(strip.children.length - 1, Math.round(strip.scrollLeft / step)) : 0;
-			}
-			function stepImage(direction) {
-				var count = strip.children.length;
-				goToImage((currentImage() + direction + count) % count);
-			}
-			function goToImage(index) {
-				strip.scrollTo({left: strip.children[index].offsetLeft - strip.children[0].offsetLeft, behavior: 'auto'});
-				scheduleImages();
-			}
-			if(controls) {
-				controls.querySelector('.prev').onclick = function() { stepImage(-1); };
-				controls.querySelector('.next').onclick = function() { stepImage(1); };
-				imageToggle.onclick = function() {
-					autoplay = !autoplay;
-					imageToggle.setAttribute('aria-label', autoplay ? '{lang index_image_pause}' : '{lang index_image_play}');
-					imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
-					imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
-					scheduleImages();
-				};
-				imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
-				imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
-				if(!autoplay) imageToggle.setAttribute('aria-label', '{lang index_image_play}');
-				strip.addEventListener('scroll', scheduleImages, {passive: true});
-				document.addEventListener('visibilitychange', scheduleImages);
-			}
-			function selectTab(tab) {
-				for(var j = 0; j < buttons.length; j++) {
-					var active = buttons[j].getAttribute('data-index-tab') == tab;
-					buttons[j].className = buttons[j].className.replace(/\s*a/g, '') + (active ? ' a' : '');
-					buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
-				}
-				for(var m = 0; m < boardPanels.length; m++) {
-					boardPanels[m].hidden = tab != 'boards';
-				}
-				myforums.hidden = tab != 'myforums';
-				grid.hidden = tab == 'boards' || tab == 'myforums';
-				for(var k = 0; k < cells.length; k++) {
-					cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
-				}
-				scheduleImages();
-			}
-			for(var i = 0; i < buttons.length; i++) {
-				buttons[i].onclick = function() {
-					var tab = this.getAttribute('data-index-tab');
-					if(document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-						document.startViewTransition(function() { selectTab(tab); });
-					} else {
-						selectTab(tab);
-					}
-				};
-			}
-		})();
-		</script>
+		<script src="{$_G['setting']['jspath']}forum_slide.js?{VERHASH}"></script>
 			<!--{if !empty($collectiondata['data'])}-->
 
 			<!--{eval $forumscount = count($collectiondata['data']);}-->

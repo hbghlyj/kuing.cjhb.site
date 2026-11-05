@@ -141,4 +141,93 @@ if(isUndefined(sliderun)) {
 	}
 }
 
-slide();
+if(typeof slideImgs != 'undefined' && typeof slideImgsize != 'undefined') {
+	slide();
+}
+
+(function() {
+	var tabs = document.getElementById('forum-index-tabs');
+	if(!tabs) return;
+	var grid = document.getElementById('forum-index-grid-panel');
+	var boardPanels = document.querySelectorAll('[data-forum-index-board]');
+	var myforums = document.getElementById('forum-index-myforums');
+	var buttons = tabs.getElementsByTagName('button');
+	var cells = grid.querySelectorAll('[data-index-tab]');
+	var strip = grid.querySelector('.index-image-strip');
+	var controls = grid.querySelector('.index-image-controls');
+	var imageToggle = grid.querySelector('.index-image-toggle');
+	var imageRing = grid.querySelector('.index-image-ring .ring-arc');
+	var imageTimer;
+	var imageAnimation;
+	var imageInterval = 8000;
+	var autoplay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	function scheduleImages() {
+		clearTimeout(imageTimer);
+		if(imageAnimation) imageAnimation.cancel();
+		if(imageToggle) imageToggle.setAttribute('aria-pressed', autoplay ? 'false' : 'true');
+		if(controls && autoplay && !document.hidden && !grid.hidden && !strip.closest('td').hidden) {
+			imageAnimation = imageRing.animate([{strokeDashoffset: '100'}, {strokeDashoffset: '0'}], {duration: imageInterval, fill: 'forwards'});
+			imageTimer = setTimeout(function() { stepImage(1); }, imageInterval);
+		}
+	}
+
+	function currentImage() {
+		var width = strip.children[0].getBoundingClientRect().width;
+		var step = width + parseFloat(getComputedStyle(strip).columnGap);
+		return step ? Math.min(strip.children.length - 1, Math.round(strip.scrollLeft / step)) : 0;
+	}
+
+	function stepImage(direction) {
+		var count = strip.children.length;
+		goToImage((currentImage() + direction + count) % count);
+	}
+
+	function goToImage(index) {
+		strip.scrollTo({left: strip.children[index].offsetLeft - strip.children[0].offsetLeft, behavior: 'auto'});
+		scheduleImages();
+	}
+
+	if(controls) {
+		controls.querySelector('.prev').onclick = function() { stepImage(-1); };
+		controls.querySelector('.next').onclick = function() { stepImage(1); };
+		imageToggle.onclick = function() {
+			autoplay = !autoplay;
+			imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
+			imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
+			scheduleImages();
+		};
+		imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
+		imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
+		strip.addEventListener('scroll', scheduleImages, {passive: true});
+		document.addEventListener('visibilitychange', scheduleImages);
+	}
+
+	function selectTab(tab) {
+		for(var j = 0; j < buttons.length; j++) {
+			var active = buttons[j].getAttribute('data-index-tab') == tab;
+			buttons[j].className = buttons[j].className.replace(/\s*a/g, '') + (active ? ' a' : '');
+			buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
+		}
+		for(var m = 0; m < boardPanels.length; m++) {
+			boardPanels[m].hidden = tab != 'boards';
+		}
+		myforums.hidden = tab != 'myforums';
+		grid.hidden = tab == 'boards' || tab == 'myforums';
+		for(var k = 0; k < cells.length; k++) {
+			cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
+		}
+		scheduleImages();
+	}
+
+	for(var i = 0; i < buttons.length; i++) {
+		buttons[i].onclick = function() {
+			var tab = this.getAttribute('data-index-tab');
+			if(document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				document.startViewTransition(function() { selectTab(tab); });
+			} else {
+				selectTab(tab);
+			}
+		};
+	}
+})();
