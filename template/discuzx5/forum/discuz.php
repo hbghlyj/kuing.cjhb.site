@@ -41,7 +41,6 @@
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
 		<div id="forum-index-tabs" role="tablist">
-			<!--{if $_G['uid'] && $_G['setting']['forumstatus']}--><a href="home.php?mod=space&do=thread&view=me" class="forum-index-link">{lang my_posts}</a><!--{/if}-->
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
