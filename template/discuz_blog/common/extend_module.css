@@ -12,7 +12,7 @@
 .index-image-controls .index-image-arrow {width:32px;height:32px;border-radius:50%;background:var(--dz-bgf)}
 .index-image-toggle {position:relative;width:32px;height:32px;padding:7px;border-radius:50%;background:var(--dz-bgf)!important}
 .index-image-toggle svg {display:block;width:100%;height:100%;fill:currentColor}
-.index-image-toggle [data-icon="play"][hidden], .index-image-toggle [data-icon="pause"][hidden] {display:none}
+.index-image-toggle[aria-pressed="false"] [data-icon="play"], .index-image-toggle[aria-pressed="true"] [data-icon="pause"] {display:none}
 .index-image-toggle .index-image-ring {position:absolute;inset:0;width:32px;height:32px;overflow:visible;transform:rotate(-90deg);fill:none;pointer-events:none}
 .index-image-ring circle {stroke:currentColor;stroke-width:1.5}
 .index-image-ring .ring-track {opacity:.12}

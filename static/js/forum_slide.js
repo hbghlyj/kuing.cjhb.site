@@ -191,14 +191,11 @@ if(typeof slideImgs != 'undefined' && typeof slideImgsize != 'undefined') {
 	if(controls) {
 		controls.querySelector('.prev').onclick = function() { stepImage(-1); };
 		controls.querySelector('.next').onclick = function() { stepImage(1); };
+		imageToggle.setAttribute('aria-pressed', autoplay ? 'false' : 'true');
 		imageToggle.onclick = function() {
 			autoplay = !autoplay;
-			imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
-			imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
 			scheduleImages();
 		};
-		imageToggle.querySelector('[data-icon="pause"]').hidden = !autoplay;
-		imageToggle.querySelector('[data-icon="play"]').hidden = autoplay;
 		strip.addEventListener('scroll', scheduleImages, {passive: true});
 		document.addEventListener('visibilitychange', scheduleImages);
 	}
