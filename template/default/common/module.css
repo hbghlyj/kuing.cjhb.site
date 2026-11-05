@@ -73,6 +73,9 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 .forum-stats-table th, .forum-stats-table td { padding: 4px 12px; text-align: center; white-space: nowrap; }
 .forum-stats-table th { color: {LIGHTTEXT}; }
 .forum-stats-table td { font-weight: 600; font-variant-numeric: tabular-nums; }
+.forum-index-stats #chart { margin-bottom: 0; padding: 8px 12px 4px; }
+.forum-index-stats > .bm_h { height: auto; padding: 4px 12px 8px; border: 0; background: transparent; line-height: 1.6; }
+.forum-index-stats > .bm_h h2, .forum-index-stats > .bm_h h3 { font-size: inherit; line-height: inherit; }
 	.chart { color: {LIGHTTEXT}; }
 		.chart:before { font-family: dzicon; content: "\f104"; display: inline-block; height: 16px; line-height: 16px; font-size: 18px; color: #4284CE; margin-right: 4px; }
 		.chart em { color: {TABLETEXT}; }
