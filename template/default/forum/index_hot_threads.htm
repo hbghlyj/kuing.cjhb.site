@@ -1,15 +1,13 @@
 <!--{if !empty($grids['hot'])}-->
-	<!--{eval $indexHotThreads = array_slice($grids['hot'], 0, 5);}-->
 	<section class="bm forum-index-hot">
 		<div class="bm_h"><h2>{lang hot_thread}</h2></div>
 		<ol class="bm_c forum-index-hot-list">
-			<!--{loop $indexHotThreads $thread}-->
+			<!--{loop $grids['hot'] $thread}-->
 				<!--{if !$thread['forumstick'] && $thread['closed'] > 1 && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 					<!--{eval $thread['tid'] = $thread['closed'];}-->
 				<!--{/if}-->
 				<li>
 					<a href="forum.php?mod=viewthread&tid=$thread[tid]"{if $thread['highlight']} $thread['highlight']{/if}{if $_G['setting']['grid']['targetblank']} target="_blank"{/if}>$thread[subject]</a>
-					<span class="xg1">{lang reply}: <!--{echo dnumber($thread['replies']);}--></span>
 				</li>
 			<!--{/loop}-->
 		</ol>

@@ -69,10 +69,9 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 .forum-index-tags ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
 .forum-index-tags li a { display: block; padding: 3px 10px; border: 1px solid {COMMONBORDER}; border-radius: 1em; overflow-wrap: anywhere; }
 .forum-index-hot-list { padding: 6px 12px; }
-.forum-index-hot-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 8px; padding: 6px 0; border-bottom: 1px solid {COMMONBORDER}; }
+.forum-index-hot-list li { padding: 6px 0; border-bottom: 1px solid {COMMONBORDER}; }
 .forum-index-hot-list li:last-child { border-bottom: 0; }
-.forum-index-hot-list li > a { min-width: 0; overflow-wrap: anywhere; }
-.forum-index-hot-list .xg1 { white-space: nowrap; font-size: .85em; }
+.forum-index-hot-list li > a { display: block; overflow-wrap: anywhere; }
 .forum-stats-scroll { flex: 1 1 100%; min-width: 0; overflow-x: auto; }
 .forum-stats-table { width: 100%; }
 .forum-stats-table th, .forum-stats-table td { padding: 4px 12px; text-align: center; white-space: nowrap; }
