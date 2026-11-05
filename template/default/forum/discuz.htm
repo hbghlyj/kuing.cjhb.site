@@ -42,7 +42,7 @@
 		<div id="forum-index-tabs" role="tablist">
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
-			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>
+			<!--{if empty($_G['setting']['forumallowside'])}--><button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button><!--{/if}-->
 			<button type="button" data-index-tab="boards" role="tab" aria-selected="true" class="a">{lang forumlist}</button>
 			<!--{if !empty($collectiondata['follows']) || !empty($forum_favlist)}--><button type="button" data-index-tab="myforums" role="tab" aria-selected="false">{lang my_forums}</button><!--{/if}-->
 		</div>
@@ -85,7 +85,7 @@
 					         </tbody></table>
 				         </div>
 					</td>
-					<td valign="top" class="category_l3" data-index-tab="hot">
+					<!--{if empty($_G['setting']['forumallowside'])}--><td valign="top" class="category_l3" data-index-tab="hot">
 						<div class="bm">
 				        <table class="category_newlist"><tbody>
 					        	<!--{loop $grids['hot'] $thread}-->
@@ -103,6 +103,7 @@
 					         </tbody></table>
 				         </div>
 					</td>
+					<!--{/if}-->
 					</table>
 			</div>
 		</div>
@@ -641,6 +642,7 @@
 			<div class="drag">
 				<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
 			</div>
+			<!--{template forum/index_hot_threads}-->
 			<!--{template forum/index_tags}-->
 			<!--{hook/index_side_bottom}-->
 		</div>
