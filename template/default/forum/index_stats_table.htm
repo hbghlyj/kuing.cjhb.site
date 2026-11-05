@@ -6,6 +6,7 @@
 				<th scope="col">{lang index_yesterday}</th>
 				<th scope="col">{lang index_posts}</th>
 				<th scope="col">{lang index_members}</th>
+				<th scope="col">{lang index_members_today}</th>
 				<!--{if $_G['cache']['userstats']['newsetuser']}--><th scope="col">{lang welcome_new_members}</th><!--{/if}-->
 			</tr>
 		</thead>
@@ -15,6 +16,7 @@
 				<td><a href="search.php?mod=forum&srchfrom={echo strtotime('yesterday')}&before={echo strtotime('today')}&searchsubmit=yes">$postdata[0]</a></td>
 				<td>$posts</td>
 				<td>$_G['cache']['userstats']['totalmembers']</td>
+				<td>$onlineinfo[0]</td>
 				<!--{if $_G['cache']['userstats']['newsetuser']}--><td><a href="home.php?mod=space&username={echo rawurlencode($_G['cache']['userstats']['newsetuser'])}" target="_blank" class="xi2">$_G['cache']['userstats']['newsetuser']</a></td><!--{/if}-->
 			</tr>
 		</tbody>
