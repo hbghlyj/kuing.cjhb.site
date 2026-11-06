@@ -113,6 +113,7 @@ jobs:
           node .github/scripts/test_image_link_option.js
           node .github/scripts/test_math_editor_node_boundaries.js
           node .github/scripts/test_chat_rendering.js
+          node .github/scripts/test_request_cancellation.js
           php .github/scripts/test_stat_templates.php
           php .github/scripts/test_mobile_tag_list.php
             php .github/scripts/test_mobile_mode.php

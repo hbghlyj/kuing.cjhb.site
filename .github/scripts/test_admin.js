@@ -3,11 +3,13 @@ const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { reportCiFailure } = require('./report_ci_failure');
+const { trackDocumentRequests } = require('./request_cancellation');
 
 (async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext();
     const page = await context.newPage();
+    const isDocumentCancellation = trackDocumentRequests(page);
 
     page.on('response', async response => {
         if (response.status() >= 400) {
@@ -29,6 +31,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         }
     });
     page.on('requestfailed', request => {
+        if(isDocumentCancellation(request)) return;
         throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
     });
 
