@@ -256,14 +256,14 @@ function attachinpost($attach, $post) {
 						</div>
 					</div>
 				<!--{else}-->
-					<button type="button" class="attachment-lightbox-trigger" aria-haspopup="dialog" aria-label="{lang click_zoom}" onclick="var dialog=this.nextElementSibling; dialog.querySelector('img').src=this.querySelector('img').getAttribute('zoomfile'); dialog.showModal();">
+					<button type="button" class="attachment-lightbox-trigger" aria-haspopup="dialog" onclick="var dialog=this.nextElementSibling; dialog.querySelector('img').src=this.querySelector('img').getAttribute('zoomfile'); dialog.showModal();">
 					<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
 						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" loading="lazy" decoding="async" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" alt="$attach[imgalt]" inpost="1" $displaywidthcode>
 					<!--{else}-->
 						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" loading="lazy" decoding="async" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" $displaywidthcode alt="$attach[imgalt]" inpost="1">
 					<!--{/if}-->
 					</button>
-			<dialog class="attachment-lightbox" aria-label="{lang click_zoom}">
+			<dialog class="attachment-lightbox">
 				<button type="button" autofocus onclick="this.closest('dialog').close();">{lang close}</button>
 				<img alt="$attach[imgalt]" decoding="async">
 				<div class="xs0">
