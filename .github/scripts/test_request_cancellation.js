@@ -1,6 +1,6 @@
 const assert = require('assert');
 const { EventEmitter } = require('events');
-const { trackDocumentRequests } = require('./request_cancellation');
+const { trackDocumentRequests, waitForDocumentCancellation } = require('./request_cancellation');
 
 const page = new EventEmitter();
 let closed = false;
@@ -37,4 +37,17 @@ assert.strictEqual(ignore(current), true);
 detached = false;
 closed = true;
 assert.strictEqual(ignore(current), true);
-console.log('Document cancellation checks passed');
+closed = false;
+request(true);
+const lateRequest = request();
+assert.strictEqual(ignore(lateRequest), false);
+const pending = waitForDocumentCancellation(page, lateRequest, ignore);
+page.emit('framenavigated', frame);
+assert.strictEqual(ignore(lateRequest), true, 'Commit replaces late requests from old document');
+(async () => {
+    assert.strictEqual(await pending, true);
+    assert.strictEqual(await waitForDocumentCancellation(page, request(), ignore), false,
+        'An abort without teardown evidence remains fatal after the grace period');
+    assert.strictEqual(page.listenerCount('close'), 0, 'Temporary listeners are removed');
+    console.log('Document cancellation checks passed');
+})().catch(error => { console.error(error); process.exitCode = 1; });

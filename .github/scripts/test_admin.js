@@ -3,7 +3,7 @@ const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { reportCiFailure } = require('./report_ci_failure');
-const { trackDocumentRequests } = require('./request_cancellation');
+const { trackDocumentRequests, waitForDocumentCancellation } = require('./request_cancellation');
 
 (async () => {
     const browser = await chromium.launch();
@@ -30,8 +30,8 @@ const { trackDocumentRequests } = require('./request_cancellation');
             throw new Error(`Console error in browser: ${msg.text()}`);
         }
     });
-    page.on('requestfailed', request => {
-        if(isDocumentCancellation(request)) return;
+    page.on('requestfailed', async request => {
+        if(await waitForDocumentCancellation(page, request, isDocumentCancellation)) return;
         throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
     });
 

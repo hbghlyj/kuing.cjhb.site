@@ -4,7 +4,7 @@ const path = require('path');
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { reportCiFailure } = require('./report_ci_failure');
-const { trackDocumentRequests } = require('./request_cancellation');
+const { trackDocumentRequests, waitForDocumentCancellation } = require('./request_cancellation');
 const testRunId = process.env.TEST_RUN_ID || Date.now().toString();
 const standardSubject = `Standard User Thread ${testRunId}`;
 const editedStandardSubject = `${standardSubject} (Edited)`;
@@ -207,13 +207,13 @@ const assertPusherMetadataOrder = () => {
         }
     });
     const isDocumentCancellation = trackDocumentRequests(page);
-    page.on('requestfailed', request => {
+    page.on('requestfailed', async request => {
         const errorText = request.failure()?.errorText || 'unknown error';
         const requestPath = new URL(request.url()).pathname;
         if(errorText === 'net::ERR_ABORTED' && requestPath === '/static/image/common/none.gif') {
             return;
         }
-        if(isDocumentCancellation(request)) {
+        if(await waitForDocumentCancellation(page, request, isDocumentCancellation)) {
             console.log(`Ignoring request cancelled by document teardown: ${request.url()}`);
             return;
         }
