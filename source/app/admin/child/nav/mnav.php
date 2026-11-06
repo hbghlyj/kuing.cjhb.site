@@ -16,7 +16,7 @@ if(!$do) {
 		cleanup_default_mobile_nav_duplicates();
 
 		shownav('style', 'nav_setting_customnav');
-		showchildmenu([['nav_setting_customnav', 'nav'], ['nav_nav_mnav', 'nav&operation=mnav']], $nav['name']);
+		showsubmenu('nav_setting_customnav', $navdata);
 
 		showformheader('nav&operation=mnav');
 		showtableheader();
