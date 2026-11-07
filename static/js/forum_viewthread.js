@@ -743,13 +743,24 @@ function vmessage() {
 	};
 }
 
+function removePostComment(id) {
+	var row = document.getElementById('comment_row_' + id);
+	if(row) row.remove();
+}
+
 function delcomment(id, pid) {
 	const formhash = document.querySelector('input[name="formhash"]')?.value;
 	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
 		headers: {'content-type': 'application/x-www-form-urlencoded'},
 		body: `formhash=${formhash}&fid=${fid}&tid=${tid}&handlekey=mods&topiclist=${id}`,
 		method: 'POST'
-	}).then(() => ajaxget(`forum.php?mod=misc&action=commentmore&tid=${tid}&pid=${pid}`, `comment_${pid}`));
+	}).then(response => {
+		if(!response.ok) throw new Error('Comment deletion failed');
+		return response.text();
+	}).then(text => {
+		if(!/succeedhandle_mods\s*\(/.test(text)) throw new Error('Comment deletion failed');
+		removePostComment(id);
+	}).catch(() => showDialog($L('ajax_inner_error'), 'error'));
 }
 function bumpthread() {
 	const formhash = document.querySelector('input[name="formhash"]')?.value;

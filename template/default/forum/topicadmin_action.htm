@@ -149,7 +149,7 @@
 <script reload="1">
 function succeedhandle_mods(locationhref) {
 	<!--{if $_GET[action] == 'delcomment'}-->
-		ajaxget('forum.php?mod=misc&action=commentmore&tid=$_G[tid]&pid=$pid', 'comment_$pid');
+		removePostComment($commentid);
 		hideWindow('mods');
 	<!--{elseif $_GET[action] == 'banpost' || $_GET[action] == 'warn'}-->
 		<!--{loop $topiclist $pid}-->
