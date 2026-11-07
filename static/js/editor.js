@@ -819,6 +819,25 @@ function keyDownNormalizeBlockMerge(event) {
 	}
 	var range = sel.getRangeAt(0);
 	var block = getWysiwygBlock(range.startContainer);
+	var element = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement;
+	var quote = element && element.closest('.quote');
+	if(!quote && block && isCaretAtBlockStart(range, block)) {
+		var previous = previousWysiwygSibling(block);
+		if(previous && previous.nodeType === 1 && previous.classList.contains('quote')) quote = previous;
+	}
+	if(!quote && range.startContainer.nodeType === 1 && range.startOffset > 0) {
+		var previous = range.startContainer.childNodes[range.startOffset - 1];
+		if(previous && previous.nodeType === 1 && previous.classList.contains('quote')) quote = previous;
+	}
+	if(quote && !quote.textContent.replace(/[\s\u200b]/g, '') && !quote.querySelector(':not(div):not(blockquote):not(p):not(span):not(br), [contenteditable="false"], [data-math-source]')) {
+		doane(event);
+		range.setStartBefore(quote);
+		range.collapse(true);
+		quote.remove();
+		sel.removeAllRanges();
+		sel.addRange(range);
+		return;
+	}
 	if(!block) {
 		var caret = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentNode;
 		var formula = caret && caret.nodeType === 1 && caret.hasAttribute('data-math-caret') ? previousWysiwygSibling(caret) : null;

@@ -6,6 +6,8 @@ const { chromium } = require('playwright');
     try {
         const page = await browser.newPage();
         await page.setContent('<iframe id="editor"></iframe>');
+        await page.evaluate(() => { window.EXTRAFUNC = {}; });
+        await page.addScriptTag({ path: 'static/js/editor.js' });
         await page.evaluate(() => {
             window.wysiwyg = 0;
             window.editdoc = document.getElementById('editor').contentDocument;
@@ -26,7 +28,24 @@ const { chromium } = require('playwright');
             }, barrier);
             assert.deepEqual(result, { before: 'BR', after: 'BR', afterAgain: 'BR', math: '$X$' });
         }
-        console.log('Math editor preserves line breaks around intervening non-text nodes');
+        for(const position of ['inside', 'after']) {
+            await page.evaluate(position => {
+                editdoc.body.contentEditable = 'true';
+                editdoc.body.innerHTML = '<div class="quote"><blockquote><div><br></div></blockquote></div><p id="keep">Keep this text</p>';
+                window.doane = event => { event.preventDefault(); event.stopPropagation(); };
+                editdoc.body.onkeydown = keyDownNormalizeBlockMerge;
+                const range = editdoc.createRange();
+                range.setStart(position === 'inside' ? editdoc.querySelector('blockquote div') : editdoc.getElementById('keep'), 0);
+                range.collapse(true);
+                editwin.getSelection().removeAllRanges();
+                editwin.getSelection().addRange(range);
+                editdoc.body.focus();
+            }, position);
+            await page.frameLocator('#editor').locator('body').press('Backspace');
+            assert.equal(await page.frameLocator('#editor').locator('.quote').count(), 0);
+            assert.equal(await page.frameLocator('#editor').locator('#keep').innerText(), 'Keep this text');
+        }
+        console.log('Math boundaries and empty quote Backspace preserve surrounding content');
     } finally {
         await browser.close();
     }
