@@ -1088,7 +1088,31 @@ function getEditorBbcodeContents() {
 		}
 		html = stripMathEditorCarets(source.innerHTML);
 	}
-	return wysiwygSourceBbcode !== null && wysiwygSourceHtml === html ? wysiwygSourceBbcode : html2bbcode(html);
+	if(wysiwygSourceBbcode !== null && wysiwygSourceHtml === html) {
+		return wysiwygSourceBbcode;
+	}
+	if(!(allowhtml && fetchCheckbox('htmlon'))) {
+		var content = document.createElement('div');
+		content.innerHTML = html;
+		var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+		var nodes = [], node;
+		while((node = walker.nextNode())) {
+			if(/[\r\n]/.test(node.data) && !node.parentElement.closest('pre, code, script, style')) {
+				nodes.push(node);
+			}
+		}
+		// Use normal HTML breaks so html2bbcode does not collapse source newlines.
+		nodes.forEach(function(node) {
+			var fragment = document.createDocumentFragment();
+			node.data.split(/\r\n|\r|\n/).forEach(function(line, index) {
+				if(index) fragment.appendChild(document.createElement('br'));
+				fragment.appendChild(document.createTextNode(line));
+			});
+			node.replaceWith(fragment);
+		});
+		html = content.innerHTML;
+	}
+	return html2bbcode(html);
 }
 
 function setEditorStyle() {

@@ -1197,6 +1197,29 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!pastedFontFormatting.includes('[font='), 'Assertion Error: Pasted typeface formatting produced a non-semantic font BBCode tag.');
             assert.ok(pastedFontFormatting.includes('[color=#f00]'), 'Assertion Error: Removing pasted typeface formatting discarded meaningful color formatting.');
             const remFontSize = await page.evaluate(() => html2bbcode('<span style="font-size: 0.75rem">Example</span>'));
+            const tikzPictureRoundTrip = await page.evaluate(() => {
+                const source = '\\begin{tikzpicture}\n\\draw (0,0) -- (1,1);\n\\end{tikzpicture}';
+                const wysiwyg = document.createElement('div');
+                wysiwyg.innerHTML = bbcode2html(source);
+                const blockLines = '<div>\\begin{tikzpicture}</div><div>\\draw (0,0) -- (1,1);</div><div>\\end{tikzpicture}</div>';
+                const saved = { editdoc, wysiwyg: window.wysiwyg, wysiwygSourceBbcode, wysiwygSourceHtml };
+                try {
+                    window.wysiwyg = 1;
+                    window.wysiwygSourceBbcode = window.wysiwygSourceHtml = null;
+                    const doc = document.implementation.createHTMLDocument('');
+                    window.editdoc = doc;
+                    const results = [wysiwyg.innerHTML, blockLines].map(html => {
+                        doc.body.innerHTML = html;
+                        return getEditorBbcodeContents();
+                    });
+                    doc.body.innerHTML = '<span class="math-editor-rendered" contenteditable="false">rendered formula</span> edited';
+                    doc.body.firstChild.setAttribute('data-math-source', '$$a\n+b$$');
+                    results.push(getEditorBbcodeContents());
+                    return results;
+                } finally {
+                    Object.assign(window, saved);
+                }
+            });
             const imageLinkRecognition = await page.evaluate(() => {
                 const checkbox = document.getElementById('imgurloff');
                 if(!checkbox) throw new Error('Image link recognition option is missing');
@@ -1218,6 +1241,11 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!imageLinkRecognition.disabled.bbcode.includes('[img]'), 'Checked image-link option must not convert bare image URLs to image BBCode.');
             assert.ok(imageLinkRecognition.disabled.explicit.includes('<img'), 'Disabling image-link recognition must preserve explicit image BBCode.');
             assert.strictEqual(remFontSize, '[size=0.75rem]Example[/size]', 'Assertion Error: A supported rem font size was not preserved as BBCode.');
+            assert.deepEqual(tikzPictureRoundTrip, [
+                '\\begin{tikzpicture}\n\\draw (0,0) -- (1,1);\n\\end{tikzpicture}',
+                '\\begin{tikzpicture}\n\\draw (0,0) -- (1,1);\n\\end{tikzpicture}',
+                '$$a\n+b$$ edited'
+            ], 'Assertion Error: Newlines inside a bare tikzpicture environment were lost during WYSIWYG-to-source conversion.');
             const importantDefaultColor = await page.evaluate(() => {
                 const html = '<span style="color: rgb(0, 0, 0) !important;">was fully written by ChatGPT and passed Lean verification</span>';
                 return bbcode2html(html2bbcode(html));
