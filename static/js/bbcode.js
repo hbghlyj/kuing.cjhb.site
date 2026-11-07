@@ -113,7 +113,7 @@ function bbcode2html(str) {
 			var sizes = {1:'x-small', 2:'small', 3:'medium', 4:'large', 5:'x-large', 6:'xx-large', 7:'xxx-large'};
 			return '<span style="font-size:' + (sizes[$2] || $2) + '">';
 		});
-		str = str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]/ig, '<span style="font-size: $1">');
+		str = str.replace(/\[size=((?:\d+(?:\.\d+)?|\.\d+)(?:px|pt|pc|in|cm|mm|q|em|rem|ex|rex|ch|rch|cap|rcap|ic|ric|lh|rlh|vw|vh|vi|vb|vmin|vmax|svw|svh|svi|svb|lvw|lvh|lvi|lvb|dvw|dvh|dvi|dvb|cqw|cqh|cqi|cqb|cqmin|cqmax|%))\]/ig, '<span style="font-size: $1">');
 		str = str.replace(/\[font=([^\[\<\=]+?)\]/ig, '<span style="font-family:$1">');
 		str = str.replace(/\[align=([^\[\<\=]+?)\]/ig, '<div align="$1">');
 		str = str.replace(/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/ig, '<p style="line-height: $1px; text-indent: $2em; text-align: $3;">');
@@ -198,7 +198,7 @@ function clearcode(str) {
 	str= str.replace(/\[email=(.[^\[]*)\]\[\/email\]/ig, '', str);
 	str= str.replace(/\[color=([^\[\<]+?)\]\[\/color\]/ig, '', str);
 	str= str.replace(/\[size=(\d+?)\]\[\/size\]/ig, '', str);
-	str= str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]\[\/size\]/ig, '', str);
+	str= str.replace(/\[size=((?:\d+(?:\.\d+)?|\.\d+)(?:px|pt|pc|in|cm|mm|q|em|rem|ex|rex|ch|rch|cap|rcap|ic|ric|lh|rlh|vw|vh|vi|vb|vmin|vmax|svw|svh|svi|svb|lvw|lvh|lvi|lvb|dvw|dvh|dvi|dvb|cqw|cqh|cqi|cqb|cqmin|cqmax|%))\]\[\/size\]/ig, '', str);
 	str= str.replace(/\[font=([^\[\<\]]+?)\]\[\/font\]/ig, '', str);
 	str= str.replace(/\[align=([^\[\<]+?)\]\[\/align\]/ig, '', str);
 	str= str.replace(/\[p=(\d{1,2}), (\d{1,2}), (left|center|right)\]\[\/p\]/ig, '', str);
@@ -682,7 +682,7 @@ function parsestyle(tagoptions, prepend, append) {
 		['color', true, '(^|[;\\s])color:\\s*([^;]+);?', 2],
 		['backcolor', true, '(^|[;\\s])background-color:\\s*([^;]+);?', 2],
 		['font', true, 'font-family:\\s*([^;]+);?', 1],
-		['size', true, 'font-size:\\s*(\\d+(\\.\\d+)?(px|pt|in|cm|mm|pc|em|ex|%));?', 1],
+		['size', true, 'font-size:\\s*((?:\\d+(?:\\.\\d+)?|\\.\\d+)(?:px|pt|pc|in|cm|mm|q|em|rem|ex|rex|ch|rch|cap|rcap|ic|ric|lh|rlh|vw|vh|vi|vb|vmin|vmax|svw|svh|svi|svb|lvw|lvh|lvi|lvb|dvw|dvh|dvi|dvb|cqw|cqh|cqi|cqb|cqmin|cqmax|%));?', 1],
 		['size', true, 'font-size:\\s*(x\\-small|small|medium|large|x\\-large|xx\\-large|\\-webkit\\-xxx\\-large);?', 1, 'size'],
 		['b', false, 'font-weight:\\s*(bold);?'],
 		['i', false, 'font-style:\\s*(italic);?'],

@@ -45,6 +45,16 @@ const { chromium } = require('playwright');
             '[color=#222222][size=5]1. Statement[/size][/color]',
             '[color=#222222]Before [size=5]Large[/size] after[/color]'
         ]);
+        const cssSizeUnits = await page.evaluate(() => [
+            '[size=1.25em]em[/size]', '[size=.875rem]rem[/size]',
+            '[size=2vw]vw[/size]', '[size=110%]percent[/size]', '[size=12px][/size]'
+        ].map(bbcode2html));
+        assert.deepEqual(cssSizeUnits, [
+            '<span style="font-size: 1.25em">em</span>',
+            '<span style="font-size: .875rem">rem</span>',
+            '<span style="font-size: 2vw">vw</span>',
+            '<span style="font-size: 110%">percent</span>', ''
+        ]);
         const result = await page.evaluate(() => {
             const url = 'https://example.com/photo.png';
             const control = document.getElementById('imgurloff');
