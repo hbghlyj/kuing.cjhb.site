@@ -1217,7 +1217,7 @@ const assertPusherMetadataOrder = () => {
             assert.ok(!imageLinkRecognition.disabled.html.includes('<img'), 'Checked image-link option must not embed bare image URLs.');
             assert.ok(!imageLinkRecognition.disabled.bbcode.includes('[img]'), 'Checked image-link option must not convert bare image URLs to image BBCode.');
             assert.ok(imageLinkRecognition.disabled.explicit.includes('<img'), 'Disabling image-link recognition must preserve explicit image BBCode.');
-            assert.strictEqual(remFontSize, 'Example', 'Assertion Error: An unsupported rem font size produced a malformed BBCode size tag.');
+            assert.strictEqual(remFontSize, '[size=0.75rem]Example[/size]', 'Assertion Error: A supported rem font size was not preserved as BBCode.');
             const importantDefaultColor = await page.evaluate(() => {
                 const html = '<span style="color: rgb(0, 0, 0) !important;">was fully written by ChatGPT and passed Lean verification</span>';
                 return bbcode2html(html2bbcode(html));
