@@ -15,17 +15,20 @@ function addslashes(str) {
 }
 
 function atag(aoptions, text) {
-	if(trim(text) == '') {
+	var convertedText = recursion('a', text, 'atag');
+	var innerText = trim(convertedText);
+	if(innerText == '') {
 		return '';
 	}
 	var pend = parsestyle(aoptions, '', '');
 	href = getoptionvalue('href', aoptions);
 
 	if(href.substr(0, 11) == 'javascript:') {
-		return trim(recursion('a', text, 'atag'));
+		return convertedText;
 	}
-
-	var innerText = trim(recursion('a', text, 'atag'));
+	var preservedText = convertedText.replace(/^(\s*)[\s\S]*?(\s*)$/, function($0, leading, trailing) {
+		return leading + innerText + trailing;
+	});
 	var decodedHref = href;
 	try {
 		decodedHref = decodeURIComponent(href);
@@ -35,10 +38,10 @@ function atag(aoptions, text) {
 	var cleanText = innerText.replace(/^https?:\/\/(www\.)?|^www\./i, '').replace(/\/$/, '');
 
 	if(href === innerText || decodedHref === innerText || cleanHref === cleanText) {
-		return pend['prepend'] + '[url]' + href + '[/url]' + pend['append'];
+		return pend['prepend'] + '[url]' + href + '[/url]';
 	}
 
-	return pend['prepend'] + '[url=' + href + ']' + innerText + '[/url]' + pend['append'];
+	return pend['prepend'] + '[url=' + href + ']' + preservedText + '[/url]' + pend['append'];
 }
 
 function bbcode2html(str) {

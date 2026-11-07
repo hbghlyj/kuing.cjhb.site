@@ -12,6 +12,8 @@ const { chromium } = require('playwright');
         await page.addScriptTag({ path: path.resolve('static/js/bbcode.js') });
         const captionedTable = await page.evaluate(() => html2bbcode('<table><caption><strong>Results</strong></caption><tbody><tr><td>42</td></tr></tbody></table>'));
         assert.match(captionedTable, /^\[b\]Results\[\/b\]\n+\[table\][\s\S]*42[\s\S]*\[\/table\]$/);
+        assert.equal(await page.evaluate(() => html2bbcode('<a href="https://en.wikipedia.org/wiki/Abstract_algebra"> abstract algebra</a>')),
+            '[url=https://en.wikipedia.org/wiki/Abstract_algebra] abstract algebra[/url]');
         const codePaste = await page.evaluate(() => {
             const html = '<pre><code class="language-js"><span>  if (x &lt; 2)</span> {&#10;\t$x = &quot;&amp;lt;&quot;;<br>  }</code></pre>';
             const bbcode = html2bbcode(html);
