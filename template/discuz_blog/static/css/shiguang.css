@@ -1070,7 +1070,7 @@ body.discuzx5 #postlist .t_f,
 body.discuzx5 #postlist .t_fsz,
 body.discuzx5 #postlist .pcb {
     font-size: 16px;
-    line-height: 2;
+    line-height: 1.5;
 }
 
 body.discuzx5 #postlist .t_f h1,
