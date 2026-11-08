@@ -360,6 +360,29 @@ function normalizefontvalue(value) {
 		.replace(/["']/g, ''));
 }
 
+function normalizePastedCssColor(value) {
+	value = trim(value);
+	if(!/^hsla?\(/i.test(value)) return value;
+	var probe = document.createElement('span');
+	probe.style.color = value;
+	if(!probe.style.color) return '';
+	// Resolve modern HSL syntax into the RGB forms supported by both renderers.
+	var canvas = document.createElement('canvas');
+	canvas.width = canvas.height = 1;
+	var context = canvas.getContext('2d');
+	if(!context) return '';
+	context.fillStyle = probe.style.color;
+	context.fillRect(0, 0, 1, 1);
+	var pixel = context.getImageData(0, 0, 1, 1).data;
+	if(!pixel[3]) return 'transparent';
+	if(pixel[3] !== 255) {
+		return 'rgba(' + pixel[0] + ',' + pixel[1] + ',' + pixel[2] + ',' + Math.round(pixel[3] / 255 * 1000) / 1000 + ')';
+	}
+	return '#' + [pixel[0], pixel[1], pixel[2]].map(function(channel) {
+		return ('0' + channel.toString(16)).slice(-2);
+	}).join('');
+}
+
 function fonttag(fontoptions, text) {
 	var prepend = '';
 	var append = '';
@@ -370,6 +393,8 @@ function fonttag(fontoptions, text) {
 		if(optionvalue) {
 			if(bbcode == 'font') {
 				optionvalue = normalizefontvalue(optionvalue);
+			} else if(bbcode == 'color') {
+				optionvalue = normalizePastedCssColor(optionvalue);
 			}
 			if(!isDefaultStyleAttr(bbcode, optionvalue)) {
 				prepend += '[' + bbcode + '=' + optionvalue + ']';
@@ -723,6 +748,8 @@ function parsestyle(tagoptions, prepend, append) {
 				opnvalue = sizealias[opnvalue];
 			} else if(searchlist[i][0] == 'font') {
 				opnvalue = normalizefontvalue(opnvalue);
+			} else if(searchlist[i][0] == 'color' || searchlist[i][0] == 'backcolor') {
+				opnvalue = normalizePastedCssColor(opnvalue);
 			}
 			if(!isDefaultStyleAttr(searchlist[i][0], opnvalue)) {
 				prepend += '[' + searchlist[i][0] + (searchlist[i][1] == true ? '=' + opnvalue + ']' : ']');

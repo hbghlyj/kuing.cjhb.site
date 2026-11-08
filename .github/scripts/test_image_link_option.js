@@ -33,6 +33,13 @@ const { chromium } = require('playwright');
             block, block, '[code]  first\n  second[/code]', '[code]editor block[/code]', '\x60inline\x60',
             '[code]first\n  second < 3[/code]', '[code]first\nsecond[/code]', true
         ]);
+        const hslColors = await page.evaluate(() => [
+            html2bbcode('<span style="background-color:hsl(none 0% 100%)">White</span>'),
+            html2bbcode('<span style="background-color:hsl(60 100% 50%)">Yellow</span>'),
+            html2bbcode('<span style="background-color:hsla(60,100%,50%,0)">Transparent</span>'),
+            html2bbcode('<span style="color:hsl(120 100% 50%)">Green</span>')
+        ]);
+        assert.deepEqual(hslColors, ['White', '[backcolor=#ffff00]Yellow[/backcolor]', 'Transparent', '[color=#00ff00]Green[/color]']);
         const nestedFormatting = await page.evaluate(() => [
             html2bbcode('<span style="font-size:x-large">1. Statement</span>'),
             html2bbcode('<span style="color: #222222"><span style="font-size:x-large">1. Statement</span></span>'),
