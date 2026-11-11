@@ -55,4 +55,7 @@
 	#f_pst{display: none;}
 	<!--{/if}-->
 	</style>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@600&amp;display=swap">
 	<link rel="stylesheet" type="text/css" href="{STYLEIMGDIR}/css/shiguang.css?{VERHASH}" />
