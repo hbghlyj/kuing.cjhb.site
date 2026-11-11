@@ -35,9 +35,6 @@ function updateThreadTags(tags) {
 	el.innerHTML = '';
 	if(tags && tags.length) {
 		for(var i = 0; i < tags.length; i++) {
-			if(i) {
-				el.appendChild(document.createTextNode(', '));
-			}
 			var link = document.createElement('a');
 			link.title = tags[i].name;
 			link.href = 'misc.php?mod=tag&id=' + encodeURIComponent(tags[i].id) + '&name=' + encodeURIComponent(tags[i].name);

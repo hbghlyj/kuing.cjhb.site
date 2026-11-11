@@ -1270,6 +1270,43 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .ptg i { display: inline-block; margin-right: 6px; font-size: 14px; color: var(--dz-FC-color, #2B7ACD); font-style: normal; vertical-align: middle; }
 .ptg i:before { font-family: "dzmicon" !important; content: "\f11d"; }
 .ptg a { color: var(--dz-FC-color, #2B7ACD); text-decoration: none; }
+	#threadtags { display: inline-flex; flex-wrap: wrap; gap: 10px 20px; padding-right: 10px; vertical-align: middle; }
+	#threadtags:not(:empty) { margin-bottom: 10px; }
+	#threadtags a {
+		position: relative;
+		display: inline-block;
+		height: 26px;
+		padding: 0 12px 0 25px;
+		border-radius: 3px 0 0 3px;
+		background: #eee;
+		color: #656565;
+		line-height: 26px;
+		text-decoration: none;
+		transition: background-color .4s, color .4s;
+	}
+	#threadtags a::before {
+		content: "";
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: inset 0 1px rgba(0, 0, 0, .2);
+	}
+	#threadtags a::after {
+		content: "";
+		position: absolute;
+		right: -10px;
+		top: 0;
+		border-top: 13px solid transparent;
+		border-bottom: 13px solid transparent;
+		border-left: 10px solid #eee;
+		transition: border-left-color .4s;
+	}
+	#threadtags a:hover, #threadtags a:focus { background-color: var(--sg-red, var(--dz-FC-color, #2b7acd)); color: #fff; }
+	#threadtags a:hover::after, #threadtags a:focus::after { border-left-color: var(--sg-red, var(--dz-FC-color, #2b7acd)); }
 .threadlist_foot li.thread-tags .ptg a:hover { background: var(--dz-BG-n, #A0C8EA); color: #fff; }
 .ml .ptg { display: inline-block; width: auto; max-width: 100%; }
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
