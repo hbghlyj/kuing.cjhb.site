@@ -917,6 +917,7 @@ body.discuzx5 #postlist .posthead .plc {
 
 body.discuzx5 #postlist .posthead .ts {
     margin: 8px 0 12px;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: x-large;
     font-weight: 600;
     line-height: 1.25;
