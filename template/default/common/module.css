@@ -1328,8 +1328,44 @@ a.editlog:hover { color: #333; }
 			.dr .mls li { width: 70px; }
 
 /* 标签 .ptg */
-	.ptg:before { content: "\f14a"; font-family: dzicon; font-size: 16px; line-height: 14px; color: #7DA0CC; }
 		.ptg a { color: {HIGHLIGHTLINK}; }
+	#threadtags { display: inline-flex; flex-wrap: wrap; gap: 10px 20px; padding-right: 10px; vertical-align: middle; }
+	#threadtags:not(:empty) { margin-bottom: 10px; }
+	#threadtags a {
+		position: relative;
+		display: inline-block;
+		height: 26px;
+		padding: 0 12px 0 25px;
+		border-radius: 3px 0 0 3px;
+		background: #eee;
+		color: #656565;
+		line-height: 26px;
+		text-decoration: none;
+		transition: background-color .4s, color .4s;
+	}
+	#threadtags a::before {
+		content: "";
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: inset 0 1px rgba(0, 0, 0, .2);
+	}
+	#threadtags a::after {
+		content: "";
+		position: absolute;
+		right: -10px;
+		top: 0;
+		border-top: 13px solid transparent;
+		border-bottom: 13px solid transparent;
+		border-left: 10px solid #eee;
+		transition: border-left-color .4s;
+	}
+	#threadtags a:hover, #threadtags a:focus { background-color: var(--sg-red, {HIGHLIGHTLINK}); color: #fff; }
+	#threadtags a:hover::after, #threadtags a:focus::after { border-left-color: var(--sg-red, {HIGHLIGHTLINK}); }
 /** end **/
 
 
