@@ -8011,6 +8011,10 @@ function getSign(nonce, t, secret) {
 	'scrolltop' => '返回顶部',
 
 	'platform_default' => '默认平台',
+	'platform_custom' => '自定义平台',
+	'platform_menu_items' => '菜单项',
+	'platform_op' => '操作',
+	'platform_list_tips' => '<li>显示顺序数字越小越靠前，决定「全部应用」菜单中的排列；系统平台固定置顶。</li><li>勾选并提交可删除自定义平台，系统平台不可删除；平台名称、菜单与默认平台在各平台编辑页维护。</li>',
 	'platform_system' => '系统平台',
 	'platform_name' => '平台名称',
 	'platform_list' => '平台列表',

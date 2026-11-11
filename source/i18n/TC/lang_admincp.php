@@ -8015,6 +8015,10 @@ function getSign(nonce, t, secret) {
 	'scrolltop' => '返回頂部',
 
 	'platform_default' => '預設平臺',
+	'platform_custom' => '自訂平臺',
+	'platform_menu_items' => '選單項目',
+	'platform_op' => '操作',
+	'platform_list_tips' => '<li>顯示順序數字越小越靠前，決定「全部應用」選單中的排列；系統平臺固定置頂。</li><li>勾選並提交可刪除自訂平臺，系統平臺不可刪除；平臺名稱、選單與預設平臺在各平臺編輯頁維護。</li>',
 	'platform_system' => '系統平臺',
 	'platform_name' => '平臺名稱',
 	'platform_list' => '平臺列表',

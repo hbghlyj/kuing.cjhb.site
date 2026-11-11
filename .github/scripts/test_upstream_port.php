@@ -48,4 +48,35 @@ foreach(['newthread', 'newreply', 'editpost'] as $name) {
         throw new RuntimeException('Attachment payload shape not respected: '.$name);
     }
 }
-echo "Upstream moderation and attachment regressions passed\n";
+require __DIR__.'/../../source/class/class_menu.php';
+function dunserialize($value) { return unserialize($value); }
+function savecache($name, $value) { table_common_syscache::$stored = $value; }
+class table_common_admincp_menu_platform {
+    public static $rows = [];
+    public static function t() { return new self; }
+    public function fetch_all_data() { return self::$rows; }
+}
+class table_common_syscache {
+    public static $stored = [];
+    public static function t() { return new self; }
+    public function fetch_syscache($name) { return self::$stored; }
+}
+$items = ['home' => [['Index', 'index']]];
+table_common_admincp_menu_platform::$rows = [
+    'custom' => ['menu' => serialize(['custom' => ['title' => 'Custom', 'menu' => $items]])],
+    'system' => ['menu' => serialize(['name' => 'System', 'menu' => $items])],
+    'broken' => ['menu' => serialize(null)],
+];
+table_common_syscache::$stored = ['default_platform' => 'custom', 'subperms' => ['kept'], 'platform' => ['system' => null]];
+$_G = ['cache' => ['admin' => ['platform' => ['custom' => null]]]];
+if(!menu::platform_cache_broken()) throw new RuntimeException('NULL platform was not detected');
+$platforms = menu::platform_refresh();
+if(array_keys($platforms) !== ['system', 'custom'] || $platforms['custom']['name'] !== 'Custom' || menu::platform_cache_broken()) {
+    throw new RuntimeException('Platform rebuilding failed to repair names, order or invalid rows');
+}
+if(table_common_syscache::$stored['default_platform'] !== 'custom' || table_common_syscache::$stored['subperms'] !== ['kept']) {
+    throw new RuntimeException('Partial platform cache overwrote unrelated admin settings');
+}
+$_G['cache']['admin']['platform'] = [];
+if(!menu::platform_cache_broken()) throw new RuntimeException('Empty platform cache was not detected');
+echo "Upstream moderation, attachment and platform-cache regressions passed\n";

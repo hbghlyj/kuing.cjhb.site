@@ -8135,6 +8135,10 @@ function getSign(nonce, t, secret) {
 	'scrolltop' => 'Back to Top',
 
 	'platform_default' => 'Default Platform',
+	'platform_custom' => 'Custom Platform',
+	'platform_menu_items' => 'Menu Items',
+	'platform_op' => 'Actions',
+	'platform_list_tips' => '<li>Lower display-order numbers appear first in All Applications; the system platform is always first.</li><li>Select custom platforms to delete them. Edit each platform to change its name, menus or default status.</li>',
 	'platform_system' => 'System Platform',
 	'platform_name' => 'Platform Name',
 	'platform_list' => 'Platform List',

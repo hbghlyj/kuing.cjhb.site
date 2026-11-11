@@ -1,5 +1,14 @@
 # MitFrame Port Checkpoint
 
+## Selective port: e0d2b366 (2026-11-10)
+
+- Ported database-backed AdminCP platform cache rebuilding, damaged-cache
+  recovery, platform list improvements and long-name dropdown display.
+- Added EN/SC/TC labels and preserved unrelated persisted admin cache fields
+  even when the caller only loaded a partial platform cache.
+- This is not a full upstream checkpoint advance; continue reviewing changes
+  after 10fcc8bc, accounting for Gitee's rewritten MitFrame history.
+
 ## 20261101 Batch: 3db25375..10fcc8bc
 
 Upstream comparison through 10fcc8bcee828a3ee7b1712867929601205788cd.
