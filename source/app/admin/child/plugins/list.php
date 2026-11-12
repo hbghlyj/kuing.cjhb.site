@@ -68,10 +68,9 @@ if(!submitcheck('submit')) {
 		if(is_array($checkresult) && isset($checkresult[$addonid])) {
 			list(, $newver, $sysver) = explode(':', $checkresult[$addonid]);
 		}
-		$noticeversion = !empty($sysver) && $sysver > $plugin['version'] ? $sysver : $newver;
-		if(!empty($sysver) && $noticeversion === $sysver && !cloudaddons_skip_upgrade_notice($addonid, $noticeversion)) {
+		if(!empty($sysver) && $sysver > $plugin['version']) {
 			$updateinfo = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$addonid.'&from=newver" title="'.$lang['plugins_online_update'].'" target="_blank"><font color="red">'.$lang['plugins_find_newversion'].'<span class="w1000hide w1300hide"> '.$sysver.'</span></font></a>';
-		} elseif(!empty($newver) && !cloudaddons_skip_upgrade_notice($addonid, $noticeversion)) {
+		} elseif(!empty($newver)) {
 			$updateinfo = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$addonid.'&from=newver" title="'.$lang['plugins_online_update'].'" target="_blank"><font color="red">'.$lang['plugins_find_newversion'].'<span class="w1000hide w1300hide"> '.$newver.'</span></font></a>';
 		}
 		$hookexists = FALSE;

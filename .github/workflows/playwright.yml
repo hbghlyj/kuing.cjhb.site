@@ -120,6 +120,7 @@ jobs:
             php .github/scripts/test_retired_thread_drafts.php
             php .github/scripts/test_remote_image_message.php
           php .github/scripts/test_upstream_port.php
+          php .github/scripts/test_plugin_upgrade_notice.php
           php .github/scripts/test_username_availability.php
           php .github/scripts/test_svg_markers.php
           php .github/scripts/test_sitemap_atomic.php

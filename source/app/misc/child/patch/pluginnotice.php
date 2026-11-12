@@ -33,6 +33,9 @@ dsetcookie('addoncheck_plugin', 1, 7200);
 $newversion = 0;
 if(is_array($checkresult)) {
 	foreach($checkresult as $addonid => $value) {
+		if(!array_key_exists($addonid, $vers)) {
+			continue;
+		}
 		list(, $newver, $sysver) = explode(':', $value);
 		if($sysver && $sysver > $vers[$addonid] || $newver) {
 			$newversion++;

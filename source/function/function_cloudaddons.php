@@ -135,11 +135,6 @@ function cloudaddons_upgradecheck($addonids) {
 	return cloudaddons_open('&mod=app&ac=validator&ver=2', implode('&', $post), 15);
 }
 
-function cloudaddons_skip_upgrade_notice($addonid, $version) {
-	// This release's document import requires the uninstalled shared attachment library.
-	return $addonid === 'aigeo_knowledge.plugin' && $version === 'v99.2026102802';
-}
-
 function cloudaddons_recommendaddon($addonids = []) {
 	$post = [];
 	require_once DISCUZ_ROOT.'./source/discuz_version.php';
