@@ -15,6 +15,14 @@ const { chromium } = require('playwright');
             window.MathJax = { typesetPromise: () => Promise.resolve(), typesetClear: () => {} };
         });
         await page.addScriptTag({ path: 'static/js/mathjax-full-editor.js' });
+        const nestedMath = '$x + \\text{when $y > 0$ holds} = z$';
+        const nestedSources = await page.evaluate(source => {
+            editdoc.body.textContent = source;
+            wysiwyg = 1;
+            renderMathEditorContent();
+            return Array.from(editdoc.querySelectorAll('[data-math-source]'), node => node.getAttribute('data-math-source'));
+        }, nestedMath);
+        assert.deepEqual(nestedSources, [nestedMath], 'Nested dollars inside text braces split the outer formula');
         for(const barrier of ['<img id="barrier" src="data:,">', '<span id="barrier" contenteditable="false">Widget</span>']) {
             const result = await page.evaluate(barrier => {
                 editdoc.body.innerHTML = 'See $X$.<br>' + barrier + '<br><strong>Proof.</strong>';

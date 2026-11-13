@@ -374,6 +374,18 @@ function isEscapedMathDelimiter(text, index) {
 }
 
 function findMathDelimiter(text, start, opening, closing) {
+	if (opening === '$' || opening === '$$') {
+		var depth = 0;
+		for (var cursor = start + opening.length; cursor < text.length; cursor++) {
+			if (isEscapedMathDelimiter(text, cursor)) continue;
+			if (text[cursor] === '{') depth++;
+			else if (text[cursor] === '}' && depth > 0) depth--;
+			if (depth === 0 && text.slice(cursor, cursor + closing.length) === closing) {
+				return cursor + closing.length;
+			}
+		}
+		return -1;
+	}
 	var index = text.indexOf(closing, start + opening.length);
 	while (index !== -1) {
 		if (!isEscapedMathDelimiter(text, index)) return index + closing.length;
