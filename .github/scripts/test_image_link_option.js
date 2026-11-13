@@ -10,6 +10,15 @@ const { chromium } = require('playwright');
         await page.evaluate(() => Object.assign(window, { EXTRAFUNC: {}, allowhtml: false, allowbbcode: true, allowimgcode: true, allowsmilies: false, STATICURL: '/static/' }));
         await page.addScriptTag({ path: path.resolve('static/js/common.js') });
         await page.addScriptTag({ path: path.resolve('static/js/bbcode.js') });
+        const scripts = await page.evaluate(() => {
+            const html = 'x<sup>2</sup> + H<sub>2</sub>O <sup><strong>bold</strong><sub>nested</sub></sup>';
+            const bbcode = html2bbcode(html);
+            return { bbcode, html: bbcode2html(bbcode), roundTrip: html2bbcode(bbcode2html(bbcode)) };
+        });
+        const scriptBbcode = 'x[sup]2[/sup] + H[sub]2[/sub]O [sup][b]bold[/b][sub]nested[/sub][/sup]';
+        assert.equal(scripts.bbcode, scriptBbcode);
+        assert.equal(scripts.html, 'x<sup>2</sup> + H<sub>2</sub>O <sup><strong>bold</strong><sub>nested</sub></sup>');
+        assert.equal(scripts.roundTrip, scriptBbcode);
         const captionedTable = await page.evaluate(() => html2bbcode('<table><caption><strong>Results</strong></caption><tbody><tr><td>42</td></tr></tbody></table>'));
         assert.match(captionedTable, /^\[b\]Results\[\/b\]\n+\[table\][\s\S]*42[\s\S]*\[\/table\]$/);
         assert.equal(await page.evaluate(() => html2bbcode('<a href="https://en.wikipedia.org/wiki/Abstract_algebra"> abstract algebra</a>')),

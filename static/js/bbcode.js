@@ -126,6 +126,8 @@ function bbcode2html(str) {
 		str = replacePairedBbcode(str, '[s]', '[/s]', '<strike>', '</strike>');
 		str = replacePairedBbcode(str, '[i]', '[/i]', '<i>', '</i>');
 		str = replacePairedBbcode(str, '[u]', '[/u]', '<u>', '</u>');
+		str = replacePairedBbcode(str, '[sup]', '[/sup]', '<sup>', '</sup>');
+		str = replacePairedBbcode(str, '[sub]', '[/sub]', '<sub>', '</sub>');
 		if(parsetype != 1) {
 			str = str.replace(/\[quote]([\s\S]*?)\[\/quote\]\s?\s?/ig, '<div class="quote"><blockquote>$1</blockquote></div>\n');
 			str = str.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -564,6 +566,8 @@ function html2bbcode(str) {
 		str = recursion('i', str, 'simpletag', 'i');
 		str = recursion('em', str, 'simpletag', 'i');
 		str = recursion('u', str, 'simpletag', 'u');
+		str = recursion('sup', str, 'simpletag', 'sup');
+		str = recursion('sub', str, 'simpletag', 'sub');
 		str = recursion('strike', str, 'simpletag', 's');
 		str = recursion('font', str, 'fonttag');
 		str = recursion('blockquote', str, 'simpletag', 'indent');
