@@ -116,7 +116,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	#category_grid td[hidden] { display:none !important; }
 	#category_grid td[data-index-tab] { width:100%; border:0; }
 		#category_grid table { width:100%; table-layout:fixed; }
-		.category_newlist th, .category_newlist td { padding: 6px 12px; vertical-align: middle; }
+		.category_newlist th, .category_newlist td { padding: 6px 8px; vertical-align: middle; }
 		.category_newlist th > a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 		.category_newlist .by, .category_newlist .num { font-size: .875em; color: {LIGHTTEXT}; }
 		.category_newlist .by { width: 8em; overflow-wrap: anywhere; }
