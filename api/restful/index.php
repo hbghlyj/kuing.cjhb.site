@@ -90,6 +90,9 @@ if($api[0] == 'token') {
 			echo lang('core', 'restful_auth_error');
 		}
 	} else {
+		if(!$authed) {
+			exit(lang('core', 'restful_auth_error'));
+		}
 		$redirect = restful_safe_redirect(base64_decode((string)$_ENV['returntype'], true));
 		dheader('location: '.$redirect);
 	}

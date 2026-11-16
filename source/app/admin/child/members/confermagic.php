@@ -12,9 +12,18 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 
 $magics = '';
 foreach(table_common_magic::t()->fetch_all_data(1) as $magic) {
+	$identifier = explode(':', $magic['identifier'], 2);
+	$icon = '';
+	if(count($identifier) == 2 && preg_match('/^[a-zA-Z0-9_]+$/', $identifier[0]) && preg_match('/^[a-zA-Z0-9_]+$/', $identifier[1])) {
+		if(file_exists(DISCUZ_PLUGIN($identifier[0]).'/magic/magic_'.$identifier[1].'.gif')) {
+			$icon = 'source/plugin/'.$identifier[0].'/magic/magic_'.$identifier[1].'.gif';
+		}
+	} elseif(count($identifier) == 1 && preg_match('/^[a-zA-Z0-9_]+$/', $identifier[0]) && file_exists(DISCUZ_ROOT.'static/image/magic/'.$identifier[0].'.gif')) {
+		$icon = 'static/image/magic/'.$identifier[0].'.gif';
+	}
 	$magics .= showtablerow('', ['class="td25"', 'class="td23"', 'class="td25"', ''], [
 		"<input class=\"checkbox\" type=\"checkbox\" name=\"magic[]\" value=\"{$magic['magicid']}\">",
-		"<img src=\"static/image/magic/{$magic['identifier']}.gif\">",
+		$icon ? '<img class="vmiddle" src="'.$icon.'">' : '',
 		$magic['name'],
 		'<input class="txt" type="text" name="magicnum['.$magic['magicid'].']" value="1" size="3">'
 	], TRUE);
@@ -80,4 +89,4 @@ if(!submitcheck('confermagicsubmit')) {
 	$membernum = countmembers($search_condition, $urladd);
 	notifymembers('confermagic', 'magicletter');
 }
-	
+

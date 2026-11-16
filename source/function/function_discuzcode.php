@@ -784,7 +784,7 @@ function parseflv($url, $width = 0, $height = 0) {
 			}
 			$width = addslashes($width);
 			$height = addslashes($height);
-			$iframe = addslashes($iframe);
+			$iframe = dhtmlspecialchars($iframe, ENT_QUOTES);
 			$randomid = 'flv_'.random(3);
 			return '<ignore_js_op><iframe id="'.$randomid.'" src="'.$iframe.'" scrolling="no" allowfullscreen="true" style="max-width:100%" width="'.$width.'" height="'.$height.'" frameborder="0"></iframe></ignore_js_op>';
 		}

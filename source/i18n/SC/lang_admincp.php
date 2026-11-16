@@ -13,6 +13,12 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
+	'ec_wechat_v1_key_required' => '启用 APIv2 时必须填写「APIv2密钥」，否则签名串尾部为空，任何人都能自行计算出合法签名并伪造支付回调。请先填写密钥再提交，或改用 APIv3。',
+	'ec_wechat_v3_public_key_id' => '(可选)微信支付公钥ID',
+	'ec_wechat_v3_public_key_id_comment' => '仅「微信支付公钥」模式的商户号需要填写（形如 PUB_KEY_ID_xxx），须与下方公钥配对；使用平台证书验签的商户号留空即可：微信商户平台 - 账户中心 - API安全 - 微信支付公钥。',
+	'ec_wechat_v3_public_key' => '(可选)微信支付公钥',
+	'ec_wechat_v3_public_key_comment' => '粘贴「微信支付公钥」的完整 PEM 内容（含 BEGIN/END 行）。填写后回调验签不再依赖平台证书，可避免平台证书轮换或拉取失败导致的“验签失败”。',
+	'ec_payment_check_cron' => '支付订单对账',
 
 	'mitframe_apps' => '全部应用',
 
@@ -4424,7 +4430,7 @@ $lang =
 	'usergroups_system_7' => '游客',
 	'usergroups_system_8' => '等待验证',
 	'usergroups_creditsrange' => '积分介于',
-	'usergroups_system' => '体制',
+	'usergroups_systemtype' => '体制',
 	'usergroups_free' => '免费',
 	'usergroups_buy' => '收费',
 	'usergroups_up' => '晋级',

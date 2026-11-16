@@ -131,7 +131,7 @@
 										<input type="text" name="searchkey" class="px vm" size="20" value="" onclick="if(this.value=='{lang search_friend}')this.value='';">&nbsp;<button type="submit" class="pn vm"><em>{lang search}</em></button>
 									</form>
 								</div>
-							</div>							
+							</div>
 
 							<div class="bm mtm">
 								<div class="bm_h cl">
@@ -219,7 +219,7 @@
 								<h4>
 									<span class="xg1 xw0 y">
 									<!--{if $_GET['view'] == 'blacklist'}-->
-										<a href="home.php?mod=spacecp&ac=friend&op=blacklist&subop=delete&uid=$value[uid]&start=$_GET[start]">{lang delete_blacklist}</a>
+										<a href="home.php?mod=spacecp&ac=friend&op=blacklist&subop=delete&hash={FORMHASH}&uid=$value[uid]&start=$_GET[start]">{lang delete_blacklist}</a>
 									<!--{elseif $_GET['view'] == 'visitor' || $_GET['view'] == 'trace'}-->
 										<!--{date($value['dateline'], 'd')}-->
 									<!--{/if}-->
@@ -332,7 +332,7 @@
 						if(values['type'] == 'add') {
 							fObj.innerHTML = '{lang follow_del}';
 							fObj.className = 'flw_btn_unfo';
-							fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&fuid='+values['fuid']+'&from='+values['from'];
+							fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&hash={FORMHASH}&fuid='+values['fuid']+'&from='+values['from'];
 						} else if(values['type'] == 'del') {
 							fObj.innerHTML = '{lang follow_add}';
 							fObj.className = 'flw_btn_fo';

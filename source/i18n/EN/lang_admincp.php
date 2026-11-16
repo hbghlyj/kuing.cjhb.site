@@ -13,6 +13,12 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
+	'ec_payment_check_cron' => 'Payment order reconciliation',
+	'ec_wechat_v3_public_key_id' => '(Optional) WeChat Pay public key ID',
+	'ec_wechat_v3_public_key_id_comment' => 'For public-key verification only (PUB_KEY_ID_xxx). Must match the public key below. Leave empty when using platform certificates.',
+	'ec_wechat_v3_public_key' => '(Optional) WeChat Pay public key',
+	'ec_wechat_v3_public_key_comment' => 'Complete PEM public key, including BEGIN/END lines. Used to verify callbacks without platform certificates.',
+	'ec_wechat_v1_key_required' => 'APIv2 requires an API key. An empty key permits forged payment signatures. Configure the key or use APIv3.',
 
 	'mitframe_apps' => 'All Apps',
 
@@ -4535,6 +4541,7 @@ China
 	'usergroups_system_8' => 'Pending Verification',
 	'usergroups_creditsrange' => 'Credits between',
 	'usergroups_system' => 'System User Group',
+	'usergroups_systemtype' => 'Group Type',
 	'usergroups_free' => 'Free',
 	'usergroups_buy' => 'Paid',
 	'usergroups_up' => 'Promotion',
@@ -8112,7 +8119,7 @@ function getSign(nonce, t, secret) {
     let sha256 = CryptoJS.SHA256(nonce + t + secret).toString();
     let base64_sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(sha256));
     return base64_sign;
-}					
+}
 </pre>
 				</p>',
 	'restful_token' => 'Get Token',

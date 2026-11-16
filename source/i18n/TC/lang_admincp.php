@@ -13,6 +13,12 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
+	'ec_wechat_v3_public_key_id' => '(可選)微信支付公鑰ID',
+	'ec_wechat_v3_public_key_id_comment' => '僅「微信支付公鑰」模式的商戶號需要填寫（形如 PUB_KEY_ID_xxx），須與下方公鑰配對；使用平臺證書驗籤的商戶號留空即可：微信商戶平臺 - 賬戶中心 - API安全 - 微信支付公鑰。',
+	'ec_wechat_v3_public_key' => '(可選)微信支付公鑰',
+	'ec_wechat_v3_public_key_comment' => '粘貼「微信支付公鑰」的完整 PEM 內容（含 BEGIN/END 行）。填寫後回調驗籤不再依賴平臺證書，可避免平臺證書輪換或拉取失敗導致的“驗籤失敗”。',
+	'ec_payment_check_cron' => '支付訂單對賬',
+	'ec_wechat_v1_key_required' => '啟用 APIv2 必須設定密鑰，否則可偽造支付回調。請先設定密鑰或改用 APIv3。',
 
 	'mitframe_apps' => '全部應用',
 
@@ -4427,7 +4433,7 @@ $lang =
 	'usergroups_system_7' => '遊客',
 	'usergroups_system_8' => '等待驗證',
 	'usergroups_creditsrange' => '積分介於',
-	'usergroups_system' => '體制',
+	'usergroups_systemtype' => '體制',
 	'usergroups_free' => '免費',
 	'usergroups_buy' => '收費',
 	'usergroups_up' => '晉級',

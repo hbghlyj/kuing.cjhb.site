@@ -33,8 +33,8 @@ if(!$file) {
 	$pluginarray = getimportdata('Discuz! Plugin');
 }
 if(!empty($pluginarray[$operation.'file']) && preg_match('/^[\w\.]+$/', $pluginarray[$operation.'file'])) {
-	$filename = DISCUZ_PLUGIN($dir).'/'.$pluginarray[$operation.'file'];
-	if(file_exists($filename)) {
+	$filename = issafepath(DISCUZ_PLUGIN($dir).'/'.$pluginarray[$operation.'file']);
+	if($filename) {
 		$installlang = load_installlang($dir);
 		@include $filename;
 	}
@@ -108,4 +108,4 @@ if($operation == 'enable') {
 	cpmsg('plugins_disable_succeed', 'action=plugins'.(!empty($_GET['system']) ? '&system=1' : ''), 'succeed');
 }
 cpmsg('plugins_'.$operation.'_succeed', 'action=plugins'.(!empty($_GET['system']) ? '&system=1' : ''), 'succeed');
-	
+

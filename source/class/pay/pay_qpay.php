@@ -70,15 +70,21 @@ class pay_qpay extends pay_base {
 	public function qpay_sign_verify() {
 		$xml = file_get_contents('php://input');
 		$data = $this->qpay_x2o($xml);
+		if(empty($this->settings['v1_key'])) {
+			return ['code' => 50009, 'data' => $data];
+		}
+		if(!is_array($data) || empty($data['sign'])) {
+			return ['code' => 50000, 'data' => $data];
+		}
 		$sign = $this->qpay_sign($this->settings['v1_key'], $data, 1);
 		if($sign != $data['sign']) {
 			return ['code' => 50001, 'data' => $data];
 		}
-		if($data['return_code'] != 'SUCCESS') {
-			return ['code' => 50002, 'data' => $data];
+		if(($data['return_code'] ?? '') != 'SUCCESS') {
+			return ['code' => 50008, 'data' => $data];
 		}
-		if($data['result_code'] != 'SUCCESS') {
-			return ['code' => 50003, 'data' => $data];
+		if(($data['result_code'] ?? '') != 'SUCCESS') {
+			return ['code' => 50007, 'data' => $data];
 		}
 		return ['code' => 200, 'data' => $data];
 	}
@@ -190,9 +196,18 @@ class pay_qpay extends pay_base {
 	}
 
 	private function qpay_x2o($xml) {
-		libxml_disable_entity_loader(true);
-		$data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-		return $data;
+		if(!is_string($xml) || trim($xml) === '' || stripos($xml, '<!DOCTYPE') !== false) {
+			return [];
+		}
+		$previous = libxml_use_internal_errors(true);
+		try {
+			$parsed = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NONET);
+			$data = $parsed === false ? [] : json_decode(json_encode($parsed), true);
+			return is_array($data) ? $data : [];
+		} finally {
+			libxml_clear_errors();
+			libxml_use_internal_errors($previous);
+		}
 	}
 
 	private function qpay_sign($token, $data, $sign = 0) {

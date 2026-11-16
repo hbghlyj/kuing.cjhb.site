@@ -801,7 +801,7 @@ class discuz_application extends discuz_base {
 
 	private function _init_cron() {
 		$ext = empty($this->config['remote']['on']) || empty($this->config['remote']['cron']) || APPTYPEID == 200;
-		if($this->init_cron && $this->init_setting && $ext) {
+		if($this->init_cron && $this->init_setting && $ext && (!defined('DISABLEDEFENSE') || (defined('CURSCRIPT') && CURSCRIPT === 'phpcli_cron'))) {
 			if($this->var['cache']['cronnextrun'] <= TIMESTAMP) {
 				discuz_cron::run();
 			}
@@ -939,7 +939,7 @@ class discuz_application extends discuz_base {
 			$this->_xss_check();
 		}
 
-		if($this->var['setting']['ipaccess'] && !ipaccess($this->var['clientip'], $this->var['setting']['ipaccess'])) {
+		if(!defined('DISABLEDEFENSE') && $this->var['setting']['ipaccess'] && !ipaccess($this->var['clientip'], $this->var['setting']['ipaccess'])) {
 			if(!defined('IN_MOBILE_API')) {
 				showmessage('user_banned');
 			} else {
@@ -961,7 +961,7 @@ class discuz_application extends discuz_base {
 			}
 		}
 
-		if(CURSCRIPT != 'admin' && !(in_array($this->var['mod'], ['logging', 'seccode']))) {
+		if(!defined('DISABLEDEFENSE') && CURSCRIPT != 'admin' && !(in_array($this->var['mod'], ['logging', 'seccode']))) {
 			periodscheck('visitbanperiods');
 		}
 

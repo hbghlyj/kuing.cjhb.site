@@ -1,5 +1,53 @@
 # MitFrame Port Checkpoint
 
+## 20261110 security batch (reviewed through badcea04)
+
+This is a partial, selective port, not a complete checkpoint advance.
+
+- Ported independent 9bf00903/fb47a8e5 request-token checks and matching
+  continuation links, admin entry guards, escaping and SQL-value quoting,
+  plugin script realpath confinement, read-only ad API lookups, atomic invite
+  consumption and registration locking, portal content access checks, upload
+  target sanitization and local image path guards, and REST redirect auth.
+- Kept the fork's safe REST redirect allowlist, native user implementation,
+  PM recipient-membership check, atomic process lock, locale/time output,
+  tag management, SVG sanitizer and custom editor behaviour.
+- Ported usergroup layout/label corrections using the fork's actual column
+  counts; added EN/SC/TC usergroups_systemtype labels. Release is 20261110.
+- Platform-cache fixes e0d2b366/ca2c748e were already selectively ported.
+- Ported cfde8b8c payment callback logs/reconciliation and 201c2d5d callback
+  hardening, including EN/SC/TC keys and polling-channel template dependencies.
+  Active order lookups also enforce the recorded channel. New callback log
+  dates use explicit UTC rather than reintroducing display-time dgmdate calls.
+  Gateway XML parsing rejects DTDs, disables network access, and restores local
+  error handling without the deprecated global entity-loader switch.
+- Ported remote-cron bootstrap redesign: check configuration before startup,
+  initialize the application once, retain init flags, bypass visitor defenses
+  for callbacks/CLI, and do not run cron from payment callbacks.
+- Ported 7058aaa3 plugin-magic image paths with identifier validation and no
+  broken image markup when the icon is absent.
+- Comment replies (677b40b8) were adapted and deployed separately as 367a6e3fb:
+  transient reply_comment_id and a localized content prefix, no new schema or
+  rpid overload. Existing self-delete, MathJax and Pusher behavior is retained.
+- Pending: account-settings layout; JSON Editor server sanitizer/rewrite and
+  compiled JS updates (Claude Code Opus 5.5 xhigh session 62e9318c completed;
+  patch integrated locally and reviewed, not included in this deployed batch);
+  image upload signature heuristics; image-cropper retirement.
+  badcea04 Raw-block retirement is being assessed with the JSON editor changes
+  to avoid losing existing stored content. Merge 5f461791 has no separate port.
+- Do not apply imgcropper deletion as an unused-file cleanup: this fork still
+  has two portalcp_block_itemfields.htm controls calling openCropper(), which
+  builds misc.php?mod=imgcropper URLs. Retain route/assets/translations until
+  that live consumer is migrated or explicitly retired.
+- Newly added source JSON checks sanitize contentType/contentEditor and reject
+  invalid content; the larger JSON editor rewrite remains separate.
+
+Validation: PHP lint across modified source; system-error, upstream-port,
+plugin-upgrade-notice, comment-reply, plugin-path/ad/invite and payment security
+regression scripts. Payment checks cover channel mismatch, missing signing
+keys, valid/malformed/DTD XML, safe logs, cron lifecycle and EN/SC/TC keys.
+Full browser CI has not been run for this batch.
+
 ## Selective port: e0d2b366 (2026-11-10)
 
 - Ported database-backed AdminCP platform cache rebuilding, damaged-cache

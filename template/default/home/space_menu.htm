@@ -10,7 +10,7 @@
 				<!--{if !ckfollow($space['uid'])}-->
 					<a id="followmod" onclick="showWindow(this.id, this.href, 'get', 0);" href="home.php?mod=spacecp&ac=follow&op=add&hash={FORMHASH}&fuid=$space[uid]">{lang follow_add}</a>
 				<!--{else}-->
-					<a id="followmod" onclick="showWindow(this.id, this.href, 'get', 0);" href="home.php?mod=spacecp&ac=follow&op=del&fuid=$space[uid]">{lang follow_del}</a>
+					<a id="followmod" onclick="showWindow(this.id, this.href, 'get', 0);" href="home.php?mod=spacecp&ac=follow&op=del&hash={FORMHASH}&fuid=$space[uid]">{lang follow_del}</a>
 				<!--{/if}-->
 			</li>
 			<!--{/if}-->
@@ -33,7 +33,7 @@
 			var fObj = $('followmod');
 			if(values['type'] == 'add') {
 				fObj.innerHTML = '{lang follow_del}';
-				fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&fuid='+values['fuid'];
+				fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&hash={FORMHASH}&fuid='+values['fuid'];
 			} else if(values['type'] == 'del') {
 				fObj.innerHTML = '{lang follow_add}';
 				fObj.href = 'home.php?mod=spacecp&ac=follow&op=add&hash={FORMHASH}&fuid='+values['fuid'];
@@ -65,7 +65,7 @@
 							<a href="{if $_G[adminid] == 1}admin.php?action=members&operation=search&username=$encodeusername&submit=yes&frames=yes{else}forum.php?mod=modcp&action=member&op=edit&uid=$space[uid]{/if}" id="usermanageli" onmouseover="showMenu(this.id)" class="showmenu" target="_blank">{lang member_manage}</a>
 							<!--{/if}-->
 					<!--{/if}-->
-					
+
 					<!--{if $_G[adminid] == 1}-->
 						<a <!--{if helper_access::check_module('forum')}-->href="forum.php?mod=modcp&action=thread&op=post&do=search&searchsubmit=1&users=$encodeusername" <!--{/if}-->id="umanageli" onmouseover="showMenu(this.id)" class="showmenu">{lang content_manage}</a>
 					<!--{/if}-->
@@ -112,7 +112,7 @@
 			<!--{/if}-->
 		</p>
 	</div>
-	
+
 	<!--{hook/space_menu_extra}-->
 	<ul class="tb cl" style="padding-left: 75px;">
 		<!--{if helper_access::check_module('follow')}-->

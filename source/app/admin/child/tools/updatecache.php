@@ -48,9 +48,15 @@ if($step == 1) {
 		implode('', $extra),
 		'action=tools&operation=updatecache&step=2', 'form', '', FALSE);
 } elseif($step == 2) {
+	if(FORMHASH != $_GET['formhash']) {
+		cpmsg('undefined_action', '', 'error');
+	}
 	$type = rtrim(strtr(base64_encode(json_encode((array)$_GET['type'])), '+/', '-_'), '=');
-	cpmsg(cplang('tools_updatecache_waiting'), "action=tools&operation=updatecache&step=3&type=$type", 'loading', '', FALSE);
+	cpmsg(cplang('tools_updatecache_waiting'), "action=tools&operation=updatecache&step=3&type=$type&formhash=".FORMHASH, 'loading', '', FALSE);
 } elseif($step == 3) {
+	if(FORMHASH != $_GET['formhash']) {
+		cpmsg('undefined_action', '', 'error');
+	}
 	$type = json_decode(base64_decode(strtr(str_pad($_GET['type'], strlen($_GET['type']) + (4 - strlen($_GET['type']) % 4) % 4, '='), '-_', '+/')), true);
 	if(!is_array($type)) {
 		$type = json_decode(rawurldecode($_GET['type']), true);

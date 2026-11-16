@@ -11,6 +11,15 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
+	'payment_error_0' => '無異常',
+	'payment_error_50000' => '回調參數不完整',
+	'payment_error_50005' => '平臺證書刷新失敗',
+	'payment_error_50006' => '回調報文解密失敗',
+	'payment_error_50007' => '支付狀態非成功',
+	'payment_error_50008' => '回調報文格式錯誤',
+	'payment_error_50009' => '未設定回調密鑰',
+	'payment_error_50010' => '收到未啟用渠道的回調',
+	'payment_error_50011' => '回調渠道與訂單不一致',
 
 	'admingroups_edit_succeed' => '管理組權限設定更新成功 ',
 	'albumcategory_move_category_failed' => '無法移動相簿到指定分類',

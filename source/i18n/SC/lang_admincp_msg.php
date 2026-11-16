@@ -11,6 +11,15 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
+	'payment_error_0' => '无异常',
+	'payment_error_50000' => '回调参数不完整',
+	'payment_error_50005' => '平台证书刷新失败',
+	'payment_error_50006' => '回调报文解密失败',
+	'payment_error_50007' => '支付状态非成功',
+	'payment_error_50008' => '回调报文格式错误',
+	'payment_error_50009' => '回调密钥未配置',
+	'payment_error_50010' => '渠道未启用下的回调',
+	'payment_error_50011' => '回调渠道与订单不一致',
 
 	'admingroups_edit_succeed' => '管理组权限设置更新成功 ',
 	'albumcategory_move_category_failed' => '无法移动相册到指定分类',

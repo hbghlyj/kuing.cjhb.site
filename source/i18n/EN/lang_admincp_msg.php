@@ -11,6 +11,15 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $lang = [
+	'payment_error_0' => 'No error',
+	'payment_error_50000' => 'Incomplete callback parameters',
+	'payment_error_50005' => 'Platform certificate refresh failed',
+	'payment_error_50006' => 'Callback decryption failed',
+	'payment_error_50007' => 'Payment is not successful',
+	'payment_error_50008' => 'Malformed callback payload',
+	'payment_error_50009' => 'Callback key is not configured',
+	'payment_error_50010' => 'Callback received for a disabled channel',
+	'payment_error_50011' => 'Callback channel does not match the order',
 
 	'admingroups_edit_succeed' => 'Admin group permission settings updated successfully ',
 	'albumcategory_move_category_failed' => 'Unable to move album to the specified category',

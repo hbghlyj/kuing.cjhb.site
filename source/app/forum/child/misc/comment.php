@@ -59,4 +59,4 @@ $extra = !empty($_GET['extra']) ? rawurlencode($_GET['extra']) : '';
 list($seccodecheck, $secqaacheck) = seccheck('post', 'reply');
 
 include template('forum/comment');
-	
+

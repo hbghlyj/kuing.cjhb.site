@@ -223,7 +223,7 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0, $ckey_
 	$key_length = strlen($cryptkey);
 
 	// 前 10 位用于保存时间戳验证数据有效性, 10 - 26位保存 $keyb , 解密时通过其验证数据完整性
-	// 如果是解码的话会从第 $ckey_length 位开始, 因为密文前 $ckey_length 位保存动态密匙以保证解密正确 
+	// 如果是解码的话会从第 $ckey_length 位开始, 因为密文前 $ckey_length 位保存动态密匙以保证解密正确
 	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
 	$string_length = strlen($string);
 
@@ -245,7 +245,7 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0, $ckey_
 		$box[$j] = $tmp;
 	}
 
-	// 从密钥簿得出密钥进行异或，再转成字符 
+	// 从密钥簿得出密钥进行异或，再转成字符
 	for($a = $j = $i = 0; $i < $string_length; $i++) {
 		$a = ($a + 1) % 256;
 		$j = ($j + $box[$a]) % 256;
@@ -1822,7 +1822,7 @@ function make_seccode($seccode = '') {
 	return helper_seccheck::make_seccode($seccode);
 }
 
-function adshow($parameter) {
+function adshow($parameter, $allowRegister = true) {
 	global $_G;
 	if(getgpc('inajax') || $_G['group']['closead']) {
 		return;
@@ -1838,10 +1838,12 @@ function adshow($parameter) {
 		loadcache('advs');
 		if(!empty($_G['cache']['advs']['addons'][$params[0]])) {
 			$customid = $_G['cache']['advs']['addons'][$params[0]];
-		} else {
+		} elseif($allowRegister) {
 			$customid = table_common_advertisement_custom::t()->insert(['name' => $params[0]], true);
 			require_once libfile('function/cache');
 			updatecache('advs');
+		} else {
+			return '';
 		}
 		$params[0] = 'custom';
 	}
@@ -2225,7 +2227,7 @@ function getposttable($tableid = 0, $prefix = false) {
  * 以下命令，$value传入的是prefix，其它命令prefix都是最后一个参数
  * 		get, rm, scard, smembers, hgetall, zcard, exists
  * eval 时，传入参数如下：
- * 		$cmd = 'eval', $key = script, $value = argv, 
+ * 		$cmd = 'eval', $key = script, $value = argv,
  * 		$ttl = 用于存储script hash的key, $prefix 会自动成为脚本的第一个参数，其余参数序号顺延
  * zadd 时，参数如下：
  * 		$cmd = 'zadd', $key = key, $value = member, $ttl = score
