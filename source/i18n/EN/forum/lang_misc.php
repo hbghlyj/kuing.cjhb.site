@@ -28,6 +28,7 @@ $lang =
 	'post_single_banned' => '**** This post is banned ****',
 	'message_ishidden_hiddenreplies' => 'This post is only visible to the author',
 	'post_reply_quote' => '{author} posted at {time}',
+	'postcomment_reply_prefix' => 'Reply @{author}: ',
 
 	'price' => 'Price',
 	'pay_view' => 'Records',

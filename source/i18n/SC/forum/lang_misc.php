@@ -27,6 +27,7 @@ $lang =
 	'post_banned' => '**** 作者被禁止或删除 内容自动屏蔽 ****',
 	'post_single_banned' => '**** 该帖被屏蔽 ****',
 	'post_reply_quote' => '{author} 发表于 {time}',
+	'postcomment_reply_prefix' => '回复 @{author}：',
 
 	'perms_viewperm' => '允许查看',
 	'perms_postperm' => '允许发新主题',

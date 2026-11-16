@@ -18,7 +18,7 @@
 								</span>
 							</li>
 							<li class="mtime">
-								<em class="mgl"><!--{if $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}--><a href="forum.php?mod=topicadmin&action=delcomment&fid={$_G['fid']}&tid={$_G['tid']}&moderate[]={$_G['tid']}&topiclist[]={$comment['id']}&page={$_G['page']}" class="dialog">{lang delete}</a><!--{/if}--></em>
+								<em class="mgl"><!--{if $commentreplyallowed && !$comment['rpid'] && $comment['authorid'] > 0 && $comment['authorid'] != $_G['uid']}--><a href="forum.php?mod=misc&action=comment&tid={$comment['tid']}&pid={$comment['pid']}&reply_comment_id={$comment['id']}" class="dialog cmreply">{lang reply}</a> <!--{/if}--><!--{if $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}--><a href="forum.php?mod=topicadmin&action=delcomment&fid={$_G['fid']}&tid={$_G['tid']}&moderate[]={$_G['tid']}&topiclist[]={$comment['id']}&page={$_G['page']}" class="dialog">{lang delete}</a><!--{/if}--></em>
 								{lang poston} $comment['dateline']
 							</li>
 							<li class="mtxt mt5">$comment['comment']</li>

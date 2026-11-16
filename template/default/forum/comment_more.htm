@@ -19,6 +19,7 @@
 				<!--{/if}-->
 				<span class="xg1">
 					{lang poston} $comment[dateline]
+					<!--{if $commentreplyallowed && !$comment[rpid] && $comment[authorid] > 0 && $comment[authorid] != $_G['uid']}-->&nbsp;<a href="forum.php?mod=misc&action=comment&tid=$comment[tid]&pid=$comment[pid]&reply_comment_id=$comment[id]" class="cmreply" onclick="showWindow('comment', this.href, 'get', 0)">{lang reply}</a><!--{/if}-->
 					<!--{if $comment[authorid]==$_G['uid']}-->&nbsp;<a href="javascript:;" onclick="delcomment($comment[id],$comment[pid])">{lang delete}</a><!--{elseif $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}-->&nbsp;<a href="javascript:;" onclick="modaction('delcomment', $comment[id])">{lang delete}</a><!--{/if}-->
 				</span>
 			</div>

@@ -872,30 +872,6 @@ function initPostZoomAndWheel(root) {
 	});
 }
 
-function initCommentReplyButtons(root) {
-	root = root || document;
-	const items = root.querySelectorAll ? root.querySelectorAll('.psti') : [];
-	items.forEach(pstiElement => {
-		if(pstiElement.querySelector('.reply-btn')) return;
-		const replyButton = document.createElement('button');
-		replyButton.className = 'reply-btn';
-		replyButton.addEventListener('click', () => {
-			const author = pstiElement.previousElementSibling?.lastElementChild?.textContent || '';
-			const date_string = pstiElement.querySelector('.xg1')?.textContent || '';
-			if(typeof setCopy === 'function') {
-				setCopy('[quote][size=2][url=' + (pstiElement.parentElement?.parentElement?.parentElement?.parentElement?.previousElementSibling?.querySelector('strong>a')?.getAttribute('href') || '#') + '][color=#999]' + author + ' 点评' + '[/color][/url][/size]\n' + pstiElement.textContent.slice(0, -3-date_string.length) + '[/quote]', '点评引用已复制到剪贴板');
-			}
-			const reppost = pstiElement.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.querySelector('div.pob a.fastre')?.getAttribute('href')?.replace(/&repquote=/, '&reppost=');
-			if (reppost) {
-				setTimeout(() => {
-					location.href = reppost;
-				}, 500);
-			}
-		});
-		pstiElement.appendChild(replyButton);
-	});
-}
-
 function initThreadSubjectDblClick() {
 	const subject = document.getElementById('thread_subject');
 	if (subject && !subject.dataset.dblClickReady) {
@@ -1012,7 +988,6 @@ function debounce(func, delay) {
 function initViewthreadEnhancements(root) {
 	initCodeCopyButton(root);
 	initPostZoomAndWheel(root);
-	initCommentReplyButtons(root);
 	initThreadSubjectDblClick();
 	initMulu();
 }

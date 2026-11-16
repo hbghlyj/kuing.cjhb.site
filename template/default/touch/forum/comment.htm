@@ -4,6 +4,10 @@
 		<h2 class="log_tit" id="return_comment"><a href="javascript:;" onclick="popup.close();"><span class="icon_close y">&nbsp;</span></a>{lang comments}</h2>
 		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}">
 		<input type="hidden" name="handlekey" value="$_GET['handlekey']">
+		<!--{if $replycomment}-->
+		<input type="hidden" name="reply_comment_id" id="reply_comment_id" value="$replycomment['id']">
+		<p id="reply_comment_notice" class="p5 xg1">{lang reply} <a href="home.php?mod=space&uid=$replycomment['authorid']" class="xi2">@$replycomment['author_html']</a> <a href="javascript:;" class="xi2" onclick="cancelPostCommentReply()">{lang cancel}</a></p>
+		<!--{/if}-->
 		<!--{if $commentitem}-->
 		<ul class="post-box cl">
 			<!--{eval $items = range(0, 5);$itemlang = array('{lang comment_1}', '{lang comment_2}', '{lang comment_3}', '{lang comment_4}', '{lang comment_5}', '{lang comment_6}');$i = $cmm = 0;}-->
@@ -53,8 +57,15 @@ function convertPostCommentToReply() {
 	document.body.appendChild(form);
 	form.submit();
 }
+function postCommentMaxLength() {
+	return getID('reply_comment_id') && getID('reply_comment_id').value ? $commentreplymaxlength : $commentmaxlength;
+}
+function cancelPostCommentReply() {
+	getID('reply_comment_id').value = '';
+	getID('reply_comment_notice').style.display = 'none';
+}
 function validatePostComment() {
-	if(Array.from(getID('commentmessage').value).length <= 200) return true;
+	if(Array.from(getID('commentmessage').value).length <= postCommentMaxLength()) return true;
 	popup.open('{lang postcomment_too_long}<br><a href="javascript:convertPostCommentToReply();" class="xi2">{lang postcomment_to_reply}</a>', 'alert');
 	return false;
 }

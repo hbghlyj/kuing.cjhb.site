@@ -1822,6 +1822,61 @@ const assertPusherMetadataOrder = () => {
                 'Assertion Error: view=me&type=postcomment page did not load correctly.'
             );
 
+            // --- Test: Reply to another member's comment ---
+            console.log("Replying to another member's post comment via UI...");
+            const adminUsername = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT username FROM pre_common_member WHERE uid=1;"`).toString().trim();
+            assert.ok(adminUsername, 'Assertion Error: Admin username was not found.');
+            const adminCommentText = 'Admin comment awaiting a member reply.';
+            const adminCommentId = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_forum_postcomment (tid, pid, author, authorid, dateline, comment, score, useip, port, rpid) VALUES ('${tidOutput}', '${adminReplyPid}', '${adminUsername}', 1, UNIX_TIMESTAMP() - 60, '${adminCommentText}', 0, '127.0.0.1', 0, 0); SELECT LAST_INSERT_ID();"`).toString().trim();
+            assert.match(adminCommentId, /^\d+$/, 'Assertion Error: Admin comment fixture was not created.');
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_post SET comment=1 WHERE pid='${adminReplyPid}'; DELETE FROM pre_forum_postcache WHERE pid='${adminReplyPid}';"`);
+            const ownCommentId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT id FROM pre_forum_postcomment WHERE pid='${adminReplyPid}' AND authorid='${userUid}' AND comment='${postCommentText}' ORDER BY id DESC LIMIT 1;"`).toString().trim();
+            assert.match(ownCommentId, /^\d+$/, 'Assertion Error: Own post comment ID was not found.');
+            const adminCommentNoticeCount = () => Number(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COALESCE(SUM(from_num), 0) FROM pre_home_notification WHERE uid=1 AND from_idtype='pcomment' AND from_id='${tidOutput}';"`).toString().trim());
+            const adminCommentNoticesBefore = adminCommentNoticeCount();
+
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            const commentReplyOriginTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+            assert.strictEqual(await page.locator('.psti .reply-btn').count(), 0, 'Assertion Error: Retired comment quote-copy button still rendered.');
+            assert.strictEqual(await page.locator(`#comment_row_${ownCommentId} a.cmreply`).count(), 0, 'Assertion Error: Own comment offered a comment reply link.');
+            const commentReplyLink = page.locator(`#comment_row_${adminCommentId} a.cmreply`);
+            assert.strictEqual(await commentReplyLink.count(), 1, "Assertion Error: Comment reply link did not render for another member's comment.");
+            await commentReplyLink.click();
+
+            const commentReplyForm = page.locator('#fwin_comment form#commentform');
+            await commentReplyForm.waitFor({ state: 'visible' });
+            assert.strictEqual(await commentReplyForm.locator('#reply_comment_id').inputValue(), adminCommentId, 'Assertion Error: Comment reply popup lost its target.');
+            assert.ok((await commentReplyForm.locator('#reply_comment_notice').innerText()).includes(`@${adminUsername}`), 'Assertion Error: Comment reply popup did not name the target author.');
+            const commentReplyText = 'Member reply to the admin comment.';
+            await commentReplyForm.locator('#commentmessage').fill(commentReplyText);
+            await solveSecurityQuestion(page, commentReplyForm);
+            const [commentReplyResponse] = await Promise.all([
+                page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
+                commentReplyForm.locator('#commentsubmit').click()
+            ]);
+            assert.ok(commentReplyResponse.ok(), `Assertion Error: Comment reply request failed with HTTP ${commentReplyResponse.status()}.`);
+
+            const storedCommentReply = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT id, rpid, comment FROM pre_forum_postcomment WHERE pid='${adminReplyPid}' AND authorid='${userUid}' AND comment LIKE '%${commentReplyText}' ORDER BY id DESC LIMIT 1;"`).toString().trim().split('\t');
+            assert.strictEqual(storedCommentReply.length, 3, 'Assertion Error: Comment reply was not stored.');
+            const [commentReplyId, commentReplyRpid, commentReplyStored] = storedCommentReply;
+            assert.strictEqual(commentReplyRpid, '0', 'Assertion Error: Comment reply reused rpid, which belongs to quote-summary reply posts.');
+            assert.ok(commentReplyStored.includes(`@${adminUsername}`) && commentReplyStored.endsWith(commentReplyText), `Assertion Error: Comment reply was not stored with its reply prefix: ${commentReplyStored}`);
+            assert.strictEqual(adminCommentNoticeCount() - adminCommentNoticesBefore, 1, 'Assertion Error: Reply target who also wrote the post was not notified exactly once.');
+
+            await emitStubbedPusherEvent(context, 'commentadd', { tid: tidOutput, pid: adminReplyPid, origin_tab_id: commentReplyOriginTabId });
+            await page.waitForFunction(id => !!document.getElementById(`comment_row_${id}`), commentReplyId);
+            assert.ok((await page.locator(`#comment_row_${commentReplyId}`).innerText()).includes(`@${adminUsername}`), 'Assertion Error: Refreshed comments did not render the reply prefix.');
+            assert.strictEqual(await page.locator(`#comment_row_${adminCommentId} a.cmreply`).count(), 1, 'Assertion Error: Refreshed comment fragment lost the comment reply link.');
+
+            // Self-deleting the reply removes only its row; neighbouring rows (and any typeset math) stay in place.
+            await page.evaluate(id => { window.__commentNeighbourRow = document.getElementById(`comment_row_${id}`); }, adminCommentId);
+            await page.locator(`#comment_row_${commentReplyId} a[onclick^="delcomment("]`).click();
+            await page.waitForFunction(id => !document.getElementById(`comment_row_${id}`), commentReplyId);
+            assert.ok(await page.evaluate(id => document.getElementById(`comment_row_${id}`) === window.__commentNeighbourRow, adminCommentId), 'Assertion Error: Deleting a comment reply re-rendered neighbouring comment rows.');
+            assert.strictEqual(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE id='${commentReplyId}';"`).toString().trim(), '0', 'Assertion Error: Self-deleted comment reply remained in the database.');
+            report += '### 4e. Desktop Comment Reply\n- **Status**: Checked\n- **Reply Link Visibility**: Success\n- **Stored Prefix Without rpid**: Success\n- **Single Target Notification**: Success\n- **Row-only Self Delete**: Success\n\n';
+
             const noticeDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_home_notification WHERE uid='${userUid}';"`).toString().trim();
             assert.ok(parseInt(noticeDbCheck, 10) >= 1, 'Assertion Error: Notification record was not found in database.');
             report += '### 4d. Desktop Reply Quote & Notification\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **Rendered Quote Screenshot**: `screenshot_desktop_quote_reply.png`\n- **DB Notification Check**: Passed\n- **Header Notification Click**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';

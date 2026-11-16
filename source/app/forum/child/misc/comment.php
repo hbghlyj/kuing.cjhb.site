@@ -44,6 +44,17 @@ if($_G['group']['allowcommentitem'] && !empty($_G['uid']) && $post['authorid'] !
 if(!$post || !($_G['setting']['commentpostself'] || $post['authorid'] != $_G['uid']) || !(($post['first'] && $_G['setting']['commentfirstpost'] && in_array($_G['group']['allowcommentpost'], [1, 3]) || (!$post['first'] && in_array($_G['group']['allowcommentpost'], [2, 3]))))) {
 	showmessage('postcomment_error');
 }
+require_once libfile('function/postcomment');
+$replycomment = null;
+$commentmaxlength = $commentreplymaxlength = postcomment_message_limit();
+if(!empty($_GET['reply_comment_id'])) {
+	$replycomment = postcomment_reply_target($_GET['reply_comment_id'], $post, $thread);
+	if(!$replycomment) {
+		showmessage('postcomment_reply_target_invalid');
+	}
+	$replycomment['author_html'] = dhtmlspecialchars($replycomment['author']);
+	$commentreplymaxlength = postcomment_message_limit(postcomment_reply_prefix($replycomment['author']));
+}
 $extra = !empty($_GET['extra']) ? rawurlencode($_GET['extra']) : '';
 list($seccodecheck, $secqaacheck) = seccheck('post', 'reply');
 

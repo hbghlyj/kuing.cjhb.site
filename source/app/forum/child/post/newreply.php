@@ -55,7 +55,21 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	if(mb_strlen($commentmessage, 'UTF-8') > 200) {
 		showmessage('postcomment_too_long');
 	}
-	$comment = ($commentscore ? $commentscore.'<br>' : '').$commentmessage;
+	require_once libfile('function/postcomment');
+	$replycomment = null;
+	$replyprefix = '';
+	if(!empty($_GET['reply_comment_id'])) {
+		$replycomment = postcomment_reply_target($_GET['reply_comment_id'], $post, $thread);
+		if(!$replycomment) {
+			showmessage('postcomment_reply_target_invalid');
+		}
+		if($commentmessage === '') {
+			showmessage('post_sm_isnull');
+		}
+		$replyprefix = postcomment_reply_prefix($replycomment['author']);
+	}
+	$commentbody = ($commentscore ? $commentscore.'<br>' : '').$commentmessage;
+	$comment = ($commentscore ? $commentscore.'<br>' : '').$replyprefix.$commentmessage;
 	if(mb_strlen($comment, 'UTF-8') > 255) {
 		showmessage('postcomment_too_long');
 	}
@@ -77,24 +91,37 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : table_forum_postcomment::t()->count_by_tid($_G['tid']);
 	table_forum_thread::t()->update($_G['tid'], ['comments' => $comments, 'lastpost' => TIMESTAMP]);
-	if(!empty($_G['uid']) && $_G['uid'] != $post['authorid']) {
+	$notifyuids = postcomment_notification_recipients($_G['uid'], $post['authorid'], $replycomment ? $replycomment['authorid'] : 0);
+	$commentmsg = cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $comment)), 200);
+	if($notifyuids['reply']) {
+		notification_add($notifyuids['reply'], 'pcomment', 'comment_reply', [
+			'tid' => $_G['tid'],
+			'pid' => $post['pid'],
+			'subject' => $thread['subject'],
+			'from_id' => $_G['tid'],
+			'from_idtype' => 'pcomment',
+			'commentmsg' => $commentmsg
+		]);
+	}
+	if($notifyuids['post']) {
 		notification_add($post['authorid'], 'pcomment', 'comment_add', [
 			'tid' => $_G['tid'],
 			'pid' => $_GET['pid'],
 			'subject' => $thread['subject'],
 			'from_id' => $_G['tid'],
 			'from_idtype' => 'pcomment',
-			'commentmsg' => cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $comment)), 200)
+			'commentmsg' => $commentmsg
 		]);
 	}
-	$comment = cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $comment)), 200);
+	// Mentions come from the typed text only; the reply prefix is not a mention.
+	$comment = cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $commentbody)), 200);
 	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
 	if(!empty($matches[1])) {
 		$atlist_tmp = array_unique($matches[1]);
 		foreach($atlist_tmp as $username) {
 			$stripped_username = str_replace(' ', '', $username);
-			$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
-			if($uid && $uid != $_G['uid']) {
+			$uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", ['common_member', $stripped_username]);
+			if($uid && $uid != $_G['uid'] && $uid != $notifyuids['reply']) {
 				notification_add($uid, 'at', 'at_message', [
 					'tid' => $_G['tid'],
 					'pid' => $_GET['pid'],

@@ -160,6 +160,8 @@ So far, you have received {authorwarnings} warnings, please pay attention!<div c
 
 	'reward_bestanswer_moderator' => 'Your reply in the reward thread <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> was selected as the best answer &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" target="_blank" class="lit">View &rsaquo;</a>',
 
+	'comment_reply' => '{actor} replied to your comment in the thread <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">View &rsaquo;</a>',
+
 	'comment_add' => '{actor} commented on the post you made in the thread <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">View &rsaquo;</a>',
 
 	'reppost_noticeauthor' => '{actor} replied to your post <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}" target="_blank">{subject}</a><div class="quote"><blockquote>{message}</blockquote></div> &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">View</a>',

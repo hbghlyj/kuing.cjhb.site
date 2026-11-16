@@ -257,6 +257,7 @@
 			<!--{if $_GET['from'] != 'preview' && $_G['setting']['commentnumber'] && !empty($comments[$post['pid']])}-->
 				<h3 class="psth xs1"><span class="icon_ring vm"></span>{lang comments}</h3>
 				<!--{if $totalcomment[$post['pid']]}--><div class="pstl">$totalcomment[$post['pid']]</div><!--{/if}-->
+				<!--{eval $commentreplyallowed = $_G['uid'] && $post['invisible'] == 0 && $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator']);}-->
 				<!--{loop $comments[$post['pid']] $comment}-->
 				<div class="plc p0 cl" id="commentdetail_{$comment['id']}">
 					<div class="avatar l0">$comment['avatar']</div>
@@ -273,7 +274,7 @@
 								</span>
 							</li>
 							<li class="mtime">
-								<em class="mgl"><!--{if $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}--><a href="forum.php?mod=topicadmin&action=delcomment&fid={$_G['fid']}&tid={$_G['tid']}&moderate[]={$_G['tid']}&topiclist[]={$comment['id']}&page={$_G['page']}" class="dialog">{lang delete}</a><!--{/if}--></em>
+								<em class="mgl"><!--{if $commentreplyallowed && !$comment['rpid'] && $comment['authorid'] > 0 && $comment['authorid'] != $_G['uid']}--><a href="forum.php?mod=misc&action=comment&tid={$comment['tid']}&pid={$comment['pid']}&reply_comment_id={$comment['id']}" class="dialog cmreply">{lang reply}</a> <!--{/if}--><!--{if $_G['forum']['ismoderator'] && $_G['group']['allowdelpost']}--><a href="forum.php?mod=topicadmin&action=delcomment&fid={$_G['fid']}&tid={$_G['tid']}&moderate[]={$_G['tid']}&topiclist[]={$comment['id']}&page={$_G['page']}" class="dialog">{lang delete}</a><!--{/if}--></em>
 								{lang poston} <time data-local-timestamp="$comment['dateline']"><!--{date($comment['dateline'], 'u')}--></time>
 							</li>
 							<li class="mtxt mt5">$comment['comment']</li>

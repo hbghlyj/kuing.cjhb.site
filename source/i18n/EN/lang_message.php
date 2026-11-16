@@ -352,6 +352,7 @@ $lang = [
 	'no_privilege_postattach' => 'Sorry, you currently do not have permission to upload attachments, <a href="home.php?mod=spacecp&ac=usergroup" target="_blank">click here to view permissions</a>',
 	'thread_closed' => 'This post has been closed and cannot be commented on!',
 	'postcomment_error' => 'Sorry, you cannot comment on this post or the post was not found',
+	'postcomment_reply_target_invalid' => 'Sorry, the comment you are replying to was not found or cannot be replied to',
 	'postappend_not_open' => 'Sorry, the site has not enabled the post supplement function',
 	'postappend_only_yourself' => 'You can only supplement content after your own posts',
 	'postdelete_only_yourself' => 'You can only delete your own posts',
