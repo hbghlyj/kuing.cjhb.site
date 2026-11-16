@@ -28,3 +28,10 @@ foreach(['template/default/forum/viewthread_node_body.htm', 'template/default/to
 	if(str_contains($template, 'post-message-text')) throw new RuntimeException('Unexpected body wrapper changes the crawler DOM: '.$file);
 }
 echo "Post spaces, TikZ, newline variants, quotes, tables and scoped CSS passed\n";
+// Source formatting inside a pre-wrap cell must not precede the real message.
+$body = file_get_contents($root.'/template/default/forum/viewthread_node_body.htm');
+preg_match_all('/<td class="t_f" id="postmessage_\$post\[pid\]">(.*?)<\/td>/s', $body, $cells);
+if(count($cells[1]) !== 3) throw new RuntimeException('Unexpected post body branches');
+foreach($cells[1] as $cell) {
+	if(str_contains($cell, "\n") || str_contains($cell, "\r")) throw new RuntimeException('Template newline inside pre-wrap post cell');
+}
