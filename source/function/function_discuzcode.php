@@ -415,12 +415,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				'$1',
 				$seg
 			);
-			$seg = str_replace(
-				['   ', '  '],
-				['&nbsp; &nbsp;', '&nbsp;&nbsp;'],
-				$seg
-			);
-			$result .= nl2br($seg);
+			// Keep real spaces for TeX/TikZ. Do not leave a second newline after br
+			// when the post container preserves whitespace with CSS.
+			$result .= str_replace(["\r\n", "\r", "\n"], '<br>', $seg);
 		}
 	}
 

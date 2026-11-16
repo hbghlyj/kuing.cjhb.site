@@ -208,7 +208,7 @@
 					<!--{/if}-->
 					<!--{if $post['first']}-->
 						<!--{if !$_G['forum_thread']['special']}-->
-							$post['message']
+							<div class="post-message-text">$post['message']</div>
 						<!--{elseif $_G['forum_thread']['special'] == 1}-->
 							<!--{template forum/viewthread_poll}-->
 						<!--{elseif $_G['forum_thread']['special'] == 2}-->
@@ -221,12 +221,12 @@
 							<!--{template forum/viewthread_debate}-->
 						<!--{elseif $threadplughtml}-->
 							$threadplughtml
-							$post['message']
+							<div class="post-message-text">$post['message']</div>
 						<!--{else}-->
-							$post['message']
+							<div class="post-message-text">$post['message']</div>
 						<!--{/if}-->
 					<!--{else}-->
-						$post['message']
+						<div class="post-message-text">$post['message']</div>
 					<!--{/if}-->
 				<!--{/if}-->
 			</div>

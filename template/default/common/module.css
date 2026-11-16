@@ -906,6 +906,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.pcb span.t_tag:hover { border-bottom: 1px solid {NOTICETEXT}; }
 		.pct { padding-bottom: 1em; }
 		.t_f { overflow-x: auto; overflow-y: clip; overflow-clip-margin: 8px; font-size: {MSGFONTSIZE}; }
+		.post-message-text { white-space: pre-wrap; }
 			.t_f a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
 		.t_f ul, .t_f ol { margin-top: 1em; margin-bottom: 1em; }
 		.t_f ul { margin-left: 14px; }

@@ -127,6 +127,7 @@ jobs:
           php .github/scripts/test_system_error_regressions.php
           php .github/scripts/test_session_visibility.php
           php .github/scripts/test_postcomment_reply.php
+          php .github/scripts/test_post_whitespace.php
           node .github/scripts/test_forum.js &
           P1=$!
           node .github/scripts/test_forum_mobile.js &

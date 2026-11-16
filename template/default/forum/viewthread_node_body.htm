@@ -75,7 +75,7 @@
 					<span class="atips_close" onclick="this.parentNode.style.display='none'">&#215;</span>
 				</div>
 				<!--{/if}-->
-				$post[message]</td></tr></table>
+				<div class="post-message-text">$post[message]</div></td></tr></table>
 			<!--{elseif $_G[forum_thread][special] == 1}-->
 				<!--{template forum/viewthread_poll}-->
 			<!--{elseif $_G[forum_thread][special] == 2}-->
@@ -88,7 +88,7 @@
 				<!--{template forum/viewthread_debate}-->
 			<!--{elseif $_G[forum_thread][special] == 127}-->
 				$threadplughtml
-				<table class="cp0"><tr><td class="t_f" id="postmessage_$post[pid]">$post[message]</td></tr></table>
+				<table class="cp0"><tr><td class="t_f" id="postmessage_$post[pid]"><div class="post-message-text">$post[message]</div></td></tr></table>
 			<!--{/if}-->
 		<!--{else}-->
 			<table class="cp0"><tr><td class="t_f" id="postmessage_$post[pid]">
@@ -97,7 +97,7 @@
 					$ad_a_pr
 				<!--{/if}-->
 			<!--{/if}-->
-			<!--{if $post['invisible'] != '-2' || $_G['forum']['ismoderator']}-->$post[message]<!--{else}--><span class="xg1">{lang moderate_need}</span><!--{/if}--></td></tr></table>
+			<!--{if $post['invisible'] != '-2' || $_G['forum']['ismoderator']}--><div class="post-message-text">$post[message]</div><!--{else}--><span class="xg1">{lang moderate_need}</span><!--{/if}--></td></tr></table>
 		<!--{/if}-->
 		{$_G['forum_posthtml']['footer'][$post[pid]] or ''}
 
