@@ -78,9 +78,17 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 	// parse [tikz] and [asy]
 	$code_arr = array();
+	// JSON editor posts arrive as HTML (entities, quotes escaped, <br> line breaks).
+	$diagram_source = function($code) use ($jsonEditorOn) {
+		if(!$jsonEditorOn) {
+			return $code;
+		}
+		$code = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $code));
+		return str_replace("\xc2\xa0", ' ', html_entity_decode($code, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+	};
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
-		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) use (&$code_arr) {
-			$code = $matches[1];
+		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) use (&$code_arr, $diagram_source) {
+			$code = $diagram_source($matches[1]);
 			$code_arr[] = $code;
 			// Remove comments: only unescaped '%' and the rest of the line
 			$code = preg_replace('/(?<!\\\\)%.*$/m', '', $code);
@@ -91,8 +99,8 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}, $message);
 	}
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
-		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) use (&$code_arr) {
-			$code = $matches[1];
+		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) use (&$code_arr, $diagram_source) {
+			$code = $diagram_source($matches[1]);
 			$code_arr[] = $code;
 			// Remove comments: double slashes and the rest of the line
 			$code = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $code);

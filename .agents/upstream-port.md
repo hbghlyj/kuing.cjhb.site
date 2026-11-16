@@ -1,5 +1,22 @@
 # MitFrame Port Checkpoint
 
+## JSON Editor: 9bf00903 and badcea04
+
+- Integrated and reviewed Claude Code's selective JSON editor patch. Context-aware
+  token expansion filters rich text, attributes, URLs, dynamic tags and code
+  literals without re-running template directives over submitted data. Review
+  fixed a computed-URL path that bypassed the scheme allow-list.
+- Updated Editor.js to 2.31.7 and the upstream undo bundle; Chrome verifies
+  actual undo/redo and load-only RAW behavior. Kept saved RAW source escaped and
+  editable instead of upstream's file deletion; refresh its stored configuration
+  to 1.0.4 (toolbox:false). No content deletion or schema migration.
+- Preserved fork attachment checks, HTML5 markup, diagram source and localized
+  output. Omitted payTune/payblock (upstream depends on a missing DB method),
+  unrelated code-block sizing, image-manager changes and active image cropper.
+- PHP sanitizer regressions cover built-in blocks, hostile contexts, full
+  discuzcode rendering, code literals, RAW fallback and bundle hashes; fixed
+  CRLF-sensitive test assertions. PHP lint and actual Chrome bundle tests pass.
+
 ## 20261110 security batch (reviewed through badcea04)
 
 This is a partial, selective port, not a complete checkpoint advance.

@@ -10,9 +10,16 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+/*
+ * Legacy block (retired upstream in MitFrame badcea04; use the code block instead).
+ * Kept registered so saved RAW blocks still render, escaped, and remain editable,
+ * but hidden from the toolbox so no new RAW blocks are inserted. Deleting this file
+ * would make AdminCP drop the registration and existing content would only reach the
+ * escaped fallback in editor::fallbackParser().
+ */
 class editorblock_raw {
 
-	var $version = '1.0.3';
+	var $version = '1.0.4';
 	var $name = 'name';
 	var $available = 1; // 默认启用状态 0:不启用 1:启用
 	var $columns = 1; //  默认是否支持多列 0:不支持 1:支持
@@ -63,6 +70,7 @@ EOF;
    tools_raw: {
       raw: {
          class: RawTool,
+         toolbox: false,
          placeholder: "请输入HTML代码...",
          tunes: ['anchorTune', 'hideTune']
       },

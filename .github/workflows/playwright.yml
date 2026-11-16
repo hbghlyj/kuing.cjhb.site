@@ -112,6 +112,7 @@ jobs:
           node .github/scripts/test_stat.js
           node .github/scripts/test_image_link_option.js
           node .github/scripts/test_math_editor_node_boundaries.js
+          node .github/scripts/test_json_editor_bundles.js
           node .github/scripts/test_chat_rendering.js
           node .github/scripts/test_request_cancellation.js
           php .github/scripts/test_stat_templates.php
@@ -130,6 +131,7 @@ jobs:
           php .github/scripts/test_session_visibility.php
           php .github/scripts/test_postcomment_reply.php
           php .github/scripts/test_post_whitespace.php
+          php .github/scripts/test_json_editor_sanitizer.php
           node .github/scripts/test_forum.js &
           P1=$!
           node .github/scripts/test_forum_mobile.js &
