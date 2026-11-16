@@ -295,6 +295,8 @@ function renderMathBatch(batch) {
 			rendered.appendChild(editdoc.importNode(item.sourceNode.firstChild, true));
 			item.sourceNode.firstChild.remove();
 		}
+		// UpMath size requests may finish after the image is copied into the iframe.
+		if (window.MathJaxUpmathImages) window.MathJaxUpmathImages.scan(rendered);
 		rendered._mathEditorTypesetRetries = 0;
 		removeMathEditorDisplayBreaks(rendered);
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);

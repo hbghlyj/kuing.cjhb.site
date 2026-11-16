@@ -112,6 +112,7 @@ jobs:
           node .github/scripts/test_stat.js
           node .github/scripts/test_image_link_option.js
           node .github/scripts/test_math_editor_node_boundaries.js
+          node .github/scripts/test_upmath_editor_sizes.js
           node .github/scripts/test_json_editor_bundles.js
           node .github/scripts/test_chat_rendering.js
           node .github/scripts/test_request_cancellation.js
