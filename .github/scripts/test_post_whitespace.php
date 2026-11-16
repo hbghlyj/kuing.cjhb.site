@@ -18,13 +18,13 @@ $style = "<style>p {  color: red;\n}</style>";
 if($format($style) !== $style) throw new RuntimeException('Style content was formatted as text');
 $html = '<blockquote>a  b</blockquote><table><tr><td>c  d</td></tr></table>';
 if($format($html) !== $html) throw new RuntimeException('Quote/table markup changed');
-foreach(['template/default/common/module.css', 'template/default/touch/common/common.css'] as $file) {
-	if(!preg_match('/\.post-message-text\s*\{\s*white-space:\s*pre-wrap\s*;?\s*\}/', file_get_contents($root.'/'.$file))) {
+foreach(['template/default/common/module.css' => '.t_f[id^="postmessage_"]', 'template/default/touch/common/common.css' => '.plc .pi .message'] as $file => $selector) {
+	if(!preg_match('/'.preg_quote($selector, '/').'\s*\{\s*white-space:\s*pre-wrap\s*;?\s*\}/', file_get_contents($root.'/'.$file))) {
 		throw new RuntimeException('Missing scoped pre-wrap: '.$file);
 	}
 }
 foreach(['template/default/forum/viewthread_node_body.htm', 'template/default/touch/forum/viewthread.htm'] as $file) {
 	$template = file_get_contents($root.'/'.$file);
-	if(!str_contains($template, 'class="post-message-text"')) throw new RuntimeException('Missing body wrapper: '.$file);
+	if(str_contains($template, 'post-message-text')) throw new RuntimeException('Unexpected body wrapper changes the crawler DOM: '.$file);
 }
 echo "Post spaces, TikZ, newline variants, quotes, tables and scoped CSS passed\n";
