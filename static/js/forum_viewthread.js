@@ -48,6 +48,30 @@ function initPostQuoteButton() {
 		return element ? element.closest(postSelector) : null;
 	};
 
+	// Robot-classified requests omit mathjax-copy.js. Selection.toString() would
+	// then count nl2br's <br> and paired source newline separately in pre-wrap.
+	const rangeToPlainText = range => {
+		if(typeof rangeToPlainTextWithMathJax === 'function') {
+			return rangeToPlainTextWithMathJax(range);
+		}
+		const fragment = range.cloneContents();
+		fragment.querySelectorAll('br').forEach(lineBreak => {
+			const sourceText = lineBreak.nextSibling;
+			if(sourceText && sourceText.nodeType === Node.TEXT_NODE) {
+				sourceText.nodeValue = sourceText.nodeValue.replace(/^[ \t]*\r?\n/, '');
+			}
+		});
+		const source = range.commonAncestorContainer;
+		const wrapper = document.createElement('div');
+		wrapper.style.cssText = 'position:fixed;left:-100000px;top:0;width:max-content;';
+		wrapper.style.whiteSpace = getComputedStyle(source.nodeType === Node.ELEMENT_NODE ? source : source.parentElement).whiteSpace;
+		wrapper.appendChild(fragment);
+		document.body.appendChild(wrapper);
+		const text = wrapper.innerText;
+		wrapper.remove();
+		return text;
+	};
+
 	const showForSelection = () => {
 		const selection = window.getSelection();
 		if(!selection || selection.isCollapsed || selection.rangeCount !== 1) {
@@ -58,9 +82,7 @@ function initPostQuoteButton() {
 		const range = selection.getRangeAt(0);
 		const startPost = postForNode(range.startContainer);
 		const endPost = postForNode(range.endContainer);
-		const text = (typeof rangeToPlainTextWithMathJax === 'function'
-			? rangeToPlainTextWithMathJax(range)
-			: selection.toString()).trim();
+		const text = rangeToPlainText(range).trim();
 		if(!startPost || startPost !== endPost || !text) {
 			hide();
 			return;

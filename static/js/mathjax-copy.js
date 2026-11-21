@@ -33,10 +33,23 @@ function normalizeNl2brSourceNewlines(fragment) {
   return fragment;
 }
 
+// Return the white-space mode of the content around a range, outside formulas.
+function rangeSourceWhiteSpace(range) {
+  const node = range.commonAncestorContainer;
+  const element = node instanceof Element ? node : node.parentElement;
+  const container = element && closestMjxContainer(element);
+  const source = container ? container.parentElement : element;
+  return source ? getComputedStyle(source).whiteSpace : '';
+}
+
 // Extract rendered text so <br> and block boundaries remain line breaks.
-function fragmentToPlainText(fragment) {
+// Reuse the source white-space so pre-wrapped posts keep literal spaces.
+function fragmentToPlainText(fragment, whiteSpace) {
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;left:-100000px;top:0;width:max-content;';
+  if (whiteSpace) {
+    wrapper.style.whiteSpace = whiteSpace;
+  }
   wrapper.appendChild(fragment);
   document.body.appendChild(wrapper);
   const text = wrapper.innerText;
@@ -78,7 +91,7 @@ function cloneRangeWithMathJaxSource(range) {
 
 // Public serializer used by copy handling and selected-fragment quoting.
 function rangeToPlainTextWithMathJax(range) {
-  return fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range))));
+  return fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range))), rangeSourceWhiteSpace(range));
 }
 
 // Global copy handler to modify behavior on/within mjx-container elements.
@@ -102,7 +115,7 @@ document.addEventListener('copy', function (event) {
   // Preserve usual HTML copy/paste behavior.
   clipboardData.setData('text/html', htmlContents);
   // Rewrite plain-text version, replacing rendered math with its raw TeX source.
-  clipboardData.setData('text/plain', fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(fragment))));
+  clipboardData.setData('text/plain', fragmentToPlainText(normalizeNl2brSourceNewlines(mjxReplaceWithTex(fragment)), rangeSourceWhiteSpace(range)));
   // Prevent normal copy handling.
   event.preventDefault();
 });
