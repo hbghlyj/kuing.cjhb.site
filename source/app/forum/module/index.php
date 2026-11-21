@@ -54,6 +54,18 @@ if(!$gid && $_G['setting']['collectionstatus'] && ($_G['setting']['collectionrec
 	require_once childfile('collection');
 }
 
+if(!$gid && !defined('IN_MOBILE')) {
+	loadcache('index_recent_tags');
+	$recentTags = $_G['cache']['index_recent_tags'] ?? [];
+	$tagCacheLife = (int)($_G['setting']['grid']['cachelife'] ?? 0) ?: 600;
+	if(!isset($recentTags['tags']) || TIMESTAMP - ($recentTags['cachetime'] ?? 0) >= $tagCacheLife) {
+		require_once libfile('function/cache');
+		updatecache('index_recent_tags');
+		$recentTags = $_G['cache']['index_recent_tags'];
+	}
+	$indexTags = $recentTags['tags'];
+}
+
 if(empty($gid) && empty($_G['member']['accessmasks']) && empty($showoldetails) && !IS_ROBOT) {
 	$memindex = get_index_memory_by_groupid($_G['member']['groupid']);
 	extract($memindex);
@@ -93,10 +105,6 @@ if($gid && !empty($catlist)) {
 		$nobbname = true;
 	}
 	$_G['fid'] = $gid;
-}
-
-if(!$gid && !defined('IN_MOBILE')) {
-	$indexTags = DB::fetch_all('SELECT tagid, tagname FROM %t WHERE status=0 ORDER BY tagid DESC LIMIT 12', ['common_tag']);
 }
 
 include template('diy:forum/discuz:'.$gid);

@@ -30,7 +30,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mysqli, mbstring, curl, xml, json, gd, imap
+          extensions: mysqli, mbstring, curl, xml, json, gd, imap, pdo_sqlite
           tools: composer
 
       - name: Setup Node.js
@@ -132,6 +132,7 @@ jobs:
           php .github/scripts/test_session_visibility.php
           php .github/scripts/test_postcomment_reply.php
           php .github/scripts/test_post_whitespace.php
+          php .github/scripts/test_index_recent_tags.php
           php .github/scripts/test_json_editor_sanitizer.php
           node .github/scripts/test_forum.js &
           P1=$!
