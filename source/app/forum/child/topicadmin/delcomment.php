@@ -19,12 +19,12 @@ if(!$_G['group']['allowdelpost']) {
 
 if(!submitcheck('modsubmit')) {
 
-	$commentid = $_GET['topiclist'][0];
-	$pid = table_forum_postcomment::t()->fetch($commentid);
-	$pid = $pid['pid'];
-	if(!$pid) {
+	$commentid = intval($_GET['topiclist'][0]);
+	$comment = table_forum_postcomment::t()->fetch($commentid);
+	if(!$comment || $comment['tid'] != $_G['tid'] || !$comment['pid']) {
 		showmessage('postcomment_not_found');
 	}
+	$pid = $comment['pid'];
 	$deleteid = '<input type="hidden" name="topiclist" value="'.$commentid.'">';
 
 	include template('forum/topicadmin_action');
@@ -36,7 +36,7 @@ if(!submitcheck('modsubmit')) {
 
 	$commentid = intval($_GET['topiclist']);
 	$postcomment = table_forum_postcomment::t()->fetch($commentid);
-	if(!$postcomment) {
+	if(!$postcomment || $postcomment['tid'] != $_G['tid']) {
 		showmessage('postcomment_not_found');
 	}
 	if($no_privilege && $postcomment['authorid'] != $_G['uid']) {

@@ -103,9 +103,6 @@ if($srchfrom) {
 }
 
 $forumselect = forumselect();
-if(!empty($srchfid) && !is_numeric($srchfid)) {
-	$forumselect = str_replace('<option value="'.$srchfid.'">', '<option value="'.$srchfid.'" selected="selected">', $forumselect);
-}
 
 if(!submitcheck('searchsubmit', 1)) {
 	$keyword = dhtmlspecialchars($keyword);
@@ -266,12 +263,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			}
 		}
 
-		if($_G['setting']['threadplugins'] && $specialplugin) {
-			$specialpluginstr = implode("','", $specialplugin);
-			$special[] = 127;
-		} else {
-			$specialpluginstr = '';
-		}
+		$specialpluginstr = '';
 		$special = getgpc('special');
 		$specials = $special ? implode(',', dintval((array)$special, true)) : '';
 		$srchfilter = in_array(getgpc('srchfilter'), ['all', 'digest', 'top']) ? $_GET['srchfilter'] : 'all';

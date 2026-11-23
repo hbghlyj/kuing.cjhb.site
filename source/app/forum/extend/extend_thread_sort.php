@@ -116,10 +116,12 @@ class extend_thread_sort extends extend_thread_base {
 						$newsortaid = intval($_GET['typeoption'][$identifier]['aid']);
 						if($newsortaid && $_GET['oldsortaid'][$identifier] && $newsortaid != $_GET['oldsortaid'][$identifier]) {
 							$attach = table_forum_attachment_n::t()->fetch_attachment('tid:'.$this->thread['tid'], $_GET['oldsortaid'][$identifier]);
-							table_forum_attachment::t()->delete($_GET['oldsortaid'][$identifier]);
-							table_forum_attachment_n::t()->delete_attachment('tid:'.$this->thread['tid'], $_GET['oldsortaid'][$identifier]);
-							updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
-							dunlink($attach);
+							if(!empty($attach) && $attach['tid'] == $this->thread['tid']) {
+								table_forum_attachment::t()->delete($_GET['oldsortaid'][$identifier]);
+								table_forum_attachment_n::t()->delete_attachment('tid:'.$this->thread['tid'], $_GET['oldsortaid'][$identifier]);
+								updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
+								dunlink($attach);
+							}
 							$this->param['threadimageaid'] = $newsortaid;
 							convertunusedattach($newsortaid, $this->thread['tid'], $this->post['pid']);
 						}

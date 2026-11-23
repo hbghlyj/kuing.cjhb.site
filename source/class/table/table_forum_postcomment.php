@@ -60,7 +60,7 @@ class table_forum_postcomment extends discuz_table {
 			for($i = 0; $i < count($message); $i++) {
 				if(preg_match('/\{(\d+)\}/', $message[$i])) {
 					$message[$i] = preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", preg_quote($message[$i], '/'));
-					$sqlmessage .= " $or comment REGEXP '".$message[$i]."'";
+					$sqlmessage .= " $or comment REGEXP '".addslashes($message[$i])."'";
 				} else {
 					$sqlmessage .= " $or ".DB::field('comment', '%'.$message[$i].'%', 'like');
 				}
@@ -87,7 +87,7 @@ class table_forum_postcomment extends discuz_table {
 			for($i = 0; $i < count($message); $i++) {
 				if(preg_match('/\{(\d+)\}/', $message[$i])) {
 					$message[$i] = preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", preg_quote($message[$i], '/'));
-					$sqlmessage .= " $or comment REGEXP '".$message[$i]."'";
+					$sqlmessage .= " $or comment REGEXP '".addslashes($message[$i])."'";
 				} else {
 					$sqlmessage .= " $or ".DB::field('comment', '%'.$message[$i].'%', 'like');
 				}

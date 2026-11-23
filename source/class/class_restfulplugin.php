@@ -6,6 +6,10 @@
  * https://license.discuz.vip
  */
 
+if(!defined('IN_DISCUZ') && !defined('IN_RESTFUL')) {
+	exit('Access Denied');
+}
+
 class restfulplugin {
 
 	public static function discuzcode($type) {
@@ -317,7 +321,7 @@ class restfulplugin {
 		}
 
 		// unset($data[$key]['password']);
-		$forum_favorite = C::t('home_favorite')->fetch_by_id_idtype($_G['forum']['fid'], 'fid', $_G['uid']);
+		$forum_favorite = table_home_favorite::t()->fetch_by_id_idtype($_G['forum']['fid'], 'fid', $_G['uid']);
 		if($forum_favorite['favid'] > 0) {
 			$data[$key]['isfavorite'] = 1;
 		}
@@ -351,8 +355,8 @@ class restfulplugin {
 		$data[$key]['dateline'] = self::_f_gmdate($data[$key]['dateline']);
 		$data[$key]['lastpost'] = self::_f_gmdate($data[$key]['lastpost']);
 		$data[$key]['isfavorite'] = $data[$key]['isrecommendav'] = 0;
-		$recommendav_add = C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']);
-		$thread_favorite = C::t('home_favorite')->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']);
+		$recommendav_add = table_forum_memberrecommend::t()->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']);
+		$thread_favorite = table_home_favorite::t()->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']);
 		if($thread_favorite['favid'] > 0) {
 			$data[$key]['isfavorite'] = 1;
 		}
@@ -522,7 +526,7 @@ class restfulplugin {
 
 		$itemlist = [];
 		foreach($_G['block'][$bid]['itemlist'] as $item) {
-			$item['fields'] = unserialize($item['fields']);
+			$item['fields'] = dunserialize($item['fields']);
 			$item['pic'] = self::_f_siteurl((!str_starts_with($item['pic'], 'http') ? $_G['setting']['attachurl'] : '').$item['pic']);
 			$item['thumbpath'] = self::_f_siteurl((!str_starts_with($item['thumbpath'], 'http') ? $_G['setting']['attachurl'] : '').$item['thumbpath']);
 			$itemlist[] = $item;
@@ -610,7 +614,7 @@ class restfulplugin {
 			return;
 		}
 
-		$blog_favorite = C::t('home_favorite')->fetch_by_id_idtype($data[$key]['blogid'], 'blogid', $_G['uid']);
+		$blog_favorite = table_home_favorite::t()->fetch_by_id_idtype($data[$key]['blogid'], 'blogid', $_G['uid']);
 		if($blog_favorite['favid'] > 0) {
 			$data[$key]['isfavorite'] = 1;
 		}

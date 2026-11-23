@@ -1,5 +1,19 @@
 # MitFrame Port Checkpoint
 
+## 20261120 selective port
+
+- Compared MitFrame `badcea04..c6e7e124` and updated the release marker to
+  `20261120`. Next comparison starts after `c6e7e124`.
+- `6378bb9d`: the fork already checks the configured username censor pattern.
+- `c6e7e124`: the duplicated X5 `tmp132` language entries do not exist
+  in the fork, so there is nothing to copy.
+- Adapted request and authorization checks for ads, moderation, comments,
+  albums and portal blocks; added expiry to login handoff tokens. Ported
+  targeted attachment, search, announcement, REST and table-layer fixes.
+- Retained fork-specific SVG handling, remote image download, native accounts,
+  and row-only comment removal. Changes not in the selective diff were not
+  imported wholesale.
+
 ## JSON Editor: 9bf00903 and badcea04
 
 - Integrated and reviewed Claude Code's selective JSON editor patch. Context-aware
