@@ -907,6 +907,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.pct { padding-bottom: 1em; }
 		.t_f { overflow-x: auto; overflow-y: clip; overflow-clip-margin: 8px; font-size: {MSGFONTSIZE}; }
 		.t_f[id^="postmessage_"] { white-space: pre-wrap; }
+		.t_f[id^="postmessage_"] ignore_js_op { white-space: normal; }
 			.t_f a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
 		.t_f ul, .t_f ol { margin-top: 1em; margin-bottom: 1em; }
 		.t_f ul { margin-left: 14px; }

@@ -19,8 +19,12 @@ if($format($style) !== $style) throw new RuntimeException('Style content was for
 $html = '<blockquote>a  b</blockquote><table><tr><td>c  d</td></tr></table>';
 if($format($html) !== $html) throw new RuntimeException('Quote/table markup changed');
 foreach(['template/default/common/module.css' => '.t_f[id^="postmessage_"]', 'template/default/touch/common/common.css' => '.plc .pi .message'] as $file => $selector) {
-	if(!preg_match('/'.preg_quote($selector, '/').'\s*\{\s*white-space:\s*pre-wrap\s*;?\s*\}/', file_get_contents($root.'/'.$file))) {
+	$css = file_get_contents($root.'/'.$file);
+	if(!preg_match('/'.preg_quote($selector, '/').'\s*\{\s*white-space:\s*pre-wrap\s*;?\s*\}/', $css)) {
 		throw new RuntimeException('Missing scoped pre-wrap: '.$file);
+	}
+	if(!preg_match('/'.preg_quote($selector, '/').'\s+ignore_js_op\s*\{\s*white-space:\s*normal\s*;?\s*\}/', $css)) {
+		throw new RuntimeException('Attachment markup inherits post whitespace: '.$file);
 	}
 }
 foreach(['template/default/forum/viewthread_node_body.htm', 'template/default/touch/forum/viewthread.htm'] as $file) {
