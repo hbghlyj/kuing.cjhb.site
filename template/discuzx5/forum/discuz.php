@@ -516,13 +516,7 @@
 					</h3>
 				<!--{else}-->
 					<h3>
-						<strong>
-							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
-								{lang onlinemember}
-							<!--{else}-->
-								<a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a>
-							<!--{/if}-->
-						</strong>
+						<strong><a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a></strong>
 						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}
 						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members},<strong>$guestcount</strong> {lang index_guests}<!--{/if}-->
 						</span>
