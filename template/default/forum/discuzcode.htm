@@ -119,7 +119,7 @@ function attachlist($attach) {
 <!--{/block}-->
 <!--{eval}-->
 <!--
-	return $return;
+	return rtrim($return, " \t\r\n");
 }
 
 function imagelist($attach, $firstpost = 0) {
@@ -218,7 +218,7 @@ function imagelist($attach, $firstpost = 0) {
 <!--{/block}-->
 <!--{eval}-->
 <!--
-	return $return;
+	return rtrim($return, " \t\r\n");
 }
 
 function attachinpost($attach, $post) {
@@ -331,7 +331,7 @@ function attachinpost($attach, $post) {
 <!--{/block}-->
 <!--{eval}-->
 <!--
-	return $return;
+	return rtrim($return, " \t\r\n");
 }
 -->
 <!--{/eval}-->
