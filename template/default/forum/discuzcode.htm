@@ -226,7 +226,8 @@ function attachinpost($attach, $post) {
 	$firstpost = $post['first'];
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
-	$displaywidth = !empty($attach['displaywidth']) ? (int)$attach['displaywidth'] : (strtolower(fileext($attach['attachment'])) === 'svg' ? 400 : 0);
+	$issvg = strtolower(fileext($attach['attachment'])) === 'svg';
+	$displaywidth = !empty($attach['displaywidth']) ? (int)$attach['displaywidth'] : ($issvg ? 400 : 0);
 	$displaywidthcode = $displaywidth ? 'width="'.$displaywidth.'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? '&fid='.$_G['fid'].'&archiveid='.$_G['forum_thread']['archiveid'] : '';
 	$attachthumb = getimgthumbname($attach['attachment']);
@@ -264,7 +265,7 @@ function attachinpost($attach, $post) {
 						<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" decoding="async" onload="this.parentElement.style.width=(this.getAttribute('width') || this.naturalWidth)+'px';" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" $displaywidthcode alt="$attach[imgalt]" inpost="1">
 					<!--{/if}-->
 					</button>
-			<dialog class="attachment-lightbox" onclick="if(event.target === this) { const rect = this.getBoundingClientRect(); if(event.clientX < rect.left || event.clientX >= rect.right || event.clientY < rect.top || event.clientY >= rect.bottom) this.close(); }">
+			<dialog class="attachment-lightbox{if $issvg} attachment-lightbox-svg{/if}" onclick="if(event.target === this) { const rect = this.getBoundingClientRect(); if(event.clientX < rect.left || event.clientX >= rect.right || event.clientY < rect.top || event.clientY >= rect.bottom) this.close(); }">
 				<button type="button" autofocus onclick="this.closest('dialog').close();">{lang close}</button>
 				<img alt="$attach[imgalt]" decoding="async">
 				<div class="xs0">

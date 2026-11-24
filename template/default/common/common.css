@@ -2209,6 +2209,8 @@ a.progressCancel { display: block; float: right; width: 14px; height: 14px; line
 	.attachment-lightbox { box-sizing: border-box; max-width: calc(100vw - 2rem); max-height: calc(100vh - 2rem); margin: auto; padding: 1rem; border: 1px solid {COMMONBORDER}; border-radius: 8px; background: {WRAPBG}; color: {TABLETEXT}; overflow: auto; }
 	.attachment-lightbox::backdrop { background: rgba(0, 0, 0, .75); }
 	.attachment-lightbox > img { display: block; max-width: 100%; max-height: 75vh; width: auto; height: auto; margin: .5rem auto; object-fit: contain; }
+	.attachment-lightbox-svg { width: 56rem; }
+	.attachment-lightbox-svg > img { width: 100%; }
 
 /* 推荐商品 by dfox */
 em.hot { position: absolute; left: -2px; top: -2px; text-indent: -9999px; overflow: hidden; background: url({IMGDIR}/hot.png) no-repeat 0 0; }
