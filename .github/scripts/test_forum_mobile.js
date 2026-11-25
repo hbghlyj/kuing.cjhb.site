@@ -269,6 +269,10 @@ const { reportCiFailure } = require('./report_ci_failure');
         const albumUpload = JSON.parse(albumResponseText);
         assert.ok(parseInt(albumUpload.picid, 10) > 0, `Assertion Error: Mobile album upload failed. Response: ${albumResponseText}`);
         await page.locator(`#imglist input[name="title[${albumUpload.picid}]"]`).waitFor({ state: 'attached', timeout: 5000 });
+        await page.waitForFunction(picid => {
+            const img = document.getElementById(`aimg_${picid}`);
+            return img && img.complete && img.naturalWidth > 0;
+        }, albumUpload.picid, { timeout: 5000 });
 
         const sortOptionTemplate = fs.readFileSync('template/default/touch/forum/post_sortoption.htm', 'utf8');
         assert.ok(

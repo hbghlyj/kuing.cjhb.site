@@ -2205,7 +2205,7 @@ a.progressCancel { display: block; float: right; width: 14px; height: 14px; line
 	.tip_info { pointer-events: none; }
 	.aimg_tip { margin-top: 0; }
 	.attachment-lightbox-trigger { max-width: 100%; padding: 0; border: 0; background: none; text-align: inherit; cursor: zoom-in; }
-	.attachment-lightbox-trigger img { max-width: 100%; height: auto; cursor: inherit; }
+	.attachment-lightbox-trigger img { min-width: 1px; min-height: 1px; max-width: 100%; height: auto; cursor: inherit; }
 	.attachment-lightbox { box-sizing: border-box; max-width: calc(100vw - 2rem); max-height: calc(100vh - 2rem); margin: auto; padding: 1rem; border: 1px solid {COMMONBORDER}; border-radius: 8px; background: {WRAPBG}; color: {TABLETEXT}; overflow: auto; }
 	.attachment-lightbox::backdrop { background: rgba(0, 0, 0, .75); }
 	.attachment-lightbox > img { display: block; max-width: 100%; max-height: 75vh; width: auto; height: auto; margin: .5rem auto; object-fit: contain; }

@@ -2220,6 +2220,11 @@ const assertPusherMetadataOrder = () => {
         const renderedImageSrc = await postImg.getAttribute('src');
         assert.ok(renderedImageSrc && !/\/none\.gif(?:[?#]|$)/i.test(renderedImageSrc), `Assertion Error: Attached image remained on the placeholder source: ${renderedImageSrc}`);
         assert.strictEqual(await postImg.getAttribute('loading'), 'lazy', 'Assertion Error: Attached image did not use native lazy loading.');
+        await postImg.scrollIntoViewIfNeeded();
+        await page.waitForFunction(id => {
+            const img = document.getElementById(id);
+            return img && img.complete && img.naturalWidth > 0;
+        }, await postImg.getAttribute('id'));
         const imageSize = await postImg.evaluate(img => ({ width: img.naturalWidth, height: img.naturalHeight }));
         assert.ok(imageSize.width > 0 && imageSize.height > 0, `Assertion Error: Attached image did not load (${imageSize.width}x${imageSize.height}).`);
 
