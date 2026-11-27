@@ -238,8 +238,7 @@ function attachinpost($attach, $post) {
 	}
 -->
 <!--{/eval}-->
-<!--{block return}-->
-<ignore_js_op>
+<!--{block return}--><ignore_js_op>
 	<!--{if $attach['attachimg'] && $_G['setting']['showimages'] && (((!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])) || (($guestviewthumb)))}-->
 		<!--{if !IS_ROBOT}-->
 				<!--{if $guestviewthumb}-->
