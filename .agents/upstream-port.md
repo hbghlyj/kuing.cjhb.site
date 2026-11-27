@@ -1,5 +1,19 @@
 # MitFrame Port Checkpoint
 
+## 20261127 selective port
+
+- Compared MitFrame `c6e7e124..ee74fc3e`; next comparison starts after
+  `ee74fc3e`.
+- `6ad7d698`: removed the deprecated Block XML item from AdminCP's portal menu.
+  Kept its action implementation and language strings, matching upstream's
+  one-line scope.
+- `ee74fc3e`: made the avatar endpoint's default size explicit before
+  validation. The fork already guarded the query parameter inline; this uses
+  the same validated `big`/`middle`/`small` behavior with a local default.
+
+Validation: PHP lint for the modified AdminCP menu and avatar endpoint; diff
+check passed.
+
 ## 20261120 selective port
 
 - Compared MitFrame `badcea04..c6e7e124` and updated the release marker to

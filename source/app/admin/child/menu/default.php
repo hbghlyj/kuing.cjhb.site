@@ -147,7 +147,6 @@ class menu_default {
 			['menu_diytemplate', 'diytemplate'],
 			['menu_block', 'block'],
 			['menu_blockstyle', 'blockstyle'],
-			['menu_blockxml', 'blockxml'],
 			['menu_portalpermission', 'portalpermission'],
 		];
 
