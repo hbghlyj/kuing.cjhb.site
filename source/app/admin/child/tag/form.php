@@ -46,9 +46,36 @@ foreach($query as $result) {
 showtablerow('', ['class="td25" colspan="3"'], ['<input name="chkall" id="chkall" type="checkbox" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'tagidarray\', \'chkall\')"><label for="chkall">'.cplang('select_all').'</label>']);
 showtablerow('', ['class="td25"', 'colspan="2"'], [
 	cplang('operation'),
-	'<input class="radio" type="radio" name="operate_type" value="open" checked> '.cplang('misc_tag_status_0').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="close"> '.cplang('misc_tag_status_1').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="delete"> '.cplang('delete').' &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="rename"> '.cplang('rename').' <input name="renametag" value="" class="txt" type="text"> &nbsp; &nbsp;<input class="radio" type="radio" name="operate_type" value="merge"> '.cplang('mergeto').' <input name="mergetag" value="" class="txt" type="text">'
+	'<input class="radio" type="radio" name="operate_type" value="open" checked onchange="toggleTagOperationFields(this.form)"> '.cplang('misc_tag_status_0').' &nbsp; &nbsp;'
+	.'<input class="radio" type="radio" name="operate_type" value="close" onchange="toggleTagOperationFields(this.form)"> '.cplang('misc_tag_status_1').' &nbsp; &nbsp;'
+	.'<input class="radio" type="radio" name="operate_type" value="delete" onchange="toggleTagOperationFields(this.form)"> '.cplang('delete').' &nbsp; &nbsp;'
+	.'<input class="radio" type="radio" name="operate_type" value="rename" onchange="toggleTagOperationFields(this.form)"> '.cplang('rename').' '
+	.'<span id="tag_rename_target" hidden><input name="renametag" value="" class="txt" type="text" disabled></span> &nbsp; &nbsp;'
+	.'<input class="radio" type="radio" name="operate_type" value="merge" onchange="toggleTagOperationFields(this.form)"> '.cplang('mergeto').' '
+	.'<span id="tag_merge_target" hidden><input name="mergetag" value="" class="txt" type="text" disabled></span>'
 ]);
 showsubmit('submit', 'submit', '', '', $multipage);
 showtablefooter();
 showformfooter();
+echo '<script>
+function toggleTagOperationFields(form) {
+	var operation = form.querySelector("input[name=operate_type]:checked");
+	var renameTarget = form.querySelector("#tag_rename_target");
+	var mergeTarget = form.querySelector("#tag_merge_target");
+	var renameInput = renameTarget.querySelector("input");
+	var mergeInput = mergeTarget.querySelector("input");
+	var showRename = operation && operation.value === "rename";
+	var showMerge = operation && operation.value === "merge";
+	renameTarget.hidden = !showRename;
+	mergeTarget.hidden = !showMerge;
+	renameInput.disabled = !showRename;
+	mergeInput.disabled = !showMerge;
+}
+(function() {
+	var operation = document.querySelector("input[name=operate_type]");
+	if(operation) {
+		toggleTagOperationFields(operation.form);
+	}
+})();
+</script>';
 /*search*/
