@@ -166,6 +166,9 @@ try {
                     });
 
                     tagMenu.appendChild(ul);
+                    // Reset a prior max-height before showMenu measures this result set.
+                    tagMenu.style.height = '';
+                    tagMenu.style.overflowY = '';
                     showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'43'});
                 } else {
                     hideMenu('tagmore_menu');

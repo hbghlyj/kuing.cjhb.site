@@ -26,6 +26,20 @@ const PUSHER_STUB = `
         contentType: 'application/javascript',
         body: PUSHER_STUB
     }));
+    await context.route(/misc\.php\?mod=tag&op=search/, async route => {
+        const searchkey = new URL(route.request().url()).searchParams.get('searchkey');
+        if (searchkey === 'heightcheckgrow' || searchkey === 'heightcheckshrink') {
+            const candidates = searchkey === 'heightcheckgrow'
+                ? Array.from({ length: 80 }, (_, i) => `Long candidate ${i + 1}`)
+                : ['Short candidate A', 'Short candidate B'];
+            await route.fulfill({
+                contentType: 'application/json',
+                body: JSON.stringify(candidates)
+            });
+            return;
+        }
+        await route.continue();
+    });
     const page = await context.newPage();
 
     page.on('pageerror', exception => {
@@ -117,6 +131,19 @@ const PUSHER_STUB = `
 
         const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Visible tag input did not render.');
+        await tagInput.fill('heightcheckgrow');
+        await page.waitForFunction(() => {
+            const menu = document.getElementById('tagmore_menu');
+            return menu?.style.display !== 'none' && menu?.querySelectorAll('li').length === 80 && menu.style.height === '600px';
+        });
+        const tallSuggestionHeight = await page.locator('#tagmore_menu').evaluate(menu => menu.getBoundingClientRect().height);
+        await tagInput.fill('heightcheckshrink');
+        await page.waitForFunction(() => {
+            const menu = document.getElementById('tagmore_menu');
+            return menu?.querySelectorAll('li').length === 2 && menu.style.height === '';
+        });
+        const shortSuggestionHeight = await page.locator('#tagmore_menu').evaluate(menu => menu.getBoundingClientRect().height);
+        assert.ok(shortSuggestionHeight < tallSuggestionHeight, 'Assertion Error: Tag suggestion menu did not shrink after filtering to fewer candidates.');
         await tagInput.fill('playwright tag');
         await tagInput.press('Enter');
         assert.strictEqual(await page.locator('#tags').inputValue(), 'playwright tag', 'Assertion Error: Tag editor did not preserve space in multi-word tag.');
